@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "C:\\Users\\tysor\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\tysor\\.nuget\\packages"
-    ]
-  }
-}
