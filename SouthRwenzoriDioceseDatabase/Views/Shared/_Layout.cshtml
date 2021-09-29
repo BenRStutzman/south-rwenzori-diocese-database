@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SouthRwenzoriDioceseDatabase</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+    <footer>
+        <p>&copy; @DateTime.Today.Year - South Rwenzori Diocese</p>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
