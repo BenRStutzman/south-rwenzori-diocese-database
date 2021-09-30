@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using SouthRwenzoriDioceseDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SouthRwenzoriDioceseDatabase.Domain.Queries;
+using SouthRwenzoriDioceseDatabase.Domain.Commands;
+using SouthRwenzoriDioceseDatabase.Data.Commands;
 
 namespace SouthRwenzoriDioceseDatabase.Controllers
 {
@@ -33,6 +35,24 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
         public async Task<IEnumerable<Parish>> SearchParishes([FromBody] SearchParishes.Query query)
         {
             return await _mediator.Send(query);
+        }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddParish([FromBody] AddParish.Command command)
+        {
+            var parishId = await _mediator.Send(command);
+
+            return Ok($"Parish added with ID {parishId}");
+        }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteParish([FromBody] Domain.Commands.DeleteParish.Command command)
+        {
+            var response = await _mediator.Send(command);
+
+            return response.Succeeded
+                ? Ok("Parish deleted")
+                : BadRequest(response.ErrorMessage);
         }
     }
 }

@@ -32,9 +32,19 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<int> AddEvent([FromBody] AddEvent.Command command)
+        public async Task<IActionResult> AddEvent([FromBody] AddEvent.Command command)
         {
-            return await _mediator.Send(command);
+            var eventId = await _mediator.Send(command);
+
+            return Ok($"Event added with ID {eventId}");
+        }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteEvent([FromBody] DeleteEvent.Command command)
+        {
+            await _mediator.Send(command);
+
+            return Ok("Event deleted");
         }
     }
 }
