@@ -24,6 +24,8 @@ namespace SouthRwenzoriDioceseDatabase
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<IDbConnection>(new MySqlConnection(
                 Configuration.GetValue<string>("DbConnectionString")));
+
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

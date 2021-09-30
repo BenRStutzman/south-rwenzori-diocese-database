@@ -1,17 +1,25 @@
 ﻿namespace SouthRwenzoriDioceseDatabase.Models
 {
-    public class Parish
+    public class Congregation
     {
         public int Id { get; }
 
         public string Name { get; }
 
+        public string Parish { get; }
+
         public string Archdeaconry { get; }
-        
-        public Parish(int id, string name, string archdeaconry)
+
+        public Congregation(
+            int id,
+            string name,
+            string parish,
+            string archdeaconry
+            )
         {
             Id = id;
             Name = name;
+            Parish = parish;
             Archdeaconry = archdeaconry;
         }
     }

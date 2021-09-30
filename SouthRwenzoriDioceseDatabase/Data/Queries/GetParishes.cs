@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace SouthRwenzoriDioceseDatabase.Data.Queries
 {
-    public class GetParishesByArchdeaconryId
+    public class GetParishes
     {
         public class Query : IRequest<IEnumerable<Parish>>
         {
-            public int ArchdeaconryId { get; }
+            public int? ArchdeaconryId { get; }
 
-            public Query(int archdeaconryId)
+            public Query(int? archdeaconryId)
             {
                 ArchdeaconryId = archdeaconryId;
             }
@@ -23,7 +23,7 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
         public class Handler : IRequestHandler<Query, IEnumerable<Parish>>
         {
             private readonly IDbConnection _connection;
-            private readonly string _storedProcedure = "sto_get_parishes_by_archdeaconry_id";
+            private readonly string _storedProcedure = "sto_get_parishes";
 
             public Handler(IDbConnection connection)
             {

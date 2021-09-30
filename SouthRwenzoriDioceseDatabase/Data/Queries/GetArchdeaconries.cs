@@ -8,7 +8,7 @@ using System.Data;
 
 namespace SouthRwenzoriDioceseDatabase.Data.Queries
 {
-    public class GetAllArchdeaconries
+    public class GetArchdeaconries
     {
         public class Query : IRequest<IEnumerable<Archdeaconry>>
         {
@@ -17,7 +17,7 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
         public class Handler : IRequestHandler<Query, IEnumerable<Archdeaconry>>
         {
             private readonly IDbConnection _connection;
-            private readonly string _storedProcedure = "sto_get_all_archdeaconries";
+            private readonly string _storedProcedure = "sto_get_archdeaconries";
 
             public Handler(IDbConnection connection)
             {

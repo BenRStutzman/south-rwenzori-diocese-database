@@ -17,24 +17,33 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             _mediator = mediator;
         }
 
+        // GET requests
+
+        public async Task<IEnumerable<Archdeaconry>> GetArchdeaconries([FromBody] GetArchdeaconries.Query query)
+        {
+            return await _mediator.Send(query);
+        }
+
+        public async Task<IEnumerable<Parish>> GetParishes([FromBody] GetParishes.Query query)
+        {
+            return await _mediator.Send(query);
+        }
+
+        public async Task<IEnumerable<Congregation>> GetCongregations([FromBody] GetCongregations.Query query)
+        {
+            return await _mediator.Send(query);
+        }
+
+        public async Task<IEnumerable<Event>> GetEvents([FromBody] GetEvents.Query query)
+        {
+            return await _mediator.Send(query);
+        }
+
+        // POST requests
+
         public async Task<int> AddEvent([FromBody] AddEvent.Command command)
         {
             return await _mediator.Send(command);
-        }
-
-        public async Task<int> GetCongregationCount()
-        {
-            return await _mediator.Send(new GetCongregationCount.Query());
-        }
-
-        public async Task<IEnumerable<Archdeaconry>> GetAllArchdeaconries()
-        {
-            return await _mediator.Send(new GetAllArchdeaconries.Query());
-        }
-
-        public async Task<IEnumerable<Parish>> GetParishesByArchdeaconryId(int id)
-        {
-            return await _mediator.Send(new GetParishesByArchdeaconryId.Query(id));
         }
     }
 }
