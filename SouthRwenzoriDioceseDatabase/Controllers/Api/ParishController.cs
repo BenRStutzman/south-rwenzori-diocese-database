@@ -23,16 +23,16 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(new GetParishById.Query(id));
         }
 
-        [HttpPost("search")]
-        public async Task<IEnumerable<Parish>> SearchParishes([FromBody] SearchParishes.Query query)
-        {
-            return await _mediator.Send(query);
-        }
-
         [HttpPost("all")]
         public async Task<IEnumerable<Parish>> GetAllParishes()
         {
             return await _mediator.Send(new GetAllParishes.Query());
+        }
+
+        [HttpPost("search")]
+        public async Task<IEnumerable<Parish>> SearchParishes([FromBody] SearchParishes.Query query)
+        {
+            return await _mediator.Send(query);
         }
     }
 }
