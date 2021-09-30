@@ -12,12 +12,15 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
     {
         public class Query : IRequest<IEnumerable<Congregation>>
         {
+            public int? Id { get; }
+
             public int? ArchdeaconryId { get; }
 
             public int? ParishId { get; }
 
-            public Query(int? archdeaconryId, int? parishId)
+            public Query(int? id = null, int? archdeaconryId = null, int? parishId = null)
             {
+                Id = id;
                 ArchdeaconryId = archdeaconryId;
                 ParishId = parishId;
             }

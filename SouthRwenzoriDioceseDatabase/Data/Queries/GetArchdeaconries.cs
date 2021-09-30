@@ -12,6 +12,12 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
     {
         public class Query : IRequest<IEnumerable<Archdeaconry>>
         {
+            public int? Id { get; }
+
+            public Query(int? id = null)
+            {
+                Id = id;
+            }
         }
 
         public class Handler : IRequestHandler<Query, IEnumerable<Archdeaconry>>
@@ -26,7 +32,7 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
 
             public async Task<IEnumerable<Archdeaconry>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _connection.QueryAsync<Archdeaconry>(_storedProcedure, commandType: CommandType.StoredProcedure);
+                return await _connection.QueryAsync<Archdeaconry>(_storedProcedure, request, commandType: CommandType.StoredProcedure);
             }
         }
     }

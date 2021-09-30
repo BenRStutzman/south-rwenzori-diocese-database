@@ -13,6 +13,8 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
     {
         public class Query : IRequest<IEnumerable<Event>>
         {
+            public int? Id { get; }
+
             public byte? EventTypeId { get; }
 
             public int? CongregationId { get; }
@@ -24,12 +26,14 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
             public DateTime? EndDate { get; }
 
             public Query(
+                int? id = null,
                 byte? eventTypeId = null,
                 int? congregationId = null,
                 string personName = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null)
             {
+                Id = id;
                 EventTypeId = eventTypeId;
                 CongregationId = congregationId;
                 PersonName = personName;
