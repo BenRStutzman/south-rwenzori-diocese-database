@@ -6,6 +6,7 @@ using SouthRwenzoriDioceseDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SouthRwenzoriDioceseDatabase.Domain.Queries;
 using SouthRwenzoriDioceseDatabase.Data.Commands;
+using SouthRwenzoriDioceseDatabase.Domain.Commands;
 
 namespace SouthRwenzoriDioceseDatabase.Controllers
 {
@@ -26,17 +27,19 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Event>> SearchEvents([FromBody] GetEvents.Query query)
+        public async Task<IEnumerable<Event>> SearchEvents([FromBody] SearchEvents.Query query)
         {
             return await _mediator.Send(query);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> AddEvent([FromBody] AddEvent.Command command)
+        [HttpPost("save")]
+        public async Task<IActionResult> AddEvent([FromBody] SaveEvent.Command command)
         {
             var eventId = await _mediator.Send(command);
 
-            return Ok($"Event added with ID {eventId}");
+            var message = (command.Id == null) ? $"Event added with ID {eventId}" : "Event updated";
+
+            return Ok(message);
         }
 
         [HttpPost("delete")]

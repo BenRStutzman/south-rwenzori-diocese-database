@@ -25,7 +25,7 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(new GetCongregationById.Query(id));
         }
 
-        [HttpPost("all")]
+        [HttpGet("all")]
         public async Task<IEnumerable<Congregation>> GetAllCongregationes()
         {
             return await _mediator.Send(new GetAllCongregations.Query());

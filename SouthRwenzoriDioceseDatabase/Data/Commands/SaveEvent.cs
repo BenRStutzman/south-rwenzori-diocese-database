@@ -7,10 +7,12 @@ using Dapper;
 
 namespace SouthRwenzoriDioceseDatabase.Data.Commands
 {
-    public class AddEvent
+    public class SaveEvent
     {
         public class Command : IRequest<int>
         {
+            public int?  Id { get; }
+
             public byte EventTypeId { get; }
 
             public int CongregationId { get; }
@@ -20,11 +22,13 @@ namespace SouthRwenzoriDioceseDatabase.Data.Commands
             public DateTime Date { get; }
 
             public Command(
+                int? id,
                 byte eventTypeId,
                 int congregationId,
                 string personName,
                 DateTime date)
             {
+                Id = id;
                 EventTypeId = eventTypeId;
                 CongregationId = congregationId;
                 PersonName = personName;
@@ -36,7 +40,7 @@ namespace SouthRwenzoriDioceseDatabase.Data.Commands
         {
             private readonly IDbConnection _connection;
 
-            private readonly string _storedProcedure = "sto_add_event";
+            private readonly string _storedProcedure = "sto_save_event";
 
             public Handler(IDbConnection connection)
             {

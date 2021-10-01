@@ -24,7 +24,7 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(new GetArchdeaconryById.Query(id));
         }
 
-        [HttpPost("all")]
+        [HttpGet("all")]
         public async Task<IEnumerable<Archdeaconry>> GetAllArchdeaconries()
         {
             return await _mediator.Send(new GetAllArchdeaconries.Query());
