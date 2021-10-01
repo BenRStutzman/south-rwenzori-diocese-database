@@ -37,12 +37,14 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(query);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> AddParish([FromBody] AddParish.Command command)
+        [HttpPost("save")]
+        public async Task<IActionResult> AddParish([FromBody] SaveParish.Command command)
         {
             var parishId = await _mediator.Send(command);
 
-            return Ok($"Parish added with ID {parishId}");
+            var message = command.Id == null ? $"Parish added with ID {parishId}" : "Parish updated";
+
+            return Ok(message);
         }
 
         [HttpPost("delete")]

@@ -1,41 +1,38 @@
 ﻿using MediatR;
+using SouthRwenzoriDioceseDatabase.Data.Queries;
 using SouthRwenzoriDioceseDatabase.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
-using System.Data;
 
-namespace SouthRwenzoriDioceseDatabase.Data.Queries
+namespace SouthRwenzoriDioceseDatabase.Domain.Queries
 {
-    public class GetArchdeaconries
+    public class SearchArchdeaconries
     {
         public class Query : IRequest<IEnumerable<Archdeaconry>>
         {
-            public int? Id { get; }
-
             public string Name { get; }
 
-            public Query(int? id = null, string name = null)
+            public Query(string name = null)
             {
-                Id = id;
                 Name = name;
             }
         }
 
         public class Handler : IRequestHandler<Query, IEnumerable<Archdeaconry>>
         {
-            private readonly IDbConnection _connection;
-            private readonly string _storedProcedure = "sto_get_archdeaconries";
+            private readonly IMediator _mediator;
 
-            public Handler(IDbConnection connection)
+            public Handler(IMediator mediator)
             {
-                _connection = connection;
+                _mediator = mediator;
             }
 
             public async Task<IEnumerable<Archdeaconry>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _connection.QueryAsync<Archdeaconry>(_storedProcedure, request, commandType: CommandType.StoredProcedure);
+                return await _mediator.Send(
+                    new GetArchdeaconries.Query(name: request.Name),
+                    cancellationToken);
             }
         }
     }

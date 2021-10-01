@@ -37,12 +37,16 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(query);
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> AddCongregation([FromBody] AddCongregation.Command command)
+        [HttpPost("save")]
+        public async Task<IActionResult> AddCongregation([FromBody] SaveCongregation.Command command)
         {
             var congregationId = await _mediator.Send(command);
 
-            return Ok($"Congregation added with ID {congregationId}");
+            var message = command.Id == null
+                ? $"Congregation added with ID {congregationId}"
+                : "Congregation updated";
+
+            return Ok(message);
         }
 
         [HttpPost("delete")]

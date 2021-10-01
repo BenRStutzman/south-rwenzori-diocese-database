@@ -26,6 +26,12 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(new GetEventById.Query(id));
         }
 
+        [HttpGet("all")]
+        public async Task<IEnumerable<Event>> GetAllEvents()
+        {
+            return await _mediator.Send(new GetAllEvents.Query());
+        }
+
         [HttpPost("search")]
         public async Task<IEnumerable<Event>> SearchEvents([FromBody] SearchEvents.Query query)
         {
@@ -37,7 +43,7 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
         {
             var eventId = await _mediator.Send(command);
 
-            var message = (command.Id == null) ? $"Event added with ID {eventId}" : "Event updated";
+            var message = command.Id == null ? $"Event added with ID {eventId}" : "Event updated";
 
             return Ok(message);
         }

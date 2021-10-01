@@ -14,11 +14,14 @@ namespace SouthRwenzoriDioceseDatabase.Data.Queries
         {
             public int? Id { get; }
 
+            public string Name { get; }
+
             public int? ArchdeaconryId { get; }
 
-            public Query(int? id = null, int? archdeaconryId = null)
+            public Query(int? id = null, string name = null, int? archdeaconryId = null)
             {
                 Id = id;
+                Name = name;
                 ArchdeaconryId = archdeaconryId;
             }
         }

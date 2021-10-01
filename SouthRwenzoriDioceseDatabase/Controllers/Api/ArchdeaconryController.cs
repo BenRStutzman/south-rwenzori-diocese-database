@@ -30,12 +30,22 @@ namespace SouthRwenzoriDioceseDatabase.Controllers
             return await _mediator.Send(new GetAllArchdeaconries.Query());
         }
 
-        [HttpPost("add")]
-        public async Task<IActionResult> AddArchdeaconry([FromBody] AddArchdeaconry.Command command)
+        [HttpPost("search")]
+        public async Task<IEnumerable<Archdeaconry>> SearchArchdeaconries([FromBody] SearchArchdeaconries.Query query)
+        {
+            return await _mediator.Send(query);
+        }
+
+        [HttpPost("save")]
+        public async Task<IActionResult> AddArchdeaconry([FromBody] SaveArchdeaconry.Command command)
         {
             var archdeaconryId = await _mediator.Send(command);
 
-            return Ok($"Archdeaconry added with ID {archdeaconryId}");
+            var message = command.Id == null
+                ? $"Archdeaconry added with ID {archdeaconryId}"
+                : "Archdeaconry updated";
+
+            return Ok(message);
         }
 
         [HttpPost("delete")]

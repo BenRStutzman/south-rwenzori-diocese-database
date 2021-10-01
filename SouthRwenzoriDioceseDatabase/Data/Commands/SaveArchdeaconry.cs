@@ -6,14 +6,17 @@ using Dapper;
 
 namespace SouthRwenzoriDioceseDatabase.Data.Commands
 {
-    public class AddArchdeaconry
+    public class SaveArchdeaconry
     {
         public class Command : IRequest<int>
         {
+            public int? Id { get; }
+
             public string Name { get; }
 
-            public Command(string name)
+            public Command(int? id, string name)
             {
+                Id = id;
                 Name = name;
             }
         }
@@ -22,7 +25,7 @@ namespace SouthRwenzoriDioceseDatabase.Data.Commands
         {
             private readonly IDbConnection _connection;
 
-            private readonly string _storedProcedure = "sto_add_archdeaconry";
+            private readonly string _storedProcedure = "sto_save_archdeaconry";
 
             public Handler(IDbConnection connection)
             {
