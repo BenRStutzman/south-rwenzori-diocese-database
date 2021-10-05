@@ -17,7 +17,7 @@ export default class Navigation extends React.PureComponent<{}, { isOpen: boolea
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
                             <ul className="navbar-nav flex-grow">
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/archdeaconries">Archdeaconries</NavLink>
+                                    <NavLink tag={Link} className="text-dark" to="/archdeaconry">Archdeaconries</NavLink>
                                 </NavItem>
                             </ul>
                         </Collapse>

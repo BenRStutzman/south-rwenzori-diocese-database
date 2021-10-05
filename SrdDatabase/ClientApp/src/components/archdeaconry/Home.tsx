@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconries/View';
-import { Archdeaconry } from '../../store/archdeaconries/Archdeaconries';
+import * as Store from '../../store/archdeaconries/Home';
+import { Archdeaconry } from '../../store/archdeaconries/Archdeaconry';
 import { useEffect } from 'react';
 
 type Props = Store.State & typeof Store.actionCreators
 
-const View = ({ archdeaconries, loadArchdeaconries }: Props) => {
+const Home = ({ archdeaconries, loadArchdeaconries }: Props) => {
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
@@ -15,7 +15,6 @@ const View = ({ archdeaconries, loadArchdeaconries }: Props) => {
     return (
         <>
             <h1 id="tabelLabel">Archdeaconries</h1>
-            <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -28,7 +27,7 @@ const View = ({ archdeaconries, loadArchdeaconries }: Props) => {
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.id}</td>
                             <td>{archdeaconry.name}</td>
-                            <td><a href={`archdeaconries/${archdeaconry.id}`}>Edit</a></td>
+                            <td><a href={`archdeaconry/edit/${archdeaconry.id}`}>Edit</a></td>
                         </tr>
                     )}
                 </tbody>
@@ -38,6 +37,6 @@ const View = ({ archdeaconries, loadArchdeaconries }: Props) => {
 }    
 
 export default connect(
-    (state: State) => state.archdeaconries.view,
+    (state: State) => state.archdeaconries.home,
     Store.actionCreators
-)(View as any);
+)(Home as any);

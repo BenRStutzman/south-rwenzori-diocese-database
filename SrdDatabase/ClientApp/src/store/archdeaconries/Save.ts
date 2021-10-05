@@ -3,14 +3,14 @@ import { AppThunkAction } from '..';
 import { post } from '../../apiHelpers';
 import { SaveResponse } from '../../sharedResponses';
 import { SetIsLoadingAction } from '../sharedActions';
-import { Archdeaconry } from './Archdeaconries';
+import { Archdeaconry } from './Archdeaconry';
 
 export interface State {
     isLoading: boolean;
-    archdeaconry?: Archdeaconry;
+    archdeaconry: Archdeaconry;
 }
 
-const initialState: State = { archdeaconry: undefined, isLoading: false };
+const initialState: State = { archdeaconry: {}, isLoading: true };
 
 interface LoadArchdeaconryAction {
     type: 'LOAD_ARCHDEACONRY';
@@ -32,7 +32,7 @@ type Action = LoadArchdeaconryAction | UpdateArchdeaconryIdAction | SetIsLoading
 export const actionCreators = {
     loadArchdeaconry: (id: number): AppThunkAction<Action> => (dispatch) =>
     {
-        fetch(`archdeaconry/${id}`)
+        fetch(`api/archdeaconry/${id}`)
             .then(response => response.json() as Promise<Archdeaconry>)
             .then(archdeaconry => {
                 dispatch({ type: 'LOAD_ARCHDEACONRY', value: archdeaconry });
@@ -41,7 +41,7 @@ export const actionCreators = {
         dispatch({ type: 'SET_IS_LOADING', value: true });
     },
     saveArchdeaconry: (archdeaconry: Archdeaconry): AppThunkAction<Action> => (dispatch) => {
-        post<SaveResponse>('archdeaconry/save', archdeaconry)
+        post<SaveResponse>('api/archdeaconry/save', archdeaconry)
             .then(response => {
                 dispatch({ type: 'UPDATE_ARCHDEACONRY_ID', value: response.id });
             });
@@ -50,7 +50,7 @@ export const actionCreators = {
     },
     updateArchdeaconryName: (name: string): AppThunkAction<Action> => (dispatch) => {
         dispatch({ type: 'UPDATE_ARCHDEACONRY_NAME', value: name });
-    }
+    },
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

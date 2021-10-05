@@ -9,7 +9,7 @@ using SrdDatabase.Data.Commands;
 namespace SrdDatabase.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ArchdeaconryController : Controller
     {
         private readonly IMediator _mediator;

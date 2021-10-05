@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
-import { AppThunkAction } from '../';
+import { AppThunkAction } from '..';
 import { SetIsLoadingAction } from '../sharedActions';
-import { Archdeaconry } from './Archdeaconries';
+import { Archdeaconry } from './Archdeaconry';
 
 export interface State {
     isLoading: boolean;
@@ -37,7 +37,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
 
 export const actionCreators = {
     loadArchdeaconries: (): AppThunkAction<Action> => (dispatch) => {
-        fetch('archdeaconry/all')
+        fetch('api/archdeaconry/all')
             .then(response => response.json() as Promise<Archdeaconry[]>)
             .then(archdeaconries => {
                 dispatch({ type: 'LOAD_ARCHDEACONRIES', value: archdeaconries });

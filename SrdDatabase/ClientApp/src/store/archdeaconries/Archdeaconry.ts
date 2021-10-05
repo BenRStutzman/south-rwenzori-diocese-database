@@ -1,9 +1,9 @@
 ﻿import { combineReducers } from 'redux';
 import * as Save from './Save';
-import * as View from './View';
+import * as Home from './Home';
 
 export interface State {
-    view?: View.State;
+    home?: Home.State;
     save?: Save.State;
 }
 
@@ -16,6 +16,6 @@ export interface Archdeaconry {
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducer = combineReducers({
-    view: View.reducer,
+    home: Home.reducer,
     save: Save.reducer,
 });
