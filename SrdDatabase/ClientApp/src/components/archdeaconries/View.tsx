@@ -1,22 +1,23 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { ApplicationState } from '../store';
-import * as ArchdeaconriesStore from '../store/Archdeaconries';
+import { State } from '../../store';
+import * as Store from '../../store/archdeaconries/View';
+import { Archdeaconry } from '../../store/archdeaconries/Archdeaconries';
 
 // At runtime, Redux will merge together...
-type ArchdeaconryProps =
-    ArchdeaconriesStore.ArchdeaconriesState // ... state we've requested from the Redux store
-    & typeof ArchdeaconriesStore.actionCreators // ... plus action creators we've requested
+type Props =
+    Store.State // ... state we've requested from the Redux store
+    & typeof Store.actionCreators // ... plus action creators we've requested
 
-class Archdeaconries extends React.PureComponent<ArchdeaconryProps> {
+class View extends React.PureComponent<Props> {
     // This method is called when the component is first added to the document
     public componentDidMount() {
-        this.ensureDataFetched();
+        this.getData();
     }
 
     // This method is called when the route parameters change
     public componentDidUpdate() {
-        this.ensureDataFetched();
+        this.getData();
     }
 
     public render() {
@@ -29,7 +30,7 @@ class Archdeaconries extends React.PureComponent<ArchdeaconryProps> {
         );
     }
 
-    private ensureDataFetched() {
+    private getData() {
         this.props.requestArchdeaconries();
     }
 
@@ -43,10 +44,11 @@ class Archdeaconries extends React.PureComponent<ArchdeaconryProps> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.archdeaconries.map((archdeaconry: ArchdeaconriesStore.Archdeaconry) =>
+                    {this.props.archdeaconries.map((archdeaconry: Archdeaconry) =>
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.id}</td>
                             <td>{archdeaconry.name}</td>
+                            <td><a href={`archdeaconries/${archdeaconry.id}`}>Edit</a></td>
                         </tr>
                     )}
                 </tbody>
@@ -56,6 +58,6 @@ class Archdeaconries extends React.PureComponent<ArchdeaconryProps> {
 }
 
 export default connect(
-    (state: ApplicationState) => state.archdeaconries, // Selects which state properties are merged into the component's props
-    ArchdeaconriesStore.actionCreators // Selects which action creators are merged into the component's props
-)(Archdeaconries as any); // eslint-disable-line @typescript-eslint/no-explicit-any
+    (state: State) => state.archdeaconries.view,
+    Store.actionCreators
+)(View as any);

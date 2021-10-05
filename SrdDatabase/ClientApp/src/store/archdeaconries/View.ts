@@ -1,17 +1,13 @@
 import { Action, Reducer } from 'redux';
-import { AppThunkAction } from '.';
+import { AppThunkAction } from '../';
+import { Archdeaconry } from './Archdeaconries';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
 
-export interface ArchdeaconriesState {
+export interface State {
     isLoading: boolean;
     archdeaconries: Archdeaconry[];
-}
-
-export interface Archdeaconry {
-    id: string;
-    name: string;
 }
 
 // -----------------
@@ -55,9 +51,9 @@ export const actionCreators = {
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 
-const unloadedState: ArchdeaconriesState = { archdeaconries: [], isLoading: false };
+const unloadedState: State = { archdeaconries: [], isLoading: false };
 
-export const reducer: Reducer<ArchdeaconriesState> = (state: ArchdeaconriesState | undefined, incomingAction: Action): ArchdeaconriesState => {
+export const reducer: Reducer<State> = (state: State | undefined, incomingAction: Action): State => {
     if (state === undefined) {
         return unloadedState;
     }
