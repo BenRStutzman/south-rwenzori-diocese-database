@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/archdeaconries/Save';
 import { RouteComponentProps } from 'react-router';
+import { Archdeaconry } from '../../store/archdeaconries/Archdeaconries';
 
 type Props =
     Store.State
@@ -24,6 +25,13 @@ class Save extends React.PureComponent<Props> {
                 <h1 id="tabelLabel">Archdeaconries</h1>
                 <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
                 {this.renderArchdeaconriesTable()}
+                {this.props.archdeaconry &&
+                    <button type="button"
+                        className="btn btn-primary btn-lg"
+                        onClick={() => { this.props.saveArchdeaconry(this.props.archdeaconry as Archdeaconry); }}>
+                        Increment
+                    </button>
+                }
             </React.Fragment>
         );
     }

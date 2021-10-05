@@ -38,21 +38,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Add([FromBody] SaveEvent.Command command)
+        public async Task<SaveResponse> Save([FromBody] SaveEvent.Command command)
         {
             var eventId = await _mediator.Send(command);
 
-            var message = command.Id == null ? $"Event added with ID {eventId}" : "Event updated";
-
-            return Ok(message);
+            return new SaveResponse(eventId);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] DeleteEvent.Command command)
+        public async Task<DeleteResponse> Delete([FromBody] DeleteEvent.Command command)
         {
             await _mediator.Send(command);
 
-            return Ok("Event deleted");
+            return DeleteResponse.ForSuccess();
         }
     }
 }

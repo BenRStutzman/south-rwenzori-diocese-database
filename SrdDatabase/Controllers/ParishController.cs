@@ -38,23 +38,21 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Add([FromBody] SaveParish.Command command)
+        public async Task<SaveResponse> Save([FromBody] SaveParish.Command command)
         {
             var parishId = await _mediator.Send(command);
 
-            var message = command.Id == null ? $"Parish added with ID {parishId}" : "Parish updated";
-
-            return Ok(message);
+            return new SaveResponse(parishId);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] Domain.Commands.DeleteParish.Command command)
+        public async Task<DeleteResponse> Delete([FromBody] Domain.Commands.DeleteParish.Command command)
         {
             var response = await _mediator.Send(command);
 
             return response.Succeeded
-                ? Ok("Parish deleted")
-                : BadRequest(response.ErrorMessage);
+                ? DeleteResponse.ForSuccess()
+                : DeleteResponse.ForError(response.ErrorMessage);
         }
     }
 }

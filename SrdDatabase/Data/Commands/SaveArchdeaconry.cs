@@ -3,6 +3,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using SrdDatabase.Services;
 
 namespace SrdDatabase.Data.Commands
 {
@@ -23,18 +24,20 @@ namespace SrdDatabase.Data.Commands
 
         public class Handler : IRequestHandler<Command, int>
         {
-            private readonly IDbConnection _connection;
+            private readonly IDbService _dbService;
 
             private readonly string _storedProcedure = "sto_save_archdeaconry";
 
-            public Handler(IDbConnection connection)
+            public Handler(IDbService dbService)
             {
-                _connection = connection;
+                _dbService = dbService;
             }
 
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                return await _connection.QuerySingleAsync<int>(
+                using var connection = _dbService.GetConnection();
+
+                return await connection.QuerySingleAsync<int>(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);

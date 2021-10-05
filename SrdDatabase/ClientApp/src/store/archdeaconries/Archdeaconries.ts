@@ -8,8 +8,8 @@ export interface State {
 }
 
 export interface Archdeaconry {
-    id: string;
-    name: string;
+    id?: number;
+    name?: string;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using

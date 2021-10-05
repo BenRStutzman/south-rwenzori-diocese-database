@@ -38,23 +38,21 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Add([FromBody] SaveArchdeaconry.Command command)
+        public async Task<SaveResponse> Save([FromBody] SaveArchdeaconry.Command command)
         {
             var archdeaconryId = await _mediator.Send(command);
 
-            var message = command.Id == null
-                ? $"Archdeaconry added with ID {archdeaconryId}"
-                : "Archdeaconry updated";
-
-            return Ok(message);
+            return new SaveResponse(archdeaconryId);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] Domain.Commands.DeleteArchdeaconry.Command command)
+        public async Task<DeleteResponse> Delete([FromBody] Domain.Commands.DeleteArchdeaconry.Command command)
         {
             var response = await _mediator.Send(command);
 
-            return response.Succeeded ? Ok("Archdeaconry deleted") : BadRequest(response.ErrorMessage);
+            return response.Succeeded
+                ? DeleteResponse.ForSuccess()
+                : DeleteResponse.ForError(response.ErrorMessage);
         }
     }
 }

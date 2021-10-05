@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using MediatR;
 using System.Data;
 using MySql.Data.MySqlClient;
+using SrdDatabase.Services;
 
 namespace SrdDatabase
 {
@@ -24,8 +25,7 @@ namespace SrdDatabase
         {
             services.AddControllersWithViews();
             services.AddMediatR(typeof(Startup));
-            services.AddSingleton<IDbConnection>(new MySqlConnection(
-                Configuration.GetConnectionString("MySql")));
+            services.AddSingleton<IDbService, MySqlDbService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

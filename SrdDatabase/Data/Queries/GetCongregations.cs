@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using MediatR;
 using SrdDatabase.Models;
+using SrdDatabase.Services;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
@@ -35,17 +36,22 @@ namespace SrdDatabase.Data.Queries
 
         public class Handler : IRequestHandler<Query, IEnumerable<Congregation>>
         {
-            private readonly IDbConnection _connection;
+            private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_congregations";
 
-            public Handler(IDbConnection connection)
+            public Handler(IDbService dbService)
             {
-                _connection = connection;
+                _dbService = dbService;
             }
 
             public async Task<IEnumerable<Congregation>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _connection.QueryAsync<Congregation>(_storedProcedure, request, commandType: CommandType.StoredProcedure);
+                using var connection = _dbService.GetConnection();
+
+                return await connection.QueryAsync<Congregation>(
+                    _storedProcedure,
+                    request,
+                    commandType: CommandType.StoredProcedure);
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
+using SrdDatabase.Services;
 
 namespace SrdDatabase.Data.Commands
 {
@@ -20,18 +21,20 @@ namespace SrdDatabase.Data.Commands
 
         public class Handler : IRequestHandler<Command>
         {
-            private readonly IDbConnection _connection;
+            private readonly IDbService _dbService;
 
             private readonly string _storedProcedure = "sto_delete_event";
 
-            public Handler(IDbConnection connection)
+            public Handler(IDbService dbService)
             {
-                _connection = connection;
+                _dbService = dbService;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                await _connection.ExecuteAsync(
+                using var connection = _dbService.GetConnection();
+
+                await connection.ExecuteAsync(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);

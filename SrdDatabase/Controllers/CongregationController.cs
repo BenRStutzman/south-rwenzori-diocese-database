@@ -38,25 +38,21 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<IActionResult> Add([FromBody] SaveCongregation.Command command)
+        public async Task<SaveResponse> Save([FromBody] SaveCongregation.Command command)
         {
             var congregationId = await _mediator.Send(command);
 
-            var message = command.Id == null
-                ? $"Congregation added with ID {congregationId}"
-                : "Congregation updated";
-
-            return Ok(message);
+            return new SaveResponse(congregationId);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] Domain.Commands.DeleteCongregation.Command command)
+        public async Task<DeleteResponse> Delete([FromBody] Domain.Commands.DeleteCongregation.Command command)
         {
             var response = await _mediator.Send(command);
 
             return response.Succeeded
-                ? Ok("Congregation deleted")
-                : BadRequest(response.ErrorMessage);
+                ? DeleteResponse.ForSuccess()
+                : DeleteResponse.ForError(response.ErrorMessage);
         }
     }
 }
