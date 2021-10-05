@@ -10,7 +10,12 @@ export interface State {
     archdeaconry: Archdeaconry;
 }
 
-const initialState: State = { archdeaconry: {}, isLoading: true };
+const initialState: State = {
+    archdeaconry: {
+        name: '',
+    },
+    isLoading: true,
+};
 
 interface LoadArchdeaconryAction {
     type: 'LOAD_ARCHDEACONRY';
@@ -58,7 +63,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case "SET_IS_LOADING":
             return {
                 ...state,
-                isLoading: false,
+                isLoading: action.value,
             };
         case "LOAD_ARCHDEACONRY":
             return {
