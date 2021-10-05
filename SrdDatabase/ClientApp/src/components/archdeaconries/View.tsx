@@ -16,30 +16,26 @@ const View = ({ archdeaconries, loadArchdeaconries }: Props) => {
         <>
             <h1 id="tabelLabel">Archdeaconries</h1>
             <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
-            <Table archdeaconries={archdeaconries} />
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {archdeaconries.map((archdeaconry: Archdeaconry) =>
+                        <tr key={archdeaconry.id}>
+                            <td>{archdeaconry.id}</td>
+                            <td>{archdeaconry.name}</td>
+                            <td><a href={`archdeaconries/${archdeaconry.id}`}>Edit</a></td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
         </>
     );
-}
-
-
-const Table = ({ archdeaconries }: { archdeaconries: Archdeaconry[] }) =>
-    <table className='table table-striped' aria-labelledby="tabelLabel">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            {archdeaconries.map((archdeaconry: Archdeaconry) =>
-                <tr key={archdeaconry.id}>
-                    <td>{archdeaconry.id}</td>
-                    <td>{archdeaconry.name}</td>
-                    <td><a href={`archdeaconries/${archdeaconry.id}`}>Edit</a></td>
-                </tr>
-            )}
-        </tbody>
-    </table>;
+}    
 
 export default connect(
     (state: State) => state.archdeaconries.view,

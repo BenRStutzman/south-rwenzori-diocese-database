@@ -22,7 +22,12 @@ interface UpdateArchdeaconryIdAction {
     value: number;
 }
 
-type Action = LoadArchdeaconryAction | UpdateArchdeaconryIdAction | SetIsLoadingAction;
+interface UpdateArchdeaconryNameAction {
+    type: 'UPDATE_ARCHDEACONRY_NAME';
+    value: string;
+}
+
+type Action = LoadArchdeaconryAction | UpdateArchdeaconryIdAction | SetIsLoadingAction | UpdateArchdeaconryNameAction;
 
 export const actionCreators = {
     loadArchdeaconry: (id: number): AppThunkAction<Action> => (dispatch) =>
@@ -42,6 +47,9 @@ export const actionCreators = {
             });
 
         dispatch({ type: 'SET_IS_LOADING', value: true });
+    },
+    updateArchdeaconryName: (name: string): AppThunkAction<Action> => (dispatch) => {
+        dispatch({ type: 'UPDATE_ARCHDEACONRY_NAME', value: name });
     }
 };
 
@@ -66,6 +74,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     id: action.value,
                 },
                 isLoading: false,
+            }
+        case "UPDATE_ARCHDEACONRY_NAME":
+            return {
+                ...state,
+                archdeaconry: {
+                    ...state.archdeaconry,
+                    name: action.value,
+                },
             }
         default:
             return state;

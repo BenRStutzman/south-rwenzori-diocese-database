@@ -11,11 +11,19 @@ type Props =
     & typeof Store.actionCreators
     & RouteComponentProps<{ archdeaconryId: string }>;
 
-const Save = ({ archdeaconry, loadArchdeaconry, saveArchdeaconry, match }: Props) => {
+const Save = ({ archdeaconry, updateArchdeaconryName, loadArchdeaconry, saveArchdeaconry, match }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
         loadArchdeaconry(archdeaconryId);
     };
+
+    const onSubmit = () => {
+        saveArchdeaconry(archdeaconry as Archdeaconry);
+    }
+
+    const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        updateArchdeaconryName(event.target.value);
+    }
 
     useEffect(loadData, []);
 
@@ -23,34 +31,17 @@ const Save = ({ archdeaconry, loadArchdeaconry, saveArchdeaconry, match }: Props
         <>
             <h1 id="tabelLabel">Archdeaconry</h1>
             {archdeaconry &&
-                <>
-                    <Table archdeaconry={archdeaconry} />
-                    <button type="button"
-                        className="btn btn-primary btn-lg"
-                        onClick={() => { saveArchdeaconry(archdeaconry); }}>
-                        Heeeyo
-                        </button>
-                </>
+                <form onSubmit={onSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" value={archdeaconry.name} onChange={onNameChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
             }
         </>
     );
 }
-
-const Table = ({ archdeaconry }: { archdeaconry: Archdeaconry }) =>
-    <table className='table table-striped' aria-labelledby="tabelLabel">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr key={archdeaconry.id}>
-                <td>{archdeaconry.id}</td>
-                <td>{archdeaconry.name}</td>
-            </tr>
-        </tbody>
-    </table>;
 
 export default connect(
     (state: State) => state.archdeaconries.save,
