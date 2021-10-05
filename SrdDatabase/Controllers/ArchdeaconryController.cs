@@ -42,7 +42,7 @@ namespace SrdDatabase.Controllers
         {
             var archdeaconryId = await _mediator.Send(command);
 
-            return new SaveResponse(archdeaconryId);
+            return SaveResponse.ForSuccess(archdeaconryId);
         }
 
         [HttpPost("delete")]

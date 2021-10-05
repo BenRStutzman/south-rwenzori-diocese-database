@@ -1,6 +1,8 @@
-import { Action, Reducer } from 'redux';
+import { Reducer } from 'redux';
 import { AppThunkAction } from '..';
-import { SaveResponse } from '../../responses';
+import { post } from '../../apiHelpers';
+import { SaveResponse } from '../../sharedResponses';
+import { SetIsLoadingAction } from '../sharedActions';
 import { Archdeaconry } from './Archdeaconries';
 
 export interface State {
@@ -8,85 +10,62 @@ export interface State {
     archdeaconry?: Archdeaconry;
 }
 
-interface RequestArchdeaconryAction {
-    type: 'REQUEST_ARCHDEACONRY';
-}
+const initialState: State = { archdeaconry: undefined, isLoading: false };
 
-interface ReceiveArchdeaconryAction {
-    type: 'RECEIVE_ARCHDEACONRY';
-    archdeaconry: Archdeaconry;
-}
-
-interface SaveArchdeaconryAction {
-    type: 'SAVE_ARCHDEACONRY';
+interface LoadArchdeaconryAction {
+    type: 'LOAD_ARCHDEACONRY';
+    value: Archdeaconry;
 }
 
 interface UpdateArchdeaconryIdAction {
     type: 'UPDATE_ARCHDEACONRY_ID';
-    archdeaconryId: number;
+    value: number;
 }
 
-type KnownAction = RequestArchdeaconryAction | ReceiveArchdeaconryAction | SaveArchdeaconryAction | UpdateArchdeaconryIdAction;
+type Action = LoadArchdeaconryAction | UpdateArchdeaconryIdAction | SetIsLoadingAction;
 
 export const actionCreators = {
-    requestArchdeaconry: (id: number): AppThunkAction<KnownAction> => (dispatch) =>
+    loadArchdeaconry: (id: number): AppThunkAction<Action> => (dispatch) =>
     {
         fetch(`archdeaconry/${id}`)
             .then(response => response.json() as Promise<Archdeaconry>)
-            .then(data => {
-                dispatch({ type: 'RECEIVE_ARCHDEACONRY', archdeaconry: data });
+            .then(archdeaconry => {
+                dispatch({ type: 'LOAD_ARCHDEACONRY', value: archdeaconry });
             });
 
-        dispatch({ type: 'REQUEST_ARCHDEACONRY' });
+        dispatch({ type: 'SET_IS_LOADING', value: true });
     },
-    saveArchdeaconry: (archdeaconry: Archdeaconry): AppThunkAction<KnownAction> => (dispatch) => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(archdeaconry),
-        };
-        fetch('archdeaconry/save', requestOptions)
-            .then(response => response.json() as Promise<SaveResponse>)
-            .then(data => {
-                dispatch({ type: 'UPDATE_ARCHDEACONRY_ID', archdeaconryId: data.id });
+    saveArchdeaconry: (archdeaconry: Archdeaconry): AppThunkAction<Action> => (dispatch) => {
+        post<SaveResponse>('archdeaconry/save', archdeaconry)
+            .then(response => {
+                dispatch({ type: 'UPDATE_ARCHDEACONRY_ID', value: response.id });
             });
 
-        dispatch({ type: 'SAVE_ARCHDEACONRY' });
+        dispatch({ type: 'SET_IS_LOADING', value: true });
     }
 };
 
-const initialState: State = { archdeaconry: undefined, isLoading: false };
-
-export const reducer: Reducer<State> = (state: State | undefined, incomingAction: Action): State => {
-    if (state === undefined) {
-        return initialState;
-    }
-
-    const action = incomingAction as KnownAction;
+export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case "REQUEST_ARCHDEACONRY":
+        case "SET_IS_LOADING":
             return {
                 ...state,
-                isLoading: true,
-            };
-        case "RECEIVE_ARCHDEACONRY":
-            return {
-                ...state,
-                archdeaconry: action.archdeaconry,
                 isLoading: false,
             };
-        case "SAVE_ARCHDEACONRY":
+        case "LOAD_ARCHDEACONRY":
             return {
                 ...state,
-                isLoading: true,
+                archdeaconry: action.value,
+                isLoading: false,
             };
         case "UPDATE_ARCHDEACONRY_ID":
             return {
                 ...state,
                 archdeaconry: {
                     ...state.archdeaconry,
-                    id: action.archdeaconryId,
+                    id: action.value,
                 },
+                isLoading: false,
             }
         default:
             return state;

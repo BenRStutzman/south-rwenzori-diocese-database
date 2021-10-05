@@ -42,7 +42,7 @@ namespace SrdDatabase.Controllers
         {
             var congregationId = await _mediator.Send(command);
 
-            return new SaveResponse(congregationId);
+            return SaveResponse.ForSuccess(congregationId);
         }
 
         [HttpPost("delete")]

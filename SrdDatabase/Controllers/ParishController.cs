@@ -42,7 +42,7 @@ namespace SrdDatabase.Controllers
         {
             var parishId = await _mediator.Send(command);
 
-            return new SaveResponse(parishId);
+            return SaveResponse.ForSuccess(parishId);
         }
 
         [HttpPost("delete")]

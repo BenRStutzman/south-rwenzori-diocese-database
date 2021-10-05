@@ -42,7 +42,7 @@ namespace SrdDatabase.Controllers
         {
             var eventId = await _mediator.Send(command);
 
-            return new SaveResponse(eventId);
+            return SaveResponse.ForSuccess(eventId);
         }
 
         [HttpPost("delete")]

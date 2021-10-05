@@ -1,76 +1,48 @@
-import { Action, Reducer } from 'redux';
+import { Reducer } from 'redux';
 import { AppThunkAction } from '../';
+import { SetIsLoadingAction } from '../sharedActions';
 import { Archdeaconry } from './Archdeaconries';
-
-// -----------------
-// STATE - This defines the type of data maintained in the Redux store.
 
 export interface State {
     isLoading: boolean;
     archdeaconries: Archdeaconry[];
 }
 
-// -----------------
-// ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
-// They do not themselves have any side-effects; they just describe something that is going to happen.
+const initialState: State = { archdeaconries: [], isLoading: true };
 
-interface RequestArchdeaconriesAction {
-    type: 'REQUEST_ARCHDEACONRIES';
+interface LoadArchdeaconriesAction {
+    type: 'LOAD_ARCHDEACONRIES';
+    value: Archdeaconry[];
 }
 
-interface ReceiveArchdeaconriesAction {
-    type: 'RECEIVE_ARCHDEACONRIES';
-    archdeaconries: Archdeaconry[];
-}
+type Action = LoadArchdeaconriesAction | SetIsLoadingAction;
 
-// Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
-// declared type strings (and not any other arbitrary string).
-type KnownAction = RequestArchdeaconriesAction | ReceiveArchdeaconriesAction;
-
-// ----------------
-// ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
-// They don't directly mutate state, but they can have external side-effects (such as loading data).
-
-export const actionCreators = {
-    requestArchdeaconries: (): AppThunkAction<KnownAction> => (dispatch, getState) =>
-    {
-        const appState = getState();
-        if (appState) {
-            fetch('archdeaconry/all')
-                .then(response => response.json() as Promise<Archdeaconry[]>)
-                .then(data => {
-                    dispatch({ type: 'RECEIVE_ARCHDEACONRIES', archdeaconries: data });
-                });
-
-            dispatch({ type: 'REQUEST_ARCHDEACONRIES' });
-        }
-
-    }
-};
-
-// ----------------
-// REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
-
-const unloadedState: State = { archdeaconries: [], isLoading: false };
-
-export const reducer: Reducer<State> = (state: State | undefined, incomingAction: Action): State => {
-    if (state === undefined) {
-        return unloadedState;
-    }
-
-    const action = incomingAction as KnownAction;
+export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case 'REQUEST_ARCHDEACONRIES':
+        case 'SET_IS_LOADING':
             return {
-                archdeaconries: state.archdeaconries,
-                isLoading: true
+                ...state,
+                isLoading: action.value,
             };
-        case 'RECEIVE_ARCHDEACONRIES':
+        case 'LOAD_ARCHDEACONRIES':
             return {
-                archdeaconries: action.archdeaconries,
-                isLoading: false
+                ...state,
+                archdeaconries: action.value,
+                isLoading: false,
             };
         default:
             return state;
+    }
+};
+
+export const actionCreators = {
+    loadArchdeaconries: (): AppThunkAction<Action> => (dispatch) => {
+        fetch('archdeaconry/all')
+            .then(response => response.json() as Promise<Archdeaconry[]>)
+            .then(archdeaconries => {
+                dispatch({ type: 'LOAD_ARCHDEACONRIES', value: archdeaconries });
+            });
+
+        dispatch({ type: 'SET_IS_LOADING', value: true });
     }
 };
