@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 type Props = Store.State & typeof Store.actionCreators
 
-const Home = ({ archdeaconries, loadArchdeaconries }: Props) => {
+const Home = ({ archdeaconries, loadArchdeaconries, deleteArchdeaconry }: Props) => {
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
@@ -15,6 +15,7 @@ const Home = ({ archdeaconries, loadArchdeaconries }: Props) => {
     return (
         <>
             <h1 id="tabelLabel">Archdeaconries</h1>
+            <a href={'archdeaconry/add'}>Add new</a>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -28,6 +29,11 @@ const Home = ({ archdeaconries, loadArchdeaconries }: Props) => {
                             <td>{archdeaconry.id}</td>
                             <td>{archdeaconry.name}</td>
                             <td><a href={`archdeaconry/edit/${archdeaconry.id}`}>Edit</a></td>
+                            <td>
+                                <button onClick={() => { deleteArchdeaconry(archdeaconry.id as number); }}>
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                     )}
                 </tbody>

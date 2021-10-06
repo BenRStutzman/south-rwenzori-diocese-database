@@ -1,9 +1,9 @@
-﻿export function get<T>(url: string): Promise<T> {
+﻿export function get<TResponse>(url: string): Promise<TResponse> {
     return fetch(url)
-        .then(response => response.json() as Promise<T>);
+        .then(response => response.json() as Promise<TResponse>);
 }
 
-export function post<T>(url: string, data: object): Promise<T> {
+export function post<TRequest, TResponse>(url: string, data: TRequest): Promise<TResponse> {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -11,5 +11,5 @@ export function post<T>(url: string, data: object): Promise<T> {
     };
 
     return fetch(url, requestOptions)
-        .then(response => response.json() as Promise<T>);
+        .then(response => response.json() as Promise<TResponse>);
 }

@@ -1,5 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction } from '..';
+import { get, post } from '../../apiHelpers';
+import { PostResponse } from '../../sharedResponses';
 import { SetIsLoadingAction } from '../sharedActions';
 import { Archdeaconry } from './Archdeaconry';
 
@@ -35,14 +37,27 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     }
 };
 
-export const actionCreators = {
-    loadArchdeaconries: (): AppThunkAction<Action> => (dispatch) => {
-        fetch('api/archdeaconry/all')
-            .then(response => response.json() as Promise<Archdeaconry[]>)
-            .then(archdeaconries => {
-                dispatch({ type: 'LOAD_ARCHDEACONRIES', value: archdeaconries });
-            });
+const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
+    get<Archdeaconry[]>('api/archdeaconry/all')
+        .then(archdeaconries => {
+            dispatch({ type: 'LOAD_ARCHDEACONRIES', value: archdeaconries });
+        });
 
-        dispatch({ type: 'SET_IS_LOADING', value: true });
-    }
+    dispatch({ type: 'SET_IS_LOADING', value: true });
+};
+
+const deleteArchdeaconry = (id: number): AppThunkAction<AppThunkAction<Action>> => (dispatch) => {
+    post<{ id: number }, PostResponse>('api/archdeaconry/delete', { id })
+        .then(response => {
+            if (response.succeeded) {
+                dispatch(loadArchdeaconries());
+            } else {
+                alert(response.errorMessage);
+            }
+        });
+};
+
+export const actionCreators = {
+    loadArchdeaconries,
+    deleteArchdeaconry,
 };
