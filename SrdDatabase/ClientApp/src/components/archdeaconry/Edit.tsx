@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconries/Save';
+import * as Store from '../../store/archdeaconries/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
@@ -11,13 +11,17 @@ type Props =
     & typeof Store.actionCreators
     & RouteComponentProps<{ archdeaconryId: string }>;
 
-const Edit = ({ isLoading, archdeaconry, updateArchdeaconryName, loadArchdeaconry, saveArchdeaconry, match }: Props) => {
+const Edit = ({ isLoading, history, archdeaconry, setArchdeaconryName, loadArchdeaconry, saveArchdeaconry, match }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
         loadArchdeaconry(archdeaconryId);
     };
 
     useEffect(loadData, []);
+
+    const onSubmit = () => {
+        saveArchdeaconry(archdeaconry, history);
+    }
 
     return isLoading
         ? <h1>Loading...</h1>
@@ -26,8 +30,8 @@ const Edit = ({ isLoading, archdeaconry, updateArchdeaconryName, loadArchdeaconr
                 <h1 id="tabelLabel">Edit {archdeaconry.name} Archdeaconry</h1>
                 <Form
                     archdeaconry={archdeaconry}
-                    updateArchdeaconryName={updateArchdeaconryName}
-                    saveArchdeaconry={saveArchdeaconry} />
+                    updateArchdeaconryName={setArchdeaconryName}
+                    onSubmit={onSubmit} />
             </>;
 }
 

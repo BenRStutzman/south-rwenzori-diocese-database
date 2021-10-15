@@ -1,9 +1,8 @@
 import { Reducer } from 'redux';
-import { AppThunkAction } from '..';
+import { AppThunkAction, Action } from '..';
 import { get, post } from '../../apiHelpers';
 import { PostResponse } from '../../sharedResponses';
-import { SetIsLoadingAction } from '../sharedActions';
-import { Archdeaconry } from './Archdeaconry';
+import { Archdeaconry } from './archdeaconry';
 
 export interface State {
     isLoading: boolean;
@@ -12,21 +11,26 @@ export interface State {
 
 const initialState: State = { archdeaconries: [], isLoading: true };
 
-interface LoadArchdeaconriesAction {
-    type: 'LOAD_ARCHDEACONRIES';
-    value: Archdeaconry[];
-}
+export const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
+export const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
 
-type Action = LoadArchdeaconriesAction | SetIsLoadingAction;
+export const requestArchdeaconriesAction = () => ({
+    type: REQUEST_ARCHDEACONRIES,
+});
+
+export const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
+    type: RECEIVE_ARCHDEACONRIES,
+    value: archdeaconries,
+});
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case 'SET_IS_LOADING':
+        case REQUEST_ARCHDEACONRIES:
             return {
                 ...state,
                 isLoading: action.value,
             };
-        case 'LOAD_ARCHDEACONRIES':
+        case RECEIVE_ARCHDEACONRIES:
             return {
                 ...state,
                 archdeaconries: action.value,
@@ -40,13 +44,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     get<Archdeaconry[]>('api/archdeaconry/all')
         .then(archdeaconries => {
-            dispatch({ type: 'LOAD_ARCHDEACONRIES', value: archdeaconries });
+            dispatch(receiveArchdeaconriesAction(archdeaconries));
         });
 
-    dispatch({ type: 'SET_IS_LOADING', value: true });
+    dispatch(requestArchdeaconriesAction());
 };
 
-const deleteArchdeaconry = (id: number): AppThunkAction<AppThunkAction<Action>> => (dispatch) => {
+const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
     post<{ id: number }, PostResponse>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.succeeded) {

@@ -1,21 +1,26 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconries/Home';
-import { Archdeaconry } from '../../store/archdeaconries/Archdeaconry';
+import * as Store from '../../store/archdeaconries/search';
+import { Archdeaconry } from '../../store/archdeaconries/archdeaconry';
 import { useEffect } from 'react';
+import { RouteComponentProps } from 'react-router';
 
-type Props = Store.State & typeof Store.actionCreators
+type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Home = ({ archdeaconries, loadArchdeaconries, deleteArchdeaconry }: Props) => {
+const Home = ({ archdeaconries, history, loadArchdeaconries, deleteArchdeaconry }: Props) => {
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
 
+    const addArchdeaconry = () => history.push(`/archdeaconry/add`);
+
+    const editArchdeaconry = (archdeaconryId: number) => history.push(`/archdeaconry/edit/${archdeaconryId}`);
+
     return (
         <>
             <h1 id="tabelLabel">Archdeaconries</h1>
-            <a href={'archdeaconry/add'}>Add new</a>
+            <button onClick={addArchdeaconry}>Add new</button>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -28,7 +33,11 @@ const Home = ({ archdeaconries, loadArchdeaconries, deleteArchdeaconry }: Props)
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.id}</td>
                             <td>{archdeaconry.name}</td>
-                            <td><a href={`archdeaconry/edit/${archdeaconry.id}`}>Edit</a></td>
+                            <td>
+                                <button onClick={() => { editArchdeaconry(archdeaconry.id as number); }}>
+                                    Edit
+                                </button>
+                            </td>
                             <td>
                                 <button onClick={() => { deleteArchdeaconry(archdeaconry.id as number); }}>
                                     Delete

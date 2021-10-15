@@ -1,9 +1,32 @@
 import { Reducer } from 'redux';
-import { AppThunkAction } from '..';
-import { post } from '../../apiHelpers';
+import { Action, AppThunkAction } from '..';
+import { get, post } from '../../apiHelpers';
 import { SaveResponse } from '../../sharedResponses';
-import { SetIsLoadingAction } from '../sharedActions';
-import { Archdeaconry } from './Archdeaconry';
+import { Archdeaconry } from './archdeaconry';
+import { History } from 'history';
+
+export const RESET_ARCHDEACONRY = 'RESET_ARCHDEACONRY';
+export const REQUEST_ARCHDEACONRY = 'REQUEST_ARCHDEACONRY';
+export const RECEIVE_ARCHDEACONRY = 'RECEIVE_ARCHDEACONRY';
+export const SET_ARCHDEACONRY_NAME = 'SET_ARCHDEACONRY_NAME';
+
+export const resetArchdeaconryAction = () => ({
+    type: RESET_ARCHDEACONRY,
+})
+
+export const requestArchdeaconryAction = () => ({
+    type: REQUEST_ARCHDEACONRY,
+});
+
+export const receiveArchdeaconryAction = (archdeaconry: Archdeaconry) => ({
+    type: RECEIVE_ARCHDEACONRY,
+    value: archdeaconry,
+});
+
+export const setArchdeaconryNameAction = (name: string) => ({
+    type: SET_ARCHDEACONRY_NAME,
+    value: name,
+});
 
 export interface State {
     isLoading: boolean;
@@ -17,70 +40,25 @@ const initialState: State = {
     isLoading: true,
 };
 
-interface LoadArchdeaconryAction {
-    type: 'LOAD_ARCHDEACONRY';
-    value: Archdeaconry;
-}
-
-interface UpdateArchdeaconryIdAction {
-    type: 'UPDATE_ARCHDEACONRY_ID';
-    value: number;
-}
-
-interface UpdateArchdeaconryNameAction {
-    type: 'UPDATE_ARCHDEACONRY_NAME';
-    value: string;
-}
-
-type Action = LoadArchdeaconryAction | UpdateArchdeaconryIdAction | SetIsLoadingAction | UpdateArchdeaconryNameAction;
-
-export const actionCreators = {
-    loadArchdeaconry: (id: number): AppThunkAction<Action> => (dispatch) =>
-    {
-        fetch(`api/archdeaconry/${id}`)
-            .then(response => response.json() as Promise<Archdeaconry>)
-            .then(archdeaconry => {
-                dispatch({ type: 'LOAD_ARCHDEACONRY', value: archdeaconry });
-            });
-
-        dispatch({ type: 'SET_IS_LOADING', value: true });
-    },
-    saveArchdeaconry: (archdeaconry: Archdeaconry): AppThunkAction<Action> => (dispatch) => {
-        post<SaveResponse>('api/archdeaconry/save', archdeaconry)
-            .then(response => {
-                dispatch({ type: 'UPDATE_ARCHDEACONRY_ID', value: response.id });
-            });
-
-        dispatch({ type: 'SET_IS_LOADING', value: true });
-    },
-    updateArchdeaconryName: (name: string): AppThunkAction<Action> => (dispatch) => {
-        dispatch({ type: 'UPDATE_ARCHDEACONRY_NAME', value: name });
-    },
-};
-
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case "SET_IS_LOADING":
+        case RESET_ARCHDEACONRY:
             return {
                 ...state,
-                isLoading: action.value,
-            };
-        case "LOAD_ARCHDEACONRY":
+                archdeaconry: initialState.archdeaconry,
+            }
+        case REQUEST_ARCHDEACONRY:
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case RECEIVE_ARCHDEACONRY:
             return {
                 ...state,
                 archdeaconry: action.value,
                 isLoading: false,
             };
-        case "UPDATE_ARCHDEACONRY_ID":
-            return {
-                ...state,
-                archdeaconry: {
-                    ...state.archdeaconry,
-                    id: action.value,
-                },
-                isLoading: false,
-            }
-        case "UPDATE_ARCHDEACONRY_NAME":
+        case SET_ARCHDEACONRY_NAME:
             return {
                 ...state,
                 archdeaconry: {
@@ -91,4 +69,39 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         default:
             return state;
     }
+};
+
+const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
+    get<Archdeaconry>(`api/archdeaconry/${id}`)
+        .then(archdeaconry => {
+            dispatch(receiveArchdeaconryAction(archdeaconry));
+        });
+
+    dispatch(requestArchdeaconryAction());
+}
+
+const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThunkAction<Action> => (dispatch) => {
+    post<Archdeaconry, SaveResponse>('api/archdeaconry/save', archdeaconry)
+        .then(response => {
+            if (archdeaconry.id) {
+                dispatch(loadArchdeaconry(response.id));
+            } else {
+                history.push(`/archdeaconry/edit/${response.id}`);
+            }
+        });
+}
+
+const setArchdeaconryName = (name: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setArchdeaconryNameAction(name));
+};
+
+const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(resetArchdeaconryAction());
+}
+
+export const actionCreators = {
+    resetArchdeaconry,
+    loadArchdeaconry,
+    saveArchdeaconry,
+    setArchdeaconryName,
 };

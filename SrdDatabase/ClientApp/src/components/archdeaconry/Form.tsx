@@ -1,30 +1,31 @@
-﻿import { Archdeaconry } from "../../store/archdeaconries/Archdeaconry";
+﻿import { Archdeaconry } from "../../store/archdeaconries/archdeaconry";
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
 
 interface Props {
     archdeaconry: Archdeaconry;
-    saveArchdeaconry: (archdeaconry: Archdeaconry) => AppThunkAction<Action>;
+    onSubmit: () => void;
     updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
 }
 
-const Form = ({ archdeaconry, saveArchdeaconry, updateArchdeaconryName }: Props) => {
-    const onSubmit = () => {
-        saveArchdeaconry(archdeaconry as Archdeaconry);
-    }
-
+const Form = ({ archdeaconry, onSubmit, updateArchdeaconryName }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
     }
 
+    const onFormSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        onSubmit();
+    }
+
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onFormSubmit}>
             <label>
                 Name:
                 <input type="text" value={archdeaconry.name} onChange={onNameChange} />
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"></input>
         </form>
     );
 }
