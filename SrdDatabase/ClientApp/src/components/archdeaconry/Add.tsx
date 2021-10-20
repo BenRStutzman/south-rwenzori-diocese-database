@@ -17,7 +17,8 @@ const Add = ({ archdeaconry,
     setArchdeaconryName,
     saveArchdeaconry,
     hasBeenSaved,
-    hasBeenChanged }: Props) => {
+    hasBeenChanged,
+    errors }: Props) => {
     const loadData = () => { resetArchdeaconry(); };
 
     useEffect(loadData, []);
@@ -35,6 +36,7 @@ const Add = ({ archdeaconry,
                 onSubmit={onSubmit}
                 hasBeenSaved={hasBeenSaved}
                 hasBeenChanged={hasBeenChanged}
+                errors={errors}
             />
         </>
     );

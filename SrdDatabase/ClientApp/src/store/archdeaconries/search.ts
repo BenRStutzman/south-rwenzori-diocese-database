@@ -1,7 +1,6 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../apiHelpers';
-import { PostResponse } from '../../sharedResponses';
 import { Archdeaconry } from './archdeaconry';
 
 export interface State {
@@ -51,13 +50,17 @@ const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
 };
 
 const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
-    post<{ id: number }, PostResponse>('api/archdeaconry/delete', { id })
+    post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
-            if (response.succeeded) {
+            if (response.ok) {
                 dispatch(loadArchdeaconries());
             } else {
-                alert(response.errorMessage);
+                throw response.text();
             }
+        }).catch(errorPromise => {
+            errorPromise.then((errorMessage: string) => {
+                alert(errorMessage);
+            });
         });
 };
 

@@ -34,11 +34,11 @@ namespace SrdDatabase.Domain.Commands
 
                 if (parishes.Any())
                 {
-                    return Response.ForError(@"
-                        Unable to delete this archdeaconry because it has parishes associated with it.
-                        Please delete all of those parishes or move them to another archdeaconry,
-                        then try again.
-                    ");
+                    return Response.ForError(
+                        "Unable to delete this archdeaconry because it has parishes associated with it. " +
+                        "Please delete all of those parishes or move them to another archdeaconry, " +
+                        "then try again."
+                    );
                 }
 
                 await _mediator.Send(

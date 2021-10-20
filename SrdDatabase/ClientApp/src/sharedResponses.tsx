@@ -1,10 +1,7 @@
-﻿export interface PostResponse {
-    succeeded: boolean;
-    errorMessage: string;
+﻿export interface Errors {
+    [fieldName: string]: string[];
 }
 
-export interface DeleteResponse extends PostResponse { };
-
-export interface SaveResponse extends PostResponse {
-    id: number;
-}
+export interface ErrorResponse {
+    errors: Errors
+};

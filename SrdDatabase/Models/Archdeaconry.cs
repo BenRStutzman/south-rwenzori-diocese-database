@@ -1,4 +1,6 @@
-﻿namespace SrdDatabase.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SrdDatabase.Models
 {
     public class Archdeaconry
     {

@@ -2,6 +2,7 @@
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
+import { Errors } from "../../sharedResponses";
 
 interface Props {
     archdeaconry: Archdeaconry;
@@ -9,13 +10,15 @@ interface Props {
     updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     hasBeenSaved: boolean;
+    errors: Errors;
 }
 
 const Form = ({ archdeaconry,
     onSubmit,
     updateArchdeaconryName,
     hasBeenChanged,
-    hasBeenSaved }: Props) => {
+    hasBeenSaved,
+    errors}: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
     }
@@ -26,17 +29,24 @@ const Form = ({ archdeaconry,
     }
 
     return (
-        <form onSubmit={onFormSubmit}>
-            <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input id="name" className="form-control" type="text" value={archdeaconry.name} onChange={onNameChange} />
-            </div>
-            <button className="btn btn-primary" type="submit">Submit</button>
+        <>
+            <form onSubmit={onFormSubmit}>
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input id="name" className="form-control" type="text" value={archdeaconry.name} onChange={onNameChange} />
+                    {errors.Name &&
+                        <div className="fieldError">
+                            {errors.Name.join(" ")}
+                        </div>
+                    }
+                </div>
+                <button className="btn btn-primary" type="submit">Submit</button>
+            </form>
             {
-                !hasBeenChanged && hasBeenSaved &&
-                <p>Archdeaconry Saved!</p>
+                    !hasBeenChanged && hasBeenSaved &&
+                    <p>Archdeaconry Saved!</p>
             }
-        </form>
+        </>
     );
 }
 

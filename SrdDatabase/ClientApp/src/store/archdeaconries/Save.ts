@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get, post } from '../../apiHelpers';
-import { SaveResponse } from '../../sharedResponses';
+import { ErrorResponse, Errors } from '../../sharedResponses';
 import { Archdeaconry } from './archdeaconry';
 import { History } from 'history';
 
@@ -10,6 +10,7 @@ export const REQUEST_ARCHDEACONRY = 'REQUEST_ARCHDEACONRY';
 export const RECEIVE_ARCHDEACONRY = 'RECEIVE_ARCHDEACONRY';
 export const SET_ARCHDEACONRY_NAME = 'SET_ARCHDEACONRY_NAME';
 export const SET_HAS_BEEN_SAVED = 'SET_HAD_BEEN_SAVED';
+export const SET_ERRORS = 'SET_ERRORS';
 
 export const resetArchdeaconryAction = () => ({
     type: RESET_ARCHDEACONRY,
@@ -33,11 +34,17 @@ export const setHasBeenSavedAction = () => ({
     type: SET_HAS_BEEN_SAVED,
 });
 
+export const setErrorsAction = (errors: Errors) => ({
+    type: SET_ERRORS,
+    value: errors,
+})
+
 export interface State {
     isLoading: boolean;
     archdeaconry: Archdeaconry;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
+    errors: Errors;
 }
 
 const initialState: State = {
@@ -47,6 +54,7 @@ const initialState: State = {
     isLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
+    errors: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -62,6 +70,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
             return {
                 ...state,
                 archdeaconry: action.value,
+                errors: {},
                 isLoading: false,
                 hasBeenChanged: false,
             };
@@ -79,6 +88,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 hasBeenSaved: true,
             };
+        case SET_ERRORS:
+            return {
+                ...state,
+                errors: action.value,
+            };
         default:
             return state;
     }
@@ -94,16 +108,26 @@ const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
 }
 
 const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThunkAction<Action> => (dispatch) => {
-    post<Archdeaconry, SaveResponse>('api/archdeaconry/save', archdeaconry)
+    post<Archdeaconry>('api/archdeaconry/save', archdeaconry)
         .then(response => {
-            if (archdeaconry.id) {
-                dispatch(loadArchdeaconry(response.id));
+            if (response.ok) {
+                return response.json() as number;
             } else {
-                history.push(`/archdeaconry/edit/${response.id}`);
+                throw response.json();
+            }
+        }).then(archdeaconryId => {
+            if (archdeaconry.id) {
+                dispatch(loadArchdeaconry(archdeaconry.id));
+            } else {
+                history.push(`/archdeaconry/edit/${archdeaconryId}`);
             }
             dispatch(setHasBeenSavedAction());
+        }).catch(errorPromise => {
+            errorPromise.then((errorResponse: ErrorResponse) => {
+                dispatch(setErrorsAction(errorResponse.errors));
+            });
         });
-}
+};
 
 const setArchdeaconryName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setArchdeaconryNameAction(name));

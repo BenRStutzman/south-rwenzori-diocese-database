@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Data.Commands
 {
@@ -13,6 +14,7 @@ namespace SrdDatabase.Data.Commands
         {
             public int? Id { get; }
 
+            [StringLength(50)]
             public string Name { get; }
 
             public Command(int? id, string name)
