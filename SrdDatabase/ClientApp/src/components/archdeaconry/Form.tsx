@@ -37,8 +37,9 @@ const Form = ({ archdeaconry,
                         id="name"
                         className="form-control"
                         type="text"
-                        value={archdeaconry.name}
+                        value={archdeaconry.name ? archdeaconry.name : ""}
                         onChange={onNameChange}
+                        required
                         maxLength={50}
                     />
                 </div>

@@ -6,6 +6,7 @@ namespace SrdDatabase.Models
     {
         public int Id { get; }
 
+        [Required]
         public string Name { get;  }
         
         public Archdeaconry(int id, string name)
