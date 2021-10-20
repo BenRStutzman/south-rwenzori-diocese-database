@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System.Data;
 
@@ -13,6 +14,7 @@ namespace SrdDatabase.Services
         public MySqlDbService(IConfiguration configuration)
         {
             _dbServiceString = configuration.GetConnectionString(_dbServiceStringName);
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
         public IDbConnection GetConnection() => new MySqlConnection(_dbServiceString);

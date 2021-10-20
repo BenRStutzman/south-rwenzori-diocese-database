@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
-using System.Data;
-using MySql.Data.MySqlClient;
 using SrdDatabase.Services;
 
 namespace SrdDatabase
