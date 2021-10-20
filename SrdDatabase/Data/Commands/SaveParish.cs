@@ -14,9 +14,11 @@ namespace SrdDatabase.Data.Commands
         {
             public int? Id { get; }
 
+            [Required]
             [StringLength(50)]
             public string Name { get; }
 
+            [Required]
             public int ArchdeaconryId { get; }
 
             public Command(int? id, string name, int archdeaconryId)

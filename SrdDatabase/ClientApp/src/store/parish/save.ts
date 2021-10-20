@@ -93,10 +93,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 archdeaconries: action.value,
                 archdeaconriesLoading: false,
-                parish: {
-                    ...state.parish,
-                    archdeaconryId: state.parish.archdeaconryId ? state.parish.archdeaconryId : action.value[0].id,
-                },
             };
         case SET_PARISH_NAME:
             return {

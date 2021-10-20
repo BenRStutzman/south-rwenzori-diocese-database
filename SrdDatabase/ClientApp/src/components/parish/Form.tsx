@@ -49,6 +49,7 @@ const Form = ({ parish,
                         value={parish.name ? parish.name : ""}
                         onChange={onNameChange}
                         maxLength={50}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -56,9 +57,11 @@ const Form = ({ parish,
                     <select
                         id="archdeaconryId"
                         className="form-control"
-                        value={parish.archdeaconryId}
+                        value={parish.archdeaconryId ? parish.archdeaconryId : ""}
                         onChange={onArchdeaconryIdChange}
+                        required
                     >
+                        <option key={0} value="" disabled>--- select an archdeaconry ---</option>
                         {archdeaconries.map(archdeaconry =>
                             <option key={archdeaconry.id} value={archdeaconry.id}>
                                 {archdeaconry.name}
