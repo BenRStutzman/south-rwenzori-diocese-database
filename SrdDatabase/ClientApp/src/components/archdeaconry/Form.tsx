@@ -38,7 +38,9 @@ const Form = ({ archdeaconry,
                         className="form-control"
                         type="text"
                         value={archdeaconry.name}
-                        onChange={onNameChange} />
+                        onChange={onNameChange}
+                        maxLength={50}
+                    />
                 </div>
                 {Object.values(errors).length > 0 &&
                     <ul>
