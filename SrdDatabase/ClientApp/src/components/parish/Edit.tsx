@@ -11,17 +11,21 @@ type Props =
     & typeof Store.actionCreators
     & RouteComponentProps<{ parishId: string }>;
 
-const Edit = ({ isLoading,
+const Edit = ({ parishLoading,
     history,
     parish,
+    archdeaconries,
     setParishName,
+    setParishArchdeaconryId,
     loadParish,
+    loadArchdeaconries,
     saveParish,
     match,
     hasBeenSaved,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => {
+        loadArchdeaconries();
         const parishId = parseInt(match.params.parishId);
         loadParish(parishId);
     };
@@ -32,18 +36,20 @@ const Edit = ({ isLoading,
         saveParish(parish, history);
     }
 
-    return isLoading
+    return parishLoading
         ? <h1>Loading...</h1>
         :
             <>
                 <h1>Edit {parish.name} Parish</h1>
                 <Form
-                parish={parish}
-                updateParishName={setParishName}
-                onSubmit={onSubmit}
-                hasBeenChanged={hasBeenChanged}
-                hasBeenSaved={hasBeenSaved}
-                errors={errors}
+                    parish={parish}
+                    archdeaconries={archdeaconries}
+                    updateParishName={setParishName}
+                    updateParishArchdeaconryId={setParishArchdeaconryId}
+                    onSubmit={onSubmit}
+                    hasBeenChanged={hasBeenChanged}
+                    hasBeenSaved={hasBeenSaved}
+                    errors={errors}
                 />
             </>;
 }

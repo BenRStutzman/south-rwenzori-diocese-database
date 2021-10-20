@@ -11,15 +11,22 @@ type Props =
     & typeof Store.actionCreators
     & RouteComponentProps;
 
-const Add = ({ parish,
+const Add = ({
+    parish,
+    archdeaconries,
+    loadArchdeaconries,
     resetParish,
     history,
     setParishName,
+    setParishArchdeaconryId,
     saveParish,
     hasBeenSaved,
     hasBeenChanged,
     errors }: Props) => {
-    const loadData = () => { resetParish(); };
+    const loadData = () => {
+        loadArchdeaconries();
+        resetParish();
+    };
 
     useEffect(loadData, []);
 
@@ -33,10 +40,12 @@ const Add = ({ parish,
             <Form
                 parish={parish}
                 updateParishName={setParishName}
+                updateParishArchdeaconryId={setParishArchdeaconryId}
                 onSubmit={onSubmit}
                 hasBeenSaved={hasBeenSaved}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
+                archdeaconries={archdeaconries}
             />
         </>
     );

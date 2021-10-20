@@ -3,11 +3,14 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Parish } from '.';
 import { History } from 'history';
+import { loadArchdeaconries, RECEIVE_ARCHDEACONRIES, REQUEST_ARCHDEACONRIES } from '../archdeaconry/search';
+import { Archdeaconry } from '../archdeaconry';
 
 export const RESET_PARISH = 'RESET_PARISH';
 export const REQUEST_PARISH = 'REQUEST_PARISH';
 export const RECEIVE_PARISH = 'RECEIVE_PARISH';
 export const SET_PARISH_NAME = 'SET_PARISH_NAME';
+export const SET_PARISH_ARCHDEACONRY_ID = 'SET_PARISH_ARCHDEACONRY_ID';
 export const SET_HAS_BEEN_SAVED = 'SET_HAD_BEEN_SAVED';
 export const SET_ERRORS = 'SET_ERRORS';
 
@@ -29,6 +32,11 @@ export const setParishNameAction = (name: string) => ({
     value: name,
 });
 
+export const setParishArchdeaconryIdAction = (archdeaconryId: number) => ({
+    type: SET_PARISH_ARCHDEACONRY_ID,
+    value: archdeaconryId,
+});
+
 export const setHasBeenSavedAction = () => ({
     type: SET_HAS_BEEN_SAVED,
 });
@@ -39,7 +47,9 @@ export const setErrorsAction = (errors: Errors) => ({
 })
 
 export interface State {
-    isLoading: boolean;
+    parishLoading: boolean;
+    archdeaconriesLoading: boolean;
+    archdeaconries: Archdeaconry[];
     parish: Parish;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
@@ -48,7 +58,9 @@ export interface State {
 
 const initialState: State = {
     parish: {},
-    isLoading: true,
+    archdeaconries: [],
+    parishLoading: true,
+    archdeaconriesLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
     errors: {},
@@ -61,15 +73,30 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_PARISH:
             return {
                 ...state,
-                isLoading: true,
+                parishLoading: true,
             };
         case RECEIVE_PARISH:
             return {
                 ...state,
                 parish: action.value,
                 errors: {},
-                isLoading: false,
+                parishLoading: false,
                 hasBeenChanged: false,
+            };
+        case REQUEST_ARCHDEACONRIES:
+            return {
+                ...state,
+                archdeaconriesLoading: true,
+            };
+        case RECEIVE_ARCHDEACONRIES:
+            return {
+                ...state,
+                archdeaconries: action.value,
+                archdeaconriesLoading: false,
+                parish: {
+                    ...state.parish,
+                    archdeaconryId: state.parish.archdeaconryId ? state.parish.archdeaconryId : action.value[0].id,
+                },
             };
         case SET_PARISH_NAME:
             return {
@@ -77,6 +104,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parish: {
                     ...state.parish,
                     name: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_PARISH_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                parish: {
+                    ...state.parish,
+                    archdeaconryId: action.value,
                 },
                 hasBeenChanged: true,
             };
@@ -130,13 +166,19 @@ const setParishName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParishNameAction(name));
 };
 
+const setParishArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParishArchdeaconryIdAction(archdeaconryId));
+};
+
 const resetParish = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(resetParishAction());
 }
 
 export const actionCreators = {
+    loadArchdeaconries,
     resetParish,
     loadParish,
     saveParish,
     setParishName,
+    setParishArchdeaconryId,
 };

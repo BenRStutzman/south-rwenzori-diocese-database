@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Data.Commands
 {
@@ -13,16 +14,16 @@ namespace SrdDatabase.Data.Commands
         {
             public int? Id { get; }
 
-
+            [StringLength(50)]
             public string Name { get; }
 
-            public int ParishId { get; }
+            public int ArchdeaconryId { get; }
 
-            public Command(int? id, string name, int parishId)
+            public Command(int? id, string name, int archdeaconryId)
             {
                 Id = id;
                 Name = name;
-                ParishId = parishId;
+                ArchdeaconryId = archdeaconryId;
             }
         }
 

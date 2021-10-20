@@ -4,11 +4,11 @@ import { get, post } from '../../apiHelpers';
 import { Archdeaconry } from '.';
 
 export interface State {
-    isLoading: boolean;
+    archdeaconriesLoading: boolean;
     archdeaconries: Archdeaconry[];
 }
 
-const initialState: State = { archdeaconries: [], isLoading: true };
+const initialState: State = { archdeaconries: [], archdeaconriesLoading: true };
 
 export const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
 export const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
@@ -27,20 +27,20 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_ARCHDEACONRIES:
             return {
                 ...state,
-                isLoading: action.value,
+                archdeaconriesLoading: true,
             };
         case RECEIVE_ARCHDEACONRIES:
             return {
                 ...state,
                 archdeaconries: action.value,
-                isLoading: false,
+                archdeaconriesLoading: false,
             };
         default:
             return state;
     }
 };
 
-const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
+export const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     get<Archdeaconry[]>('api/archdeaconry/all')
         .then(archdeaconries => {
             dispatch(receiveArchdeaconriesAction(archdeaconries));
