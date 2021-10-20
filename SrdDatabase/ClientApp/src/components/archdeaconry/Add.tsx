@@ -11,7 +11,13 @@ type Props =
     & typeof Store.actionCreators
     & RouteComponentProps;
 
-const Add = ({ archdeaconry, resetArchdeaconry, history, setArchdeaconryName, saveArchdeaconry }: Props) => {
+const Add = ({ archdeaconry,
+    resetArchdeaconry,
+    history,
+    setArchdeaconryName,
+    saveArchdeaconry,
+    hasBeenSaved,
+    hasBeenChanged }: Props) => {
     const loadData = () => { resetArchdeaconry(); };
 
     useEffect(loadData, []);
@@ -22,11 +28,14 @@ const Add = ({ archdeaconry, resetArchdeaconry, history, setArchdeaconryName, sa
 
     return (
         <>
-            <h1 id="tabelLabel">Add Archdeaconry</h1>
+            <h1>Add Archdeaconry</h1>
             <Form
                 archdeaconry={archdeaconry}
                 updateArchdeaconryName={setArchdeaconryName}
-                onSubmit={onSubmit} />
+                onSubmit={onSubmit}
+                hasBeenSaved={hasBeenSaved}
+                hasBeenChanged={hasBeenChanged}
+            />
         </>
     );
 }

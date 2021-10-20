@@ -19,7 +19,7 @@ const Home = ({ archdeaconries, history, loadArchdeaconries, deleteArchdeaconry 
 
     return (
         <>
-            <h1 id="tabelLabel">Archdeaconries</h1>
+            <h1>Archdeaconries</h1>
             <button onClick={addArchdeaconry}>Add new</button>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>

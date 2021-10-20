@@ -11,7 +11,15 @@ type Props =
     & typeof Store.actionCreators
     & RouteComponentProps<{ archdeaconryId: string }>;
 
-const Edit = ({ isLoading, history, archdeaconry, setArchdeaconryName, loadArchdeaconry, saveArchdeaconry, match }: Props) => {
+const Edit = ({ isLoading,
+    history,
+    archdeaconry,
+    setArchdeaconryName,
+    loadArchdeaconry,
+    saveArchdeaconry,
+    match,
+    hasBeenSaved,
+    hasBeenChanged, }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
         loadArchdeaconry(archdeaconryId);
@@ -27,11 +35,14 @@ const Edit = ({ isLoading, history, archdeaconry, setArchdeaconryName, loadArchd
         ? <h1>Loading...</h1>
         :
             <>
-                <h1 id="tabelLabel">Edit {archdeaconry.name} Archdeaconry</h1>
+                <h1>Edit {archdeaconry.name} Archdeaconry</h1>
                 <Form
                     archdeaconry={archdeaconry}
                     updateArchdeaconryName={setArchdeaconryName}
-                    onSubmit={onSubmit} />
+                    onSubmit={onSubmit}
+                    hasBeenChanged={hasBeenChanged}
+                    hasBeenSaved={hasBeenSaved}
+                />
             </>;
 }
 

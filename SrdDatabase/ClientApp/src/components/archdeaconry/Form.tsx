@@ -7,9 +7,15 @@ interface Props {
     archdeaconry: Archdeaconry;
     onSubmit: () => void;
     updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
+    hasBeenChanged: boolean;
+    hasBeenSaved: boolean;
 }
 
-const Form = ({ archdeaconry, onSubmit, updateArchdeaconryName }: Props) => {
+const Form = ({ archdeaconry,
+    onSubmit,
+    updateArchdeaconryName,
+    hasBeenChanged,
+    hasBeenSaved }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
     }
@@ -21,11 +27,15 @@ const Form = ({ archdeaconry, onSubmit, updateArchdeaconryName }: Props) => {
 
     return (
         <form onSubmit={onFormSubmit}>
-            <label>
-                Name:
-                <input type="text" value={archdeaconry.name} onChange={onNameChange} />
-            </label>
-            <input type="submit" value="Submit"></input>
+            <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input id="name" className="form-control" type="text" value={archdeaconry.name} onChange={onNameChange} />
+            </div>
+            <button className="btn btn-primary" type="submit">Submit</button>
+            {
+                !hasBeenChanged && hasBeenSaved &&
+                <p>Archdeaconry Saved!</p>
+            }
         </form>
     );
 }
