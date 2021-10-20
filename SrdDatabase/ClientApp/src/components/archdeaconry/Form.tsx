@@ -42,9 +42,9 @@ const Form = ({ archdeaconry,
                 </div>
                 {Object.values(errors).length > 0 &&
                     <ul>
-                    {Object.values(errors).map((errorList: string[]) =>
-                        <li>{errorList.join(" ")}</li>
-                    )}
+                    {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
+                        <li key={`${fieldName}-errors`}>{errorList.join(" ")}</li>
+                        )}
                     </ul>
                 }
                 <button className="btn btn-primary" type="submit">Submit</button>
