@@ -1,4 +1,4 @@
-import * as Archdeaconry from './archdeaconry/archdeaconry';
+import * as Archdeaconry from './archdeaconry';
 
 export interface State {
     archdeaconry: Archdeaconry.State;

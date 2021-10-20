@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../apiHelpers';
-import { Archdeaconry } from './archdeaconry';
+import { Archdeaconry } from '.';
 
 export interface State {
     isLoading: boolean;

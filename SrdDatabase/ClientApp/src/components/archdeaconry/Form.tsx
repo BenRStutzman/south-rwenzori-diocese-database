@@ -1,4 +1,4 @@
-﻿import { Archdeaconry } from "../../store/archdeaconry/archdeaconry";
+﻿import { Archdeaconry } from "../../store/archdeaconry";
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
@@ -45,15 +45,18 @@ const Form = ({ archdeaconry,
                 {Object.values(errors).length > 0 &&
                     <ul>
                     {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
-                        <li key={`${fieldName}-errors`}>{errorList.join(" ")}</li>
+                        <li
+                            className="error-alert"
+                            key={`${fieldName}-errors`}>
+                            {errorList.join(" ")}</li>
                         )}
                     </ul>
                 }
-                <button className="btn btn-primary" type="submit">Submit</button>
+                <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">Submit</button>
             </form>
             {
                     !hasBeenChanged && hasBeenSaved &&
-                    <p>Archdeaconry Saved!</p>
+                    <p className="save-alert">Archdeaconry Saved!</p>
             }
         </>
     );

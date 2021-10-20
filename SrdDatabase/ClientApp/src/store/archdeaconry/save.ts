@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get, post } from '../../apiHelpers';
 import { ErrorResponse, Errors } from '../../sharedResponses';
-import { Archdeaconry } from './archdeaconry';
+import { Archdeaconry } from '.';
 import { History } from 'history';
 
 export const RESET_ARCHDEACONRY = 'RESET_ARCHDEACONRY';

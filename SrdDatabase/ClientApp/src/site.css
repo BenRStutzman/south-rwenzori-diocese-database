@@ -32,3 +32,24 @@ html {
 .box-shadow {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.error-alert {
+    color: red;
+}
+
+.save-alert {
+    color: green;
+    padding-top: 10px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.page-title {
+    display: inline-block;
+}
+
+.float-right {
+    float: right;
+}
