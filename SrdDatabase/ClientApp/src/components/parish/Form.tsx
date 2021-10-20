@@ -1,26 +1,26 @@
-﻿import { Archdeaconry } from "../../store/archdeaconry";
+﻿import { Parish } from "../../store/parish";
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
 import { Errors } from "../../apiHelpers";
 
 interface Props {
-    archdeaconry: Archdeaconry;
+    parish: Parish;
     onSubmit: () => void;
-    updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
+    updateParishName: (name: string) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     hasBeenSaved: boolean;
     errors: Errors;
 }
 
-const Form = ({ archdeaconry,
+const Form = ({ parish,
     onSubmit,
-    updateArchdeaconryName,
+    updateParishName,
     hasBeenChanged,
     hasBeenSaved,
     errors}: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateArchdeaconryName(event.target.value);
+        updateParishName(event.target.value);
     }
 
     const onFormSubmit = (event: React.FormEvent) => {
@@ -37,7 +37,7 @@ const Form = ({ archdeaconry,
                         id="name"
                         className="form-control"
                         type="text"
-                        value={archdeaconry.name}
+                        value={parish.name}
                         onChange={onNameChange}
                         maxLength={50}
                     />
@@ -56,7 +56,7 @@ const Form = ({ archdeaconry,
             </form>
             {
                     !hasBeenChanged && hasBeenSaved &&
-                    <p className="save-alert">Archdeaconry Saved!</p>
+                    <p className="save-alert">Parish Saved!</p>
             }
         </>
     );

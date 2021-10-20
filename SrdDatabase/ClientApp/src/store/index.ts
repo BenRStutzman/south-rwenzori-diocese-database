@@ -1,7 +1,9 @@
 import * as Archdeaconry from './archdeaconry';
+import * as Parish from './parish';
 
 export interface State {
     archdeaconry: Archdeaconry.State;
+    parish: Parish.State;
 }
 
 export interface Action {
@@ -11,6 +13,7 @@ export interface Action {
 
 export const reducers = {
     archdeaconry: Archdeaconry.reducer,
+    parish: Parish.reducer,
 };
 
 export interface AppThunkAction<TAction> {

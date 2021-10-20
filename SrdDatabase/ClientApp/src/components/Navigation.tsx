@@ -19,6 +19,9 @@ export default class Navigation extends React.PureComponent<{}, { isOpen: boolea
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/archdeaconry">Archdeaconries</NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink tag={Link} className="text-dark" to="/parish">Parishes</NavLink>
+                                </NavItem>
                             </ul>
                         </Collapse>
                     </Container>

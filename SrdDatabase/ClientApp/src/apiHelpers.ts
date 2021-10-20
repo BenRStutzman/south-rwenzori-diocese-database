@@ -12,3 +12,11 @@ export function post<TRequest>(url: string, data: TRequest): Promise<Response> {
 
     return fetch(url, requestOptions);
 };
+
+export interface Errors {
+    [fieldName: string]: string[];
+}
+
+export interface ErrorResponse {
+    errors: Errors
+};

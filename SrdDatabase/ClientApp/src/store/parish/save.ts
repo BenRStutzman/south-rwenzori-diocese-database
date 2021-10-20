@@ -1,31 +1,31 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
-import { Archdeaconry } from '.';
+import { Parish } from '.';
 import { History } from 'history';
 
-export const RESET_ARCHDEACONRY = 'RESET_ARCHDEACONRY';
-export const REQUEST_ARCHDEACONRY = 'REQUEST_ARCHDEACONRY';
-export const RECEIVE_ARCHDEACONRY = 'RECEIVE_ARCHDEACONRY';
-export const SET_ARCHDEACONRY_NAME = 'SET_ARCHDEACONRY_NAME';
+export const RESET_PARISH = 'RESET_PARISH';
+export const REQUEST_PARISH = 'REQUEST_PARISH';
+export const RECEIVE_PARISH = 'RECEIVE_PARISH';
+export const SET_PARISH_NAME = 'SET_PARISH_NAME';
 export const SET_HAS_BEEN_SAVED = 'SET_HAD_BEEN_SAVED';
 export const SET_ERRORS = 'SET_ERRORS';
 
-export const resetArchdeaconryAction = () => ({
-    type: RESET_ARCHDEACONRY,
+export const resetParishAction = () => ({
+    type: RESET_PARISH,
 })
 
-export const requestArchdeaconryAction = () => ({
-    type: REQUEST_ARCHDEACONRY,
+export const requestParishAction = () => ({
+    type: REQUEST_PARISH,
 });
 
-export const receiveArchdeaconryAction = (archdeaconry: Archdeaconry) => ({
-    type: RECEIVE_ARCHDEACONRY,
-    value: archdeaconry,
+export const receiveParishAction = (parish: Parish) => ({
+    type: RECEIVE_PARISH,
+    value: parish,
 });
 
-export const setArchdeaconryNameAction = (name: string) => ({
-    type: SET_ARCHDEACONRY_NAME,
+export const setParishNameAction = (name: string) => ({
+    type: SET_PARISH_NAME,
     value: name,
 });
 
@@ -40,14 +40,14 @@ export const setErrorsAction = (errors: Errors) => ({
 
 export interface State {
     isLoading: boolean;
-    archdeaconry: Archdeaconry;
+    parish: Parish;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
     errors: Errors;
 }
 
 const initialState: State = {
-    archdeaconry: {},
+    parish: {},
     isLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
@@ -56,26 +56,26 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_ARCHDEACONRY:
+        case RESET_PARISH:
             return initialState;
-        case REQUEST_ARCHDEACONRY:
+        case REQUEST_PARISH:
             return {
                 ...state,
                 isLoading: true,
             };
-        case RECEIVE_ARCHDEACONRY:
+        case RECEIVE_PARISH:
             return {
                 ...state,
-                archdeaconry: action.value,
+                parish: action.value,
                 errors: {},
                 isLoading: false,
                 hasBeenChanged: false,
             };
-        case SET_ARCHDEACONRY_NAME:
+        case SET_PARISH_NAME:
             return {
                 ...state,
-                archdeaconry: {
-                    ...state.archdeaconry,
+                parish: {
+                    ...state.parish,
                     name: action.value,
                 },
                 hasBeenChanged: true,
@@ -95,28 +95,28 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     }
 };
 
-const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
-    get<Archdeaconry>(`api/archdeaconry/${id}`)
-        .then(archdeaconry => {
-            dispatch(receiveArchdeaconryAction(archdeaconry));
+const loadParish = (id: number): AppThunkAction<Action> => (dispatch) => {
+    get<Parish>(`api/parish/${id}`)
+        .then(parish => {
+            dispatch(receiveParishAction(parish));
         });
 
-    dispatch(requestArchdeaconryAction());
+    dispatch(requestParishAction());
 }
 
-const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThunkAction<Action> => (dispatch) => {
-    post<Archdeaconry>('api/archdeaconry/save', archdeaconry)
+const saveParish = (parish: Parish, history: History): AppThunkAction<Action> => (dispatch) => {
+    post<Parish>('api/parish/save', parish)
         .then(response => {
             if (response.ok) {
                 return response.json() as Promise<number>;
             } else {
                 throw response.json();
             }
-        }).then(archdeaconryId => {
-            if (archdeaconry.id) {
-                dispatch(loadArchdeaconry(archdeaconry.id));
+        }).then(parishId => {
+            if (parish.id) {
+                dispatch(loadParish(parish.id));
             } else {
-                history.push(`/archdeaconry/edit/${archdeaconryId}`);
+                history.push(`/parish/edit/${parishId}`);
             }
             dispatch(setHasBeenSavedAction());
         }).catch(errorPromise => {
@@ -126,17 +126,17 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
         });
 };
 
-const setArchdeaconryName = (name: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setArchdeaconryNameAction(name));
+const setParishName = (name: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParishNameAction(name));
 };
 
-const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetArchdeaconryAction());
+const resetParish = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(resetParishAction());
 }
 
 export const actionCreators = {
-    resetArchdeaconry,
-    loadArchdeaconry,
-    saveArchdeaconry,
-    setArchdeaconryName,
+    resetParish,
+    loadParish,
+    saveParish,
+    setParishName,
 };

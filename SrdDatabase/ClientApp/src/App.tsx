@@ -6,6 +6,9 @@ import './site.css'
 import ArchdeaconrySearch from './components/archdeaconry/Search';
 import ArchdeaconryAdd from './components/archdeaconry/Add';
 import ArchdeaconryEdit from './components/archdeaconry/Edit';
+import ParishSearch from './components/parish/Search';
+import ParishAdd from './components/parish/Add';
+import ParishEdit from './components/parish/Edit';
 
 export default () => (
     <Layout>
@@ -13,5 +16,8 @@ export default () => (
         <Route exact path='/archdeaconry' component={ArchdeaconrySearch} />
         <Route exact path='/archdeaconry/add' component={ArchdeaconryAdd} />
         <Route exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} />
+        <Route exact path='/parish' component={ParishSearch} />
+        <Route exact path='/parish/add' component={ParishAdd} />
+        <Route exact path='/parish/edit/:parishId' component={ParishEdit} />
     </Layout>
 );
