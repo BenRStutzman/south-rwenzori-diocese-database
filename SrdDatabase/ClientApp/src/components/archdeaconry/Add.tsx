@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconries/save';
+import * as Store from '../../store/archdeaconry/save';
 import Form from './Form';
 
 type Props =
@@ -43,6 +43,6 @@ const Add = ({ archdeaconry,
 }
 
 export default connect(
-    (state: State) => state.archdeaconries.save,
+    (state: State) => state.archdeaconry.save,
     Store.actionCreators
 )(Add as any);

@@ -1,7 +1,7 @@
-import * as Archdeaconries from './archdeaconries/archdeaconry';
+import * as Archdeaconry from './archdeaconry/archdeaconry';
 
 export interface State {
-    archdeaconries: Archdeaconries.State;
+    archdeaconry: Archdeaconry.State;
 }
 
 export interface Action {
@@ -10,7 +10,7 @@ export interface Action {
 }
 
 export const reducers = {
-    archdeaconries: Archdeaconries.reducer,
+    archdeaconry: Archdeaconry.reducer,
 };
 
 export interface AppThunkAction<TAction> {

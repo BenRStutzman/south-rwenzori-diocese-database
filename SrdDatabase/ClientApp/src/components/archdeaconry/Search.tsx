@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconries/search';
-import { Archdeaconry } from '../../store/archdeaconries/archdeaconry';
+import * as Store from '../../store/archdeaconry/search';
+import { Archdeaconry } from '../../store/archdeaconry/archdeaconry';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
@@ -52,6 +52,6 @@ const Home = ({ archdeaconries, history, loadArchdeaconries, deleteArchdeaconry 
 }    
 
 export default connect(
-    (state: State) => state.archdeaconries.home,
+    (state: State) => state.archdeaconry.home,
     Store.actionCreators
 )(Home as any);

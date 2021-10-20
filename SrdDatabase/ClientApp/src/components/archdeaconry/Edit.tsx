@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconries/save';
+import * as Store from '../../store/archdeaconry/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
@@ -49,6 +49,6 @@ const Edit = ({ isLoading,
 }
 
 export default connect(
-    (state: State) => state.archdeaconries.save,
+    (state: State) => state.archdeaconry.save,
     Store.actionCreators
 )(Edit as any);
