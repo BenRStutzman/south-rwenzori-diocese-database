@@ -5,13 +5,14 @@ import * as Store from '../../store/archdeaconry/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State
     & typeof Store.actionCreators
     & RouteComponentProps<{ archdeaconryId: string }>;
 
-const Edit = ({ isLoading,
+const Edit = ({ archdeaconryLoading,
     history,
     archdeaconry,
     setArchdeaconryName,
@@ -32,20 +33,20 @@ const Edit = ({ isLoading,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return isLoading
-        ? <h1>Loading...</h1>
-        :
-            <>
-                <h1>Edit {archdeaconry.name} Archdeaconry</h1>
-                <Form
-                archdeaconry={archdeaconry}
-                updateArchdeaconryName={setArchdeaconryName}
-                onSubmit={onSubmit}
-                hasBeenChanged={hasBeenChanged}
-                hasBeenSaved={hasBeenSaved}
-                errors={errors}
-                />
-            </>;
+    return (
+        <>
+        <h1>Edit {archdeaconry.name} Archdeaconry</h1>
+        {archdeaconryLoading ? <Spinner /> :
+            <Form
+            archdeaconry={archdeaconry}
+            updateArchdeaconryName={setArchdeaconryName}
+            onSubmit={onSubmit}
+            hasBeenChanged={hasBeenChanged}
+            hasBeenSaved={hasBeenSaved}
+            errors={errors}
+            />
+            }
+        </>);
 }
 
 export default connect(

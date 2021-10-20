@@ -4,17 +4,21 @@ import { get, post } from '../../apiHelpers';
 import { Archdeaconry } from '.';
 
 export interface State {
-    archdeaconriesLoading: boolean;
     archdeaconries: Archdeaconry[];
+    archdeaconriesLoading: boolean;
 }
 
-const initialState: State = { archdeaconries: [], archdeaconriesLoading: true };
+const initialState: State = {
+    archdeaconries: [],
+    archdeaconriesLoading: true
+};
 
 export const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
 export const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
 
-export const requestArchdeaconriesAction = () => ({
+export const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
     type: REQUEST_ARCHDEACONRIES,
+    value: showLoading,
 });
 
 export const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
@@ -27,7 +31,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_ARCHDEACONRIES:
             return {
                 ...state,
-                archdeaconriesLoading: true,
+                archdeaconriesLoading: action.value,
             };
         case RECEIVE_ARCHDEACONRIES:
             return {
@@ -40,20 +44,20 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     }
 };
 
-export const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
+export const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     get<Archdeaconry[]>('api/archdeaconry/all')
         .then(archdeaconries => {
             dispatch(receiveArchdeaconriesAction(archdeaconries));
         });
 
-    dispatch(requestArchdeaconriesAction());
+    dispatch(requestArchdeaconriesAction(showLoading));
 };
 
 const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadArchdeaconries());
+                dispatch(loadArchdeaconries(false));
             } else {
                 throw response.text();
             }

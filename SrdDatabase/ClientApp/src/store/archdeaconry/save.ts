@@ -39,7 +39,7 @@ export const setErrorsAction = (errors: Errors) => ({
 })
 
 export interface State {
-    isLoading: boolean;
+    archdeaconryLoading: boolean;
     archdeaconry: Archdeaconry;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
@@ -48,7 +48,7 @@ export interface State {
 
 const initialState: State = {
     archdeaconry: {},
-    isLoading: true,
+    archdeaconryLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
     errors: {},
@@ -57,18 +57,21 @@ const initialState: State = {
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
         case RESET_ARCHDEACONRY:
-            return initialState;
+            return {
+                ...initialState,
+                archdeaconryLoading: false,
+            }
         case REQUEST_ARCHDEACONRY:
             return {
                 ...state,
-                isLoading: true,
+                archdeaconryLoading: true,
             };
         case RECEIVE_ARCHDEACONRY:
             return {
                 ...state,
                 archdeaconry: action.value,
                 errors: {},
-                isLoading: false,
+                archdeaconryLoading: false,
                 hasBeenChanged: false,
             };
         case SET_ARCHDEACONRY_NAME:
@@ -89,6 +92,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
             return {
                 ...state,
                 errors: action.value,
+                archdeaconryLoading: false,
             };
         default:
             return state;
@@ -124,6 +128,8 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
                 dispatch(setErrorsAction(errorResponse.errors));
             });
         });
+
+    dispatch(requestArchdeaconryAction());
 };
 
 const setArchdeaconryName = (name: string): AppThunkAction<Action> => (dispatch) => {
