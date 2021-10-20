@@ -33,13 +33,20 @@ const Form = ({ archdeaconry,
             <form onSubmit={onFormSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
-                    <input id="name" className="form-control" type="text" value={archdeaconry.name} onChange={onNameChange} />
-                    {errors.Name &&
-                        <div className="fieldError">
-                            {errors.Name.join(" ")}
-                        </div>
-                    }
+                    <input
+                        id="name"
+                        className="form-control"
+                        type="text"
+                        value={archdeaconry.name}
+                        onChange={onNameChange} />
                 </div>
+                {Object.values(errors).length > 0 &&
+                    <ul>
+                    {Object.values(errors).map((errorList: string[]) =>
+                        <li>{errorList.join(" ")}</li>
+                    )}
+                    </ul>
+                }
                 <button className="btn btn-primary" type="submit">Submit</button>
             </form>
             {
