@@ -13,28 +13,26 @@ const initialState: State = {
     archdeaconriesLoading: true
 };
 
-export const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
-export const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
+export const REQUEST_PARISHES = 'REQUEST_ARCHDEACONRIES';
+export const RECEIVRECEIVE_PARISHESCEIVE_ARCHDEACONRIES';
 
 export const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
-    type: REQUEST_ARCHDEACONRIES,
+    type: REQUEST_PARISHES,
     value: showLoading,
 });
 
 export const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
-    type: RECEIVE_ARCHDEACONRIES,
-    value: archdeaconries,
+    type: RECEIVE_ARCHRECEIVE_PARISHES: archdeaconries,
 });
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_ARCHDEACONRIES:
+        case REQUEST_PARISHES:
             return {
                 ...state,
                 archdeaconriesLoading: action.value,
             };
-        case RECEIVE_ARCHDEACONRIES:
-            return {
+        case RECEIVE_ARCHDEACONRECEIVE_PARISHESurn {
                 ...state,
                 archdeaconries: action.value,
                 archdeaconriesLoading: false,
@@ -44,7 +42,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     }
 };
 
-export const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
+export const loadParishes = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     get<Archdeaconry[]>('api/archdeaconry/all')
         .then(archdeaconries => {
             dispatch(receiveArchdeaconriesAction(archdeaconries));
@@ -57,7 +55,7 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadArchdeaconries(false));
+                dispatch(loadParishes(false));
             } else {
                 throw response.text();
             }
@@ -69,6 +67,6 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
 };
 
 export const actionCreators = {
-    loadArchdeaconries,
+    loadParishes,
     deleteArchdeaconry,
 };

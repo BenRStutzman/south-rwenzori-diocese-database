@@ -3,7 +3,7 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Parish } from '.';
 import { History } from 'history';
-import { loadArchdeaconries, RECEIVE_ARCHDEACONRIES, REQUEST_ARCHDEACONRIES } from '../archdeaconry/search';
+import { loadParishes, RECEIVE_PARISHES, REQUEST_PARISHES } from '../archdeaconry/search';
 import { Archdeaconry } from '../archdeaconry';
 
 export const RESET_PARISH = 'RESET_PARISH';
@@ -83,13 +83,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parishLoading: false,
                 hasBeenChanged: false,
             };
-        case REQUEST_ARCHDEACONRIES:
+        case REQUEST_PARISHES:
             return {
                 ...state,
                 archdeaconriesLoading: true,
             };
-        case RECEIVE_ARCHDEACONRIES:
-            return {
+        case RECEIVE_ARCHRECEIVE_PARISHES   return {
                 ...state,
                 archdeaconries: action.value,
                 archdeaconriesLoading: false,
@@ -171,7 +170,7 @@ const resetParish = (): AppThunkAction<Action> => (dispatch) => {
 }
 
 export const actionCreators = {
-    loadArchdeaconries,
+    loadParishes,
     resetParish,
     loadParish,
     saveParish,
