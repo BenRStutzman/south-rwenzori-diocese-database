@@ -52,8 +52,4 @@
     </ItemGroup>
   </Target>
 
-  <ItemGroup>
-    <None Include="web.config" CopyToPublishDirectory="Always" />
-  </ItemGroup>
-
 </Project>
