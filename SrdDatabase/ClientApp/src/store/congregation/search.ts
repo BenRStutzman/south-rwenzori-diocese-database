@@ -13,8 +13,9 @@ const initialState: State = { congregations: [], isLoading: true };
 export const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 export const RECEIVE_CONGREGATIONS = 'RECEIVE_CONGREGATIONS';
 
-export const requestCongregationsAction = () => ({
+export const requestCongregationsAction = (showLoading: boolean = true) => ({
     type: REQUEST_CONGREGATIONS,
+    value: showLoading,
 });
 
 export const receiveCongregationsAction = (congregations: Congregation[]) => ({
@@ -40,20 +41,20 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     }
 };
 
-const loadCongregations = (): AppThunkAction<Action> => (dispatch) => {
+export const loadCongregations = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     get<Congregation[]>('api/congregation/all')
         .then(congregations => {
             dispatch(receiveCongregationsAction(congregations));
         });
 
-    dispatch(requestCongregationsAction());
+    dispatch(requestCongregationsAction(showLoading));
 };
 
 const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
     post<{ id: number }>('api/congregation/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadCongregations());
+                dispatch(loadCongregations(false));
             } else {
                 throw response.text();
             }

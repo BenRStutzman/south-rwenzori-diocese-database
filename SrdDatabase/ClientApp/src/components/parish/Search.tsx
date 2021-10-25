@@ -8,7 +8,7 @@ import { RouteComponentProps } from 'react-router';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Home = ({ parishes, history, loadParishes, deleteParish }: Props) => {
+const Search = ({ parishes, history, loadParishes, deleteParish }: Props) => {
     const loadData = () => { loadParishes() };
 
     useEffect(loadData, []);
@@ -56,4 +56,4 @@ const Home = ({ parishes, history, loadParishes, deleteParish }: Props) => {
 export default connect(
     (state: State) => state.parish.home,
     Store.actionCreators
-)(Home as any);
+)(Search as any);

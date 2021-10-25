@@ -3,7 +3,7 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Congregation } from '.';
 import { History } from 'history';
-import { loadParishes, RECEIVE_PARISHES, REQUEST_PARISHES } from '../archdeaconry/search';
+import { loadParishes, RECEIVE_PARISHES, REQUEST_PARISHES } from '../parish/search';
 import { Archdeaconry } from '../archdeaconry';
 
 export const RESET_CONGREGATION = 'RESET_CONGREGATION';
@@ -162,8 +162,8 @@ const setCongregationName = (name: string): AppThunkAction<Action> => (dispatch)
     dispatch(setCongregationNameAction(name));
 };
 
-const setCongregationArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setCongregationParishIdAction(archdeaconryId));
+const setCongregationParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationParishIdAction(parishId));
 };
 
 const resetCongregation = (): AppThunkAction<Action> => (dispatch) => {
@@ -176,5 +176,5 @@ export const actionCreators = {
     loadCongregation,
     saveCongregation,
     setCongregationName,
-    setCongregationArchdeaconryId,
+    setCongregationParishId,
 };

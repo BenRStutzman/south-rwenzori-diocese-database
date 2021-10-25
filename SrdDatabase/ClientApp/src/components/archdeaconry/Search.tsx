@@ -9,7 +9,7 @@ import { Spinner } from 'reactstrap';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Home = ({ archdeaconries, archdeaconriesLoading, history, loadArchdeaconries, deleteArchdeaconry }: Props) => {
+const Search = ({ archdeaconries, archdeaconriesLoading, history, loadArchdeaconries, deleteArchdeaconry }: Props) => {
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
@@ -58,4 +58,4 @@ const Home = ({ archdeaconries, archdeaconriesLoading, history, loadArchdeaconri
 export default connect(
     (state: State) => state.archdeaconry.home,
     Store.actionCreators
-)(Home as any);
+)(Search as any);

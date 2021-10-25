@@ -1,35 +1,35 @@
-﻿import { Parish } from "../../store/parish";
+﻿import { Congregation } from "../../store/congregation";
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
 import { Errors } from "../../apiHelpers";
-import { Archdeaconry } from "../../store/archdeaconry";
+import { Parish } from "../../store/parish";
 
 interface Props {
-    parish: Parish;
+    congregation: Congregation;
     onSubmit: () => void;
-    updateParishName: (name: string) => AppThunkAction<Action>;
-    updateParishArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
+    updateCongregationName: (name: string) => AppThunkAction<Action>;
+    updateCongregationParishId: (parishId: number) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     hasBeenSaved: boolean;
     errors: Errors;
-    archdeaconries: Archdeaconry[];
+    parishes: Parish[];
 }
 
-const Form = ({ parish,
-    archdeaconries,
+const Form = ({ congregation,
+    parishes,
     onSubmit,
-    updateParishName,
-    updateParishArchdeaconryId,
+    updateCongregationName,
+    updateCongregationParishId,
     hasBeenChanged,
     hasBeenSaved,
     errors}: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateParishName(event.target.value);
+        updateCongregationName(event.target.value);
     }
 
-    const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateParishArchdeaconryId(parseInt(event.target.value));
+    const onParishIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        updateCongregationParishId(parseInt(event.target.value));
     }
 
     const onFormSubmit = (event: React.FormEvent) => {
@@ -46,25 +46,25 @@ const Form = ({ parish,
                         id="name"
                         className="form-control"
                         type="text"
-                        value={parish.name ? parish.name : ""}
+                        value={congregation.name ? congregation.name : ""}
                         onChange={onNameChange}
                         maxLength={50}
                         required
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="archdeaconryId">Archdeaconry</label>
+                    <label htmlFor="parishId">Parish</label>
                     <select
-                        id="archdeaconryId"
+                        id="parishId"
                         className="form-control"
-                        value={parish.archdeaconryId ? parish.archdeaconryId : ""}
-                        onChange={onArchdeaconryIdChange}
+                        value={congregation.parishId ? congregation.parishId : ""}
+                        onChange={onParishIdChange}
                         required
                     >
-                        <option key={0} value="" disabled>--- select an archdeaconry ---</option>
-                        {archdeaconries.map(archdeaconry =>
-                            <option key={archdeaconry.id} value={archdeaconry.id}>
-                                {archdeaconry.name}
+                        <option key={0} value="" disabled>--- select a parish ---</option>
+                        {parishes.map(parish =>
+                            <option key={parish.id} value={parish.id}>
+                                {parish.name}
                             </option>
                         )}
                     </select>
@@ -83,7 +83,7 @@ const Form = ({ parish,
             </form>
             {
                 !hasBeenChanged && hasBeenSaved &&
-                <p className="save-alert">Parish Saved!</p>
+                <p className="save-alert">Congregation Saved!</p>
             }
         </>
     );

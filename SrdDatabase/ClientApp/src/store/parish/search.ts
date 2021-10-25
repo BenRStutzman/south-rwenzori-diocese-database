@@ -13,8 +13,9 @@ const initialState: State = { parishes: [], isLoading: true };
 export const REQUEST_PARISHES = 'REQUEST_PARISHES';
 export const RECEIVE_PARISHES = 'RECEIVE_PARISHES';
 
-export const requestParishesAction = () => ({
+export const requestParishesAction = (showLoading: boolean = true) => ({
     type: REQUEST_PARISHES,
+    value: showLoading,
 });
 
 export const receiveParishesAction = (parishes: Parish[]) => ({
@@ -40,20 +41,20 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     }
 };
 
-const loadParishes = (): AppThunkAction<Action> => (dispatch) => {
+export const loadParishes = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     get<Parish[]>('api/parish/all')
         .then(parishes => {
             dispatch(receiveParishesAction(parishes));
         });
 
-    dispatch(requestParishesAction());
+    dispatch(requestParishesAction(showLoading));
 };
 
 const deleteParish = (id: number): AppThunkAction<Action> => (dispatch) => {
     post<{ id: number }>('api/parish/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadParishes());
+                dispatch(loadParishes(false));
             } else {
                 throw response.text();
             }
