@@ -18,7 +18,7 @@
             Archdeaconry = archdeaconry;
         }
 
-        // For Dapper
+        // for Dapper
         public Parish()
         {
         }

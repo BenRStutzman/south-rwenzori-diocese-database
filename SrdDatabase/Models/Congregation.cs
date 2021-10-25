@@ -6,6 +6,8 @@
 
         public string Name { get; }
 
+        public int ParishId { get; }
+
         public string Parish { get; }
 
         public string Archdeaconry { get; }
@@ -13,14 +15,21 @@
         public Congregation(
             int id,
             string name,
+            int parishId,
             string parish,
             string archdeaconry
             )
         {
             Id = id;
             Name = name;
+            ParishId = parishId;
             Parish = parish;
             Archdeaconry = archdeaconry;
+        }
+
+        // for Dapper
+        public Congregation()
+        {
         }
     }
 }
