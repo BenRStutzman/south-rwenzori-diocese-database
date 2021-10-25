@@ -4,7 +4,7 @@ import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Congregation } from '.';
 import { History } from 'history';
 import { loadParishes, RECEIVE_PARISHES, REQUEST_PARISHES } from '../parish/search';
-import { Archdeaconry } from '../archdeaconry';
+import { Parish } from '../parish';
 
 export const RESET_CONGREGATION = 'RESET_CONGREGATION';
 export const REQUEST_CONGREGATION = 'REQUEST_CONGREGATION';
@@ -49,7 +49,7 @@ export const setCongregationErrorsAction = (errors: Errors) => ({
 export interface State {
     congregationLoading: boolean;
     parishesLoading: boolean;
-    parishes: Archdeaconry[];
+    parishes: Parish[];
     congregation: Congregation;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
@@ -59,7 +59,7 @@ export interface State {
 const initialState: State = {
     congregation: {},
     parishes: [],
-    congregationLoading: true,
+    congregationoading: true,
     parishesLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
@@ -69,7 +69,11 @@ const initialState: State = {
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
         case RESET_CONGREGATION:
-            return initialState;
+            return {
+                ...state,
+                congregation: {},
+                congregationLoading: true
+            }
         case REQUEST_CONGREGATION:
             return {
                 ...state,

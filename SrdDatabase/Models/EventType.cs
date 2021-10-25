@@ -2,11 +2,11 @@
 {
     public class EventType
     {
-        public byte Id { get; }
+        public sbyte Id { get; }
 
         public string Name { get; }
 
-        public EventType(byte id, string name)
+        public EventType(sbyte id, string name)
         {
             Id = id;
             Name = name;

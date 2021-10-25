@@ -12,6 +12,9 @@ import ParishEdit from './components/parish/Edit';
 import CongregationSearch from './components/congregation/Search';
 import CongregationAdd from './components/congregation/Add';
 import CongregationEdit from './components/congregation/Edit';
+import EventSearch from './components/event/Search';
+import EventAdd from './components/event/Add';
+import EventEdit from './components/event/Edit';
 
 export default () => (
     <Layout>
@@ -25,5 +28,8 @@ export default () => (
         <Route exact path='/congregation' component={CongregationSearch} />
         <Route exact path='/congregation/add' component={CongregationAdd} />
         <Route exact path='/congregation/edit/:congregationId' component={CongregationEdit} />
+        <Route exact path='/event' component={EventSearch} />
+        <Route exact path='/event/add' component={EventAdd} />
+        <Route exact path='/event/edit/:eventId' component={EventEdit} />
     </Layout>
 );

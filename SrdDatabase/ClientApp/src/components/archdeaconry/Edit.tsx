@@ -33,20 +33,18 @@ const Edit = ({ archdeaconryLoading,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return (
+    return archdeaconryLoading ? <Spinner /> :
         <>
-        <h1>Edit {archdeaconry.name} Archdeaconry</h1>
-        {archdeaconryLoading ? <Spinner /> :
+            <h1>Edit {archdeaconry.name} Archdeaconry</h1>
             <Form
-            archdeaconry={archdeaconry}
-            updateArchdeaconryName={setArchdeaconryName}
-            onSubmit={onSubmit}
-            hasBeenChanged={hasBeenChanged}
-            hasBeenSaved={hasBeenSaved}
-            errors={errors}
+                archdeaconry={archdeaconry}
+                updateArchdeaconryName={setArchdeaconryName}
+                onSubmit={onSubmit}
+                hasBeenChanged={hasBeenChanged}
+                hasBeenSaved={hasBeenSaved}
+                errors={errors}
             />
-            }
-        </>);
+        </>;
 }
 
 export default connect(

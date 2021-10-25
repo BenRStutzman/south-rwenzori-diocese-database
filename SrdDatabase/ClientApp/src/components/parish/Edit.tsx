@@ -5,13 +5,16 @@ import * as Store from '../../store/parish/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State
     & typeof Store.actionCreators
     & RouteComponentProps<{ parishId: string }>;
 
-const Edit = ({ parishLoading,
+const Edit = ({
+    parishLoading,
+    archdeaconriesLoading,
     history,
     parish,
     archdeaconries,
@@ -36,22 +39,20 @@ const Edit = ({ parishLoading,
         saveParish(parish, history);
     }
 
-    return parishLoading
-        ? <h1>Loading...</h1>
-        :
-            <>
-                <h1>Edit {parish.name} Parish</h1>
-                <Form
-                    parish={parish}
-                    archdeaconries={archdeaconries}
-                    updateParishName={setParishName}
-                    updateParishArchdeaconryId={setParishArchdeaconryId}
-                    onSubmit={onSubmit}
-                    hasBeenChanged={hasBeenChanged}
-                    hasBeenSaved={hasBeenSaved}
-                    errors={errors}
-                />
-            </>;
+    return parishLoading || archdeaconriesLoading ? <Spinner /> :
+        <>
+            <h1>Edit {parish.name} Parish</h1>
+            <Form
+                parish={parish}
+                archdeaconries={archdeaconries}
+                updateParishName={setParishName}
+                updateParishArchdeaconryId={setParishArchdeaconryId}
+                onSubmit={onSubmit}
+                hasBeenChanged={hasBeenChanged}
+                hasBeenSaved={hasBeenSaved}
+                errors={errors}
+            />
+        </>;
 }
 
 export default connect(

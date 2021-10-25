@@ -6,7 +6,7 @@ namespace SrdDatabase.Models
     {
         public int Id { get; }
 
-        public byte EventTypeId { get; }
+        public sbyte EventTypeId { get; }
 
         public string EventType { get; }
 
@@ -24,7 +24,7 @@ namespace SrdDatabase.Models
 
         public Event(
             int id,
-            byte eventTypeId,
+            sbyte eventTypeId,
             string eventType,
             int congregationId,
             string congregation,

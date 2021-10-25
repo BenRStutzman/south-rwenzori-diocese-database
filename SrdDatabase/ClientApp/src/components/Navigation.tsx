@@ -10,20 +10,23 @@ export default class Navigation extends React.PureComponent<{}, { isOpen: boolea
     public render() {
         return (
             <header>
-                <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
+                <Navbar className='navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3' light>
                     <Container>
-                        <NavbarBrand tag={Link} to="/">South Rwenzori Diocese Database</NavbarBrand>
-                        <NavbarToggler onClick={this.toggle} className="mr-2"/>
-                        <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-                            <ul className="navbar-nav flex-grow">
+                        <NavbarBrand tag={Link} to='/'>South Rwenzori Diocese Database</NavbarBrand>
+                        <NavbarToggler onClick={this.toggle} className='mr-2'/>
+                        <Collapse className='d-sm-inline-flex flex-sm-row-reverse' isOpen={this.state.isOpen} navbar>
+                            <ul className='navbar-nav flex-grow'>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/archdeaconry">Archdeaconries</NavLink>
+                                    <NavLink tag={Link} className='text-dark' to='/archdeaconry'>Archdeaconries</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/parish">Parishes</NavLink>
+                                    <NavLink tag={Link} className='text-dark' to='/parish'>Parishes</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/congregation">Congregations</NavLink>
+                                    <NavLink tag={Link} className='text-dark' to='/congregation'>Congregations</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
                                 </NavItem>
                             </ul>
                         </Collapse>

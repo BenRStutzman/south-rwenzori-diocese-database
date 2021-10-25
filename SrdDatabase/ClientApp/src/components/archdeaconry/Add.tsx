@@ -29,22 +29,19 @@ const Add = ({ archdeaconry,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return (
+    return archdeaconryLoading ? <Spinner /> :
         <>
             <h1>Add Archdeaconry</h1>
-            {archdeaconryLoading ? <Spinner /> :
-                <Form
-                    archdeaconry={archdeaconry}
-                    updateArchdeaconryName={setArchdeaconryName}
-                    onSubmit={onSubmit}
-                    hasBeenSaved={hasBeenSaved}
-                    hasBeenChanged={hasBeenChanged}
-                    errors={errors}
-                />
-            }
-        </>
-    );
-}
+            <Form
+                archdeaconry={archdeaconry}
+                updateArchdeaconryName={setArchdeaconryName}
+                onSubmit={onSubmit}
+                hasBeenSaved={hasBeenSaved}
+                hasBeenChanged={hasBeenChanged}
+                errors={errors}
+            />
+        </>;
+};
 
 export default connect(
     (state: State) => state.archdeaconry.save,

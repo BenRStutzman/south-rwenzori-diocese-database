@@ -69,7 +69,11 @@ const initialState: State = {
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
         case RESET_PARISH:
-            return initialState;
+            return {
+                ...state,
+                parish: {},
+                parishLoading: false,
+            };
         case REQUEST_PARISH:
             return {
                 ...state,

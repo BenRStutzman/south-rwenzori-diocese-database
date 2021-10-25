@@ -4,7 +4,7 @@ import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Event, EventType } from '.';
 import { History } from 'history';
 import { loadCongregations, REQUEST_CONGREGATIONS, RECEIVE_CONGREGATIONS } from '../congregation/search';
-import { Archdeaconry } from '../archdeaconry';
+import { Congregation } from '../congregation';
 
 export const RESET_EVENT = 'RESET_EVENT';
 export const REQUEST_EVENT = 'REQUEST_EVENT';
@@ -75,7 +75,7 @@ export interface State {
     eventTypesLoading: boolean;
     eventTypes: EventType[];
     congregationsLoading: boolean;
-    congregations: Archdeaconry[];
+    congregations: Congregation[];
     event: Event;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
@@ -97,7 +97,11 @@ const initialState: State = {
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
         case RESET_EVENT:
-            return initialState;
+            return {
+                ...state,
+                event: {},
+                eventLoading: false,
+            };
         case REQUEST_EVENT:
             return {
                 ...state,

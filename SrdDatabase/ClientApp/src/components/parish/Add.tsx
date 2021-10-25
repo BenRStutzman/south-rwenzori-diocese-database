@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Spinner } from 'reactstrap';
 import { State } from '../../store';
 import * as Store from '../../store/parish/save';
 import Form from './Form';
@@ -12,6 +13,8 @@ type Props =
     & RouteComponentProps;
 
 const Add = ({
+    parishLoading,
+    archdeaconriesLoading,
     parish,
     archdeaconries,
     loadArchdeaconries,
@@ -34,7 +37,7 @@ const Add = ({
         saveParish(parish, history);
     }
 
-    return (
+    return parishLoading || archdeaconriesLoading ? <Spinner /> :
         <>
             <h1>Add Parish</h1>
             <Form
@@ -47,8 +50,7 @@ const Add = ({
                 errors={errors}
                 archdeaconries={archdeaconries}
             />
-        </>
-    );
+        </>;
 }
 
 export default connect(

@@ -58,7 +58,8 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
     switch (action.type) {
         case RESET_ARCHDEACONRY:
             return {
-                ...initialState,
+                ...state,
+                archdeaconry: {},
                 archdeaconryLoading: false,
             }
         case REQUEST_ARCHDEACONRY:
@@ -83,7 +84,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_HAS_BEEN_SAVED:
+        case SET_ARCHDEACONRY_HAS_BEEN_SAVED:
             return {
                 ...state,
                 hasBeenSaved: true,

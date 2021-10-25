@@ -5,13 +5,16 @@ import * as Store from '../../store/congregation/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State
     & typeof Store.actionCreators
     & RouteComponentProps<{ congregationId: string }>;
 
-const Edit = ({ congregationLoading,
+const Edit = ({
+    congregationLoading,
+    parishesLoading,
     history,
     congregation,
     parishes,
@@ -36,22 +39,20 @@ const Edit = ({ congregationLoading,
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading
-        ? <h1>Loading...</h1>
-        :
-            <>
-                <h1>Edit {congregation.name} Congregation</h1>
-                <Form
-                    congregation={congregation}
-                    parishes={parishes}
-                    updateCongregationName={setCongregationName}
-                    updateCongregationParishId={setCongregationParishId}
-                    onSubmit={onSubmit}
-                    hasBeenChanged={hasBeenChanged}
-                    hasBeenSaved={hasBeenSaved}
-                    errors={errors}
-                />
-            </>;
+    return congregationLoading || parishesLoading ? <Spinner /> :
+        <>
+            <h1>Edit {congregation.name} Congregation</h1>
+            <Form
+                congregation={congregation}
+                parishes={parishes}
+                updateCongregationName={setCongregationName}
+                updateCongregationParishId={setCongregationParishId}
+                onSubmit={onSubmit}
+                hasBeenChanged={hasBeenChanged}
+                hasBeenSaved={hasBeenSaved}
+                errors={errors}
+            />
+        </>;
 }
 
 export default connect(
