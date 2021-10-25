@@ -11,8 +11,8 @@ export const REQUEST_CONGREGATION = 'REQUEST_CONGREGATION';
 export const RECEIVE_CONGREGATION = 'RECEIVE_CONGREGATION';
 export const SET_CONGREGATION_NAME = 'SET_CONGREGATION_NAME';
 export const SET_CONGREGATION_PARISH_ID = 'SET_CONGREGATION_ARCHDEACONRY_ID';
-export const SET_HAS_BEEN_SAVED = 'SET_HAD_BEEN_SAVED';
-export const SET_ERRORS = 'SET_ERRORS';
+export const SET_CONGREGATION_HAS_BEEN_SAVED = 'SET_CONGREGATION_HAS_BEEN_SAVED';
+export const SET_CONGREGATION_ERRORS = 'SET_CONGREGATION_ERRORS';
 
 export const resetCongregationAction = () => ({
     type: RESET_CONGREGATION,
@@ -32,17 +32,17 @@ export const setCongregationNameAction = (name: string) => ({
     value: name,
 });
 
-export const setCongregationParishIdAction = (archdeaconryId: number) => ({
+export const setCongregationParishIdAction = (parishId: number) => ({
     type: SET_CONGREGATION_PARISH_ID,
-    value: archdeaconryId,
+    value: parishId,
 });
 
-export const setHasBeenSavedAction = () => ({
-    type: SET_HAS_BEEN_SAVED,
+export const setCongregationHasBeenSavedAction = () => ({
+    type: SET_CONGREGATION_HAS_BEEN_SAVED,
 });
 
-export const setErrorsAction = (errors: Errors) => ({
-    type: SET_ERRORS,
+export const setCongregationErrorsAction = (errors: Errors) => ({
+    type: SET_CONGREGATION_ERRORS,
     value: errors,
 })
 
@@ -112,12 +112,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_HAS_BEEN_SAVED:
+        case SET_CONGREGATION_HAS_BEEN_SAVED:
             return {
                 ...state,
                 hasBeenSaved: true,
             };
-        case SET_ERRORS:
+        case SET_CONGREGATION_ERRORS:
             return {
                 ...state,
                 errors: action.value,
@@ -150,10 +150,10 @@ const saveCongregation = (congregation: Congregation, history: History): AppThun
             } else {
                 history.push(`/congregation/edit/${congregationId}`);
             }
-            dispatch(setHasBeenSavedAction());
+            dispatch(setCongregationHasBeenSavedAction());
         }).catch(errorPromise => {
             errorPromise.then((errorResponse: ErrorResponse) => {
-                dispatch(setErrorsAction(errorResponse.errors));
+                dispatch(setCongregationErrorsAction(errorResponse.errors));
             });
         });
 };

@@ -11,8 +11,8 @@ export const REQUEST_PARISH = 'REQUEST_PARISH';
 export const RECEIVE_PARISH = 'RECEIVE_PARISH';
 export const SET_PARISH_NAME = 'SET_PARISH_NAME';
 export const SET_PARISH_ARCHDEACONRY_ID = 'SET_PARISH_ARCHDEACONRY_ID';
-export const SET_HAS_BEEN_SAVED = 'SET_HAD_BEEN_SAVED';
-export const SET_ERRORS = 'SET_ERRORS';
+export const SET_PARISH_HAS_BEEN_SAVED = 'SET_PARISH_HAS_BEEN_SAVED';
+export const SET_PARISH_ERRORS = 'SET_PARISH_ERRORS';
 
 export const resetParishAction = () => ({
     type: RESET_PARISH,
@@ -37,12 +37,12 @@ export const setParishArchdeaconryIdAction = (archdeaconryId: number) => ({
     value: archdeaconryId,
 });
 
-export const setHasBeenSavedAction = () => ({
-    type: SET_HAS_BEEN_SAVED,
+export const setParishHasBeenSavedAction = () => ({
+    type: SET_PARISH_HAS_BEEN_SAVED,
 });
 
-export const setErrorsAction = (errors: Errors) => ({
-    type: SET_ERRORS,
+export const setParishErrorsAction = (errors: Errors) => ({
+    type: SET_PARISH_ERRORS,
     value: errors,
 })
 
@@ -112,12 +112,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_HAS_BEEN_SAVED:
+        case SET_PARISH_HAS_BEEN_SAVED:
             return {
                 ...state,
                 hasBeenSaved: true,
             };
-        case SET_ERRORS:
+        case SET_PARISH_ERRORS:
             return {
                 ...state,
                 errors: action.value,
@@ -150,10 +150,10 @@ const saveParish = (parish: Parish, history: History): AppThunkAction<Action> =>
             } else {
                 history.push(`/parish/edit/${parishId}`);
             }
-            dispatch(setHasBeenSavedAction());
+            dispatch(setParishHasBeenSavedAction());
         }).catch(errorPromise => {
             errorPromise.then((errorResponse: ErrorResponse) => {
-                dispatch(setErrorsAction(errorResponse.errors));
+                dispatch(setParishErrorsAction(errorResponse.errors));
             });
         });
 };

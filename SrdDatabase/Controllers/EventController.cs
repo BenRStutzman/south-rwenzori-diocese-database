@@ -5,6 +5,7 @@ using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
+using SrdDatabase.Data.Queries;
 
 namespace SrdDatabase.Controllers
 {
@@ -31,6 +32,12 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetAllEvents.Query());
         }
 
+        [HttpGet("types")]
+        public async Task<IEnumerable<EventType>> GetTypes()
+        {
+            return await _mediator.Send(new GetEventTypes.Query());
+        }
+
         [HttpPost("search")]
         public async Task<IEnumerable<Event>> Search([FromBody] SearchEvents.Query query)
         {
@@ -38,19 +45,17 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<SaveResponse> Save([FromBody] SaveEvent.Command command)
+        public async Task<int> Save([FromBody] SaveEvent.Command command)
         {
-            var eventId = await _mediator.Send(command);
-
-            return SaveResponse.ForSuccess(eventId);
+            return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<DeleteResponse> Delete([FromBody] DeleteEvent.Command command)
+        public async Task<IActionResult> Delete([FromBody] DeleteEvent.Command command)
         {
             await _mediator.Send(command);
 
-            return DeleteResponse.ForSuccess();
+            return Ok();
         }
     }
 }

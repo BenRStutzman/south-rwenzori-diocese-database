@@ -8,8 +8,8 @@ export const RESET_ARCHDEACONRY = 'RESET_ARCHDEACONRY';
 export const REQUEST_ARCHDEACONRY = 'REQUEST_ARCHDEACONRY';
 export const RECEIVE_ARCHDEACONRY = 'RECEIVE_ARCHDEACONRY';
 export const SET_ARCHDEACONRY_NAME = 'SET_ARCHDEACONRY_NAME';
-export const SET_HAS_BEEN_SAVED = 'SET_HAD_BEEN_SAVED';
-export const SET_ERRORS = 'SET_ERRORS';
+export const SET_ARCHDEACONRY_HAS_BEEN_SAVED = 'SET_ARCHDEACONRY_HAS_BEEN_SAVED';
+export const SET_ARCHDEACONRY_ERRORS = 'SET_ARCHDEACONRY_ERRORS';
 
 export const resetArchdeaconryAction = () => ({
     type: RESET_ARCHDEACONRY,
@@ -29,12 +29,12 @@ export const setArchdeaconryNameAction = (name: string) => ({
     value: name,
 });
 
-export const setHasBeenSavedAction = () => ({
-    type: SET_HAS_BEEN_SAVED,
+export const setArchdeaconryHasBeenSavedAction = () => ({
+    type: SET_ARCHDEACONRY_HAS_BEEN_SAVED,
 });
 
-export const setErrorsAction = (errors: Errors) => ({
-    type: SET_ERRORS,
+export const setArchdeaconryErrorsAction = (errors: Errors) => ({
+    type: SET_ARCHDEACONRY_ERRORS,
     value: errors,
 })
 
@@ -88,7 +88,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 hasBeenSaved: true,
             };
-        case SET_ERRORS:
+        case SET_ARCHDEACONRY_ERRORS:
             return {
                 ...state,
                 errors: action.value,
@@ -122,10 +122,10 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
             } else {
                 history.push(`/archdeaconry/edit/${archdeaconryId}`);
             }
-            dispatch(setHasBeenSavedAction());
+            dispatch(setArchdeaconryHasBeenSavedAction());
         }).catch(errorPromise => {
             errorPromise.then((errorResponse: ErrorResponse) => {
-                dispatch(setErrorsAction(errorResponse.errors));
+                dispatch(setArchdeaconryErrorsAction(errorResponse.errors));
             });
         });
 
