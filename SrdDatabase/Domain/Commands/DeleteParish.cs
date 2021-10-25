@@ -34,11 +34,11 @@ namespace SrdDatabase.Domain.Commands
 
                 if (congregations.Any())
                 {
-                    return Response.ForError(@"
-                        Unable to delete this parish because it has congregations associated with it.
-                        Please delete all of those congregations or move them to another parish,
-                        then try again.
-                    ");
+                    return Response.ForError(
+                        "Unable to delete this parish because it has congregations associated with it. " +
+                        "Please delete all of those congregations or move them to another parish, " +
+                        "then try again."
+                    );
                 }
 
                 await _mediator.Send(

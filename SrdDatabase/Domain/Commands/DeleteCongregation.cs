@@ -34,11 +34,11 @@ namespace SrdDatabase.Domain.Commands
 
                 if (events.Any())
                 {
-                    return Response.ForError(@"
-                        Unable to delete this congregation because it has events associated with it.
-                        Please delete all of those events or move them to another congregation,
-                        then try again.
-                    ");
+                    return Response.ForError(
+                        "Unable to delete this congregation because it has events associated with it. " +
+                        "Please delete all of those events or move them to another congregation, " +
+                        "then try again."
+                    );
                 }
 
                 await _mediator.Send(
