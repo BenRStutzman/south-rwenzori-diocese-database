@@ -20,16 +20,15 @@ const Edit = ({
     event,
     congregations,
     eventTypes,
-    setEventPersonName,
-    setEventCongregationId,
-    setEventEventTypeId,
-    setEventDate,
+    setPersonName,
+    setCongregationId,
+    setEventTypeId,
+    setDate,
     loadEvent,
     loadCongregations,
     loadEventTypes,
     saveEvent,
     match,
-    hasBeenSaved,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => {
@@ -52,13 +51,12 @@ const Edit = ({
                 event={event}
                 eventTypes={eventTypes}
                 congregations={congregations}
-                updateEventPersonName={setEventPersonName}
-                updateEventCongregationId={setEventCongregationId}
-                updateEventEventTypeId={setEventEventTypeId}
-                updateEventDate={setEventDate}
-                onSubmit={onSubmit}
+                setPersonName={setPersonName}
+                setCongregationId={setCongregationId}
+                setEventTypeId={setEventTypeId}
+                setDate={setDate}
+                onSave={onSubmit}
                 hasBeenChanged={hasBeenChanged}
-                hasBeenSaved={hasBeenSaved}
                 errors={errors}
             />
         </>;

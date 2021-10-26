@@ -5,18 +5,22 @@ import { Congregation } from '.';
 import { History } from 'history';
 import { Parish } from '../parish';
 
-const RESET_CONGREGATION = 'CONGREGATION.RESET_CONGREGATION';
-const REQUEST_PARISHES = 'CONGREGATION.REQUEST_PARISHES';
-const RECEIVE_PARISHES = 'CONGREGATION.RECEIVE_PARISHES';
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
+const REQUEST_PARISHES = 'CONGREGATION.REQUEST_PARISHES';
+const RECEIVE_PARISHES = 'CONGREGATION.RECEIVE_PARISHES';
 const SET_NAME = 'CONGREGATION.SET_NAME';
 const SET_PARISH_ID = 'CONGREGATION.SET_PARISH_ID';
 const SET_IS_SAVING = 'CONGREGATION.SET_IS_SAVING';
 const SET_ERRORS = 'CONGREGATION.SET_ERRORS';
 
-const resetCongregationAction = () => ({
-    type: RESET_CONGREGATION,
+const requestCongregationAction = () => ({
+    type: REQUEST_CONGREGATION,
+});
+
+const receiveCongregationAction = (congregation: Congregation) => ({
+    type: RECEIVE_CONGREGATION,
+    value: congregation,
 });
 
 const requestParishesAction = () => ({
@@ -26,15 +30,6 @@ const requestParishesAction = () => ({
 const receiveParishesAction = (parishes: Parish[]) => ({
     type: RECEIVE_PARISHES,
     value: parishes,
-});
-
-const requestCongregationAction = () => ({
-    type: REQUEST_CONGREGATION,
-});
-
-const receiveCongregationAction = (congregation: Congregation) => ({
-    type: RECEIVE_CONGREGATION,
-    value: congregation,
 });
 
 const setNameAction = (name: string) => ({
@@ -58,7 +53,7 @@ const setErrorsAction = (errors: Errors) => ({
 })
 
 const resetCongregation = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetCongregationAction());
+    dispatch(receiveCongregationAction({}));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -73,7 +68,7 @@ const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
 const loadParishes = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestParishesAction());
 
-    get<Parish[]>('api/parishes/all')
+    get<Parish[]>('api/parish/all')
         .then(parishes => {
             dispatch(receiveParishesAction(parishes));
         });
@@ -139,12 +134,6 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_CONGREGATION:
-            return {
-                ...state,
-                congregation: {},
-                congregationLoading: true
-            }
         case REQUEST_CONGREGATION:
             return {
                 ...state,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconry/search';
+import * as Store from '../../store/archdeaconry/home';
 import { Archdeaconry } from '../../store/archdeaconry';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/event/search';
+import * as Store from '../../store/event/home';
 import { Event } from '../../store/event';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -9,7 +9,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({
+const Home = ({
     eventsLoading,
     events,
     history,
@@ -65,4 +65,4 @@ const Search = ({
 export default connect(
     (state: State) => state.event.home,
     Store.actionCreators
-)(Search as any);
+)(Home as any);

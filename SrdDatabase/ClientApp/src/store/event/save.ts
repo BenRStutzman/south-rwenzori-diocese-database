@@ -3,73 +3,143 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Event, EventType } from '.';
 import { History } from 'history';
-import { loadCongregations, REQUEST_CONGREGATIONS, RECEIVE_CONGREGATIONS } from '../congregation/search';
 import { Congregation } from '../congregation';
 
-export const RESET_EVENT = 'RESET_EVENT';
-export const REQUEST_EVENT = 'REQUEST_EVENT';
-export const RECEIVE_EVENT = 'RECEIVE_EVENT';
-export const REQUEST_EVENT_TYPES = 'REQUEST_EVENT_TYPES';
-export const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
-export const SET_EVENT_NAME = 'SET_EVENT_NAME';
-export const SET_EVENT_EVENT_TYPE_ID = 'SET_EVENT_EVENT_TYPE_ID';
-export const SET_EVENT_CONGREGATION_ID = 'SET_EVENT_CONGREGATION_ID';
-export const SET_EVENT_PERSON_NAME = 'SET_EVENT_PERSON_NAME';
-export const SET_EVENT_DATE = 'SET_EVENT_DATE';
-export const SET_EVENT_IS_SAVING = 'SET_EVENT_IS_SAVING';
-export const SET_EVENT_HAS_BEEN_SAVED = 'SET_EVENT_HAS_BEEN_SAVED';
-export const SET_EVENT_ERRORS = 'SET_EVENT_ERRORS';
+const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
+const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
+const REQUEST_EVENT_TYPES = 'EVENT.REQUEST_EVENT_TYPES';
+const RECEIVE_EVENT_TYPES = 'EVENT.RECEIVE_EVENT_TYPES';
+const REQUEST_CONGREGATIONS = 'EVENT.REQUEST_CONGREGATIONS';
+const RECEIVE_CONGREGATIONS = 'EVENT.RECEIVE_CONGREGATIONS';
+const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
+const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
+const SET_PERSON_NAME = 'EVENT.SET_PERSON_NAME';
+const SET_DATE = 'EVENT.SET_DATE';
+const SET_IS_SAVING = 'EVENT.SET_IS_SAVING';
+const SET_ERRORS = 'EVENT.SET_ERRORS';
 
-export const resetEventAction = () => ({
-    type: RESET_EVENT,
-})
-
-export const requestEventAction = () => ({
+const requestEventAction = () => ({
     type: REQUEST_EVENT,
 });
 
-export const receiveEventAction = (event: Event) => ({
+const receiveEventAction = (event: Event) => ({
     type: RECEIVE_EVENT,
     value: event,
 });
 
-export const requestEventTypesAction = () => ({
+const requestEventTypesAction = () => ({
     type: REQUEST_EVENT_TYPES,
 });
 
-export const receiveEventTypesAction = (eventTypes: EventType[]) => ({
+const receiveEventTypesAction = (eventTypes: EventType[]) => ({
     type: RECEIVE_EVENT_TYPES,
     value: eventTypes,
 });
 
-export const setEventEventTypeIdAction = (eventTypeId: number) => ({
-    type: SET_EVENT_EVENT_TYPE_ID,
+const requestCongregationsAction = () => ({
+    type: REQUEST_CONGREGATIONS,
+});
+
+const receiveCongregationsAction = (congregations: Congregation[]) => ({
+    type: RECEIVE_CONGREGATIONS,
+    value: congregations,
+});
+
+const setEventTypeIdAction = (eventTypeId: number) => ({
+    type: SET_EVENT_TYPE_ID,
     value: eventTypeId,
 });
 
-export const setEventCongregationIdAction = (congregationId: number) => ({
-    type: SET_EVENT_CONGREGATION_ID,
+const setCongregationIdAction = (congregationId: number) => ({
+    type: SET_CONGREGATION_ID,
     value: congregationId,
 });
 
-export const setEventPersonNameAction = (personName: string) => ({
-    type: SET_EVENT_PERSON_NAME,
+const setPersonNameAction = (personName: string) => ({
+    type: SET_PERSON_NAME,
     value: personName,
 });
 
-export const setEventDateAction = (date: Date) => ({
-    type: SET_EVENT_DATE,
+const setDateAction = (date: Date) => ({
+    type: SET_DATE,
     value: date,
 });
 
-export const setEventHasBeenSavedAction = () => ({
-    type: SET_EVENT_HAS_BEEN_SAVED,
+const setIsSavingAction = (isSaving: boolean) => ({
+    type: SET_IS_SAVING,
+    value: isSaving,
 });
 
-export const setEventErrorsAction = (errors: Errors) => ({
-    type: SET_EVENT_ERRORS,
+const setErrorsAction = (errors: Errors) => ({
+    type: SET_ERRORS,
     value: errors,
-})
+});
+
+const resetEvent = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveEventAction({}));
+};
+
+const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestEventAction());
+
+    get<Event>(`api/event/${id}`)
+        .then(event => {
+            dispatch(receiveEventAction(event));
+        });
+};
+
+const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestEventTypesAction());
+
+    get<EventType[]>('api/event/types')
+        .then(eventTypes => {
+            dispatch(receiveEventTypesAction(eventTypes));
+        });
+};
+
+const loadCongregations = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestCongregationsAction());
+
+    get<Congregation[]>('api/congregation/all')
+        .then(congregations => {
+            dispatch(receiveCongregationsAction(congregations));
+        });
+};
+
+const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsSavingAction(true));
+
+    post<Event>('api/event/save', event)
+        .then(response => {
+            if (response.ok) {
+                history.push('/event');
+            } else {
+                throw response.json();
+            }
+        }).catch(errorPromise => {
+            errorPromise.then((errorResponse: ErrorResponse) => {
+                dispatch(setErrorsAction(errorResponse.errors));
+            });
+        }).finally(() => {
+            dispatch(setIsSavingAction(false));
+        });
+};
+
+const setEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setEventTypeIdAction(eventTypeId));
+};
+
+const setCongregationId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationIdAction(parishId));
+};
+
+const setPersonName = (personName: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setPersonNameAction(personName));
+};
+
+const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDateAction(date));
+};
 
 export interface State {
     eventLoading: boolean;
@@ -95,14 +165,20 @@ const initialState: State = {
     errors: {},
 };
 
+export const actionCreators = {
+    loadCongregations,
+    loadEventTypes,
+    resetEvent,
+    loadEvent,
+    saveEvent,
+    setEventTypeId,
+    setCongregationId,
+    setPersonName,
+    setDate,
+};
+
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_EVENT:
-            return {
-                ...state,
-                event: {},
-                eventLoading: false,
-            };
         case REQUEST_EVENT:
             return {
                 ...state,
@@ -138,7 +214,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 congregations: action.value,
                 congregationsLoading: false,
             };
-        case SET_EVENT_EVENT_TYPE_ID:
+        case SET_EVENT_TYPE_ID:
             return {
                 ...state,
                 event: {
@@ -147,7 +223,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_EVENT_CONGREGATION_ID:
+        case SET_CONGREGATION_ID:
             return {
                 ...state,
                 event: {
@@ -156,7 +232,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_EVENT_PERSON_NAME:
+        case SET_PERSON_NAME:
             return {
                 ...state,
                 event: {
@@ -165,7 +241,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_EVENT_DATE:
+        case SET_DATE:
             return {
                 ...state,
                 event: {
@@ -174,12 +250,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_EVENT_HAS_BEEN_SAVED:
-            return {
-                ...state,
-                hasBeenSaved: true,
-            };
-        case SET_EVENT_ERRORS:
+        case SET_ERRORS:
             return {
                 ...state,
                 errors: action.value,
@@ -187,76 +258,4 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         default:
             return state;
     }
-};
-
-const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
-    get<Event>(`api/event/${id}`)
-        .then(event => {
-            dispatch(receiveEventAction(event));
-        });
-
-    dispatch(requestEventAction());
-}
-
-const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
-    get<EventType[]>('api/event/types')
-        .then(eventTypes => {
-            dispatch(receiveEventTypesAction(eventTypes));
-        });
-
-    dispatch(requestEventTypesAction());
-}
-
-const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (dispatch) => {
-    post<Event>('api/event/save', event)
-        .then(response => {
-            if (response.ok) {
-                return response.json() as Promise<number>;
-            } else {
-                throw response.json();
-            }
-        }).then(eventId => {
-            if (event.id) {
-                dispatch(loadEvent(event.id));
-            } else {
-                history.push(`/event/edit/${eventId}`);
-            }
-            dispatch(setEventHasBeenSavedAction());
-        }).catch(errorPromise => {
-            errorPromise.then((errorResponse: ErrorResponse) => {
-                dispatch(setEventErrorsAction(errorResponse.errors));
-            });
-        });
-};
-
-const setEventEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setEventEventTypeIdAction(eventTypeId));
-};
-
-const setEventCongregationId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setEventCongregationIdAction(parishId));
-};
-
-const setEventPersonName = (personName: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setEventPersonNameAction(personName));
-};
-
-const setEventDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setEventDateAction(date));
-};
-
-const resetEvent = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetEventAction());
-}
-
-export const actionCreators = {
-    loadCongregations,
-    loadEventTypes,
-    resetEvent,
-    loadEvent,
-    saveEvent,
-    setEventEventTypeId,
-    setEventCongregationId,
-    setEventPersonName,
-    setEventDate,
 };

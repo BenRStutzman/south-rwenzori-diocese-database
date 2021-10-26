@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/parish/search';
+import * as Store from '../../store/parish/home';
 import { Parish } from '../../store/parish';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';

@@ -9,10 +9,10 @@ import ArchdeaconryEdit from './components/archdeaconry/Edit';
 import ParishSearch from './components/parish/Search';
 import ParishAdd from './components/parish/Add';
 import ParishEdit from './components/parish/Edit';
-import CongregationSearch from './components/congregation/Search';
+import CongregationSearch from './components/congregation/Home';
 import CongregationAdd from './components/congregation/Add';
 import CongregationEdit from './components/congregation/Edit';
-import EventSearch from './components/event/Search';
+import EventSearch from './components/event/Home';
 import EventAdd from './components/event/Add';
 import EventEdit from './components/event/Edit';
 

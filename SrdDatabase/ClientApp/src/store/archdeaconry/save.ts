@@ -11,10 +11,6 @@ const SET_NAME = 'ARCHDEACONRY.SET_NAME';
 const SET_IS_SAVING = 'ARCHDEACONRY.SET_IS_SAVING';
 const SET_ERRORS = 'ARCHDEACONRY.SET_ERRORS';
 
-const resetArchdeaconryAction = () => ({
-    type: RESET_ARCHDEACONRY,
-})
-
 const requestArchdeaconryAction = () => ({
     type: REQUEST_ARCHDEACONRY,
 });
@@ -56,7 +52,7 @@ const initialState: State = {
 };
 
 const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetArchdeaconryAction());
+    dispatch(receiveArchdeaconryAction({}));
 };
 
 const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -100,12 +96,6 @@ export const actionCreators = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_ARCHDEACONRY:
-            return {
-                ...state,
-                archdeaconry: {},
-                archdeaconryLoading: false,
-            }
         case REQUEST_ARCHDEACONRY:
             return {
                 ...state,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/congregation/search';
+import * as Store from '../../store/congregation/home';
 import { Congregation } from '../../store/congregation';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
@@ -9,7 +9,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({
+const Home = ({
     congregationsLoading,
     congregations,
     history,
@@ -61,4 +61,4 @@ const Search = ({
 export default connect(
     (state: State) => state.congregation.home,
     Store.actionCreators
-)(Search as any);
+)(Home as any);

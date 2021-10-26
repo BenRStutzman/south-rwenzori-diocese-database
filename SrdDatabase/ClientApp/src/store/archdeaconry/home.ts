@@ -3,18 +3,8 @@ import { AppThunkAction, Action } from '..';
 import { get, post } from '../../apiHelpers';
 import { Archdeaconry } from '.';
 
-export interface State {
-    archdeaconries: Archdeaconry[];
-    archdeaconriesLoading: boolean;
-}
-
-const initialState: State = {
-    archdeaconries: [],
-    archdeaconriesLoading: true
-};
-
-const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
-const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
+const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
+const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
 
 const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -53,6 +43,16 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
 export const actionCreators = {
     loadArchdeaconries,
     deleteArchdeaconry,
+};
+
+export interface State {
+    archdeaconries: Archdeaconry[];
+    archdeaconriesLoading: boolean;
+}
+
+const initialState: State = {
+    archdeaconries: [],
+    archdeaconriesLoading: true
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

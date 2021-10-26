@@ -23,12 +23,11 @@ const Add = ({
     loadEventTypes,
     resetEvent,
     history,
-    setEventEventTypeId,
-    setEventCongregationId,
-    setEventPersonName,
-    setEventDate,
+    setEventTypeId,
+    setCongregationId,
+    setPersonName,
+    setDate,
     saveEvent,
-    hasBeenSaved,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => {
@@ -39,7 +38,7 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    const onSubmit = () => {
+    const onSave = () => {
         saveEvent(event, history);
     }
 
@@ -48,12 +47,11 @@ const Add = ({
             <h1>Add Event</h1>
             <Form
                 event={event}
-                updateEventEventTypeId={setEventEventTypeId}
-                updateEventCongregationId={setEventCongregationId}
-                updateEventPersonName={setEventPersonName}
-                updateEventDate={setEventDate}
-                onSubmit={onSubmit}
-                hasBeenSaved={hasBeenSaved}
+                setEventTypeId={setEventTypeId}
+                setCongregationId={setCongregationId}
+                setPersonName={setPersonName}
+                setDate={setDate}
+                onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
                 eventTypes={eventTypes}

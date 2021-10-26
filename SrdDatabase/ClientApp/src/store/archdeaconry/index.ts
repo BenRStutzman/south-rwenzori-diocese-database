@@ -1,6 +1,6 @@
 ﻿import { combineReducers } from 'redux';
 import * as Save from './save';
-import * as Home from './search';
+import * as Home from './home';
 
 export interface State {
     home?: Home.State;
