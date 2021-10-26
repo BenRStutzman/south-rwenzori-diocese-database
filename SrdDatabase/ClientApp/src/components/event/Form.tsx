@@ -106,7 +106,7 @@ const Form = ({ event,
                         id="date"
                         className="form-control"
                         type="date"
-                        value={event.date ? new Date(event.date).toISOString().slice(0, 10) : new Date(Date.now()).toISOString().slice(0, 10)}
+                        value={event.date ? new Date(event.date).toLocaleDateString('en-ca') : new Date().toLocaleDateString('en-ca')}
                         onChange={onDateChange}
                         required
                     />

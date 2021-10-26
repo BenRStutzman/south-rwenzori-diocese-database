@@ -26,8 +26,8 @@ const Search = ({ events, history, loadEvents, deleteEvent }: Props) => {
                     <tr>
                         <th className="col-2">Event Type</th>
                         <th className="col-2">Congregation</th>
-                        <th className="col-2">Person Name</th>
-                        <th className="col-2">Date</th>
+                        <th className="col-3">Person Name</th>
+                        <th className="col-1">Date</th>
                         <th className="col-1"></th>
                         <th className="col-1"></th>
                     </tr>
@@ -38,7 +38,7 @@ const Search = ({ events, history, loadEvents, deleteEvent }: Props) => {
                             <td>{event.eventType}</td>
                             <td>{event.parish}</td>
                             <td>{event.personName}</td>
-                            <td>{event.date}</td>
+                            <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                             <td>
                                 <button className="btn btn-secondary"onClick={() => { editEvent(event.id as number); }}>
                                     Edit
