@@ -54,7 +54,7 @@ const setErrorsAction = (errors: Errors) => ({
 })
 
 const resetParish = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveParishAction({}));
+    dispatch(receiveParishAction(initialState.parish));
 }
 
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {

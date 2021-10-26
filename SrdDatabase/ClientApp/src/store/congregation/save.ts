@@ -53,7 +53,7 @@ const setErrorsAction = (errors: Errors) => ({
 })
 
 const resetCongregation = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveCongregationAction({}));
+    dispatch(receiveCongregationAction(initialState.congregation));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {

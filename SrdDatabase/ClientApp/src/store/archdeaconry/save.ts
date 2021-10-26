@@ -4,7 +4,6 @@ import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
 import { Archdeaconry } from '.';
 import { History } from 'history';
 
-const RESET_ARCHDEACONRY = 'ARCHDEACONRY.RESET_ARCHDEACONRY';
 const REQUEST_ARCHDEACONRY = 'ARCHDEACONRY.REQUEST_ARCHDEACONRY';
 const RECEIVE_ARCHDEACONRY = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRY';
 const SET_NAME = 'ARCHDEACONRY.SET_NAME';
@@ -52,7 +51,7 @@ const initialState: State = {
 };
 
 const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveArchdeaconryAction({}));
+    dispatch(receiveArchdeaconryAction(initialState.archdeaconry));
 };
 
 const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {

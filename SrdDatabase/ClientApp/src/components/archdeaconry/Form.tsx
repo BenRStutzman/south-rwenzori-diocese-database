@@ -50,7 +50,7 @@ const Form = (
                     {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
                         <li
                             className="error-alert"
-                            key={`${fieldName}-errors`}>
+                            key={fieldName}>
                             {errorList.join(" ")}</li>
                     )}
                 </ul>

@@ -16,7 +16,7 @@ export interface Event {
     parish?: string;
     archdeaconry?: string;
     personName?: string;
-    date?: Date;
+    date: Date;
 }
 
 export interface EventType {

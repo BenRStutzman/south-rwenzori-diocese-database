@@ -107,7 +107,7 @@ const Form = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={event.date ? new Date(event.date).toLocaleDateString('en-ca') : new Date().toLocaleDateString('en-ca')}
+                    value={new Date(event.date).toLocaleDateString('en-ca')}
                     onChange={onDateChange}
                     required
                 />
@@ -117,7 +117,7 @@ const Form = ({
                     {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
                         <li
                             className="error-alert"
-                            key={`${fieldName}-errors`}>
+                            key={fieldName}>
                             {errorList.join(" ")}</li>
                     )}
                 </ul>
