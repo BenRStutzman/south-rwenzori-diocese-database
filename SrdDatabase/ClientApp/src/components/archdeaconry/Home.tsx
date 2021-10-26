@@ -9,7 +9,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({
+const Home = ({
     archdeaconries,
     archdeaconriesLoading,
     history,
@@ -59,4 +59,4 @@ const Search = ({
 export default connect(
     (state: State) => state.archdeaconry.home,
     Store.actionCreators
-)(Search as any);
+)(Home as any);

@@ -20,6 +20,7 @@ const Edit = ({ archdeaconryLoading,
     saveArchdeaconry,
     match,
     hasBeenChanged,
+    isSaving,
     errors }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -32,7 +33,7 @@ const Edit = ({ archdeaconryLoading,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return archdeaconryLoading ? <LoadingSpinner /> :
+    return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Edit {archdeaconry.name} Archdeaconry</h1>
             <Form

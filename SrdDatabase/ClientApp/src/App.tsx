@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import './site.css'
-import ArchdeaconrySearch from './components/archdeaconry/Search';
+import ArchdeaconryHome from './components/archdeaconry/Home';
 import ArchdeaconryAdd from './components/archdeaconry/Add';
 import ArchdeaconryEdit from './components/archdeaconry/Edit';
 import ParishSearch from './components/parish/Search';
@@ -19,7 +19,7 @@ import EventEdit from './components/event/Edit';
 export default () => (
     <Layout>
         <Route exact path='/' component={Home} />
-        <Route exact path='/archdeaconry' component={ArchdeaconrySearch} />
+        <Route exact path='/archdeaconry' component={ArchdeaconryHome} />
         <Route exact path='/archdeaconry/add' component={ArchdeaconryAdd} />
         <Route exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} />
         <Route exact path='/parish' component={ParishSearch} />

@@ -18,6 +18,7 @@ const Add = ({ archdeaconry,
     history,
     setName,
     saveArchdeaconry,
+    isSaving,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => { resetArchdeaconry(); };
@@ -28,7 +29,7 @@ const Add = ({ archdeaconry,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return archdeaconryLoading ? <LoadingSpinner /> :
+    return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Add Archdeaconry</h1>
             <Form

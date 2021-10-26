@@ -26,7 +26,6 @@ const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
     value: archdeaconries,
 });
 
-
 const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
 

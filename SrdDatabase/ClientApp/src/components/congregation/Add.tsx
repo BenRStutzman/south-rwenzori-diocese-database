@@ -13,18 +13,18 @@ type Props =
     & RouteComponentProps;
 
 const Add = ({
-    congregationLoading,
-    parishesLoading,
-    congregation,
-    parishes,
     loadParishes,
+    congregationLoading,
+    congregation,
+    parishesLoading,
+    parishes,
     resetCongregation,
     history,
-    setCongregationName,
-    setCongregationParishId,
-    saveCongregation,
-    hasBeenSaved,
+    setName,
+    setParishId,
     hasBeenChanged,
+    saveCongregation,
+    isSaving,
     errors }: Props) => {
     const loadData = () => {
         loadParishes();
@@ -33,19 +33,18 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    const onSubmit = () => {
+    const onSave = () => {
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading || parishesLoading ? <LoadingSpinner /> :
+    return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Add Congregation</h1>
             <Form
                 congregation={congregation}
-                updateCongregationName={setCongregationName}
-                updateCongregationParishId={setCongregationParishId}
-                onSubmit={onSubmit}
-                hasBeenSaved={hasBeenSaved}
+                updateCongregationName={setName}
+                updateCongregationParishId={setParishId}
+                onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
                 parishes={parishes}
