@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Spinner } from 'reactstrap';
 import { State } from '../../store';
 import * as Store from '../../store/congregation/save';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import Form from './Form';
 
 type Props =
@@ -37,7 +37,7 @@ const Add = ({
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading || parishesLoading ? <Spinner /> :
+    return congregationLoading || parishesLoading ? <LoadingSpinner /> :
         <>
             <h1>Add Congregation</h1>
             <Form

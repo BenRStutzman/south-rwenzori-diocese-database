@@ -4,11 +4,11 @@ import { get, post } from '../../apiHelpers';
 import { Congregation } from '.';
 
 export interface State {
-    isLoading: boolean;
+    congregationsLoading: boolean;
     congregations: Congregation[];
 }
 
-const initialState: State = { congregations: [], isLoading: true };
+const initialState: State = { congregations: [], congregationsLoading: true };
 
 export const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 export const RECEIVE_CONGREGATIONS = 'RECEIVE_CONGREGATIONS';
@@ -28,13 +28,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_CONGREGATIONS:
             return {
                 ...state,
-                isLoading: action.value,
+                congregationsLoading: action.value,
             };
         case RECEIVE_CONGREGATIONS:
             return {
                 ...state,
                 congregations: action.value,
-                isLoading: false,
+                congregationsLoading: false,
             };
         default:
             return state;
@@ -42,12 +42,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
 };
 
 export const loadCongregations = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestCongregationsAction(showLoading));
+
     get<Congregation[]>('api/congregation/all')
         .then(congregations => {
             dispatch(receiveCongregationsAction(congregations));
         });
-
-    dispatch(requestCongregationsAction(showLoading));
 };
 
 const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {

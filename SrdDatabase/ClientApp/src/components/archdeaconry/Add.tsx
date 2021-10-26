@@ -2,9 +2,9 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
-import { Spinner } from 'reactstrap';
 import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/save';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import Form from './Form';
 
 type Props =
@@ -16,9 +16,8 @@ const Add = ({ archdeaconry,
     archdeaconryLoading,
     resetArchdeaconry,
     history,
-    setArchdeaconryName,
+    setName,
     saveArchdeaconry,
-    hasBeenSaved,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => { resetArchdeaconry(); };
@@ -29,14 +28,13 @@ const Add = ({ archdeaconry,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return archdeaconryLoading ? <Spinner /> :
+    return archdeaconryLoading ? <LoadingSpinner /> :
         <>
             <h1>Add Archdeaconry</h1>
             <Form
                 archdeaconry={archdeaconry}
-                updateArchdeaconryName={setArchdeaconryName}
+                updateArchdeaconryName={setName}
                 onSubmit={onSubmit}
-                hasBeenSaved={hasBeenSaved}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
             />

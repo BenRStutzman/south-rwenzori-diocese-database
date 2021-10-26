@@ -5,7 +5,7 @@ import * as Store from '../../store/congregation/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
-import { Spinner } from 'reactstrap';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State
@@ -39,7 +39,7 @@ const Edit = ({
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading || parishesLoading ? <Spinner /> :
+    return congregationLoading || parishesLoading ? <LoadingSpinner /> :
         <>
             <h1>Edit {congregation.name} Congregation</h1>
             <Form

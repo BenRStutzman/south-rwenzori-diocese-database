@@ -5,10 +5,16 @@ import * as Store from '../../store/parish/search';
 import { Parish } from '../../store/parish';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({ parishes, history, loadParishes, deleteParish }: Props) => {
+const Search = ({
+    parishesLoading,
+    parishes,
+    history,
+    loadParishes,
+    deleteParish }: Props) => {
     const loadData = () => { loadParishes() };
 
     useEffect(loadData, []);
@@ -17,7 +23,7 @@ const Search = ({ parishes, history, loadParishes, deleteParish }: Props) => {
 
     const editParish = (parishId: number) => history.push(`/parish/edit/${parishId}`);
 
-    return (
+    return parishesLoading ? <LoadingSpinner/> :
         <>
             <h1 className="page-title">Parishes</h1>
             <button className="btn btn-primary float-right" onClick={addParish}>Add new</button>
@@ -49,8 +55,7 @@ const Search = ({ parishes, history, loadParishes, deleteParish }: Props) => {
                     )}
                 </tbody>
             </table>
-        </>
-    );
+        </>;
 }    
 
 export default connect(

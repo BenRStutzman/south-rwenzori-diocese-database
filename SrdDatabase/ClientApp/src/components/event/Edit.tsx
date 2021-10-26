@@ -5,7 +5,7 @@ import * as Store from '../../store/event/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
-import { Spinner } from 'reactstrap';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State
@@ -45,7 +45,7 @@ const Edit = ({
         saveEvent(event, history);
     }
 
-    return eventLoading || eventTypesLoading || congregationsLoading ? <Spinner /> :
+    return eventLoading || eventTypesLoading || congregationsLoading ? <LoadingSpinner /> :
         <>
             <h1>Edit {event.eventType}</h1>
             <Form

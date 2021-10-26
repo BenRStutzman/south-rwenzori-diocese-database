@@ -5,10 +5,16 @@ import * as Store from '../../store/event/search';
 import { Event } from '../../store/event';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({ events, history, loadEvents, deleteEvent }: Props) => {
+const Search = ({
+    eventsLoading,
+    events,
+    history,
+    loadEvents,
+    deleteEvent }: Props) => {
     const loadData = () => { loadEvents() };
 
     useEffect(loadData, []);
@@ -17,7 +23,7 @@ const Search = ({ events, history, loadEvents, deleteEvent }: Props) => {
 
     const editEvent = (eventId: number) => history.push(`/event/edit/${eventId}`);
 
-    return (
+    return eventsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Events</h1>
             <button className="btn btn-primary float-right" onClick={addEvent}>Add new</button>
@@ -40,12 +46,12 @@ const Search = ({ events, history, loadEvents, deleteEvent }: Props) => {
                             <td>{event.personName}</td>
                             <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                             <td>
-                                <button className="btn btn-secondary"onClick={() => { editEvent(event.id as number); }}>
+                                <button className="btn btn-secondary" onClick={() => { editEvent(event.id as number); }}>
                                     Edit
                                 </button>
                             </td>
                             <td>
-                                <button className="btn btn-danger"onClick={() => { deleteEvent(event.id as number); }}>
+                                <button className="btn btn-danger" onClick={() => { deleteEvent(event.id as number); }}>
                                     Delete
                                 </button>
                             </td>
@@ -53,8 +59,7 @@ const Search = ({ events, history, loadEvents, deleteEvent }: Props) => {
                     )}
                 </tbody>
             </table>
-        </>
-    );
+        </>;
 }    
 
 export default connect(

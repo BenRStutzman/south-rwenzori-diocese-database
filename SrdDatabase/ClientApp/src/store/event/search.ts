@@ -4,11 +4,11 @@ import { get, post } from '../../apiHelpers';
 import { Event } from '.';
 
 export interface State {
-    isLoading: boolean;
+    eventsLoading: boolean;
     events: Event[];
 }
 
-const initialState: State = { events: [], isLoading: true };
+const initialState: State = { events: [], eventsLoading: true };
 
 export const REQUEST_EVENTS = 'REQUEST_EVENTS';
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS';
@@ -28,13 +28,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_EVENTS:
             return {
                 ...state,
-                isLoading: action.value,
+                eventsLoading: action.value,
             };
         case RECEIVE_EVENTS:
             return {
                 ...state,
                 events: action.value,
-                isLoading: false,
+                eventsLoading: false,
             };
         default:
             return state;

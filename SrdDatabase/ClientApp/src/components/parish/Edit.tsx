@@ -5,7 +5,7 @@ import * as Store from '../../store/parish/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
-import { Spinner } from 'reactstrap';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State
@@ -39,7 +39,7 @@ const Edit = ({
         saveParish(parish, history);
     }
 
-    return parishLoading || archdeaconriesLoading ? <Spinner /> :
+    return parishLoading || archdeaconriesLoading ? <LoadingSpinner /> :
         <>
             <h1>Edit {parish.name} Parish</h1>
             <Form

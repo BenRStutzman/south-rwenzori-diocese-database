@@ -4,11 +4,11 @@ import { get, post } from '../../apiHelpers';
 import { Parish } from '.';
 
 export interface State {
-    isLoading: boolean;
+    parishesLoading: boolean;
     parishes: Parish[];
 }
 
-const initialState: State = { parishes: [], isLoading: true };
+const initialState: State = { parishes: [], parishesLoading: true };
 
 export const REQUEST_PARISHES = 'REQUEST_PARISHES';
 export const RECEIVE_PARISHES = 'RECEIVE_PARISHES';
@@ -28,13 +28,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_PARISHES:
             return {
                 ...state,
-                isLoading: action.value,
+                parishesLoading: action.value,
             };
         case RECEIVE_PARISHES:
             return {
                 ...state,
                 parishes: action.value,
-                isLoading: false,
+                parishesLoading: false,
             };
         default:
             return state;

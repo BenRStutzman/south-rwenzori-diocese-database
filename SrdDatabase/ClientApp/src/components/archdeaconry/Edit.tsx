@@ -5,7 +5,7 @@ import * as Store from '../../store/archdeaconry/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
-import { Spinner } from 'reactstrap';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State
@@ -15,11 +15,10 @@ type Props =
 const Edit = ({ archdeaconryLoading,
     history,
     archdeaconry,
-    setArchdeaconryName,
+    setName,
     loadArchdeaconry,
     saveArchdeaconry,
     match,
-    hasBeenSaved,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => {
@@ -33,15 +32,14 @@ const Edit = ({ archdeaconryLoading,
         saveArchdeaconry(archdeaconry, history);
     }
 
-    return archdeaconryLoading ? <Spinner /> :
+    return archdeaconryLoading ? <LoadingSpinner /> :
         <>
             <h1>Edit {archdeaconry.name} Archdeaconry</h1>
             <Form
                 archdeaconry={archdeaconry}
-                updateArchdeaconryName={setArchdeaconryName}
+                updateArchdeaconryName={setName}
                 onSubmit={onSubmit}
                 hasBeenChanged={hasBeenChanged}
-                hasBeenSaved={hasBeenSaved}
                 errors={errors}
             />
         </>;

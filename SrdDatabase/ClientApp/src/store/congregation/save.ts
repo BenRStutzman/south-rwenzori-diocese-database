@@ -11,12 +11,13 @@ export const REQUEST_CONGREGATION = 'REQUEST_CONGREGATION';
 export const RECEIVE_CONGREGATION = 'RECEIVE_CONGREGATION';
 export const SET_CONGREGATION_NAME = 'SET_CONGREGATION_NAME';
 export const SET_CONGREGATION_PARISH_ID = 'SET_CONGREGATION_ARCHDEACONRY_ID';
+export const SET_CONGREGATION_IS_SAVING = 'SET_CONGREGATION_IS_SAVING';
 export const SET_CONGREGATION_HAS_BEEN_SAVED = 'SET_CONGREGATION_HAS_BEEN_SAVED';
 export const SET_CONGREGATION_ERRORS = 'SET_CONGREGATION_ERRORS';
 
 export const resetCongregationAction = () => ({
     type: RESET_CONGREGATION,
-})
+});
 
 export const requestCongregationAction = () => ({
     type: REQUEST_CONGREGATION,
@@ -37,6 +38,11 @@ export const setCongregationParishIdAction = (parishId: number) => ({
     value: parishId,
 });
 
+export const setCongregationIsSavingAction = (isSaving: boolean) => ({
+    type: SET_CONGREGATION_IS_SAVING,
+    value: isSaving,
+});
+
 export const setCongregationHasBeenSavedAction = () => ({
     type: SET_CONGREGATION_HAS_BEEN_SAVED,
 });
@@ -47,6 +53,7 @@ export const setCongregationErrorsAction = (errors: Errors) => ({
 })
 
 export interface State {
+    isSaving: boolean;
     congregationLoading: boolean;
     parishesLoading: boolean;
     parishes: Parish[];
@@ -57,6 +64,7 @@ export interface State {
 }
 
 const initialState: State = {
+    isSaving: false,
     congregation: {},
     parishes: [],
     congregationLoading: true,
@@ -116,6 +124,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
+        case SET_CONGREGATION_IS_SAVING:
+            return {
+                ...state,
+                isSaving: action.value,
+            };
         case SET_CONGREGATION_HAS_BEEN_SAVED:
             return {
                 ...state,
@@ -132,15 +145,17 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
 };
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestCongregationAction());
+
     get<Congregation>(`api/congregation/${id}`)
         .then(congregation => {
             dispatch(receiveCongregationAction(congregation));
         });
-
-    dispatch(requestCongregationAction());
 }
 
 const saveCongregation = (congregation: Congregation, history: History): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationIsSavingAction(true));
+
     post<Congregation>('api/congregation/save', congregation)
         .then(response => {
             if (response.ok) {
@@ -151,14 +166,16 @@ const saveCongregation = (congregation: Congregation, history: History): AppThun
         }).then(congregationId => {
             if (congregation.id) {
                 dispatch(loadCongregation(congregation.id));
+                dispatch(setCongregationHasBeenSavedAction());
             } else {
                 history.push(`/congregation/edit/${congregationId}`);
             }
-            dispatch(setCongregationHasBeenSavedAction());
         }).catch(errorPromise => {
             errorPromise.then((errorResponse: ErrorResponse) => {
                 dispatch(setCongregationErrorsAction(errorResponse.errors));
             });
+        }).finally(() => {
+            dispatch(setCongregationIsSavingAction(false));
         });
 };
 

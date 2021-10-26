@@ -5,10 +5,16 @@ import * as Store from '../../store/congregation/search';
 import { Congregation } from '../../store/congregation';
 import { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({ congregations, history, loadCongregations, deleteCongregation }: Props) => {
+const Search = ({
+    congregationsLoading,
+    congregations,
+    history,
+    loadCongregations,
+    deleteCongregation }: Props) => {
     const loadData = () => { loadCongregations() };
 
     useEffect(loadData, []);
@@ -17,7 +23,7 @@ const Search = ({ congregations, history, loadCongregations, deleteCongregation 
 
     const editCongregation = (congregationId: number) => history.push(`/congregation/edit/${congregationId}`);
 
-    return (
+    return congregationsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Congregations</h1>
             <button className="btn btn-primary float-right" onClick={addCongregation}>Add new</button>
@@ -49,9 +55,8 @@ const Search = ({ congregations, history, loadCongregations, deleteCongregation 
                     )}
                 </tbody>
             </table>
-        </>
-    );
-}    
+        </>;
+};
 
 export default connect(
     (state: State) => state.congregation.home,
