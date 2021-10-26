@@ -1,0 +1,7 @@
+Move delete event action creators to save modules
+Add delete option on edit page
+Remove underlining on inputs
+Make names of archdeaconries, etc. not update in real time.
+Check out history link instead of history.push
+Add searching options
+Sort results
