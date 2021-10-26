@@ -59,7 +59,7 @@ export interface State {
 const initialState: State = {
     congregation: {},
     parishes: [],
-    congregationoading: true,
+    congregationLoading: true,
     parishesLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
