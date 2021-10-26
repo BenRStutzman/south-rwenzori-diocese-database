@@ -29,6 +29,7 @@ const Edit = ({
     loadEventTypes,
     saveEvent,
     match,
+    isSaving,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => {
@@ -40,11 +41,12 @@ const Edit = ({
 
     useEffect(loadData, []);
 
-    const onSubmit = () => {
+    const onSave = () => {
         saveEvent(event, history);
     }
 
-    return eventLoading || eventTypesLoading || congregationsLoading ? <LoadingSpinner /> :
+    return eventLoading || eventTypesLoading || congregationsLoading || isSaving
+        ? <LoadingSpinner /> :
         <>
             <h1>Edit {event.eventType}</h1>
             <Form
@@ -55,9 +57,10 @@ const Edit = ({
                 setCongregationId={setCongregationId}
                 setEventTypeId={setEventTypeId}
                 setDate={setDate}
-                onSave={onSubmit}
+                onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
+                submitWord="Update"
             />
         </>;
 }

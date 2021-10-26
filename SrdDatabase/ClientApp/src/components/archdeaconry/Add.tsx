@@ -25,7 +25,7 @@ const Add = ({ archdeaconry,
 
     useEffect(loadData, []);
 
-    const onSubmit = () => {
+    const onSave = () => {
         saveArchdeaconry(archdeaconry, history);
     }
 
@@ -35,9 +35,10 @@ const Add = ({ archdeaconry,
             <Form
                 archdeaconry={archdeaconry}
                 updateArchdeaconryName={setName}
-                onSubmit={onSubmit}
+                onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
+                submitWord="Create"
             />
         </>;
 };

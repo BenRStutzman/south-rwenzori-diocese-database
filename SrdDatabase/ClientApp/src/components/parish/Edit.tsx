@@ -24,7 +24,7 @@ const Edit = ({
     loadArchdeaconries,
     saveParish,
     match,
-    hasBeenSaved,
+    isSaving,
     hasBeenChanged,
     errors }: Props) => {
     const loadData = () => {
@@ -35,11 +35,11 @@ const Edit = ({
 
     useEffect(loadData, []);
 
-    const onSubmit = () => {
+    const onSave = () => {
         saveParish(parish, history);
     }
 
-    return parishLoading || archdeaconriesLoading ? <LoadingSpinner /> :
+    return parishLoading || archdeaconriesLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Edit {parish.name} Parish</h1>
             <Form
@@ -47,10 +47,10 @@ const Edit = ({
                 archdeaconries={archdeaconries}
                 updateParishName={setParishName}
                 updateParishArchdeaconryId={setParishArchdeaconryId}
-                onSubmit={onSubmit}
+                onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
-                hasBeenSaved={hasBeenSaved}
                 errors={errors}
+                submitWord="Update"
             />
         </>;
 }

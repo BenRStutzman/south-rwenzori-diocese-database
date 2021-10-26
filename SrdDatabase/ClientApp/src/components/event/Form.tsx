@@ -16,9 +16,11 @@ interface Props {
     errors: Errors;
     eventTypes: EventType[];
     congregations: Congregation[];
+    submitWord: string;
 }
 
-const Form = ({ event,
+const Form = ({
+    event,
     congregations,
     eventTypes,
     onSave,
@@ -27,7 +29,9 @@ const Form = ({ event,
     setPersonName,
     setDate,
     hasBeenChanged,
-    errors}: Props) => {
+    errors,
+    submitWord,
+    }: Props) => {
     const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setEventTypeId(parseInt(event.target.value));
     };
@@ -44,13 +48,13 @@ const Form = ({ event,
         setDate(new Date(event.target.value));
     };
 
-    const onFormSubmit = (event: React.FormEvent) => {
+    const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         onSave();
     }
 
     return (
-        <form onSubmit={onFormSubmit}>
+        <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="eventTypeId">Event Type</label>
                 <select
@@ -118,7 +122,7 @@ const Form = ({ event,
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">Submit</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Event</button>
         </form>
     );
 }

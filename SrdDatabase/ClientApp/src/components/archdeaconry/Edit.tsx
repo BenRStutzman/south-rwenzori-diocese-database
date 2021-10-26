@@ -29,7 +29,7 @@ const Edit = ({ archdeaconryLoading,
 
     useEffect(loadData, []);
 
-    const onSubmit = () => {
+    const onSave = () => {
         saveArchdeaconry(archdeaconry, history);
     }
 
@@ -39,9 +39,10 @@ const Edit = ({ archdeaconryLoading,
             <Form
                 archdeaconry={archdeaconry}
                 updateArchdeaconryName={setName}
-                onSubmit={onSubmit}
+                onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
+                submitWord="Update"
             />
         </>;
 }

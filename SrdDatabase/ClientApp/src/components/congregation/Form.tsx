@@ -13,15 +13,19 @@ interface Props {
     hasBeenChanged: boolean;
     errors: Errors;
     parishes: Parish[];
+    submitWord: string;
 }
 
-const Form = ({ congregation,
+const Form = ({
+    congregation,
     parishes,
     onSave,
     updateCongregationName,
     updateCongregationParishId,
     hasBeenChanged,
-    errors}: Props) => {
+    errors,
+    submitWord
+    }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateCongregationName(event.target.value);
     }
@@ -76,7 +80,7 @@ const Form = ({ congregation,
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">Submit</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Congregation</button>
         </form>
     );
 }

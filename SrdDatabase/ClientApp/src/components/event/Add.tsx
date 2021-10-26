@@ -29,6 +29,7 @@ const Add = ({
     setDate,
     saveEvent,
     hasBeenChanged,
+    isSaving,
     errors }: Props) => {
     const loadData = () => {
         loadEventTypes();
@@ -42,7 +43,8 @@ const Add = ({
         saveEvent(event, history);
     }
 
-    return eventLoading || eventTypesLoading || congregationsLoading ? <LoadingSpinner /> :
+    return eventLoading || eventTypesLoading || congregationsLoading || isSaving
+        ? <LoadingSpinner /> :
         <>
             <h1>Add Event</h1>
             <Form
@@ -56,6 +58,7 @@ const Add = ({
                 errors={errors}
                 eventTypes={eventTypes}
                 congregations={congregations}
+                submitWord="Create"
             />
         </>;
 }

@@ -50,6 +50,7 @@ const Edit = ({
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
+                submitWord="Update"
             />
         </>;
 }

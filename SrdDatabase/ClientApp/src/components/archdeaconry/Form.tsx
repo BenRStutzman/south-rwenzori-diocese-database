@@ -6,28 +6,33 @@ import { Errors } from "../../apiHelpers";
 
 interface Props {
     archdeaconry: Archdeaconry;
-    onSubmit: () => void;
+    onSave: () => void;
     updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
+    submitWord: string;
     errors: Errors;
 }
 
-const Form = ({ archdeaconry,
-    onSubmit,
-    updateArchdeaconryName,
-    hasBeenChanged,
-    errors}: Props) => {
+const Form = (
+    {
+        archdeaconry,
+        onSave,
+        updateArchdeaconryName,
+        hasBeenChanged,
+        errors,
+        submitWord,
+    }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
     }
 
-    const onFormSubmit = (event: React.FormEvent) => {
+    const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSubmit();
+        onSave();
     }
 
     return (
-        <form onSubmit={onFormSubmit}>
+        <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
@@ -50,7 +55,7 @@ const Form = ({ archdeaconry,
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">Submit</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Archdeaconry</button>
         </form>
     );
 }

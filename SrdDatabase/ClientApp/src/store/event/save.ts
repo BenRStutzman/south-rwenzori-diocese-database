@@ -149,7 +149,7 @@ export interface State {
     congregations: Congregation[];
     event: Event;
     hasBeenChanged: boolean,
-    hasBeenSaved: boolean;
+    isSaving: boolean,
     errors: Errors;
 }
 
@@ -161,7 +161,7 @@ const initialState: State = {
     eventTypesLoading: true,
     congregationsLoading: true,
     hasBeenChanged: false,
-    hasBeenSaved: false,
+    isSaving: false,
     errors: {},
 };
 
@@ -250,6 +250,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
+        case SET_IS_SAVING:
+            return {
+                ...state,
+                isSaving: action.value,
+            }
         case SET_ERRORS:
             return {
                 ...state,
