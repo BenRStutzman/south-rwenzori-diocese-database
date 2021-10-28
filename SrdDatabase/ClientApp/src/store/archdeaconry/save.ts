@@ -86,11 +86,27 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
         });
 };
 
+const deleteArchdeaconry = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    post<{ id: number }>('api/archdeaconry/delete', { id })
+        .then(response => {
+            if (response.ok) {
+                history.push('/archdeaconry');
+            } else {
+                throw response.text();
+            }
+        }).catch(errorPromise => {
+            errorPromise.then((errorMessage: string) => {
+                alert(errorMessage);
+            });
+        });
+};
+
 export const actionCreators = {
     resetArchdeaconry,
     loadArchdeaconry,
     setName,
     saveArchdeaconry,
+    deleteArchdeaconry,
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

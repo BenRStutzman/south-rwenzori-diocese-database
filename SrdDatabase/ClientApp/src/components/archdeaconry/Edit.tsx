@@ -18,6 +18,7 @@ const Edit = ({ archdeaconryLoading,
     setName,
     loadArchdeaconry,
     saveArchdeaconry,
+    deleteArchdeaconry,
     match,
     hasBeenChanged,
     isSaving,
@@ -33,6 +34,12 @@ const Edit = ({ archdeaconryLoading,
         saveArchdeaconry(archdeaconry, history);
     }
 
+    const onDelete = () => {
+        if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
+            deleteArchdeaconry(archdeaconry.id as number, history);
+        }
+    }
+
     return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Edit {archdeaconry.name} Archdeaconry</h1>
@@ -44,6 +51,7 @@ const Edit = ({ archdeaconryLoading,
                 errors={errors}
                 submitWord="Update"
             />
+            <button className='btn btn-danger' type='button' onClick={onDelete}>Delete Archdeaconry</button>
         </>;
 }
 
