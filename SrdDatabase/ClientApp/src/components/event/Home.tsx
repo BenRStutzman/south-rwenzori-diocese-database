@@ -42,7 +42,7 @@ const Home = ({
                     {events.map((event: Event) =>
                         <tr key={event.id}>
                             <td>{event.eventType}</td>
-                            <td>{event.parish}</td>
+                            <td>{event.congregation}</td>
                             <td>{event.personName}</td>
                             <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                             <td>

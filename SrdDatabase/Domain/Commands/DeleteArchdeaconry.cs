@@ -30,7 +30,7 @@ namespace SrdDatabase.Domain.Commands
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 var parishes = await _mediator.Send(
-                    new SearchCongregations.Query(archdeaconryId: request.Id), cancellationToken);
+                    new SearchParishes.Query(archdeaconryId: request.Id), cancellationToken);
 
                 if (parishes.Any())
                 {
