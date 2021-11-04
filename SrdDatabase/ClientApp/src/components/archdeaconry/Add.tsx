@@ -38,7 +38,7 @@ const Add = ({ archdeaconry,
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
-                submitWord="Create"
+                archdeaconryExists={false}
             />
         </>;
 };

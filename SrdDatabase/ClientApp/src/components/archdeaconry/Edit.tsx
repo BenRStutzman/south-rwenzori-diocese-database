@@ -49,9 +49,9 @@ const Edit = ({ archdeaconryLoading,
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
-                submitWord="Update"
+                archdeaconryExists={true}
+                onDelete={onDelete}
             />
-            <button className='btn btn-danger' type='button' onClick={onDelete}>Delete Archdeaconry</button>
         </>;
 }
 

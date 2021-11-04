@@ -7,9 +7,10 @@ import { Errors } from "../../apiHelpers";
 interface Props {
     archdeaconry: Archdeaconry;
     onSave: () => void;
+    onDelete?: () => void;
     updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
-    submitWord: string;
+    archdeaconryExists: boolean;
     errors: Errors;
 }
 
@@ -20,7 +21,8 @@ const Form = (
         updateArchdeaconryName,
         hasBeenChanged,
         errors,
-        submitWord,
+        archdeaconryExists,
+        onDelete
     }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
@@ -55,7 +57,13 @@ const Form = (
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Archdeaconry</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
+                {archdeaconryExists ? "Update" : "Create"} Archdeaconry
+            </button>
+            {
+                archdeaconryExists &&
+                <button className='btn btn-danger float-right' type='button' onClick={onDelete}>Delete Archdeaconry</button>
+            }
         </form>
     );
 }

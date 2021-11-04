@@ -23,6 +23,12 @@ const Home = ({
 
     const editArchdeaconry = (archdeaconryId: number) => history.push(`/archdeaconry/edit/${archdeaconryId}`);
 
+    const onDelete = (archdeaconry: Archdeaconry) => {
+        if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
+            deleteArchdeaconry(archdeaconry.id as number);
+        }
+    }
+
     return archdeaconriesLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Archdeaconries</h1>
@@ -45,7 +51,7 @@ const Home = ({
                                 </button>
                             </td>
                             <td>
-                                <button className="btn btn-danger" onClick={() => { deleteArchdeaconry(archdeaconry.id as number); }}>
+                                <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
                                     Delete
                                 </button>
                             </td>
