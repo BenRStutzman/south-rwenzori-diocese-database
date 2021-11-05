@@ -6,6 +6,7 @@ import { Archdeaconry } from '../../store/archdeaconry';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import Row from './Row';
 
 type Props = Store.State & typeof Store.actionCreators;
 
@@ -13,16 +14,12 @@ const Home = ({
     archdeaconries,
     archdeaconriesLoading,
     loadArchdeaconries,
-    deleteArchdeaconry }: Props) => {
+    deleteArchdeaconry,
+    deletingId,
+}: Props) => {
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
-
-    const onDelete = (archdeaconry: Archdeaconry) => {
-        if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
-            deleteArchdeaconry(archdeaconry.id as number);
-        }
-    };
 
     return archdeaconriesLoading ? <LoadingSpinner /> :
         <>
@@ -38,19 +35,12 @@ const Home = ({
                 </thead>
                 <tbody>
                     {archdeaconries.map((archdeaconry: Archdeaconry) =>
-                        <tr key={archdeaconry.id}>
-                            <td>{archdeaconry.name}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                        <Row
+                            key={archdeaconry.id}
+                            archdeaconry={archdeaconry}
+                            deleteArchdeaconry={deleteArchdeaconry}
+                            isDeleting={deletingId === archdeaconry.id}
+                        />
                     )}
                 </tbody>
             </table>

@@ -5,6 +5,7 @@ import { Archdeaconry } from '.';
 
 const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
+const SET_DELETING_ID = 'ARCHDEACONRIES.SET_DELETING_ID';
 
 const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -16,6 +17,11 @@ const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
     value: archdeaconries,
 });
 
+const setDeletingId = (archdeaconryId?: number) => ({
+    type: SET_DELETING_ID,
+    value: archdeaconryId,
+})
+
 const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
 
@@ -26,6 +32,8 @@ const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action>
 };
 
 const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDeletingId(id));
+
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -37,6 +45,8 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setDeletingId(undefined));
         });
 };
 
@@ -48,11 +58,13 @@ export const actionCreators = {
 export interface State {
     archdeaconries: Archdeaconry[];
     archdeaconriesLoading: boolean;
+    deletingId?: number;
 }
 
 const initialState: State = {
     archdeaconries: [],
-    archdeaconriesLoading: true
+    archdeaconriesLoading: true,
+    deletingId: undefined,
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -67,6 +79,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 archdeaconries: action.value,
                 archdeaconriesLoading: false,
+            };
+        case SET_DELETING_ID:
+            return {
+                ...state,
+                deletingId: action.value,
             };
         default:
             return state;

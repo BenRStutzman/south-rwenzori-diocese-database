@@ -87,6 +87,8 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
 };
 
 const deleteArchdeaconry = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsSavingAction(true));
+
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -98,6 +100,8 @@ const deleteArchdeaconry = (id: number, history: History): AppThunkAction<Action
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setIsSavingAction(false));
         });
 };
 
