@@ -32,13 +32,13 @@ const Edit = ({ archdeaconryLoading,
 
     const onSave = () => {
         saveArchdeaconry(archdeaconry, history);
-    }
+    };
 
     const onDelete = () => {
         if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
             deleteArchdeaconry(archdeaconry.id as number, history);
         }
-    }
+    };
 
     return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
         <>

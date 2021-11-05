@@ -6,7 +6,6 @@ import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import { Congregation } from '../../store/congregation';
 
 type Props =
     Store.State

@@ -4,35 +4,30 @@ import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/home';
 import { Archdeaconry } from '../../store/archdeaconry';
 import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
-type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
+type Props = Store.State & typeof Store.actionCreators;
 
 const Home = ({
     archdeaconries,
     archdeaconriesLoading,
-    history,
     loadArchdeaconries,
     deleteArchdeaconry }: Props) => {
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
 
-    const addArchdeaconry = () => history.push(`/archdeaconry/add`);
-
-    const editArchdeaconry = (archdeaconryId: number) => history.push(`/archdeaconry/edit/${archdeaconryId}`);
-
     const onDelete = (archdeaconry: Archdeaconry) => {
         if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
             deleteArchdeaconry(archdeaconry.id as number);
         }
-    }
+    };
 
     return archdeaconriesLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Archdeaconries</h1>
-            <button className="btn btn-primary float-right" onClick={addArchdeaconry}>Add new</button>
+            <Link className="btn btn-primary float-right" to="/archdeaconry/add">Add new</Link>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -46,9 +41,9 @@ const Home = ({
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.name}</td>
                             <td>
-                                <button className="btn btn-secondary" onClick={() => { editArchdeaconry(archdeaconry.id as number); }}>
+                                <Link className="btn btn-secondary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
                                     Edit
-                                </button>
+                                </Link>
                             </td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>

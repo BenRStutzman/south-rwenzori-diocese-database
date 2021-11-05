@@ -26,12 +26,12 @@ const Form = (
     }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
-    }
+    };
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         onSave();
-    }
+    };
 
     return (
         <form onSubmit={onSubmit}>
@@ -59,11 +59,13 @@ const Form = (
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {archdeaconryExists ? "Update" : "Create"} Archdeaconry
+                {archdeaconryExists ? "Update" : "Create"} archdeaconry
             </button>
             {
                 archdeaconryExists &&
-                <button className='btn btn-danger float-right' type="button" onClick={onDelete}>Delete Archdeaconry</button>
+                <button className='btn btn-danger float-right' type="button" onClick={onDelete}>
+                    Delete archdeaconry
+                </button>
             }
         </form>
     );

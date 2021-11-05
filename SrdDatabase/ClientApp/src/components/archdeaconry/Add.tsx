@@ -27,7 +27,7 @@ const Add = ({ archdeaconry,
 
     const onSave = () => {
         saveArchdeaconry(archdeaconry, history);
-    }
+    };
 
     return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
         <>
