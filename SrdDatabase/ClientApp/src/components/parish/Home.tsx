@@ -9,7 +9,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
 
-const Search = ({
+const Home = ({
     parishesLoading,
     parishes,
     history,
@@ -22,6 +22,12 @@ const Search = ({
     const addParish = () => history.push(`/parish/add`);
 
     const editParish = (parishId: number) => history.push(`/parish/edit/${parishId}`);
+
+    const onDelete = (parish: Parish) => {
+        if (window.confirm(`Are you sure you want to delete ${parish.name} Parish?`)) {
+            deleteParish(parish.id as number);
+        }
+    };
 
     return parishesLoading ? <LoadingSpinner/> :
         <>
@@ -47,7 +53,7 @@ const Search = ({
                                 </button>
                             </td>
                             <td>
-                                <button className="btn btn-danger"onClick={() => { deleteParish(parish.id as number); }}>
+                                <button className="btn btn-danger"onClick={() => { onDelete(parish); }}>
                                     Delete
                                 </button>
                             </td>
@@ -61,4 +67,4 @@ const Search = ({
 export default connect(
     (state: State) => state.parish.home,
     Store.actionCreators
-)(Search as any);
+)(Home as any);

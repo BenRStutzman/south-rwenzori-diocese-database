@@ -23,6 +23,7 @@ const Edit = ({
     loadParish,
     loadArchdeaconries,
     saveParish,
+    deleteParish,
     match,
     isSaving,
     hasBeenChanged,
@@ -37,7 +38,13 @@ const Edit = ({
 
     const onSave = () => {
         saveParish(parish, history);
-    }
+    };
+
+    const onDelete = () => {
+        if (window.confirm(`Are you sure you want to delete ${parish.name} Parish?`)) {
+            deleteParish(parish.id as number, history);
+        }
+    };
 
     return parishLoading || archdeaconriesLoading || isSaving ? <LoadingSpinner /> :
         <>
@@ -48,9 +55,10 @@ const Edit = ({
                 updateParishName={setParishName}
                 updateParishArchdeaconryId={setParishArchdeaconryId}
                 onSave={onSave}
+                onDelete={onDelete}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
-                submitWord="Update"
+                parishExists={true}
             />
         </>;
 }

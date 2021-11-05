@@ -102,6 +102,21 @@ const saveParish = (parish: Parish, history: History): AppThunkAction<Action> =>
         });
 };
 
+const deleteParish = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    post<{ id: number }>('api/parish/delete', { id })
+        .then(response => {
+            if (response.ok) {
+                history.push('/parish');
+            } else {
+                throw response.text();
+            }
+        }).catch(errorPromise => {
+            errorPromise.then((errorMessage: string) => {
+                alert(errorMessage);
+            });
+        });
+};
+
 export const actionCreators = {
     resetParish,
     loadArchdeaconries,
@@ -109,6 +124,7 @@ export const actionCreators = {
     setParishName,
     setParishArchdeaconryId,
     saveParish,
+    deleteParish,
 };
 
 export interface State {

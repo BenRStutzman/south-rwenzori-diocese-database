@@ -62,7 +62,7 @@ const Form = (
             </button>
             {
                 archdeaconryExists &&
-                <button className='btn btn-danger float-right' type='button' onClick={onDelete}>Delete Archdeaconry</button>
+                <button className='btn btn-danger float-right' type="button" onClick={onDelete}>Delete Archdeaconry</button>
             }
         </form>
     );

@@ -48,7 +48,7 @@ const Add = ({
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
                 archdeaconries={archdeaconries}
-                submitWord="Create"
+                parishExists={false}
             />
         </>;
 }

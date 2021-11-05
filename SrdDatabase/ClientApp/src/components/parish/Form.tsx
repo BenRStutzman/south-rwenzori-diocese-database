@@ -8,23 +8,25 @@ import { Archdeaconry } from "../../store/archdeaconry";
 interface Props {
     parish: Parish;
     onSave: () => void;
+    onDelete?: () => void;
     updateParishName: (name: string) => AppThunkAction<Action>;
     updateParishArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     errors: Errors;
     archdeaconries: Archdeaconry[];
-    submitWord: string;
+    parishExists: boolean;
 }
 
 const Form = ({
     parish,
     archdeaconries,
     onSave,
+    onDelete,
     updateParishName,
     updateParishArchdeaconryId,
     hasBeenChanged,
     errors,
-    submitWord,
+    parishExists,
     }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateParishName(event.target.value);
@@ -80,7 +82,15 @@ const Form = ({
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Parish</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
+                {parishExists ? 'Update' : 'Create'} Parish
+            </button>
+            {
+                parishExists &&
+                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    Delete Parish
+                </button>
+            }
         </form>
     );
 }

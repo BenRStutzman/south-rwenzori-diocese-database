@@ -6,7 +6,7 @@ import './site.css'
 import ArchdeaconryHome from './components/archdeaconry/Home';
 import ArchdeaconryAdd from './components/archdeaconry/Add';
 import ArchdeaconryEdit from './components/archdeaconry/Edit';
-import ParishSearch from './components/parish/Search';
+import ParishSearch from './components/parish/Home';
 import ParishAdd from './components/parish/Add';
 import ParishEdit from './components/parish/Edit';
 import CongregationSearch from './components/congregation/Home';
