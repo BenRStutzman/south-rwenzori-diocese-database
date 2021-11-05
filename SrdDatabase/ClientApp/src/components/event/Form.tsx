@@ -126,12 +126,12 @@ const Form = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {eventExists ? "Update" : "Create"} Event
+                {eventExists ? "Update" : "Create"} event
             </button>
             {
                 eventExists &&
                 <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    Delete Event
+                    Delete event
                 </button>
             }
         </form>
