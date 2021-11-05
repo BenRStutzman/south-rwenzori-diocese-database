@@ -49,6 +49,7 @@ const Form = ({
                     id="name"
                     className="form-control"
                     type="text"
+                    spellCheck={false}
                     value={parish.name ? parish.name : ""}
                     onChange={onNameChange}
                     maxLength={50}

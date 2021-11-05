@@ -41,6 +41,7 @@ const Form = (
                     id="name"
                     className="form-control"
                     type="text"
+                    spellCheck={false}
                     value={archdeaconry.name ? archdeaconry.name : ""}
                     onChange={onNameChange}
                     required

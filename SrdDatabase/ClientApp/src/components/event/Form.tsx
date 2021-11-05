@@ -97,6 +97,7 @@ const Form = ({
                     id="personName"
                     className="form-control"
                     type="text"
+                    spellCheck={false}
                     value={event.personName ? event.personName : ""}
                     onChange={onPersonNameChange}
                     maxLength={50}
