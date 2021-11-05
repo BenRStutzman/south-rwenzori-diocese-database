@@ -32,7 +32,8 @@ const Edit = ({
     match,
     isSaving,
     hasBeenChanged,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         loadEventTypes();
         loadCongregations();

@@ -27,7 +27,8 @@ const Edit = ({
     saveCongregation,
     deleteCongregation,
     isSaving,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         loadParishes();
         const congregationId = parseInt(match.params.congregationId);

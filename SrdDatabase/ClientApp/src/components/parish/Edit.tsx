@@ -27,7 +27,8 @@ const Edit = ({
     match,
     isSaving,
     hasBeenChanged,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         loadArchdeaconries();
         const parishId = parseInt(match.params.parishId);

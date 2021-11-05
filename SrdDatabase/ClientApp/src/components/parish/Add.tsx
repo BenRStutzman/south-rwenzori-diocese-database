@@ -25,7 +25,8 @@ const Add = ({
     saveParish,
     isSaving,
     hasBeenChanged,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         loadArchdeaconries();
         resetParish();

@@ -33,7 +33,7 @@ const Form = ({
     hasBeenChanged,
     errors,
     eventExists,
-    }: Props) => {
+}: Props) => {
     const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setEventTypeId(parseInt(event.target.value));
     };

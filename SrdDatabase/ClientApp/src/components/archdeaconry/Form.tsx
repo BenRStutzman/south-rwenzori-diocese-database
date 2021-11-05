@@ -14,16 +14,15 @@ interface Props {
     errors: Errors;
 }
 
-const Form = (
-    {
-        archdeaconry,
-        onSave,
-        updateArchdeaconryName,
-        hasBeenChanged,
-        errors,
-        archdeaconryExists,
-        onDelete
-    }: Props) => {
+const Form = ({
+    archdeaconry,
+    onSave,
+    updateArchdeaconryName,
+    hasBeenChanged,
+    errors,
+    archdeaconryExists,
+    onDelete
+}: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateArchdeaconryName(event.target.value);
     };

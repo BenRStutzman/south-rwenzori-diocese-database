@@ -30,7 +30,8 @@ const Add = ({
     saveEvent,
     hasBeenChanged,
     isSaving,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         loadEventTypes();
         loadCongregations();

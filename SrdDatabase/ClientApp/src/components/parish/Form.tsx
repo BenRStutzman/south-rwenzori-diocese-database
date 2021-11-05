@@ -27,7 +27,7 @@ const Form = ({
     hasBeenChanged,
     errors,
     parishExists,
-    }: Props) => {
+}: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateParishName(event.target.value);
     };

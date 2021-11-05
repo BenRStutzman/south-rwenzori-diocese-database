@@ -27,7 +27,7 @@ const Form = ({
     hasBeenChanged,
     errors,
     congregationExists,
-    }: Props) => {
+}: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateCongregationName(event.target.value);
     }

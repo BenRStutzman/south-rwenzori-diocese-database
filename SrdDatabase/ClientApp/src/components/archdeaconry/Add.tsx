@@ -20,7 +20,8 @@ const Add = ({ archdeaconry,
     saveArchdeaconry,
     isSaving,
     hasBeenChanged,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => { resetArchdeaconry(); };
 
     useEffect(loadData, []);

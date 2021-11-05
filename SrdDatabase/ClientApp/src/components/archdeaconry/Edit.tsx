@@ -22,7 +22,8 @@ const Edit = ({ archdeaconryLoading,
     match,
     hasBeenChanged,
     isSaving,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
         loadArchdeaconry(archdeaconryId);

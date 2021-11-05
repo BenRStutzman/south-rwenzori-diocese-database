@@ -25,7 +25,8 @@ const Add = ({
     hasBeenChanged,
     saveCongregation,
     isSaving,
-    errors }: Props) => {
+    errors
+}: Props) => {
     const loadData = () => {
         loadParishes();
         resetCongregation();
