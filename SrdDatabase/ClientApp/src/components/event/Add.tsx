@@ -58,7 +58,7 @@ const Add = ({
                 errors={errors}
                 eventTypes={eventTypes}
                 congregations={congregations}
-                submitWord="Create"
+                eventExists={false}
             />
         </>;
 }

@@ -8,6 +8,7 @@ import { Congregation } from "../../store/congregation";
 interface Props {
     event: Event;
     onSave: () => void;
+    onDelete?: () => void;
     setEventTypeId: (eventTypeId: number) => AppThunkAction<Action>;
     setCongregationId: (parishId: number) => AppThunkAction<Action>;
     setPersonName: (personName: string) => AppThunkAction<Action>;
@@ -16,7 +17,7 @@ interface Props {
     errors: Errors;
     eventTypes: EventType[];
     congregations: Congregation[];
-    submitWord: string;
+    eventExists: boolean;
 }
 
 const Form = ({
@@ -24,13 +25,14 @@ const Form = ({
     congregations,
     eventTypes,
     onSave,
+    onDelete,
     setEventTypeId,
     setCongregationId,
     setPersonName,
     setDate,
     hasBeenChanged,
     errors,
-    submitWord,
+    eventExists,
     }: Props) => {
     const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setEventTypeId(parseInt(event.target.value));
@@ -122,7 +124,15 @@ const Form = ({
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Event</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
+                {eventExists ? "Update" : "Create"} Event
+            </button>
+            {
+                eventExists &&
+                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    Delete Event
+                </button>
+            }
         </form>
     );
 }

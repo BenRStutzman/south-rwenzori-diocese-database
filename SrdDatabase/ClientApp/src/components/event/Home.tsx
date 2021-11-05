@@ -23,6 +23,12 @@ const Home = ({
 
     const editEvent = (eventId: number) => history.push(`/event/edit/${eventId}`);
 
+    const onDelete = (event: Event) => {
+        if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
+            deleteEvent(event.id as number);
+        }
+    }
+
     return eventsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Events</h1>
@@ -51,7 +57,7 @@ const Home = ({
                                 </button>
                             </td>
                             <td>
-                                <button className="btn btn-danger" onClick={() => { deleteEvent(event.id as number); }}>
+                                <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
                                     Delete
                                 </button>
                             </td>

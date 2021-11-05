@@ -125,6 +125,21 @@ const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (d
         });
 };
 
+const deleteEvent = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    post<{ id: number }>('api/event/delete', { id })
+        .then(response => {
+            if (response.ok) {
+                history.push('/event');
+            } else {
+                throw response.text();
+            }
+        }).catch(errorPromise => {
+            errorPromise.then((errorMessage: string) => {
+                alert(errorMessage);
+            });
+        });
+};
+
 const setEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setEventTypeIdAction(eventTypeId));
 };
@@ -139,6 +154,19 @@ const setPersonName = (personName: string): AppThunkAction<Action> => (dispatch)
 
 const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDateAction(date));
+};
+
+export const actionCreators = {
+    loadCongregations,
+    loadEventTypes,
+    resetEvent,
+    loadEvent,
+    saveEvent,
+    deleteEvent,
+    setEventTypeId,
+    setCongregationId,
+    setPersonName,
+    setDate,
 };
 
 export interface State {
@@ -165,18 +193,6 @@ const initialState: State = {
     hasBeenChanged: false,
     isSaving: false,
     errors: {},
-};
-
-export const actionCreators = {
-    loadCongregations,
-    loadEventTypes,
-    resetEvent,
-    loadEvent,
-    saveEvent,
-    setEventTypeId,
-    setCongregationId,
-    setPersonName,
-    setDate,
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

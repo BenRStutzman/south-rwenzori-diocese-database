@@ -28,6 +28,7 @@ const Edit = ({
     loadCongregations,
     loadEventTypes,
     saveEvent,
+    deleteEvent,
     match,
     isSaving,
     hasBeenChanged,
@@ -43,7 +44,13 @@ const Edit = ({
 
     const onSave = () => {
         saveEvent(event, history);
-    }
+    };
+
+    const onDelete = () => {
+        if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
+            deleteEvent(event.id as number, history);
+        }
+    };
 
     return eventLoading || eventTypesLoading || congregationsLoading || isSaving
         ? <LoadingSpinner /> :
@@ -58,9 +65,10 @@ const Edit = ({
                 setEventTypeId={setEventTypeId}
                 setDate={setDate}
                 onSave={onSave}
+                onDelete={onDelete}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
-                submitWord="Update"
+                eventExists={true}
             />
         </>;
 }
