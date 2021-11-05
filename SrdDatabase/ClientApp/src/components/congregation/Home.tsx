@@ -6,6 +6,7 @@ import { Congregation } from '../../store/congregation';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 type Props = Store.State & typeof Store.actionCreators;
 
@@ -13,8 +14,10 @@ const Home = ({
     congregationsLoading,
     congregations,
     loadCongregations,
-    deleteCongregation }: Props) => {
-    const loadData = () => { loadCongregations() };
+    deleteCongregation,
+    deletingId,
+}: Props) => {
+    const loadData = () => { loadCongregations(); };
 
     useEffect(loadData, []);
 
@@ -22,7 +25,7 @@ const Home = ({
         if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
             deleteCongregation(congregation.id as number);
         }
-    }
+    };
 
     return congregationsLoading ? <LoadingSpinner /> :
         <>
@@ -49,7 +52,7 @@ const Home = ({
                             </td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                    Delete
+                                    {congregation.id === deletingId ? <Spinner size="sm" /> : "Delete"}
                                 </button>
                             </td>
                         </tr>

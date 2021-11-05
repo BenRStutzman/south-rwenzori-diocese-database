@@ -5,6 +5,7 @@ import { Congregation } from '.';
 
 const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'CONGREGATION.RECEIVE_CONGREGATIONS';
+const SET_DELETING_ID = 'CONGREGATION.SET_DELETING_ID';
 
 const requestCongregationsAction = (showLoading: boolean = true) => ({
     type: REQUEST_CONGREGATIONS,
@@ -14,6 +15,11 @@ const requestCongregationsAction = (showLoading: boolean = true) => ({
 const receiveCongregationsAction = (congregations: Congregation[]) => ({
     type: RECEIVE_CONGREGATIONS,
     value: congregations,
+});
+
+const setDeletingId = (congregationId?: number) => ({
+    type: SET_DELETING_ID,
+    value: congregationId,
 });
 
 const loadCongregations = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
@@ -26,6 +32,8 @@ const loadCongregations = (showLoading: boolean = true): AppThunkAction<Action> 
 };
 
 const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDeletingId(id));
+
     post<{ id: number }>('api/congregation/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -37,6 +45,8 @@ const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) =>
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setDeletingId(undefined));
         });
 };
 
@@ -48,9 +58,14 @@ export const actionCreators = {
 export interface State {
     congregationsLoading: boolean;
     congregations: Congregation[];
+    deletingId?: number;
 }
 
-const initialState: State = { congregations: [], congregationsLoading: true };
+const initialState: State = {
+    congregations: [],
+    congregationsLoading: true,
+    deletingId: undefined,
+};
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
@@ -64,6 +79,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 congregations: action.value,
                 congregationsLoading: false,
+            };
+        case SET_DELETING_ID:
+            return {
+                ...state,
+                deletingId: action.value,
             };
         default:
             return state;

@@ -6,7 +6,7 @@ import { Archdeaconry } from '../../store/archdeaconry';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
-import Row from './Row';
+import { Spinner } from 'reactstrap';
 
 type Props = Store.State & typeof Store.actionCreators;
 
@@ -20,6 +20,12 @@ const Home = ({
     const loadData = () => { loadArchdeaconries() };
 
     useEffect(loadData, []);
+
+    const onDelete = (archdeaconry: Archdeaconry) => {
+        if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
+            deleteArchdeaconry(archdeaconry.id as number);
+        }
+    };
 
     return archdeaconriesLoading ? <LoadingSpinner /> :
         <>
@@ -35,12 +41,19 @@ const Home = ({
                 </thead>
                 <tbody>
                     {archdeaconries.map((archdeaconry: Archdeaconry) =>
-                        <Row
-                            key={archdeaconry.id}
-                            archdeaconry={archdeaconry}
-                            deleteArchdeaconry={deleteArchdeaconry}
-                            isDeleting={deletingId === archdeaconry.id}
-                        />
+                        <tr key={archdeaconry.id}>
+                            <td>{archdeaconry.name}</td>
+                            <td>
+                                <Link className="btn btn-secondary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
+                                    Edit
+                                </Link>
+                            </td>
+                            <td>
+                                <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
+                                    {archdeaconry.id === deletingId ? <Spinner size="sm" /> : "Delete"}
+                                </button>
+                            </td>
+                        </tr>
                     )}
                 </tbody>
             </table>

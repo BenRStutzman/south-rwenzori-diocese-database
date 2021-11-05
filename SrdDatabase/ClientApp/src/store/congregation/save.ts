@@ -102,6 +102,8 @@ const saveCongregation = (congregation: Congregation, history: History): AppThun
 };
 
 const deleteCongregation = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsSavingAction(true));
+
     post<{ id: number }>('api/congregation/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -113,6 +115,8 @@ const deleteCongregation = (id: number, history: History): AppThunkAction<Action
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setIsSavingAction(false));
         });
 };
 
