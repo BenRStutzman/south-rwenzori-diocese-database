@@ -23,6 +23,12 @@ const Home = ({
 
     const editCongregation = (congregationId: number) => history.push(`/congregation/edit/${congregationId}`);
 
+    const onDelete = (congregation: Congregation) => {
+        if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
+            deleteCongregation(congregation.id as number);
+        }
+    }
+
     return congregationsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Congregations</h1>
@@ -47,7 +53,7 @@ const Home = ({
                                 </button>
                             </td>
                             <td>
-                                <button className="btn btn-danger"onClick={() => { deleteCongregation(congregation.id as number); }}>
+                                <button className="btn btn-danger"onClick={() => { onDelete(congregation); }}>
                                     Delete
                                 </button>
                             </td>

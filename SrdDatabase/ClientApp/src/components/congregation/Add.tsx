@@ -48,7 +48,7 @@ const Add = ({
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
                 parishes={parishes}
-                submitWord="Create"
+                congregationExists={false}
             />
         </>;
 }

@@ -8,23 +8,25 @@ import { Parish } from "../../store/parish";
 interface Props {
     congregation: Congregation;
     onSave: () => void;
+    onDelete?: () => void;
     updateCongregationName: (name: string) => AppThunkAction<Action>;
     updateCongregationParishId: (parishId: number) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     errors: Errors;
     parishes: Parish[];
-    submitWord: string;
+    congregationExists: boolean;
 }
 
 const Form = ({
     congregation,
     parishes,
     onSave,
+    onDelete,
     updateCongregationName,
     updateCongregationParishId,
     hasBeenChanged,
     errors,
-    submitWord
+    congregationExists,
     }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         updateCongregationName(event.target.value);
@@ -80,7 +82,15 @@ const Form = ({
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">{submitWord} Congregation</button>
+            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
+                {congregationExists ? 'Update' : 'Create'} Congregation
+            </button>
+            {
+                congregationExists &&
+                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    Delete Congregation
+                </button>
+            }
         </form>
     );
 }

@@ -6,6 +6,7 @@ import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Congregation } from '../../store/congregation';
 
 type Props =
     Store.State
@@ -25,6 +26,7 @@ const Edit = ({
     match,
     hasBeenChanged,
     saveCongregation,
+    deleteCongregation,
     isSaving,
     errors }: Props) => {
     const loadData = () => {
@@ -37,7 +39,13 @@ const Edit = ({
 
     const onSave = () => {
         saveCongregation(congregation, history);
-    }
+    };
+
+    const onDelete = () => {
+        if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
+            deleteCongregation(congregation.id as number, history);
+        }
+    };
 
     return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :
         <>
@@ -48,9 +56,10 @@ const Edit = ({
                 updateCongregationName={setName}
                 updateCongregationParishId={setParishId}
                 onSave={onSave}
+                onDelete={onDelete}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
-                submitWord="Update"
+                congregationExists={true}
             />
         </>;
 }
