@@ -17,7 +17,7 @@ const receiveCongregationsAction = (congregations: Congregation[]) => ({
     value: congregations,
 });
 
-const setDeletingId = (congregationId?: number) => ({
+const setDeletingIdAction = (congregationId?: number) => ({
     type: SET_DELETING_ID,
     value: congregationId,
 });
@@ -32,7 +32,7 @@ const loadCongregations = (showLoading: boolean = true): AppThunkAction<Action> 
 };
 
 const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingId(id));
+    dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/congregation/delete', { id })
         .then(response => {
@@ -46,7 +46,7 @@ const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) =>
                 alert(errorMessage);
             });
         }).finally(() => {
-            dispatch(setDeletingId(undefined));
+            dispatch(setDeletingIdAction(undefined));
         });
 };
 

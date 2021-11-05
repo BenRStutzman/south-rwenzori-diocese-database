@@ -6,6 +6,7 @@ import { Event } from '../../store/event';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 type Props = Store.State & typeof Store.actionCreators;
 
@@ -13,7 +14,9 @@ const Home = ({
     eventsLoading,
     events,
     loadEvents,
-    deleteEvent }: Props) => {
+    deleteEvent,
+    deletingId,
+}: Props) => {
     const loadData = () => { loadEvents() };
 
     useEffect(loadData, []);
@@ -53,7 +56,7 @@ const Home = ({
                             </td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
-                                    Delete
+                                    {event.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
                                 </button>
                             </td>
                         </tr>

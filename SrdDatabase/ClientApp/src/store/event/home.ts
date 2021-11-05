@@ -5,6 +5,7 @@ import { Event } from '.';
 
 const REQUEST_EVENTS = 'EVENT.REQUEST_EVENTS';
 const RECEIVE_EVENTS = 'EVENT.RECEIVE_EVENTS';
+const SET_DELETING_ID = 'EVENT.SET_DELETING_ID';
 
 export const requestEventsAction = (showLoading: boolean = true) => ({
     type: REQUEST_EVENTS,
@@ -14,6 +15,11 @@ export const requestEventsAction = (showLoading: boolean = true) => ({
 export const receiveEventsAction = (events: Event[]) => ({
     type: RECEIVE_EVENTS,
     value: events,
+});
+
+export const setDeletingIdAction = (eventId?: number) => ({
+    type: SET_DELETING_ID,
+    value: eventId,
 });
 
 export const loadEvents = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
@@ -26,6 +32,8 @@ export const loadEvents = (showLoading: boolean = true): AppThunkAction<Action> 
 };
 
 const deleteEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDeletingIdAction(id));
+
     post<{ id: number }>('api/event/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -37,6 +45,8 @@ const deleteEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setDeletingIdAction(undefined));
         });
 };
 
@@ -48,9 +58,14 @@ export const actionCreators = {
 export interface State {
     eventsLoading: boolean;
     events: Event[];
+    deletingId?: number;
 }
 
-const initialState: State = { events: [], eventsLoading: true };
+const initialState: State = {
+    events: [],
+    eventsLoading: true,
+    deletingId: undefined,
+};
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
@@ -64,6 +79,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 events: action.value,
                 eventsLoading: false,
+            };
+        case SET_DELETING_ID:
+            return {
+                ...state,
+                deletingId: action.value,
             };
         default:
             return state;

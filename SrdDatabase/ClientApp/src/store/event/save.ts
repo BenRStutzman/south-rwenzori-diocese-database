@@ -126,6 +126,8 @@ const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (d
 };
 
 const deleteEvent = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsSavingAction(true));
+
     post<{ id: number }>('api/event/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -137,6 +139,8 @@ const deleteEvent = (id: number, history: History): AppThunkAction<Action> => (d
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setIsSavingAction(false));
         });
 };
 

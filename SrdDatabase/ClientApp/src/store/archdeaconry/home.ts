@@ -17,7 +17,7 @@ const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
     value: archdeaconries,
 });
 
-const setDeletingId = (archdeaconryId?: number) => ({
+const setDeletingIdAction = (archdeaconryId?: number) => ({
     type: SET_DELETING_ID,
     value: archdeaconryId,
 })
@@ -32,7 +32,7 @@ const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action>
 };
 
 const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingId(id));
+    dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
@@ -46,7 +46,7 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
                 alert(errorMessage);
             });
         }).finally(() => {
-            dispatch(setDeletingId(undefined));
+            dispatch(setDeletingIdAction(undefined));
         });
 };
 
