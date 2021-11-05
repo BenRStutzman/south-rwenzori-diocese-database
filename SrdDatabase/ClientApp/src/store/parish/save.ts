@@ -103,6 +103,8 @@ const saveParish = (parish: Parish, history: History): AppThunkAction<Action> =>
 };
 
 const deleteParish = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsSavingAction(true));
+
     post<{ id: number }>('api/parish/delete', { id })
         .then(response => {
             if (response.ok) {
@@ -114,6 +116,8 @@ const deleteParish = (id: number, history: History): AppThunkAction<Action> => (
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
             });
+        }).finally(() => {
+            dispatch(setIsSavingAction(false));
         });
 };
 

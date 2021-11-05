@@ -6,6 +6,7 @@ import { Parish } from '../../store/parish';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 type Props = Store.State & typeof Store.actionCreators;
 
@@ -13,7 +14,9 @@ const Home = ({
     parishesLoading,
     parishes,
     loadParishes,
-    deleteParish }: Props) => {
+    deleteParish,
+    deletingId,
+}: Props) => {
     const loadData = () => { loadParishes() };
 
     useEffect(loadData, []);
@@ -49,7 +52,7 @@ const Home = ({
                             </td>
                             <td>
                                 <button className="btn btn-danger"onClick={() => { onDelete(parish); }}>
-                                    Delete
+                                    {parish.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
                                 </button>
                             </td>
                         </tr>

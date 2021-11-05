@@ -3,25 +3,69 @@ import { AppThunkAction, Action } from '..';
 import { get, post } from '../../apiHelpers';
 import { Parish } from '.';
 
-export interface State {
-    parishesLoading: boolean;
-    parishes: Parish[];
-}
+const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';
+const RECEIVE_PARISHES = 'PARISH.RECEIVE_PARISHES';
+const SET_DELETING_ID = 'PARISH.SET_DELETING_ID';
 
-const initialState: State = { parishes: [], parishesLoading: true };
-
-export const REQUEST_PARISHES = 'REQUEST_PARISHES';
-export const RECEIVE_PARISHES = 'RECEIVE_PARISHES';
-
-export const requestParishesAction = (showLoading: boolean = true) => ({
+const requestParishesAction = (showLoading: boolean = true) => ({
     type: REQUEST_PARISHES,
     value: showLoading,
 });
 
-export const receiveParishesAction = (parishes: Parish[]) => ({
+const receiveParishesAction = (parishes: Parish[]) => ({
     type: RECEIVE_PARISHES,
     value: parishes,
 });
+
+const setDeletingIdAction = (parishId?: number) => ({
+    type: SET_DELETING_ID,
+    value: parishId,
+});
+
+export const loadParishes = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
+    get<Parish[]>('api/parish/all')
+        .then(parishes => {
+            dispatch(receiveParishesAction(parishes));
+        });
+
+    dispatch(requestParishesAction(showLoading));
+};
+
+const deleteParish = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDeletingIdAction(id));
+
+    post<{ id: number }>('api/parish/delete', { id })
+        .then(response => {
+            if (response.ok) {
+                dispatch(loadParishes(false));
+            } else {
+                throw response.text();
+            }
+        }).catch(errorPromise => {
+            errorPromise.then((errorMessage: string) => {
+                alert(errorMessage);
+            });
+        }).finally(() => {
+            dispatch(setDeletingIdAction(undefined));
+        });
+};
+
+export const actionCreators = {
+    loadParishes,
+    deleteParish,
+};
+
+export interface State {
+    parishesLoading: boolean;
+    parishes: Parish[];
+    deletingId?: number;
+}
+
+const initialState: State = {
+    parishes: [],
+    parishesLoading: true,
+    deletingId: undefined,
+};
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
@@ -36,36 +80,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parishes: action.value,
                 parishesLoading: false,
             };
+        case SET_DELETING_ID:
+            return {
+                ...state,
+                deletingId: action.value,
+            };
         default:
             return state;
     }
-};
-
-export const loadParishes = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
-    get<Parish[]>('api/parish/all')
-        .then(parishes => {
-            dispatch(receiveParishesAction(parishes));
-        });
-
-    dispatch(requestParishesAction(showLoading));
-};
-
-const deleteParish = (id: number): AppThunkAction<Action> => (dispatch) => {
-    post<{ id: number }>('api/parish/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                dispatch(loadParishes(false));
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                alert(errorMessage);
-            });
-        });
-};
-
-export const actionCreators = {
-    loadParishes,
-    deleteParish,
 };
