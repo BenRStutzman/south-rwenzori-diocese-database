@@ -4,24 +4,19 @@ import { State } from '../../store';
 import * as Store from '../../store/congregation/home';
 import { Congregation } from '../../store/congregation';
 import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
-type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
+type Props = Store.State & typeof Store.actionCreators;
 
 const Home = ({
     congregationsLoading,
     congregations,
-    history,
     loadCongregations,
     deleteCongregation }: Props) => {
     const loadData = () => { loadCongregations() };
 
     useEffect(loadData, []);
-
-    const addCongregation = () => history.push(`/congregation/add`);
-
-    const editCongregation = (congregationId: number) => history.push(`/congregation/edit/${congregationId}`);
 
     const onDelete = (congregation: Congregation) => {
         if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
@@ -32,7 +27,7 @@ const Home = ({
     return congregationsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Congregations</h1>
-            <button className="btn btn-primary float-right" onClick={addCongregation}>Add new</button>
+            <Link className="btn btn-primary float-right" to="/congregation/add">Add new</Link>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -48,12 +43,12 @@ const Home = ({
                             <td>{congregation.name}</td>
                             <td>{congregation.parish}</td>
                             <td>
-                                <button className="btn btn-secondary"onClick={() => { editCongregation(congregation.id as number); }}>
+                                <Link className="btn btn-secondary" to={`/congregation/edit/${congregation.id}`}>
                                     Edit
-                                </button>
+                                </Link>
                             </td>
                             <td>
-                                <button className="btn btn-danger"onClick={() => { onDelete(congregation); }}>
+                                <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
                                     Delete
                                 </button>
                             </td>

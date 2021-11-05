@@ -4,24 +4,19 @@ import { State } from '../../store';
 import * as Store from '../../store/event/home';
 import { Event } from '../../store/event';
 import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
-type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
+type Props = Store.State & typeof Store.actionCreators;
 
 const Home = ({
     eventsLoading,
     events,
-    history,
     loadEvents,
     deleteEvent }: Props) => {
     const loadData = () => { loadEvents() };
 
     useEffect(loadData, []);
-
-    const addEvent = () => history.push(`/event/add`);
-
-    const editEvent = (eventId: number) => history.push(`/event/edit/${eventId}`);
 
     const onDelete = (event: Event) => {
         if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
@@ -32,7 +27,7 @@ const Home = ({
     return eventsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Events</h1>
-            <button className="btn btn-primary float-right" onClick={addEvent}>Add new</button>
+            <Link className="btn btn-primary float-right" to="/event/add">Add new</Link>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -52,9 +47,9 @@ const Home = ({
                             <td>{event.personName}</td>
                             <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                             <td>
-                                <button className="btn btn-secondary" onClick={() => { editEvent(event.id as number); }}>
+                                <Link className="btn btn-secondary" to={`/event/edit/${event.id}`}>
                                     Edit
-                                </button>
+                                </Link>
                             </td>
                             <td>
                                 <button className="btn btn-danger" onClick={() => { onDelete(event); }}>

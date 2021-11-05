@@ -4,24 +4,19 @@ import { State } from '../../store';
 import * as Store from '../../store/parish/home';
 import { Parish } from '../../store/parish';
 import { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
-type Props = Store.State & typeof Store.actionCreators & RouteComponentProps;
+type Props = Store.State & typeof Store.actionCreators;
 
 const Home = ({
     parishesLoading,
     parishes,
-    history,
     loadParishes,
     deleteParish }: Props) => {
     const loadData = () => { loadParishes() };
 
     useEffect(loadData, []);
-
-    const addParish = () => history.push(`/parish/add`);
-
-    const editParish = (parishId: number) => history.push(`/parish/edit/${parishId}`);
 
     const onDelete = (parish: Parish) => {
         if (window.confirm(`Are you sure you want to delete ${parish.name} Parish?`)) {
@@ -32,7 +27,7 @@ const Home = ({
     return parishesLoading ? <LoadingSpinner/> :
         <>
             <h1 className="page-title">Parishes</h1>
-            <button className="btn btn-primary float-right" onClick={addParish}>Add new</button>
+            <Link className="btn btn-primary float-right" to="/parish/add">Add new</Link>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -48,9 +43,9 @@ const Home = ({
                             <td>{parish.name}</td>
                             <td>{parish.archdeaconry}</td>
                             <td>
-                                <button className="btn btn-secondary"onClick={() => { editParish(parish.id as number); }}>
+                                <Link className="btn btn-secondary" to={`/parish/edit/${parish.id}`}>
                                     Edit
-                                </button>
+                                </Link>
                             </td>
                             <td>
                                 <button className="btn btn-danger"onClick={() => { onDelete(parish); }}>
