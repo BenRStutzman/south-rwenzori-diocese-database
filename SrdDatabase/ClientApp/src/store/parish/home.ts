@@ -43,10 +43,9 @@ const deleteParish = (id: number): AppThunkAction<Action> => (dispatch) => {
             }
         }).catch(errorPromise => {
             errorPromise.then((errorMessage: string) => {
+                dispatch(setDeletingIdAction(undefined));
                 alert(errorMessage);
             });
-        }).finally(() => {
-            dispatch(setDeletingIdAction(undefined));
         });
 };
 
@@ -79,6 +78,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parishes: action.value,
                 parishesLoading: false,
+                deletingId: undefined,
             };
         case SET_DELETING_ID:
             return {
