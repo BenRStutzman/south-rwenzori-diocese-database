@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { get, post } from '../../apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
 import { Parish } from '.';
 
 const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';

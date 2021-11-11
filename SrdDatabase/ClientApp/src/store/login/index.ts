@@ -1,6 +1,7 @@
 ﻿import { Reducer } from "redux";
 import { Action, AppThunkAction } from "..";
-import { post } from "../../apiHelpers";
+import { post } from "../../helpers/apiHelpers";
+import { History } from 'history';
 
 export interface User {
     id: number;
@@ -53,7 +54,12 @@ const setPassword = (password: string): AppThunkAction<Action> => (dispatch) => 
     dispatch(setPasswordAction(password));
 };
 
-const attemptLogin = (credentials: Credentials): AppThunkAction<Action> => (dispatch) => {
+const login = (user: User): AppThunkAction<Action> => (dispatch) => {
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch(loginAction(user));
+};
+
+const authenticate = (credentials: Credentials, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction(true));
 
     post<Credentials>('/api/user/login', credentials)
@@ -65,6 +71,7 @@ const attemptLogin = (credentials: Credentials): AppThunkAction<Action> => (disp
             }
         }).then(user => {
             dispatch(login(user));
+            history.push('/');
         }).catch(errorPromise => {
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);
@@ -74,11 +81,6 @@ const attemptLogin = (credentials: Credentials): AppThunkAction<Action> => (disp
         });
 };
 
-const login = (user: User): AppThunkAction<Action> => (dispatch) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    dispatch(loginAction(user));
-}
-
 const logout = (): AppThunkAction<Action> => (dispatch) => {
     localStorage.removeItem('user');
     dispatch(logoutAction());
@@ -87,7 +89,7 @@ const logout = (): AppThunkAction<Action> => (dispatch) => {
 export const actionCreators = {
     setUsername,
     setPassword,
-    attemptLogin,
+    authenticate,
     logout,
 };
 
@@ -142,6 +144,9 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 user: undefined,
                 isLoggedIn: false,
+                credentials: {},
             };
+        default:
+            return state;
     }
 }

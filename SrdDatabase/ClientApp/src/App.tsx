@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Route } from 'react-router';
 import Layout from './components/Layout';
-import Home from './components/Home';
 import './site.css'
+import Home from './components/Home';
+import Login from './components/Login';
 import ArchdeaconryHome from './components/archdeaconry/Home';
 import ArchdeaconryAdd from './components/archdeaconry/Add';
 import ArchdeaconryEdit from './components/archdeaconry/Edit';
@@ -19,6 +20,7 @@ import EventEdit from './components/event/Edit';
 export default () => (
     <Layout>
         <Route exact path='/' component={Home} />
+        <Route exact path='/login' component={Login} />
         <Route exact path='/archdeaconry' component={ArchdeaconryHome} />
         <Route exact path='/archdeaconry/add' component={ArchdeaconryAdd} />
         <Route exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} />

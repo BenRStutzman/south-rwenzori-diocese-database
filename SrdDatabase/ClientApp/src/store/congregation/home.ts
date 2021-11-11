@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { get, post } from '../../apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '.';
 
 const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';

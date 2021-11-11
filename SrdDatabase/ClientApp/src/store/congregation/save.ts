@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
-import { ErrorResponse, Errors, get, post } from '../../apiHelpers';
+import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '.';
 import { History } from 'history';
 import { Parish } from '../parish';

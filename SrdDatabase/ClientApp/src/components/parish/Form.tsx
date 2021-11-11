@@ -2,7 +2,7 @@
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../apiHelpers";
+import { Errors } from "../../helpers/apiHelpers";
 import { Archdeaconry } from "../../store/archdeaconry";
 
 interface Props {
