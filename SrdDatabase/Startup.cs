@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using SrdDatabase.Services;
+using SrdDatabase.Middleware;
 
 namespace SrdDatabase
 {
@@ -52,6 +53,8 @@ namespace SrdDatabase
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

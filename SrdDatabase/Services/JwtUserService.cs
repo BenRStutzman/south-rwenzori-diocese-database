@@ -22,7 +22,7 @@ namespace SrdDatabase.Services
 
         public JwtUserService(IConfiguration configuration)
         {
-            _secret = configuration.GetValue<string>("Secret");
+            _secret = configuration.GetValue<string>("Authentication.Secret");
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest request)
