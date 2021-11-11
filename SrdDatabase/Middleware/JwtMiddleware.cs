@@ -18,7 +18,7 @@ namespace SrdDatabase.Middleware
         public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
-            _secret = configuration.GetValue<string>("Authentication.Secret");
+            _secret = configuration.GetValue<string>("Authentication:Secret");
         }
 
         public async Task Invoke(HttpContext context, IUserService userService)
@@ -27,8 +27,10 @@ namespace SrdDatabase.Middleware
 
             if (token != null)
             {
-                    
+                AttachUserToContext(context, userService, token);
             }
+
+            await _next(context);
         }
 
         private void AttachUserToContext(HttpContext context, IUserService userService, string token)
