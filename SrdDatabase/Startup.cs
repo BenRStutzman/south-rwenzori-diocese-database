@@ -24,6 +24,7 @@ namespace SrdDatabase
             services.AddControllersWithViews();
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<IDbService, MySqlDbService>();
+            services.AddSingleton<IUserService, JwtUserService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
