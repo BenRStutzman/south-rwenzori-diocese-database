@@ -7,22 +7,22 @@ const REQUEST_EVENTS = 'EVENT.REQUEST_EVENTS';
 const RECEIVE_EVENTS = 'EVENT.RECEIVE_EVENTS';
 const SET_DELETING_ID = 'EVENT.SET_DELETING_ID';
 
-export const requestEventsAction = (showLoading: boolean = true) => ({
+const requestEventsAction = (showLoading: boolean = true) => ({
     type: REQUEST_EVENTS,
     value: showLoading,
 });
 
-export const receiveEventsAction = (events: Event[]) => ({
+const receiveEventsAction = (events: Event[]) => ({
     type: RECEIVE_EVENTS,
     value: events,
 });
 
-export const setDeletingIdAction = (eventId?: number) => ({
+const setDeletingIdAction = (eventId?: number) => ({
     type: SET_DELETING_ID,
     value: eventId,
 });
 
-export const loadEvents = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
+const loadEvents = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
     get<Event[]>('api/event/all')
         .then(events => {
             dispatch(receiveEventsAction(events));

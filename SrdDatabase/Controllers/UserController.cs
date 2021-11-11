@@ -15,8 +15,8 @@ namespace SrdDatabase.Controllers
             _userService = userService;
         }
 
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticateRequest request)
+        [HttpPost("login")]
+        public IActionResult Login(AuthenticateRequest request)
         {
             var response = _userService.Authenticate(request);
 
