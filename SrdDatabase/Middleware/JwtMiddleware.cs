@@ -13,27 +13,32 @@ namespace SrdDatabase.Middleware
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IUserService _userService;
         private readonly string _secret;
 
-        public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
+        public JwtMiddleware(
+            RequestDelegate next,
+            IConfiguration configuration,
+            IUserService userService)
         {
             _next = next;
             _secret = configuration.GetValue<string>("Authentication:Secret");
+            _userService = userService;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService)
+        public async Task Invoke(HttpContext context)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
             {
-                AttachUserToContext(context, userService, token);
+                AttachUserToContext(context, token);
             }
 
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, IUserService userService, string token)
+        private void AttachUserToContext(HttpContext context, string token)
         {
             try
             {
@@ -51,7 +56,7 @@ namespace SrdDatabase.Middleware
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(claim => claim.Type == "id").Value);
 
-                context.Items["User"] = userService.GetById(userId);
+                context.Items["User"] = _userService.GetById(userId);
             }
             catch
             {
