@@ -65,6 +65,7 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
+        [MicrosoftAuthorization.AllowAnonymous]
         [HttpPost("save")]
         public async Task<int> Save([FromBody] SaveUser.Command command)
         {

@@ -14,12 +14,12 @@ namespace SrdDatabase.Data.Queries
         {
             public string Username { get; }
 
-            public string Password { get; }
+            public string PasswordHash { get; }
 
             public Query(string username, string password)
             {
                 Username = username;
-                Password = password;
+                PasswordHash = password;
             }
         }
 

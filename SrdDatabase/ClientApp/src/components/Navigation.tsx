@@ -37,7 +37,10 @@ const Navigation = ({ isLoggedIn }: Props) => {
                                     <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/login'>Logout</NavLink>
+                                    <NavLink tag={Link} className='text-dark' to='/user'>Users</NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink tag={Link} className='text-blue' to='/login'>Logout</NavLink>
                                 </NavItem>
                             </ul>
                         </Collapse>

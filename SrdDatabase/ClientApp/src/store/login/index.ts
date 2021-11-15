@@ -99,7 +99,7 @@ export interface State {
 };
 
 const userJson = localStorage.getItem('userData');
-const user = userJson ? (JSON.parse(userJson) as UserData)?.user : undefined;
+const user = userJson ? (JSON.parse(userJson) as UserData).user : undefined;
 
 const initialState: State = {
     isLoading: false,

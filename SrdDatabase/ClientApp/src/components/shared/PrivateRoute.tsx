@@ -7,7 +7,7 @@ type Props = Omit<RouteProps, 'component'> & {
 
 const PrivateRoute = ({component : Component, ...rest }: Props) =>
     <Route {...rest} render={props => (
-        localStorage.getItem('user')
+        localStorage.getItem('userData')
             ? <Component {...props} />
             : <Redirect to={'/login'} />
     )}/>
