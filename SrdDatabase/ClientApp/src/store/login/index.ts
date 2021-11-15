@@ -2,19 +2,11 @@
 import { Action, AppThunkAction } from "..";
 import { post } from "../../helpers/apiHelpers";
 import { History } from 'history';
+import { User } from "../user";
 
 export interface UserData {
     user: User;
     token: String;
-}
-
-export interface User {
-    id: number;
-    firstName: string;
-    lastName: string;
-    userName: string;
-    userType: string;
-    userTypeId: number;
 }
 
 interface Credentials {
