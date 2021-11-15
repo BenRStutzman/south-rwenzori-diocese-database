@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SrdDatabase.Data.Queries;
+using SrdDatabase.Domain.Queries;
 using SrdDatabase.Models.User;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,11 @@ namespace SrdDatabase.Services
             _mediator = mediator;
         }
 
-        public async Task<AuthenticationResponse> Authenticate(AuthenticateUser.Query query)
+        public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
         {
-            var user = await _mediator.Send(query);
+            var user = await _mediator.Send(new GetUserByUsername.Query(request.Username));
 
-            if (user == null)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
             {
                 return null;
             }

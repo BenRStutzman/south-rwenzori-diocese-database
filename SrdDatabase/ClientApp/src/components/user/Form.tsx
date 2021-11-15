@@ -3,7 +3,6 @@ import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
 import { Errors } from "../../helpers/apiHelpers";
-import { Congregation } from "../../store/congregation";
 
 interface Props {
     user: User;
@@ -99,7 +98,7 @@ const Form = ({
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="name">Reset password</label>
+                <label htmlFor="name">{userExists ? 'Reset password' : 'Password'}</label>
                 <input
                     id="password"
                     className="form-control"

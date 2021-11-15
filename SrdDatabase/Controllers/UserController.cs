@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MicrosoftAuthorization = Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Attributes;
 using SrdDatabase.Data.Commands;
@@ -27,11 +26,11 @@ namespace SrdDatabase.Controllers
             _mediator = mediator;
         }
 
-        [MicrosoftAuthorization.AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(AuthenticateUser.Query query)
+        public async Task<IActionResult> Login(AuthenticationRequest request)
         {
-            var response = await _userService.Authenticate(query);
+            var response = await _userService.Authenticate(request);
 
             if (response == null)
             {
@@ -53,6 +52,7 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetAllUsers.Query());
         }
 
+        [AllowAnonymous]
         [HttpGet("types")]
         public async Task<IEnumerable<UserType>> GetTypes()
         {
@@ -65,9 +65,9 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
-        [MicrosoftAuthorization.AllowAnonymous]
+        [AllowAnonymous] //TODO: remove!
         [HttpPost("save")]
-        public async Task<int> Save([FromBody] SaveUser.Command command)
+        public async Task<int> Save([FromBody] Domain.Commands.SaveUser.Command command)
         {
             return await _mediator.Send(command);
         }

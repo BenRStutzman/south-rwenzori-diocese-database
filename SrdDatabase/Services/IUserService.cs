@@ -7,7 +7,7 @@ namespace SrdDatabase.Services
 {
     public interface IUserService
     {
-        Task<AuthenticationResponse> Authenticate(AuthenticateUser.Query query);
+        Task<AuthenticationResponse> Authenticate(AuthenticationRequest request);
 
         IEnumerable<User> GetAll();
 

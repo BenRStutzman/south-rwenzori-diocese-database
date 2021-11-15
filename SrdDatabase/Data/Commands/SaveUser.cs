@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using System.ComponentModel.DataAnnotations;
-using BCrypt.Net;
 
 namespace SrdDatabase.Data.Commands
 {
@@ -15,34 +13,30 @@ namespace SrdDatabase.Data.Commands
         {
             public int? Id { get; }
 
-            [Required]
-            [StringLength(50)]
             public string Name { get; }
-
-            [Required]
-            [StringLength(50)]
 
             public string Username { get; }
 
-            [Required]
-            [StringLength(60)]
-            public string PasswordHash { get; }
+            public string Password { get; }
 
-            [Required]
             public byte UserTypeId { get; }
+
+            public bool SetPassword { get; }
 
             public Command(
                 int? id,
                 string name,
                 string username,
                 string password,
-                byte userTypeId)
+                byte userTypeId,
+                bool setPassword)
             {
                 Id = id;
                 Name = name;
                 Username = username;
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
+                Password = password;
                 UserTypeId = userTypeId;
+                SetPassword = setPassword;
             }
         }
 
