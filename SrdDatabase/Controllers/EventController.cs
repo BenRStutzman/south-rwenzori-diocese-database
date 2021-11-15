@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Data.Queries;
+using SrdDatabase.Attributes;
 
 namespace SrdDatabase.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class EventController : Controller
     {

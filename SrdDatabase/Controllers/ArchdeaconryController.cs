@@ -10,8 +10,8 @@ using SrdDatabase.Attributes;
 namespace SrdDatabase.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
     [Authorize]
+    [Route("api/[controller]")]
     public class ArchdeaconryController : Controller
     {
         private readonly IMediator _mediator;
