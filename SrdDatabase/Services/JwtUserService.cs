@@ -1,34 +1,32 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.User;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SrdDatabase.Services
 {
     public class JwtUserService : IUserService
     {
-        private readonly List<User> _fakeUsers = new()
-        {
-            new User(1, "Test", "User", "test", "test"),
-            new User(2, "Test", "User Jr.", "test2", "test2"),
-        };
-
         private readonly string _secret;
 
-        public JwtUserService(IConfiguration configuration)
+        private readonly IMediator _mediator;
+
+        public JwtUserService(IConfiguration configuration, IMediator mediator)
         {
             _secret = configuration.GetValue<string>("Authentication:Secret");
+            _mediator = mediator;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest request)
+        public async Task<AuthenticationResponse> Authenticate(AuthenticateUser.Query query)
         {
-            var user = _fakeUsers.SingleOrDefault(user =>
-                user.Username == request.Username && user.Password == request.Password);
+            var user = await _mediator.Send(query);
 
             if (user == null)
             {
@@ -36,17 +34,19 @@ namespace SrdDatabase.Services
             }
 
             var token = GenerateJwtToken(user);
-            return new AuthenticateResponse(user, token);
+            return new AuthenticationResponse(user, token);
         }
 
         public IEnumerable<User> GetAll()
         {
-            return _fakeUsers;
+            // TODO
+            throw new NotImplementedException();
         }
 
         public User GetById(int id)
         {
-            return _fakeUsers.FirstOrDefault(user => user.Id == id);
+            // TODO
+            throw new NotImplementedException();
         }
 
         private string GenerateJwtToken(User user)

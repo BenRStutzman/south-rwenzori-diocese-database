@@ -3,12 +3,18 @@ import { Action, AppThunkAction } from "..";
 import { post } from "../../helpers/apiHelpers";
 import { History } from 'history';
 
+export interface UserData {
+    user: User;
+    token: String;
+}
+
 export interface User {
     id: number;
     firstName: string;
     lastName: string;
     userName: string;
-    token: string;
+    userType: string;
+    userTypeId: number;
 }
 
 interface Credentials {
@@ -54,9 +60,9 @@ const setPassword = (password: string): AppThunkAction<Action> => (dispatch) => 
     dispatch(setPasswordAction(password));
 };
 
-const login = (user: User): AppThunkAction<Action> => (dispatch) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    dispatch(loginAction(user));
+const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    dispatch(loginAction(userData.user));
 };
 
 const authenticate = (credentials: Credentials, history: History): AppThunkAction<Action> => (dispatch) => {
@@ -65,12 +71,12 @@ const authenticate = (credentials: Credentials, history: History): AppThunkActio
     post<Credentials>('/api/user/login', credentials)
         .then(response => {
             if (response.ok) {
-                return response.json() as Promise<User>;
+                return response.json() as Promise<UserData>;
             } else {
                 throw response.text();
             }
-        }).then(user => {
-            dispatch(login(user));
+        }).then(userData => {
+            dispatch(login(userData));
             history.push('/');
         }).catch(errorPromise => {
             errorPromise.then((errorMessage: string) => {
@@ -82,7 +88,7 @@ const authenticate = (credentials: Credentials, history: History): AppThunkActio
 };
 
 const logout = (): AppThunkAction<Action> => (dispatch) => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('userData');
     dispatch(logoutAction());
 };
 
@@ -97,11 +103,11 @@ export interface State {
     isLoading: boolean;
     credentials: Credentials;
     isLoggedIn: boolean,
-    user?: User,
+    user?: User;
 };
 
-const userJson = localStorage.getItem('user');
-const user = userJson ? JSON.parse(userJson) as User : undefined;
+const userJson = localStorage.getItem('userData');
+const user = userJson ? (JSON.parse(userJson) as UserData)?.user : undefined;
 
 const initialState: State = {
     isLoading: false,

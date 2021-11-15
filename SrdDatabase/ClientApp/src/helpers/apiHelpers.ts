@@ -1,4 +1,4 @@
-﻿import { User } from "../store/login";
+﻿import { UserData } from "../store/login";
 
 export function get<TResponse>(url: string): Promise<TResponse> {
     const token = getToken();
@@ -38,7 +38,7 @@ export interface ErrorResponse {
 };
 
 function getToken() {
-    const userJson = localStorage.getItem('user');
-    const user = userJson ? (JSON.parse(userJson) as User) : undefined;
-    return user ? user.token : undefined;
+    const userJson = localStorage.getItem('userData');
+    const userData = userJson ? (JSON.parse(userJson) as UserData) : undefined;
+    return userData ? userData.token : undefined;
 };

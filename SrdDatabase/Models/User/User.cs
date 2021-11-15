@@ -6,22 +6,36 @@ namespace SrdDatabase.Models.User
     {
         public int Id { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
+        public string Name { get; set; }
 
         public string Username { get; set; }
 
         [JsonIgnore]
         public string Password { get; set; }
 
-        public User(int id, string firstName, string lastName, string username, string password)
+        public byte UserTypeId { get; set; }
+
+        public string UserType { get; set; }
+
+        public User(
+            int id,
+            string name,
+            string username,
+            string password,
+            byte userTypeId,
+            string userType)
         {
             Id = id;
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             Username = username;
             Password = password;
+            UserTypeId = userTypeId;
+            UserType = userType;
+        }
+
+        // for Dapper
+        public User()
+        {
         }
     }
 }
