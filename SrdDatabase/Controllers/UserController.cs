@@ -60,19 +60,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<User>> Search([FromBody] SearchUsers.Query query)
+        public async Task<IEnumerable<User>> Search(SearchUsers.Query query)
         {
             return await _mediator.Send(query);
         }
 
         [HttpPost("save")]
-        public async Task<int> Save([FromBody] Domain.Commands.SaveUser.Command command)
+        public async Task<int> Save(Domain.Commands.SaveUser.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] DeleteUser.Command command)
+        public async Task<IActionResult> Delete(DeleteUser.Command command)
         {
             await _mediator.Send(command);
 
