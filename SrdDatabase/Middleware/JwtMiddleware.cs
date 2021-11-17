@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SrdDatabase.Domain.Queries;
 using SrdDatabase.Services;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,16 +16,19 @@ namespace SrdDatabase.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IUserService _userService;
+        private readonly IMediator _mediator;
         private readonly string _secret;
 
         public JwtMiddleware(
             RequestDelegate next,
             IConfiguration configuration,
-            IUserService userService)
+            IUserService userService,
+            IMediator mediator)
         {
             _next = next;
             _secret = configuration.GetValue<string>("Authentication:Secret");
             _userService = userService;
+            _mediator = mediator;
         }
 
         public async Task Invoke(HttpContext context)
@@ -32,13 +37,13 @@ namespace SrdDatabase.Middleware
 
             if (token != null)
             {
-                AttachUserToContext(context, token);
+                await AttachUserToContext(context, token);
             }
 
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, string token)
+        private async Task<Unit> AttachUserToContext(HttpContext context, string token)
         {
             try
             {
@@ -56,11 +61,13 @@ namespace SrdDatabase.Middleware
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(claim => claim.Type == "id").Value);
 
-                context.Items["User"] = _userService.GetById(userId);
+                context.Items["User"] = await _mediator.Send(new GetUserById.Query(userId));
             }
             catch
             {
             }
+
+            return Unit.Value;
         }
     }
 }

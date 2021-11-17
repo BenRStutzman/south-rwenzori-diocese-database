@@ -107,7 +107,7 @@ const Form = ({
                     value={user.password ? user.password : ""}
                     onChange={onPasswordChange}
                     maxLength={50}
-                    required
+                    required={userExists ? false : true}
                 />
             </div>
             {Object.values(errors).length > 0 &&

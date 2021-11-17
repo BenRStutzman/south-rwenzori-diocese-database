@@ -54,7 +54,7 @@ namespace SrdDatabase.Domain.Commands
             {
                 if (request.Id == null & string.IsNullOrEmpty(request.Password))
                 {
-                    throw new ArgumentException("You need a password.");
+                    throw new ArgumentException("You must set a password.");
                 }
 
                 var setPassword = !string.IsNullOrEmpty(request.Password);
