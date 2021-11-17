@@ -92,7 +92,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    isLoading: boolean;
+    isAuthenticating: boolean;
     credentials: Credentials;
     isLoggedIn: boolean,
     user?: User;
@@ -102,7 +102,7 @@ const userJson = localStorage.getItem('userData');
 const user = userJson ? (JSON.parse(userJson) as UserData).user : undefined;
 
 const initialState: State = {
-    isLoading: false,
+    isAuthenticating: false,
     credentials: {},
     isLoggedIn: Boolean(user),
     user,
@@ -129,7 +129,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_IS_LOADING:
             return {
                 ...state,
-                isLoading: action.value,
+                isAuthenticating: action.value,
             };
         case LOGIN:
             return {

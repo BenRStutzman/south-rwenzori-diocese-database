@@ -1,6 +1,7 @@
 ﻿import React, { ChangeEvent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
+import { Spinner } from 'reactstrap';
 import { State } from '../store';
 import * as Store from '../store/login';
 
@@ -13,6 +14,7 @@ const Login = ({
     authenticate,
     setUsername,
     setPassword,
+    isAuthenticating,
     credentials,
     history,
     logout,
@@ -65,7 +67,7 @@ const Login = ({
                 />
             </div>
             <button disabled={!credentials.username || !credentials.password} className="btn btn-primary" type="submit">
-                Sign in
+                {isAuthenticating ? <Spinner size="sm" /> : 'Log in'}
             </button>
         </form>
     );
