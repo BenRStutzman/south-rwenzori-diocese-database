@@ -1,4 +1,4 @@
-﻿import { UserData } from "../store/login";
+﻿import { actionCreators, UserData } from "../store/login";
 
 export function get<TResponse>(url: string): Promise<TResponse> {
     const token = getToken();
@@ -11,7 +11,10 @@ export function get<TResponse>(url: string): Promise<TResponse> {
     }
 
     return fetch(url, requestOptions)
-        .then(response => response.json() as Promise<TResponse>);
+        .then(response => {
+            logoutIfUnauthorized(response);
+            return response.json() as Promise<TResponse>
+        });
 };
 
 export function post<TRequest>(url: string, data: TRequest): Promise<Response> {
@@ -26,7 +29,11 @@ export function post<TRequest>(url: string, data: TRequest): Promise<Response> {
         body: JSON.stringify(data),
     };
 
-    return fetch(url, requestOptions);
+    return fetch(url, requestOptions)
+        .then(response => {
+            logoutIfUnauthorized(response);
+            return response;
+        });
 };
 
 export interface Errors {
@@ -36,6 +43,12 @@ export interface Errors {
 export interface ErrorResponse {
     errors: Errors
 };
+
+function logoutIfUnauthorized(response: Response) {
+    if (response.status === 401) {
+        window.location.replace('/login');
+    }
+}
 
 function getToken() {
     const userJson = localStorage.getItem('userData');
