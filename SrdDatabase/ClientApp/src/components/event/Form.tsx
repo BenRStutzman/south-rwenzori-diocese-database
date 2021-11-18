@@ -11,7 +11,8 @@ interface Props {
     onDelete?: () => void;
     setEventTypeId: (eventTypeId: number) => AppThunkAction<Action>;
     setCongregationId: (parishId: number) => AppThunkAction<Action>;
-    setPersonName: (personName: string) => AppThunkAction<Action>;
+    setFirstPersonName: (firstPersonName: string) => AppThunkAction<Action>;
+    setSecondPersonName: (secondPersonName: string) => AppThunkAction<Action>;
     setDate: (date: Date) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     errors: Errors;
@@ -28,7 +29,8 @@ const Form = ({
     onDelete,
     setEventTypeId,
     setCongregationId,
-    setPersonName,
+    setFirstPersonName,
+    setSecondPersonName,
     setDate,
     hasBeenChanged,
     errors,
@@ -42,8 +44,12 @@ const Form = ({
         setCongregationId(parseInt(event.target.value));
     };
 
-    const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setPersonName(event.target.value);
+    const onFirstPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setFirstPersonName(event.target.value);
+    };
+
+    const onSecondPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSecondPersonName(event.target.value);
     };
 
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +60,10 @@ const Form = ({
         event.preventDefault();
         onSave();
     }
+
+    const eventType = eventTypes.find(eventType => eventType.id === event.eventTypeId);
+
+    const involvesTwoPeople = eventType && eventType.involvesTwoPeople;
 
     return (
         <form onSubmit={onSubmit}>
@@ -92,18 +102,34 @@ const Form = ({
                 </select>
             </div>
             <div className="form-group">
-                <label htmlFor="personName">Person Name</label>
+                <label htmlFor="firstPersonName">{involvesTwoPeople ? 'First ' : ''} Person Name</label>
                 <input
-                    id="personName"
+                    id="firstPersonName"
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={event.personName ? event.personName : ""}
-                    onChange={onPersonNameChange}
+                    value={event.firstPersonName ? event.firstPersonName : ""}
+                    onChange={onFirstPersonNameChange}
                     maxLength={50}
                     required
                 />
             </div>
+            {
+                involvesTwoPeople &&
+                <div className="form-group">
+                    <label htmlFor="secondPersonName">Second Person Name</label>
+                    <input
+                        id="secondPersonName"
+                        className="form-control"
+                        type="text"
+                        spellCheck={false}
+                        value={event.secondPersonName ? event.secondPersonName : ""}
+                        onChange={onSecondPersonNameChange}
+                        maxLength={50}
+                        required
+                    />
+                </div>
+            }
             <div className="form-group">
                 <label htmlFor="date">Date</label>
                 <input

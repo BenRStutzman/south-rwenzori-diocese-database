@@ -15,13 +15,15 @@ export interface Event {
     congregation?: string;
     parish?: string;
     archdeaconry?: string;
-    personName?: string;
+    firstPersonName?: string;
+    secondPersonName?: string;
     date: Date;
 }
 
 export interface EventType {
     id: number;
     name: string;
+    involvesTwoPeople: boolean;
 }
 
 export const reducer = combineReducers({

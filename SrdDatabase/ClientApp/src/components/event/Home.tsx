@@ -34,9 +34,10 @@ const Home = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-2">Event Type</th>
+                        <th className="col-1">Event Type</th>
                         <th className="col-2">Congregation</th>
-                        <th className="col-3">Person Name</th>
+                        <th className="col-2">First Person Name</th>
+                        <th className="col-2">Second Person Name</th>
                         <th className="col-1">Date</th>
                         <th className="col-1"></th>
                         <th className="col-1"></th>
@@ -47,7 +48,8 @@ const Home = ({
                         <tr key={event.id}>
                             <td>{event.eventType}</td>
                             <td>{event.congregation}</td>
-                            <td>{event.personName}</td>
+                            <td>{event.firstPersonName}</td>
+                            <td>{event.secondPersonName}</td>
                             <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                             <td>
                                 <Link className="btn btn-secondary" to={`/event/edit/${event.id}`}>

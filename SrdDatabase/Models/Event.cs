@@ -18,7 +18,9 @@ namespace SrdDatabase.Models
         
         public string Archdeaconry { get; }
 
-        public string PersonName { get; }
+        public string FirstPersonName { get; }
+
+        public string SecondPersonName { get; }
 
         public DateTime Date { get; }
 
@@ -30,7 +32,8 @@ namespace SrdDatabase.Models
             string congregation,
             string parish,
             string archdeaconry,
-            string personName,
+            string firstPersonName,
+            string secondPersonName,
             DateTime date)
         {
             Id = id;
@@ -40,7 +43,8 @@ namespace SrdDatabase.Models
             Congregation = congregation;
             Parish = parish;
             Archdeaconry = archdeaconry;
-            PersonName = personName;
+            FirstPersonName = firstPersonName;
+            SecondPersonName = secondPersonName;
             Date = date;
         }
 

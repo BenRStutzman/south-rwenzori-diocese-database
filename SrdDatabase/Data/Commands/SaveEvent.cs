@@ -18,7 +18,9 @@ namespace SrdDatabase.Data.Commands
 
             public int CongregationId { get; }
 
-            public string PersonName { get; }
+            public string FirstPersonName { get; }
+
+            public string SecondPersonName { get; }
 
             public DateTime Date { get; }
 
@@ -26,13 +28,15 @@ namespace SrdDatabase.Data.Commands
                 int? id,
                 byte eventTypeId,
                 int congregationId,
-                string personName,
+                string firstPersonName,
+                string secondPersonName,
                 DateTime date)
             {
                 Id = id;
                 EventTypeId = eventTypeId;
                 CongregationId = congregationId;
-                PersonName = personName;
+                FirstPersonName = firstPersonName;
+                SecondPersonName = secondPersonName;
                 Date = date;
             }
         }

@@ -13,7 +13,8 @@ const REQUEST_CONGREGATIONS = 'EVENT.REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'EVENT.RECEIVE_CONGREGATIONS';
 const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
 const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
-const SET_PERSON_NAME = 'EVENT.SET_PERSON_NAME';
+const SET_FIRST_PERSON_NAME = 'EVENT.SET_FIRST_PERSON_NAME';
+const SET_SECOND_PERSON_NAME = 'EVENT.SET_SECOND_PERSON_NAME';
 const SET_DATE = 'EVENT.SET_DATE';
 const SET_IS_SAVING = 'EVENT.SET_IS_SAVING';
 const SET_ERRORS = 'EVENT.SET_ERRORS';
@@ -55,9 +56,14 @@ const setCongregationIdAction = (congregationId: number) => ({
     value: congregationId,
 });
 
-const setPersonNameAction = (personName: string) => ({
-    type: SET_PERSON_NAME,
-    value: personName,
+const setFirstPersonNameAction = (firstPersonName: string) => ({
+    type: SET_FIRST_PERSON_NAME,
+    value: firstPersonName,
+});
+
+const setSecondPersonNameAction = (secondPersonName: string) => ({
+    type: SET_SECOND_PERSON_NAME,
+    value: secondPersonName,
 });
 
 const setDateAction = (date: Date) => ({
@@ -152,8 +158,12 @@ const setCongregationId = (parishId: number): AppThunkAction<Action> => (dispatc
     dispatch(setCongregationIdAction(parishId));
 };
 
-const setPersonName = (personName: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setPersonNameAction(personName));
+const setFirstPersonName = (firstPersonName: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setFirstPersonNameAction(firstPersonName));
+};
+
+const setSecondPersonName = (secondPersonName: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSecondPersonNameAction(secondPersonName));
 };
 
 const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
@@ -169,7 +179,8 @@ export const actionCreators = {
     deleteEvent,
     setEventTypeId,
     setCongregationId,
-    setPersonName,
+    setFirstPersonName,
+    setSecondPersonName,
     setDate,
 };
 
@@ -180,6 +191,7 @@ export interface State {
     congregationsLoading: boolean;
     congregations: Congregation[];
     event: Event;
+    involvesTwoPeople: boolean;
     hasBeenChanged: boolean,
     isSaving: boolean,
     errors: Errors;
@@ -189,6 +201,7 @@ const initialState: State = {
     event: {
         date: new Date(),
     },
+    involvesTwoPeople: false,
     congregations: [],
     eventTypes: [],
     eventLoading: true,
@@ -237,11 +250,16 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 congregationsLoading: false,
             };
         case SET_EVENT_TYPE_ID:
+            const eventTypeId = action.value;
+            const eventType = state.eventTypes.find(eventType => eventType.id === eventTypeId);
+            const secondPersonName = eventType && eventType.involvesTwoPeople ? state.event.secondPersonName : undefined;
+
             return {
                 ...state,
                 event: {
                     ...state.event,
-                    eventTypeId: action.value,
+                    eventTypeId,
+                    secondPersonName,
                 },
                 hasBeenChanged: true,
             };
@@ -254,12 +272,21 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_PERSON_NAME:
+        case SET_FIRST_PERSON_NAME:
             return {
                 ...state,
                 event: {
                     ...state.event,
-                    personName: action.value,
+                    firstPersonName: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_SECOND_PERSON_NAME:
+            return {
+                ...state,
+                event: {
+                    ...state.event,
+                    secondPersonName: action.value,
                 },
                 hasBeenChanged: true,
             };

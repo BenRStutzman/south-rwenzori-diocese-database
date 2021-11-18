@@ -25,7 +25,8 @@ const Add = ({
     history,
     setEventTypeId,
     setCongregationId,
-    setPersonName,
+    setFirstPersonName,
+    setSecondPersonName,
     setDate,
     saveEvent,
     hasBeenChanged,
@@ -52,7 +53,8 @@ const Add = ({
                 event={event}
                 setEventTypeId={setEventTypeId}
                 setCongregationId={setCongregationId}
-                setPersonName={setPersonName}
+                setFirstPersonName={setFirstPersonName}
+                setSecondPersonName={setSecondPersonName}
                 setDate={setDate}
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}

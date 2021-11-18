@@ -6,10 +6,18 @@
 
         public string Name { get; }
 
-        public EventType(sbyte id, string name)
+        public bool InvolvesTwoPeople { get; }
+
+        public EventType(sbyte id, string name, bool involvesTwoPeople)
         {
             Id = id;
             Name = name;
+            InvolvesTwoPeople = involvesTwoPeople;
+        }
+
+        // for Dapper
+        public EventType()
+        {
         }
     }
 }

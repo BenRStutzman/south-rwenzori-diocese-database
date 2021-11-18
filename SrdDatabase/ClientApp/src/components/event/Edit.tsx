@@ -20,7 +20,8 @@ const Edit = ({
     event,
     congregations,
     eventTypes,
-    setPersonName,
+    setFirstPersonName,
+    setSecondPersonName,
     setCongregationId,
     setEventTypeId,
     setDate,
@@ -61,7 +62,8 @@ const Edit = ({
                 event={event}
                 eventTypes={eventTypes}
                 congregations={congregations}
-                setPersonName={setPersonName}
+                setFirstPersonName={setFirstPersonName}
+                setSecondPersonName={setSecondPersonName}
                 setCongregationId={setCongregationId}
                 setEventTypeId={setEventTypeId}
                 setDate={setDate}
