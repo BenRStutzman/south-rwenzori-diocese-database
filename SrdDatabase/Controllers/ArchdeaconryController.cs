@@ -5,10 +5,12 @@ using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
+using SrdDatabase.Attributes;
 
 namespace SrdDatabase.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ArchdeaconryController : Controller
     {
@@ -32,19 +34,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Archdeaconry>> Search([FromBody] SearchArchdeaconries.Query query)
+        public async Task<IEnumerable<Archdeaconry>> Search(SearchArchdeaconries.Query query)
         {
             return await _mediator.Send(query);
         }
 
         [HttpPost("save")]
-        public async Task<int> Save([FromBody] SaveArchdeaconry.Command command)
+        public async Task<int> Save(SaveArchdeaconry.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] Domain.Commands.DeleteArchdeaconry.Command command)
+        public async Task<IActionResult> Delete(Domain.Commands.DeleteArchdeaconry.Command command)
         {
             var response = await _mediator.Send(command);
 

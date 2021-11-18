@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MediatR;
 using SrdDatabase.Services;
+using SrdDatabase.Middleware;
 
 namespace SrdDatabase
 {
@@ -24,6 +25,7 @@ namespace SrdDatabase
             services.AddControllersWithViews();
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<IDbService, MySqlDbService>();
+            services.AddSingleton<IUserService, JwtUserService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -51,6 +53,8 @@ namespace SrdDatabase
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

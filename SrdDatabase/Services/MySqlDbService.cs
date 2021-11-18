@@ -7,16 +7,16 @@ namespace SrdDatabase.Services
 {
     public class MySqlDbService : IDbService
     {
-        private readonly string _dbServiceString;
+        private readonly string _connectionString;
 
-        private const string _dbServiceStringName = "MySql";
+        private const string _connectionStringName = "MySql";
 
         public MySqlDbService(IConfiguration configuration)
         {
-            _dbServiceString = configuration.GetConnectionString(_dbServiceStringName);
+            _connectionString = configuration.GetConnectionString(_connectionStringName);
             DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
-        public IDbConnection GetConnection() => new MySqlConnection(_dbServiceString);
+        public IDbConnection GetConnection() => new MySqlConnection(_connectionString);
     }
 }

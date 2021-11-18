@@ -5,10 +5,12 @@ using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
+using SrdDatabase.Attributes;
 
 namespace SrdDatabase.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ParishController : Controller
     {
@@ -32,19 +34,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Parish>> Search([FromBody] SearchParishes.Query query)
+        public async Task<IEnumerable<Parish>> Search(SearchParishes.Query query)
         {
             return await _mediator.Send(query);
         }
 
         [HttpPost("save")]
-        public async Task<int> Save([FromBody] SaveParish.Command command)
+        public async Task<int> Save(SaveParish.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] Domain.Commands.DeleteParish.Command command)
+        public async Task<IActionResult> Delete(Domain.Commands.DeleteParish.Command command)
         {
             var response = await _mediator.Send(command);
 

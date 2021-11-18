@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Data.Queries;
+using SrdDatabase.Attributes;
 
 namespace SrdDatabase.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class EventController : Controller
     {
@@ -39,19 +41,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Event>> Search([FromBody] SearchEvents.Query query)
+        public async Task<IEnumerable<Event>> Search(SearchEvents.Query query)
         {
             return await _mediator.Send(query);
         }
 
         [HttpPost("save")]
-        public async Task<int> Save([FromBody] SaveEvent.Command command)
+        public async Task<int> Save(SaveEvent.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] DeleteEvent.Command command)
+        public async Task<IActionResult> Delete(DeleteEvent.Command command)
         {
             await _mediator.Send(command);
 

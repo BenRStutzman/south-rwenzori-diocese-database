@@ -5,10 +5,12 @@ using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
+using SrdDatabase.Attributes;
 
 namespace SrdDatabase.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class CongregationController : Controller
     {
@@ -32,19 +34,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Congregation>> Search([FromBody] SearchCongregations.Query query)
+        public async Task<IEnumerable<Congregation>> Search(SearchCongregations.Query query)
         {
             return await _mediator.Send(query);
         }
 
         [HttpPost("save")]
-        public async Task<int> Save([FromBody] SaveCongregation.Command command)
+        public async Task<int> Save(SaveCongregation.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete([FromBody] Domain.Commands.DeleteCongregation.Command command)
+        public async Task<IActionResult> Delete(Domain.Commands.DeleteCongregation.Command command)
         {
             var response = await _mediator.Send(command);
 
