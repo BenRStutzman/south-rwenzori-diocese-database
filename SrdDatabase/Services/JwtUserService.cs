@@ -5,6 +5,7 @@ using SrdDatabase.Models.User;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,18 +37,6 @@ namespace SrdDatabase.Services
             return new AuthenticationResponse(user, token);
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            // TODO
-            throw new NotImplementedException();
-        }
-
-        public User GetById(int id)
-        {
-            // TODO
-            throw new NotImplementedException();
-        }
-
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -60,6 +49,34 @@ namespace SrdDatabase.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<User> GetUserFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_secret);
+
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero,
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var userId = int.Parse(jwtToken.Claims.First(claim => claim.Type == "id").Value);
+
+                return await _mediator.Send(new GetUserById.Query(userId));
+            }
+            catch
+            {
+                // invalid token
+                return null;
+            }
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using SrdDatabase.Data.Queries;
-using SrdDatabase.Models.User;
-using System.Collections.Generic;
+﻿using SrdDatabase.Models.User;
 using System.Threading.Tasks;
 
 namespace SrdDatabase.Services
@@ -9,8 +7,6 @@ namespace SrdDatabase.Services
     {
         Task<AuthenticationResponse> Authenticate(AuthenticationRequest request);
 
-        IEnumerable<User> GetAll();
-
-        User GetById(int id);
+        Task<User> GetUserFromToken(string token);
     }
 }
