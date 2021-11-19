@@ -230,6 +230,3 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
-
-# Secret settings (e.g. connection strings) for production
-appsettings.production.json
