@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Models.User;
 using System;
@@ -19,9 +17,9 @@ namespace SrdDatabase.Services
 
         private readonly IMediator _mediator;
 
-        public JwtUserService(IConfiguration configuration, IMediator mediator)
+        public JwtUserService(IMediator mediator)
         {
-            _secret = configuration.GetValue<string>("Authentication:Secret");
+            _secret = Environment.GetEnvironmentVariable("JWT_SECRET");
             _mediator = mediator;
         }
 

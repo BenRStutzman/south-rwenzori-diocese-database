@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
+using System;
 using System.Data;
 
 namespace SrdDatabase.Services
@@ -9,11 +9,9 @@ namespace SrdDatabase.Services
     {
         private readonly string _connectionString;
 
-        private const string _connectionStringName = "MySql";
-
-        public MySqlDbService(IConfiguration configuration)
+        public MySqlDbService()
         {
-            _connectionString = configuration.GetConnectionString(_connectionStringName);
+            _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 

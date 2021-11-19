@@ -15,19 +15,13 @@ namespace SrdDatabase.Middleware
     public class JwtMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IUserService _userService;
         private readonly IMediator _mediator;
         private readonly string _secret;
 
-        public JwtMiddleware(
-            RequestDelegate next,
-            IConfiguration configuration,
-            IUserService userService,
-            IMediator mediator)
+        public JwtMiddleware(RequestDelegate next, IMediator mediator)
         {
             _next = next;
-            _secret = configuration.GetValue<string>("Authentication:Secret");
-            _userService = userService;
+            _secret = Environment.GetEnvironmentVariable("JWT_SECRET");
             _mediator = mediator;
         }
 
