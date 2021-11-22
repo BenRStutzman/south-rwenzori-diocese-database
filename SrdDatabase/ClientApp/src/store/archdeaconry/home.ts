@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
-import { Archdeaconry } from '.';
+import { Archdeaconry, SearchParameters } from '.';
 
 const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
@@ -20,15 +20,27 @@ const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
 const setDeletingIdAction = (archdeaconryId?: number) => ({
     type: SET_DELETING_ID,
     value: archdeaconryId,
-})
+});
 
-const loadArchdeaconries = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
+const searchArchdeaconries = (
+    showLoading: boolean = true,
+    getAll: boolean = false,
+    searchParameters: SearchParameters = {},
+): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
 
-    get<Archdeaconry[]>('api/archdeaconry/all')
-        .then(archdeaconries => {
-            dispatch(receiveArchdeaconriesAction(archdeaconries));
-        });
+    if (getAll) {
+        get<Archdeaconry[]>('api/archdeaconry/all')
+            .then(archdeaconries => {
+                dispatch(receiveArchdeaconriesAction(archdeaconries));
+            });
+    } else {
+        post<SearchParameters>('api/archdeaconry/search', searchParameters)
+            .then(response => response.json() as Promise<Archdeaconry[]>)
+            .then(archdeaconries => {
+                dispatch(receiveArchdeaconriesAction(archdeaconries));
+            });
+    }
 };
 
 const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -37,7 +49,7 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadArchdeaconries(false));
+                dispatch(searchArchdeaconries(false));
             } else {
                 throw response.text();
             }
@@ -50,7 +62,7 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
 };
 
 export const actionCreators = {
-    loadArchdeaconries,
+    searchArchdeaconries,
     deleteArchdeaconry,
 };
 

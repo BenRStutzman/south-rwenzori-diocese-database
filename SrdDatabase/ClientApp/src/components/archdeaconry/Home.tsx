@@ -13,11 +13,11 @@ type Props = Store.State & typeof Store.actionCreators;
 const Home = ({
     archdeaconries,
     archdeaconriesLoading,
-    loadArchdeaconries,
+    searchArchdeaconries,
     deleteArchdeaconry,
     deletingId,
 }: Props) => {
-    const loadData = () => { loadArchdeaconries() };
+    const loadData = () => { searchArchdeaconries(true, true); };
 
     useEffect(loadData, []);
 

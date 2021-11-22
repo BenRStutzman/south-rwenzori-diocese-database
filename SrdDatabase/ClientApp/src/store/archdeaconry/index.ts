@@ -12,6 +12,10 @@ export interface Archdeaconry {
     name?: string;
 }
 
+export interface SearchParameters {
+    name?: string;
+}
+
 export const reducer = combineReducers({
     home: Home.reducer,
     save: Save.reducer,
