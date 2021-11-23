@@ -29,10 +29,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".ebextensions\01_files.config" />
-    <None Include=".ebextensions\02_certbot.config" />
-    <None Include=".platform\nginx\conf.d\custom.conf" />
-    <None Include=".platform\nginx\conf.d\custom_redirect.conf" />
+    <None Include=".ebextensions\01_files.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include=".ebextensions\02_certbot.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include=".platform\nginx\conf.d\custom.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include=".platform\nginx\conf.d\custom_redirect.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
