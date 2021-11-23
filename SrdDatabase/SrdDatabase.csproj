@@ -28,6 +28,13 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".ebextensions\01_files.config" />
+    <None Include=".ebextensions\02_certbot.config" />
+    <None Include=".platform\nginx\conf.d\custom.conf" />
+    <None Include=".platform\nginx\conf.d\custom_redirect.conf" />
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
