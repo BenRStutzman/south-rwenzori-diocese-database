@@ -1,39 +1,30 @@
-﻿import { Archdeaconry } from "../../store/archdeaconry";
+﻿import { SearchParameters } from "../../store/archdeaconry";
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../helpers/apiHelpers";
 
 interface Props {
-    archdeaconry: Archdeaconry;
-    onSave: () => void;
-    onDelete?: () => void;
-    updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
-    hasBeenChanged: boolean;
-    archdeaconryExists: boolean;
-    errors: Errors;
+    onSearch: () => void;
+    parameters: SearchParameters;
+    updateName: (name: string) => AppThunkAction<Action>;
 }
 
-const Form = ({
-    archdeaconry,
-    onSave,
-    updateArchdeaconryName,
-    hasBeenChanged,
-    errors,
-    archdeaconryExists,
-    onDelete
+const Search = ({
+    onSearch,
+    parameters,
+    updateName,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateArchdeaconryName(event.target.value);
+        updateName(event.target.value);
     };
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSave();
+        onSearch();
     };
 
     return (
-        <form onSubmit={onSubmit}>
+        <form autoComplete="123123" onSubmit={onSubmit} className="search-box">
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
@@ -41,33 +32,16 @@ const Form = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={archdeaconry.name ? archdeaconry.name : ""}
+                    value={parameters.name ? parameters.name : ""}
                     onChange={onNameChange}
-                    required
                     maxLength={50}
                 />
             </div>
-            {Object.values(errors).length > 0 &&
-                <ul>
-                    {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
-                        <li
-                            className="error-alert"
-                            key={fieldName}>
-                            {errorList.join(" ")}</li>
-                    )}
-                </ul>
-            }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {archdeaconryExists ? "Update" : "Create"} archdeaconry
+            <button className="btn btn-primary" type="submit">
+                Search archdeaconries
             </button>
-            {
-                archdeaconryExists &&
-                <button className='btn btn-danger float-right' type="button" onClick={onDelete}>
-                    Delete archdeaconry
-                </button>
-            }
         </form>
     );
 }
 
-export default Form;
+export default Search;

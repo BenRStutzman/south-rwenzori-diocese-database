@@ -5,7 +5,8 @@ import { Archdeaconry, SearchParameters } from '.';
 
 const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
-const SET_DELETING_ID = 'ARCHDEACONRIES.SET_DELETING_ID';
+const SET_DELETING_ID = 'ARCHDEACONRY.SET_DELETING_ID';
+const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
 
 const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -22,25 +23,26 @@ const setDeletingIdAction = (archdeaconryId?: number) => ({
     value: archdeaconryId,
 });
 
+const setSearchNameAction = (name: string) => ({
+    type: SET_SEARCH_NAME,
+    value: name,
+});
+
+const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchNameAction(name));
+};
+
 const searchArchdeaconries = (
     showLoading: boolean = true,
-    getAll: boolean = false,
     searchParameters: SearchParameters = {},
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
 
-    if (getAll) {
-        get<Archdeaconry[]>('api/archdeaconry/all')
-            .then(archdeaconries => {
-                dispatch(receiveArchdeaconriesAction(archdeaconries));
-            });
-    } else {
-        post<SearchParameters>('api/archdeaconry/search', searchParameters)
-            .then(response => response.json() as Promise<Archdeaconry[]>)
-            .then(archdeaconries => {
-                dispatch(receiveArchdeaconriesAction(archdeaconries));
-            });
-    }
+    post<SearchParameters>('api/archdeaconry/search', searchParameters)
+        .then(response => response.json() as Promise<Archdeaconry[]>)
+        .then(archdeaconries => {
+            dispatch(receiveArchdeaconriesAction(archdeaconries));
+        });
 };
 
 const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -64,18 +66,21 @@ const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) =>
 export const actionCreators = {
     searchArchdeaconries,
     deleteArchdeaconry,
+    setSearchName,
 };
 
 export interface State {
     archdeaconries: Archdeaconry[];
     archdeaconriesLoading: boolean;
     deletingId?: number;
+    searchParameters: SearchParameters;
 }
 
 const initialState: State = {
     archdeaconries: [],
     archdeaconriesLoading: true,
     deletingId: undefined,
+    searchParameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -96,6 +101,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
             return {
                 ...state,
                 deletingId: action.value,
+            };
+        case SET_SEARCH_NAME:
+            return {
+                ...state,
+                searchParameters: {
+                    ...state.searchParameters,
+                    name: action.value,
+                }
             };
         default:
             return state;
