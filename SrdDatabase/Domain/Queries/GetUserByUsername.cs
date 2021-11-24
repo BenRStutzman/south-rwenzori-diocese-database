@@ -31,9 +31,10 @@ namespace SrdDatabase.Domain.Queries
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
                 var users = await _mediator.Send(new GetUsers.Query(username: request.Username), cancellationToken);
+                
                 try
                 {
-                    return users.Single();
+                    return users.Single(user => user.Username == request.Username);
                 }
                 catch (System.InvalidOperationException)
                 {
