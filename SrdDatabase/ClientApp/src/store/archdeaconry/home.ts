@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { get, post } from '../../helpers/apiHelpers';
+import { post } from '../../helpers/apiHelpers';
 import { Archdeaconry, SearchParameters } from '.';
 
 const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';

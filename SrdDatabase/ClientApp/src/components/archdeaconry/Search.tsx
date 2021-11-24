@@ -2,6 +2,9 @@
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
+import { randomString } from "../../helpers/randomString";
+
+const autoCompleteString = randomString();
 
 interface Props {
     onSearch: () => void;
@@ -24,12 +27,13 @@ const Search = ({
     };
 
     return (
-        <form autoComplete="123123" onSubmit={onSubmit} className="search-box">
+        <form onSubmit={onSubmit} className="search-box">
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
                     id="name"
                     className="form-control"
+                    autoComplete={autoCompleteString}
                     type="text"
                     spellCheck={false}
                     value={parameters.name ? parameters.name : ""}
