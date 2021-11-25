@@ -45,13 +45,13 @@ const searchArchdeaconries = (
         });
 };
 
-const deleteArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
+const deleteArchdeaconry = (id: number, searchParameters: SearchParameters): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(searchArchdeaconries(false));
+                dispatch(searchArchdeaconries(false, searchParameters));
             } else {
                 throw response.text();
             }

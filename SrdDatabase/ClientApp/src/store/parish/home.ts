@@ -1,11 +1,14 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { get, post } from '../../helpers/apiHelpers';
-import { Parish } from '.';
+import { post } from '../../helpers/apiHelpers';
+import { Parish, SearchParameters } from '.';
+import { Archdeaconry } from '../archdeaconry';
 
 const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';
 const RECEIVE_PARISHES = 'PARISH.RECEIVE_PARISHES';
 const SET_DELETING_ID = 'PARISH.SET_DELETING_ID';
+const SET_SEARCH_NAME = 'PARISH.SET_SEARCH_NAME';
+const SET_SEARCH_ARCHDEACONRY_ID = 'PARISH.SET_SEARCH_ARCHDEACONRY_ID';
 
 const requestParishesAction = (showLoading: boolean = true) => ({
     type: REQUEST_PARISHES,
@@ -22,22 +25,44 @@ const setDeletingIdAction = (parishId?: number) => ({
     value: parishId,
 });
 
-export const loadParishes = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
-    get<Parish[]>('api/parish/all')
+const setSearchNameAction = (name: string) => ({
+    type: SET_SEARCH_NAME,
+    value: name,
+});
+
+const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
+    type: SET_SEARCH_ARCHDEACONRY_ID,
+    value: archdeaconryId,
+});
+
+export const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchNameAction(name));
+}
+
+export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchArchdeaconryIdAction(archdeaconryId));
+};
+
+const searchParishes = (
+    showLoading: boolean = true,
+    searchParameters: SearchParameters = {},
+): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestParishesAction(showLoading));
+
+    post<SearchParameters>('api/parish/search', searchParameters)
+        .then(response => response.json() as Promise<Parish[]>)
         .then(parishes => {
             dispatch(receiveParishesAction(parishes));
         });
-
-    dispatch(requestParishesAction(showLoading));
 };
 
-const deleteParish = (id: number): AppThunkAction<Action> => (dispatch) => {
+const deleteParish = (id: number, searchParameters: SearchParameters): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/parish/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadParishes(false));
+                dispatch(searchParishes(false, searchParameters));
             } else {
                 throw response.text();
             }
@@ -50,20 +75,28 @@ const deleteParish = (id: number): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    loadParishes,
+    searchParishes,
     deleteParish,
+    setSearchName,
+    setSearchArchdeaconryId,
 };
 
 export interface State {
+    archdeaconries: Archdeaconry[];
+    archdeaconriesLoading: boolean;
     parishesLoading: boolean;
     parishes: Parish[];
     deletingId?: number;
+    searchParameters: SearchParameters;
 }
 
 const initialState: State = {
+    archdeaconries: [],
+    archdeaconriesLoading: true,
     parishes: [],
     parishesLoading: true,
     deletingId: undefined,
+    searchParameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -79,6 +112,22 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parishes: action.value,
                 parishesLoading: false,
                 deletingId: undefined,
+            };
+        case SET_SEARCH_NAME:
+            return {
+                ...state,
+                searchParameters: {
+                    ...state.searchParameters,
+                    name: action.value,
+                }
+            };
+        case SET_SEARCH_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                searchParameters: {
+                    ...state.searchParameters,
+                    archdeaconryId: action.value,
+                }
             };
         case SET_DELETING_ID:
             return {

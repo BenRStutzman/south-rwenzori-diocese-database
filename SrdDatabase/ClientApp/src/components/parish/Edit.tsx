@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/parish/save';
+import * as SharedStore from '../../store/parish/shared';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './Form';
@@ -10,6 +11,8 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 type Props =
     Store.State
     & typeof Store.actionCreators
+    & SharedStore.State
+    & typeof SharedStore.actionCreators
     & RouteComponentProps<{ parishId: string }>;
 
 const Edit = ({
@@ -65,6 +68,6 @@ const Edit = ({
 }
 
 export default connect(
-    (state: State) => state.parish.save,
-    Store.actionCreators
+    (state: State) => ({ ...state.parish.save, ...state.parish.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Edit as any);

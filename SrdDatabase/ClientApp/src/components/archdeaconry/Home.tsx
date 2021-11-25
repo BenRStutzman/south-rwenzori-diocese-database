@@ -31,7 +31,7 @@ const Home = ({
 
     const onDelete = (archdeaconry: Archdeaconry) => {
         if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
-            deleteArchdeaconry(archdeaconry.id as number);
+            deleteArchdeaconry(archdeaconry.id as number, searchParameters);
         }
     };
 
