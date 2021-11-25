@@ -1,4 +1,4 @@
-﻿import { Event, EventType } from '../../store/event/shared';
+﻿import { Event, EventType } from '../../store/event';
 import { Action, AppThunkAction } from '../../store';
 import React, { ChangeEvent } from 'react';
 import { Congregation } from '../../store/congregation';

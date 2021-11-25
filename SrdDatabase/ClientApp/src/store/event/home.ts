@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
-import { Event } from './shared';
+import { Event } from '.';
 
 const REQUEST_EVENTS = 'EVENT.REQUEST_EVENTS';
 const RECEIVE_EVENTS = 'EVENT.RECEIVE_EVENTS';
