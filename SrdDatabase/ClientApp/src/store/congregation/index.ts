@@ -7,13 +7,6 @@ export interface State {
     save?: Save.State;
 }
 
-export interface Congregation {
-    id?: number;
-    name?: string;
-    parishId?: number;
-    parish?: string;
-}
-
 export const reducer = combineReducers({
     home: Home.reducer,
     save: Save.reducer,

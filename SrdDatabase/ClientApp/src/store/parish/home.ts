@@ -1,8 +1,13 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Parish, SearchParameters } from '.';
-import { Archdeaconry } from '../archdeaconry';
+import { Parish } from './shared';
+import { Archdeaconry } from '../archdeaconry/shared';
+
+export interface SearchParameters {
+    name?: string;
+    archdeaconryId?: number;
+}
 
 const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';
 const RECEIVE_PARISHES = 'PARISH.RECEIVE_PARISHES';

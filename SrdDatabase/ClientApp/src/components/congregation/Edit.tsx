@@ -4,7 +4,7 @@ import { State } from '../../store';
 import * as Store from '../../store/congregation/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
-import Form from './Form';
+import Form from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =

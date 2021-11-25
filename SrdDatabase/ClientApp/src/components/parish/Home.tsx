@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/parish/home';
 import * as SharedStore from '../../store/parish/shared';
-import { Parish } from '../../store/parish';
+import { Parish } from '../../store/parish/shared';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';

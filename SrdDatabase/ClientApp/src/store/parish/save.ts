@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Parish } from '.';
+import { Parish } from './shared';
 import { History } from 'history';
-import { Archdeaconry } from '../archdeaconry';
+import { Archdeaconry } from '../archdeaconry/shared';
 
 const REQUEST_PARISH = 'PARISH.REQUEST_PARISH';
 const RECEIVE_PARISH = 'PARISH.RECEIVE_PARISH';

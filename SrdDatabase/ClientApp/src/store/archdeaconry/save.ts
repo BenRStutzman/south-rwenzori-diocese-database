@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Archdeaconry } from '.';
+import { Archdeaconry } from './shared';
 import { History } from 'history';
 
 const REQUEST_ARCHDEACONRY = 'ARCHDEACONRY.REQUEST_ARCHDEACONRY';

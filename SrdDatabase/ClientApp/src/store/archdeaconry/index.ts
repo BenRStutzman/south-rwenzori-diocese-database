@@ -7,15 +7,6 @@ export interface State {
     save?: Save.State;
 }
 
-export interface Archdeaconry {
-    id?: number;
-    name?: string;
-}
-
-export interface SearchParameters {
-    name?: string;
-}
-
 export const reducer = combineReducers({
     home: Home.reducer,
     save: Save.reducer,

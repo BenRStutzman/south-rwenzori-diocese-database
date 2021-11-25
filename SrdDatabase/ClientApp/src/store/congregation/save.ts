@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Congregation } from '.';
+import { Congregation } from './shared';
 import { History } from 'history';
-import { Parish } from '../parish';
+import { Parish } from '../parish/shared';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';

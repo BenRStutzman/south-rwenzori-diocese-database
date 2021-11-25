@@ -1,9 +1,9 @@
-﻿import { Congregation } from "../../store/congregation";
-import { AppThunkAction } from '../../store';
+﻿import { Congregation } from "../../../store/congregation/shared";
+import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../helpers/apiHelpers";
-import { Parish } from "../../store/parish";
+import { Errors } from "../../../helpers/apiHelpers";
+import { Parish } from "../../../store/parish/shared";
 
 interface Props {
     congregation: Congregation;
@@ -17,7 +17,7 @@ interface Props {
     congregationExists: boolean;
 }
 
-const Form = ({
+const SaveForm = ({
     congregation,
     parishes,
     onSave,
@@ -96,4 +96,4 @@ const Form = ({
     );
 }
 
-export default Form;
+export default SaveForm;

@@ -1,7 +1,13 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
-import { Congregation } from '.';
+import { Congregation } from './shared';
+
+export interface SearchParameters {
+    name?: string;
+    parishId?: number;
+    archdeaconryId?: number;
+}
 
 const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'CONGREGATION.RECEIVE_CONGREGATIONS';

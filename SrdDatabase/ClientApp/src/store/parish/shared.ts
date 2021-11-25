@@ -1,7 +1,14 @@
 ﻿import { Reducer } from "redux";
 import { Action, AppThunkAction } from "..";
 import { get } from "../../helpers/apiHelpers";
-import { Archdeaconry } from "../archdeaconry";
+import { Archdeaconry } from "../archdeaconry/shared";
+
+export interface Parish {
+    id?: number;
+    name?: string;
+    archdeaconryId?: number;
+    archdeaconry?: string;
+}
 
 const REQUEST_ARCHDEACONRIES = 'PARISH.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'PARISH.RECEIVE_ARCHDEACONRIES';

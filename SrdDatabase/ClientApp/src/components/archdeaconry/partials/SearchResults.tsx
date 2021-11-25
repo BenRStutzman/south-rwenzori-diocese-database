@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
-import { Archdeaconry } from "../../../store/archdeaconry";
+import { Archdeaconry } from "../../../store/archdeaconry/shared";
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 interface Props {

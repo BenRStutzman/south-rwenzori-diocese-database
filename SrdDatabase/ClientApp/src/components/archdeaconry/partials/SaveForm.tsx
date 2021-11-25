@@ -1,4 +1,4 @@
-﻿import { Archdeaconry } from "../../../store/archdeaconry";
+﻿import { Archdeaconry } from "../../../store/archdeaconry/shared";
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';

@@ -1,9 +1,9 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Event, EventType } from '.';
+import { Event, EventType } from './shared';
 import { History } from 'history';
-import { Congregation } from '../congregation';
+import { Congregation } from '../congregation/shared';
 
 const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
 const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
