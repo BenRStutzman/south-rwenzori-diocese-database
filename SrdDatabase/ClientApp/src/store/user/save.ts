@@ -1,7 +1,7 @@
 ﻿import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { User, UserType } from '.';
+import { User, UserType } from './shared';
 import { History } from 'history';
 
 const REQUEST_USER = 'USER.REQUEST_USER';

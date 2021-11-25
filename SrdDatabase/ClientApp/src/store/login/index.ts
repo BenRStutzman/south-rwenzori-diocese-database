@@ -2,7 +2,7 @@
 import { Action, AppThunkAction } from "..";
 import { post } from "../../helpers/apiHelpers";
 import { History } from 'history';
-import { User } from "../user";
+import { User } from "../user/shared";
 
 export interface UserData {
     user: User;
