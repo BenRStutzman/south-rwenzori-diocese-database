@@ -3,6 +3,7 @@ import { Action, AppThunkAction } from '.';
 import { get } from '../helpers/apiHelpers';
 import { Archdeaconry } from './archdeaconry';
 import { Congregation } from './congregation';
+import { EventType } from './event';
 import { Parish } from './parish';
 
 const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
@@ -11,6 +12,8 @@ const REQUEST_PARISHES = 'REQUEST_PARISHES';
 const RECEIVE_PARISHES = 'RECEIVE_PARISHES';
 const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'RECIEVE_CONGREGATIONS';
+const REQUEST_EVENT_TYPES = 'EVENT.REQUEST_EVENT_TYPES';
+const RECEIVE_EVENT_TYPES = 'EVENT.RECEIVE_EVENT_TYPES';
 
 const requestArchdeaconriesAction = () => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -37,6 +40,15 @@ const requestCongregationsAction = () => ({
 const receiveCongregationsAction = (congregations: Congregation[]) => ({
     type: RECEIVE_CONGREGATIONS,
     value: congregations,
+});
+
+const requestEventTypesAction = () => ({
+    type: REQUEST_EVENT_TYPES,
+});
+
+const receiveEventTypesAction = (eventTypes: EventType[]) => ({
+    type: RECEIVE_EVENT_TYPES,
+    value: eventTypes,
 });
 
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
@@ -66,10 +78,20 @@ const loadCongregations = (): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
+const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestEventTypesAction());
+
+    get<EventType[]>('api/event/types')
+        .then(eventTypes => {
+            dispatch(receiveEventTypesAction(eventTypes));
+        });
+};
+
 export const actionCreators = {
     loadArchdeaconries,
     loadParishes,
     loadCongregations,
+    loadEventTypes,
 };
 
 export interface State {
@@ -79,6 +101,8 @@ export interface State {
     parishesLoading: boolean;
     conregations: Congregation[];
     congregationsLoading: boolean;
+    eventTypes: EventType[];
+    eventTypesLoading: boolean;
 }
 
 const initialState: State = {
@@ -88,6 +112,8 @@ const initialState: State = {
     parishesLoading: true,
     conregations: [],
     congregationsLoading: true,
+    eventTypes: [],
+    eventTypesLoading: true,
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

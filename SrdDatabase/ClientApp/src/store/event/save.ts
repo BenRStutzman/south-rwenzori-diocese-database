@@ -7,8 +7,6 @@ import { Congregation } from '../congregation';
 
 const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
 const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
-const REQUEST_EVENT_TYPES = 'EVENT.REQUEST_EVENT_TYPES';
-const RECEIVE_EVENT_TYPES = 'EVENT.RECEIVE_EVENT_TYPES';
 const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
 const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
 const SET_FIRST_PERSON_NAME = 'EVENT.SET_FIRST_PERSON_NAME';
@@ -24,15 +22,6 @@ const requestEventAction = () => ({
 const receiveEventAction = (event: Event) => ({
     type: RECEIVE_EVENT,
     value: event,
-});
-
-const requestEventTypesAction = () => ({
-    type: REQUEST_EVENT_TYPES,
-});
-
-const receiveEventTypesAction = (eventTypes: EventType[]) => ({
-    type: RECEIVE_EVENT_TYPES,
-    value: eventTypes,
 });
 
 const setEventTypeIdAction = (eventTypeId: number) => ({
@@ -80,15 +69,6 @@ const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
     get<Event>(`api/event/${id}`)
         .then(event => {
             dispatch(receiveEventAction(event));
-        });
-};
-
-const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventTypesAction());
-
-    get<EventType[]>('api/event/types')
-        .then(eventTypes => {
-            dispatch(receiveEventTypesAction(eventTypes));
         });
 };
 
@@ -151,7 +131,6 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    loadEventTypes,
     resetEvent,
     loadEvent,
     saveEvent,
@@ -165,8 +144,6 @@ export const actionCreators = {
 
 export interface State {
     eventLoading: boolean;
-    eventTypesLoading: boolean;
-    eventTypes: EventType[];
     congregationsLoading: boolean;
     congregations: Congregation[];
     event: Event;
@@ -182,9 +159,7 @@ const initialState: State = {
     },
     involvesTwoPeople: false,
     congregations: [],
-    eventTypes: [],
     eventLoading: true,
-    eventTypesLoading: true,
     congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
@@ -205,17 +180,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 errors: {},
                 eventLoading: false,
                 hasBeenChanged: false,
-            };
-        case REQUEST_EVENT_TYPES:
-            return {
-                ...state,
-                eventTypesLoading: true,
-            };
-        case RECEIVE_EVENT_TYPES:
-            return {
-                ...state,
-                eventTypes: action.value,
-                eventTypesLoading: false,
             };
         case SET_EVENT_TYPE_ID:
             const eventTypeId = action.value;

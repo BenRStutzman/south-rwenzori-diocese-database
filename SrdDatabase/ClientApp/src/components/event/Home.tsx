@@ -13,17 +13,18 @@ type Props = Store.State & typeof Store.actionCreators;
 const Home = ({
     eventsLoading,
     events,
-    loadEvents,
+    searchEvents,
     deleteEvent,
     deletingId,
+    parameters
 }: Props) => {
-    const loadData = () => { loadEvents() };
+    const loadData = () => { searchEvents() };
 
     useEffect(loadData, []);
 
     const onDelete = (event: Event) => {
         if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
-            deleteEvent(event.id as number);
+            deleteEvent(event.id as number, parameters);
         }
     }
 

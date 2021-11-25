@@ -6,7 +6,7 @@ import { State } from '../../store';
 import * as Store from '../../store/event/save';
 import * as SharedStore from '../../store/shared';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import Form from './Form';
+import SaveForm from './partials/SaveForm';
 
 type Props =
     Store.State
@@ -52,7 +52,7 @@ const Add = ({
         ? <LoadingSpinner /> :
         <>
             <h1>Add Event</h1>
-            <Form
+            <SaveForm
                 event={event}
                 setEventTypeId={setEventTypeId}
                 setCongregationId={setCongregationId}

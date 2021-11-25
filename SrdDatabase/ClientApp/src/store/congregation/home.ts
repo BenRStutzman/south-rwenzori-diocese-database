@@ -75,8 +75,8 @@ const searchCongregations = (
 
     post<SearchParameters>('api/congregation/search', parameters)
         .then(response => response.json() as Promise<Congregation[]>)
-        .then(parishes => {
-            dispatch(receiveCongregationsAction(parishes));
+        .then(congregations => {
+            dispatch(receiveCongregationsAction(congregations));
         });
 };
 

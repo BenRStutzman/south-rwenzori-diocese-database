@@ -1,8 +1,8 @@
-﻿import { Event, EventType } from '../../store/event';
-import { Action, AppThunkAction } from '../../store';
+﻿import { Event, EventType } from '../../../store/event';
+import { Action, AppThunkAction } from '../../../store';
 import React, { ChangeEvent } from 'react';
-import { Congregation } from '../../store/congregation';
-import { Errors } from '../../helpers/apiHelpers';
+import { Congregation } from '../../../store/congregation';
+import { Errors } from '../../../helpers/apiHelpers';
 
 interface Props {
     event: Event;
@@ -20,7 +20,7 @@ interface Props {
     eventExists: boolean;
 }
 
-const Form = ({
+const SaveForm = ({
     event,
     congregations,
     eventTypes,
@@ -163,4 +163,4 @@ const Form = ({
     );
 }
 
-export default Form;
+export default SaveForm;
