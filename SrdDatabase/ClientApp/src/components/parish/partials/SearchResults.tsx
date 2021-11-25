@@ -8,7 +8,7 @@ interface Props {
     parishesLoading: boolean;
     parishes: Parish[];
     deletingId?: number;
-    onDelete: (archdeaconry: Parish) => void;
+    onDelete: (parish: Parish) => void;
 }
 
 const SearchResults = ({

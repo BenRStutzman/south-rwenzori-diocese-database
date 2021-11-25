@@ -2,24 +2,40 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/congregation/home';
+import * as SharedStore from '../../store/shared';
 import { Congregation } from '../../store/congregation';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import SearchBox from './partials/SearchBox';
+import SearchResults from './partials/SearchResults';
 
-type Props = Store.State & typeof Store.actionCreators;
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const Home = ({
     congregationsLoading,
     congregations,
+    archdeaconries,
+    parishes,
     loadCongregations,
+    loadArchdeaconries,
+    loadParishes,
+    setSearchName,
     deleteCongregation,
     deletingId,
 }: Props) => {
     const loadData = () => { loadCongregations(); };
 
     useEffect(loadData, []);
+
+    const onSearch = () => {
+        loadCongregations();
+    };
 
     const onDelete = (congregation: Congregation) => {
         if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
@@ -31,34 +47,19 @@ const Home = ({
         <>
             <h1 className="page-title">Congregations</h1>
             <Link className="btn btn-primary float-right" to="/congregation/add">Add new</Link>
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className="col-5">Name</th>
-                        <th className="col-5">Parish</th>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {congregations.map((congregation: Congregation) =>
-                        <tr key={congregation.id}>
-                            <td>{congregation.name}</td>
-                            <td>{congregation.parish}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/congregation/edit/${congregation.id}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                    {congregation.id === deletingId ? <Spinner size="sm" /> : "Delete"}
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+            <SearchBox
+                archdeaconries={archdeaconries}
+                onSearch={onSearch}
+                updateName={setSearchName}
+                updateArchdeaconryId={setSearchArchdeaconryId}
+                parameters={searchParameters}
+            />
+            <SearchResults
+                parishes={parishes}
+                parishesLoading={parishesLoading}
+                onDelete={onDelete}
+                deletingId={deletingId}
+            />
         </>;
 };
 
