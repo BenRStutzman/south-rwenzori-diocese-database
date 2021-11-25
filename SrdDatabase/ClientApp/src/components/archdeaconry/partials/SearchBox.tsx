@@ -1,8 +1,8 @@
-﻿import { SearchParameters } from "../../../store/archdeaconry/shared";
+﻿import { SearchParameters } from '../../../store/archdeaconry';
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { randomString } from "../../../helpers/randomString";
+import { randomString } from '../../../helpers/randomString';
 
 const autoCompleteString = randomString();
 

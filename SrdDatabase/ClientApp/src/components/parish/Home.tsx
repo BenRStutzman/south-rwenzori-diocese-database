@@ -2,8 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/parish/home';
-import * as SharedStore from '../../store/parish/shared';
-import { Parish } from '../../store/parish/shared';
+import * as SharedStore from '../../store/shared';
+import { Parish } from '../../store/parish';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
@@ -67,6 +67,6 @@ const Home = ({
 }    
 
 export default connect(
-    (state: State) => ({...state.parish.home, ...state.parish.shared}),
+    (state: State) => ({...state.parish.home, ...state.shared}),
     { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Home as any);

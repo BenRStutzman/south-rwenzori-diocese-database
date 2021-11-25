@@ -1,14 +1,12 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Congregation } from './shared';
+import { Congregation } from '.';
 import { History } from 'history';
-import { Parish } from '../parish/shared';
+import { Parish } from '../parish';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
-const REQUEST_PARISHES = 'CONGREGATION.REQUEST_PARISHES';
-const RECEIVE_PARISHES = 'CONGREGATION.RECEIVE_PARISHES';
 const SET_NAME = 'CONGREGATION.SET_NAME';
 const SET_PARISH_ID = 'CONGREGATION.SET_PARISH_ID';
 const SET_IS_SAVING = 'CONGREGATION.SET_IS_SAVING';
@@ -21,15 +19,6 @@ const requestCongregationAction = () => ({
 const receiveCongregationAction = (congregation: Congregation) => ({
     type: RECEIVE_CONGREGATION,
     value: congregation,
-});
-
-const requestParishesAction = () => ({
-    type: REQUEST_PARISHES,
-});
-
-const receiveParishesAction = (parishes: Parish[]) => ({
-    type: RECEIVE_PARISHES,
-    value: parishes,
 });
 
 const setNameAction = (name: string) => ({
@@ -64,15 +53,6 @@ const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
             dispatch(receiveCongregationAction(congregation));
         });
 }
-
-const loadParishes = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestParishesAction());
-
-    get<Parish[]>('api/parish/all')
-        .then(parishes => {
-            dispatch(receiveParishesAction(parishes));
-        });
-};
 
 const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setNameAction(name));
@@ -121,7 +101,6 @@ const deleteCongregation = (id: number, history: History): AppThunkAction<Action
 };
 
 export const actionCreators = {
-    loadParishes,
     resetCongregation,
     loadCongregation,
     saveCongregation,
@@ -166,17 +145,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 congregationLoading: false,
                 hasBeenChanged: false,
                 errors: {},
-            };
-        case REQUEST_PARISHES:
-            return {
-                ...state,
-                parishesLoading: true,
-            };
-        case RECEIVE_PARISHES:
-            return {
-                ...state,
-                parishes: action.value,
-                parishesLoading: false,
             };
         case SET_NAME:
             return {

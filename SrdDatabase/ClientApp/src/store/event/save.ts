@@ -3,14 +3,12 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Event, EventType } from './shared';
 import { History } from 'history';
-import { Congregation } from '../congregation/shared';
+import { Congregation } from '../congregation';
 
 const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
 const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
 const REQUEST_EVENT_TYPES = 'EVENT.REQUEST_EVENT_TYPES';
 const RECEIVE_EVENT_TYPES = 'EVENT.RECEIVE_EVENT_TYPES';
-const REQUEST_CONGREGATIONS = 'EVENT.REQUEST_CONGREGATIONS';
-const RECEIVE_CONGREGATIONS = 'EVENT.RECEIVE_CONGREGATIONS';
 const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
 const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
 const SET_FIRST_PERSON_NAME = 'EVENT.SET_FIRST_PERSON_NAME';
@@ -35,15 +33,6 @@ const requestEventTypesAction = () => ({
 const receiveEventTypesAction = (eventTypes: EventType[]) => ({
     type: RECEIVE_EVENT_TYPES,
     value: eventTypes,
-});
-
-const requestCongregationsAction = () => ({
-    type: REQUEST_CONGREGATIONS,
-});
-
-const receiveCongregationsAction = (congregations: Congregation[]) => ({
-    type: RECEIVE_CONGREGATIONS,
-    value: congregations,
 });
 
 const setEventTypeIdAction = (eventTypeId: number) => ({
@@ -100,15 +89,6 @@ const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
     get<EventType[]>('api/event/types')
         .then(eventTypes => {
             dispatch(receiveEventTypesAction(eventTypes));
-        });
-};
-
-const loadCongregations = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestCongregationsAction());
-
-    get<Congregation[]>('api/congregation/all')
-        .then(congregations => {
-            dispatch(receiveCongregationsAction(congregations));
         });
 };
 
@@ -171,7 +151,6 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    loadCongregations,
     loadEventTypes,
     resetEvent,
     loadEvent,
@@ -237,17 +216,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 eventTypes: action.value,
                 eventTypesLoading: false,
-            }
-        case REQUEST_CONGREGATIONS:
-            return {
-                ...state,
-                congregationsLoading: true,
-            };
-        case RECEIVE_CONGREGATIONS:
-            return {
-                ...state,
-                congregations: action.value,
-                congregationsLoading: false,
             };
         case SET_EVENT_TYPE_ID:
             const eventTypeId = action.value;

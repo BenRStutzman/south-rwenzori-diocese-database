@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
-import { Parish } from '../../../store/parish/shared';
+import { Parish } from '../../../store/parish';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 interface Props {

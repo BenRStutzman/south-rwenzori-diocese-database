@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
-import { Congregation } from './shared';
+import { Congregation } from '.';
 
 export interface SearchParameters {
     name?: string;

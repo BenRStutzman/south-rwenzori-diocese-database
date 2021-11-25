@@ -1,9 +1,9 @@
-﻿import { SearchParameters } from "../../../store/parish/home";
+﻿import { SearchParameters } from '../../../store/parish/home';
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { randomString } from "../../../helpers/randomString";
-import { Archdeaconry } from "../../../store/archdeaconry/shared";
+import { randomString } from '../../../helpers/randomString';
+import { Archdeaconry } from '../../../store/archdeaconry';
 
 const autoCompleteString = randomString();
 

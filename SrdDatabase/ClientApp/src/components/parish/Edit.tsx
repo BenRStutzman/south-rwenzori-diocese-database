@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/parish/save';
-import * as SharedStore from '../../store/parish/shared';
+import * as SharedStore from '../../store/shared';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
@@ -68,6 +68,6 @@ const Edit = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.parish.save, ...state.parish.shared }),
+    (state: State) => ({ ...state.parish.save, ...state.shared }),
     { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Edit as any);

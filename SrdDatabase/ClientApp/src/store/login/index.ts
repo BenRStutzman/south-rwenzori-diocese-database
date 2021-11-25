@@ -1,8 +1,8 @@
 ﻿import { Reducer } from "redux";
-import { Action, AppThunkAction } from "..";
+import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
 import { History } from 'history';
-import { User } from "../user/shared";
+import { User } from '../user/';
 
 export interface UserData {
     user: User;

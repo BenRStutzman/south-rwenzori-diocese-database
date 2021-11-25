@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/user/home';
-import { User } from '../../store/user/shared';
+import { User } from '../../store/user';
 import { useEffect } from 'react';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';

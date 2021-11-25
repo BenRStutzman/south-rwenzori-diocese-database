@@ -1,4 +1,4 @@
-﻿import { User, UserType } from "../../store/user/shared";
+﻿import { User, UserType } from '../../store/user/';
 import { AppThunkAction } from '../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';

@@ -2,6 +2,20 @@
 import * as Save from './save';
 import * as Home from './home';
 
+export interface User {
+    id?: number;
+    name?: string;
+    userType?: string;
+    userTypeId?: number;
+    username?: string;
+    password?: string;
+}
+
+export interface UserType {
+    id: number;
+    name: string;
+}
+
 export interface State {
     home?: Home.State;
     save?: Save.State;

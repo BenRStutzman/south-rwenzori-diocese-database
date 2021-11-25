@@ -1,9 +1,9 @@
-﻿import { Parish } from "../../../store/parish/shared";
+﻿import { Parish } from '../../../store/parish';
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../../helpers/apiHelpers";
-import { Archdeaconry } from "../../../store/archdeaconry/shared";
+import { Errors } from '../../../helpers/apiHelpers';
+import { Archdeaconry } from '../../../store/archdeaconry';
 
 interface Props {
     parish: Parish;

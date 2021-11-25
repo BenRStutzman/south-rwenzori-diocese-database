@@ -1,7 +1,7 @@
 ﻿import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
-import { User } from './shared';
+import { User } from '.';
 
 const REQUEST_USERS = 'USER.REQUEST_USERS';
 const RECEIVE_USERS = 'USER.RECEIVE_USERS';

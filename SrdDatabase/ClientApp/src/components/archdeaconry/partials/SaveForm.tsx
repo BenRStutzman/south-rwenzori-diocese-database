@@ -1,8 +1,8 @@
-﻿import { Archdeaconry } from "../../../store/archdeaconry/shared";
+﻿import { Archdeaconry } from '../../../store/archdeaconry';
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../../helpers/apiHelpers";
+import { Errors } from '../../../helpers/apiHelpers';
 
 interface Props {
     archdeaconry: Archdeaconry;

@@ -1,8 +1,8 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Parish } from './shared';
-import { Archdeaconry } from '../archdeaconry/shared';
+import { Parish } from '.';
+import { Archdeaconry } from '../archdeaconry';
 
 export interface SearchParameters {
     name?: string;

@@ -1,9 +1,8 @@
-﻿import { Event, EventType } from "../../store/event/shared";
-import { AppThunkAction } from '../../store';
-import { Action } from 'redux';
+﻿import { Event, EventType } from '../../store/event/shared';
+import { Action, AppThunkAction } from '../../store';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../helpers/apiHelpers";
-import { Congregation } from "../../store/congregation/shared";
+import { Congregation } from '../../store/congregation';
+import { Errors } from '../../helpers/apiHelpers';
 
 interface Props {
     event: Event;

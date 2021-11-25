@@ -1,9 +1,9 @@
-﻿import { Congregation } from "../../../store/congregation/shared";
+﻿import { Congregation } from '../../../store/congregation';
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../../helpers/apiHelpers";
-import { Parish } from "../../../store/parish/shared";
+import { Errors } from '../../../helpers/apiHelpers';
+import { Parish } from '../../../store/parish';
 
 interface Props {
     congregation: Congregation;

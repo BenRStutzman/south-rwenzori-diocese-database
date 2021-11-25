@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/home';
-import { Archdeaconry } from '../../store/archdeaconry/shared';
+import { Archdeaconry } from '../../store/archdeaconry';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
