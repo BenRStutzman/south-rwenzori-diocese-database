@@ -5,10 +5,9 @@ import * as Store from '../../store/parish/home';
 import * as SharedStore from '../../store/parish/shared';
 import { Parish } from '../../store/parish';
 import { useEffect } from 'react';
-import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
-import Search from './Search';
+import SearchBox from './partials/SearchBox';
+import SearchResults from './partials/SearchResults';
 
 type Props = Store.State
     & typeof Store.actionCreators
@@ -26,9 +25,11 @@ const Home = ({
     searchParameters,
     setSearchName,
     setSearchArchdeaconryId,
+    resetSearchParameters,
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
+        resetSearchParameters();
         searchParishes();
     };
 
@@ -44,46 +45,25 @@ const Home = ({
         searchParishes(true, searchParameters);
     }
 
-    return parishesLoading ? <LoadingSpinner/> :
+    return (
         <>
             <h1 className="page-title">Parishes</h1>
             <Link className="btn btn-primary float-right" to="/parish/add">Add new</Link>
-            <Search
+            <SearchBox
                 archdeaconries={archdeaconries}
                 onSearch={onSearch}
                 updateName={setSearchName}
                 updateArchdeaconryId={setSearchArchdeaconryId}
                 parameters={searchParameters}
             />
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className="col-5">Name</th>
-                        <th className="col-5">Archdeaconry</th>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {parishes.map((parish: Parish) =>
-                        <tr key={parish.id}>
-                            <td>{parish.name}</td>
-                            <td>{parish.archdeaconry}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/parish/edit/${parish.id}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger"onClick={() => { onDelete(parish); }}>
-                                    {parish.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </>;
+            <SearchResults
+                parishes={parishes}
+                parishesLoading={parishesLoading}
+                onDelete={onDelete}
+                deletingId={deletingId}
+            />
+        </>
+    );
 }    
 
 export default connect(

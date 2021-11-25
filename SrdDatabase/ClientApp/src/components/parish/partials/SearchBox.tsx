@@ -1,9 +1,9 @@
-﻿import { SearchParameters } from "../../store/parish";
-import { AppThunkAction } from '../../store';
+﻿import { SearchParameters } from "../../../store/parish";
+import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { randomString } from "../../helpers/randomString";
-import { Archdeaconry } from "../../store/archdeaconry";
+import { randomString } from "../../../helpers/randomString";
+import { Archdeaconry } from "../../../store/archdeaconry";
 
 const autoCompleteString = randomString();
 
@@ -15,7 +15,7 @@ interface Props {
     archdeaconries: Archdeaconry[];
 }
 
-const Search = ({
+const SearchBox = ({
     onSearch,
     parameters,
     updateName,
@@ -73,4 +73,4 @@ const Search = ({
     );
 }
 
-export default Search;
+export default SearchBox;

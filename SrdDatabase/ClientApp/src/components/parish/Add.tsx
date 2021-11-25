@@ -6,7 +6,7 @@ import { State } from '../../store';
 import * as Store from '../../store/parish/save';
 import * as SharedStore from '../../store/parish/shared';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import Form from './Form';
+import SaveForm from './partials/SaveForm';
 
 type Props =
     Store.State
@@ -44,7 +44,7 @@ const Add = ({
     return parishLoading || archdeaconriesLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Add Parish</h1>
-            <Form
+            <SaveForm
                 parish={parish}
                 updateParishName={setParishName}
                 updateParishArchdeaconryId={setParishArchdeaconryId}

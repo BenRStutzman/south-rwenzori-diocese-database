@@ -1,8 +1,8 @@
-﻿import { Archdeaconry } from "../../store/archdeaconry";
-import { AppThunkAction } from '../../store';
+﻿import { Archdeaconry } from "../../../store/archdeaconry";
+import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../helpers/apiHelpers";
+import { Errors } from "../../../helpers/apiHelpers";
 
 interface Props {
     archdeaconry: Archdeaconry;
@@ -14,7 +14,7 @@ interface Props {
     errors: Errors;
 }
 
-const Form = ({
+const SaveForm = ({
     archdeaconry,
     onSave,
     updateArchdeaconryName,
@@ -70,4 +70,4 @@ const Form = ({
     );
 }
 
-export default Form;
+export default SaveForm;

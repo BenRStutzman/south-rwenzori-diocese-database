@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/save';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import Form from './Form';
+import Form from './partials/SaveForm';
 
 type Props =
     Store.State

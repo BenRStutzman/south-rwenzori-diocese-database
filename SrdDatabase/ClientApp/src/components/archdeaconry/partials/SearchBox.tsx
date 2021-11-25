@@ -1,8 +1,8 @@
-﻿import { SearchParameters } from "../../store/archdeaconry";
-import { AppThunkAction } from '../../store';
+﻿import { SearchParameters } from "../../../store/archdeaconry";
+import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { randomString } from "../../helpers/randomString";
+import { randomString } from "../../../helpers/randomString";
 
 const autoCompleteString = randomString();
 
@@ -12,7 +12,7 @@ interface Props {
     updateName: (name: string) => AppThunkAction<Action>;
 }
 
-const Search = ({
+const SearchBox = ({
     onSearch,
     parameters,
     updateName,
@@ -48,4 +48,4 @@ const Search = ({
     );
 }
 
-export default Search;
+export default SearchBox;

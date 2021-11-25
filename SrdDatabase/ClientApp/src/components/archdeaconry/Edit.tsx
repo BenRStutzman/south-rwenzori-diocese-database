@@ -4,7 +4,7 @@ import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/save';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
-import Form from './Form';
+import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
@@ -44,7 +44,7 @@ const Edit = ({ archdeaconryLoading,
     return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Edit {archdeaconry.name} Archdeaconry</h1>
-            <Form
+            <SaveForm
                 archdeaconry={archdeaconry}
                 updateArchdeaconryName={setName}
                 onSave={onSave}

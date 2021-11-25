@@ -1,9 +1,9 @@
-﻿import { Parish } from "../../store/parish";
-import { AppThunkAction } from '../../store';
+﻿import { Parish } from "../../../store/parish";
+import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../helpers/apiHelpers";
-import { Archdeaconry } from "../../store/archdeaconry";
+import { Errors } from "../../../helpers/apiHelpers";
+import { Archdeaconry } from "../../../store/archdeaconry";
 
 interface Props {
     parish: Parish;
@@ -17,7 +17,7 @@ interface Props {
     parishExists: boolean;
 }
 
-const Form = ({
+const SaveForm = ({
     parish,
     archdeaconries,
     onSave,
@@ -96,4 +96,4 @@ const Form = ({
     );
 }
 
-export default Form;
+export default SaveForm;

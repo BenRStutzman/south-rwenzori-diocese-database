@@ -5,7 +5,7 @@ import * as Store from '../../store/parish/save';
 import * as SharedStore from '../../store/parish/shared';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
-import Form from './Form';
+import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
@@ -53,7 +53,7 @@ const Edit = ({
     return parishLoading || archdeaconriesLoading || isSaving ? <LoadingSpinner /> :
         <>
             <h1>Edit {parish.name} Parish</h1>
-            <Form
+            <SaveForm
                 parish={parish}
                 archdeaconries={archdeaconries}
                 updateParishName={setParishName}
