@@ -5,19 +5,19 @@ import { Archdeaconry } from '../../../store/archdeaconry/';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 interface Props {
-    archdeaconriesLoading: boolean;
-    archdeaconries: Archdeaconry[];
+    resultsLoading: boolean;
+    results: Archdeaconry[];
     deletingId?: number;
     onDelete: (archdeaconry: Archdeaconry) => void;
 }
 
 const SearchResults = ({
-    archdeaconriesLoading,
-    archdeaconries,
+    resultsLoading,
+    results,
     deletingId,
     onDelete,
-}: Props) => archdeaconriesLoading ? <LoadingSpinner /> :
-    !archdeaconries.length ? <h2>No results.</h2> :
+}: Props) => resultsLoading ? <LoadingSpinner /> :
+    !results.length ? <h2>No results.</h2> :
         <table className='table table-striped' aria-labelledby="tabelLabel">
             <thead>
                 <tr>
@@ -27,7 +27,7 @@ const SearchResults = ({
                 </tr>
             </thead>
             <tbody>
-                {archdeaconries.map((archdeaconry: Archdeaconry) =>
+                {results.map((archdeaconry: Archdeaconry) =>
                     <tr key={archdeaconry.id}>
                         <td>{archdeaconry.name}</td>
                         <td>

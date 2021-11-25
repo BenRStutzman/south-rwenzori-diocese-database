@@ -3,7 +3,6 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Parish } from '.';
 import { History } from 'history';
-import { Archdeaconry } from '../archdeaconry';
 
 const REQUEST_PARISH = 'PARISH.REQUEST_PARISH';
 const RECEIVE_PARISH = 'PARISH.RECEIVE_PARISH';
@@ -110,8 +109,6 @@ export const actionCreators = {
 };
 
 export interface State {
-    archdeaconriesLoading: boolean;
-    archdeaconries: Archdeaconry[];
     parishLoading: boolean;
     parish: Parish;
     hasBeenChanged: boolean,
@@ -121,8 +118,6 @@ export interface State {
 }
 
 const initialState: State = {
-    archdeaconriesLoading: true,
-    archdeaconries: [],
     parishLoading: true,
     parish: {},
     hasBeenChanged: false,

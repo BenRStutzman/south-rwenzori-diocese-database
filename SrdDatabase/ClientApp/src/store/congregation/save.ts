@@ -3,7 +3,6 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '.';
 import { History } from 'history';
-import { Parish } from '../parish';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
@@ -112,8 +111,6 @@ export const actionCreators = {
 export interface State {
     isSaving: boolean;
     congregationLoading: boolean;
-    parishesLoading: boolean;
-    parishes: Parish[];
     congregation: Congregation;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
@@ -123,9 +120,7 @@ export interface State {
 const initialState: State = {
     isSaving: false,
     congregation: {},
-    parishes: [],
     congregationLoading: true,
-    parishesLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
     errors: {},

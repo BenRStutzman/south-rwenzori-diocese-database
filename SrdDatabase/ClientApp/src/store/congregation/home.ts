@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { get, post } from '../../helpers/apiHelpers';
+import { post } from '../../helpers/apiHelpers';
 import { Congregation } from '.';
 
 export interface SearchParameters {
@@ -9,9 +9,13 @@ export interface SearchParameters {
     archdeaconryId?: number;
 }
 
+const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
+const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
+const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
 const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'CONGREGATION.RECEIVE_CONGREGATIONS';
 const SET_DELETING_ID = 'CONGREGATION.SET_DELETING_ID';
+const RESET_SEARCH_PARAMETERS = 'CONGREGATION.RESET_SEARCH_PARAMETERS';
 
 const requestCongregationsAction = (showLoading: boolean = true) => ({
     type: REQUEST_CONGREGATIONS,
@@ -28,22 +32,62 @@ const setDeletingIdAction = (congregationId?: number) => ({
     value: congregationId,
 });
 
-const loadCongregations = (showLoading: boolean = true): AppThunkAction<Action> => (dispatch) => {
+const setSearchNameAction = (name: string) => ({
+    type: SET_SEARCH_NAME,
+    value: name,
+});
+
+const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
+    type: SET_SEARCH_ARCHDEACONRY_ID,
+    value: archdeaconryId,
+});
+
+const setSearchParishIdAction = (parishId: number) => ({
+    type: SET_SEARCH_PARISH_ID,
+    value: parishId,
+});
+
+const resetSearchParametersAction = () => ({
+    type: RESET_SEARCH_PARAMETERS,
+});
+
+const resetSearchParameters = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(resetSearchParametersAction());
+};
+
+const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchNameAction(name));
+};
+
+const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchArchdeaconryIdAction(archdeaconryId));
+};
+
+const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchParishIdAction(parishId));
+};
+
+const searchCongregations = (
+    showLoading: boolean = true,
+    searchParameters: SearchParameters = {},
+): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationsAction(showLoading));
 
-    get<Congregation[]>('api/congregation/all')
-        .then(congregations => {
-            dispatch(receiveCongregationsAction(congregations));
+    post<SearchParameters>('api/congregation/search', searchParameters)
+        .then(response => response.json() as Promise<Congregation[]>)
+        .then(parishes => {
+            dispatch(receiveCongregationsAction(parishes));
         });
 };
 
-const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
+const deleteCongregation = (id: number, searchParameters: SearchParameters)
+    : AppThunkAction<Action> => (dispatch) => {
     dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/congregation/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(loadCongregations(false));
+                dispatch(searchCongregations(false, searchParameters));
             } else {
                 throw response.text();
             }
@@ -56,34 +100,69 @@ const deleteCongregation = (id: number): AppThunkAction<Action> => (dispatch) =>
 };
 
 export const actionCreators = {
-    loadCongregations,
+    searchCongregations,
     deleteCongregation,
+    resetSearchParameters,
+    setSearchName,
+    setSearchArchdeaconryId,
+    setSearchParishId,
 };
 
 export interface State {
-    congregationsLoading: boolean;
-    congregations: Congregation[];
+    resultsLoading: boolean;
+    results: Congregation[];
     deletingId?: number;
+    searchParameters: SearchParameters;
 }
 
 const initialState: State = {
-    congregations: [],
-    congregationsLoading: true,
+    results: [],
+    resultsLoading: true,
     deletingId: undefined,
+    searchParameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
+        case RESET_SEARCH_PARAMETERS:
+            return {
+                ...state,
+                searchParameters: initialState.searchParameters,
+            };
+        case SET_SEARCH_NAME:
+            return {
+                ...state,
+                searchParameters: {
+                    ...state.searchParameters,
+                    name: action.value,
+                }
+            };
+        case SET_SEARCH_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                searchParameters: {
+                    ...state.searchParameters,
+                    archdeaconryId: action.value,
+                }
+            };
+        case SET_SEARCH_PARISH_ID:
+            return {
+                ...state,
+                searchParameters: {
+                    ...state.searchParameters,
+                    parishId: action.value,
+                }
+            };
         case REQUEST_CONGREGATIONS:
             return {
                 ...state,
-                congregationsLoading: action.value,
+                resultsLoading: action.value,
             };
         case RECEIVE_CONGREGATIONS:
             return {
                 ...state,
-                congregations: action.value,
-                congregationsLoading: false,
+                results: action.value,
+                resultsLoading: false,
                 deletingId: undefined,
             };
         case SET_DELETING_ID:

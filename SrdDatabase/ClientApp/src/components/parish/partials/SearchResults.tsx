@@ -5,19 +5,19 @@ import { Parish } from '../../../store/parish';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 interface Props {
-    parishesLoading: boolean;
-    parishes: Parish[];
+    resultsLoading: boolean;
+    results: Parish[];
     deletingId?: number;
     onDelete: (parish: Parish) => void;
 }
 
 const SearchResults = ({
-    parishesLoading,
-    parishes,
+    resultsLoading,
+    results,
     deletingId,
     onDelete,
-}: Props) => parishesLoading ? <LoadingSpinner /> :
-    !parishes.length ? <h2>No results.</h2> :
+}: Props) => resultsLoading ? <LoadingSpinner /> :
+    !results.length ? <h2>No results.</h2> :
         <table className='table table-striped' aria-labelledby="tabelLabel">
             <thead>
                 <tr>
@@ -28,7 +28,7 @@ const SearchResults = ({
                 </tr>
             </thead>
             <tbody>
-                {parishes.map((parish: Parish) =>
+                {results.map((parish: Parish) =>
                     <tr key={parish.id}>
                         <td>{parish.name}</td>
                         <td>{parish.archdeaconry}</td>

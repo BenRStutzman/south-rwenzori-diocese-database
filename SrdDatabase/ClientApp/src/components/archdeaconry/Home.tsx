@@ -11,8 +11,8 @@ import SearchResults from './partials/SearchResults';
 type Props = Store.State & typeof Store.actionCreators;
 
 const Home = ({
-    archdeaconries,
-    archdeaconriesLoading,
+    results,
+    resultsLoading,
     searchArchdeaconries,
     deleteArchdeaconry,
     deletingId,
@@ -48,8 +48,8 @@ const Home = ({
                 parameters={searchParameters}
             />
             <SearchResults
-                archdeaconries={archdeaconries}
-                archdeaconriesLoading={archdeaconriesLoading}
+                results={results}
+                resultsLoading={resultsLoading}
                 onDelete={onDelete}
                 deletingId={deletingId}
              />

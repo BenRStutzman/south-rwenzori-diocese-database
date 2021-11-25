@@ -5,33 +5,35 @@ import { Congregation } from '../../../store/congregation';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 interface Props {
-    congregationsLoading: boolean;
-    congregations: Congregation[];
+    resultsLoading: boolean;
+    results: Congregation[];
     deletingId?: number;
     onDelete: (congregation: Congregation) => void;
 }
 
 const SearchResults = ({
-    congregationsLoading,
-    congregations,
+    resultsLoading,
+    results,
     deletingId,
     onDelete,
-}: Props) => congregationsLoading ? <LoadingSpinner /> :
-    !congregations.length ? <h2>No results.</h2> :
+}: Props) => resultsLoading ? <LoadingSpinner /> :
+    !results.length ? <h2>No results.</h2> :
         <table className='table table-striped' aria-labelledby="tabelLabel">
             <thead>
                 <tr>
-                    <th className="col-5">Name</th>
-                    <th className="col-5">Parish</th>
+                    <th className="col-4">Name</th>
+                    <th className="col-3">Parish</th>
+                    <th className="col-3">Archdeaconry</th>
                     <th className="col-1"></th>
                     <th className="col-1"></th>
                 </tr>
             </thead>
             <tbody>
-                {congregations.map((congregation: Congregation) =>
+                {results.map((congregation: Congregation) =>
                     <tr key={congregation.id}>
                         <td>{congregation.name}</td>
                         <td>{congregation.parish}</td>
+                        <td>{congregation.archdeaconry}</td>
                         <td>
                             <Link className="btn btn-secondary" to={`/congregation/edit/${congregation.id}`}>
                                 Edit

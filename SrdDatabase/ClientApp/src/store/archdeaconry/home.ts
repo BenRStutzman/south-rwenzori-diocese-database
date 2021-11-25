@@ -80,15 +80,15 @@ export const actionCreators = {
 };
 
 export interface State {
-    archdeaconries: Archdeaconry[];
-    archdeaconriesLoading: boolean;
+    results: Archdeaconry[];
+    resultsLoading: boolean;
     deletingId?: number;
     searchParameters: SearchParameters;
 }
 
 const initialState: State = {
-    archdeaconries: [],
-    archdeaconriesLoading: true,
+    results: [],
+    resultsLoading: true,
     deletingId: undefined,
     searchParameters: {},
 };
@@ -103,13 +103,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_ARCHDEACONRIES:
             return {
                 ...state,
-                archdeaconriesLoading: action.value,
+                resultsLoading: action.value,
             };
         case RECEIVE_ARCHDEACONRIES:
             return {
                 ...state,
-                archdeaconries: action.value,
-                archdeaconriesLoading: false,
+                results: action.value,
+                resultsLoading: false,
                 deletingId: undefined,
             };
         case SET_DELETING_ID:

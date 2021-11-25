@@ -2,7 +2,6 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { Parish } from '.';
-import { Archdeaconry } from '../archdeaconry';
 
 export interface SearchParameters {
     name?: string;
@@ -97,19 +96,15 @@ export const actionCreators = {
 };
 
 export interface State {
-    archdeaconries: Archdeaconry[];
-    archdeaconriesLoading: boolean;
-    parishesLoading: boolean;
-    parishes: Parish[];
+    resultsLoading: boolean;
+    results: Parish[];
     deletingId?: number;
     searchParameters: SearchParameters;
 }
 
 const initialState: State = {
-    archdeaconries: [],
-    archdeaconriesLoading: true,
-    parishes: [],
-    parishesLoading: true,
+    results: [],
+    resultsLoading: true,
     deletingId: undefined,
     searchParameters: {},
 };
@@ -124,13 +119,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_PARISHES:
             return {
                 ...state,
-                parishesLoading: action.value,
+                resultsLoading: action.value,
             };
         case RECEIVE_PARISHES:
             return {
                 ...state,
-                parishes: action.value,
-                parishesLoading: false,
+                results: action.value,
+                resultsLoading: false,
                 deletingId: undefined,
             };
         case SET_SEARCH_NAME:

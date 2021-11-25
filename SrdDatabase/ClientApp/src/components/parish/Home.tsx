@@ -17,8 +17,8 @@ type Props = Store.State
 const Home = ({
     archdeaconries,
     loadArchdeaconries,
-    parishesLoading,
-    parishes,
+    resultsLoading,
+    results,
     searchParishes,
     deleteParish,
     deletingId,
@@ -57,8 +57,8 @@ const Home = ({
                 parameters={searchParameters}
             />
             <SearchResults
-                parishes={parishes}
-                parishesLoading={parishesLoading}
+                results={results}
+                resultsLoading={resultsLoading}
                 onDelete={onDelete}
                 deletingId={deletingId}
             />
