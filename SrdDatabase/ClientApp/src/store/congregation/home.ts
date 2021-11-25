@@ -15,7 +15,7 @@ const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
 const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'CONGREGATION.RECEIVE_CONGREGATIONS';
 const SET_DELETING_ID = 'CONGREGATION.SET_DELETING_ID';
-const RESET_SEARCH_PARAMETERS = 'CONGREGATION.RESET_SEARCH_PARAMETERS';
+const RESET_PARAMETERS = 'CONGREGATION.RESET_PARAMETERS';
 
 const requestCongregationsAction = (showLoading: boolean = true) => ({
     type: REQUEST_CONGREGATIONS,
@@ -47,12 +47,12 @@ const setSearchParishIdAction = (parishId: number) => ({
     value: parishId,
 });
 
-const resetSearchParametersAction = () => ({
-    type: RESET_SEARCH_PARAMETERS,
+const resetParametersAction = () => ({
+    type: RESET_PARAMETERS,
 });
 
-const resetSearchParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetSearchParametersAction());
+const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(resetParametersAction());
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -69,25 +69,25 @@ const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatc
 
 const searchCongregations = (
     showLoading: boolean = true,
-    searchParameters: SearchParameters = {},
+    parameters: SearchParameters = {},
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationsAction(showLoading));
 
-    post<SearchParameters>('api/congregation/search', searchParameters)
+    post<SearchParameters>('api/congregation/search', parameters)
         .then(response => response.json() as Promise<Congregation[]>)
         .then(parishes => {
             dispatch(receiveCongregationsAction(parishes));
         });
 };
 
-const deleteCongregation = (id: number, searchParameters: SearchParameters)
+const deleteCongregation = (id: number, parameters: SearchParameters)
     : AppThunkAction<Action> => (dispatch) => {
     dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/congregation/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(searchCongregations(false, searchParameters));
+                dispatch(searchCongregations(false, parameters));
             } else {
                 throw response.text();
             }
@@ -102,7 +102,7 @@ const deleteCongregation = (id: number, searchParameters: SearchParameters)
 export const actionCreators = {
     searchCongregations,
     deleteCongregation,
-    resetSearchParameters,
+    resetParameters,
     setSearchName,
     setSearchArchdeaconryId,
     setSearchParishId,
@@ -112,44 +112,44 @@ export interface State {
     resultsLoading: boolean;
     results: Congregation[];
     deletingId?: number;
-    searchParameters: SearchParameters;
+    parameters: SearchParameters;
 }
 
 const initialState: State = {
     results: [],
     resultsLoading: true,
     deletingId: undefined,
-    searchParameters: {},
+    parameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_SEARCH_PARAMETERS:
+        case RESET_PARAMETERS:
             return {
                 ...state,
-                searchParameters: initialState.searchParameters,
+                parameters: initialState.parameters,
             };
         case SET_SEARCH_NAME:
             return {
                 ...state,
-                searchParameters: {
-                    ...state.searchParameters,
+                parameters: {
+                    ...state.parameters,
                     name: action.value,
                 }
             };
         case SET_SEARCH_ARCHDEACONRY_ID:
             return {
                 ...state,
-                searchParameters: {
-                    ...state.searchParameters,
+                parameters: {
+                    ...state.parameters,
                     archdeaconryId: action.value,
                 }
             };
         case SET_SEARCH_PARISH_ID:
             return {
                 ...state,
-                searchParameters: {
-                    ...state.searchParameters,
+                parameters: {
+                    ...state.parameters,
                     parishId: action.value,
                 }
             };

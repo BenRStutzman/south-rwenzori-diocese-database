@@ -9,16 +9,16 @@ const autoCompleteString = randomString();
 interface Props {
     onSearch: () => void;
     parameters: SearchParameters;
-    updateName: (name: string) => AppThunkAction<Action>;
+    setSearchName: (name: string) => AppThunkAction<Action>;
 }
 
 const SearchBox = ({
     onSearch,
     parameters,
-    updateName,
+    setSearchName,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateName(event.target.value);
+        setSearchName(event.target.value);
     };
 
     const onSubmit = (event: React.FormEvent) => {

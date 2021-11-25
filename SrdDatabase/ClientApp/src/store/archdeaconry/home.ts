@@ -7,7 +7,7 @@ const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
 const SET_DELETING_ID = 'ARCHDEACONRY.SET_DELETING_ID';
 const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
-const RESET_SEARCH_PARAMETERS = 'ARCHDEACONRY.RESET_SEARCH_PARAMETERS';
+const RESET_PARAMETERS = 'ARCHDEACONRY.RESET_PARAMETERS';
 
 const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -30,10 +30,10 @@ const setSearchNameAction = (name: string) => ({
 });
 
 const resetSearchParametersAction = () => ({
-    type: RESET_SEARCH_PARAMETERS,
+    type: RESET_PARAMETERS,
 });
 
-const resetSearchParameters = (): AppThunkAction<Action> => (dispatch) => {
+const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(resetSearchParametersAction());
 };
 
@@ -43,24 +43,25 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 
 const searchArchdeaconries = (
     showLoading: boolean = true,
-    searchParameters: SearchParameters = {},
+    parameters: SearchParameters = {},
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
 
-    post<SearchParameters>('api/archdeaconry/search', searchParameters)
+    post<SearchParameters>('api/archdeaconry/search', parameters)
         .then(response => response.json() as Promise<Archdeaconry[]>)
         .then(archdeaconries => {
             dispatch(receiveArchdeaconriesAction(archdeaconries));
         });
 };
 
-const deleteArchdeaconry = (id: number, searchParameters: SearchParameters): AppThunkAction<Action> => (dispatch) => {
+const deleteArchdeaconry = (id: number, parameters: SearchParameters):
+    AppThunkAction<Action> => (dispatch) => {
     dispatch(setDeletingIdAction(id));
 
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
             if (response.ok) {
-                dispatch(searchArchdeaconries(false, searchParameters));
+                dispatch(searchArchdeaconries(false, parameters));
             } else {
                 throw response.text();
             }
@@ -76,29 +77,29 @@ export const actionCreators = {
     searchArchdeaconries,
     deleteArchdeaconry,
     setSearchName,
-    resetSearchParameters,
+    resetParameters,
 };
 
 export interface State {
     results: Archdeaconry[];
     resultsLoading: boolean;
     deletingId?: number;
-    searchParameters: SearchParameters;
+    parameters: SearchParameters;
 }
 
 const initialState: State = {
     results: [],
     resultsLoading: true,
     deletingId: undefined,
-    searchParameters: {},
+    parameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_SEARCH_PARAMETERS:
+        case RESET_PARAMETERS:
             return {
                 ...state,
-                searchParameters: initialState.searchParameters,
+                parameters: initialState.parameters,
             };
         case REQUEST_ARCHDEACONRIES:
             return {
@@ -120,8 +121,8 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_SEARCH_NAME:
             return {
                 ...state,
-                searchParameters: {
-                    ...state.searchParameters,
+                parameters: {
+                    ...state.parameters,
                     name: action.value,
                 }
             };

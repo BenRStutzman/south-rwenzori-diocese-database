@@ -8,7 +8,7 @@ interface Props {
     archdeaconry: Archdeaconry;
     onSave: () => void;
     onDelete?: () => void;
-    updateArchdeaconryName: (name: string) => AppThunkAction<Action>;
+    setName: (name: string) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     archdeaconryExists: boolean;
     errors: Errors;
@@ -17,14 +17,14 @@ interface Props {
 const SaveForm = ({
     archdeaconry,
     onSave,
-    updateArchdeaconryName,
+    setName,
     hasBeenChanged,
     errors,
     archdeaconryExists,
     onDelete
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateArchdeaconryName(event.target.value);
+        setName(event.target.value);
     };
 
     const onSubmit = (event: React.FormEvent) => {

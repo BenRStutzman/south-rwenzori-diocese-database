@@ -10,24 +10,24 @@ const autoCompleteString = randomString();
 interface Props {
     onSearch: () => void;
     parameters: SearchParameters;
-    updateName: (name: string) => AppThunkAction<Action>;
-    updateArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
+    setSearchName: (name: string) => AppThunkAction<Action>;
+    setSearchArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
     archdeaconries: Archdeaconry[];
 }
 
 const SearchBox = ({
     onSearch,
     parameters,
-    updateName,
-    updateArchdeaconryId,
+    setSearchName,
+    setSearchArchdeaconryId,
     archdeaconries,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateName(event.target.value);
+        setSearchName(event.target.value);
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateArchdeaconryId(parseInt(event.target.value));
+        setSearchArchdeaconryId(parseInt(event.target.value));
     }
 
     const onSubmit = (event: React.FormEvent) => {

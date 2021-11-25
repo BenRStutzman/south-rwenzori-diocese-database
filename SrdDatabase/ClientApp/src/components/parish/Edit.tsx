@@ -21,8 +21,8 @@ const Edit = ({
     history,
     parish,
     archdeaconries,
-    setParishName,
-    setParishArchdeaconryId,
+    setName,
+    setArchdeaconryId,
     loadParish,
     loadArchdeaconries,
     saveParish,
@@ -56,8 +56,8 @@ const Edit = ({
             <SaveForm
                 parish={parish}
                 archdeaconries={archdeaconries}
-                updateParishName={setParishName}
-                updateParishArchdeaconryId={setParishArchdeaconryId}
+                setName={setName}
+                updateParishArchdeaconryId={setArchdeaconryId}
                 onSave={onSave}
                 onDelete={onDelete}
                 hasBeenChanged={hasBeenChanged}

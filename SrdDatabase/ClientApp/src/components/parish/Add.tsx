@@ -23,8 +23,8 @@ const Add = ({
     loadArchdeaconries,
     resetParish,
     history,
-    setParishName,
-    setParishArchdeaconryId,
+    setName,
+    setArchdeaconryId,
     saveParish,
     isSaving,
     hasBeenChanged,
@@ -46,8 +46,8 @@ const Add = ({
             <h1>Add Parish</h1>
             <SaveForm
                 parish={parish}
-                updateParishName={setParishName}
-                updateParishArchdeaconryId={setParishArchdeaconryId}
+                setName={setName}
+                updateParishArchdeaconryId={setArchdeaconryId}
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}

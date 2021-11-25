@@ -20,11 +20,11 @@ const Home = ({
     results,
     archdeaconries,
     parishes,
-    searchParameters,
+    parameters,
     searchCongregations,
     loadArchdeaconries,
     loadParishes,
-    resetSearchParameters,
+    resetParameters,
     setSearchName,
     setSearchArchdeaconryId,
     setSearchParishId,
@@ -32,7 +32,7 @@ const Home = ({
     deletingId,
 }: Props) => {
     const loadData = () => {
-        resetSearchParameters();
+        resetParameters();
         loadArchdeaconries();
         loadParishes();
         searchCongregations();
@@ -41,12 +41,12 @@ const Home = ({
     useEffect(loadData, []);
 
     const onSearch = () => {
-        searchCongregations(true, searchParameters);
+        searchCongregations(true, parameters);
     };
 
     const onDelete = (congregation: Congregation) => {
         if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
-            deleteCongregation(congregation.id as number, searchParameters);
+            deleteCongregation(congregation.id as number, parameters);
         }
     };
 
@@ -58,10 +58,10 @@ const Home = ({
                 archdeaconries={archdeaconries}
                 parishes={parishes}
                 onSearch={onSearch}
-                updateName={setSearchName}
-                updateArchdeaconryId={setSearchArchdeaconryId}
-                updateParishId={setSearchParishId}
-                parameters={searchParameters}
+                setSearchName={setSearchName}
+                setSearchArchdeaconryId={setSearchArchdeaconryId}
+                setSearchParishId={setSearchParishId}
+                parameters={parameters}
             />
             <SearchResults
                 results={results}

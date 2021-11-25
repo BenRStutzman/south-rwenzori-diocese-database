@@ -17,24 +17,24 @@ const Home = ({
     deleteArchdeaconry,
     deletingId,
     setSearchName,
-    searchParameters,
-    resetSearchParameters,
+    parameters,
+    resetParameters,
 
 }: Props) => {
     const loadData = () => {
-        resetSearchParameters();
+        resetParameters();
         searchArchdeaconries();
     };
 
     useEffect(loadData, []);
 
     const onSearch = () => {
-        searchArchdeaconries(true, searchParameters);
+        searchArchdeaconries(true, parameters);
     };
 
     const onDelete = (archdeaconry: Archdeaconry) => {
         if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
-            deleteArchdeaconry(archdeaconry.id as number, searchParameters);
+            deleteArchdeaconry(archdeaconry.id as number, parameters);
         }
     };
 
@@ -44,8 +44,8 @@ const Home = ({
             <Link className="btn btn-primary float-right" to="/archdeaconry/add">Add new</Link>
             <SearchBox
                 onSearch={onSearch}
-                updateName={setSearchName}
-                parameters={searchParameters}
+                setSearchName={setSearchName}
+                parameters={parameters}
             />
             <SearchResults
                 results={results}

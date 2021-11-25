@@ -56,8 +56,8 @@ const Edit = ({
             <Form
                 congregation={congregation}
                 parishes={parishes}
-                updateCongregationName={setName}
-                updateCongregationParishId={setParishId}
+                setName={setName}
+                setParishId={setParishId}
                 onSave={onSave}
                 onDelete={onDelete}
                 hasBeenChanged={hasBeenChanged}

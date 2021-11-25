@@ -12,31 +12,31 @@ interface Props {
     parameters: SearchParameters;
     archdeaconries: Archdeaconry[];
     parishes: Parish[];
-    updateName: (name: string) => AppThunkAction<Action>;
-    updateArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
-    updateParishId: (parishId: number) => AppThunkAction<Action>;
+    setSearchName: (name: string) => AppThunkAction<Action>;
+    setSearchArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
+    setSearchParishId: (parishId: number) => AppThunkAction<Action>;
     onSearch: () => void;
 }
 
 const SearchBox = ({
     onSearch,
     parameters,
-    updateName,
-    updateArchdeaconryId,
-    updateParishId,
+    setSearchName,
+    setSearchArchdeaconryId,
+    setSearchParishId,
     archdeaconries,
     parishes,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateName(event.target.value);
+        setSearchName(event.target.value);
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateArchdeaconryId(parseInt(event.target.value));
+        setSearchArchdeaconryId(parseInt(event.target.value));
     };
 
     const onParishIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateParishId(parseInt(event.target.value));
+        setSearchParishId(parseInt(event.target.value));
     };
 
     const onSubmit = (event: React.FormEvent) => {

@@ -35,7 +35,7 @@ const Add = ({ archdeaconry,
             <h1>Add Archdeaconry</h1>
             <Form
                 archdeaconry={archdeaconry}
-                updateArchdeaconryName={setName}
+                setName={setName}
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}

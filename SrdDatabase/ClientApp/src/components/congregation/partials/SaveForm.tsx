@@ -9,8 +9,8 @@ interface Props {
     congregation: Congregation;
     onSave: () => void;
     onDelete?: () => void;
-    updateCongregationName: (name: string) => AppThunkAction<Action>;
-    updateCongregationParishId: (parishId: number) => AppThunkAction<Action>;
+    setName: (name: string) => AppThunkAction<Action>;
+    setParishId: (parishId: number) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     errors: Errors;
     parishes: Parish[];
@@ -22,18 +22,18 @@ const SaveForm = ({
     parishes,
     onSave,
     onDelete,
-    updateCongregationName,
-    updateCongregationParishId,
+    setName,
+    setParishId,
     hasBeenChanged,
     errors,
     congregationExists,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateCongregationName(event.target.value);
+        setName(event.target.value);
     }
 
     const onParishIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateCongregationParishId(parseInt(event.target.value));
+        setParishId(parseInt(event.target.value));
     }
 
     const onSubmit = (event: React.FormEvent) => {

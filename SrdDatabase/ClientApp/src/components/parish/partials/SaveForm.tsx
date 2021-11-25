@@ -9,7 +9,7 @@ interface Props {
     parish: Parish;
     onSave: () => void;
     onDelete?: () => void;
-    updateParishName: (name: string) => AppThunkAction<Action>;
+    setName: (name: string) => AppThunkAction<Action>;
     updateParishArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
     hasBeenChanged: boolean;
     errors: Errors;
@@ -22,14 +22,14 @@ const SaveForm = ({
     archdeaconries,
     onSave,
     onDelete,
-    updateParishName,
+    setName,
     updateParishArchdeaconryId,
     hasBeenChanged,
     errors,
     parishExists,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        updateParishName(event.target.value);
+        setName(event.target.value);
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {

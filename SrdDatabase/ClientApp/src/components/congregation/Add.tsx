@@ -46,8 +46,8 @@ const Add = ({
             <h1>Add Congregation</h1>
             <Form
                 congregation={congregation}
-                updateCongregationName={setName}
-                updateCongregationParishId={setParishId}
+                setName={setName}
+                setParishId={setParishId}
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}

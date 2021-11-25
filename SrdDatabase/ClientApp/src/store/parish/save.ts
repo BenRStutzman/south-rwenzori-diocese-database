@@ -53,11 +53,11 @@ const loadParish = (id: number): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
-const setParishName = (name: string): AppThunkAction<Action> => (dispatch) => {
+const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setNameAction(name));
 };
 
-const setParishArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setArchdeaconryIdAction(archdeaconryId));
 };
 
@@ -102,8 +102,8 @@ const deleteParish = (id: number, history: History): AppThunkAction<Action> => (
 export const actionCreators = {
     resetParish,
     loadParish,
-    setParishName,
-    setParishArchdeaconryId,
+    setName,
+    setArchdeaconryId,
     saveParish,
     deleteParish,
 };

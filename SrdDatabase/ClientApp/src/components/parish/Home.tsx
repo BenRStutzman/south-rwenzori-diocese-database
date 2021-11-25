@@ -22,14 +22,14 @@ const Home = ({
     searchParishes,
     deleteParish,
     deletingId,
-    searchParameters,
+    parameters,
     setSearchName,
     setSearchArchdeaconryId,
-    resetSearchParameters,
+    resetParameters,
 }: Props) => {
     const loadData = () => {
+        resetParameters();
         loadArchdeaconries();
-        resetSearchParameters();
         searchParishes();
     };
 
@@ -37,12 +37,12 @@ const Home = ({
 
     const onDelete = (parish: Parish) => {
         if (window.confirm(`Are you sure you want to delete ${parish.name} Parish?`)) {
-            deleteParish(parish.id as number, searchParameters);
+            deleteParish(parish.id as number, parameters);
         }
     };
 
     const onSearch = () => {
-        searchParishes(true, searchParameters);
+        searchParishes(true, parameters);
     }
 
     return (
@@ -52,9 +52,9 @@ const Home = ({
             <SearchBox
                 archdeaconries={archdeaconries}
                 onSearch={onSearch}
-                updateName={setSearchName}
-                updateArchdeaconryId={setSearchArchdeaconryId}
-                parameters={searchParameters}
+                setSearchName={setSearchName}
+                setSearchArchdeaconryId={setSearchArchdeaconryId}
+                parameters={parameters}
             />
             <SearchResults
                 results={results}

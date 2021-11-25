@@ -46,7 +46,7 @@ const Edit = ({ archdeaconryLoading,
             <h1>Edit {archdeaconry.name} Archdeaconry</h1>
             <SaveForm
                 archdeaconry={archdeaconry}
-                updateArchdeaconryName={setName}
+                setName={setName}
                 onSave={onSave}
                 hasBeenChanged={hasBeenChanged}
                 errors={errors}
