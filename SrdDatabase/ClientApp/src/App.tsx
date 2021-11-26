@@ -7,6 +7,7 @@ import Home from './components/Home';
 import ArchdeaconryHome from './components/archdeaconry/Home';
 import ArchdeaconryAdd from './components/archdeaconry/Add';
 import ArchdeaconryEdit from './components/archdeaconry/Edit';
+import ArchdeaconryDetails from './components/archdeaconry/Details';
 import ParishHome from './components/parish/Home';
 import ParishAdd from './components/parish/Add';
 import ParishEdit from './components/parish/Edit';
@@ -28,6 +29,7 @@ export default () => (
         <PrivateRoute exact path='/archdeaconry' component={ArchdeaconryHome} />
         <PrivateRoute exact path='/archdeaconry/add' component={ArchdeaconryAdd} />
         <PrivateRoute exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} />
+        <PrivateRoute exact path='/archdeaconry/details/:archdeaconryId' component={ArchdeaconryDetails} />
         <PrivateRoute exact path='/parish' component={ParishHome} />
         <PrivateRoute exact path='/parish/add' component={ParishAdd} />
         <PrivateRoute exact path='/parish/edit/:parishId' component={ParishEdit} />

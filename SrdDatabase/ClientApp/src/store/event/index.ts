@@ -8,6 +8,10 @@ export interface Event {
     eventType?: string;
     congregationId?: number;
     congregation?: string;
+    parishId?: number;
+    parish?: string;
+    archdeaconryId?: number;
+    archdeaconry?: string;
     firstPersonName?: string;
     secondPersonName?: string;
     date: Date;

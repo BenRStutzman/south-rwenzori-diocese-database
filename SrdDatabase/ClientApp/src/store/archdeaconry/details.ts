@@ -4,28 +4,36 @@ import { get, post } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '.';
 import { History } from 'history';
 import { Parish } from '../parish';
+import { Congregation } from '../congregation';
 
 export interface ArchdeaconryDetails {
-    archdeaconry: Archdeaconry;
-    parishes: Parish[];
+    archdeaconry?: Archdeaconry;
+    parishes?: Parish[];
+    congregations?: Congregation[];
+    events?: Event[];
 }
 
 const REQUEST_DETAILS = 'ARCHDEACONRY.REQUEST_ARCHDEACONRY_DETAILS';
 const RECEIVE_DETAILS = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRY_DETAILS';
-const SET_IS_LOADING = 'ARCHDEACONRY.SET_IS_LOADING';
+const SET_DETAILS_LOADING = 'ARCHDEACONRY.SET_DETAILS_LOADING';
 
-const requestArchdeaconryDetailsAction = () => ({
-    type: REQUEST_ARCHDEACONRY_DETAILS,
+const requestDetailsAction = () => ({
+    type: REQUEST_DETAILS,
 });
 
-const receiveArchdeaconryDetailsAction = (archdeaconryDetails: ArchdeaconryDetails) => ({
-    type: RECEIVE_ARCHDEACONRY_DETAILS,
-    value: archdeaconryDetails,
+const receiveDetailsAction = (details: ArchdeaconryDetails) => ({
+    type: RECEIVE_DETAILS,
+    value: details,
+});
+
+const setDetailsLoadingAction = (isLoading: boolean) => ({
+    type: SET_DETAILS_LOADING,
+    value: isLoading,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: Archdeaconry;
+    details: ArchdeaconryDetails;
 }
 
 const initialState: State = {
@@ -33,17 +41,17 @@ const initialState: State = {
     details: {},
 };
 
-const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestArchdeaconryAction());
+const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestDetailsAction());
 
-    get<Archdeaconry>(`api/archdeaconry/${id}`)
-        .then(archdeaconry => {
-            dispatch(receiveArchdeaconryAction(archdeaconry));
+    get<ArchdeaconryDetails>(`api/archdeaconry/details/${id}`)
+        .then(details => {
+            dispatch(receiveDetailsAction(details));
         });
 }
 
 const deleteArchdeaconry = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setIsSavingAction(true));
+    dispatch(setDetailsLoadingAction(true));
 
     post<{ id: number }>('api/archdeaconry/delete', { id })
         .then(response => {
@@ -57,37 +65,32 @@ const deleteArchdeaconry = (id: number, history: History): AppThunkAction<Action
                 alert(errorMessage);
             });
         }).finally(() => {
-            dispatch(setIsSavingAction(false));
+            dispatch(setDetailsLoadingAction(false));
         });
 };
 
 export const actionCreators = {
-    resetArchdeaconry,
-    loadArchdeaconry,
-    setName,
-    saveArchdeaconry,
+    loadDetails,
     deleteArchdeaconry,
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_ARCHDEACONRY_DETAILS:
+        case REQUEST_DETAILS:
             return {
                 ...state,
-                archdeaconryLoading: true,
+                detailsLoading: true,
             };
-        case RECEIVE_ARCHDEACONRY_DETAILS:
+        case RECEIVE_DETAILS:
             return {
                 ...state,
-                archdeaconryLoading: false,
-                archdeaconry: action.value,
-                hasBeenChanged: false,
-                errors: {},
+                detailsLoading: false,
+                details: action.value,
             };
-        case SET_IS_LOADING:
+        case SET_DETAILS_LOADING:
             return {
                 ...state,
-                archdeaconryLoading: action.value,
+                detailsLoading: action.value,
             };
         default:
             return state;

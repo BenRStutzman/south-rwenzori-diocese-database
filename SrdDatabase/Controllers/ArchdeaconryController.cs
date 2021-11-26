@@ -21,6 +21,12 @@ namespace SrdDatabase.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<ArchdeaconryDetails> Details(int id)
+        {
+            return await _mediator.Send(new GetArchdeaconryDetails.Query(id));
+        }
+
         [HttpGet("{id}")]
         public async Task<Archdeaconry> GetById(int id)
         {

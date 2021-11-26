@@ -21,7 +21,8 @@ const SearchResults = ({
         <table className='table table-striped' aria-labelledby="tabelLabel">
             <thead>
                 <tr>
-                    <th className="col-10">Name</th>
+                    <th className="col-9">Name</th>
+                    <th className="col-1"></th>
                     <th className="col-1"></th>
                     <th className="col-1"></th>
                 </tr>
@@ -31,7 +32,12 @@ const SearchResults = ({
                     <tr key={archdeaconry.id}>
                         <td>{archdeaconry.name}</td>
                         <td>
-                            <Link className="btn btn-secondary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
+                            <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                                View
+                            </Link>
+                        </td>
+                        <td>
+                            <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
                                 Edit
                             </Link>
                         </td>

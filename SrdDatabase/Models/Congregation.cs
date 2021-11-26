@@ -10,11 +10,16 @@
 
         public string Parish { get; }
 
+        public int ArchdeaconryId { get; }
+
+        public string Archdeaconry { get; }
+
         public Congregation(
             int id,
             string name,
             int parishId,
             string parish,
+            int archdeaconryId,
             string archdeaconry
             )
         {
@@ -22,6 +27,7 @@
             Name = name;
             ParishId = parishId;
             Parish = parish;
+            ArchdeaconryId = ArchdeaconryId;
             Archdeaconry = archdeaconry;
         }
 

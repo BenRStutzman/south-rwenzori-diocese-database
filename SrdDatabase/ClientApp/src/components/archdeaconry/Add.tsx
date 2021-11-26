@@ -8,9 +8,9 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import Form from './partials/SaveForm';
 
 type Props =
-    Store.State
-    & typeof Store.actionCreators
-    & RouteComponentProps;
+    Store.State &
+    typeof Store.actionCreators &
+    RouteComponentProps;
 
 const Add = ({ archdeaconry,
     archdeaconryLoading,

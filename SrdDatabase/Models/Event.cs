@@ -14,6 +14,14 @@ namespace SrdDatabase.Models
 
         public string Congregation { get; }
 
+        public int ParishId { get; }
+
+        public string Parish { get; }
+
+        public int ArchdeaconryId { get; }
+
+        public string Archdeaconry { get; }
+
         public string FirstPersonName { get; }
 
         public string SecondPersonName { get; }
@@ -26,7 +34,9 @@ namespace SrdDatabase.Models
             string eventType,
             int congregationId,
             string congregation,
+            int parishId,
             string parish,
+            int archdeaconryId,
             string archdeaconry,
             string firstPersonName,
             string secondPersonName,
@@ -37,7 +47,9 @@ namespace SrdDatabase.Models
             EventType = eventType;
             CongregationId = congregationId;
             Congregation = congregation;
+            ParishId = parishId;
             Parish = parish;
+            ArchdeaconryId = archdeaconryId;
             Archdeaconry = archdeaconry;
             FirstPersonName = firstPersonName;
             SecondPersonName = secondPersonName;

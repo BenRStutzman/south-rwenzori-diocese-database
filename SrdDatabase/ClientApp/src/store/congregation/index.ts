@@ -7,6 +7,8 @@ export interface Congregation {
     name?: string;
     parishId?: number;
     parish?: string;
+    archdeaconryId?: number;
+    archdeaconry?: string;
 }
 
 export interface State {
