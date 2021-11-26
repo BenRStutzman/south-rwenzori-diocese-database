@@ -1,4 +1,4 @@
-﻿using SrdDatabase.Models.User;
+﻿using SrdDatabase.Models;
 using System.Threading.Tasks;
 
 namespace SrdDatabase.Services

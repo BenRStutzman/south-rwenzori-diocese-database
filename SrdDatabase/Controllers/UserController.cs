@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Attributes;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Models.User;
+using SrdDatabase.Models;
 using SrdDatabase.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;

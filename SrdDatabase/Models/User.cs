@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace SrdDatabase.Models.User
+namespace SrdDatabase.Models
 {
     public class User
     {

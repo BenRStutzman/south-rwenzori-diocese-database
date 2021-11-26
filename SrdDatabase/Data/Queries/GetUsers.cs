@@ -6,7 +6,7 @@ using Dapper;
 using System.Data;
 using System;
 using SrdDatabase.Services;
-using SrdDatabase.Models.User;
+using SrdDatabase.Models;
 
 namespace SrdDatabase.Data.Queries
 {

@@ -1,4 +1,4 @@
-﻿namespace SrdDatabase.Models.User
+﻿namespace SrdDatabase.Models
 {
     public class AuthenticationRequest
     {
