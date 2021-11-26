@@ -52,9 +52,7 @@ const Edit = ({
     };
 
     const onDelete = () => {
-        if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
-            deleteEvent(event.id as number, history);
-        }
+        deleteEvent(event, () => { history.push('/event'); });
     };
 
     return eventLoading || eventTypesLoading || congregationsLoading || isSaving

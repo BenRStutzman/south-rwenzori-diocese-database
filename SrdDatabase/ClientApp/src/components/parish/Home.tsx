@@ -36,9 +36,7 @@ const Home = ({
     useEffect(loadData, []);
 
     const onDelete = (parish: Parish) => {
-        if (window.confirm(`Are you sure you want to delete ${parish.name} Parish?`)) {
-            deleteParish(parish.id as number, parameters);
-        }
+        deleteParish(parish, () => { searchParishes(false, parameters); });
     };
 
     const onSearch = () => {

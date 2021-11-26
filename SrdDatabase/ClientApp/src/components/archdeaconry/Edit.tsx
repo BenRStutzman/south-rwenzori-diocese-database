@@ -41,7 +41,7 @@ const Edit = ({ archdeaconryLoading,
     };
 
     const onDelete = () => {
-        deleteArchdeaconry(archdeaconry, () => history.push('/archdeaconry'));
+        deleteArchdeaconry(archdeaconry, () => { history.push('/archdeaconry') });
     };
 
     return archdeaconryLoading || isSaving || deletingArchdeaconryId ? <LoadingSpinner /> :

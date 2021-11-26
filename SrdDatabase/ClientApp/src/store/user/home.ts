@@ -11,7 +11,6 @@ export interface SearchParameters {
 
 const REQUEST_USERS = 'USER.REQUEST_USERS';
 const RECEIVE_USERS = 'USER.RECEIVE_USERS';
-const SET_DELETING_ID = 'USER.SET_DELETING_ID';
 const RESET_PARAMETERS = 'USER.RESET_PARAMETERS';
 const SET_SEARCH_NAME = 'USER.SET_SEARCH_NAME';
 const SET_SEARCH_USERNAME = 'USER.SET_SEARCH_USERNAME';
@@ -25,11 +24,6 @@ const requestUsersAction = (showLoading: boolean = true) => ({
 const receiveUsersAction = (users: User[]) => ({
     type: RECEIVE_USERS,
     value: users,
-});
-
-const setDeletingIdAction = (userId?: number) => ({
-    type: SET_DELETING_ID,
-    value: userId,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -80,28 +74,8 @@ const searchUsers = (
         });
 };
 
-const deleteUser = (id: number, parameters: SearchParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingIdAction(id));
-
-    post<{ id: number }>('api/user/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                dispatch(searchUsers(false, parameters));
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                alert(errorMessage);
-            });
-        }).finally(() => {
-            dispatch(setDeletingIdAction(undefined));
-        });
-};
-
 export const actionCreators = {
     searchUsers,
-    deleteUser,
     resetParameters,
     setSearchName,
     setSearchUsername,
@@ -163,11 +137,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 results: action.value,
                 resultsLoading: false,
-            };
-        case SET_DELETING_ID:
-            return {
-                ...state,
-                deletingId: action.value,
             };
         default:
             return state;

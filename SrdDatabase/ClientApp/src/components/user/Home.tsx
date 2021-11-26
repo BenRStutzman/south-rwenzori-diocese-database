@@ -42,9 +42,7 @@ const Home = ({
     };
 
     const onDelete = (user: User) => {
-        if (window.confirm(`Are you sure you want to delete the user ${user.name}?`)) {
-            deleteUser(user.id as number, parameters);
-        }
+        deleteUser(user, () => { searchUsers(false, parameters); });
     };
 
     return (

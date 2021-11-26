@@ -23,7 +23,6 @@ const SET_SEARCH_PARISH_ID = 'EVENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
 const REQUEST_EVENTS = 'EVENT.REQUEST_EVENTS';
 const RECEIVE_EVENTS = 'EVENT.RECEIVE_EVENTS';
-const SET_DELETING_ID = 'EVENT.SET_DELETING_ID';
 
 const requestEventsAction = (showLoading: boolean = true) => ({
     type: REQUEST_EVENTS,
@@ -33,11 +32,6 @@ const requestEventsAction = (showLoading: boolean = true) => ({
 const receiveEventsAction = (events: Event[]) => ({
     type: RECEIVE_EVENTS,
     value: events,
-});
-
-const setDeletingIdAction = (eventId?: number) => ({
-    type: SET_DELETING_ID,
-    value: eventId,
 });
 
 const setSearchEventTypeIdAction = (eventTypeId: number) => ({
@@ -124,27 +118,8 @@ const searchEvents = (
         });
 };
 
-const deleteEvent = (id: number, parameters: SearchParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingIdAction(id));
-
-    post<{ id: number }>('api/event/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                dispatch(searchEvents(false, parameters));
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                dispatch(setDeletingIdAction(undefined));
-                alert(errorMessage);
-            });
-        });
-};
-
 export const actionCreators = {
     searchEvents,
-    deleteEvent,
     setSearchEventTypeId,
     setSearchParishId,
     setSearchCongregationId,
@@ -243,11 +218,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 results: action.value,
                 resultsLoading: false,
                 deletingId: undefined,
-            };
-        case SET_DELETING_ID:
-            return {
-                ...state,
-                deletingId: action.value,
             };
         default:
             return state;

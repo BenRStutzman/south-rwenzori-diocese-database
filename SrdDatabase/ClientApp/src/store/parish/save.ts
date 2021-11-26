@@ -80,32 +80,12 @@ const saveParish = (parish: Parish, history: History): AppThunkAction<Action> =>
         });
 };
 
-const deleteParish = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setIsSavingAction(true));
-
-    post<{ id: number }>('api/parish/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                history.push('/parish');
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                alert(errorMessage);
-            });
-        }).finally(() => {
-            dispatch(setIsSavingAction(false));
-        });
-};
-
 export const actionCreators = {
     resetParish,
     loadParish,
     setName,
     setArchdeaconryId,
     saveParish,
-    deleteParish,
 };
 
 export interface State {

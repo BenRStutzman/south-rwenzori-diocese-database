@@ -47,9 +47,7 @@ const Edit = ({
     };
 
     const onDelete = () => {
-        if (window.confirm(`Are you sure you want to delete the user ${user.name}?`)) {
-            deleteUser(user.id as number, history);
-        }
+        deleteUser(user, () => { history.push('/user'); })
     };
 
     return userLoading || userTypesLoading || isSaving

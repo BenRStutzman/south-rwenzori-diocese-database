@@ -91,25 +91,6 @@ const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (d
         });
 };
 
-const deleteEvent = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setIsSavingAction(true));
-
-    post<{ id: number }>('api/event/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                history.push('/event');
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                alert(errorMessage);
-            });
-        }).finally(() => {
-            dispatch(setIsSavingAction(false));
-        });
-};
-
 const setEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setEventTypeIdAction(eventTypeId));
 };
@@ -134,7 +115,6 @@ export const actionCreators = {
     resetEvent,
     loadEvent,
     saveEvent,
-    deleteEvent,
     setEventTypeId,
     setCongregationId,
     setFirstPersonName,

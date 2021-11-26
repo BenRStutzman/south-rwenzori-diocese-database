@@ -14,7 +14,6 @@ const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
 const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'CONGREGATION.RECEIVE_CONGREGATIONS';
-const SET_DELETING_ID = 'CONGREGATION.SET_DELETING_ID';
 const RESET_PARAMETERS = 'CONGREGATION.RESET_PARAMETERS';
 
 const requestCongregationsAction = (showLoading: boolean = true) => ({
@@ -25,11 +24,6 @@ const requestCongregationsAction = (showLoading: boolean = true) => ({
 const receiveCongregationsAction = (congregations: Congregation[]) => ({
     type: RECEIVE_CONGREGATIONS,
     value: congregations,
-});
-
-const setDeletingIdAction = (congregationId?: number) => ({
-    type: SET_DELETING_ID,
-    value: congregationId,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -80,28 +74,8 @@ const searchCongregations = (
         });
 };
 
-const deleteCongregation = (id: number, parameters: SearchParameters)
-    : AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingIdAction(id));
-
-    post<{ id: number }>('api/congregation/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                dispatch(searchCongregations(false, parameters));
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                dispatch(setDeletingIdAction(undefined));
-                alert(errorMessage);
-            });
-        });
-};
-
 export const actionCreators = {
     searchCongregations,
-    deleteCongregation,
     resetParameters,
     setSearchName,
     setSearchArchdeaconryId,
@@ -164,11 +138,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 results: action.value,
                 resultsLoading: false,
                 deletingId: undefined,
-            };
-        case SET_DELETING_ID:
-            return {
-                ...state,
-                deletingId: action.value,
             };
         default:
             return state;

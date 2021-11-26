@@ -10,7 +10,6 @@ export interface SearchParameters {
 
 const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';
 const RECEIVE_PARISHES = 'PARISH.RECEIVE_PARISHES';
-const SET_DELETING_ID = 'PARISH.SET_DELETING_ID';
 const SET_SEARCH_NAME = 'PARISH.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PARISH.SET_SEARCH_ARCHDEACONRY_ID';
 const RESET_PARAMETERS = 'PARISH.RESET_PARAMETERS';
@@ -23,11 +22,6 @@ const requestParishesAction = (showLoading: boolean = true) => ({
 const receiveParishesAction = (parishes: Parish[]) => ({
     type: RECEIVE_PARISHES,
     value: parishes,
-});
-
-const setDeletingIdAction = (parishId?: number) => ({
-    type: SET_DELETING_ID,
-    value: parishId,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -69,27 +63,8 @@ const searchParishes = (
         });
 };
 
-const deleteParish = (id: number, parameters: SearchParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingIdAction(id));
-
-    post<{ id: number }>('api/parish/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                dispatch(searchParishes(false, parameters));
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                dispatch(setDeletingIdAction(undefined));
-                alert(errorMessage);
-            });
-        });
-};
-
 export const actionCreators = {
     searchParishes,
-    deleteParish,
     setSearchName,
     setSearchArchdeaconryId,
     resetParameters,
@@ -143,11 +118,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     ...state.parameters,
                     archdeaconryId: action.value,
                 }
-            };
-        case SET_DELETING_ID:
-            return {
-                ...state,
-                deletingId: action.value,
             };
         default:
             return state;

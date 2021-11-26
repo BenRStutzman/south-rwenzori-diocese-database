@@ -55,9 +55,7 @@ const Home = ({
     };
 
     const onDelete = (event: Event) => {
-        if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
-            deleteEvent(event.id as number, parameters);
-        }
+        deleteEvent(event, () => { searchEvents(false, parameters); });
     }
 
     return (

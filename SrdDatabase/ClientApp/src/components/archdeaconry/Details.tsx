@@ -32,7 +32,7 @@ const Details = ({
     React.useEffect(loadData, []);
 
     const onDelete = () => {
-        deleteArchdeaconry(details.archdeaconry as Archdeaconry, () => history.push('/archdeaconry'));
+        deleteArchdeaconry(details.archdeaconry as Archdeaconry, () => { history.push('/archdeaconry'); });
     };
 
     return detailsLoading || deletingArchdeaconryId ? <LoadingSpinner /> :

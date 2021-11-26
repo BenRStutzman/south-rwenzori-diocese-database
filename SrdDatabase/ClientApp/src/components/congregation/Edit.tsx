@@ -45,9 +45,7 @@ const Edit = ({
     };
 
     const onDelete = () => {
-        if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
-            deleteCongregation(congregation.id as number, history);
-        }
+        deleteCongregation(congregation, () => { history.push('/congregation'); });
     };
 
     return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :

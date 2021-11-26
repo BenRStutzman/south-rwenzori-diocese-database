@@ -80,30 +80,10 @@ const saveCongregation = (congregation: Congregation, history: History): AppThun
         });
 };
 
-const deleteCongregation = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setIsSavingAction(true));
-
-    post<{ id: number }>('api/congregation/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                history.push('/congregation');
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                alert(errorMessage);
-            });
-        }).finally(() => {
-            dispatch(setIsSavingAction(false));
-        });
-};
-
 export const actionCreators = {
     resetCongregation,
     loadCongregation,
     saveCongregation,
-    deleteCongregation,
     setName,
     setParishId,
 };

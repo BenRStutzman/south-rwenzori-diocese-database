@@ -3,9 +3,9 @@ import { Action, AppThunkAction } from '.';
 import { get, post } from '../helpers/apiHelpers';
 import { Archdeaconry } from './archdeaconry';
 import { Congregation } from './congregation';
-import { EventType } from './event';
+import { Event, EventType } from './event';
 import { Parish } from './parish';
-import { UserType } from './user';
+import { User, UserType } from './user';
 
 const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
@@ -18,6 +18,10 @@ const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
 const REQUEST_USER_TYPES = 'REQUEST_USER_TYPES';
 const RECEIVE_USER_TYPES = 'RECEIVE_USER_TYPES';
 const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
+const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
+const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
+const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
+const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
 
 const requestArchdeaconriesAction = () => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -69,6 +73,26 @@ const setDeletingArchdeaconryIdAction = (archdeaconryId?: number) => ({
     value: archdeaconryId,
 });
 
+const setDeletingParishIdAction = (parishId?: number) => ({
+    type: SET_DELETING_PARISH_ID,
+    value: parishId,
+});
+
+const setDeletingCongregationIdAction = (congregationId?: number) => ({
+    type: SET_DELETING_CONGREGATION_ID,
+    value: congregationId,
+});
+
+const setDeletingEventIdAction = (eventId?: number) => ({
+    type: SET_DELETING_EVENT_ID,
+    value: eventId,
+});
+
+const setDeletingUserIdAction = (userId?: number) => ({
+    type: SET_DELETING_USER_ID,
+    value: userId,
+});
+
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction());
 
@@ -116,7 +140,6 @@ const loadUserTypes = (): AppThunkAction<Action> => (dispatch) => {
 
 const deleteArchdeaconry = (archdeaconry: Archdeaconry, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-
         if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
             dispatch(setDeletingArchdeaconryIdAction(archdeaconry.id));
 
@@ -137,6 +160,94 @@ const deleteArchdeaconry = (archdeaconry: Archdeaconry, onSuccess: () => void):
         }
     };
 
+const deleteParish = (parish: Parish, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete ${parish.name} Parish?`)) {
+            dispatch(setDeletingParishIdAction(parish.id));
+
+            post<{ id: number }>('api/parish/delete', { id: parish.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        alert(errorMessage);
+                    });
+                }).finally(() => {
+                    dispatch(setDeletingParishIdAction(undefined));
+                });
+        }
+    };
+
+const deleteCongregation = (congregation: Congregation, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
+            dispatch(setDeletingCongregationIdAction(congregation.id));
+
+            post<{ id: number }>('api/congregation/delete', { id: congregation.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        alert(errorMessage);
+                    });
+                }).finally(() => {
+                    dispatch(setDeletingCongregationIdAction(undefined));
+                });
+        }
+    };
+
+const deleteEvent = (event: Event, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
+            dispatch(setDeletingEventIdAction(event.id));
+
+            post<{ id: number }>('api/event/delete', { id: event.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        alert(errorMessage);
+                    });
+                }).finally(() => {
+                    dispatch(setDeletingEventIdAction(undefined));
+                });
+        }
+    };
+
+const deleteUser = (user: User, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete the user ${user.name}?`)) {
+            dispatch(setDeletingUserIdAction(user.id));
+
+            post<{ id: number }>('api/user/delete', { id: user.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        alert(errorMessage);
+                    });
+                }).finally(() => {
+                    dispatch(setDeletingUserIdAction(undefined));
+                });
+        }
+    };
+
 export const actionCreators = {
     loadArchdeaconries,
     loadParishes,
@@ -144,6 +255,10 @@ export const actionCreators = {
     loadEventTypes,
     loadUserTypes,
     deleteArchdeaconry,
+    deleteParish,
+    deleteCongregation,
+    deleteEvent,
+    deleteUser,
 };
 
 export interface State {
@@ -158,6 +273,10 @@ export interface State {
     userTypes: UserType[];
     userTypesLoading: boolean;
     deletingArchdeaconryId?: number;
+    deletingParishId?: number;
+    deletingCongregationId?: number;
+    deletingEventId?: number;
+    deletingUserId?: number;
 }
 
 const initialState: State = {
@@ -234,6 +353,26 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
             return {
                 ...state,
                 deletingArchdeaconryId: action.value,
+            };
+        case SET_DELETING_PARISH_ID:
+            return {
+                ...state,
+                deletingParishId: action.value,
+            };
+        case SET_DELETING_CONGREGATION_ID:
+            return {
+                ...state,
+                deletingCongregationId: action.value,
+            };
+        case SET_DELETING_EVENT_ID:
+            return {
+                ...state,
+                deletingEventId: action.value,
+            };
+        case SET_DELETING_USER_ID:
+            return {
+                ...state,
+                deletingUserId: action.value,
             };
         default:
             return state;

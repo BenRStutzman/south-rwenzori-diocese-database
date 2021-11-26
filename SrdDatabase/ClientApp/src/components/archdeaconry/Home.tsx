@@ -38,7 +38,7 @@ const Home = ({
     };
 
     const onDelete = (archdeaconry: Archdeaconry) => {
-        deleteArchdeaconry(archdeaconry, () => searchArchdeaconries(false, parameters));
+        deleteArchdeaconry(archdeaconry, () => { searchArchdeaconries(false, parameters); });
     };
 
     return (

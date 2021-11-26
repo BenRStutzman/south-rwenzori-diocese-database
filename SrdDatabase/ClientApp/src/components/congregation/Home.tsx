@@ -45,9 +45,7 @@ const Home = ({
     };
 
     const onDelete = (congregation: Congregation) => {
-        if (window.confirm(`Are you sure you want to delete ${congregation.name} Congregation?`)) {
-            deleteCongregation(congregation.id as number, parameters);
-        }
+        deleteCongregation(congregation, () => { searchCongregations(false, parameters); })
     };
 
     return (
