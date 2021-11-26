@@ -10,8 +10,6 @@
 
         public string Parish { get; }
 
-        public string Archdeaconry { get; }
-
         public Congregation(
             int id,
             string name,

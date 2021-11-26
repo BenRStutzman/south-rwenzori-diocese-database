@@ -14,10 +14,6 @@ namespace SrdDatabase.Models
 
         public string Congregation { get; }
 
-        public string Parish { get; }
-        
-        public string Archdeaconry { get; }
-
         public string FirstPersonName { get; }
 
         public string SecondPersonName { get; }
