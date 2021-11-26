@@ -11,8 +11,8 @@ import { Spinner } from 'reactstrap';
 type Props = Store.State & typeof Store.actionCreators;
 
 const Home = ({
-    usersLoading,
-    users,
+    resultsLoading,
+  resultsrs,
     loadUsers,
     deleteUser,
     deletingId,
@@ -27,7 +27,7 @@ const Home = ({
         }
     }
 
-    return usersLoading ? <LoadingSpinner /> :
+    return resultsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Users</h1>
             <Link className="btn btn-primary float-right" to="/user/add">Add new</Link>
@@ -42,7 +42,7 @@ const Home = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user: User) =>
+                 resultssers.map((user: User) =>
                         <tr key={user.id}>
                             <td>{user.name}</td>
                             <td>{user.username}</td>

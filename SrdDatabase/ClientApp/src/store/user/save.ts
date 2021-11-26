@@ -1,13 +1,11 @@
 ﻿import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { User, UserType } from '.';
+import { User } from '.';
 import { History } from 'history';
 
 const REQUEST_USER = 'USER.REQUEST_USER';
 const RECEIVE_USER = 'USER.RECEIVE_USER';
-const REQUEST_USER_TYPES = 'USER.REQUEST_USER_TYPES';
-const RECEIVE_USER_TYPES = 'USER.RECEIVE_USER_TYPES';
 const SET_USER_TYPE_ID = 'USER.SET_USER_TYPE_ID';
 const SET_NAME = 'USER.SET_NAME';
 const SET_USERNAME = 'USER.SET_USERNAME';
@@ -22,15 +20,6 @@ const requestUserAction = () => ({
 const receiveUserAction = (user: User) => ({
     type: RECEIVE_USER,
     value: user,
-});
-
-const requestUserTypesAction = () => ({
-    type: REQUEST_USER_TYPES,
-});
-
-const receiveUserTypesAction = (userTypes: UserType[]) => ({
-    type: RECEIVE_USER_TYPES,
-    value: userTypes,
 });
 
 const setUserTypeIdAction = (userTypeId: number) => ({
@@ -73,15 +62,6 @@ const loadUser = (id: number): AppThunkAction<Action> => (dispatch) => {
     get<User>(`api/user/${id}`)
         .then(user => {
             dispatch(receiveUserAction(user));
-        });
-};
-
-const loadUserTypes = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestUserTypesAction());
-
-    get<UserType[]>('api/user/types')
-        .then(userTypes => {
-            dispatch(receiveUserTypesAction(userTypes));
         });
 };
 
@@ -141,7 +121,6 @@ const setPassword = (password: string): AppThunkAction<Action> => (dispatch) => 
 
 export const actionCreators = {
     loadUser,
-    loadUserTypes,
     resetUser,
     saveUser,
     deleteUser,
@@ -153,8 +132,6 @@ export const actionCreators = {
 
 export interface State {
     userLoading: boolean;
-    userTypesLoading: boolean;
-    userTypes: UserType[];
     user: User;
     hasBeenChanged: boolean,
     isSaving: boolean,
@@ -163,9 +140,7 @@ export interface State {
 
 const initialState: State = {
     user: {},
-    userTypes: [],
     userLoading: true,
-    userTypesLoading: true,
     hasBeenChanged: false,
     isSaving: false,
     errors: {},
@@ -185,17 +160,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 errors: {},
                 userLoading: false,
                 hasBeenChanged: false,
-            };
-        case REQUEST_USER_TYPES:
-            return {
-                ...state,
-                userTypesLoading: true,
-            };
-        case RECEIVE_USER_TYPES:
-            return {
-                ...state,
-                userTypes: action.value,
-                userTypesLoading: false,
             };
         case SET_USER_TYPE_ID:
             return {

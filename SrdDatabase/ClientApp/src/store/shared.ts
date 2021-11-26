@@ -5,6 +5,7 @@ import { Archdeaconry } from './archdeaconry';
 import { Congregation } from './congregation';
 import { EventType } from './event';
 import { Parish } from './parish';
+import { UserType } from './user';
 
 const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
@@ -14,6 +15,8 @@ const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'RECIEVE_CONGREGATIONS';
 const REQUEST_EVENT_TYPES = 'EVENT.REQUEST_EVENT_TYPES';
 const RECEIVE_EVENT_TYPES = 'EVENT.RECEIVE_EVENT_TYPES';
+const REQUEST_USER_TYPES = 'USER.REQUEST_USER_TYPES';
+const RECEIVE_USER_TYPES = 'USER.RECEIVE_USER_TYPES';
 
 const requestArchdeaconriesAction = () => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -49,6 +52,15 @@ const requestEventTypesAction = () => ({
 const receiveEventTypesAction = (eventTypes: EventType[]) => ({
     type: RECEIVE_EVENT_TYPES,
     value: eventTypes,
+});
+
+const requestUserTypesAction = () => ({
+    type: REQUEST_USER_TYPES,
+});
+
+const receiveUserTypesAction = (userTypes: UserType[]) => ({
+    type: RECEIVE_USER_TYPES,
+    value: userTypes,
 });
 
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
@@ -87,11 +99,21 @@ const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
+const loadUserTypes = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestUserTypesAction());
+
+    get<UserType[]>('api/user/types')
+        .then(userTypes => {
+            dispatch(receiveUserTypesAction(userTypes));
+        });
+};
+
 export const actionCreators = {
     loadArchdeaconries,
     loadParishes,
     loadCongregations,
     loadEventTypes,
+    loadUserTypes,
 };
 
 export interface State {
@@ -103,6 +125,8 @@ export interface State {
     congregationsLoading: boolean;
     eventTypes: EventType[];
     eventTypesLoading: boolean;
+    userTypes: UserType[];
+    userTypesLoading: boolean;
 }
 
 const initialState: State = {
@@ -114,6 +138,8 @@ const initialState: State = {
     congregationsLoading: true,
     eventTypes: [],
     eventTypesLoading: true,
+    userTypes: [],
+    userTypesLoading: true,
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -161,6 +187,17 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 eventTypes: action.value,
                 eventTypesLoading: false,
+            };
+        case REQUEST_USER_TYPES:
+            return {
+                ...state,
+                userTypesLoading: true,
+            };
+        case RECEIVE_USER_TYPES:
+            return {
+                ...state,
+                userTypes: action.value,
+                userTypesLoading: false,
             };
         default:
             return state;
