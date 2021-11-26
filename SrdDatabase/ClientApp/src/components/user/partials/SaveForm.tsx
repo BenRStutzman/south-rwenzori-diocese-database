@@ -109,6 +109,10 @@ const SaveForm = ({
                     maxLength={50}
                     required={userExists ? false : true}
                 />
+                {
+                    userExists &&
+                    <p className="field-note">Leave this field blank to keep the current password.</p>
+                }
             </div>
             {Object.values(errors).length > 0 &&
                 <ul>

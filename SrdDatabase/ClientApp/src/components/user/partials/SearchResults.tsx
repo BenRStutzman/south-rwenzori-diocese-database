@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
-import { Congregation } from '../../../store/congregation';
 import { User } from '../../../store/user';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 

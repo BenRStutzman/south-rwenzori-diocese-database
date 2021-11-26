@@ -67,3 +67,8 @@ button:disabled {
     padding: 10px;
     border-radius: 5px;
 }
+
+.field-note {
+    font-size: 0.8em;
+    color: gray;
+}
