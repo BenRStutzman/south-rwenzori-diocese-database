@@ -47,7 +47,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<int> Save(Domain.Commands.SaveEvent.Command command)
+        public async Task<int> Save(SaveEvent.Command command)
         {
             return await _mediator.Send(command);
         }

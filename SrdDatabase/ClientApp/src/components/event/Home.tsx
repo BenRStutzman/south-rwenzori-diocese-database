@@ -2,25 +2,57 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/event/home';
+import * as SharedStore from '../../store/shared';
 import { Event } from '../../store/event';
 import { useEffect } from 'react';
-import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
+import SearchBox from './partials/SearchBox';
+import SearchResults from './partials/SearchResults';
 
-type Props = Store.State & typeof Store.actionCreators;
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const Home = ({
-    eventsLoading,
-    events,
+    resultsLoading,
+    results,
+    loadArchdeaconries,
+    loadCongregations,
+    loadParishes,
+    loadEventTypes,
+    archdeaconries,
+    parishes,
+    congregations,
+    eventTypes,
     searchEvents,
     deleteEvent,
     deletingId,
-    parameters
+    parameters,
+    setSearchStartDate,
+    setSearchEndDate,
+    setSearchEventTypeId,
+    setSearchCongregationId,
+    setSearchParishId,
+    setSearchArchdeaconryId,
+    setSearchPersonName,
+    resetParameters,
 }: Props) => {
-    const loadData = () => { searchEvents() };
+    const loadData = () => {
+        resetParameters();
+        loadArchdeaconries();
+        loadParishes();
+        loadCongregations();
+        loadEventTypes();
+        searchEvents();
+    };
 
     useEffect(loadData, []);
+
+    const onSearch = () => {
+        searchEvents(true, parameters);
+    };
 
     const onDelete = (event: Event) => {
         if (window.confirm(`Are you sure you want to delete this ${event.eventType} event?`)) {
@@ -28,48 +60,36 @@ const Home = ({
         }
     }
 
-    return eventsLoading ? <LoadingSpinner /> :
+    return (
         <>
             <h1 className="page-title">Events</h1>
             <Link className="btn btn-primary float-right" to="/event/add">Add new</Link>
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className="col-1">Event Type</th>
-                        <th className="col-2">Congregation</th>
-                        <th className="col-2">First Person Name</th>
-                        <th className="col-2">Second Person Name</th>
-                        <th className="col-1">Date</th>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {events.map((event: Event) =>
-                        <tr key={event.id}>
-                            <td>{event.eventType}</td>
-                            <td>{event.congregation}</td>
-                            <td>{event.firstPersonName}</td>
-                            <td>{event.secondPersonName}</td>
-                            <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/event/edit/${event.id}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
-                                    {event.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </>;
+            <SearchBox
+                archdeaconries={archdeaconries}
+                parishes={parishes}
+                congregations={congregations}
+                eventTypes={eventTypes}
+                onSearch={onSearch}
+                setSearchPersonName={setSearchPersonName}
+                setSearchArchdeaconryId={setSearchArchdeaconryId}
+                setSearchParishId={setSearchParishId}
+                setSearchCongregationId={setSearchCongregationId}
+                setSearchEventTypeId={setSearchEventTypeId}
+                setSearchStartDate={setSearchStartDate}
+                setSearchEndDate={setSearchEndDate}
+                parameters={parameters}
+            />
+            <SearchResults
+                results={results}
+                resultsLoading={resultsLoading}
+                onDelete={onDelete}
+                deletingId={deletingId}
+            />
+        </>
+    );
 }    
 
 export default connect(
-    (state: State) => state.event.home,
-    Store.actionCreators
+    (state: State) => ({ ...state.event.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Home as any);

@@ -117,7 +117,7 @@ const searchEvents = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestEventsAction(showLoading));
 
-    post<SearchParameters>('api/congregation/search', parameters)
+    post<SearchParameters>('api/event/search', parameters)
         .then(response => response.json() as Promise<Event[]>)
         .then(events => {
             dispatch(receiveEventsAction(events));
@@ -156,15 +156,15 @@ export const actionCreators = {
 };
 
 export interface State {
-    eventsLoading: boolean;
-    events: Event[];
+    resultsLoading: boolean;
+    results: Event[];
     deletingId?: number;
     parameters: SearchParameters,
 }
 
 const initialState: State = {
-    events: [],
-    eventsLoading: true,
+    results: [],
+    resultsLoading: true,
     deletingId: undefined,
     parameters: {},
 };
@@ -235,13 +235,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case REQUEST_EVENTS:
             return {
                 ...state,
-                eventsLoading: action.value,
+                resultsLoading: action.value,
             };
         case RECEIVE_EVENTS:
             return {
                 ...state,
-                events: action.value,
-                eventsLoading: false,
+                results: action.value,
+                resultsLoading: false,
                 deletingId: undefined,
             };
         case SET_DELETING_ID:

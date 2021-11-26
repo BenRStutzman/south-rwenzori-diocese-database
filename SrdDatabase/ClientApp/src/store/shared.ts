@@ -99,7 +99,7 @@ export interface State {
     archdeaconriesLoading: boolean;
     parishes: Parish[];
     parishesLoading: boolean;
-    conregations: Congregation[];
+    congregations: Congregation[];
     congregationsLoading: boolean;
     eventTypes: EventType[];
     eventTypesLoading: boolean;
@@ -110,7 +110,7 @@ const initialState: State = {
     archdeaconriesLoading: true,
     parishes: [],
     parishesLoading: true,
-    conregations: [],
+    congregations: [],
     congregationsLoading: true,
     eventTypes: [],
     eventTypesLoading: true,
@@ -148,8 +148,19 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case RECEIVE_CONGREGATIONS:
             return {
                 ...state,
-                conregations: action.value,
+                congregations: action.value,
                 congregationsLoading: false,
+            };
+        case REQUEST_EVENT_TYPES:
+            return {
+                ...state,
+                eventTypesLoading: true,
+            };
+        case RECEIVE_EVENT_TYPES:
+            return {
+                ...state,
+                eventTypes: action.value,
+                eventTypesLoading: false,
             };
         default:
             return state;

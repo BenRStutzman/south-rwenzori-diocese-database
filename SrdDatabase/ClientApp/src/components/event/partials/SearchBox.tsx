@@ -1,4 +1,4 @@
-﻿import { SearchParameters } from '../../../store/congregation/home';
+﻿import { SearchParameters } from '../../../store/event/home';
 import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
@@ -32,11 +32,17 @@ const SearchBox = ({
     setSearchPersonName,
     setSearchArchdeaconryId,
     setSearchParishId,
+    setSearchCongregationId,
+    setSearchEventTypeId,
+    setSearchStartDate,
+    setSearchEndDate,
     archdeaconries,
     parishes,
+    congregations,
+    eventTypes,
 }: Props) => {
-    const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchName(event.target.value);
+    const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchPersonName(event.target.value);
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -47,6 +53,22 @@ const SearchBox = ({
         setSearchParishId(parseInt(event.target.value));
     };
 
+    const onCongregationIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSearchCongregationId(parseInt(event.target.value));
+    };
+
+    const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSearchEventTypeId(parseInt(event.target.value));
+    };
+
+    const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchStartDate(new Date(event.target.value));
+    };
+
+    const onEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchEndDate(new Date(event.target.value));
+    };
+
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         onSearch();
@@ -55,17 +77,49 @@ const SearchBox = ({
     return (
         <form onSubmit={onSubmit} className="search-box">
             <div className="form-group">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="personName">Person Name</label>
                 <input
-                    id="name"
+                    id="personName"
                     className="form-control"
                     autoComplete={autoCompleteString}
                     type="text"
                     spellCheck={false}
-                    value={parameters.name ? parameters.name : ""}
-                    onChange={onNameChange}
+                    value={parameters.personName ? parameters.personName : ""}
+                    onChange={onPersonNameChange}
                     maxLength={50}
                 />
+            </div>
+            <div className="form-group">
+                <label htmlFor="eventTypeId">Event Type</label>
+                <select
+                    id="eventTypeId"
+                    className="form-control"
+                    value={parameters.eventTypeId ? parameters.eventTypeId : ""}
+                    onChange={onEventTypeIdChange}
+                >
+                    <option key={0} value="">--- select an event type ---</option>
+                    {eventTypes.map(eventType =>
+                        <option key={eventType.id} value={eventType.id}>
+                            {eventType.name}
+                        </option>
+                    )}
+                </select>
+            </div>
+            <div className="form-group">
+                <label htmlFor="congregationId">Congregation</label>
+                <select
+                    id="congregationId"
+                    className="form-control"
+                    value={parameters.congregationId ? parameters.congregationId : ""}
+                    onChange={onCongregationIdChange}
+                >
+                    <option key={0} value="">--- select a congregation ---</option>
+                    {congregations.map(congregation =>
+                        <option key={congregation.id} value={congregation.id}>
+                            {congregation.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
@@ -99,8 +153,28 @@ const SearchBox = ({
                     )}
                 </select>
             </div>
+            <div className="form-group">
+                <label htmlFor="startDate">Start Date</label>
+                <input
+                    id="startDate"
+                    className="form-control"
+                    type="date"
+                    value={parameters.startDate ? new Date(parameters.startDate).toLocaleDateString('en-ca') : ""}
+                    onChange={onStartDateChange}
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="endDate">End Date</label>
+                <input
+                    id="endDate"
+                    className="form-control"
+                    type="date"
+                    value={parameters.endDate ? new Date(parameters.endDate).toLocaleDateString('en-ca') : ""}
+                    onChange={onEndDateChange}
+                />
+            </div>
             <button className="btn btn-primary" type="submit">
-                Search congregations
+                Search events
             </button>
         </form>
     );

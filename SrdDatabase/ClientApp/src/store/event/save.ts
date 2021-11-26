@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Event, EventType } from '.';
+import { Event } from '.';
 import { History } from 'history';
 import { Congregation } from '../congregation';
 
@@ -182,16 +182,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 hasBeenChanged: false,
             };
         case SET_EVENT_TYPE_ID:
-            const eventTypeId = action.value;
-            const eventType = state.eventTypes.find(eventType => eventType.id === eventTypeId);
-            const secondPersonName = eventType && eventType.involvesTwoPeople ? state.event.secondPersonName : undefined;
-
             return {
                 ...state,
                 event: {
                     ...state.event,
-                    eventTypeId,
-                    secondPersonName,
+                    eventTypeId: action.value,
                 },
                 hasBeenChanged: true,
             };

@@ -23,7 +23,6 @@ const SearchResults = ({
                 <tr>
                     <th className="col-4">Name</th>
                     <th className="col-3">Parish</th>
-                    <th className="col-3">Archdeaconry</th>
                     <th className="col-1"></th>
                     <th className="col-1"></th>
                 </tr>
@@ -33,7 +32,6 @@ const SearchResults = ({
                     <tr key={congregation.id}>
                         <td>{congregation.name}</td>
                         <td>{congregation.parish}</td>
-                        <td>{congregation.archdeaconry}</td>
                         <td>
                             <Link className="btn btn-secondary" to={`/congregation/edit/${congregation.id}`}>
                                 Edit

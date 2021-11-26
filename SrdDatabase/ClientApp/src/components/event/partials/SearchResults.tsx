@@ -1,14 +1,14 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
-import { Congregation } from '../../../store/congregation';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import { Event } from '../../../store/event';
 
 interface Props {
     resultsLoading: boolean;
-    results: Congregation[];
+    results: Event[];
     deletingId?: number;
-    onDelete: (congregation: Congregation) => void;
+    onDelete: (event: Event) => void;
 }
 
 const SearchResults = ({
@@ -21,32 +21,36 @@ const SearchResults = ({
         <table className='table table-striped' aria-labelledby="tabelLabel">
             <thead>
                 <tr>
-                    <th className="col-4">Name</th>
-                    <th className="col-3">Parish</th>
-                    <th className="col-3">Archdeaconry</th>
+                    <th className="col-1">Event Type</th>
+                    <th className="col-2">Congregation</th>
+                    <th className="col-2">First Person Name</th>
+                    <th className="col-2">Second Person Name</th>
+                    <th className="col-1">Date</th>
                     <th className="col-1"></th>
                     <th className="col-1"></th>
                 </tr>
             </thead>
             <tbody>
-                {results.map((congregation: Congregation) =>
-                    <tr key={congregation.id}>
-                        <td>{congregation.name}</td>
-                        <td>{congregation.parish}</td>
-                        <td>{congregation.archdeaconry}</td>
+                {results.map((event: Event) =>
+                    <tr key={event.id}>
+                        <td>{event.eventType}</td>
+                        <td>{event.congregation}</td>
+                        <td>{event.firstPersonName}</td>
+                        <td>{event.secondPersonName}</td>
+                        <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                         <td>
-                            <Link className="btn btn-secondary" to={`/congregation/edit/${congregation.id}`}>
+                            <Link className="btn btn-secondary" to={`/event/edit/${event.id}`}>
                                 Edit
                             </Link>
                         </td>
                         <td>
-                            <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                {congregation.id === deletingId ? <Spinner size="sm" /> : "Delete"}
+                            <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
+                                {event.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
                             </button>
                         </td>
                     </tr>
                 )}
             </tbody>
-        </table>;
+        </table>
 
 export default SearchResults;
