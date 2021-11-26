@@ -40,7 +40,7 @@ const Details = ({
 
     return detailsLoading || deletingArchdeaconryId ? <LoadingSpinner /> :
         <>
-            <h1>{(details.archdeaconry as Archdeaconry).name} Archdeaconry</h1>
+            <h1 className="page-title">{(details.archdeaconry as Archdeaconry).name} Archdeaconry</h1>
             <h2>Parishes</h2>
             <ul>
                 {(details.parishes as Parish[]).map(parish =>
