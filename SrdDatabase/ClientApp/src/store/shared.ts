@@ -1,6 +1,6 @@
 ﻿import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '.';
-import { get } from '../helpers/apiHelpers';
+import { get, post } from '../helpers/apiHelpers';
 import { Archdeaconry } from './archdeaconry';
 import { Congregation } from './congregation';
 import { EventType } from './event';
@@ -13,10 +13,11 @@ const REQUEST_PARISHES = 'REQUEST_PARISHES';
 const RECEIVE_PARISHES = 'RECEIVE_PARISHES';
 const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'RECIEVE_CONGREGATIONS';
-const REQUEST_EVENT_TYPES = 'EVENT.REQUEST_EVENT_TYPES';
-const RECEIVE_EVENT_TYPES = 'EVENT.RECEIVE_EVENT_TYPES';
-const REQUEST_USER_TYPES = 'USER.REQUEST_USER_TYPES';
-const RECEIVE_USER_TYPES = 'USER.RECEIVE_USER_TYPES';
+const REQUEST_EVENT_TYPES = 'REQUEST_EVENT_TYPES';
+const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
+const REQUEST_USER_TYPES = 'REQUEST_USER_TYPES';
+const RECEIVE_USER_TYPES = 'RECEIVE_USER_TYPES';
+const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
 
 const requestArchdeaconriesAction = () => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -61,6 +62,11 @@ const requestUserTypesAction = () => ({
 const receiveUserTypesAction = (userTypes: UserType[]) => ({
     type: RECEIVE_USER_TYPES,
     value: userTypes,
+});
+
+const setDeletingArchdeaconryIdAction = (archdeaconryId?: number) => ({
+    type: SET_DELETING_ARCHDEACONRY_ID,
+    value: archdeaconryId,
 });
 
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
@@ -108,12 +114,36 @@ const loadUserTypes = (): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
+const deleteArchdeaconry = (archdeaconry: Archdeaconry, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+
+        if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
+            dispatch(setDeletingArchdeaconryIdAction(archdeaconry.id));
+
+            post<{ id: number }>('api/archdeaconry/delete', { id: archdeaconry.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        alert(errorMessage);
+                    });
+                }).finally(() => {
+                    dispatch(setDeletingArchdeaconryIdAction(undefined));
+                });
+        }
+    };
+
 export const actionCreators = {
     loadArchdeaconries,
     loadParishes,
     loadCongregations,
     loadEventTypes,
     loadUserTypes,
+    deleteArchdeaconry,
 };
 
 export interface State {
@@ -127,6 +157,7 @@ export interface State {
     eventTypesLoading: boolean;
     userTypes: UserType[];
     userTypesLoading: boolean;
+    deletingArchdeaconryId?: number;
 }
 
 const initialState: State = {
@@ -198,6 +229,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 userTypes: action.value,
                 userTypesLoading: false,
+            };
+        case SET_DELETING_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                deletingArchdeaconryId: action.value,
             };
         default:
             return state;

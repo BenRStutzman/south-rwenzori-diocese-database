@@ -7,14 +7,14 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 interface Props {
     resultsLoading: boolean;
     results: Archdeaconry[];
-    deletingId?: number;
+    deletingArchdeaconryId?: number;
     onDelete: (archdeaconry: Archdeaconry) => void;
 }
 
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingId,
+    deletingArchdeaconryId,
     onDelete,
 }: Props) => resultsLoading ? <LoadingSpinner /> :
     !results.length ? <h2>No results.</h2> :
@@ -43,7 +43,7 @@ const SearchResults = ({
                         </td>
                         <td>
                             <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
-                                {archdeaconry.id === deletingId ? <Spinner size="sm" /> : "Delete"}
+                                {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
                             </button>
                         </td>
                     </tr>

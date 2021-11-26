@@ -2,20 +2,25 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/home';
+import * as SharedStore from '../../store/shared';
 import { Archdeaconry } from '../../store/archdeaconry';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
 
-type Props = Store.State & typeof Store.actionCreators;
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const Home = ({
     results,
     resultsLoading,
     searchArchdeaconries,
     deleteArchdeaconry,
-    deletingId,
+    deletingArchdeaconryId,
     setSearchName,
     parameters,
     resetParameters,
@@ -33,9 +38,7 @@ const Home = ({
     };
 
     const onDelete = (archdeaconry: Archdeaconry) => {
-        if (window.confirm(`Are you sure you want to delete ${archdeaconry.name} Archdeaconry?`)) {
-            deleteArchdeaconry(archdeaconry.id as number, parameters);
-        }
+        deleteArchdeaconry(archdeaconry, () => searchArchdeaconries(false, parameters));
     };
 
     return (
@@ -51,12 +54,12 @@ const Home = ({
                 results={results}
                 resultsLoading={resultsLoading}
                 onDelete={onDelete}
-                deletingId={deletingId}
+                deletingArchdeaconryId={deletingArchdeaconryId}
              />
         </>);
 }    
 
 export default connect(
-    (state: State) => state.archdeaconry.home,
-    Store.actionCreators
+    (state: State) => ({ ...state.archdeaconry.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Home as any);

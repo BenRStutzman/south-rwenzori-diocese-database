@@ -5,7 +5,6 @@ import { Archdeaconry, SearchParameters } from '.';
 
 const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
-const SET_DELETING_ID = 'ARCHDEACONRY.SET_DELETING_ID';
 const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
 const RESET_PARAMETERS = 'ARCHDEACONRY.RESET_PARAMETERS';
 
@@ -17,11 +16,6 @@ const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
 const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
     type: RECEIVE_ARCHDEACONRIES,
     value: archdeaconries,
-});
-
-const setDeletingIdAction = (archdeaconryId?: number) => ({
-    type: SET_DELETING_ID,
-    value: archdeaconryId,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -54,28 +48,8 @@ const searchArchdeaconries = (
         });
 };
 
-const deleteArchdeaconry = (id: number, parameters: SearchParameters):
-    AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDeletingIdAction(id));
-
-    post<{ id: number }>('api/archdeaconry/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                dispatch(searchArchdeaconries(false, parameters));
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                dispatch(setDeletingIdAction(undefined));
-                alert(errorMessage);
-            });
-        });
-};
-
 export const actionCreators = {
     searchArchdeaconries,
-    deleteArchdeaconry,
     setSearchName,
     resetParameters,
 };
@@ -83,14 +57,12 @@ export const actionCreators = {
 export interface State {
     results: Archdeaconry[];
     resultsLoading: boolean;
-    deletingId?: number;
     parameters: SearchParameters;
 }
 
 const initialState: State = {
     results: [],
     resultsLoading: true,
-    deletingId: undefined,
     parameters: {},
 };
 
@@ -111,12 +83,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 results: action.value,
                 resultsLoading: false,
-                deletingId: undefined,
-            };
-        case SET_DELETING_ID:
-            return {
-                ...state,
-                deletingId: action.value,
             };
         case SET_SEARCH_NAME:
             return {
