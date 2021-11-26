@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
-import * as Store from '../../store/archdeaconry/details'
+import * as Store from '../../store/parish/details'
 import * as SharedStore from '../../store/shared';
 import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
@@ -14,7 +14,7 @@ import { Congregation } from '../../store/congregation';
 type Props =
     Store.State &
     typeof Store.actionCreators &
-    RouteComponentProps<{ archdeaconryId: string }>;
+    RouteComponentProps<{ parishId: string }>;
 
 const Details = ({
     loadDetails,
@@ -23,24 +23,18 @@ const Details = ({
     match,
 }: Props) => {
     const loadData = () => {
-        const archdeaconryId = parseInt(match.params.archdeaconryId);
-        loadDetails(archdeaconryId);
+        const parishId = parseInt(match.params.parishId);
+        loadDetails(parishId);
     };
 
     React.useEffect(loadData, []);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{(details.archdeaconry as Archdeaconry).name} Archdeaconry</h1>
-            <Link className="btn btn-primary float-right" to={`/archdeaconry/edit/${(details.archdeaconry as Archdeaconry).id}`}>
-                Edit archdeaconry
+            <h1 className="page-title">{(details.parish as Parish).name} Parish</h1>
+            <Link className="btn btn-primary float-right" to={`/parish/edit/${(details.parish as Parish).id}`}>
+                Edit parish
             </Link>
-            <h2>Parishes</h2>
-            <ul>
-                {(details.parishes as Parish[]).map(parish =>
-                    <li key={parish.id}>{parish.name}</li>
-                )}
-            </ul>
             <h2>Congregations</h2>
             <ul>
                 {(details.congregations as Congregation[]).map(congregation =>
@@ -57,6 +51,6 @@ const Details = ({
 }
     
 export default connect(
-    (state: State) => ({ ...state.archdeaconry.details, ...state.shared }),
+    (state: State) => ({ ...state.parish.details, ...state.shared }),
     { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Details as any);

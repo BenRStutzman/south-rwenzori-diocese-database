@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using SrdDatabase.Domain.Queries;
-using SrdDatabase.Models.User;
+using SrdDatabase.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;

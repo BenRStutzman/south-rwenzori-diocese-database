@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 type Props =
     Store.State
@@ -50,7 +51,10 @@ const Edit = ({
 
     return parishLoading || archdeaconriesLoading || isSaving ? <LoadingSpinner /> :
         <>
-            <h1>Edit {parish.name} Parish</h1>
+            <h1 className="page-title">Edit {parish.name} Parish</h1>
+            <Link className="btn btn-secondary float-right" to={`/parish/details/${parish.id}`}>
+                View details
+            </Link>
             <SaveForm
                 parish={parish}
                 archdeaconries={archdeaconries}

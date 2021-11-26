@@ -11,6 +11,7 @@ import ArchdeaconryDetails from './components/archdeaconry/Details';
 import ParishHome from './components/parish/Home';
 import ParishAdd from './components/parish/Add';
 import ParishEdit from './components/parish/Edit';
+import ParishDetails from './components/parish/Details';
 import CongregationHome from './components/congregation/Home';
 import CongregationAdd from './components/congregation/Add';
 import CongregationEdit from './components/congregation/Edit';
@@ -33,6 +34,7 @@ export default () => (
         <PrivateRoute exact path='/parish' component={ParishHome} />
         <PrivateRoute exact path='/parish/add' component={ParishAdd} />
         <PrivateRoute exact path='/parish/edit/:parishId' component={ParishEdit} />
+        <PrivateRoute exact path='/parish/details/:parishId' component={ParishDetails} />
         <PrivateRoute exact path='/congregation' component={CongregationHome} />
         <PrivateRoute exact path='/congregation/add' component={CongregationAdd} />
         <PrivateRoute exact path='/congregation/edit/:congregationId' component={CongregationEdit} />
@@ -40,7 +42,7 @@ export default () => (
         <PrivateRoute exact path='/event/add' component={EventAdd} />
         <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} />
         <PrivateRoute exact path='/user' component={UserHome} />
-        <Route exact path='/user/add' component={UserAdd} />
+        <PrivateRoute exact path='/user/add' component={UserAdd} />
         <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} />
     </Layout>
 );

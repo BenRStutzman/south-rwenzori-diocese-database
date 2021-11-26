@@ -1,33 +1,31 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Archdeaconry } from '.';
-import { Parish } from '../parish';
+import { Parish } from '.';
 import { Congregation } from '../congregation';
 import { Event } from '../event';
 
-export interface ArchdeaconryDetails {
-    archdeaconry?: Archdeaconry;
-    parishes?: Parish[];
+export interface ParishDetails {
+    parish?: Parish;
     congregations?: Congregation[];
     events?: Event[];
 }
 
-const REQUEST_DETAILS = 'ARCHDEACONRY.REQUEST_DETAILS';
-const RECEIVE_DETAILS = 'ARCHDEACONRY.RECEIVE_DETAILS';
+const REQUEST_DETAILS = 'PARISH.REQUEST_DETAILS';
+const RECEIVE_DETAILS = 'PARISH.RECEIVE_DETAILS';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: ArchdeaconryDetails) => ({
+const receiveDetailsAction = (details: ParishDetails) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: ArchdeaconryDetails;
+    details: ParishDetails;
 }
 
 const initialState: State = {
@@ -38,7 +36,7 @@ const initialState: State = {
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<ArchdeaconryDetails>(`api/archdeaconry/details/${id}`)
+    get<ParishDetails>(`api/parish/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

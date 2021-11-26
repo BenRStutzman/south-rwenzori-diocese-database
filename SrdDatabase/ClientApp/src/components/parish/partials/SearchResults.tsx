@@ -22,7 +22,8 @@ const SearchResults = ({
             <thead>
                 <tr>
                     <th className="col-5">Name</th>
-                    <th className="col-5">Archdeaconry</th>
+                    <th className="col-4">Archdeaconry</th>
+                    <th className="col-1"></th>
                     <th className="col-1"></th>
                     <th className="col-1"></th>
                 </tr>
@@ -33,7 +34,12 @@ const SearchResults = ({
                         <td>{parish.name}</td>
                         <td>{parish.archdeaconry}</td>
                         <td>
-                            <Link className="btn btn-secondary" to={`/parish/edit/${parish.id}`}>
+                            <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
+                                View
+                            </Link>
+                        </td>
+                        <td>
+                            <Link className="btn btn-primary" to={`/parish/edit/${parish.id}`}>
                                 Edit
                             </Link>
                         </td>

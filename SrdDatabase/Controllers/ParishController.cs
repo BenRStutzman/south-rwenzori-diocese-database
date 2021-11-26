@@ -27,6 +27,12 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetParishById.Query(id));
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<ParishDetails> Details(int id)
+        {
+            return await _mediator.Send(new GetParishDetails.Query(id));
+        }
+
         [HttpGet("all")]
         public async Task<IEnumerable<Parish>> GetAll()
         {
