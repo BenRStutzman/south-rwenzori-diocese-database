@@ -1,8 +1,8 @@
-﻿import { User, UserType } from '../../store/user/';
-import { AppThunkAction } from '../../store';
+﻿import { User, UserType } from '../../../store/user';
+import { AppThunkAction } from '../../../store';
 import { Action } from 'redux';
 import React, { ChangeEvent } from 'react';
-import { Errors } from "../../helpers/apiHelpers";
+import { Errors } from "../../../helpers/apiHelpers";
 
 interface Props {
     user: User;
@@ -18,7 +18,7 @@ interface Props {
     userExists: boolean;
 }
 
-const Form = ({
+const SaveForm = ({
     user,
     userTypes,
     onSave,
@@ -133,4 +133,4 @@ const Form = ({
     );
 }
 
-export default Form;
+export default SaveForm;

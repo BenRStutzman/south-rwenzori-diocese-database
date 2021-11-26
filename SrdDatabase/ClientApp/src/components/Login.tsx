@@ -6,9 +6,9 @@ import { State } from '../store';
 import * as Store from '../store/login';
 
 type Props =
-    Store.State
-    & typeof Store.actionCreators
-    & RouteComponentProps;
+    Store.State &
+    typeof Store.actionCreators &
+    RouteComponentProps;
 
 const Login = ({
     authenticate,

@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { State } from '../../store';
 import * as Store from '../../store/user/save';
+import * as SharedStore from '../../store/shared';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import Form from './Form';
+import Form from './partials/SaveForm';
 
 type Props =
-    Store.State
-    & typeof Store.actionCreators
-    & RouteComponentProps;
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
+    RouteComponentProps;
 
 const Add = ({
     user,
@@ -60,6 +63,6 @@ const Add = ({
 }
 
 export default connect(
-    (state: State) => state.user.save,
-    Store.actionCreators
+    (state: State) => ({ ...state.user.save, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Add as any);

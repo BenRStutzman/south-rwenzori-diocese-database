@@ -2,69 +2,74 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/user/home';
+import * as SharedStore from '../../store/shared';
 import { User } from '../../store/user';
 import { useEffect } from 'react';
-import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
-import { Spinner } from 'reactstrap';
+import SearchBox from './partials/SearchBox';
+import SearchResults from './partials/SearchResults';
 
-type Props = Store.State & typeof Store.actionCreators;
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const Home = ({
     resultsLoading,
-  resultsrs,
-    loadUsers,
+    results,
+    searchUsers,
+    loadUserTypes,
+    userTypes,
+    setSearchUsername,
+    setSearchName,
+    setSearchUserTypeId,
+    parameters,
+    resetParameters,
     deleteUser,
     deletingId,
 }: Props) => {
-    const loadData = () => { loadUsers() };
+    const loadData = () => {
+        resetParameters();
+        loadUserTypes();
+        searchUsers();
+    };
 
     useEffect(loadData, []);
 
+    const onSearch = () => {
+        searchUsers(true, parameters);
+    };
+
     const onDelete = (user: User) => {
         if (window.confirm(`Are you sure you want to delete the user ${user.name}?`)) {
-            deleteUser(user.id as number);
+            deleteUser(user.id as number, parameters);
         }
-    }
+    };
 
-    return resultsLoading ? <LoadingSpinner /> :
+    return (
         <>
             <h1 className="page-title">Users</h1>
             <Link className="btn btn-primary float-right" to="/user/add">Add new</Link>
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className="col-2">Name</th>
-                        <th className="col-3">Username</th>
-                        <th className="col-2">User Type</th>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                 resultssers.map((user: User) =>
-                        <tr key={user.id}>
-                            <td>{user.name}</td>
-                            <td>{user.username}</td>
-                            <td>{user.userType}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/user/edit/${user.id}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
-                                    {user.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </>;
+            <SearchBox
+                userTypes={userTypes}
+                parameters={parameters}
+                setSearchName={setSearchName}
+                setSearchUsername={setSearchUsername}
+                setSearchUserTypeId={setSearchUserTypeId}
+                onSearch={onSearch}
+            />
+            <SearchResults
+                results={results}
+                resultsLoading={resultsLoading}
+                onDelete={onDelete}
+                deletingId={deletingId}
+            />
+        </>
+    );
 }    
 
 export default connect(
-    (state: State) => state.user.home,
-    Store.actionCreators
+    (state: State) => ({ ...state.user.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Home as any);

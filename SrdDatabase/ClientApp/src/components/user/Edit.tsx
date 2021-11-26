@@ -2,15 +2,18 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/user/save';
+import * as SharedStore from '../../store/shared';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
-import Form from './Form';
+import Form from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
-    Store.State
-    & typeof Store.actionCreators
-    & RouteComponentProps<{ userId: string }>;
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
+    RouteComponentProps<{ userId: string }>;
 
 const Edit = ({
     loadUser,
@@ -70,6 +73,6 @@ const Edit = ({
 }
 
 export default connect(
-    (state: State) => state.user.save,
-    Store.actionCreators
+    (state: State) => ({ ...state.user.save, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Edit as any);
