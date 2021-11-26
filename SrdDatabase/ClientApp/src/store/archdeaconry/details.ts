@@ -4,6 +4,7 @@ import { get } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '.';
 import { Parish } from '../parish';
 import { Congregation } from '../congregation';
+import { Event } from '../event';
 
 export interface ArchdeaconryDetails {
     archdeaconry?: Archdeaconry;

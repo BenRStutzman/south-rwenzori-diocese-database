@@ -7,6 +7,9 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { Archdeaconry } from '../../store/archdeaconry';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import { Parish } from '../../store/parish';
+import { Event } from '../../store/event';
+import { Congregation } from '../../store/congregation';
 
 type Props =
     Store.State &
@@ -38,6 +41,24 @@ const Details = ({
     return detailsLoading || deletingArchdeaconryId ? <LoadingSpinner /> :
         <>
             <h1>{(details.archdeaconry as Archdeaconry).name} Archdeaconry</h1>
+            <h2>Parishes</h2>
+            <ul>
+                {(details.parishes as Parish[]).map(parish =>
+                    <li key={parish.id}>{parish.name}</li>
+                )}
+            </ul>
+            <h2>Congregations</h2>
+            <ul>
+                {(details.congregations as Congregation[]).map(congregation =>
+                    <li key={congregation.id}>{congregation.name}</li>
+                )}
+            </ul>
+            <h2>Events</h2>
+            <ul>
+                {(details.events as Event[]).map(event =>
+                    <li key={event.id}>{new Date(event.date as Date).toLocaleDateString('en-ca')}: {event.eventType} of {event.firstPersonName}{event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at {event.congregation} Congregation</li>
+                )}
+            </ul>
             <Link className="btn btn-primary" to={`/archdeaconry/edit/${(details.archdeaconry as Archdeaconry).id}`}>
                 Edit archdeaconry
             </Link>
