@@ -44,7 +44,7 @@ const Details = ({
             <h2>Recent Events</h2>
             <ul>
                 {(details.recentEvents as Event[]).map(event =>
-                    <li key={event.id}>{new Date(event.date as Date).toLocaleDateString('en-ca')}: {event.eventType} of {event.firstPersonName}{event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at {event.congregation} Congregation</li>
+                    <li key={event.id}>{new Date(event.date).toLocaleDateString('en-ca')}: {event.eventType} of {event.firstPersonName}{event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at {event.congregation} Congregation</li>
                 )}
             </ul>
         </>;

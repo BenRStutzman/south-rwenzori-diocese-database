@@ -30,11 +30,11 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<ParishDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var parishesTask = _mediator.Send(new GetParishes.Query(request.Id), cancellationToken);
+                var parishTask = _mediator.Send(new GetParishById.Query(request.Id), cancellationToken);
                 var congregationsTask = _mediator.Send(new GetCongregations.Query(parishId: request.Id), cancellationToken);
                 var eventsTask = _mediator.Send(new GetEvents.Query(parishId: request.Id), cancellationToken);
 
-                var parish = (await parishesTask).Single();
+                var parish = (await parishTask);
                 var congregations = await congregationsTask;
                 var events = await eventsTask;
 

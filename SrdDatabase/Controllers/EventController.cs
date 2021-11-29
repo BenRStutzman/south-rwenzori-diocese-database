@@ -28,6 +28,13 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetEventById.Query(id));
         }
 
+
+        [HttpGet("details/{id}")]
+        public async Task<EventDetails> Details(int id)
+        {
+            return await _mediator.Send(new GetEventDetails.Query(id));
+        }
+
         [HttpGet("all")]
         public async Task<IEnumerable<Event>> GetAll()
         {

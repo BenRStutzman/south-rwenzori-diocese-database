@@ -30,12 +30,12 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<ArchdeaconryDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var archdeaconriesTask = _mediator.Send(new GetArchdeaconries.Query(request.Id), cancellationToken);
+                var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
                 var parishesTask = _mediator.Send(new GetParishes.Query(archdeaconryId: request.Id), cancellationToken);
                 var congregationsTask = _mediator.Send(new GetCongregations.Query(archdeaconryId: request.Id), cancellationToken);
                 var eventsTask = _mediator.Send(new GetEvents.Query(archdeaconryId: request.Id), cancellationToken);
 
-                var archdeaconry = (await archdeaconriesTask).Single();
+                var archdeaconry = await archdeaconryTask;
                 var parishes = await parishesTask;
                 var congregations = await congregationsTask;
                 var events = await eventsTask;
