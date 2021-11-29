@@ -27,6 +27,12 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetCongregationById.Query(id));
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<CongregationDetails> Details(int id)
+        {
+            return await _mediator.Send(new GetCongregationDetails.Query(id));
+        }
+
         [HttpGet("all")]
         public async Task<IEnumerable<Congregation>> GetAll()
         {

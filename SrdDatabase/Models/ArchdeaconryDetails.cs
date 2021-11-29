@@ -11,18 +11,18 @@ namespace SrdDatabase.Models
 
         public IEnumerable<Congregation> Congregations { get; }
 
-        public IEnumerable<Event> Events { get; }
+        public IEnumerable<Event> RecentEvents { get; }
 
         public ArchdeaconryDetails(
             Archdeaconry archdeaconry,
             IEnumerable<Parish> parishes,
             IEnumerable<Congregation> congregations,
-            IEnumerable<Event> events)
+            IEnumerable<Event> recentEvents)
         {
             Archdeaconry = archdeaconry;
             Parishes = parishes;
             Congregations = congregations;
-            Events = events;
+            RecentEvents = recentEvents;
         }
     }
 

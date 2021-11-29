@@ -34,12 +34,12 @@ namespace SrdDatabase.Domain.Queries
                 var congregationsTask = _mediator.Send(new GetCongregations.Query(parishId: request.Id), cancellationToken);
                 var eventsTask = _mediator.Send(new GetEvents.Query(parishId: request.Id), cancellationToken);
 
-                var parishes = (await parishesTask).Single();
+                var parish = (await parishesTask).Single();
                 var congregations = await congregationsTask;
                 var events = await eventsTask;
 
                 return new ParishDetails(
-                    parishes,
+                    parish,
                     congregations,
                     events);
             }

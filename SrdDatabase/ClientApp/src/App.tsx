@@ -15,6 +15,7 @@ import ParishDetails from './components/parish/Details';
 import CongregationHome from './components/congregation/Home';
 import CongregationAdd from './components/congregation/Add';
 import CongregationEdit from './components/congregation/Edit';
+import CongregationDetails from './components/congregation/Details';
 import EventHome from './components/event/Home';
 import EventAdd from './components/event/Add';
 import EventEdit from './components/event/Edit';
@@ -38,6 +39,7 @@ export default () => (
         <PrivateRoute exact path='/congregation' component={CongregationHome} />
         <PrivateRoute exact path='/congregation/add' component={CongregationAdd} />
         <PrivateRoute exact path='/congregation/edit/:congregationId' component={CongregationEdit} />
+        <PrivateRoute exact path='/congregation/details/:congregationId' component={CongregationDetails} />
         <PrivateRoute exact path='/event' component={EventHome} />
         <PrivateRoute exact path='/event/add' component={EventAdd} />
         <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} />

@@ -9,16 +9,16 @@ namespace SrdDatabase.Models
 
         public IEnumerable<Congregation> Congregations { get; }
 
-        public IEnumerable<Event> Events { get; }
+        public IEnumerable<Event> RecentEvents { get; }
 
         public ParishDetails(
             Parish parish,
             IEnumerable<Congregation> congregations,
-            IEnumerable<Event> events)
+            IEnumerable<Event> recentEvents)
         {
             Parish = parish;
             Congregations = congregations;
-            Events = events;
+            RecentEvents = recentEvents;
         }
     }
 

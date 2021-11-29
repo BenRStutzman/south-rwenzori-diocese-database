@@ -21,8 +21,9 @@ const SearchResults = ({
         <table className='table table-striped' aria-labelledby="tabelLabel">
             <thead>
                 <tr>
-                    <th className="col-4">Name</th>
+                    <th className="col-3">Name</th>
                     <th className="col-3">Parish</th>
+                    <th className="col-1"></th>
                     <th className="col-1"></th>
                     <th className="col-1"></th>
                 </tr>
@@ -33,7 +34,12 @@ const SearchResults = ({
                         <td>{congregation.name}</td>
                         <td>{congregation.parish}</td>
                         <td>
-                            <Link className="btn btn-secondary" to={`/congregation/edit/${congregation.id}`}>
+                            <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
+                                View
+                            </Link>
+                        </td>
+                        <td>
+                            <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
                                 Edit
                             </Link>
                         </td>

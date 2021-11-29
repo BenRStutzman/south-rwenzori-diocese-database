@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 type Props =
     Store.State
@@ -50,7 +51,10 @@ const Edit = ({
 
     return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :
         <>
-            <h1>Edit {congregation.name} Congregation</h1>
+            <h1 className="page-title">Edit {congregation.name} Congregation</h1>
+            <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
+                View details
+            </Link>
             <Form
                 congregation={congregation}
                 parishes={parishes}

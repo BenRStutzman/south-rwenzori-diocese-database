@@ -8,7 +8,7 @@ import { Event } from '../event';
 export interface ParishDetails {
     parish?: Parish;
     congregations?: Congregation[];
-    events?: Event[];
+    recentEvents?: Event[];
 }
 
 const REQUEST_DETAILS = 'PARISH.REQUEST_DETAILS';

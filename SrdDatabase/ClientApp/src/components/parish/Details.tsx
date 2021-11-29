@@ -4,7 +4,6 @@ import * as Store from '../../store/parish/details'
 import * as SharedStore from '../../store/shared';
 import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import { Archdeaconry } from '../../store/archdeaconry';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Parish } from '../../store/parish';
@@ -35,15 +34,16 @@ const Details = ({
             <Link className="btn btn-primary float-right" to={`/parish/edit/${(details.parish as Parish).id}`}>
                 Edit parish
             </Link>
-            <h2>Congregations</h2>
+            <h2>Archdeaconry: {(details.parish as Parish).archdeaconry}</h2>
+            <h2>Congregations ({(details.congregations as Congregation[]).length})</h2>
             <ul>
                 {(details.congregations as Congregation[]).map(congregation =>
                     <li key={congregation.id}>{congregation.name}</li>
                 )}
             </ul>
-            <h2>Events</h2>
+            <h2>Recent Events</h2>
             <ul>
-                {(details.events as Event[]).map(event =>
+                {(details.recentEvents as Event[]).map(event =>
                     <li key={event.id}>{new Date(event.date as Date).toLocaleDateString('en-ca')}: {event.eventType} of {event.firstPersonName}{event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at {event.congregation} Congregation</li>
                 )}
             </ul>
