@@ -4,12 +4,8 @@ import * as Store from '../../store/archdeaconry/details'
 import * as SharedStore from '../../store/shared';
 import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import { Archdeaconry } from '../../store/archdeaconry';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Parish } from '../../store/parish';
-import { Event } from '../../store/event';
-import { Congregation } from '../../store/congregation';
 
 type Props =
     Store.State &
@@ -31,25 +27,25 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{(details.archdeaconry as Archdeaconry).name} Archdeaconry</h1>
-            <Link className="btn btn-primary float-right" to={`/archdeaconry/edit/${(details.archdeaconry as Archdeaconry).id}`}>
+            <h1 className="page-title">{details.archdeaconry.name} Archdeaconry</h1>
+            <Link className="btn btn-primary float-right" to={`/archdeaconry/edit/${details.archdeaconry.id}`}>
                 Edit archdeaconry
             </Link>
-            <h2>Parishes ({(details.parishes as Parish[]).length})</h2>
+            <h2>Parishes ({details.parishes.length})</h2>
             <ul>
-                {(details.parishes as Parish[]).map(parish =>
+                {details.parishes.map(parish =>
                     <li key={parish.id}>{parish.name}</li>
                 )}
             </ul>
-            <h2>Congregations ({(details.congregations as Congregation[]).length})</h2>
+            <h2>Congregations ({details.congregations.length})</h2>
             <ul>
-                {(details.congregations as Congregation[]).map(congregation =>
+                {details.congregations.map(congregation =>
                     <li key={congregation.id}>{congregation.name}</li>
                 )}
             </ul>
             <h2>Recent Events</h2>
             <ul>
-                {(details.recentEvents as Event[]).map(event =>
+                {details.recentEvents.map(event =>
                     <li key={event.id}>{new Date(event.date).toLocaleDateString('en-ca')}: {event.eventType} of {event.firstPersonName}{event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at {event.congregation} Congregation</li>
                 )}
             </ul>

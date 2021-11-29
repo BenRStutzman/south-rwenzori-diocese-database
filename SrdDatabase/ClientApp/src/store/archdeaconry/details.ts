@@ -7,10 +7,10 @@ import { Congregation } from '../congregation';
 import { Event } from '../event';
 
 export interface ArchdeaconryDetails {
-    archdeaconry?: Archdeaconry;
-    parishes?: Parish[];
-    congregations?: Congregation[];
-    recentEvents?: Event[];
+    archdeaconry: Archdeaconry;
+    parishes: Parish[];
+    congregations: Congregation[];
+    recentEvents: Event[];
 }
 
 const REQUEST_DETAILS = 'ARCHDEACONRY.REQUEST_DETAILS';
@@ -32,7 +32,12 @@ export interface State {
 
 const initialState: State = {
     detailsLoading: true,
-    details: {},
+    details: {
+        archdeaconry: {},
+        parishes: [],
+        congregations: [],
+        recentEvents: [],
+    },
 };
 
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
