@@ -46,6 +46,12 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetUserById.Query(id));
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<UserDetails> Details(int id)
+        {
+            return await _mediator.Send(new GetUserDetails.Query(id));
+        }
+
         [HttpGet("all")]
         public async Task<IEnumerable<User>> GetAll()
         {

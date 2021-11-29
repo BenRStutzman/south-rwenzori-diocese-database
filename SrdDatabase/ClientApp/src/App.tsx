@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route } from 'react-router';
 import Layout from './components/Layout';
 import './site.css'
+import PrivateRoute from './components/shared/PrivateRoute';
 import Login from './components/Login';
 import Home from './components/Home';
 import ArchdeaconryHome from './components/archdeaconry/Home';
@@ -23,7 +24,7 @@ import EventDetails from './components/event/Details';
 import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
-import PrivateRoute from './components/shared/PrivateRoute';
+import UserDetails from './components/user/Details';
 
 export default () => (
     <Layout>
@@ -48,5 +49,6 @@ export default () => (
         <PrivateRoute exact path='/user' component={UserHome} />
         <PrivateRoute exact path='/user/add' component={UserAdd} />
         <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} />
+        <PrivateRoute exact path='/user/details/:userId' component={UserDetails} />
     </Layout>
 );

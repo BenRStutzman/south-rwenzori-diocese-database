@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import Form from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Link } from 'react-router-dom';
 
 type Props =
     Store.State &
@@ -53,7 +54,10 @@ const Edit = ({
     return userLoading || userTypesLoading || isSaving
         ? <LoadingSpinner /> :
         <>
-            <h1>Edit user {user.name}</h1>
+            <h1 className="page-title">Edit user {user.name}</h1>
+            <Link className="btn btn-secondary float-right" to={`/user/details/${user.id}`}>
+                View details
+            </Link>
             <Form
                 user={user}
                 userTypes={userTypes}
