@@ -6,7 +6,6 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { User } from '../../store/user';
 
 type Props =
     Store.State &
@@ -28,12 +27,12 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">User {(details.user as User).name}</h1>
-            <Link className="btn btn-primary float-right" to={`/user/edit/${(details.user as User).id}`}>
+            <h1 className="page-title">User {details.user.name}</h1>
+            <Link className="btn btn-primary float-right" to={`/user/edit/${details.user.id}`}>
                 Edit user
             </Link>
-            <h2>Username: {(details.user as User).username}</h2>
-            <h2>User type: {(details.user as User).userType}</h2>
+            <h2>Username: {details.user.username}</h2>
+            <h2>User type: {details.user.userType}</h2>
         </>;
 }
     

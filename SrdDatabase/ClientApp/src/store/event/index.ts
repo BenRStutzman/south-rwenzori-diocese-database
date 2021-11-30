@@ -15,7 +15,7 @@ export interface Event {
     archdeaconry?: string;
     firstPersonName?: string;
     secondPersonName?: string;
-    date: Date;
+    date?: Date;
 }
 
 export interface EventType {

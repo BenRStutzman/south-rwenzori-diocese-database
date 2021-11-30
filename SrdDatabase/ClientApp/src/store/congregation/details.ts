@@ -5,8 +5,8 @@ import { Congregation } from '../congregation';
 import { Event } from '../event';
 
 export interface CongregationDetails {
-    congregation?: Congregation;
-    recentEvents?: Event[];
+    congregation: Congregation;
+    recentEvents: Event[];
 }
 
 const REQUEST_DETAILS = 'CONGREGATION.REQUEST_DETAILS';
@@ -28,7 +28,10 @@ export interface State {
 
 const initialState: State = {
     detailsLoading: true,
-    details: {},
+    details: {
+        congregation: {},
+        recentEvents: [],
+    },
 };
 
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {

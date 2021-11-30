@@ -4,7 +4,7 @@ import { get } from '../../helpers/apiHelpers';
 import { User } from '../user';
 
 export interface UserDetails {
-    user?: User;
+    user: User;
 }
 
 const REQUEST_DETAILS = 'USER.REQUEST_DETAILS';
@@ -26,7 +26,9 @@ export interface State {
 
 const initialState: State = {
     detailsLoading: true,
-    details: {},
+    details: {
+        user: {},
+    },
 };
 
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {

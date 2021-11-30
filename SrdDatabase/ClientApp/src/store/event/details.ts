@@ -4,7 +4,7 @@ import { get } from '../../helpers/apiHelpers';
 import { Event } from '../event';
 
 export interface EventDetails {
-    event?: Event;
+    event: Event;
 }
 
 const REQUEST_DETAILS = 'EVENT.REQUEST_DETAILS';
@@ -26,7 +26,9 @@ export interface State {
 
 const initialState: State = {
     detailsLoading: true,
-    details: {},
+    details: {
+        event: {},
+    },
 };
 
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {

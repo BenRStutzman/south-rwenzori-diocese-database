@@ -135,7 +135,7 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={new Date(event.date).toLocaleDateString('en-ca')}
+                    value={new Date(event.date as Date).toLocaleDateString('en-ca')}
                     onChange={onDateChange}
                     required
                 />

@@ -6,7 +6,6 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Event } from '../../store/event';
 
 type Props =
     Store.State &
@@ -28,15 +27,15 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{(details.event as Event).eventType} Event</h1>
-            <Link className="btn btn-primary float-right" to={`/event/edit/${(details.event as Event).id}`}>
+            <h1 className="page-title">{details.event.eventType} Event</h1>
+            <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
                 Edit event
             </Link>
-            <h2>{(details.event as Event).secondPersonName ? "People" : "Person"}: {(details.event as Event).firstPersonName}{(details.event as Event).secondPersonName ? ` and ${(details.event as Event).secondPersonName}` : ''}</h2>
-            <h2>Date: {new Date((details.event as Event).date).toLocaleDateString('en-ca')}</h2>
-            <h2>Congregation: {(details.event as Event).congregation}</h2>
-            <h2>Parish: {(details.event as Event).parish}</h2>
-            <h2>Archdeaconry: {(details.event as Event).archdeaconry}</h2>
+            <h2>{details.event.secondPersonName ? "People" : "Person"}: {details.event.firstPersonName}{details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}</h2>
+            <h2>Date: {new Date(details.event.date as Date).toLocaleDateString('en-ca')}</h2>
+            <h2>Congregation: {details.event.congregation}</h2>
+            <h2>Parish: {details.event.parish}</h2>
+            <h2>Archdeaconry: {details.event.archdeaconry}</h2>
         </>;
 }
     

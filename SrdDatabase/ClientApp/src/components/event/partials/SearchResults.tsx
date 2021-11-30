@@ -38,7 +38,7 @@ const SearchResults = ({
                         <td>{event.congregation}</td>
                         <td>{event.firstPersonName}</td>
                         <td>{event.secondPersonName}</td>
-                        <td>{new Date(event.date).toLocaleDateString('en-ca')}</td>
+                        <td>{new Date(event.date as Date).toLocaleDateString('en-ca')}</td>
                         <td>
                             <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
                                 View
