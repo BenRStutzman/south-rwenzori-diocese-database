@@ -32,24 +32,24 @@ export default () => (
         <Route exact path='/login' component={Login} />
         <PrivateRoute exact path='/' component={Home} />
         <PrivateRoute exact path='/archdeaconry' component={ArchdeaconryHome} />
-        <PrivateRoute exact path='/archdeaconry/add' component={ArchdeaconryAdd} />
-        <PrivateRoute exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} />
+        <PrivateRoute exact path='/archdeaconry/add' component={ArchdeaconryAdd} roles={[Role.Editor, Role.Administrator]}/>
+        <PrivateRoute exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} roles={[Role.Editor, Role.Administrator]} />
         <PrivateRoute exact path='/archdeaconry/details/:archdeaconryId' component={ArchdeaconryDetails} />
         <PrivateRoute exact path='/parish' component={ParishHome} />
-        <PrivateRoute exact path='/parish/add' component={ParishAdd} />
-        <PrivateRoute exact path='/parish/edit/:parishId' component={ParishEdit} />
+        <PrivateRoute exact path='/parish/add' component={ParishAdd} roles={[Role.Editor, Role.Administrator]} />
+        <PrivateRoute exact path='/parish/edit/:parishId' component={ParishEdit} roles={[Role.Editor, Role.Administrator]} />
         <PrivateRoute exact path='/parish/details/:parishId' component={ParishDetails} />
         <PrivateRoute exact path='/congregation' component={CongregationHome} />
-        <PrivateRoute exact path='/congregation/add' component={CongregationAdd} />
-        <PrivateRoute exact path='/congregation/edit/:congregationId' component={CongregationEdit} />
+        <PrivateRoute exact path='/congregation/add' component={CongregationAdd} roles={[Role.Editor, Role.Administrator]} />
+        <PrivateRoute exact path='/congregation/edit/:congregationId' component={CongregationEdit} roles={[Role.Editor, Role.Administrator]} />
         <PrivateRoute exact path='/congregation/details/:congregationId' component={CongregationDetails} />
         <PrivateRoute exact path='/event' component={EventHome} />
-        <PrivateRoute exact path='/event/add' component={EventAdd} />
-        <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} />
+        <PrivateRoute exact path='/event/add' component={EventAdd} roles={[Role.Editor, Role.Administrator]} />
+        <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} roles={[Role.Editor, Role.Administrator]} />
         <PrivateRoute exact path='/event/details/:eventId' component={EventDetails} />
         <PrivateRoute exact path='/user' component={UserHome} roles={[Role.Administrator]}/>
-        <PrivateRoute exact path='/user/add' component={UserAdd} />
-        <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} />
-        <PrivateRoute exact path='/user/details/:userId' component={UserDetails} />
+        <PrivateRoute exact path='/user/add' component={UserAdd} roles={[Role.Administrator]} />
+        <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={[Role.Administrator]} />
+        <PrivateRoute exact path='/user/details/:userId' component={UserDetails} roles={[Role.Administrator]} />
     </Layout>
 );
