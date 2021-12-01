@@ -1,4 +1,4 @@
-﻿import { UserData } from "../store/login";
+﻿import { UserData } from "../store/user";
 
 export function get<TResponse>(url: string): Promise<TResponse> {
     const token = getToken();

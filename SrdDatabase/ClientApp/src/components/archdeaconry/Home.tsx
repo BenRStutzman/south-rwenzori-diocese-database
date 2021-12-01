@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
+import { User } from '../../store/user';
 
 type Props =
     Store.State &
@@ -24,7 +25,7 @@ const Home = ({
     setSearchName,
     parameters,
     resetParameters,
-
+    user,
 }: Props) => {
     const loadData = () => {
         resetParameters();
@@ -55,6 +56,7 @@ const Home = ({
                 resultsLoading={resultsLoading}
                 onDelete={onDelete}
                 deletingArchdeaconryId={deletingArchdeaconryId}
+                user={user as User}
              />
         </>);
 }    

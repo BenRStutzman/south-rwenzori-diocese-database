@@ -2,13 +2,8 @@
 import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
 import { History, Location } from 'history';
-import { User } from '../user/';
-import { getUser } from "../../helpers/userHelper";
-
-export interface UserData {
-    user: User;
-    token: String;
-}
+import { UserData } from '../user/';
+import { actionCreators as sharedActionCreators } from '../shared';
 
 interface Credentials {
     username?: string,
@@ -18,8 +13,7 @@ interface Credentials {
 const SET_USERNAME = 'LOGIN.SET_USERNAME';
 const SET_PASSWORD = 'LOGIN.SET_PASSWORD';
 const SET_IS_LOADING = 'LOGIN.SET_IS_LOADING';
-const LOGIN = 'LOGIN.LOGIN';
-const LOGOUT = 'LOGIN.LOGOUT';
+const RESET_CREDENTIALS = 'LOGIN.RESET_CREDENTIALS';
 
 const setUsernameAction = (username: string) => ({
     type: SET_USERNAME,
@@ -36,14 +30,13 @@ const setIsLoadingAction = (isLoading: boolean) => ({
     value: isLoading,
 });
 
-const loginAction = (user: User) => ({
-    type: LOGIN,
-    value: user,
+const resetCredentialsAction = () => ({
+    type: RESET_CREDENTIALS,
 });
 
-const logoutAction = () => ({
-    type: LOGOUT,
-});
+const resetCredentials = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(resetCredentialsAction());
+};
 
 const setUsername = (username: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setUsernameAction(username));
@@ -51,11 +44,6 @@ const setUsername = (username: string): AppThunkAction<Action> => (dispatch) => 
 
 const setPassword = (password: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setPasswordAction(password));
-};
-
-const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
-    localStorage.setItem('userData', JSON.stringify(userData));
-    dispatch(loginAction(userData.user));
 };
 
 const authenticate = (credentials: Credentials, history: History, location: Location): AppThunkAction<Action> => (dispatch) => {
@@ -69,7 +57,7 @@ const authenticate = (credentials: Credentials, history: History, location: Loca
                 throw response.text();
             }
         }).then(userData => {
-            dispatch(login(userData));
+            dispatch(sharedActionCreators.login(userData));
             const { from } = location.state || { from: { pathname: "/" } };
             history.push(from);
         }).catch(errorPromise => {
@@ -81,32 +69,21 @@ const authenticate = (credentials: Credentials, history: History, location: Loca
         });
 };
 
-const logout = (): AppThunkAction<Action> => (dispatch) => {
-    localStorage.removeItem('userData');
-    dispatch(logoutAction());
-};
-
 export const actionCreators = {
+    resetCredentials,
     setUsername,
     setPassword,
     authenticate,
-    logout,
 };
 
 export interface State {
     isAuthenticating: boolean;
     credentials: Credentials;
-    isLoggedIn: boolean,
-    user?: User;
 };
-
-const user = getUser();
 
 const initialState: State = {
     isAuthenticating: false,
     credentials: {},
-    isLoggedIn: Boolean(user),
-    user,
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -132,17 +109,9 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 isAuthenticating: action.value,
             };
-        case LOGIN:
+        case RESET_CREDENTIALS:
             return {
                 ...state,
-                user: action.value,
-                isLoggedIn: true,
-            };
-        case LOGOUT:
-            return {
-                ...state,
-                user: undefined,
-                isLoggedIn: false,
                 credentials: {},
             };
         default:

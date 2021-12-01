@@ -6,10 +6,14 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import { atLeast } from '../../helpers/userRole';
+import { User } from '../../store/user';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
     RouteComponentProps<{ archdeaconryId: string }>;
 
 const Details = ({
@@ -17,6 +21,7 @@ const Details = ({
     detailsLoading,
     details,
     match,
+    user,
 }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -25,12 +30,17 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
+    const canEdit = atLeast.editor.includes((user as User).userType as string);
+
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.archdeaconry.name} Archdeaconry</h1>
-            <Link className="btn btn-primary float-right" to={`/archdeaconry/edit/${details.archdeaconry.id}`}>
-                Edit archdeaconry
-            </Link>
+            {
+                canEdit &&
+                <Link className="btn btn-primary float-right" to={`/archdeaconry/edit/${details.archdeaconry.id}`}>
+                    Edit archdeaconry
+                </Link>
+            }
             <h2>Parishes ({details.parishes.length})</h2>
             <ul>
                 {details.parishes.map(parish =>

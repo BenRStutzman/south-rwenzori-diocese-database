@@ -4,10 +4,13 @@ import { RouteComponentProps } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { State } from '../store';
 import * as Store from '../store/login';
+import * as SharedStore from '../store/shared';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
     RouteComponentProps;
 
 const Login = ({
@@ -15,6 +18,7 @@ const Login = ({
     setUsername,
     setPassword,
     isAuthenticating,
+    resetCredentials,
     credentials,
     history,
     location,
@@ -22,6 +26,7 @@ const Login = ({
 }: Props) => {
     const loadData = () => {
         logout();
+        resetCredentials();
     }
 
     useEffect(loadData, []);
@@ -75,6 +80,6 @@ const Login = ({
 }
 
 export default connect(
-    (state: State) => state.login,
-    Store.actionCreators
+    (state: State) => ({ ...state.login, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Login as any);

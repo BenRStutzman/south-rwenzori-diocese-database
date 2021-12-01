@@ -1,12 +1,15 @@
 ﻿import { Reducer } from 'redux';
-import { Action, AppThunkAction } from '.';
-import { get, post } from '../helpers/apiHelpers';
-import { Archdeaconry } from './archdeaconry';
-import { Congregation } from './congregation';
-import { Event, EventType } from './event';
-import { Parish } from './parish';
-import { User, UserType } from './user';
+import { Action, AppThunkAction } from '..';
+import { get, post } from '../../helpers/apiHelpers';
+import { getUser } from '../../helpers/userHelper';
+import { Archdeaconry } from '../archdeaconry';
+import { Congregation } from '../congregation';
+import { Event, EventType } from '../event';
+import { Parish } from '../parish';
+import { User, UserData, UserType } from '../user';
 
+const LOGIN = 'LOGIN';
+const LOGOUT = 'LOGOUT';
 const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
 const REQUEST_PARISHES = 'REQUEST_PARISHES';
@@ -22,6 +25,15 @@ const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
 const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
 const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
+
+const loginAction = (user: User) => ({
+    type: LOGIN,
+    value: user,
+});
+
+const logoutAction = () => ({
+    type: LOGOUT,
+});
 
 const requestArchdeaconriesAction = () => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -92,6 +104,16 @@ const setDeletingUserIdAction = (userId?: number) => ({
     type: SET_DELETING_USER_ID,
     value: userId,
 });
+
+const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    dispatch(loginAction(userData.user));
+};
+
+const logout = (): AppThunkAction<Action> => (dispatch) => {
+    localStorage.removeItem('userData');
+    dispatch(logoutAction());
+};
 
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction());
@@ -249,6 +271,8 @@ const deleteUser = (user: User, onSuccess: () => void):
     };
 
 export const actionCreators = {
+    login,
+    logout,
     loadArchdeaconries,
     loadParishes,
     loadCongregations,
@@ -262,6 +286,7 @@ export const actionCreators = {
 };
 
 export interface State {
+    user?: User;
     archdeaconries: Archdeaconry[];
     archdeaconriesLoading: boolean;
     parishes: Parish[];
@@ -280,6 +305,7 @@ export interface State {
 }
 
 const initialState: State = {
+    user: getUser(),
     archdeaconries: [],
     archdeaconriesLoading: true,
     parishes: [],
@@ -294,6 +320,16 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
+        case LOGIN:
+            return {
+                ...state,
+                user: action.value,
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                user: undefined,
+            };
         case REQUEST_ARCHDEACONRIES:
             return {
                 ...state,

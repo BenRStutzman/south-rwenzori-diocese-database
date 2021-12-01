@@ -1,4 +1,4 @@
-﻿import { UserData } from "../store/login";
+﻿import { UserData } from "../store/user";
 import { User } from "../store/user";
 
 export function getUser(): User | undefined {
