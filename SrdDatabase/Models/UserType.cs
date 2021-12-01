@@ -4,9 +4,9 @@
     {
         public sbyte Id { get; }
 
-        public string Name { get; }
+        public UserRole Name { get; }
 
-        public UserType(sbyte id, string name)
+        public UserType(sbyte id, UserRole name)
         {
             Id = id;
             Name = name;
