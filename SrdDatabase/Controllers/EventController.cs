@@ -7,6 +7,7 @@ using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Attributes;
+using SrdDatabase.Domain.Commands;
 
 namespace SrdDatabase.Controllers
 {
@@ -53,9 +54,16 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
+        [Authorize(UserRole.Contributor, UserRole.Editor, UserRole.Administrator)]
+        [HttpPost("add")]
+        public async Task<int> Add(AddEvent.Command command)
+        {
+            return await _mediator.Send(command);
+        }
+
         [Authorize(UserRole.Editor, UserRole.Administrator)]
         [HttpPost("save")]
-        public async Task<int> Save(SaveEvent.Command command)
+        public async Task<int> Edit(EditEvent.Command command)
         {
             return await _mediator.Send(command);
         }

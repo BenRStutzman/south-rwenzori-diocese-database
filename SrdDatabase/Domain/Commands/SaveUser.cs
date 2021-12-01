@@ -59,7 +59,7 @@ namespace SrdDatabase.Domain.Commands
 
                 var setPassword = !string.IsNullOrEmpty(request.Password);
 
-                var domainCommand = new Data.Commands.SaveUser.Command(
+                var dataCommand = new Data.Commands.SaveUser.Command(
                     request.Id,
                     request.Name,
                     request.Username,
@@ -67,7 +67,7 @@ namespace SrdDatabase.Domain.Commands
                     request.UserTypeId,
                     setPassword);
 
-                return await _mediator.Send(domainCommand);
+                return await _mediator.Send(dataCommand);
             }
         }
     }

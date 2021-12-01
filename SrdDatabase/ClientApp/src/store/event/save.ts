@@ -75,7 +75,9 @@ const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
 const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    post<Event>('api/event/save', event)
+    const action = event.id ? 'save' : 'add';
+
+    post<Event>(`api/event/${action}`, event)
         .then(response => {
             if (response.ok) {
                 history.push('/event');
