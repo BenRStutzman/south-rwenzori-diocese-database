@@ -45,14 +45,14 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
-        [Authorize(UserRole.Editor, UserRole.Administrator)]
+        [Authorize(UserRole.Editor)]
         [HttpPost("save")]
         public async Task<int> Save(SaveCongregation.Command command)
         {
             return await _mediator.Send(command);
         }
 
-        [Authorize(UserRole.Editor, UserRole.Administrator)]
+        [Authorize(UserRole.Editor)]
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(Domain.Commands.DeleteCongregation.Command command)
         {

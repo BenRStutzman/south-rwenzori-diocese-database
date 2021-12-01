@@ -54,21 +54,21 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
-        [Authorize(UserRole.Contributor, UserRole.Editor, UserRole.Administrator)]
+        [Authorize(UserRole.Contributor)]
         [HttpPost("add")]
         public async Task<int> Add(AddEvent.Command command)
         {
             return await _mediator.Send(command);
         }
 
-        [Authorize(UserRole.Editor, UserRole.Administrator)]
+        [Authorize(UserRole.Editor)]
         [HttpPost("save")]
         public async Task<int> Edit(EditEvent.Command command)
         {
             return await _mediator.Send(command);
         }
 
-        [Authorize(UserRole.Editor, UserRole.Administrator)]
+        [Authorize(UserRole.Editor)]
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteEvent.Command command)
         {
