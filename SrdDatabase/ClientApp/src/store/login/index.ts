@@ -3,6 +3,7 @@ import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
 import { History, Location } from 'history';
 import { User } from '../user/';
+import { getUser } from "../../helpers/userHelper";
 
 export interface UserData {
     user: User;
@@ -99,8 +100,7 @@ export interface State {
     user?: User;
 };
 
-const userJson = localStorage.getItem('userData');
-const user = userJson ? (JSON.parse(userJson) as UserData).user : undefined;
+const user = getUser();
 
 const initialState: State = {
     isAuthenticating: false,

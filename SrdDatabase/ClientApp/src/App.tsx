@@ -25,6 +25,7 @@ import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
 import UserDetails from './components/user/Details';
+import { Role } from './helpers/role';
 
 export default () => (
     <Layout>
@@ -46,7 +47,7 @@ export default () => (
         <PrivateRoute exact path='/event/add' component={EventAdd} />
         <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} />
         <PrivateRoute exact path='/event/details/:eventId' component={EventDetails} />
-        <PrivateRoute exact path='/user' component={UserHome} />
+        <PrivateRoute exact path='/user' component={UserHome} roles={[Role.Administrator]}/>
         <PrivateRoute exact path='/user/add' component={UserAdd} />
         <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} />
         <PrivateRoute exact path='/user/details/:userId' component={UserDetails} />

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using MediatR;
 using SrdDatabase.Services;
 using SrdDatabase.Middleware;
+using System.Text.Json.Serialization;
 
 namespace SrdDatabase
 {
@@ -22,7 +23,12 @@ namespace SrdDatabase
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+            {
+                // Serialize enums as strings in API responses (e.g. UserRole)
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
             services.AddMediatR(typeof(Startup));
             services.AddSingleton<IDbService, MySqlDbService>();
             services.AddSingleton<IUserService, JwtUserService>();
