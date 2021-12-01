@@ -45,12 +45,14 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
+        [Authorize(UserRole.Editor, UserRole.Administrator)]
         [HttpPost("save")]
         public async Task<int> Save(SaveArchdeaconry.Command command)
         {
             return await _mediator.Send(command);
         }
 
+        [Authorize(UserRole.Editor, UserRole.Administrator)]
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(Domain.Commands.DeleteArchdeaconry.Command command)
         {
