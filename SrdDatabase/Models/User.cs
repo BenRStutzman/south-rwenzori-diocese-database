@@ -15,7 +15,7 @@ namespace SrdDatabase.Models
 
         public byte UserTypeId { get; set; }
 
-        public string UserType { get; set; }
+        public UserRole UserType { get; set; }
 
         public User(
             int id,
@@ -23,7 +23,7 @@ namespace SrdDatabase.Models
             string username,
             string password,
             byte userTypeId,
-            string userType)
+            UserRole userType)
         {
             Id = id;
             Name = name;

@@ -1,7 +1,7 @@
 ﻿import { Reducer } from "redux";
 import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
-import { History } from 'history';
+import { History, Location } from 'history';
 import { User } from '../user/';
 
 export interface UserData {
@@ -57,7 +57,7 @@ const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
     dispatch(loginAction(userData.user));
 };
 
-const authenticate = (credentials: Credentials, history: History): AppThunkAction<Action> => (dispatch) => {
+const authenticate = (credentials: Credentials, history: History, location: Location): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction(true));
 
     post<Credentials>('/api/user/login', credentials)
@@ -69,7 +69,8 @@ const authenticate = (credentials: Credentials, history: History): AppThunkActio
             }
         }).then(userData => {
             dispatch(login(userData));
-            history.push('/');
+            const { from } = location.state || { from: { pathname: "/" } };
+            history.push(from);
         }).catch(errorPromise => {
             errorPromise.then((errorMessage: string) => {
                 alert(errorMessage);

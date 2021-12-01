@@ -17,6 +17,7 @@ const Login = ({
     isAuthenticating,
     credentials,
     history,
+    location,
     logout,
 }: Props) => {
     const loadData = () => {
@@ -35,7 +36,7 @@ const Login = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        authenticate(credentials, history);
+        authenticate(credentials, history, location);
     };
 
     return (

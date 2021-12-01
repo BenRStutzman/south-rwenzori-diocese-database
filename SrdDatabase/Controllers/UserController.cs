@@ -12,7 +12,7 @@ using SrdDatabase.Domain.Queries;
 namespace SrdDatabase.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(UserRole.Administrator)]
     [Route("api/[controller]")]
     public class UserController : Controller
     {
@@ -58,7 +58,6 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(new GetAllUsers.Query());
         }
 
-        [AllowAnonymous]
         [HttpGet("types")]
         public async Task<IEnumerable<UserType>> GetTypes()
         {

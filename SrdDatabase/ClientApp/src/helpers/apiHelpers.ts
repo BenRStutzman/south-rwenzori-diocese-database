@@ -12,7 +12,7 @@ export function get<TResponse>(url: string): Promise<TResponse> {
 
     return fetch(url, requestOptions)
         .then(response => {
-            logoutIfUnauthorized(response);
+            redirectIfUnauthorized(response);
             return response.json() as Promise<TResponse>
         });
 };
@@ -31,7 +31,7 @@ export function post<TRequest>(url: string, data: TRequest): Promise<Response> {
 
     return fetch(url, requestOptions)
         .then(response => {
-            logoutIfUnauthorized(response);
+            redirectIfUnauthorized(response);
             return response;
         });
 };
@@ -44,9 +44,10 @@ export interface ErrorResponse {
     errors: Errors
 };
 
-function logoutIfUnauthorized(response: Response) {
+function redirectIfUnauthorized(response: Response) {
     if (response.status === 401) {
-        window.location.replace('/login');
+        const redirectionPath = localStorage.getItem('userData') ? '/' : '/login';
+        window.location.replace(redirectionPath);
     }
 }
 
