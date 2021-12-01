@@ -5,7 +5,7 @@ import * as Store from '../../store/congregation/save';
 import * as SharedStore from '../../store/shared';
 import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
-import Form from './partials/SaveForm';
+import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 
@@ -55,7 +55,7 @@ const Edit = ({
             <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
                 View details
             </Link>
-            <Form
+            <SaveForm
                 congregation={congregation}
                 parishes={parishes}
                 setName={setName}

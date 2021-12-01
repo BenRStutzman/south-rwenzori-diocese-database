@@ -6,10 +6,14 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import { atLeast } from '../../helpers/userRole';
+import { User } from '../../store/user';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
     RouteComponentProps<{ eventId: string }>;
 
 const Details = ({
@@ -17,6 +21,7 @@ const Details = ({
     detailsLoading,
     details,
     match,
+    user,
 }: Props) => {
     const loadData = () => {
         const eventId = parseInt(match.params.eventId);
@@ -25,12 +30,17 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
+    const canEdit = atLeast.editor.includes((user as User).userType as string);
+
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.event.eventType} Event</h1>
-            <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
-                Edit event
-            </Link>
+            {
+                canEdit &&
+                <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
+                    Edit event
+                </Link>
+            }
             <h2>{details.event.secondPersonName ? "People" : "Person"}: {details.event.firstPersonName}{details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}</h2>
             <h2>Date: {new Date(details.event.date as Date).toLocaleDateString('en-ca')}</h2>
             <h2>Congregation: {details.event.congregation}</h2>

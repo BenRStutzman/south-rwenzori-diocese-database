@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
+import { User } from '../../store/user';
+import { atLeast } from '../../helpers/userRole';
 
 type Props =
     Store.State &
@@ -30,6 +32,7 @@ const Home = ({
     setSearchParishId,
     deleteCongregation,
     deletingId,
+    user,
 }: Props) => {
     const loadData = () => {
         resetParameters();
@@ -48,10 +51,15 @@ const Home = ({
         deleteCongregation(congregation, () => { searchCongregations(false, parameters); })
     };
 
+    const canAdd = atLeast.editor.includes((user as User).userType as string);
+
     return (
         <>
             <h1 className="page-title">Congregations</h1>
-            <Link className="btn btn-primary float-right" to="/congregation/add">Add new</Link>
+            {
+                canAdd &&
+                <Link className="btn btn-primary float-right" to="/congregation/add">Add new</Link>
+            }
             <SearchBox
                 archdeaconries={archdeaconries}
                 parishes={parishes}
@@ -66,6 +74,7 @@ const Home = ({
                 resultsLoading={resultsLoading}
                 onDelete={onDelete}
                 deletingId={deletingId}
+                user={user as User}
             />
         </>
     );

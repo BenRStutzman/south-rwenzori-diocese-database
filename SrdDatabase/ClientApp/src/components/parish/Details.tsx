@@ -6,10 +6,14 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import { atLeast } from '../../helpers/userRole';
+import { User } from '../../store/user';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
     RouteComponentProps<{ parishId: string }>;
 
 const Details = ({
@@ -17,6 +21,7 @@ const Details = ({
     detailsLoading,
     details,
     match,
+    user,
 }: Props) => {
     const loadData = () => {
         const parishId = parseInt(match.params.parishId);
@@ -25,12 +30,17 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
+    const canEdit = atLeast.editor.includes((user as User).userType as string);
+
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.parish.name} Parish</h1>
-            <Link className="btn btn-primary float-right" to={`/parish/edit/${details.parish.id}`}>
-                Edit parish
-            </Link>
+            {
+                canEdit &&
+                <Link className="btn btn-primary float-right" to={`/parish/edit/${details.parish.id}`}>
+                    Edit parish
+                </Link>
+            }
             <h2>Archdeaconry: {details.parish.archdeaconry}</h2>
             <h2>Congregations ({details.congregations.length})</h2>
             <ul>
