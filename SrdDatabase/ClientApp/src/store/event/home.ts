@@ -106,8 +106,8 @@ const setSearchCongregationId = (congregationId: number): AppThunkAction<Action>
 };
 
 const searchEvents = (
-    showLoading: boolean = true,
     parameters: SearchParameters = {},
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestEventsAction(showLoading));
 
@@ -133,14 +133,12 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: Event[];
-    deletingId?: number;
     parameters: SearchParameters,
 }
 
 const initialState: State = {
     results: [],
     resultsLoading: true,
-    deletingId: undefined,
     parameters: {},
 };
 
@@ -217,7 +215,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 results: action.value,
                 resultsLoading: false,
-                deletingId: undefined,
             };
         default:
             return state;

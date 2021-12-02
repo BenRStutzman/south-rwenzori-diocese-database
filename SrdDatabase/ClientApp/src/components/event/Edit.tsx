@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State
@@ -18,66 +19,36 @@ type Props =
 
 const Edit = ({
     eventLoading,
-    eventTypesLoading,
-    congregationsLoading,
     history,
     event,
-    congregations,
-    eventTypes,
-    setFirstPersonName,
-    setSecondPersonName,
-    setCongregationId,
-    setEventTypeId,
-    setDate,
     loadEvent,
-    loadCongregations,
-    loadEventTypes,
-    saveEvent,
     deleteEvent,
+    deletingEventId,
     match,
-    isSaving,
-    hasBeenChanged,
-    errors
 }: Props) => {
     const loadData = () => {
-        loadEventTypes();
-        loadCongregations();
         const eventId = parseInt(match.params.eventId);
         loadEvent(eventId);
     };
 
     useEffect(loadData, []);
 
-    const onSave = () => {
-        saveEvent(event, history);
-    };
-
     const onDelete = () => {
         deleteEvent(event, () => { history.push('/event'); });
     };
 
-    return eventLoading || eventTypesLoading || congregationsLoading || isSaving
-        ? <LoadingSpinner /> :
+    return eventLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Edit {event.eventType}</h1>
-            <Link className="btn btn-secondary float-right" to={`/event/details/${event.id}`}>
-                View details
-            </Link>
-            <SaveForm
-                event={event}
-                eventTypes={eventTypes}
-                congregations={congregations}
-                setFirstPersonName={setFirstPersonName}
-                setSecondPersonName={setSecondPersonName}
-                setCongregationId={setCongregationId}
-                setEventTypeId={setEventTypeId}
-                setDate={setDate}
-                onSave={onSave}
-                onDelete={onDelete}
-                hasBeenChanged={hasBeenChanged}
-                errors={errors}
-                eventExists={true}
-            />
+            <div className="float-right button-group">
+                <Link className="btn btn-secondary float-right" to={`/event/details/${event.id}`}>
+                    View details
+                </Link>
+                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
+                </button>
+            </div>
+            <SaveForm submitWord="Update" />
         </>;
 }
 

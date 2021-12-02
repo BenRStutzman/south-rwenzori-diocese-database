@@ -1,33 +1,22 @@
-﻿import { SearchParameters } from '../../../store/event/home';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
+﻿import React, { ChangeEvent, useEffect } from 'react';
+import { Spinner } from 'reactstrap';
 import { randomString } from '../../../helpers/randomString';
-import { Parish } from '../../../store/parish';
-import { Archdeaconry } from '../../../store/archdeaconry';
-import { Congregation } from '../../../store/congregation';
-import { EventType } from '../../../store/event';
+import { State } from '../../../store';
+import * as Store from '../../../store/event/home';
+import * as SharedStore from '../../../store/shared';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import { connect } from 'react-redux';
+
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const autoCompleteString = randomString();
 
-interface Props {
-    parameters: SearchParameters;
-    archdeaconries: Archdeaconry[];
-    parishes: Parish[];
-    congregations: Congregation[];
-    eventTypes: EventType[];
-    setSearchPersonName: (personName: string) => AppThunkAction<Action>;
-    setSearchArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
-    setSearchParishId: (parishId: number) => AppThunkAction<Action>;
-    setSearchCongregationId: (congregationId: number) => AppThunkAction<Action>;
-    setSearchEventTypeId: (eventTypeId: number) => AppThunkAction<Action>;
-    setSearchStartDate: (startDate: Date) => AppThunkAction<Action>;
-    setSearchEndDate: (endDate: Date) => AppThunkAction<Action>;
-    onSearch: () => void;
-}
-
 const SearchBox = ({
-    onSearch,
+    searchEvents,
     parameters,
     setSearchPersonName,
     setSearchArchdeaconryId,
@@ -40,7 +29,28 @@ const SearchBox = ({
     parishes,
     congregations,
     eventTypes,
+    resetParameters,
+    loadCongregations,
+    loadEventTypes,
+    loadArchdeaconries,
+    loadParishes,
+    congregationsLoading,
+    eventTypesLoading,
+    resultsLoading,
+    archdeaconriesLoading,
+    parishesLoading,
 }: Props) => {
+    const loadData = () => {
+        resetParameters();
+        loadArchdeaconries();
+        loadParishes();
+        loadCongregations();
+        loadEventTypes();
+        searchEvents();
+    };
+
+    useEffect(loadData, []);
+
     const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchPersonName(event.target.value);
     };
@@ -71,10 +81,11 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch();
+        searchEvents(parameters);
     };
 
-    return (
+    return congregationsLoading || eventTypesLoading || archdeaconriesLoading || parishesLoading
+        ? <LoadingSpinner /> :
         <form onSubmit={onSubmit} className="search-box">
             <div className="form-group">
                 <label htmlFor="personName">Person Name</label>
@@ -174,10 +185,12 @@ const SearchBox = ({
                 />
             </div>
             <button className="btn btn-primary" type="submit">
-                Search events
+                {resultsLoading ? <Spinner size="sm" /> : 'Search events'}
             </button>
-        </form>
-    );
+        </form>;
 }
 
-export default SearchBox;
+export default connect(
+    (state: State) => ({ ...state.event.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchBox as any);

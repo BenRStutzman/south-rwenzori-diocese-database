@@ -3,25 +3,32 @@ import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Event } from '../../../store/event';
-import { User } from '../../../store/user';
 import { atLeast } from '../../../helpers/userRole';
+import * as Store from '../../../store/event/home';
+import * as SharedStore from '../../../store/shared';
+import { State } from '../../../store';
+import { connect } from 'react-redux';
 
-interface Props {
-    resultsLoading: boolean;
-    results: Event[];
-    deletingId?: number;
-    onDelete: (event: Event) => void;
-    user: User,
-}
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingId,
-    onDelete,
+    deletingEventId,
+    deleteEvent,
     user,
+    parameters,
+    searchEvents,
 }: Props) => {
-    const canEdit = atLeast.editor.includes(user.userType as string);
+    const canEdit = user && atLeast.editor.includes(user.userType as string);
+
+    const onDelete = (event: Event) => {
+        deleteEvent(event, () => { searchEvents(parameters, false); });
+    };
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.length ? <h2>No results.</h2> :
@@ -66,7 +73,7 @@ const SearchResults = ({
                                     </td>
                                     <td>
                                         <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
-                                            {event.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
+                                            {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete'}
                                         </button>
                                     </td>
                                 </>
@@ -77,4 +84,7 @@ const SearchResults = ({
             </table>;
 }
 
-export default SearchResults;
+export default connect(
+    (state: State) => ({ ...state.event.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchResults as any);

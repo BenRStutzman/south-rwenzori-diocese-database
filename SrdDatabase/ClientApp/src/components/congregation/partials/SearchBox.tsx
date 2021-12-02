@@ -5,6 +5,7 @@ import React, { ChangeEvent, useEffect } from 'react';
 import { randomString } from '../../../helpers/randomString';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import { Spinner } from 'reactstrap';
 
 const autoCompleteString = randomString();
 
@@ -27,6 +28,7 @@ const SearchBox = ({
     setSearchParishId,
     archdeaconries,
     parishes,
+    resultsLoading,
 }: Props) => {
     const loadData = () => {
         resetParameters();
@@ -102,7 +104,7 @@ const SearchBox = ({
                 </select>
             </div>
             <button className="btn btn-primary" type="submit">
-                Search congregations
+                {resultsLoading ? <Spinner size="sm" /> : 'Search congregations'}
             </button>
         </form>;
 }

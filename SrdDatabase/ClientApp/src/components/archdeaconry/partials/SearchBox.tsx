@@ -3,6 +3,7 @@ import React, { ChangeEvent, useEffect } from 'react';
 import { randomString } from '../../../helpers/randomString';
 import * as Store from '../../../store/archdeaconry/home';
 import { connect } from 'react-redux';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
@@ -15,6 +16,7 @@ const SearchBox = ({
     parameters,
     setSearchName,
     resetParameters,
+    resultsLoading,
 }: Props) => {
     const loadData = () => {
         resetParameters();
@@ -48,7 +50,7 @@ const SearchBox = ({
                 />
             </div>
             <button className="btn btn-primary" type="submit">
-                Search archdeaconries
+                {resultsLoading ? <Spinner size="sm" /> : 'Search archdeaconries'}
             </button>
         </form>
     );

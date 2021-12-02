@@ -1,40 +1,52 @@
-﻿import { Event, EventType } from '../../../store/event';
-import { Action, AppThunkAction } from '../../../store';
-import React, { ChangeEvent } from 'react';
-import { Congregation } from '../../../store/congregation';
-import { Errors } from '../../../helpers/apiHelpers';
+﻿import { State } from '../../../store';
+import React, { ChangeEvent, useEffect } from 'react';
+import * as Store from '../../../store/event/save';
+import * as SharedStore from '../../../store/shared';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Spinner } from 'reactstrap';
+import { connect } from 'react-redux';
+import LoadingSpinner from '../../shared/LoadingSpinner';
 
-interface Props {
-    event: Event;
-    onSave: () => void;
-    onDelete?: () => void;
-    setEventTypeId: (eventTypeId: number) => AppThunkAction<Action>;
-    setCongregationId: (parishId: number) => AppThunkAction<Action>;
-    setFirstPersonName: (firstPersonName: string) => AppThunkAction<Action>;
-    setSecondPersonName: (secondPersonName: string) => AppThunkAction<Action>;
-    setDate: (date: Date) => AppThunkAction<Action>;
-    hasBeenChanged: boolean;
-    errors: Errors;
-    eventTypes: EventType[];
-    congregations: Congregation[];
-    eventExists: boolean;
+interface OwnProps {
+    submitWord: string;
 }
+
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
+    RouteComponentProps &
+    OwnProps;
 
 const SaveForm = ({
     event,
     congregations,
     eventTypes,
-    onSave,
-    onDelete,
+    saveEvent,
     setEventTypeId,
     setCongregationId,
     setFirstPersonName,
     setSecondPersonName,
+    loadCongregations,
+    loadEventTypes,
     setDate,
     hasBeenChanged,
     errors,
-    eventExists,
+    submitWord,
+    history,
+    isSaving,
+    eventLoading,
+    eventTypesLoading,
+    congregationsLoading,
 }: Props) => {
+    const loadData = () => {
+        loadCongregations();
+        loadEventTypes();
+    };
+
+    useEffect(loadData, []);
+
     const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setEventTypeId(parseInt(event.target.value));
     };
@@ -55,16 +67,16 @@ const SaveForm = ({
         setDate(new Date(event.target.value));
     };
 
-    const onSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        onSave();
-    }
+    const onSubmit = (formEvent: React.FormEvent) => {
+        formEvent.preventDefault();
+        saveEvent(event, history);
+    };
 
     const eventType = eventTypes.find(eventType => eventType.id === event.eventTypeId);
 
     const involvesTwoPeople = eventType && eventType.involvesTwoPeople;
 
-    return (
+    return eventLoading || eventTypesLoading || congregationsLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="eventTypeId">Event Type</label>
@@ -151,16 +163,20 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {eventExists ? "Update" : "Create"} event
+                {isSaving ? <Spinner size="sm" /> : `${submitWord} congregation`}
             </button>
-            {
-                eventExists &&
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    Delete event
-                </button>
-            }
-        </form>
-    );
+        </form>;
+};
+
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    ...state.event.home,
+    ...state.shared,
+    ...ownProps,
+});
+
+const mapDispatchToProps = {
+    ...Store.actionCreators,
+    ...SharedStore.actionCreators,
 }
 
-export default SaveForm;
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm as any));
