@@ -3,25 +3,32 @@ import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { atLeast } from '../../../helpers/userRole';
 import { Parish } from '../../../store/parish';
-import { User } from '../../../store/user';
+import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import * as Store from '../../../store/parish/home';
+import * as SharedStore from '../../../store/shared';
+import { connect } from 'react-redux';
 
-interface Props {
-    resultsLoading: boolean;
-    results: Parish[];
-    deletingId?: number;
-    onDelete: (parish: Parish) => void;
-    user: User;
-}
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchResults = ({
+    deleteParish,
+    deletingParishId,
     resultsLoading,
     results,
-    deletingId,
-    onDelete,
     user,
+    searchParishes,
+    parameters,
 }: Props) => {
-    const canEdit = atLeast.editor.includes(user.userType as string);
+    const canEdit = user && atLeast.editor.includes(user.userType as string);
+
+    const onDelete = (parish: Parish) => {
+        deleteParish(parish, () => { searchParishes(parameters, false); });
+    }
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.length ? <h2>No results.</h2> :
@@ -60,7 +67,7 @@ const SearchResults = ({
                                     </td>
                                     <td>
                                         <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
-                                            {parish.id === deletingId ? <Spinner size="sm" /> : 'Delete'}
+                                            {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete'}
                                         </button>
                                     </td>
                                 </>
@@ -71,4 +78,7 @@ const SearchResults = ({
             </table>;
 }
 
-export default SearchResults;
+export default connect(
+    (state: State) => ({ ...state.parish.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchResults as any);

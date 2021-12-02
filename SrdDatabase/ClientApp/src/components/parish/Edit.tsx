@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State
@@ -18,54 +19,36 @@ type Props =
 
 const Edit = ({
     parishLoading,
-    archdeaconriesLoading,
     history,
     parish,
-    archdeaconries,
-    setName,
-    setArchdeaconryId,
     loadParish,
-    loadArchdeaconries,
-    saveParish,
     deleteParish,
     match,
-    isSaving,
-    hasBeenChanged,
-    errors
+    deletingParishId,
 }: Props) => {
     const loadData = () => {
-        loadArchdeaconries();
         const parishId = parseInt(match.params.parishId);
         loadParish(parishId);
     };
 
     useEffect(loadData, []);
 
-    const onSave = () => {
-        saveParish(parish, history);
-    };
-
     const onDelete = () => {
         deleteParish(parish, () => { history.push('/parish'); });
     };
 
-    return parishLoading || archdeaconriesLoading || isSaving ? <LoadingSpinner /> :
+    return parishLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Edit {parish.name} Parish</h1>
-            <Link className="btn btn-secondary float-right" to={`/parish/details/${parish.id}`}>
-                View details
-            </Link>
-            <SaveForm
-                parish={parish}
-                archdeaconries={archdeaconries}
-                setName={setName}
-                updateParishArchdeaconryId={setArchdeaconryId}
-                onSave={onSave}
-                onDelete={onDelete}
-                hasBeenChanged={hasBeenChanged}
-                errors={errors}
-                parishExists={true}
-            />
+            <div className="float-right button-group">
+                <Link className="btn btn-secondary float-right" to={`/parish/details/${parish.id}`}>
+                    View details
+                </Link>
+                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
+                </button>
+            </div>
+            <SaveForm submitWord="Update" />
         </>;
 }
 

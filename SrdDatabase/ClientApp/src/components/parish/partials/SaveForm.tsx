@@ -1,47 +1,59 @@
-﻿import { Parish } from '../../../store/parish';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
-import { Errors } from '../../../helpers/apiHelpers';
-import { Archdeaconry } from '../../../store/archdeaconry';
+﻿import { State } from '../../../store';
+import React, { ChangeEvent, useEffect } from 'react';
+import * as Store from '../../../store/parish/save';
+import * as SharedStore from '../../../store/shared';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Spinner } from 'reactstrap';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import { connect } from 'react-redux';
 
-interface Props {
-    parish: Parish;
-    onSave: () => void;
-    onDelete?: () => void;
-    setName: (name: string) => AppThunkAction<Action>;
-    updateParishArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
-    hasBeenChanged: boolean;
-    errors: Errors;
-    archdeaconries: Archdeaconry[];
-    parishExists: boolean;
-}
+interface OwnProps {
+    submitWord: string;
+};
+
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
+    RouteComponentProps &
+    OwnProps;
 
 const SaveForm = ({
+    loadArchdeaconries,
+    archdeaconriesLoading,
     parish,
+    parishLoading,
+    isSaving,
     archdeaconries,
-    onSave,
-    onDelete,
+    saveParish,
     setName,
-    updateParishArchdeaconryId,
+    setArchdeaconryId,
     hasBeenChanged,
     errors,
-    parishExists,
+    submitWord,
+    history,
 }: Props) => {
+    const loadData = () => {
+        loadArchdeaconries();
+    };
+
+    useEffect(loadData, []);
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        updateParishArchdeaconryId(parseInt(event.target.value));
+        setArchdeaconryId(parseInt(event.target.value));
     };
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSave();
+        saveParish(parish, history);
     };
 
-    return (
+    return parishLoading || archdeaconriesLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -75,25 +87,29 @@ const SaveForm = ({
             </div>
             {Object.values(errors).length > 0 &&
                 <ul>
-                {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
-                    <li
-                        className="error-alert"
-                        key={fieldName}>
-                        {errorList.join(" ")}</li>
+                    {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
+                        <li
+                            className="error-alert"
+                            key={fieldName}>
+                            {errorList.join(" ")}</li>
                     )}
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {parishExists ? 'Update' : 'Create'} parish
+                {isSaving ? <Spinner size="sm" /> : `${submitWord} parish`}
             </button>
-            {
-                parishExists &&
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    Delete parish
-                </button>
-            }
-        </form>
-    );
+        </form>;
+};
+
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    ...state.parish.save,
+    ...state.shared,
+    ...ownProps,
+});
+
+const mapDispatchToProps = {
+    ...Store.actionCreators,
+    ...SharedStore.actionCreators,
 }
 
-export default SaveForm;
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm as any));

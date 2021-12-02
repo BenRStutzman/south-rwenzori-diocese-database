@@ -51,8 +51,8 @@ export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<
 };
 
 const searchParishes = (
-    showLoading: boolean = true,
     parameters: SearchParameters = {},
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestParishesAction(showLoading));
 
@@ -73,14 +73,12 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: Parish[];
-    deletingId?: number;
     parameters: SearchParameters;
 }
 
 const initialState: State = {
     results: [],
     resultsLoading: true,
-    deletingId: undefined,
     parameters: {},
 };
 
@@ -101,7 +99,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 results: action.value,
                 resultsLoading: false,
-                deletingId: undefined,
             };
         case SET_SEARCH_NAME:
             return {

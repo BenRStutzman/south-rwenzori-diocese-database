@@ -1,52 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/parish/home';
 import * as SharedStore from '../../store/shared';
-import { Parish } from '../../store/parish';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
-import { User } from '../../store/user';
 import { atLeast } from '../../helpers/userRole';
 
-type Props = Store.State
-    & typeof Store.actionCreators
-    & SharedStore.State
-    & typeof SharedStore.actionCreators
+type Props =
+    SharedStore.State
 
 const Home = ({
-    archdeaconries,
-    loadArchdeaconries,
-    resultsLoading,
-    results,
-    searchParishes,
-    deleteParish,
-    deletingId,
-    parameters,
-    setSearchName,
-    setSearchArchdeaconryId,
-    resetParameters,
     user,
 }: Props) => {
-    const loadData = () => {
-        resetParameters();
-        loadArchdeaconries();
-        searchParishes();
-    };
-
-    useEffect(loadData, []);
-
-    const onDelete = (parish: Parish) => {
-        deleteParish(parish, () => { searchParishes(false, parameters); });
-    };
-
-    const onSearch = () => {
-        searchParishes(true, parameters);
-    }
-
-    const canAdd = atLeast.editor.includes((user as User).userType as string);
+    const canAdd = user && atLeast.editor.includes(user.userType as string);
 
     return (
         <>
@@ -55,25 +22,12 @@ const Home = ({
                 canAdd &&
                 <Link className="btn btn-primary float-right" to="/parish/add">Add new</Link>
             }
-            <SearchBox
-                archdeaconries={archdeaconries}
-                onSearch={onSearch}
-                setSearchName={setSearchName}
-                setSearchArchdeaconryId={setSearchArchdeaconryId}
-                parameters={parameters}
-            />
-            <SearchResults
-                results={results}
-                resultsLoading={resultsLoading}
-                onDelete={onDelete}
-                deletingId={deletingId}
-                user={user as User}
-            />
+            <SearchBox />
+            <SearchResults />
         </>
     );
 }    
 
 export default connect(
-    (state: State) => ({...state.parish.home, ...state.shared}),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
+    (state: State) => state.shared
 )(Home as any);
