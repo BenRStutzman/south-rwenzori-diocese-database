@@ -51,7 +51,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchCongregations(true, parameters);
+        searchCongregations(parameters);
     };
 
     return archdeaconriesLoading || parishesLoading ? <LoadingSpinner /> :

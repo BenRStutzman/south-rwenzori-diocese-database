@@ -10,9 +10,7 @@ type Props =
 const Add = ({
     resetCongregation,
 }: Props) => {
-    const loadData = () => {
-        resetCongregation();
-    }
+    const loadData = () => { resetCongregation(); };
 
     useEffect(loadData, []);
 

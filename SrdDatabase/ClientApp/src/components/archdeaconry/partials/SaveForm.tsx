@@ -1,27 +1,31 @@
-﻿import { Archdeaconry } from '../../../store/archdeaconry';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
+﻿import * as Store from '../../../store/archdeaconry/save';
 import React, { ChangeEvent } from 'react';
-import { Errors } from '../../../helpers/apiHelpers';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import { State } from '../../../store';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import { Spinner } from 'reactstrap';
 
-interface Props {
-    archdeaconry: Archdeaconry;
-    onSave: () => void;
-    onDelete?: () => void;
-    setName: (name: string) => AppThunkAction<Action>;
-    hasBeenChanged: boolean;
-    archdeaconryExists: boolean;
-    errors: Errors;
+interface OwnProps {
+    submitWord: string;
 }
 
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    RouteComponentProps &
+    OwnProps;
+
 const SaveForm = ({
+    submitWord,
     archdeaconry,
-    onSave,
+    saveArchdeaconry,
     setName,
     hasBeenChanged,
     errors,
-    archdeaconryExists,
-    onDelete
+    history,
+    archdeaconryLoading,
+    isSaving,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
@@ -29,10 +33,10 @@ const SaveForm = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSave();
+        saveArchdeaconry(archdeaconry, history);
     };
 
-    return (
+    return archdeaconryLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -58,16 +62,12 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {archdeaconryExists ? "Update" : "Create"} archdeaconry
+                {isSaving ? <Spinner size="sm" /> : `${submitWord} archdeaconry`}
             </button>
-            {
-                archdeaconryExists &&
-                <button className='btn btn-danger float-right' type="button" onClick={onDelete}>
-                    Delete archdeaconry
-                </button>
-            }
-        </form>
-    );
+        </form>;
 }
 
-export default SaveForm;
+export default connect(
+    (state: State, ownProps: OwnProps) => ({ ...state.archdeaconry.save, ...ownProps }),
+    Store.actionCreators
+)(withRouter(SaveForm as any));

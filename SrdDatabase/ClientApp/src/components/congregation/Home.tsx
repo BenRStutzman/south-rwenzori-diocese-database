@@ -29,5 +29,5 @@ const Home = ({
 };
 
 export default connect(
-    (state: State) => ({ ...state.shared })
+    (state: State) => state.shared
 )(Home as any);

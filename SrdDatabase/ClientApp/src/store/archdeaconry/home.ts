@@ -36,8 +36,8 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 };
 
 const searchArchdeaconries = (
-    showLoading: boolean = true,
     parameters: SearchParameters = {},
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
 

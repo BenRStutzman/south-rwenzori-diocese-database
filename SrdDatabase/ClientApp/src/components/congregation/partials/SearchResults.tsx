@@ -18,7 +18,7 @@ type Props =
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingId,
+    deletingCongregationId,
     deleteCongregation,
     searchCongregations,
     parameters,
@@ -27,7 +27,7 @@ const SearchResults = ({
     const canEdit = user && atLeast.editor.includes(user.userType as string);
 
     const onDelete = (congregation: Congregation) => {
-        deleteCongregation(congregation, () => { searchCongregations(false, parameters); })
+        deleteCongregation(congregation, () => { searchCongregations(parameters, false); })
     };
 
     return resultsLoading ? <LoadingSpinner /> :
@@ -67,7 +67,7 @@ const SearchResults = ({
                                      </td>
                                     <td>
                                         <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                            {congregation.id === deletingId ? <Spinner size="sm" /> : "Delete"}
+                                            {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete"}
                                         </button>
                                     </td>
                                 </>

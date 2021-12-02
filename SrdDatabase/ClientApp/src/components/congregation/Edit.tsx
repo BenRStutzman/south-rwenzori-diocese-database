@@ -8,10 +8,12 @@ import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
+    SharedStore.State &
     typeof SharedStore.actionCreators &
     RouteComponentProps<{ congregationId: string }>;
 
@@ -21,6 +23,7 @@ const Edit = ({
     match,
     history,
     deleteCongregation,
+    deletingCongregationId,
     congregationLoading,
 }: Props) => {
     const loadData = () => {
@@ -42,7 +45,7 @@ const Edit = ({
                     View details
                 </Link>
                 <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    Delete congregation
+                    {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
                 </button>
             </div>
             <SaveForm submitWord="Update" />

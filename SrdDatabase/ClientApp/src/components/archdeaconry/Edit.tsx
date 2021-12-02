@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
@@ -19,15 +20,10 @@ type Props =
 const Edit = ({ archdeaconryLoading,
     history,
     archdeaconry,
-    setName,
     loadArchdeaconry,
-    saveArchdeaconry,
     deleteArchdeaconry,
     deletingArchdeaconryId,
     match,
-    hasBeenChanged,
-    isSaving,
-    errors
 }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -36,29 +32,22 @@ const Edit = ({ archdeaconryLoading,
 
     useEffect(loadData, []);
 
-    const onSave = () => {
-        saveArchdeaconry(archdeaconry, history);
-    };
-
     const onDelete = () => {
-        deleteArchdeaconry(archdeaconry, () => { history.push('/archdeaconry') });
+        deleteArchdeaconry(archdeaconry, () => { history.push('/archdeaconry'); });
     };
 
-    return archdeaconryLoading || isSaving || deletingArchdeaconryId ? <LoadingSpinner /> :
+    return archdeaconryLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>
-            <Link className="btn btn-secondary float-right" to={`/archdeaconry/details/${archdeaconry.id}`}>
-                View details
-            </Link>
-            <SaveForm
-                archdeaconry={archdeaconry}
-                setName={setName}
-                onSave={onSave}
-                hasBeenChanged={hasBeenChanged}
-                errors={errors}
-                archdeaconryExists={true}
-                onDelete={onDelete}
-            />
+            <div className="button-group float-right">
+                <Link className="btn btn-secondary float-right" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                    View details
+                </Link>
+                <button className='btn btn-danger float-right' type="button" onClick={onDelete}>
+                    {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
+                </button>
+            </div>
+            <SaveForm submitWord="Update" />
         </>;
 }
 

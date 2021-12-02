@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { ChangeEvent, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Spinner } from 'reactstrap';
 
 interface OwnProps {
     submitWord: string;
@@ -53,7 +54,7 @@ const SaveForm = ({
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :
+    return congregationLoading || parishesLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -96,7 +97,7 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {submitWord} congregation
+                {isSaving ? <Spinner size="sm" /> : `${submitWord} congregation`}
             </button>
         </form>;
 }

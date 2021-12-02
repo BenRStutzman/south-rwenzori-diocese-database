@@ -1,50 +1,28 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { State } from '../../store';
 import * as Store from '../../store/archdeaconry/save';
-import LoadingSpinner from '../shared/LoadingSpinner';
-import Form from './partials/SaveForm';
+import SaveForm from './partials/SaveForm';
 
 type Props =
-    Store.State &
-    typeof Store.actionCreators &
-    RouteComponentProps;
+    typeof Store.actionCreators;
 
-const Add = ({ archdeaconry,
-    archdeaconryLoading,
+const Add = ({
     resetArchdeaconry,
-    history,
-    setName,
-    saveArchdeaconry,
-    isSaving,
-    hasBeenChanged,
-    errors
 }: Props) => {
     const loadData = () => { resetArchdeaconry(); };
 
     useEffect(loadData, []);
 
-    const onSave = () => {
-        saveArchdeaconry(archdeaconry, history);
-    };
-
-    return archdeaconryLoading || isSaving ? <LoadingSpinner /> :
+    return (
         <>
             <h1>Add Archdeaconry</h1>
-            <Form
-                archdeaconry={archdeaconry}
-                setName={setName}
-                onSave={onSave}
-                hasBeenChanged={hasBeenChanged}
-                errors={errors}
-                archdeaconryExists={false}
-            />
-        </>;
+            <SaveForm submitWord="Create" />
+        </>
+    );
 };
 
 export default connect(
-    (state: State) => state.archdeaconry.save,
+    null,
     Store.actionCreators
 )(Add as any);

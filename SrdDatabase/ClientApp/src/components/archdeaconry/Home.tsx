@@ -1,49 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { State } from '../../store';
-import * as Store from '../../store/archdeaconry/home';
 import * as SharedStore from '../../store/shared';
-import { Archdeaconry } from '../../store/archdeaconry';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
-import { User } from '../../store/user';
 import { atLeast } from '../../helpers/userRole';
 
 type Props =
-    Store.State &
-    typeof Store.actionCreators &
-    SharedStore.State &
-    typeof SharedStore.actionCreators;
+    SharedStore.State;
 
 const Home = ({
-    results,
-    resultsLoading,
-    searchArchdeaconries,
-    deleteArchdeaconry,
-    deletingArchdeaconryId,
-    setSearchName,
-    parameters,
-    resetParameters,
     user,
 }: Props) => {
-    const loadData = () => {
-        resetParameters();
-        searchArchdeaconries();
-    };
-
-    useEffect(loadData, []);
-
-    const onSearch = () => {
-        searchArchdeaconries(true, parameters);
-    };
-
-    const onDelete = (archdeaconry: Archdeaconry) => {
-        deleteArchdeaconry(archdeaconry, () => { searchArchdeaconries(false, parameters); });
-    };
-
-    const canAdd = atLeast.editor.includes((user as User).userType as string);
+    const canAdd = user && atLeast.editor.includes(user.userType as string);
 
     return (
         <>
@@ -52,22 +22,12 @@ const Home = ({
                 canAdd &&
                 <Link className="btn btn-primary float-right" to="/archdeaconry/add">Add new</Link>
             }
-            <SearchBox
-                onSearch={onSearch}
-                setSearchName={setSearchName}
-                parameters={parameters}
-            />
-            <SearchResults
-                results={results}
-                resultsLoading={resultsLoading}
-                onDelete={onDelete}
-                deletingArchdeaconryId={deletingArchdeaconryId}
-                user={user as User}
-             />
-        </>);
+            <SearchBox />
+            <SearchResults />
+        </>
+    );
 }    
 
 export default connect(
-    (state: State) => ({ ...state.archdeaconry.home, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
+    (state: State) => state.shared,
 )(Home as any);

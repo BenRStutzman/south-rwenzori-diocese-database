@@ -1,29 +1,35 @@
-﻿import { SearchParameters } from '../../../store/archdeaconry';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
+﻿import { State } from '../../../store';
+import React, { ChangeEvent, useEffect } from 'react';
 import { randomString } from '../../../helpers/randomString';
+import * as Store from '../../../store/archdeaconry/home';
+import { connect } from 'react-redux';
+
+type Props =
+    Store.State &
+    typeof Store.actionCreators;
 
 const autoCompleteString = randomString();
 
-interface Props {
-    onSearch: () => void;
-    parameters: SearchParameters;
-    setSearchName: (name: string) => AppThunkAction<Action>;
-}
-
 const SearchBox = ({
-    onSearch,
+    searchArchdeaconries,
     parameters,
     setSearchName,
+    resetParameters,
 }: Props) => {
+    const loadData = () => {
+        resetParameters();
+        searchArchdeaconries();
+    };
+
+    useEffect(loadData, []);
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
     };
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch();
+        searchArchdeaconries(parameters);
     };
 
     return (
@@ -48,4 +54,7 @@ const SearchBox = ({
     );
 }
 
-export default SearchBox;
+export default connect(
+    (state: State) => state.archdeaconry.home,
+    Store.actionCreators
+)(SearchBox as any);

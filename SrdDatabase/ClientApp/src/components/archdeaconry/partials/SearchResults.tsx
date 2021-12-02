@@ -1,27 +1,34 @@
-﻿import React from 'react';
+﻿import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { atLeast } from '../../../helpers/userRole';
 import { Archdeaconry } from '../../../store/archdeaconry/';
-import { User } from '../../../store/user';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import * as Store from '../../../store/archdeaconry/home';
+import * as SharedStore from '../../../store/shared';
+import { State } from '../../../store';
+import { connect } from 'react-redux';
 
-interface Props {
-    resultsLoading: boolean;
-    results: Archdeaconry[];
-    deletingArchdeaconryId?: number;
-    onDelete: (archdeaconry: Archdeaconry) => void;
-    user: User;
-}
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchResults = ({
     resultsLoading,
+    parameters,
     results,
     deletingArchdeaconryId,
-    onDelete,
+    deleteArchdeaconry,
+    searchArchdeaconries,
     user,
 }: Props) => {
-    const canEdit = atLeast.editor.includes(user.userType as string);
+    const canEdit = user && atLeast.editor.includes(user.userType as string);
+
+    const onDelete = (archdeaconry: Archdeaconry) => {
+        deleteArchdeaconry(archdeaconry, () => { searchArchdeaconries(parameters, false); });
+    }
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.length ? <h2>No results.</h2> :
@@ -69,4 +76,7 @@ const SearchResults = ({
             </table>;
 }
 
-export default SearchResults;
+export default connect(
+    (state: State) => ({ ...state.archdeaconry.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchResults as any);
