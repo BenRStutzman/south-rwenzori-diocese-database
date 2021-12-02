@@ -8,7 +8,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 
 interface OwnProps {
-    submitWord: string;
+    isNew?: boolean;
 };
 
 type Props =
@@ -31,7 +31,7 @@ const SaveForm = ({
     setArchdeaconryId,
     hasBeenChanged,
     errors,
-    submitWord,
+    isNew,
     history,
 }: Props) => {
     const loadData = () => {
@@ -96,7 +96,7 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {isSaving ? <Spinner size="sm" /> : `${submitWord} parish`}
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} parish`}
             </button>
         </form>;
 };

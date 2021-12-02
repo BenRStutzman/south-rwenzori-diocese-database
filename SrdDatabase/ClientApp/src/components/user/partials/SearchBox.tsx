@@ -1,20 +1,17 @@
-﻿import { SearchParameters } from '../../../store/user/home';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
+﻿import { State } from '../../../store';
+import React, { ChangeEvent, useEffect } from 'react';
 import { randomString } from '../../../helpers/randomString';
-import { UserType } from '../../../store/user';
+import * as Store from '../../../store/user/home';
+import * as SharedStore from '../../../store/shared';
+import { Spinner } from 'reactstrap';
+import { connect } from 'react-redux';
+import LoadingSpinner from '../../shared/LoadingSpinner';
 
-const autoCompleteString = randomString();
-
-interface Props {
-    parameters: SearchParameters;
-    userTypes: UserType[];
-    setSearchName: (name: string) => AppThunkAction<Action>;
-    setSearchUsername: (username: string) => AppThunkAction<Action>;
-    setSearchUserTypeId: (userTypeId: number) => AppThunkAction<Action>;
-    onSearch: () => void;
-}
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchBox = ({
     userTypes,
@@ -22,8 +19,20 @@ const SearchBox = ({
     setSearchName,
     setSearchUsername,
     setSearchUserTypeId,
-    onSearch,
+    searchUsers,
+    loadUserTypes,
+    userTypesLoading,
+    resetParameters,
+    resultsLoading,
 }: Props) => {
+    const loadData = () => {
+        resetParameters();
+        loadUserTypes();
+        searchUsers();
+    };
+
+    useEffect(loadData, []);
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
     };
@@ -38,17 +47,17 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch();
+        searchUsers(parameters);
     };
 
-    return (
+    return userTypesLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit} className="search-box">
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
                     id="name"
                     className="form-control"
-                    autoComplete={autoCompleteString}
+                    autoComplete={randomString()}
                     type="text"
                     spellCheck={false}
                     value={parameters.name ? parameters.name : ""}
@@ -61,7 +70,7 @@ const SearchBox = ({
                 <input
                     id="username"
                     className="form-control"
-                    autoComplete={autoCompleteString}
+                    autoComplete={randomString()}
                     type="text"
                     spellCheck={false}
                     value={parameters.username ? parameters.username : ""}
@@ -86,10 +95,12 @@ const SearchBox = ({
                 </select>
             </div>
             <button className="btn btn-primary" type="submit">
-                Search users
+                {resultsLoading ? <Spinner size="sm" /> : 'Search users'}
             </button>
-        </form>
-    );
+        </form>;
 }
 
-export default SearchBox;
+export default connect(
+    (state: State) => ({ ...state.user.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchBox as any);

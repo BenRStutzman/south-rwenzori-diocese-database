@@ -1,36 +1,48 @@
-﻿import { User, UserType } from '../../../store/user';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
-import { Errors } from "../../../helpers/apiHelpers";
+﻿import { State } from '../../../store';
+import * as React from 'react';
+import { ChangeEvent, FormEvent, useEffect } from 'react';
+import * as Store from '../../../store/user/save';
+import * as SharedStore from '../../../store/shared';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { Spinner } from 'reactstrap';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import { connect } from 'react-redux';
 
-interface Props {
-    user: User;
-    userTypes: UserType[];
-    onSave: () => void;
-    onDelete?: () => void;
-    setUserTypeId: (userTypeId: number) => AppThunkAction<Action>;
-    setName: (name: string) => AppThunkAction<Action>;
-    setUsername: (username: string) => AppThunkAction<Action>;
-    setPassword: (password: string) => AppThunkAction<Action>;
-    hasBeenChanged: boolean;
-    errors: Errors;
-    userExists: boolean;
+interface OwnProps {
+    isNew?: boolean;
 }
 
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
+    RouteComponentProps &
+    OwnProps;
+
 const SaveForm = ({
+    userLoading,
+    loadUserTypes,
+    userTypesLoading,
     user,
     userTypes,
-    onSave,
-    onDelete,
+    saveUser,
     setUserTypeId,
     setName,
     setUsername,
     setPassword,
     hasBeenChanged,
     errors,
-    userExists,
+    isNew,
+    history,
+    isSaving,
 }: Props) => {
+    const loadData = () => {
+        loadUserTypes();
+    };
+
+    useEffect(loadData, []);
+
     const onUserTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setUserTypeId(parseInt(event.target.value));
     };
@@ -47,12 +59,12 @@ const SaveForm = ({
         setPassword(event.target.value);
     };
 
-    const onSubmit = (event: React.FormEvent) => {
+    const onSubmit = (event: FormEvent) => {
         event.preventDefault();
-        onSave();
+        saveUser(user, history);
     }
 
-    return (
+    return userLoading || userTypesLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="userTypeId">User Type</label>
@@ -98,7 +110,7 @@ const SaveForm = ({
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="name">{userExists ? 'Reset password' : 'Password'}</label>
+                <label htmlFor="name">{isNew ? 'Password' : 'Reset password'}</label>
                 <input
                     id="password"
                     className="form-control"
@@ -107,10 +119,10 @@ const SaveForm = ({
                     value={user.password ? user.password : ""}
                     onChange={onPasswordChange}
                     maxLength={50}
-                    required={userExists ? false : true}
+                    required={isNew}
                 />
                 {
-                    userExists &&
+                    !isNew &&
                     <p className="field-note">Leave this field blank to keep the current password.</p>
                 }
             </div>
@@ -125,16 +137,20 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {userExists ? "Update" : "Create"} user
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} user`}
             </button>
-            {
-                userExists &&
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    Delete user
-                </button>
-            }
-        </form>
-    );
-}
+        </form>;
+};
 
-export default SaveForm;
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    ...state.user.save,
+    ...state.shared,
+    ...ownProps,
+});
+
+const mapDispatchToProps = {
+    ...Store.actionCreators,
+    ...SharedStore.actionCreators,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm as any));

@@ -19,7 +19,7 @@ const Add = ({
     return (
         <>
             <h1>Add Event</h1>
-            <SaveForm submitWord="Create" />
+            <SaveForm isNew />
         </>
     );
 }

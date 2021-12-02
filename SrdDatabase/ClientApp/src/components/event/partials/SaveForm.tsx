@@ -1,5 +1,6 @@
 ﻿import { State } from '../../../store';
-import React, { ChangeEvent, useEffect } from 'react';
+import * as React from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import * as Store from '../../../store/event/save';
 import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -8,7 +9,7 @@ import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 interface OwnProps {
-    submitWord: string;
+    isNew?: boolean;
 }
 
 type Props =
@@ -33,7 +34,7 @@ const SaveForm = ({
     setDate,
     hasBeenChanged,
     errors,
-    submitWord,
+    isNew,
     history,
     isSaving,
     eventLoading,
@@ -72,7 +73,7 @@ const SaveForm = ({
         saveEvent(event, history);
     };
 
-    const eventType = eventTypes.find(eventType => eventType.id === event.eventTypeId);
+    const eventType = eventTypes ? eventTypes.find(eventType => eventType.id === event.eventTypeId) : undefined;
 
     const involvesTwoPeople = eventType && eventType.involvesTwoPeople;
 
@@ -163,13 +164,13 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {isSaving ? <Spinner size="sm" /> : `${submitWord} congregation`}
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} event`}
             </button>
         </form>;
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({
-    ...state.event.home,
+    ...state.event.save,
     ...state.shared,
     ...ownProps,
 });
@@ -177,6 +178,6 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => ({
 const mapDispatchToProps = {
     ...Store.actionCreators,
     ...SharedStore.actionCreators,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm as any));

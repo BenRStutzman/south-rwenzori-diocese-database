@@ -20,7 +20,7 @@ const Add = ({
     return (
         <>
             <h1>Add Parish</h1>
-            <SaveForm submitWord="Create" />
+            <SaveForm isNew />
         </>
      );
 }

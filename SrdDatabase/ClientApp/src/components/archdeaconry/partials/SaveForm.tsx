@@ -1,5 +1,6 @@
 ﻿import * as Store from '../../../store/archdeaconry/save';
-import React, { ChangeEvent } from 'react';
+import * as React from 'react';
+import { FormEvent, ChangeEvent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { State } from '../../../store';
@@ -7,7 +8,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Spinner } from 'reactstrap';
 
 interface OwnProps {
-    submitWord: string;
+    isNew?: boolean;
 }
 
 type Props =
@@ -17,7 +18,7 @@ type Props =
     OwnProps;
 
 const SaveForm = ({
-    submitWord,
+    isNew,
     archdeaconry,
     saveArchdeaconry,
     setName,
@@ -31,7 +32,7 @@ const SaveForm = ({
         setName(event.target.value);
     };
 
-    const onSubmit = (event: React.FormEvent) => {
+    const onSubmit = (event: FormEvent) => {
         event.preventDefault();
         saveArchdeaconry(archdeaconry, history);
     };
@@ -62,7 +63,7 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {isSaving ? <Spinner size="sm" /> : `${submitWord} archdeaconry`}
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} archdeaconry`}
             </button>
         </form>;
 }

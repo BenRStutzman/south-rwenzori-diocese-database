@@ -48,7 +48,7 @@ const Edit = ({
                     {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
                 </button>
             </div>
-            <SaveForm submitWord="Update" />
+            <SaveForm />
         </>;
 }
 

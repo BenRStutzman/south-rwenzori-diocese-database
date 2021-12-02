@@ -17,7 +17,7 @@ const Add = ({
     return (
         <>
             <h1>Add Congregation</h1>
-            <SaveForm submitWord="Create" />
+            <SaveForm isNew />
         </>
     );
 }

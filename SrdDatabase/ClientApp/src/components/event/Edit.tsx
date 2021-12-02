@@ -48,7 +48,7 @@ const Edit = ({
                     {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
                 </button>
             </div>
-            <SaveForm submitWord="Update" />
+            <SaveForm />
         </>;
 }
 

@@ -47,7 +47,7 @@ const Edit = ({ archdeaconryLoading,
                     {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
                 </button>
             </div>
-            <SaveForm submitWord="Update" />
+            <SaveForm />
         </>;
 }
 

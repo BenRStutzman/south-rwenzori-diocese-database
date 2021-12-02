@@ -62,8 +62,8 @@ const setSearchUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dis
 };
 
 const searchUsers = (
-    showLoading: boolean = true,
     parameters: SearchParameters = {},
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestUsersAction(showLoading));
 
@@ -85,14 +85,12 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: User[];
-    deletingId?: number;
     parameters: SearchParameters;
 };
 
 const initialState: State = {
     results: [],
     resultsLoading: true,
-    deletingId: undefined,
     parameters: {},
 };
 

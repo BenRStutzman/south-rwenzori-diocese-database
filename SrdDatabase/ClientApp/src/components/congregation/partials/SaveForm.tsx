@@ -9,7 +9,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 
 interface OwnProps {
-    submitWord: string;
+    isNew?: boolean;
 }
 
 type Props =
@@ -29,7 +29,7 @@ const SaveForm = ({
     setParishId,
     hasBeenChanged,
     errors,
-    submitWord,
+    isNew,
     loadParishes,
     congregationLoading,
     parishesLoading,
@@ -97,7 +97,7 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {isSaving ? <Spinner size="sm" /> : `${submitWord} congregation`}
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} congregation`}
             </button>
         </form>;
 }
