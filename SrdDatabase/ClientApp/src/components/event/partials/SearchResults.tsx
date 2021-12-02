@@ -20,11 +20,11 @@ const SearchResults = ({
     results,
     deletingEventId,
     deleteEvent,
-    user,
+    currentUser,
     parameters,
     searchEvents,
 }: Props) => {
-    const canEdit = user && atLeast.editor.includes(user.userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     const onDelete = (event: Event) => {
         deleteEvent(event, () => { searchEvents(parameters, false); });

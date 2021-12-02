@@ -286,7 +286,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    user?: User;
+    currentUser?: User;
     archdeaconries: Archdeaconry[];
     archdeaconriesLoading: boolean;
     parishes: Parish[];
@@ -305,7 +305,7 @@ export interface State {
 }
 
 const initialState: State = {
-    user: getUser(),
+    currentUser: getUser(),
     archdeaconries: [],
     archdeaconriesLoading: true,
     parishes: [],
@@ -323,12 +323,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case LOGIN:
             return {
                 ...state,
-                user: action.value,
+                currentUser: action.value,
             };
         case LOGOUT:
             return {
                 ...state,
-                user: undefined,
+                currentUser: undefined,
             };
         case REQUEST_ARCHDEACONRIES:
             return {

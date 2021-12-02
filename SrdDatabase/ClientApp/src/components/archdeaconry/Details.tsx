@@ -21,7 +21,7 @@ const Details = ({
     detailsLoading,
     details,
     match,
-    user,
+    currentUser,
 }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -30,7 +30,7 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
-    const canEdit = atLeast.editor.includes((user as User).userType as string);
+    const canEdit = atLeast.editor.includes((currentUser as User).userType as string);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>

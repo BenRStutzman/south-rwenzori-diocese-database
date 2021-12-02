@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as Store from '../../store/parish/save';
-import * as SharedStore from '../../store/shared';
 import SaveForm from './partials/SaveForm';
 
 type Props =
@@ -27,5 +26,5 @@ const Add = ({
 
 export default connect(
     null,
-    SharedStore.actionCreators
+    Store.actionCreators
 )(Add as any);

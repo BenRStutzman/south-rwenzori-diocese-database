@@ -22,9 +22,9 @@ const SearchResults = ({
     deleteCongregation,
     searchCongregations,
     parameters,
-    user,
+    currentUser,
 }: Props) => {
-    const canEdit = user && atLeast.editor.includes(user.userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     const onDelete = (congregation: Congregation) => {
         deleteCongregation(congregation, () => { searchCongregations(parameters, false); })

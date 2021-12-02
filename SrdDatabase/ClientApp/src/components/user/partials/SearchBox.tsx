@@ -7,6 +7,8 @@ import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
+const autoComplete = randomString();
+
 type Props =
     Store.State &
     typeof Store.actionCreators &
@@ -57,7 +59,7 @@ const SearchBox = ({
                 <input
                     id="name"
                     className="form-control"
-                    autoComplete={randomString()}
+                    autoComplete={autoComplete}
                     type="text"
                     spellCheck={false}
                     value={parameters.name ? parameters.name : ""}
@@ -70,7 +72,7 @@ const SearchBox = ({
                 <input
                     id="username"
                     className="form-control"
-                    autoComplete={randomString()}
+                    autoComplete={autoComplete}
                     type="text"
                     spellCheck={false}
                     value={parameters.username ? parameters.username : ""}

@@ -7,6 +7,9 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
+import { randomString } from '../../../helpers/randomString';
+
+const autoComplete = randomString();
 
 interface OwnProps {
     isNew?: boolean;
@@ -86,6 +89,7 @@ const SaveForm = ({
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
+                    autoComplete={autoComplete}
                     id="name"
                     className="form-control"
                     type="text"
@@ -99,6 +103,7 @@ const SaveForm = ({
             <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input
+                    autoComplete={autoComplete}
                     id="username"
                     className="form-control"
                     type="text"
@@ -116,6 +121,7 @@ const SaveForm = ({
                     className="form-control"
                     type="password"
                     spellCheck={false}
+                    autoComplete={autoComplete}
                     value={user.password ? user.password : ""}
                     onChange={onPasswordChange}
                     maxLength={50}

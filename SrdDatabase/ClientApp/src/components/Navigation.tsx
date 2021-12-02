@@ -9,7 +9,7 @@ import { userRole } from '../helpers/userRole';
 type Props = Store.State;
 
 const Navigation = ({
-    user,
+    currentUser,
 }: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -24,7 +24,7 @@ const Navigation = ({
                     <NavbarBrand tag={Link} to='/'>South Rwenzori Diocese Database</NavbarBrand>
                     <NavbarToggler onClick={toggle} className='mr-2' />
                     {
-                        user &&
+                        currentUser &&
                         <Collapse className='d-sm-inline-flex flex-sm-row-reverse' isOpen={isOpen} navbar>
                             <ul className='navbar-nav flex-grow'>
                                 <NavItem>
@@ -40,7 +40,7 @@ const Navigation = ({
                                     <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
                                 </NavItem>
                                 {
-                                    user.userType === userRole.administrator &&
+                                    currentUser.userType === userRole.administrator &&
                                     <NavItem>
                                         <NavLink tag={Link} className='text-dark' to='/user'>Users</NavLink>
                                     </NavItem>

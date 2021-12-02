@@ -11,9 +11,9 @@ type Props =
     SharedStore.State
 
 const Home = ({
-    user,
+    currentUser,
 }: Props) => {
-    const canAdd = user && atLeast.editor.includes(user.userType as string);
+    const canAdd = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     return (
         <>

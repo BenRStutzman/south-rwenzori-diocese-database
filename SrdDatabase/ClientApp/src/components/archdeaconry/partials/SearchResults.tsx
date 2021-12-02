@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { atLeast } from '../../../helpers/userRole';
@@ -22,9 +22,9 @@ const SearchResults = ({
     deletingArchdeaconryId,
     deleteArchdeaconry,
     searchArchdeaconries,
-    user,
+    currentUser,
 }: Props) => {
-    const canEdit = user && atLeast.editor.includes(user.userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     const onDelete = (archdeaconry: Archdeaconry) => {
         deleteArchdeaconry(archdeaconry, () => { searchArchdeaconries(parameters, false); });

@@ -20,11 +20,11 @@ const SearchResults = ({
     deletingParishId,
     resultsLoading,
     results,
-    user,
+    currentUser,
     searchParishes,
     parameters,
 }: Props) => {
-    const canEdit = user && atLeast.editor.includes(user.userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     const onDelete = (parish: Parish) => {
         deleteParish(parish, () => { searchParishes(parameters, false); });
