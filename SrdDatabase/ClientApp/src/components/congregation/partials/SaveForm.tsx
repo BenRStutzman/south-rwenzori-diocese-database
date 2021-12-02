@@ -5,10 +5,10 @@ import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { ChangeEvent, useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 interface OwnProps {
     submitWord: string;
-    onSaveSuccess: () => void;
 }
 
 type Props =
@@ -16,9 +16,11 @@ type Props =
     typeof Store.actionCreators &
     SharedStore.State &
     typeof SharedStore.actionCreators &
+    RouteComponentProps &
     OwnProps;
 
 const SaveForm = ({
+    isSaving,
     congregation,
     parishes,
     saveCongregation,
@@ -27,11 +29,10 @@ const SaveForm = ({
     hasBeenChanged,
     errors,
     submitWord,
-    onSaveSuccess,
     loadParishes,
     congregationLoading,
     parishesLoading,
-    isSaving,
+    history,
 }: Props) => {
     const loadData = () => {
         loadParishes();
@@ -49,7 +50,7 @@ const SaveForm = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        saveCongregation(congregation, onSaveSuccess);
+        saveCongregation(congregation, history);
     }
 
     return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :
@@ -100,7 +101,15 @@ const SaveForm = ({
         </form>;
 }
 
-export default connect(
-    (state: State, ownProps: OwnProps) => ({ ...state.congregation.save, ...state.shared, ...ownProps }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(SaveForm as any);
+const mapStateToProps = (state: State, ownProps: OwnProps) => ({
+    ...state.congregation.save,
+    ...state.shared,
+    ...ownProps
+});
+
+const mapDispatchToProps = {
+    ...Store.actionCreators,
+    ...SharedStore.actionCreators
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm as any));

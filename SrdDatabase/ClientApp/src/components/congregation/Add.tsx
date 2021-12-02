@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { State } from '../../store';
 import * as Store from '../../store/congregation/save';
 import SaveForm from './partials/SaveForm';
 
-type Props =
-    Store.State
-    & typeof Store.actionCreators
-    & RouteComponentProps;
+type Props = typeof Store.actionCreators;
 
 const Add = ({
     resetCongregation,
-    history,
 }: Props) => {
     const loadData = () => {
         resetCongregation();
@@ -21,22 +15,15 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    const onAddSuccess = () => {
-        history.push('/congregation')
-    }
-
     return (
         <>
             <h1>Add Congregation</h1>
-            <SaveForm
-                submitWord="Create"
-                onSaveSuccess={onAddSuccess}
-            />
+            <SaveForm submitWord="Create" />
         </>
     );
 }
 
 export default connect(
-    (state: State) => state.congregation.save,
+    null,
     Store.actionCreators
 )(Add as any);

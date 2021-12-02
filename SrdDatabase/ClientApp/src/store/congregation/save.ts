@@ -2,6 +2,7 @@ import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '.';
+import { History } from 'history';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
@@ -60,13 +61,13 @@ const setParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => 
     dispatch(setParishIdAction(parishId));
 };
 
-const saveCongregation = (congregation: Congregation, onSuccess: () => void): AppThunkAction<Action> => (dispatch) => {
+const saveCongregation = (congregation: Congregation, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
     post<Congregation>('api/congregation/save', congregation)
         .then(response => {
             if (response.ok) {
-                onSuccess();
+                history.push('/congregation');
             } else {
                 throw response.json();
             }

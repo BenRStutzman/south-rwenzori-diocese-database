@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 type Props =
     Store.State &
     typeof Store.actionCreators &
-    SharedStore.State &
     typeof SharedStore.actionCreators &
     RouteComponentProps<{ congregationId: string }>;
 
@@ -33,20 +32,13 @@ const Edit = ({
         deleteCongregation(congregation, () => { history.push('/congregation'); });
     };
 
-    const onEditSuccess = () => {
-        history.push('/congregation');
-    }
-
     return (
         <>
             <h1 className="page-title">Edit {congregation.name} Congregation</h1>
             <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
                 View details
             </Link>
-            <SaveForm
-                submitWord="Update"
-                onSaveSuccess={onEditSuccess}
-            />
+            <SaveForm submitWord="Update" />
             <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
                 Delete congregation
             </button>
@@ -55,6 +47,6 @@ const Edit = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.congregation.save, ...state.shared }),
-    { ...Store.actionCreators }
+    (state: State) => state.congregation.save,
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
 )(Edit as any);
