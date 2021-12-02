@@ -1,33 +1,44 @@
-﻿import { Congregation } from '../../../store/congregation';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
-import { Errors } from '../../../helpers/apiHelpers';
-import { Parish } from '../../../store/parish';
+﻿import { State } from '../../../store';
+import * as React from 'react';
+import * as Store from '../../../store/congregation/save';
+import * as SharedStore from '../../../store/shared';
+import { connect } from 'react-redux';
+import LoadingSpinner from '../../shared/LoadingSpinner';
+import { ChangeEvent, useEffect } from 'react';
 
-interface Props {
-    congregation: Congregation;
-    onSave: () => void;
-    onDelete?: () => void;
-    setName: (name: string) => AppThunkAction<Action>;
-    setParishId: (parishId: number) => AppThunkAction<Action>;
-    hasBeenChanged: boolean;
-    errors: Errors;
-    parishes: Parish[];
-    congregationExists: boolean;
+interface OwnProps {
+    submitWord: string;
+    onSaveSuccess: () => void;
 }
+
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators &
+    OwnProps;
 
 const SaveForm = ({
     congregation,
     parishes,
-    onSave,
-    onDelete,
+    saveCongregation,
     setName,
     setParishId,
     hasBeenChanged,
     errors,
-    congregationExists,
+    submitWord,
+    onSaveSuccess,
+    loadParishes,
+    congregationLoading,
+    parishesLoading,
+    isSaving,
 }: Props) => {
+    const loadData = () => {
+        loadParishes();
+    };
+
+    useEffect(loadData, []);
+        
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     }
@@ -38,10 +49,10 @@ const SaveForm = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSave();
+        saveCongregation(congregation, onSaveSuccess);
     }
 
-    return (
+    return congregationLoading || parishesLoading || isSaving ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -84,16 +95,12 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {congregationExists ? 'Update' : 'Create'} congregation
+                {submitWord} congregation
             </button>
-            {
-                congregationExists &&
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    Delete congregation
-                </button>
-            }
-        </form>
-    );
+        </form>;
 }
 
-export default SaveForm;
+export default connect(
+    (state: State, ownProps: OwnProps) => ({ ...state.congregation.save, ...state.shared, ...ownProps }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SaveForm as any);
