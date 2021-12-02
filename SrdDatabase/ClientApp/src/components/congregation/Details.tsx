@@ -21,7 +21,7 @@ const Details = ({
     detailsLoading,
     details,
     match,
-    user
+    user,
 }: Props) => {
     const loadData = () => {
         const congregationId = parseInt(match.params.congregationId);

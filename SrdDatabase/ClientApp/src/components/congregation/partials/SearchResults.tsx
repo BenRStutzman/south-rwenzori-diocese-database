@@ -1,27 +1,34 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import * as Store from '../../../store/congregation/home';
+import * as SharedStore from '../../../store/shared';
 import { atLeast } from '../../../helpers/userRole';
 import { Congregation } from '../../../store/congregation';
-import { User } from '../../../store/user';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import { State } from '../../../store';
+import { connect } from 'react-redux';
 
-interface Props {
-    resultsLoading: boolean;
-    results: Congregation[];
-    deletingId?: number;
-    onDelete: (congregation: Congregation) => void;
-    user: User;
-}
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchResults = ({
     resultsLoading,
     results,
     deletingId,
-    onDelete,
+    deleteCongregation,
+    searchCongregations,
+    parameters,
     user,
 }: Props) => {
-    const canEdit = atLeast.editor.includes(user.userType as string);
+    const canEdit = user && atLeast.editor.includes(user.userType as string);
+
+    const onDelete = (congregation: Congregation) => {
+        deleteCongregation(congregation, () => { searchCongregations(false, parameters); })
+    };
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.length ? <h2>No results.</h2> :
@@ -71,4 +78,7 @@ const SearchResults = ({
             </table>
 };
 
-export default SearchResults;
+export default connect(
+    (state: State) => ({ ...state.congregation.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchResults as any);

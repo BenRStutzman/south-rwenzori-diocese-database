@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import { Link } from 'react-router-dom';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State &
@@ -20,6 +21,7 @@ const Edit = ({
     match,
     history,
     deleteCongregation,
+    congregationLoading,
 }: Props) => {
     const loadData = () => {
         const congregationId = parseInt(match.params.congregationId);
@@ -32,18 +34,19 @@ const Edit = ({
         deleteCongregation(congregation, () => { history.push('/congregation'); });
     };
 
-    return (
+    return congregationLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Edit {congregation.name} Congregation</h1>
-            <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
-                View details
-            </Link>
+            <div className="float-right button-group">
+                <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
+                    View details
+                </Link>
+                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    Delete congregation
+                </button>
+            </div>
             <SaveForm submitWord="Update" />
-            <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                Delete congregation
-            </button>
-        </>
-    );
+        </>;
 }
 
 export default connect(

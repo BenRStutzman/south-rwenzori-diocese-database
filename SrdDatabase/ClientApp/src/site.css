@@ -73,3 +73,9 @@ button:disabled {
     font-size: 0.8em;
     color: gray;
 }
+
+.button-group {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}

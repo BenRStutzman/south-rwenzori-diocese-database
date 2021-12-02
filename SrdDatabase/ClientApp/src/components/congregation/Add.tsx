@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import * as Store from '../../store/congregation/save';
 import SaveForm from './partials/SaveForm';
 
-type Props = typeof Store.actionCreators;
+type Props =
+    typeof Store.actionCreators;
 
 const Add = ({
     resetCongregation,

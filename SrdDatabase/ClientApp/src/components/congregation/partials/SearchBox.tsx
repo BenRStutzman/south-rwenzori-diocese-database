@@ -1,25 +1,26 @@
-﻿import { SearchParameters } from '../../../store/congregation/home';
-import { AppThunkAction } from '../../../store';
-import { Action } from 'redux';
-import React, { ChangeEvent } from 'react';
+﻿import { State } from '../../../store';
+import * as Store from '../../../store/congregation/home';
+import * as SharedStore from '../../../store/shared';
+import React, { ChangeEvent, useEffect } from 'react';
 import { randomString } from '../../../helpers/randomString';
-import { Parish } from '../../../store/parish';
-import { Archdeaconry } from '../../../store/archdeaconry';
+import { connect } from 'react-redux';
+import LoadingSpinner from '../../shared/LoadingSpinner';
 
 const autoCompleteString = randomString();
 
-interface Props {
-    parameters: SearchParameters;
-    archdeaconries: Archdeaconry[];
-    parishes: Parish[];
-    setSearchName: (name: string) => AppThunkAction<Action>;
-    setSearchArchdeaconryId: (archdeaconryId: number) => AppThunkAction<Action>;
-    setSearchParishId: (parishId: number) => AppThunkAction<Action>;
-    onSearch: () => void;
-}
+type Props =
+    Store.State &
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchBox = ({
-    onSearch,
+    resetParameters,
+    archdeaconriesLoading,
+    parishesLoading,
+    loadArchdeaconries,
+    loadParishes,
+    searchCongregations,
     parameters,
     setSearchName,
     setSearchArchdeaconryId,
@@ -27,6 +28,15 @@ const SearchBox = ({
     archdeaconries,
     parishes,
 }: Props) => {
+    const loadData = () => {
+        resetParameters();
+        loadArchdeaconries();
+        loadParishes();
+        searchCongregations();
+    }
+
+    useEffect(loadData, []);
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
     };
@@ -41,10 +51,10 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSearch();
+        searchCongregations(true, parameters);
     };
 
-    return (
+    return archdeaconriesLoading || parishesLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit} className="search-box">
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -94,8 +104,10 @@ const SearchBox = ({
             <button className="btn btn-primary" type="submit">
                 Search congregations
             </button>
-        </form>
-    );
+        </form>;
 }
 
-export default SearchBox;
+export default connect(
+    (state: State) => ({ ...state.congregation.home, ...state.shared }),
+    { ...Store.actionCreators, ...SharedStore.actionCreators }
+)(SearchBox as any);
