@@ -1,9 +1,10 @@
 ﻿import { State } from '../../../store';
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { randomString } from '../../../helpers/randomString';
 import * as Store from '../../../store/archdeaconry/home';
 import { connect } from 'react-redux';
-import { Spinner } from 'reactstrap';
+import ExpandButton from '../../shared/ExpandButton';
+import SearchButtons from '../../shared/SearchButtons';
 
 type Props =
     Store.State &
@@ -25,6 +26,8 @@ const SearchBox = ({
 
     useEffect(loadData, []);
 
+    const [expanded, setExpanded] = useState(false);
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
     };
@@ -35,24 +38,29 @@ const SearchBox = ({
     };
 
     return (
-        <form onSubmit={onSubmit} className="search-box">
-            <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                    id="name"
-                    className="form-control"
-                    autoComplete={autoCompleteString}
-                    type="text"
-                    spellCheck={false}
-                    value={parameters.name ?? ""}
-                    onChange={onNameChange}
-                    maxLength={50}
+        <>
+            <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+            <form hidden={!expanded} onSubmit={onSubmit} className="search-box">
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                        id="name"
+                        className="form-control"
+                        autoComplete={autoCompleteString}
+                        type="text"
+                        spellCheck={false}
+                        value={parameters.name ?? ""}
+                        onChange={onNameChange}
+                        maxLength={50}
+                    />
+                </div>
+                <SearchButtons
+                    thingsBeingSearched="archdeaconries"
+                    onClear={() => { resetParameters(); }}
+                    searching={resultsLoading}
                 />
-            </div>
-            <button className="btn btn-primary" type="submit">
-                {resultsLoading ? <Spinner size="sm" /> : 'Search archdeaconries'}
-            </button>
-        </form>
+            </form>
+        </>
     );
 }
 
