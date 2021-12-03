@@ -115,7 +115,7 @@ const SaveForm = ({
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="name">{isNew ? 'Password' : 'Reset password'}</label>
+                <label htmlFor="password">{isNew ? 'Password' : 'Reset password'}</label>
                 <input
                     id="password"
                     className="form-control"
