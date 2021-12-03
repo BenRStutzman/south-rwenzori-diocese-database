@@ -73,13 +73,11 @@ const SaveForm = ({
         saveEvent(event, history);
     };
 
-    const eventType = eventTypes ? eventTypes.find(eventType => eventType.id === event.eventTypeId) : undefined;
-
-    const involvesTwoPeople = eventType && eventType.involvesTwoPeople;
+    const involvesTwoPeople = eventTypes.find(eventType => eventType.id === event.eventTypeId)?.involvesTwoPeople;
 
     return eventLoading || eventTypesLoading || congregationsLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
-            <div className="form-group">
+            <div className="form-group">    
                 <label htmlFor="eventTypeId">Event Type</label>
                 <select
                     id="eventTypeId"
@@ -153,7 +151,8 @@ const SaveForm = ({
                     required
                 />
             </div>
-            {Object.values(errors).length > 0 &&
+            {
+                Object.values(errors).length > 0 &&
                 <ul>
                     {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
                         <li
