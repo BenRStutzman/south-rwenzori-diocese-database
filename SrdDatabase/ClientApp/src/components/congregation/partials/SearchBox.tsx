@@ -112,7 +112,7 @@ const SearchBox = ({
                 <SearchButtons
                     thingsBeingSearched="congregations"
                     searching={resultsLoading}
-                    onClear={() => { resetParameters(); }}
+                    onClear={resetParameters}
                 />
             </form>
         </>;

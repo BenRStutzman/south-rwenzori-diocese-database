@@ -81,8 +81,11 @@ button:disabled {
     margin-bottom: 10px;
 }
 
-.expand-button-container {
-    display: flex;
-    justify-content: center;
+.expand-button {
+    display: block;
     margin-bottom: 10px;
+}
+
+.expand-button-expanded {
+    padding: 0;
 }

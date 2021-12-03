@@ -56,7 +56,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     thingsBeingSearched="archdeaconries"
-                    onClear={() => { resetParameters(); }}
+                    onClear={resetParameters}
                     searching={resultsLoading}
                 />
             </form>

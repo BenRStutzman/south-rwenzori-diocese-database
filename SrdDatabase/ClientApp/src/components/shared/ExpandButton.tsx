@@ -8,15 +8,12 @@ interface Props {
 const ExpandButton = ({
     expanded,
     setExpanded,
-}: Props) => (
-    <div className="expand-button-container">
-        <button
-            className={`btn ${expanded ? 'btn-link' : 'btn-success'}`}
-            type="button"
-            onClick={() => { setExpanded(!expanded); }}>
-            {expanded ? 'Hide' : 'Show'} search options
-        </button>
-    </div>
-);
+}: Props) =>
+    <button
+        className={`expand-button shadow-none btn ${expanded ? 'expand-button-expanded btn-link' : 'btn-success'}`}
+        type="button"
+        onClick={() => { setExpanded(!expanded); }}>
+        {expanded ? 'Hide' : 'Show'} search options
+    </button>;
 
 export default ExpandButton;

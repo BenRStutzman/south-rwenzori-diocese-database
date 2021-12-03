@@ -1,11 +1,13 @@
 ﻿import { State } from '../../../store';
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { randomString } from '../../../helpers/randomString';
 import * as Store from '../../../store/user/home';
 import * as SharedStore from '../../../store/shared';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
+import ExpandButton from '../../shared/ExpandButton';
+import SearchButtons from '../../shared/SearchButtons';
 
 const autoComplete = randomString();
 
@@ -35,6 +37,8 @@ const SearchBox = ({
 
     useEffect(loadData, []);
 
+    const [expanded, setExpanded] = useState(false);
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
     };
@@ -53,54 +57,59 @@ const SearchBox = ({
     };
 
     return userTypesLoading ? <LoadingSpinner /> :
-        <form onSubmit={onSubmit} className="search-box">
-            <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                    id="name"
-                    className="form-control"
-                    autoComplete={autoComplete}
-                    type="text"
-                    spellCheck={false}
-                    value={parameters.name ?? ""}
-                    onChange={onNameChange}
-                    maxLength={50}
+        <>
+            <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+            <form hidden={!expanded} onSubmit={onSubmit} className="search-box">
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                        id="name"
+                        className="form-control"
+                        autoComplete={autoComplete}
+                        type="text"
+                        spellCheck={false}
+                        value={parameters.name ?? ""}
+                        onChange={onNameChange}
+                        maxLength={50}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        id="username"
+                        className="form-control"
+                        autoComplete={autoComplete}
+                        type="text"
+                        spellCheck={false}
+                        value={parameters.username ?? ""}
+                        onChange={onUsernameChange}
+                        maxLength={50}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="userTypeId">User Type</label>
+                    <select
+                        id="userTypeId"
+                        className="form-control"
+                        value={parameters.userTypeId ?? ""}
+                        onChange={onUserTypeIdChange}
+                    >
+                        <option key={0} value="">--- select a user type ---</option>
+                        {userTypes.map(userType =>
+                            <option key={userType.id} value={userType.id}>
+                                {userType.name}
+                            </option>
+                        )}
+                    </select>
+                </div>
+                <SearchButtons
+                    searching={resultsLoading}
+                    thingsBeingSearched="users"
+                    onClear={resetParameters}
                 />
-            </div>
-            <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input
-                    id="username"
-                    className="form-control"
-                    autoComplete={autoComplete}
-                    type="text"
-                    spellCheck={false}
-                    value={parameters.username ?? ""}
-                    onChange={onUsernameChange}
-                    maxLength={50}
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="userTypeId">User Type</label>
-                <select
-                    id="userTypeId"
-                    className="form-control"
-                    value={parameters.userTypeId ?? ""}
-                    onChange={onUserTypeIdChange}
-                >
-                    <option key={0} value="">--- select a user type ---</option>
-                    {userTypes.map(userType =>
-                        <option key={userType.id} value={userType.id}>
-                            {userType.name}
-                        </option>
-                    )}
-                </select>
-            </div>
-            <button className="btn btn-primary" type="submit">
-                {resultsLoading ? <Spinner size="sm" /> : 'Search users'}
-            </button>
-        </form>;
-}
+            </form>
+        </>;
+};
 
 export default connect(
     (state: State) => ({ ...state.user.home, ...state.shared }),
