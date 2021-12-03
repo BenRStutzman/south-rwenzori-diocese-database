@@ -7,7 +7,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userRole';
-import { User } from '../../store/user';
+import DetailsList from '../shared/DetailsList';
 
 type Props =
     Store.State &
@@ -41,12 +41,11 @@ const Details = ({
                     Edit archdeaconry
                 </Link>
             }
-            <h2>Parishes ({details.parishes.length})</h2>
-            <ul>
-                {details.parishes.map(parish =>
-                    <li key={parish.id}>{parish.name}</li>
-                )}
-            </ul>
+            <DetailsList
+                title="Parishes"
+                itemType="parish"
+                items={details.parishes.map(parish => ({ id: parish.id, displayText: parish.name}))}
+            />
             <h2>Congregations ({details.congregations.length})</h2>
             <ul>
                 {details.congregations.map(congregation =>
