@@ -30,7 +30,7 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
-    const canEdit = atLeast.editor.includes((currentUser as User).userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
@@ -42,7 +42,7 @@ const Details = ({
                 </Link>
             }
             <h2>{details.event.secondPersonName ? "People" : "Person"}: {details.event.firstPersonName}{details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}</h2>
-            <h2>Date: {new Date(details.event.date as Date).toLocaleDateString('en-ca')}</h2>
+            <h2>Date: {details.event.date?.toLocaleDateString('en-ca')}</h2>
             <h2>Congregation: {details.event.congregation}</h2>
             <h2>Parish: {details.event.parish}</h2>
             <h2>Archdeaconry: {details.event.archdeaconry}</h2>

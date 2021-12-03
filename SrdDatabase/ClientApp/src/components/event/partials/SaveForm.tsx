@@ -82,7 +82,7 @@ const SaveForm = ({
                 <select
                     id="eventTypeId"
                     className="form-control"
-                    value={event.eventTypeId ? event.eventTypeId : ""}
+                    value={event.eventTypeId ?? ""}
                     onChange={onEventTypeIdChange}
                     required
                 >
@@ -99,7 +99,7 @@ const SaveForm = ({
                 <select
                     id="congregationId"
                     className="form-control"
-                    value={event.congregationId ? event.congregationId : ""}
+                    value={event.congregationId ?? ""}
                     onChange={onCongregationIdChange}
                     required
                 >
@@ -118,7 +118,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={event.firstPersonName ? event.firstPersonName : ""}
+                    value={event.firstPersonName ?? ""}
                     onChange={onFirstPersonNameChange}
                     maxLength={50}
                     required
@@ -133,7 +133,7 @@ const SaveForm = ({
                         className="form-control"
                         type="text"
                         spellCheck={false}
-                        value={event.secondPersonName ? event.secondPersonName : ""}
+                        value={event.secondPersonName ?? ""}
                         onChange={onSecondPersonNameChange}
                         maxLength={50}
                         required
@@ -146,7 +146,7 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={new Date(event.date as Date).toLocaleDateString('en-ca')}
+                    value={event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
                     required
                 />

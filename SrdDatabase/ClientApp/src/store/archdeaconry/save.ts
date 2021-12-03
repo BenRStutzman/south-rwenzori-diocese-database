@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Archdeaconry, blankArchdeaconry } from '.';
+import { Archdeaconry } from '.';
 import { History } from 'history';
 
 const REQUEST_ARCHDEACONRY = 'ARCHDEACONRY.REQUEST_ARCHDEACONRY';
@@ -32,26 +32,10 @@ const setIsSavingAction = (isSaving: boolean) => ({
 const setErrorsAction = (errors: Errors) => ({
     type: SET_ERRORS,
     value: errors,
-})
-
-export interface State {
-    archdeaconryLoading: boolean;
-    archdeaconry: Archdeaconry;
-    hasBeenChanged: boolean,
-    isSaving: boolean;
-    errors: Errors;
-}
-
-const initialState: State = {
-    archdeaconryLoading: true,
-    archdeaconry: blankArchdeaconry,
-    hasBeenChanged: false,
-    isSaving: false,
-    errors: {},
-};
+});
 
 const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveArchdeaconryAction(initialState.archdeaconry));
+    dispatch(receiveArchdeaconryAction({}));
 };
 
 const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -91,6 +75,22 @@ export const actionCreators = {
     loadArchdeaconry,
     setName,
     saveArchdeaconry,
+};
+
+export interface State {
+    archdeaconryLoading: boolean;
+    archdeaconry: Archdeaconry;
+    hasBeenChanged: boolean,
+    isSaving: boolean;
+    errors: Errors;
+}
+
+const initialState: State = {
+    archdeaconryLoading: true,
+    archdeaconry: {},
+    hasBeenChanged: false,
+    isSaving: false,
+    errors: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

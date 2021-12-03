@@ -95,7 +95,7 @@ const SearchBox = ({
                     autoComplete={autoCompleteString}
                     type="text"
                     spellCheck={false}
-                    value={parameters.personName ? parameters.personName : ""}
+                    value={parameters.personName ?? ""}
                     onChange={onPersonNameChange}
                     maxLength={50}
                 />
@@ -105,7 +105,7 @@ const SearchBox = ({
                 <select
                     id="eventTypeId"
                     className="form-control"
-                    value={parameters.eventTypeId ? parameters.eventTypeId : ""}
+                    value={parameters.eventTypeId ?? ""}
                     onChange={onEventTypeIdChange}
                 >
                     <option key={0} value="">--- select an event type ---</option>
@@ -121,7 +121,7 @@ const SearchBox = ({
                 <select
                     id="congregationId"
                     className="form-control"
-                    value={parameters.congregationId ? parameters.congregationId : ""}
+                    value={parameters.congregationId ?? ""}
                     onChange={onCongregationIdChange}
                 >
                     <option key={0} value="">--- select a congregation ---</option>
@@ -137,7 +137,7 @@ const SearchBox = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={parameters.parishId ? parameters.parishId : ""}
+                    value={parameters.parishId ?? ""}
                     onChange={onParishIdChange}
                 >
                     <option key={0} value="">--- select a parish ---</option>
@@ -153,7 +153,7 @@ const SearchBox = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
+                    value={parameters.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                 >
                     <option key={0} value="">--- select an archdeaconry ---</option>
@@ -170,7 +170,7 @@ const SearchBox = ({
                     id="startDate"
                     className="form-control"
                     type="date"
-                    value={parameters.startDate ? new Date(parameters.startDate).toLocaleDateString('en-ca') : ""}
+                    value={parameters.startDate?.toLocaleDateString('en-ca') ?? ""}
                     onChange={onStartDateChange}
                 />
             </div>
@@ -180,7 +180,7 @@ const SearchBox = ({
                     id="endDate"
                     className="form-control"
                     type="date"
-                    value={parameters.endDate ? new Date(parameters.endDate).toLocaleDateString('en-ca') : ""}
+                    value={parameters.endDate?.toLocaleDateString('en-ca') ?? ""}
                     onChange={onEndDateChange}
                 />
             </div>

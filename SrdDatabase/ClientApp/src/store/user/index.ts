@@ -3,11 +3,6 @@ import * as Save from './save';
 import * as Home from './home';
 import * as Details from './details';
 
-export interface UserData {
-    user: User;
-    token: String;
-}
-
 export interface User {
     id?: number;
     name?: string;
@@ -20,6 +15,19 @@ export interface User {
 export interface UserType {
     id: number;
     name: string;
+}
+
+export interface UserData {
+    user: CurrentUser;
+    token: String;
+}
+
+export interface CurrentUser {
+    id: number;
+    name: string;
+    username: string;
+    userTypeId: number;
+    userType: string;
 }
 
 export interface State {

@@ -62,7 +62,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={parish.name ? parish.name : ""}
+                    value={parish.name ?? ""}
                     onChange={onNameChange}
                     maxLength={50}
                     required
@@ -73,7 +73,7 @@ const SaveForm = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={parish.archdeaconryId ? parish.archdeaconryId : ""}
+                    value={parish.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                     required
                 >

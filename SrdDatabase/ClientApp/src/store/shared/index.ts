@@ -6,7 +6,7 @@ import { Archdeaconry } from '../archdeaconry';
 import { Congregation } from '../congregation';
 import { Event, EventType } from '../event';
 import { Parish } from '../parish';
-import { User, UserData, UserType } from '../user';
+import { CurrentUser, User, UserData, UserType } from '../user';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -26,7 +26,7 @@ const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
 const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
 
-const loginAction = (user: User) => ({
+const loginAction = (user: CurrentUser) => ({
     type: LOGIN,
     value: user,
 });
@@ -286,7 +286,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    currentUser?: User;
+    currentUser?: CurrentUser;
     archdeaconries: Archdeaconry[];
     archdeaconriesLoading: boolean;
     parishes: Parish[];

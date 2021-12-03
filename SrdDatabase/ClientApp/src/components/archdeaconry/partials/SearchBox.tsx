@@ -44,7 +44,7 @@ const SearchBox = ({
                     autoComplete={autoCompleteString}
                     type="text"
                     spellCheck={false}
-                    value={parameters.name ? parameters.name : ""}
+                    value={parameters.name ?? ""}
                     onChange={onNameChange}
                     maxLength={50}
                 />

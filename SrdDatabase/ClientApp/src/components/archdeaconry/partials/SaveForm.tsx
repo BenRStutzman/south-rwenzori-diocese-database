@@ -46,7 +46,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={archdeaconry.name}
+                    value={archdeaconry.name ?? ""}
                     onChange={onNameChange}
                     required
                     maxLength={50}

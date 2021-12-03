@@ -74,7 +74,7 @@ const SaveForm = ({
                 <select
                     id="userTypeId"
                     className="form-control"
-                    value={user.userTypeId ? user.userTypeId : ""}
+                    value={user.userTypeId ?? ""}
                     onChange={onUserTypeIdChange}
                     required
                 >
@@ -94,7 +94,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={user.name ? user.name : ""}
+                    value={user.name ?? ""}
                     onChange={onNameChange}
                     maxLength={50}
                     required
@@ -108,7 +108,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={user.username ? user.username : ""}
+                    value={user.username ?? ""}
                     onChange={onUsernameChange}
                     maxLength={50}
                     required
@@ -122,7 +122,7 @@ const SaveForm = ({
                     type="password"
                     spellCheck={false}
                     autoComplete={autoComplete}
-                    value={user.password ? user.password : ""}
+                    value={user.password ?? ""}
                     onChange={onPasswordChange}
                     maxLength={50}
                     required={isNew}

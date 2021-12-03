@@ -11,9 +11,9 @@ export interface Parish {
 }
 
 export interface State {
-    home?: Home.State;
-    save?: Save.State;
-    details?: Details.State;
+    home: Home.State;
+    save: Save.State;
+    details: Details.State;
 }
 
 export const reducer = combineReducers({

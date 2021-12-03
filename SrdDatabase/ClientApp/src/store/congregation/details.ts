@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { blankCongregation, Congregation } from '../congregation';
+import { Congregation } from '../congregation';
 import { Event } from '../event';
 
 export interface CongregationDetails {
@@ -29,7 +29,7 @@ export interface State {
 const initialState: State = {
     detailsLoading: true,
     details: {
-        congregation: blankCongregation,
+        congregation: {},
         recentEvents: [],
     },
 };

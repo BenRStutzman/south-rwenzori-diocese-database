@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Archdeaconry, blankArchdeaconry } from '.';
+import { Archdeaconry } from '.';
 import { Parish } from '../parish';
 import { Congregation } from '../congregation';
 import { Event } from '../event';
@@ -33,7 +33,7 @@ export interface State {
 const initialState: State = {
     detailsLoading: true,
     details: {
-        archdeaconry: blankArchdeaconry,
+        archdeaconry: {},
         parishes: [],
         congregations: [],
         recentEvents: [],

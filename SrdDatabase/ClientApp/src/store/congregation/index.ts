@@ -5,16 +5,11 @@ import * as Details from './details';
 
 export interface Congregation {
     id?: number;
-    name: string;
-    parishId: number;
+    name?: string;
+    parishId?: number;
     parish?: string;
     archdeaconryId?: number;
     archdeaconry?: string;
-}
-
-export const blankCongregation: Congregation = {
-    name: '',
-    parishId: 0,
 }
 
 export interface State {

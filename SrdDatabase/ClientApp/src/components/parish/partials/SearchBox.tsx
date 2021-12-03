@@ -57,7 +57,7 @@ const SearchBox = ({
                     autoComplete={autoComplete}
                     type="text"
                     spellCheck={false}
-                    value={parameters.name ? parameters.name : ""}
+                    value={parameters.name ?? ""}
                     onChange={onNameChange}
                     maxLength={50}
                 />
@@ -67,7 +67,7 @@ const SearchBox = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
+                    value={parameters.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                 >
                     <option key={0} value="">--- select an archdeaconry ---</option>

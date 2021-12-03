@@ -66,7 +66,7 @@ const SearchBox = ({
                     autoComplete={autoCompleteString}
                     type="text"
                     spellCheck={false}
-                    value={parameters.name ? parameters.name : ""}
+                    value={parameters.name ?? ""}
                     onChange={onNameChange}
                     maxLength={50}
                 />
@@ -76,7 +76,7 @@ const SearchBox = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={parameters.parishId ? parameters.parishId : ""}
+                    value={parameters.parishId ?? ""}
                     onChange={onParishIdChange}
                 >
                     <option key={0} value="">--- select a parish ---</option>

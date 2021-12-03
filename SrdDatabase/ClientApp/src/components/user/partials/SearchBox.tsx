@@ -62,7 +62,7 @@ const SearchBox = ({
                     autoComplete={autoComplete}
                     type="text"
                     spellCheck={false}
-                    value={parameters.name ? parameters.name : ""}
+                    value={parameters.name ?? ""}
                     onChange={onNameChange}
                     maxLength={50}
                 />
@@ -75,7 +75,7 @@ const SearchBox = ({
                     autoComplete={autoComplete}
                     type="text"
                     spellCheck={false}
-                    value={parameters.username ? parameters.username : ""}
+                    value={parameters.username ?? ""}
                     onChange={onUsernameChange}
                     maxLength={50}
                 />
@@ -85,7 +85,7 @@ const SearchBox = ({
                 <select
                     id="userTypeId"
                     className="form-control"
-                    value={parameters.userTypeId ? parameters.userTypeId : ""}
+                    value={parameters.userTypeId ?? ""}
                     onChange={onUserTypeIdChange}
                 >
                     <option key={0} value="">--- select a user type ---</option>

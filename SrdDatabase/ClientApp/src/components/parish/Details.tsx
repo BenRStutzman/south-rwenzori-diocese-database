@@ -30,7 +30,7 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
-    const canEdit = atLeast.editor.includes((currentUser as User).userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
