@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Congregation } from '.';
+import { blankCongregation, Congregation } from '.';
 import { History } from 'history';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
@@ -41,7 +41,7 @@ const setErrorsAction = (errors: Errors) => ({
 })
 
 const resetCongregation = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveCongregationAction(initialState.congregation));
+    dispatch(receiveCongregationAction(blankCongregation));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -99,7 +99,7 @@ export interface State {
 
 const initialState: State = {
     isSaving: false,
-    congregation: {},
+    congregation: blankCongregation,
     congregationLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,

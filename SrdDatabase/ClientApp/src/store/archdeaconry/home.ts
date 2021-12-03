@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Archdeaconry, SearchParameters } from '.';
+import { Archdeaconry, blankSearchParameters, SearchParameters } from '.';
 
 const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
@@ -36,7 +36,7 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 };
 
 const searchArchdeaconries = (
-    parameters: SearchParameters = {},
+    parameters: SearchParameters = blankSearchParameters,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction(showLoading));
@@ -63,7 +63,7 @@ export interface State {
 const initialState: State = {
     results: [],
     resultsLoading: true,
-    parameters: {},
+    parameters: blankSearchParameters,
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

@@ -127,7 +127,7 @@ const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
 const loadParishes = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestParishesAction());
 
-    get<Archdeaconry[]>('api/parish/all')
+    get<Parish[]>('api/parish/all')
         .then(parishes => {
             dispatch(receiveParishesAction(parishes));
         });
@@ -136,7 +136,7 @@ const loadParishes = (): AppThunkAction<Action> => (dispatch) => {
 const loadCongregations = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationsAction());
 
-    get<Archdeaconry[]>('api/congregation/all')
+    get<Congregation[]>('api/congregation/all')
         .then(congregations => {
             dispatch(receiveCongregationsAction(congregations));
         });

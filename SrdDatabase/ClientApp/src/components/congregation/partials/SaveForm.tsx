@@ -63,7 +63,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
-                    value={congregation.name ? congregation.name : ""}
+                    value={congregation.name}
                     onChange={onNameChange}
                     maxLength={50}
                     required
@@ -74,11 +74,11 @@ const SaveForm = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={congregation.parishId ? congregation.parishId : ""}
+                    value={congregation.parishId}
                     onChange={onParishIdChange}
                     required
                 >
-                    <option key={0} value="" disabled>--- select a parish ---</option>
+                    <option key={0} value={0} disabled>--- select a parish ---</option>
                     {parishes.map(parish =>
                         <option key={parish.id} value={parish.id}>
                             {parish.name}
