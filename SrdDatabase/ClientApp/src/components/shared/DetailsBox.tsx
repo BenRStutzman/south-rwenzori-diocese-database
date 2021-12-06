@@ -16,11 +16,17 @@ const DetailsBox = ({
     <div className="details-box">
         <h2>
             {`${itemType[0].toUpperCase()}${itemType.substr(1)}: `}
-            <Link to={`/${itemType}/details/${itemId}`}>
-                {itemValue}
-            </Link>
+            {itemId ?
+                <Link to={`/${itemType}/details/${itemId}`}>
+                    {itemValue}
+                </Link>
+                : <span>{itemValue}</span>
+            }
         </h2>
-        <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+        {
+            itemId &&
+            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+        }
     </div>;
 
 export default DetailsBox;

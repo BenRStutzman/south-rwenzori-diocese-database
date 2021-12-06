@@ -8,6 +8,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userRole';
 import { User } from '../../store/user';
+import DetailsBox from '../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -41,11 +42,26 @@ const Details = ({
                     Edit event
                 </Link>
             }
-            <h2>{details.event.secondPersonName ? "People" : "Person"}: {details.event.firstPersonName}{details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}</h2>
-            <h2>Date: {details.event.date ? new Date(details.event.date).toLocaleDateString('en-ca') : ''}</h2>
-            <h2>Congregation: {details.event.congregation}</h2>
-            <h2>Parish: {details.event.parish}</h2>
-            <h2>Archdeaconry: {details.event.archdeaconry}</h2>
+            <div className="details-boxes">
+                <DetailsBox
+                    itemType={details.event.secondPersonName ? "people" : "person"}
+                    itemValue={`${details.event.firstPersonName}${details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}`}
+                />
+                <DetailsBox
+                    itemType="date"
+                    itemValue={details.event.date ? new Date(details.event.date).toLocaleDateString('en-ca') : ''}
+                />
+                <DetailsBox
+                    itemType="congregation"
+                    itemValue={details.event.congregation}
+                    itemId={details.event.congregationId}
+                />
+                <DetailsBox
+                    itemType="archdeaconry"
+                    itemValue={details.event.archdeaconry}
+                    itemId={details.event.archdeaconryId}
+                 />
+            </div>
         </>;
 }
     
