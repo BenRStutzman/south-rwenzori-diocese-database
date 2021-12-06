@@ -64,7 +64,7 @@ button:disabled {
 
 .search-box {
     margin-bottom: 20px;
-    background-color: lightgrey;
+    background-color: lightgray;
     padding: 10px;
     border-radius: 5px;
 }
@@ -88,4 +88,16 @@ button:disabled {
 
 .expand-button-expanded {
     padding: 0;
+}
+
+.details-boxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.details-box {
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 5px;
 }

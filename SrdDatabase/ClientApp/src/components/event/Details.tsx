@@ -42,7 +42,7 @@ const Details = ({
                 </Link>
             }
             <h2>{details.event.secondPersonName ? "People" : "Person"}: {details.event.firstPersonName}{details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}</h2>
-            <h2>Date: {details.event.date?.toLocaleDateString('en-ca')}</h2>
+            <h2>Date: {details.event.date ? new Date(details.event.date).toLocaleDateString('en-ca') : ''}</h2>
             <h2>Congregation: {details.event.congregation}</h2>
             <h2>Parish: {details.event.parish}</h2>
             <h2>Archdeaconry: {details.event.archdeaconry}</h2>

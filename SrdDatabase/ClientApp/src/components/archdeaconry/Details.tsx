@@ -41,23 +41,26 @@ const Details = ({
                     Edit archdeaconry
                 </Link>
             }
-            <DetailsList
-                title="Parishes"
-                itemType="parish"
-                items={details.parishes.map(parish => ({ id: parish.id, displayText: parish.name}))}
-            />
-            <h2>Congregations ({details.congregations.length})</h2>
-            <ul>
-                {details.congregations.map(congregation =>
-                    <li key={congregation.id}>{congregation.name}</li>
-                )}
-            </ul>
-            <h2>Recent Events</h2>
-            <ul>
-                {details.recentEvents.map(event =>
-                    <li key={event.id}>{new Date(event.date as Date).toLocaleDateString('en-ca')}: {event.eventType} of {event.firstPersonName}{event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at {event.congregation} Congregation</li>
-                )}
-            </ul>
+            <div className="details-boxes">
+                <DetailsList
+                    title="Parishes"
+                    itemType="parish"
+                    items={details.parishes.map(parish => ({ id: parish.id, displayText: parish.name}))}
+                />
+                <DetailsList
+                    title="Congregations"
+                    itemType="congregation"
+                    items={details.congregations.map(congregation => ({ id: congregation.id, displayText: congregation.name }))}
+                />
+                <DetailsList
+                    title="Recent Events"
+                    itemType="event"
+                    items={details.recentEvents.map(event => ({
+                        id: event.id,
+                        displayText: `${new Date(event.date as Date).toLocaleDateString('en-ca')}: ${event.eventType} of ${event.firstPersonName}${event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at ${event.congregation} Congregation`,
+                    }))}
+                />
+            </div>
         </>;
 }
     

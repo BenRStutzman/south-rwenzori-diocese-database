@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
+import { plural } from 'pluralize';
 
 interface Props {
     title: string;
@@ -17,14 +18,16 @@ const DetailsList = ({
     items,
     itemType,
 }: Props) =>
-    <>
+    <div className="details-box">
         <h2>{title} ({items.length})</h2>
         <ul>
             {items.map(item =>
-                <li key={item.id}>{item.displayText}</li>
+                <li key={item.id}><a href={`/${itemType}/details/${item.id}`}>
+                    {item.displayText}
+                </a></li>
             )}
         </ul>
-        <Link to={`/${itemType}`}>View more</Link>
-    </>;
+        <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+    </div>;
 
 export default DetailsList;
