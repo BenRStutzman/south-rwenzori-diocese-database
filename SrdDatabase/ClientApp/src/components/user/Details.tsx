@@ -6,6 +6,7 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import DetailsBox from '../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -31,8 +32,16 @@ const Details = ({
             <Link className="btn btn-primary float-right" to={`/user/edit/${details.user.id}`}>
                 Edit user
             </Link>
-            <h2>Username: {details.user.username}</h2>
-            <h2>User type: {details.user.userType}</h2>
+            <div className="details-boxes">
+                <DetailsBox
+                    itemType="username"
+                    itemValue={details.user.username}
+                />
+                <DetailsBox
+                    itemType="user type"
+                    itemValue={details.user.userType}
+                />
+            </div>
         </>;
 }
     
