@@ -22,9 +22,11 @@ const DetailsList = ({
         <h2>{title} ({items.length})</h2>
         <ul>
             {items.map(item =>
-                <li key={item.id}><a href={`/${itemType}/details/${item.id}`}>
-                    {item.displayText}
-                </a></li>
+                <li key={item.id}>
+                    <Link to={`/${itemType}/details/${item.id}`}>
+                        {item.displayText}
+                    </Link>
+                </li>
             )}
         </ul>
         <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>

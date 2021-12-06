@@ -8,6 +8,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { User } from '../../store/user';
 import { atLeast } from '../../helpers/userRole';
+import DetailsBox from '../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -41,7 +42,11 @@ const Details = ({
                     Edit congregation
                 </Link>
             }
-            <h2>Parish: {details.congregation.parish}</h2>
+            <DetailsBox
+                itemType="parish"
+                itemValue={details.congregation.parish}
+                itemId={details.congregation.parishId}
+            />
             <h2>Archdeaconry: {details.congregation.archdeaconry}</h2>
             <h2>Recent Events</h2>
             <ul>
