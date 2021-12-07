@@ -5,9 +5,9 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { randomString } from '../../../helpers/randomString';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
-import { Spinner } from 'reactstrap';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
+import { bindActionCreators } from 'redux';
 
 const autoCompleteString = randomString();
 
@@ -120,5 +120,5 @@ const SearchBox = ({
 
 export default connect(
     (state: State) => ({ ...state.congregation.home, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(SearchBox as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(SearchBox);

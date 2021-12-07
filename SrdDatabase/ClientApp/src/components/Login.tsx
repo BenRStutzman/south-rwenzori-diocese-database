@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Spinner } from 'reactstrap';
+import { bindActionCreators } from 'redux';
 import { State } from '../store';
 import * as Store from '../store/login';
 import * as SharedStore from '../store/shared';
@@ -81,5 +82,5 @@ const Login = ({
 
 export default connect(
     (state: State) => ({ ...state.login, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(Login as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(Login);

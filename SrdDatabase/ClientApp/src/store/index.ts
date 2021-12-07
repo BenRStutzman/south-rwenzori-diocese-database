@@ -1,4 +1,5 @@
 import * as Login from './login';
+import * as Home from './home';
 import * as User from './user';
 import * as Archdeaconry from './archdeaconry';
 import * as Parish from './parish';
@@ -16,6 +17,7 @@ export interface AppThunkAction<TAction> {
 }
 
 export interface State {
+    home: Home.State;
     login: Login.State;
     user: User.State;
     archdeaconry: Archdeaconry.State;
@@ -26,6 +28,7 @@ export interface State {
 }
 
 export const reducers = {
+    home: Home.reducer,
     login: Login.reducer,
     user: User.reducer,
     archdeaconry: Archdeaconry.reducer,

@@ -66,5 +66,5 @@ const Details = ({
     
 export default connect(
     (state: State) => ({ ...state.archdeaconry.details, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(Details as any);
+    () => ({ ...Store.actionCreators, ...SharedStore.actionCreators })
+)(Details);

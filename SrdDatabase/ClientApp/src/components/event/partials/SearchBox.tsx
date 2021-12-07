@@ -8,6 +8,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
 import ExpandButton from '../../shared/ExpandButton';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -201,5 +202,5 @@ const SearchBox = ({
 
 export default connect(
     (state: State) => ({ ...state.event.home, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(SearchBox as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(SearchBox);

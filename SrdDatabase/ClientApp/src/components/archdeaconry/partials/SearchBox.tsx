@@ -5,6 +5,7 @@ import * as Store from '../../../store/archdeaconry/home';
 import { connect } from 'react-redux';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -66,5 +67,5 @@ const SearchBox = ({
 
 export default connect(
     (state: State) => state.archdeaconry.home,
-    Store.actionCreators
-)(SearchBox as any);
+    (dispatch) => bindActionCreators(Store.actionCreators, dispatch),
+)(SearchBox);

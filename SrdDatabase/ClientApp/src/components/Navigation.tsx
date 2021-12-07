@@ -59,4 +59,4 @@ const Navigation = ({
 
 export default connect(
     (state: State) => state.shared,
-)(Navigation as any);
+)(Navigation);

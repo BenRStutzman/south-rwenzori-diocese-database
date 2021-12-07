@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Spinner } from 'reactstrap';
+import { bindActionCreators } from 'redux';
 
 interface OwnProps {
     isNew?: boolean;
@@ -70,5 +71,5 @@ const SaveForm = ({
 
 export default connect(
     (state: State, ownProps: OwnProps) => ({ ...state.archdeaconry.save, ...ownProps }),
-    Store.actionCreators
-)(withRouter(SaveForm as any));
+    (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
+)(withRouter(SaveForm));

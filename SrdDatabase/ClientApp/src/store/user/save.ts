@@ -84,25 +84,6 @@ const saveUser = (user: User, history: History): AppThunkAction<Action> => (disp
         });
 };
 
-const deleteUser = (id: number, history: History): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setIsSavingAction(true));
-
-    post<{ id: number }>('api/user/delete', { id })
-        .then(response => {
-            if (response.ok) {
-                history.push('/user');
-            } else {
-                throw response.text();
-            }
-        }).catch(errorPromise => {
-            errorPromise.then((errorMessage: string) => {
-                alert(errorMessage);
-            });
-        }).finally(() => {
-            dispatch(setIsSavingAction(false));
-        });
-};
-
 const setUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setUserTypeIdAction(userTypeId));
 };
@@ -123,7 +104,6 @@ export const actionCreators = {
     loadUser,
     resetUser,
     saveUser,
-    deleteUser,
     setUserTypeId,
     setName,
     setUsername,

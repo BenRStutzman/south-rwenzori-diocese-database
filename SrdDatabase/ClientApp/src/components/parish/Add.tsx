@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import * as Store from '../../store/parish/save';
 import SaveForm from './partials/SaveForm';
 
@@ -26,5 +27,5 @@ const Add = ({
 
 export default connect(
     null,
-    Store.actionCreators
-)(Add as any);
+    (dispatch) => bindActionCreators(Store.actionCreators, dispatch),
+)(Add);

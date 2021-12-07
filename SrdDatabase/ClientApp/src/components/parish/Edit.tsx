@@ -9,6 +9,7 @@ import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State
@@ -54,5 +55,5 @@ const Edit = ({
 
 export default connect(
     (state: State) => ({ ...state.parish.save, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(Edit as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(Edit);

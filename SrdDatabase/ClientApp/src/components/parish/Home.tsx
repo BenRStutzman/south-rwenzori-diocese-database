@@ -30,4 +30,4 @@ const Home = ({
 
 export default connect(
     (state: State) => state.shared
-)(Home as any);
+)(Home);

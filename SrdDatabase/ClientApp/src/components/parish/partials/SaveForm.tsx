@@ -6,6 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
 interface OwnProps {
     isNew?: boolean;
@@ -107,9 +108,9 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => ({
     ...ownProps,
 });
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     ...Store.actionCreators,
     ...SharedStore.actionCreators,
-}
+}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm as any));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm));

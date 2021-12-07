@@ -7,6 +7,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import * as Store from '../../../store/user/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -68,5 +69,5 @@ const SearchResults = ({
 
 export default connect(
     (state: State) => ({ ...state.user.home, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(SearchResults as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(SearchResults);

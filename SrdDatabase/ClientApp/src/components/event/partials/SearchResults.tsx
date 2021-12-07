@@ -8,6 +8,7 @@ import * as Store from '../../../store/event/home';
 import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -86,5 +87,5 @@ const SearchResults = ({
 
 export default connect(
     (state: State) => ({ ...state.event.home, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(SearchResults as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(SearchResults);

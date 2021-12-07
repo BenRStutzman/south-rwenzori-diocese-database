@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
+import { bindActionCreators } from 'redux';
 
 const autoComplete = randomString();
 
@@ -95,5 +96,5 @@ const SearchBox = ({
 
 export default connect(
     (state: State) => ({ ...state.parish.home, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(SearchBox as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(SearchBox);

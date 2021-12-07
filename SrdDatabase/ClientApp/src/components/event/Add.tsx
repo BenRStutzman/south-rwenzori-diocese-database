@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as Store from '../../store/event/save';
 import SaveForm from './partials/SaveForm';
+import { bindActionCreators } from 'redux';
 
 type Props =
     typeof Store.actionCreators
@@ -26,5 +27,5 @@ const Add = ({
 
 export default connect(
     null,
-    Store.actionCreators
-)(Add as any);
+    (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
+)(Add);

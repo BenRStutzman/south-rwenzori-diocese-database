@@ -7,9 +7,9 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userRole';
-import { User } from '../../store/user';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -68,5 +68,5 @@ const Details = ({
     
 export default connect(
     (state: State) => ({ ...state.parish.details, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(Details as any);
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+)(Details);

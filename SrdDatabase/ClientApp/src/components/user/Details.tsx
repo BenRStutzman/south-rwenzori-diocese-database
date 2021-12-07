@@ -1,12 +1,12 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
 import * as Store from '../../store/user/details'
-import * as SharedStore from '../../store/shared';
 import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -46,6 +46,6 @@ const Details = ({
 }
     
 export default connect(
-    (state: State) => ({ ...state.user.details, ...state.shared }),
-    { ...Store.actionCreators, ...SharedStore.actionCreators }
-)(Details as any);
+    (state: State) => state.user.details,
+    (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
+)(Details);
