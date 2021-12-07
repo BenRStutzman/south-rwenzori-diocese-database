@@ -101,3 +101,26 @@ button:disabled {
     padding: 10px;
     border-radius: 5px;
 }
+
+.paging {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 10px;
+}
+
+.paging span {
+    text-align: center;
+}
+
+.paging div {
+    display: flex;
+    align-items: center;
+}
+
+.paging div:nth-of-type(2) {
+    justify-content: center;
+}
+
+.paging div:nth-of-type(3) {
+    justify-content: flex-end;
+}

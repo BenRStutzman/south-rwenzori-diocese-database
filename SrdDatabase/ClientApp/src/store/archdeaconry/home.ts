@@ -3,16 +3,14 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { Archdeaconry, SearchParameters } from '.';
 
-interface Request {
-    parameters: SearchParameters,
-    pageNumber: number;
+type Results = PagedResults & {
+    archdeaconries: Archdeaconry[];
 }
 
-interface Results {
+export interface PagedResults {
     pageNumber: number;
     pageSize: number;
     totalResults: number;
-    archdeaconries: Archdeaconry[];
 }
 
 const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
@@ -54,7 +52,7 @@ const searchArchdeaconries = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<Request>('api/archdeaconry/search', { parameters, pageNumber })
+    post<{ parameters: SearchParameters, pageNumber: number }>('api/archdeaconry/search', { parameters, pageNumber })
         .then(response => response.json() as Promise<Results>)
         .then(results => {
             dispatch(recevieResultsAction(results));

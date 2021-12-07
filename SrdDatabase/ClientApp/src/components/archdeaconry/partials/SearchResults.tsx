@@ -9,7 +9,7 @@ import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { totalPages } from '../../../helpers/totalPages';
+import Paging from '../../shared/Paging';
 
 type Props =
     Store.State &
@@ -43,57 +43,54 @@ const SearchResults = ({
     return resultsLoading ? <LoadingSpinner /> :
         !results.totalResults ? <h2>No results.</h2> :
             <>
-                {
-                    results.pageNumber > 0 &&
-                    <button className="btn btn-secondary" onClick={previousPage}>Previous page</button>
-                }
-                {
-                    results.pageNumber < totalPages(results) - 1 &&
-                    <button className="btn btn-secondary" onClick={nextPage}>Next page</button>
-                }
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className={`col-${canEdit ? '9' : '11'}`}>Name</th>
-                        <th className="col-1"></th>
-                        {
-                            canEdit &&
-                            <>
-                                <th className="col-1"></th>
-                                <th className="col-1"></th>
-                            </>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
-                        <tr key={archdeaconry.id}>
-                            <td>{archdeaconry.name}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
-                                    View
-                                </Link>
-                            </td>
+                <table className='table table-striped' aria-labelledby="tabelLabel">
+                    <thead>
+                        <tr>
+                            <th className={`col-${canEdit ? '9' : '11'}`}>Name</th>
+                            <th className="col-1"></th>
                             {
                                 canEdit &&
                                 <>
-                                    <td>
-                                        <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
-                                            Edit
-                                        </Link>
-                                    </td>
-                                    <td>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
-                                            {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
-                                        </button>
-                                    </td>
+                                    <th className="col-1"></th>
+                                    <th className="col-1"></th>
                                 </>
                             }
                         </tr>
-                    )}
-                </tbody>
+                    </thead>
+                    <tbody>
+                        {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
+                            <tr key={archdeaconry.id}>
+                                <td>{archdeaconry.name}</td>
+                                <td>
+                                    <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                                        View
+                                    </Link>
+                                </td>
+                                {
+                                    canEdit &&
+                                    <>
+                                        <td>
+                                            <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
+                                                Edit
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
+                                                {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
+                                            </button>
+                                        </td>
+                                    </>
+                                }
+                            </tr>
+                        )}
+                    </tbody>
                 </table>
-                </>;
+                <Paging
+                    results={results}
+                    nextPage={nextPage}
+                    previousPage={previousPage}
+                />
+            </>;
 }
 
 export default connect(
