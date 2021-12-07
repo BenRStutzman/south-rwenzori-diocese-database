@@ -6,9 +6,10 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { atLeast } from '../../helpers/userRole';
+import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
+import { formattedDate, peoplesNames } from '../../helpers/eventHelper';
 
 type Props =
     Store.State &
@@ -35,7 +36,7 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{details.event.eventType} Event</h1>
+            <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
             {
                 canEdit &&
                 <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
@@ -44,17 +45,18 @@ const Details = ({
             }
             <div className="details-boxes">
                 <DetailsBox
-                    itemType={details.event.secondPersonName ? "people" : "person"}
-                    itemValue={`${details.event.firstPersonName}${details.event.secondPersonName ? ` and ${details.event.secondPersonName}` : ''}`}
-                />
-                <DetailsBox
                     itemType="date"
-                    itemValue={details.event.date ? new Date(details.event.date).toLocaleDateString('en-ca') : ''}
+                    itemValue={formattedDate(details.event)}
                 />
                 <DetailsBox
                     itemType="congregation"
                     itemValue={details.event.congregation}
                     itemId={details.event.congregationId}
+                />
+                <DetailsBox
+                    itemType="parish"
+                    itemValue={details.event.parish}
+                    itemId={details.event.parishId}
                 />
                 <DetailsBox
                     itemType="archdeaconry"

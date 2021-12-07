@@ -6,8 +6,9 @@ import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import { atLeast } from '../../helpers/userRole';
+import { atLeast } from '../../helpers/userHelper';
 import DetailsList from '../shared/DetailsList';
+import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &
@@ -66,5 +67,5 @@ const Details = ({
     
 export default connect(
     (state: State) => ({ ...state.archdeaconry.details, ...state.shared }),
-    () => ({ ...Store.actionCreators, ...SharedStore.actionCreators })
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Details);

@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
-import { atLeast } from '../../../helpers/userRole';
+import { atLeast } from '../../../helpers/userHelper';
 import { Archdeaconry } from '../../../store/archdeaconry/';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import * as Store from '../../../store/archdeaconry/home';

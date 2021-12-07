@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import * as Store from '../../../store/congregation/home';
 import * as SharedStore from '../../../store/shared';
-import { atLeast } from '../../../helpers/userRole';
+import { atLeast } from '../../../helpers/userHelper';
 import { Congregation } from '../../../store/congregation';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { State } from '../../../store';

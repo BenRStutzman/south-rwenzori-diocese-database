@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import * as Store from '../store/shared';
 import { State } from '../store';
 import { connect } from 'react-redux';
-import { userRole } from '../helpers/userRole';
+import { userRole } from '../helpers/userHelper';
 
 type Props = Store.State;
 

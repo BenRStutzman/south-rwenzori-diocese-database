@@ -5,7 +5,7 @@ import * as SharedStore from '../../store/shared';
 import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
-import { atLeast } from '../../helpers/userRole';
+import { atLeast } from '../../helpers/userHelper';
 
 type Props =
     SharedStore.State;

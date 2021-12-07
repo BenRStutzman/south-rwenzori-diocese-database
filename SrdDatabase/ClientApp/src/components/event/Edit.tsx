@@ -10,6 +10,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
+import { peoplesNames } from '../../helpers/eventHelper';
 
 type Props =
     Store.State
@@ -40,7 +41,7 @@ const Edit = ({
 
     return eventLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">Edit {event.eventType}</h1>
+            <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
             <div className="float-right button-group">
                 <Link className="btn btn-secondary float-right" to={`/event/details/${event.id}`}>
                     View details

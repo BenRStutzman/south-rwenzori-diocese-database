@@ -25,7 +25,7 @@ import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
 import UserDetails from './components/user/Details';
-import { userRole, atLeast } from './helpers/userRole';
+import { atLeast } from './helpers/userHelper';
 
 export default () => (
     <Layout>
@@ -47,9 +47,9 @@ export default () => (
         <PrivateRoute exact path='/event/add' component={EventAdd} roles={atLeast.contributor} />
         <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} roles={atLeast.editor} />
         <PrivateRoute exact path='/event/details/:eventId' component={EventDetails} />
-        <PrivateRoute exact path='/user' component={UserHome} roles={[userRole.administrator]}/>
-        <PrivateRoute exact path='/user/add' component={UserAdd} roles={[userRole.administrator]} />
-        <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={[userRole.administrator]} />
-        <PrivateRoute exact path='/user/details/:userId' component={UserDetails} roles={[userRole.administrator]} />
+        <PrivateRoute exact path='/user' component={UserHome} roles={atLeast.administrator}/>
+        <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />
+        <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={atLeast.administrator} />
+        <PrivateRoute exact path='/user/details/:userId' component={UserDetails} roles={atLeast.administrator} />
     </Layout>
 );
