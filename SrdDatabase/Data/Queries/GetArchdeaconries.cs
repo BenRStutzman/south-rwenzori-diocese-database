@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SrdDatabase.Models;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -11,20 +10,30 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetArchdeaconries
     {
-        public class Query : IRequest<IEnumerable<Archdeaconry>>
+        public class Query : IRequest<ArchdeaconryResults>
         {
             public int? Id { get; }
 
             public string Name { get; }
 
-            public Query(int? id = null, string name = null)
+            public int PageNumber { get; }
+
+            public int? PageSize { get; }
+
+            public Query(
+                int? id = null,
+                string name = null,
+                int pageNumber = 0,
+                int? pageSize = null)
             {
                 Id = id;
                 Name = name;
+                PageNumber = pageNumber;
+                PageSize = pageSize;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Archdeaconry>>
+        public class Handler : IRequestHandler<Query, ArchdeaconryResults>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_archdeaconries";
@@ -34,14 +43,23 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<IEnumerable<Archdeaconry>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ArchdeaconryResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QueryAsync<Archdeaconry>(
+                using var results = await connection.QueryMultipleAsync(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);
+
+                var totalResults = results.ReadSingle<int>();
+                var archdeaconries = results.Read<Archdeaconry>();
+
+                return new ArchdeaconryResults(
+                    request.PageNumber,
+                    request.PageSize,
+                    totalResults,
+                    archdeaconries);
             }
         }
     }

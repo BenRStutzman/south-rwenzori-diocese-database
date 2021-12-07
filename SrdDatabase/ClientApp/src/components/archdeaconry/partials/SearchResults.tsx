@@ -32,7 +32,7 @@ const SearchResults = ({
     }
 
     return resultsLoading ? <LoadingSpinner /> :
-        !results.length ? <h2>No results.</h2> :
+        !results.totalResults ? <h2>No results.</h2> :
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -48,7 +48,7 @@ const SearchResults = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {results.map((archdeaconry: Archdeaconry) =>
+                    {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.name}</td>
                             <td>

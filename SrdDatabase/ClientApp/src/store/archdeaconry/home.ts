@@ -3,19 +3,26 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { Archdeaconry, SearchParameters } from '.';
 
-const REQUEST_ARCHDEACONRIES = 'ARCHDEACONRY.REQUEST_ARCHDEACONRIES';
-const RECEIVE_ARCHDEACONRIES = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRIES';
+interface Results {
+    pageNumber: number;
+    pageSize: number;
+    totalResults: number;
+    archdeaconries: Archdeaconry[];
+}
+
+const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'ARCHDEACONRY.RECEIVE_RESULTS';
 const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
 const RESET_PARAMETERS = 'ARCHDEACONRY.RESET_PARAMETERS';
 
-const requestArchdeaconriesAction = (showLoading: boolean = true) => ({
-    type: REQUEST_ARCHDEACONRIES,
+const requestResultsAction = (showLoading: boolean = true) => ({
+    type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveArchdeaconriesAction = (archdeaconries: Archdeaconry[]) => ({
-    type: RECEIVE_ARCHDEACONRIES,
-    value: archdeaconries,
+const recevieResultsAction = (results: Results) => ({
+    type: RECEIVE_RESULTS,
+    value: results,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -39,12 +46,12 @@ const searchArchdeaconries = (
     parameters: SearchParameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestArchdeaconriesAction(showLoading));
+    dispatch(requestResultsAction(showLoading));
 
     post<SearchParameters>('api/archdeaconry/search', parameters)
-        .then(response => response.json() as Promise<Archdeaconry[]>)
-        .then(archdeaconries => {
-            dispatch(receiveArchdeaconriesAction(archdeaconries));
+        .then(response => response.json() as Promise<Results>)
+        .then(results => {
+            dispatch(recevieResultsAction(results));
         });
 };
 
@@ -55,13 +62,18 @@ export const actionCreators = {
 };
 
 export interface State {
-    results: Archdeaconry[];
+    results: Results
     resultsLoading: boolean;
     parameters: SearchParameters;
 }
 
 const initialState: State = {
-    results: [],
+    results: {
+        pageNumber: 0,
+        pageSize: 0,
+        totalResults: 0,
+        archdeaconries: [],
+    },
     resultsLoading: true,
     parameters: {},
 };
@@ -73,12 +85,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: {},
             };
-        case REQUEST_ARCHDEACONRIES:
+        case REQUEST_RESULTS:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_ARCHDEACONRIES:
+        case RECEIVE_RESULTS:
             return {
                 ...state,
                 results: action.value,

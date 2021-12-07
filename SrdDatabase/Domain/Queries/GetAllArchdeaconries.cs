@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,11 +8,11 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetAllArchdeaconries
     {
-        public class Query : IRequest<IEnumerable<Archdeaconry>>
+        public class Query : IRequest<ArchdeaconryResults>
         {
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Archdeaconry>>
+        public class Handler : IRequestHandler<Query, ArchdeaconryResults>
         {
             private readonly IMediator _mediator;
 
@@ -22,7 +21,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<IEnumerable<Archdeaconry>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ArchdeaconryResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(new GetArchdeaconries.Query(), cancellationToken);
             }

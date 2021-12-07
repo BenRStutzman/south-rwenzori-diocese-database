@@ -34,13 +34,13 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IEnumerable<Archdeaconry>> GetAll()
+        public async Task<ArchdeaconryResults> GetAll()
         {
             return await _mediator.Send(new GetAllArchdeaconries.Query());
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Archdeaconry>> Search(SearchArchdeaconries.Query query)
+        public async Task<ArchdeaconryResults> Search(SearchArchdeaconries.Query query)
         {
             return await _mediator.Send(query);
         }

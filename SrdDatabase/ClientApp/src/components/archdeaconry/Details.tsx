@@ -7,8 +7,8 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
-import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
+import DetailsList from '../shared/DetailsList';
 
 type Props =
     Store.State &

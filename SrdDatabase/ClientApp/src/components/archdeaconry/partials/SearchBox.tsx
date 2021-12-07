@@ -3,9 +3,9 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { randomString } from '../../../helpers/randomString';
 import * as Store from '../../../store/archdeaconry/home';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
-import { bindActionCreators } from 'redux';
 
 type Props =
     Store.State &

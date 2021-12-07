@@ -28,13 +28,13 @@ namespace SrdDatabase.Domain.Queries
                 var congregationsTask = _mediator.Send(new GetCongregations.Query(), cancellationToken);
                 var eventsTask = _mediator.Send(new GetEvents.Query(), cancellationToken);
 
-                var archdeaconries = await archdeaconriesTask;
+                var archdeaconriesResponse = await archdeaconriesTask;
                 var parishes = await parishesTask;
                 var congregations = await congregationsTask;
                 var events = await eventsTask;
 
                 return new DioceseDetails(
-                    archdeaconries,
+                    archdeaconriesResponse.Archdeaconries,
                     parishes,
                     congregations,
                     events);
