@@ -9,6 +9,7 @@ import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { peoplesNames } from '../../../helpers/eventHelper';
 
 type Props =
     Store.State &
@@ -37,9 +38,8 @@ const SearchResults = ({
                 <thead>
                     <tr>
                         <th className={`col-${canEdit ? '1' : '2'}`}>Event Type</th>
+                        <th className="col-4">Name(s)</th>
                         <th className={`col-${canEdit ? '2' : '3'}`}>Congregation</th>
-                        <th className="col-2">First Person Name</th>
-                        <th className="col-2">Second Person Name</th>
                         <th className="col-2">Date</th>
                         <th className="col-1"></th>
                         {
@@ -55,9 +55,8 @@ const SearchResults = ({
                     {results.map((event: Event) =>
                         <tr key={event.id}>
                             <td>{event.eventType}</td>
+                            <td>{peoplesNames(event)}</td>
                             <td>{event.congregation}</td>
-                            <td>{event.firstPersonName}</td>
-                            <td>{event.secondPersonName}</td>
                             <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
                             <td>
                                 <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>

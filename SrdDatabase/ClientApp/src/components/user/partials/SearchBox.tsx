@@ -63,32 +63,6 @@ const SearchBox = ({
             userTypesLoading ? <LoadingSpinner /> :
                 <form hidden={!expanded} onSubmit={onSubmit} className="search-box">
                     <div className="form-group">
-                        <label htmlFor="name">Name</label>
-                        <input
-                            id="name"
-                            className="form-control"
-                            autoComplete={autoComplete}
-                            type="text"
-                            spellCheck={false}
-                            value={parameters.name ?? ""}
-                            onChange={onNameChange}
-                            maxLength={50}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <input
-                            id="username"
-                            className="form-control"
-                            autoComplete={autoComplete}
-                            type="text"
-                            spellCheck={false}
-                            value={parameters.username ?? ""}
-                            onChange={onUsernameChange}
-                            maxLength={50}
-                        />
-                    </div>
-                    <div className="form-group">
                         <label htmlFor="userTypeId">User Type</label>
                         <select
                             id="userTypeId"
@@ -96,13 +70,45 @@ const SearchBox = ({
                             value={parameters.userTypeId ?? ""}
                             onChange={onUserTypeIdChange}
                         >
-                            <option key={0} value="">--- select a user type ---</option>
+                            <option key={0} value="">Any user type</option>
                             {userTypes.map(userType =>
                                 <option key={userType.id} value={userType.id}>
                                     {userType.name}
                                 </option>
                             )}
                         </select>
+                    </div>
+                    <div className="row">
+                        <div className="col-6">
+                            <div className="form-group">
+                                <label htmlFor="name">Name</label>
+                                <input
+                                    id="name"
+                                    className="form-control"
+                                    autoComplete={autoComplete}
+                                    type="text"
+                                    spellCheck={false}
+                                    value={parameters.name ?? ""}
+                                    onChange={onNameChange}
+                                    maxLength={50}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="form-group">
+                                <label htmlFor="username">Username</label>
+                                <input
+                                    id="username"
+                                    className="form-control"
+                                    autoComplete={autoComplete}
+                                    type="text"
+                                    spellCheck={false}
+                                    value={parameters.username ?? ""}
+                                    onChange={onUsernameChange}
+                                    maxLength={50}
+                                />
+                            </div>
+                        </div>
                     </div>
                     <SearchButtons
                         searching={resultsLoading}

@@ -78,37 +78,43 @@ const SearchBox = ({
                             maxLength={50}
                         />
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="parishId">Parish</label>
-                        <select
-                            id="parishId"
-                            className="form-control"
-                            value={parameters.parishId ?? ""}
-                            onChange={onParishIdChange}
-                        >
-                            <option key={0} value="">--- select a parish ---</option>
-                            {parishes.map(parish =>
-                                <option key={parish.id} value={parish.id}>
-                                    {parish.name}
-                                </option>
-                            )}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="archdeaconryId">Archdeaconry</label>
-                        <select
-                            id="archdeaconryId"
-                            className="form-control"
-                            value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
-                            onChange={onArchdeaconryIdChange}
-                        >
-                            <option key={0} value="">--- select an archdeaconry ---</option>
-                            {archdeaconries.map(archdeaconry =>
-                                <option key={archdeaconry.id} value={archdeaconry.id}>
-                                    {archdeaconry.name}
-                                </option>
-                            )}
-                        </select>
+                    <div className="row">
+                        <div className="col-6">
+                            <div className="form-group">
+                                <label htmlFor="parishId">Parish</label>
+                                <select
+                                    id="parishId"
+                                    className="form-control"
+                                    value={parameters.parishId ?? ""}
+                                    onChange={onParishIdChange}
+                                >
+                                    <option key={0} value="">Any parish</option>
+                                    {parishes.map(parish =>
+                                        <option key={parish.id} value={parish.id}>
+                                            {parish.name}
+                                        </option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="form-group">
+                                <label htmlFor="archdeaconryId">Archdeaconry</label>
+                                <select
+                                    id="archdeaconryId"
+                                    className="form-control"
+                                    value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
+                                    onChange={onArchdeaconryIdChange}
+                                >
+                                    <option key={0} value="">Any archdeaconry</option>
+                                    {archdeaconries.map(archdeaconry =>
+                                        <option key={archdeaconry.id} value={archdeaconry.id}>
+                                            {archdeaconry.name}
+                                        </option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <SearchButtons
                         thingsBeingSearched="congregations"
