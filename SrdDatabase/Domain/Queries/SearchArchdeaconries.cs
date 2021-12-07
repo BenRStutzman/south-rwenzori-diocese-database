@@ -10,15 +10,13 @@ namespace SrdDatabase.Domain.Queries
     {
         public class Query : IRequest<ArchdeaconryResults>
         {
-            public string Name { get; }
+            public SearchParameters Parameters { get; }
 
             public int PageNumber { get; }
 
-            public Query(
-                string name = null,
-                int pageNumber = 0)
+            public Query(SearchParameters parameters, int pageNumber)
             {
-                Name = name;
+                Parameters = parameters;
                 PageNumber = pageNumber;
             }
         }
@@ -27,7 +25,7 @@ namespace SrdDatabase.Domain.Queries
         {
             private readonly IMediator _mediator;
 
-            private readonly int _pageSize = 20;
+            private readonly int _pageSize = 3;
 
             public Handler(IMediator mediator)
             {
@@ -38,11 +36,16 @@ namespace SrdDatabase.Domain.Queries
             {
                 return await _mediator.Send(
                     new GetArchdeaconries.Query(
-                        name: request.Name,
+                        name: request.Parameters.Name,
                         pageNumber: request.PageNumber,
                         pageSize: _pageSize),
                     cancellationToken);
             }
+
+        }
+        public class SearchParameters
+        {
+            public string Name { get; }
         }
     }
 }

@@ -3,6 +3,11 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { Archdeaconry, SearchParameters } from '.';
 
+interface Request {
+    parameters: SearchParameters,
+    pageNumber: number;
+}
+
 interface Results {
     pageNumber: number;
     pageSize: number;
@@ -44,11 +49,12 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 
 const searchArchdeaconries = (
     parameters: SearchParameters = {},
+    pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<SearchParameters>('api/archdeaconry/search', parameters)
+    post<Request>('api/archdeaconry/search', { parameters, pageNumber })
         .then(response => response.json() as Promise<Results>)
         .then(results => {
             dispatch(recevieResultsAction(results));
@@ -83,7 +89,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case RESET_PARAMETERS:
             return {
                 ...state,
-                parameters: {},
+                parameters: initialState.parameters,
             };
         case REQUEST_RESULTS:
             return {
