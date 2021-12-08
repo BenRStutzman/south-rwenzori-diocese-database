@@ -63,7 +63,7 @@ namespace SrdDatabase.Controllers
         }
 
         [Authorize(UserRole.Editor)]
-        [HttpPost("save")]
+        [HttpPost("edit")]
         public async Task<int> Edit(EditEvent.Command command)
         {
             return await _mediator.Send(command);

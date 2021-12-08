@@ -48,7 +48,7 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Editor)]
         [HttpPost("save")]
-        public async Task<int> Save(SaveArchdeaconry.Command command)
+        public async Task<SaveArchdeaconry.Response> Save(SaveArchdeaconry.Command command)
         {
             return await _mediator.Send(command);
         }
