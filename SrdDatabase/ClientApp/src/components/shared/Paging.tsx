@@ -11,8 +11,11 @@ const Paging = ({
     results,
     nextPage,
     previousPage,
-}: Props) =>
-    <div className="paging">
+}: Props) => {
+    const startingResultNumber = results.pageSize * results.pageNumber + 1;
+    const endingResultNumber = Math.min(results.totalResults, results.pageSize * (results.pageNumber + 1));
+
+    return <div className="paging">
         <div className="paging-button-container">
             {
                 results.pageNumber > 0 &&
@@ -23,8 +26,8 @@ const Paging = ({
         </div>
         <div>
             {
-                results.pageSize < results.totalResults &&
-                <span>Showing results {results.pageSize * results.pageNumber + 1} to {Math.min(results.totalResults, results.pageSize * (results.pageNumber + 1))} of {results.totalResults}</span>
+                results.pageSize < results.totalResults && startingResultNumber <= endingResultNumber &&
+                <span>Showing results {startingResultNumber} to {endingResultNumber} of {results.totalResults}</span>
             }
         </div>
         <div className="paging-button-container">
@@ -36,5 +39,6 @@ const Paging = ({
             }
         </div>
     </div>;
+}
 
 export default Paging;
