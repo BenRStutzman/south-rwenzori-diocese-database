@@ -1,10 +1,10 @@
 ﻿namespace SrdDatabase.Models.Events
 {
-    public class Details
+    public class EventDetails
     {
         public Event Event { get; }
 
-        public Details(Event baseEvent)
+        public EventDetails(Event baseEvent)
         {
             Event = baseEvent;
         }

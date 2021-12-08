@@ -7,7 +7,7 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetEventDetails
     {
-        public class Query : IRequest<Details>
+        public class Query : IRequest<EventDetails>
         {
             public int Id { get; set; }
 
@@ -17,7 +17,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, Details>
+        public class Handler : IRequestHandler<Query, EventDetails>
         {
             private readonly IMediator _mediator;
 
@@ -26,11 +26,11 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<EventDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var baseEvent = await _mediator.Send(new GetEventById.Query(request.Id), cancellationToken);
 
-                return new Details(baseEvent);
+                return new EventDetails(baseEvent);
             }
         }
     }

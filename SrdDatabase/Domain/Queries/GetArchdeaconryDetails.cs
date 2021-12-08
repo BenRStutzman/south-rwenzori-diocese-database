@@ -4,12 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Archdeaconries;
 using Congregations = SrdDatabase.Models.Congregations;
+using Events = SrdDatabase.Models.Events;
 
 namespace SrdDatabase.Domain.Queries
 {
     public class GetArchdeaconryDetails
     {
-        public class Query : IRequest<Details>
+        public class Query : IRequest<ArchdeaconryDetails>
         {
             public int Id { get; set; }
 
@@ -19,7 +20,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, Details>
+        public class Handler : IRequestHandler<Query, ArchdeaconryDetails>
         {
             private readonly IMediator _mediator;
 
@@ -28,30 +29,33 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ArchdeaconryDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
                 
                 var parishesTask = _mediator.Send(new GetParishes.Query(archdeaconryId: request.Id), cancellationToken);
                 
                 var congregationsQuery = new GetCongregations.Query(
-                    new Congregations.Parameters(archdeaconryId: request.Id),
+                    new Congregations.CongregationParameters(archdeaconryId: request.Id),
                     pageSize: Constants.DetailsPageSize);
 
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
-                
-                var eventsTask = _mediator.Send(new GetEvents.Query(archdeaconryId: request.Id), cancellationToken);
+
+                var eventsQuery = new GetEvents.Query(
+                    new Events.EventParameters(archdeaconryId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
+                var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
                 var archdeaconry = await archdeaconryTask;
                 var parishes = await parishesTask;
-                var congregationsResult = await congregationsTask;
-                var events = await eventsTask;
+                var congregationResults = await congregationsTask;
+                var eventResults = await eventsTask;
 
                 return new Details(
                     archdeaconry,
                     parishes,
-                    congregationsResult.Congregations,
-                    events);
+                    congregationResults.Congregations,
+                    eventResults.Events);
             }
         }
     }

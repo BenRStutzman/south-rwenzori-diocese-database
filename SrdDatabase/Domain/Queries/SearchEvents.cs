@@ -10,42 +10,20 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchEvents
     {
-        public class Query : IRequest<IEnumerable<Event>>
+        public class Query : IRequest<EventResults>
         {
-            public byte? EventTypeId { get; }
+            public EventParameters Parameters { get; }
 
-            public int? ArchdeaconryId { get; }
+            public int PageNumber { get; }
 
-            public int? ParishId { get; }
-
-            public int? CongregationId { get; }
-
-            public string PersonName { get; }
-
-            public DateTime? StartDate { get; }
-
-            public DateTime? EndDate { get; }
-
-            public Query(
-                byte? eventTypeId = null,
-                int? archdeaconryId = null,
-                int? parishId = null,
-                int? congregationId = null,
-                string personName = null,
-                DateTime? startDate = null,
-                DateTime? endDate = null)
+            public Query(EventParameters parameters, int pageNumber)
             {
-                EventTypeId = eventTypeId;
-                ArchdeaconryId = archdeaconryId;
-                ParishId = parishId;
-                CongregationId = congregationId;
-                PersonName = personName;
-                StartDate = startDate;
-                EndDate = endDate;
+                Parameters = parameters;
+                PageNumber = pageNumber;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Event>>
+        public class Handler : IRequestHandler<Query, EventResults>
         {
             private readonly IMediator _mediator;
 
@@ -54,17 +32,13 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<IEnumerable<Event>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<EventResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
                     new GetEvents.Query(
-                        eventTypeId: request.EventTypeId,
-                        archdeaconryId: request.ArchdeaconryId,
-                        parishId: request.ParishId,
-                        congregationId: request.CongregationId,
-                        personName: request.PersonName,
-                        startDate: request.StartDate,
-                        endDate: request.EndDate),
+                        parameters: request.Parameters,
+                        pageNumber: request.PageNumber,
+                        pageSize: Constants.SearchPageSize),
                     cancellationToken);
             }
         }

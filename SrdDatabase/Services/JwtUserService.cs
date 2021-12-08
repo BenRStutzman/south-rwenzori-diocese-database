@@ -24,7 +24,7 @@ namespace SrdDatabase.Services
             _mediator = mediator;
         }
 
-        public async Task<Response> Authenticate(Request request)
+        public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
         {
             var user = await _mediator.Send(new GetUserByUsername.Query(request.Username));
 
@@ -34,7 +34,7 @@ namespace SrdDatabase.Services
             }
 
             var token = GenerateJwtToken(user);
-            return new Response(user, token);
+            return new AuthenticationResponse(user, token);
         }
 
         public async Task<User> GetUserFromToken(string token)

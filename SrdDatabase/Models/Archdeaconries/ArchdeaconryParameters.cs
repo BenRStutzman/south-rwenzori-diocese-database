@@ -1,10 +1,10 @@
 ﻿namespace SrdDatabase.Models.Archdeaconries
 {
-    public class Parameters
+    public class ArchdeaconryParameters
     {
         public string Name { get; }
 
-        public Parameters(string name)
+        public ArchdeaconryParameters(string name)
         {
             Name = name;
         }

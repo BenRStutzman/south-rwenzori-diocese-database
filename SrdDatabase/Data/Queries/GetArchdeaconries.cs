@@ -10,7 +10,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetArchdeaconries
     {
-        public class Query : IRequest<Results>
+        public class Query : IRequest<ArchdeaconryResults>
         {
             public int? Id { get; }
 
@@ -21,7 +21,7 @@ namespace SrdDatabase.Data.Queries
             public int? PageSize { get; }
 
             public Query(
-                Parameters parameters = null,
+                ArchdeaconryParameters parameters = null,
                 int? id = null,
                 int pageNumber = 0,
                 int? pageSize = null)
@@ -33,7 +33,7 @@ namespace SrdDatabase.Data.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, Results>
+        public class Handler : IRequestHandler<Query, ArchdeaconryResults>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_archdeaconries";
@@ -43,7 +43,7 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<Results> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ArchdeaconryResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -55,7 +55,7 @@ namespace SrdDatabase.Data.Queries
                 var totalResults = results.ReadSingle<int>();
                 var archdeaconries = results.Read<Archdeaconry>();
 
-                return new Results(
+                return new ArchdeaconryResults(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,

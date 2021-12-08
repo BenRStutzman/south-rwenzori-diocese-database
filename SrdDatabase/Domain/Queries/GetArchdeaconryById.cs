@@ -30,8 +30,8 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<Archdeaconry> Handle(Query request, CancellationToken cancellationToken)
             {
-                var archdeaconriesResponse = await _mediator.Send(new GetArchdeaconries.Query(id: request.Id), cancellationToken);
-                return archdeaconriesResponse.Archdeaconries.Single();
+                var results = await _mediator.Send(new GetArchdeaconries.Query(id: request.Id), cancellationToken);
+                return results.Archdeaconries.Single();
             }
         }
     }

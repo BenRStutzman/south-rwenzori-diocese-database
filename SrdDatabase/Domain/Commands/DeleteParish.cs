@@ -32,7 +32,7 @@ namespace SrdDatabase.Domain.Commands
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 var congregationsQuery = new GetCongregations.Query(
-                    new Parameters(parishId: request.Id));
+                    new CongregationParameters(parishId: request.Id));
                 var congregationsResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
                 if (congregationsResults.TotalResults > 0)

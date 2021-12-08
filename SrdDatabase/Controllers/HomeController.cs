@@ -20,7 +20,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details")]
-        public async Task<Details> Details()
+        public async Task<DioceseDetails> Details()
         {
             return await _mediator.Send(new GetDioceseDetails.Query());
         }

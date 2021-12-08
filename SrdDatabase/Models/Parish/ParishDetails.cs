@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SrdDatabase.Models.Parishes
 {
-    public class Details
+    public class ParishDetails
     {
         public Parish Parish { get; }
 
@@ -12,7 +12,7 @@ namespace SrdDatabase.Models.Parishes
 
         public IEnumerable<Event> RecentEvents { get; }
 
-        public Details(
+        public ParishDetails(
             Parish parish,
             IEnumerable<Congregation> congregations,
             IEnumerable<Event> recentEvents)

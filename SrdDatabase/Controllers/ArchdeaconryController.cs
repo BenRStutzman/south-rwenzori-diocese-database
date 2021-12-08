@@ -23,7 +23,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<Details> Details(int id)
+        public async Task<ArchdeaconryDetails> Details(int id)
         {
             return await _mediator.Send(new GetArchdeaconryDetails.Query(id));
         }
@@ -41,7 +41,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<Results> Search(SearchArchdeaconries.Query query)
+        public async Task<UserResults> Search(SearchArchdeaconries.Query query)
         {
             return await _mediator.Send(query);
         }

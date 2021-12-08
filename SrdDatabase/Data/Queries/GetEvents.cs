@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -12,7 +11,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetEvents
     {
-        public class Query : IRequest<IEnumerable<Event>>
+        public class Query : IRequest<EventResults>
         {
             public int? Id { get; }
 
@@ -30,28 +29,30 @@ namespace SrdDatabase.Data.Queries
 
             public DateTime? EndDate { get; }
 
+            public int PageNumber { get; }
+
+            public int? PageSize { get; }
+
             public Query(
+                EventParameters parameters = null,
                 int? id = null,
-                byte? eventTypeId = null,
-                int? archdeaconryId = null,
-                int? parishId = null,
-                int? congregationId = null,
-                string personName = null,
-                DateTime? startDate = null,
-                DateTime? endDate = null)
+                int pageNumber = 0,
+                int? pageSize = null)
             {
                 Id = id;
-                EventTypeId = eventTypeId;
-                ArchdeaconryId = archdeaconryId;
-                ParishId = parishId;
-                CongregationId = congregationId;
-                PersonName = personName;
-                StartDate = startDate;
-                EndDate = endDate;
+                EventTypeId = parameters.EventTypeId;
+                ArchdeaconryId = parameters.ArchdeaconryId;
+                ParishId = parameters.ParishId;
+                CongregationId = parameters.CongregationId;
+                PersonName = parameters.PersonName;
+                StartDate = parameters.StartDate;
+                EndDate = parameters.EndDate;
+                PageNumber = pageNumber;
+                PageSize = pageSize;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Event>>
+        public class Handler : IRequestHandler<Query, EventResults>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_events";
@@ -61,14 +62,23 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<IEnumerable<Event>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<EventResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QueryAsync<Event>(
+                using var results = await connection.QueryMultipleAsync(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);
+
+                var totalResults = results.ReadSingle<int>();
+                var events = results.Read<Event>();
+
+                return new EventResults(
+                    request.PageNumber,
+                    request.PageSize,
+                    totalResults,
+                    events);
             }
         }
     }

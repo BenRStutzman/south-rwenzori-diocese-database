@@ -9,7 +9,7 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetParishDetails
     {
-        public class Query : IRequest<Details>
+        public class Query : IRequest<ParishDetails>
         {
             public int Id { get; set; }
 
@@ -19,7 +19,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, Details>
+        public class Handler : IRequestHandler<Query, ParishDetails>
         {
             private readonly IMediator _mediator;
 
@@ -28,12 +28,12 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ParishDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var parishTask = _mediator.Send(new GetParishById.Query(request.Id), cancellationToken);
                 
                 var congregationsQuery = new GetCongregations.Query(
-                    new Congregations.Parameters(parishId: request.Id));
+                    new Congregations.CongregationParameters(parishId: request.Id));
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
                 
                 var eventsTask = _mediator.Send(new GetEvents.Query(parishId: request.Id), cancellationToken);

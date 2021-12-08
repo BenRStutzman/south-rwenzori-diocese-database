@@ -24,7 +24,9 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<IEnumerable<Event>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _mediator.Send(new GetEvents.Query(), cancellationToken);
+                var results = await _mediator.Send(new GetEvents.Query(), cancellationToken);
+                
+                return results.Events;
             }
         }
     }

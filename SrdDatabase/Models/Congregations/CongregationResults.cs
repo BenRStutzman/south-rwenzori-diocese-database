@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace SrdDatabase.Models.Congregations
 {
-    public class Results : PagedResults
+    public class CongregationResults : PagedResults
     {
         public IEnumerable<Congregation> Congregations { get; }
 
-        public Results(
+        public CongregationResults(
             int pageNumber,
             int? pageSize,
             int totalResults,

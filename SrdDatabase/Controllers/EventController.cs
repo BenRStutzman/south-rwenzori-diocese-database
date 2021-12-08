@@ -32,7 +32,7 @@ namespace SrdDatabase.Controllers
 
 
         [HttpGet("details/{id}")]
-        public async Task<Details> Details(int id)
+        public async Task<EventDetails> Details(int id)
         {
             return await _mediator.Send(new GetEventDetails.Query(id));
         }
@@ -50,7 +50,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Event>> Search(SearchEvents.Query query)
+        public async Task<UserResults> Search(SearchEvents.Query query)
         {
             return await _mediator.Send(query);
         }

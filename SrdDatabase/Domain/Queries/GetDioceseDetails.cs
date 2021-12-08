@@ -8,11 +8,11 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetDioceseDetails
     {
-        public class Query : IRequest<Details>
+        public class Query : IRequest<DioceseDetails>
         {
         }
 
-        public class Handler : IRequestHandler<Query, Details>
+        public class Handler : IRequestHandler<Query, DioceseDetails>
         {
             private readonly IMediator _mediator;
 
@@ -21,7 +21,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<DioceseDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var archdeaconriesQuery = new GetArchdeaconries.Query(pageSize: Constants.DetailsPageSize);
                 var archdeaconriesTask = _mediator.Send(archdeaconriesQuery, cancellationToken);

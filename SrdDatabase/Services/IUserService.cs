@@ -6,7 +6,7 @@ namespace SrdDatabase.Services
 {
     public interface IUserService
     {
-        Task<Response> Authenticate(Request request);
+        Task<AuthenticationResponse> Authenticate(AuthenticationRequest request);
 
         Task<User> GetUserFromToken(string token);
     }

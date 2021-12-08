@@ -1,6 +1,6 @@
 ﻿namespace SrdDatabase.Models.Congregations
 {
-    public class Parameters
+    public class CongregationParameters
     {
         public string Name { get; }
 
@@ -8,7 +8,7 @@
 
         public int? ArchdeaconryId { get; }
 
-        public Parameters(
+        public CongregationParameters(
             string name = null,
             int? parishId = null,
             int? archdeaconryId = null)

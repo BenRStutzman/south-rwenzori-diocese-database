@@ -10,7 +10,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetCongregations
     {
-        public class Query : IRequest<Results>
+        public class Query : IRequest<CongregationResults>
         {
             public int? Id { get; }
 
@@ -25,7 +25,7 @@ namespace SrdDatabase.Data.Queries
             public int? PageSize { get; }
 
             public Query(
-                Parameters parameters = null,
+                CongregationParameters parameters = null,
                 int? id = null,
                 int pageNumber = 0,
                 int? pageSize = null)
@@ -39,7 +39,7 @@ namespace SrdDatabase.Data.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, Results>
+        public class Handler : IRequestHandler<Query, CongregationResults>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_congregations";
@@ -49,7 +49,7 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<Results> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CongregationResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -61,7 +61,7 @@ namespace SrdDatabase.Data.Queries
                 var totalResults = results.ReadSingle<int>();
                 var congregations = results.Read<Congregation>();
 
-                return new Results(
+                return new CongregationResults(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,

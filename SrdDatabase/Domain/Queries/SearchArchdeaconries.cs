@@ -8,20 +8,20 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchArchdeaconries
     {
-        public class Query : IRequest<Results>
+        public class Query : IRequest<ArchdeaconryResults>
         {
-            public Parameters Parameters { get; }
+            public ArchdeaconryParameters Parameters { get; }
 
             public int PageNumber { get; }
 
-            public Query(Parameters parameters, int pageNumber)
+            public Query(ArchdeaconryParameters parameters, int pageNumber)
             {
                 Parameters = parameters;
                 PageNumber = pageNumber;
             }
         }
 
-        public class Handler : IRequestHandler<Query, Results>
+        public class Handler : IRequestHandler<Query, ArchdeaconryResults>
         {
             private readonly IMediator _mediator;
 
@@ -30,7 +30,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Results> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ArchdeaconryResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
                     new GetArchdeaconries.Query(

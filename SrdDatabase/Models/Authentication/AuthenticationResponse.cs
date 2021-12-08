@@ -2,13 +2,13 @@
 
 namespace SrdDatabase.Models.Authentication
 {
-    public class Response
+    public class AuthenticationResponse
     {
         public User User { get; set; }
 
         public string Token { get; set; }
 
-        public Response(User user, string token)
+        public AuthenticationResponse(User user, string token)
         {
             User = user;
             Token = token;

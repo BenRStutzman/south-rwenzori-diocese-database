@@ -29,7 +29,7 @@ namespace SrdDatabase.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(Request request)
+        public async Task<IActionResult> Login(AuthenticationRequest request)
         {
             var response = await _userService.Authenticate(request);
 

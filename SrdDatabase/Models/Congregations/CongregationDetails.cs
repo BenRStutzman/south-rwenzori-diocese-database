@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace SrdDatabase.Models.Congregations
 {
-    public class Details
+    public class CongregationDetails
     {
         public Congregation Congregation { get; }
 
         public IEnumerable<Event> RecentEvents { get; }
 
-        public Details(
+        public CongregationDetails(
             Congregation congregation,
             IEnumerable<Event> recentEvents)
         {

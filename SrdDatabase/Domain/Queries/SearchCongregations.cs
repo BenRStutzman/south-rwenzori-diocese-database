@@ -8,20 +8,20 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchCongregations
     {
-        public class Query : IRequest<Results>
+        public class Query : IRequest<CongregationResults>
         {
-            public Parameters Parameters { get; }
+            public CongregationParameters Parameters { get; }
 
             public int PageNumber { get; }
 
-            public Query(Parameters parameters, int pageNumber)
+            public Query(CongregationParameters parameters, int pageNumber)
             {
                 Parameters = parameters;
                 PageNumber = pageNumber;
             }
         }
 
-        public class Handler : IRequestHandler<Query, Results>
+        public class Handler : IRequestHandler<Query, CongregationResults>
         {
             private readonly IMediator _mediator;
 
@@ -30,7 +30,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Results> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CongregationResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
                     new GetCongregations.Query(

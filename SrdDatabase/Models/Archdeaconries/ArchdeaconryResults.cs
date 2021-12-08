@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace SrdDatabase.Models.Archdeaconries
 {
-    public class Results : PagedResults
+    public class ArchdeaconryResults : PagedResults
     {
         public IEnumerable<Archdeaconry> Archdeaconries { get; }
 
-        public Results(
+        public ArchdeaconryResults(
             int pageNumber,
             int? pageSize,
             int totalResults,

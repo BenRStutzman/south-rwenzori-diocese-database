@@ -29,7 +29,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<Details> Details(int id)
+        public async Task<CongregationDetails> Details(int id)
         {
             return await _mediator.Send(new GetCongregationDetails.Query(id));
         }
@@ -41,7 +41,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<Results> Search(SearchCongregations.Query query)
+        public async Task<CongregationResults> Search(SearchCongregations.Query query)
         {
             return await _mediator.Send(query);
         }
