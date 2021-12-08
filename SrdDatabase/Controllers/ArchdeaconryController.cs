@@ -47,8 +47,17 @@ namespace SrdDatabase.Controllers
         }
 
         [Authorize(UserRole.Editor)]
-        [HttpPost("save")]
-        public async Task<SaveArchdeaconry.Response> Save(SaveArchdeaconry.Command command)
+        [HttpPost("add")]
+        public async Task<SaveArchdeaconry.Response> Add(SaveArchdeaconry.Command command)
+        {
+            command.Id = null;
+
+            return await _mediator.Send(command);
+        }
+
+        [Authorize(UserRole.Editor)]
+        [HttpPost("edit")]
+        public async Task<SaveArchdeaconry.Response> Edit(SaveArchdeaconry.Command command)
         {
             return await _mediator.Send(command);
         }

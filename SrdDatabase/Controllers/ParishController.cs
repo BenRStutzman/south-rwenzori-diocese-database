@@ -48,8 +48,17 @@ namespace SrdDatabase.Controllers
         }
 
         [Authorize(UserRole.Editor)]
-        [HttpPost("save")]
-        public async Task<int> Save(SaveParish.Command command)
+        [HttpPost("add")]
+        public async Task<SaveParish.Response> Add(SaveParish.Command command)
+        {
+            command.Id = null;
+
+            return await _mediator.Send(command);
+        }
+
+        [Authorize(UserRole.Editor)]
+        [HttpPost("edit")]
+        public async Task<SaveParish.Response> Edit(SaveParish.Command command)
         {
             return await _mediator.Send(command);
         }

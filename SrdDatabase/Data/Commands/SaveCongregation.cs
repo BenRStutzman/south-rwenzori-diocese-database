@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,9 +9,9 @@ namespace SrdDatabase.Data.Commands
 {
     public class SaveCongregation
     {
-        public class Command : IRequest<int>
+        public class Command : IRequest<Response>
         {
-            public int? Id { get; }
+            public int? Id { get; set; }
 
             public string Name { get; }
 
@@ -26,7 +25,7 @@ namespace SrdDatabase.Data.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<Command, Response>
         {
             private readonly IDbService _dbService;
 
@@ -37,14 +36,26 @@ namespace SrdDatabase.Data.Commands
                 _dbService = dbService;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QuerySingleAsync<int>(
+                var id = await connection.QuerySingleAsync<int>(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);
+
+                return new Response(id);
+            }
+        }
+
+        public class Response
+        {
+            public int Id { get; }
+
+            public Response(int id)
+            {
+                Id = id;
             }
         }
     }

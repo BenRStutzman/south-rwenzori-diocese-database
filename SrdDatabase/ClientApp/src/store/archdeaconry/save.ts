@@ -54,7 +54,9 @@ const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
 const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    post<Archdeaconry>('api/archdeaconry/save', archdeaconry)
+    const action = archdeaconry.id ? 'edit' : 'add';
+
+    post<Archdeaconry>(`api/archdeaconry/${action}`, archdeaconry)
         .then(response => {
             if (response.ok) {
                 history.push('/archdeaconry');

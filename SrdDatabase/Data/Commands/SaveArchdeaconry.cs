@@ -12,7 +12,7 @@ namespace SrdDatabase.Data.Commands
     {
         public class Command : IRequest<Response>
         {
-            public int? Id { get; }
+            public int? Id { get; set; }
 
             [StringLength(50)]
             public string Name { get; }

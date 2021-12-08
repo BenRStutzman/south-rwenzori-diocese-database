@@ -64,7 +64,9 @@ const setParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => 
 const saveCongregation = (congregation: Congregation, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    post<Congregation>('api/congregation/save', congregation)
+    const action = congregation.id ? 'edit' : 'add';
+
+    post<Congregation>(`api/congregation/${action}`, congregation)
         .then(response => {
             if (response.ok) {
                 history.push('/congregation');

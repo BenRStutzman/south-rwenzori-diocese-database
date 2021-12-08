@@ -64,7 +64,9 @@ const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (d
 const saveParish = (parish: Parish, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    post<Parish>('api/parish/save', parish)
+    const action = parish.id ? 'edit' : 'add';
+
+    post<Parish>(`api/parish/${action}`, parish)
         .then(response => {
             if (response.ok) {
                 history.push('/parish');

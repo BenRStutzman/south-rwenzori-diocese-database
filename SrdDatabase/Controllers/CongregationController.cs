@@ -47,8 +47,17 @@ namespace SrdDatabase.Controllers
         }
 
         [Authorize(UserRole.Editor)]
-        [HttpPost("save")]
-        public async Task<int> Save(SaveCongregation.Command command)
+        [HttpPost("add")]
+        public async Task<SaveCongregation.Response> Add(SaveCongregation.Command command)
+        {
+            command.Id = null;
+
+            return await _mediator.Send(command);
+        }
+
+        [Authorize(UserRole.Editor)]
+        [HttpPost("edit")]
+        public async Task<SaveCongregation.Response> Edit(SaveCongregation.Command command)
         {
             return await _mediator.Send(command);
         }

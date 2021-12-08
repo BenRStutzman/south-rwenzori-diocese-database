@@ -71,8 +71,16 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
-        [HttpPost("save")]
-        public async Task<int> Save(SaveUser.Command command)
+        [HttpPost("add")]
+        public async Task<SaveUser.Response> Add(SaveUser.Command command)
+        {
+            command.Id = null;
+
+            return await _mediator.Send(command);
+        }
+
+        [HttpPost("edit")]
+        public async Task<SaveUser.Response> Edit(SaveUser.Command command)
         {
             return await _mediator.Send(command);
         }

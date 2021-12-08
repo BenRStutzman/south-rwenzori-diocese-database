@@ -68,7 +68,9 @@ const loadUser = (id: number): AppThunkAction<Action> => (dispatch) => {
 const saveUser = (user: User, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    post<User>('api/user/save', user)
+    const action = user.id ? 'edit' : 'add';
+
+    post<User>(`api/user/${action}`, user)
         .then(response => {
             if (response.ok) {
                 history.push('/user');
