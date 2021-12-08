@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
-using Congregations = SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,19 +34,23 @@ namespace SrdDatabase.Domain.Queries
                 var parishTask = _mediator.Send(new GetParishById.Query(request.Id), cancellationToken);
                 
                 var congregationsQuery = new GetCongregations.Query(
-                    new Congregations.CongregationParameters(parishId: request.Id));
+                    new CongregationParameters(parishId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
-                
-                var eventsTask = _mediator.Send(new GetEvents.Query(parishId: request.Id), cancellationToken);
 
-                var parish = (await parishTask);
+                var eventsQuery = new GetEvents.Query(
+                    new EventParameters(parishId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
+                var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
+
+                var parish = await parishTask;
                 var congregationResults = await congregationsTask;
-                var events = await eventsTask;
+                var eventsResults = await eventsTask;
 
-                return new Details(
+                return new ParishDetails(
                     parish,
-                    congregationResults.Congregations,
-                    events);
+                    congregationResults,
+                    eventsResults);
             }
         }
     }

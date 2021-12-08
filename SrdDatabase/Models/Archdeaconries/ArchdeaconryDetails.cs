@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Congregations = SrdDatabase.Models.Congregations;
-using Events = SrdDatabase.Models.Events;
-using Parishes = SrdDatabase.Models.Parishes;
+﻿using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Events;
+using SrdDatabase.Models.Parishes;
 
 namespace SrdDatabase.Models.Archdeaconries
 {
@@ -9,11 +8,11 @@ namespace SrdDatabase.Models.Archdeaconries
     {
         public Archdeaconry Archdeaconry { get; }
 
-        public Parishes.ParishResults ParishResults { get; }
+        public ParishResults ParishResults { get; }
 
-        public Congregations.CongregationResults CongregationResults { get; }
+        public CongregationResults CongregationResults { get; }
 
-        public Events.EventResults EventResults { get; }
+        public EventResults EventResults { get; }
 
         public ArchdeaconryDetails(
             Archdeaconry archdeaconry,

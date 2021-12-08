@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries;
 using SrdDatabase.Domain.Queries;
+using SrdDatabase.Models.Events;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,10 +31,11 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var events = await _mediator.Send(
-                    new SearchEvents.Query(congregationId: request.Id), cancellationToken);
+                var eventsQuery = new GetEvents.Query(
+                    new EventParameters(congregationId: request.Id));
+                var eventResults = await _mediator.Send(eventsQuery, cancellationToken);
 
-                if (events.Any())
+                if (eventResults.TotalResults > 0)
                 {
                     return Response.ForError(
                         "Unable to delete this congregation because it has events associated with it. " +

@@ -24,7 +24,8 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<IEnumerable<Parish>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _mediator.Send(new GetParishes.Query(), cancellationToken);
+                var results = await _mediator.Send(new GetParishes.Query(), cancellationToken);
+                return results.Parishes;
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using SrdDatabase.Models.Events;
-using System.Collections.Generic;
 
 namespace SrdDatabase.Models.Congregations
 {
@@ -7,14 +6,14 @@ namespace SrdDatabase.Models.Congregations
     {
         public Congregation Congregation { get; }
 
-        public IEnumerable<Event> RecentEvents { get; }
+        public EventResults EventsResults { get; }
 
         public CongregationDetails(
             Congregation congregation,
-            IEnumerable<Event> recentEvents)
+            EventResults eventResults)
         {
             Congregation = congregation;
-            RecentEvents = recentEvents;
+            EventsResults = eventResults;
         }
     }
 

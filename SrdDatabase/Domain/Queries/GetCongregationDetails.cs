@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,14 +31,18 @@ namespace SrdDatabase.Domain.Queries
             public async Task<CongregationDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var congregationTask = _mediator.Send(new GetCongregationById.Query(request.Id), cancellationToken);
-                var eventsTask = _mediator.Send(new GetEvents.Query(congregationId: request.Id), cancellationToken);
+
+                var eventsQuery = new GetEvents.Query(
+                    new EventParameters(congregationId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
+                var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
                 var congregation = await congregationTask;
-                var events = await eventsTask;
+                var eventResults = await eventsTask;
 
-                return new Details(
+                return new CongregationDetails(
                     congregation,
-                    events);
+                    eventResults);
             }
         }
     }

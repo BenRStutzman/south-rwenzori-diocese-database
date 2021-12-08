@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Users;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,26 +8,20 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchUsers
     {
-        public class Query : IRequest<IEnumerable<User>>
+        public class Query : IRequest<UserResults>
         {
-            public byte? UserTypeId { get; }
+            public UserParameters Parameters { get; }
 
-            public string Name { get; }
+            public int PageNumber { get; }
 
-            public string Username { get; }
-
-            public Query(
-                byte? userTypeId = null,
-                string name = null,
-                string username = null)
+            public Query(UserParameters parameters, int pageNumber)
             {
-                UserTypeId = userTypeId;
-                Name = name;
-                Username = username;
+                Parameters = parameters;
+                PageNumber = pageNumber;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<User>>
+        public class Handler : IRequestHandler<Query, UserResults>
         {
             private readonly IMediator _mediator;
 
@@ -37,14 +30,13 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<IEnumerable<User>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<UserResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
                     new GetUsers.Query(
-                        userTypeId: request.UserTypeId,
-                        name: request.Name,
-                        username: request.Username
-                    ),
+                        parameters: request.Parameters,
+                        pageNumber: request.PageNumber,
+                        pageSize: Constants.SearchPageSize),
                     cancellationToken);
             }
         }

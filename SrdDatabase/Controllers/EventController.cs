@@ -50,7 +50,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<UserResults> Search(SearchEvents.Query query)
+        public async Task<EventResults> Search(SearchEvents.Query query)
         {
             return await _mediator.Send(query);
         }

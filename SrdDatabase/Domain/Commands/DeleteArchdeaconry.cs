@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries;
 using SrdDatabase.Domain.Queries;
+using SrdDatabase.Models.Parishes;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,11 +31,11 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var parishes = await _mediator.Send(
-                    new SearchParishes.Query(archdeaconryId: request.Id),
-                    cancellationToken);
+                var parishesQuery = new GetParishes.Query(
+                    new ParishParameters(archdeaconryId: request.Id));
+                var parishResults = await _mediator.Send(parishesQuery, cancellationToken);
 
-                if (parishes.Any())
+                if (parishResults.TotalResults > 0)
                 {
                     return Response.ForError(
                         "Unable to delete this archdeaconry because it has parishes associated with it. " +

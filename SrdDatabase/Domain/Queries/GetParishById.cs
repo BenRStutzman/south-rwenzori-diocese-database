@@ -30,8 +30,8 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<Parish> Handle(Query request, CancellationToken cancellationToken)
             {
-                var parishes = await _mediator.Send(new GetParishes.Query(request.Id), cancellationToken);
-                return parishes.Single();
+                var results = await _mediator.Send(new GetParishes.Query(id: request.Id), cancellationToken);
+                return results.Parishes.Single();
             }
         }
     }

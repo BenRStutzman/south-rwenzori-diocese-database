@@ -41,7 +41,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<UserResults> Search(SearchArchdeaconries.Query query)
+        public async Task<ArchdeaconryResults> Search(SearchArchdeaconries.Query query)
         {
             return await _mediator.Send(query);
         }

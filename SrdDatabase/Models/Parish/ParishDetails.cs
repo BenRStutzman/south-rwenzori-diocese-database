@@ -1,6 +1,5 @@
 ﻿using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
-using System.Collections.Generic;
 
 namespace SrdDatabase.Models.Parishes
 {
@@ -8,18 +7,18 @@ namespace SrdDatabase.Models.Parishes
     {
         public Parish Parish { get; }
 
-        public IEnumerable<Congregation> Congregations { get; }
+        public CongregationResults CongregationResults { get; }
 
-        public IEnumerable<Event> RecentEvents { get; }
+        public EventResults EventResults { get; }
 
         public ParishDetails(
             Parish parish,
-            IEnumerable<Congregation> congregations,
-            IEnumerable<Event> recentEvents)
+            CongregationResults congregationResults,
+            EventResults recentEvents)
         {
             Parish = parish;
-            Congregations = congregations;
-            RecentEvents = recentEvents;
+            CongregationResults = congregationResults;
+            EventResults = recentEvents;
         }
     }
 

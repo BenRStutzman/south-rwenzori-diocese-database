@@ -25,24 +25,26 @@ namespace SrdDatabase.Domain.Queries
             {
                 var archdeaconriesQuery = new GetArchdeaconries.Query(pageSize: Constants.DetailsPageSize);
                 var archdeaconriesTask = _mediator.Send(archdeaconriesQuery, cancellationToken);
-                
-                var parishesTask = _mediator.Send(new GetParishes.Query(), cancellationToken);
+
+                var parishesQuery = new GetParishes.Query(pageSize: Constants.DetailsPageSize);
+                var parishesTask = _mediator.Send(parishesQuery, cancellationToken);
                 
                 var congregationsQuery = new GetCongregations.Query(pageSize: Constants.DetailsPageSize);
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
-                
-                var eventsTask = _mediator.Send(new GetEvents.Query(), cancellationToken);
+
+                var eventsQuery = new GetEvents.Query(pageSize: Constants.DetailsPageSize);
+                var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
                 var archdeaconryResults = await archdeaconriesTask;
-                var parishes = await parishesTask;
+                var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
-                var events = await eventsTask;
+                var eventResults = await eventsTask;
 
-                return new Details(
-                    archdeaconryResults.Archdeaconries,
-                    parishes,
-                    congregationResults.Congregations,
-                    events);
+                return new DioceseDetails(
+                    archdeaconryResults,
+                    parishResults,
+                    congregationResults,
+                    eventResults);
             }
         }
     }

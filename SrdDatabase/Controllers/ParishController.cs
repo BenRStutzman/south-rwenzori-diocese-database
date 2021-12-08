@@ -42,7 +42,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<Parish>> Search(SearchParishes.Query query)
+        public async Task<ParishResults> Search(SearchParishes.Query query)
         {
             return await _mediator.Send(query);
         }

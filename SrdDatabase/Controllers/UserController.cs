@@ -66,7 +66,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<IEnumerable<User>> Search(SearchUsers.Query query)
+        public async Task<UserResults> Search(SearchUsers.Query query)
         {
             return await _mediator.Send(query);
         }

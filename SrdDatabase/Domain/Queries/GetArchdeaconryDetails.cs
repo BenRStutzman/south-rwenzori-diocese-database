@@ -3,8 +3,9 @@ using SrdDatabase.Data.Queries;
 using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Archdeaconries;
-using Congregations = SrdDatabase.Models.Congregations;
-using Events = SrdDatabase.Models.Events;
+using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Events;
+using SrdDatabase.Models.Parishes;
 
 namespace SrdDatabase.Domain.Queries
 {
@@ -32,30 +33,32 @@ namespace SrdDatabase.Domain.Queries
             public async Task<ArchdeaconryDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
-                
-                var parishesTask = _mediator.Send(new GetParishes.Query(archdeaconryId: request.Id), cancellationToken);
-                
-                var congregationsQuery = new GetCongregations.Query(
-                    new Congregations.CongregationParameters(archdeaconryId: request.Id),
-                    pageSize: Constants.DetailsPageSize);
 
+                var parishesQuery = new GetParishes.Query(
+                    new ParishParameters(archdeaconryId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
+                var parishesTask = _mediator.Send(parishesQuery, cancellationToken);
+
+                var congregationsQuery = new GetCongregations.Query(
+                    new CongregationParameters(archdeaconryId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
 
                 var eventsQuery = new GetEvents.Query(
-                    new Events.EventParameters(archdeaconryId: request.Id),
+                    new EventParameters(archdeaconryId: request.Id),
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
                 var archdeaconry = await archdeaconryTask;
-                var parishes = await parishesTask;
+                var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
 
-                return new Details(
+                return new ArchdeaconryDetails(
                     archdeaconry,
-                    parishes,
-                    congregationResults.Congregations,
-                    eventResults.Events);
+                    parishResults,
+                    congregationResults,
+                    eventResults);
             }
         }
     }

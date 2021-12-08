@@ -11,7 +11,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetParishes
     {
-        public class Query : IRequest<IEnumerable<Parish>>
+        public class Query : IRequest<ParishResults>
         {
             public int? Id { get; }
 
@@ -19,15 +19,26 @@ namespace SrdDatabase.Data.Queries
 
             public int? ArchdeaconryId { get; }
 
-            public Query(int? id = null, string name = null, int? archdeaconryId = null)
+            public int PageNumber { get; }
+
+            public int? PageSize { get; }
+
+            public Query(
+                ParishParameters parameters = null, 
+                int? id = null,
+                int pageNumber = 0,
+                int? pageSize = null
+                )
             {
                 Id = id;
-                Name = name;
-                ArchdeaconryId = archdeaconryId;
+                Name = parameters.Name;
+                ArchdeaconryId = parameters.ArchdeaconryId;
+                PageNumber = pageNumber;
+                PageSize = pageSize;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Parish>>
+        public class Handler : IRequestHandler<Query, ParishResults>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_parishes";
@@ -37,14 +48,23 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<IEnumerable<Parish>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ParishResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QueryAsync<Parish>(
+                using var results = await connection.QueryMultipleAsync(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);
+
+                var totalResults = results.ReadSingle<int>();
+                var users = results.Read<Parish>();
+
+                return new ParishResults(
+                    request.PageNumber,
+                    request.PageSize,
+                    totalResults,
+                    users);
             }
         }
     }

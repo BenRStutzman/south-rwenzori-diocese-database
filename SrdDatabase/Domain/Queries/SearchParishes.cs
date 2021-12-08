@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Parishes;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,20 +8,20 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchParishes
     {
-        public class Query : IRequest<IEnumerable<Parish>>
+        public class Query : IRequest<ParishResults>
         {
-            public string Name { get; }
+            public ParishParameters Parameters { get; }
 
-            public int? ArchdeaconryId { get; }
+            public int PageNumber { get; }
 
-            public Query(string name = null, int? archdeaconryId = null)
+            public Query(ParishParameters parameters, int pageNumber)
             {
-                Name = name;
-                ArchdeaconryId = archdeaconryId;
+                Parameters = parameters;
+                PageNumber = pageNumber;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Parish>>
+        public class Handler : IRequestHandler<Query, ParishResults>
         {
             private readonly IMediator _mediator;
 
@@ -31,12 +30,13 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<IEnumerable<Parish>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ParishResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
                     new GetParishes.Query(
-                        archdeaconryId: request.ArchdeaconryId,
-                        name: request.Name),
+                        parameters: request.Parameters,
+                        pageNumber: request.PageNumber,
+                        pageSize: Constants.SearchPageSize),
                     cancellationToken);
             }
         }

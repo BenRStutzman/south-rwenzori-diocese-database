@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using SrdDatabase.Models.Archdeaconries;
+﻿using SrdDatabase.Models.Archdeaconries;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
@@ -9,24 +7,24 @@ namespace SrdDatabase.Models.Diocese
 {
     public class DioceseDetails
     {
-        public IEnumerable<Archdeaconry> Archdeaconries{ get; }
+        public ArchdeaconryResults ArchdeaconryResults { get; }
 
-        public IEnumerable<Parish> Parishes { get; }
+        public ParishResults ParishResults { get; }
 
-        public IEnumerable<Congregation> Congregations { get; }
+        public CongregationResults CongregationResults { get; }
 
-        public IEnumerable<Event> RecentEvents { get; }
+        public EventResults EventResults { get; }
 
         public DioceseDetails(
-            IEnumerable<Archdeaconry> archdeaconries,
-            IEnumerable<Parish> parishes,
-            IEnumerable<Congregation> congregations,
-            IEnumerable<Event> recentEvents)
+            ArchdeaconryResults archdeaconryResults,
+            ParishResults parishResults,
+            CongregationResults congregationResults,
+            EventResults eventResults)
         {
-            Archdeaconries = archdeaconries;
-            Parishes = parishes;
-            Congregations = congregations;
-            RecentEvents = recentEvents;
+            ArchdeaconryResults = archdeaconryResults;
+            ParishResults = parishResults;
+            CongregationResults = congregationResults;
+            EventResults = eventResults;
         }
     }
 
