@@ -1,13 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Congregation } from '.';
-
-export interface SearchParameters {
-    name?: string;
-    parishId?: number;
-    archdeaconryId?: number;
-}
+import { Congregation, Parameters } from '../../models/congregation';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
@@ -62,12 +56,12 @@ const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatc
 };
 
 const searchCongregations = (
-    parameters: SearchParameters = {},
+    parameters: Parameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationsAction(showLoading));
 
-    post<SearchParameters>('api/congregation/search', parameters)
+    post<Parameters>('api/congregation/search', parameters)
         .then(response => response.json() as Promise<Congregation[]>)
         .then(congregations => {
             dispatch(receiveCongregationsAction(congregations));
@@ -85,7 +79,7 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: Congregation[];
-    parameters: SearchParameters;
+    parameters: Parameters;
 }
 
 const initialState: State = {

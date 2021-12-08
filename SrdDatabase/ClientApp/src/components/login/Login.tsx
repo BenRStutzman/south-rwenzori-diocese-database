@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import { State } from '../store';
-import * as Store from '../store/login';
-import * as SharedStore from '../store/shared';
+import { State } from '../../store';
+import * as Store from '../../store/login';
+import * as SharedStore from '../../store/shared';
 
 type Props =
     Store.State &

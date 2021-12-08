@@ -1,17 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Event } from '.';
-
-export interface SearchParameters {
-    eventTypeId?: number;
-    personName?: string;
-    parishId?: number;
-    archdeaconryId?: number;
-    congregationId?: number;
-    startDate?: Date;
-    endDate?: Date;
-}
+import { Event, Parameters } from '../../models/event';
 
 const RESET_PARAMETERS = 'EVENT.RESET_PARAMETERS';
 const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
@@ -106,12 +96,12 @@ const setSearchCongregationId = (congregationId: number): AppThunkAction<Action>
 };
 
 const searchEvents = (
-    parameters: SearchParameters = {},
+    parameters: Parameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestEventsAction(showLoading));
 
-    post<SearchParameters>('api/event/search', parameters)
+    post<Parameters>('api/event/search', parameters)
         .then(response => response.json() as Promise<Event[]>)
         .then(events => {
             dispatch(receiveEventsAction(events));
@@ -133,7 +123,7 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: Event[];
-    parameters: SearchParameters,
+    parameters: Parameters,
 }
 
 const initialState: State = {

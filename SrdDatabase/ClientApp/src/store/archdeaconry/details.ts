@@ -1,17 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Archdeaconry } from '.';
-import { Parish } from '../parish';
-import { Congregation } from '../congregation';
-import { Event } from '../event';
-
-export interface ArchdeaconryDetails {
-    archdeaconry: Archdeaconry;
-    parishes: Parish[];
-    congregations: Congregation[];
-    recentEvents: Event[];
-}
+import { Details } from '../../models/archdeaconry';
 
 const REQUEST_DETAILS = 'ARCHDEACONRY.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'ARCHDEACONRY.RECEIVE_DETAILS';
@@ -20,14 +10,14 @@ const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: ArchdeaconryDetails) => ({
+const receiveDetailsAction = (details: Details) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: ArchdeaconryDetails;
+    details: Details;
 }
 
 const initialState: State = {
@@ -43,7 +33,7 @@ const initialState: State = {
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<ArchdeaconryDetails>(`api/archdeaconry/details/${id}`)
+    get<Details>(`api/archdeaconry/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Route } from 'react-router';
-import Layout from './components/Layout';
+import Layout from './components/shared/Layout';
 import './site.css'
 import PrivateRoute from './components/shared/PrivateRoute';
-import Login from './components/Login';
-import Home from './components/Home';
+import Login from './components/login/Login';
+import Home from './components/home/Home';
 import ArchdeaconryHome from './components/archdeaconry/Home';
 import ArchdeaconryAdd from './components/archdeaconry/Add';
 import ArchdeaconryEdit from './components/archdeaconry/Edit';

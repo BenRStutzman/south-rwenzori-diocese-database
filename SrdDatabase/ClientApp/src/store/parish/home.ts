@@ -1,12 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Parish } from '.';
-
-export interface SearchParameters {
-    name?: string;
-    archdeaconryId?: number;
-}
+import { Parish, Parameters } from '../../models/parish';
 
 const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';
 const RECEIVE_PARISHES = 'PARISH.RECEIVE_PARISHES';
@@ -51,12 +46,12 @@ export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<
 };
 
 const searchParishes = (
-    parameters: SearchParameters = {},
+    parameters: Parameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestParishesAction(showLoading));
 
-    post<SearchParameters>('api/parish/search', parameters)
+    post<Parameters>('api/parish/search', parameters)
         .then(response => response.json() as Promise<Parish[]>)
         .then(parishes => {
             dispatch(receiveParishesAction(parishes));
@@ -73,7 +68,7 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: Parish[];
-    parameters: SearchParameters;
+    parameters: Parameters;
 }
 
 const initialState: State = {

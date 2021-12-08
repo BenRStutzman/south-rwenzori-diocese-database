@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import * as Store from '../store/shared';
-import { State } from '../store';
+import * as Store from '../../store/shared';
+import { State } from '../../store';
 import { connect } from 'react-redux';
-import { userRole } from '../helpers/userHelper';
+import { userRole } from '../../helpers/userHelper';
 
 type Props = Store.State;
 

@@ -1,11 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Event } from '../event';
-
-export interface EventDetails {
-    event: Event;
-}
+import { Details } from '../../models/event';
 
 const REQUEST_DETAILS = 'EVENT.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'EVENT.RECEIVE_DETAILS';
@@ -14,14 +10,14 @@ const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: EventDetails) => ({
+const receiveDetailsAction = (details: Details) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: EventDetails;
+    details: Details;
 }
 
 const initialState: State = {
@@ -34,7 +30,7 @@ const initialState: State = {
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<EventDetails>(`api/event/details/${id}`)
+    get<Details>(`api/event/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

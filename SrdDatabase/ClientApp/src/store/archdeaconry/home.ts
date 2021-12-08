@@ -1,17 +1,8 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Archdeaconry, SearchParameters } from '.';
-
-type Results = PagedResults & {
-    archdeaconries: Archdeaconry[];
-}
-
-export interface PagedResults {
-    pageNumber: number;
-    pageSize: number;
-    totalResults: number;
-}
+import { Parameters } from '../../models/archdeaconry';
+import { Results } from '../../models/archdeaconry';
 
 const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'ARCHDEACONRY.RECEIVE_RESULTS';
@@ -33,12 +24,12 @@ const setSearchNameAction = (name: string) => ({
     value: name,
 });
 
-const resetSearchParametersAction = () => ({
+const resetParametersAction = () => ({
     type: RESET_PARAMETERS,
 });
 
 const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetSearchParametersAction());
+    dispatch(resetParametersAction());
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -46,13 +37,13 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 };
 
 const searchArchdeaconries = (
-    parameters: SearchParameters = {},
+    parameters: Parameters = {},
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<{ parameters: SearchParameters, pageNumber: number }>('api/archdeaconry/search', { parameters, pageNumber })
+    post<{ parameters: Parameters, pageNumber: number }>('api/archdeaconry/search', { parameters, pageNumber })
         .then(response => response.json() as Promise<Results>)
         .then(results => {
             dispatch(recevieResultsAction(results));
@@ -68,7 +59,7 @@ export const actionCreators = {
 export interface State {
     results: Results
     resultsLoading: boolean;
-    parameters: SearchParameters;
+    parameters: Parameters;
 }
 
 const initialState: State = {

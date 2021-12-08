@@ -3,15 +3,6 @@ import * as Save from './save';
 import * as Home from './home';
 import * as Details from './details';
 
-export interface Congregation {
-    id?: number;
-    name?: string;
-    parishId?: number;
-    parish?: string;
-    archdeaconryId?: number;
-    archdeaconry?: string;
-}
-
 export interface State {
     home: Home.State;
     save: Save.State;

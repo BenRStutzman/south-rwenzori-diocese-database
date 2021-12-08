@@ -2,13 +2,9 @@
 import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
 import { History, Location } from 'history';
-import { UserData } from '../user/';
+import { UserData } from '../../models/user';
 import { actionCreators as sharedActionCreators } from '../shared';
-
-interface Credentials {
-    username?: string,
-    password?: string,
-};
+import { Credentials } from "../../models/login";
 
 const SET_USERNAME = 'LOGIN.SET_USERNAME';
 const SET_PASSWORD = 'LOGIN.SET_PASSWORD';

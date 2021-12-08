@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { atLeast } from '../../../helpers/userHelper';
-import { Archdeaconry } from '../../../store/archdeaconry/';
+import { Archdeaconry } from '../../../models/archdeaconry';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import * as Store from '../../../store/archdeaconry/home';
 import * as SharedStore from '../../../store/shared';

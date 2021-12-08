@@ -8,13 +8,23 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchArchdeaconries
     {
+        public class Parameters
+        {
+            public string Name { get; }
+
+            public Parameters(string name)
+            {
+                Name = name;
+            }
+        }
+
         public class Query : IRequest<ArchdeaconryResults>
         {
-            public SearchParameters Parameters { get; }
+            public Parameters Parameters { get; }
 
             public int PageNumber { get; }
 
-            public Query(SearchParameters parameters, int pageNumber)
+            public Query(Parameters parameters, int pageNumber)
             {
                 Parameters = parameters;
                 PageNumber = pageNumber;
@@ -42,15 +52,6 @@ namespace SrdDatabase.Domain.Queries
                     cancellationToken);
             }
 
-        }
-        public class SearchParameters
-        {
-            public string Name { get; }
-
-            public SearchParameters(string name)
-            {
-                Name = name;
-            }
         }
     }
 }

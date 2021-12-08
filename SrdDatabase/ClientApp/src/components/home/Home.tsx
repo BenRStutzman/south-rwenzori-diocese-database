@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { State } from '../store';
-import * as Store from '../store/home';
-import DetailsList from './shared/DetailsList';
-import LoadingSpinner from './shared/LoadingSpinner';
+import { State } from '../../store';
+import * as Store from '../../store/home';
+import DetailsList from '../shared/DetailsList';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State &

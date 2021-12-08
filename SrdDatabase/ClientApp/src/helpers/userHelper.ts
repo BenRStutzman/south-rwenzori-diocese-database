@@ -1,4 +1,4 @@
-﻿import { CurrentUser, UserData } from "../store/user";
+﻿import { CurrentUser, UserData } from "../models/user";
 
 export const userRole = {
     viewer: 'Viewer',

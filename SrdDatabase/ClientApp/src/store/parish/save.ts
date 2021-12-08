@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Parish } from '.';
+import { Parish } from '../../models/parish';
 import { History } from 'history';
 
 const REQUEST_PARISH = 'PARISH.REQUEST_PARISH';

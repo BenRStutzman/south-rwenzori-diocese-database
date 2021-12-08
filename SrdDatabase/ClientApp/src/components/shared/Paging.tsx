@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { PagedResults } from "../../store/archdeaconry/home";
+import { PagedResults } from "../../models/shared";
 
 interface Props {
     results: PagedResults;

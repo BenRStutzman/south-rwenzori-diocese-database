@@ -2,11 +2,11 @@
 import { Action, AppThunkAction } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { getUser } from '../../helpers/userHelper';
-import { Archdeaconry } from '../archdeaconry';
-import { Congregation } from '../congregation';
-import { Event, EventType } from '../event';
-import { Parish } from '../parish';
-import { CurrentUser, User, UserData, UserType } from '../user';
+import { Archdeaconry, Results } from '../../models/archdeaconry';
+import { Congregation } from '../../models/congregation';
+import { Event, EventType } from '../../models/event';
+import { Parish } from '../../models/parish';
+import { CurrentUser, User, UserData, UserType } from '../../models/user';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -118,9 +118,9 @@ const logout = (): AppThunkAction<Action> => (dispatch) => {
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction());
 
-    get<Archdeaconry[]>('api/archdeaconry/all')
-        .then(archdeaconries => {
-            dispatch(receiveArchdeaconriesAction(archdeaconries));
+    get<Results>('api/archdeaconry/all')
+        .then(results => {
+            dispatch(receiveArchdeaconriesAction(results.archdeaconries));
         });
 };
 

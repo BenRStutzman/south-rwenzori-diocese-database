@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Congregation } from '.';
+import { Congregation } from '../../models/congregation';
 import { History } from 'history';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';

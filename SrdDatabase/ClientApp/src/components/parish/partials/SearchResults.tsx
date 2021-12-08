@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { atLeast } from '../../../helpers/userHelper';
-import { Parish } from '../../../store/parish';
+import { Parish } from '../../../models/parish';
 import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import * as Store from '../../../store/parish/home';

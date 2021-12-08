@@ -1,4 +1,4 @@
-﻿import { Event } from '../store/event';
+﻿import { Event } from '../models/event';
     
 export function peoplesNames(event: Event): string {
     return `${event.firstPersonName}${event.secondPersonName ? ` and ${event.secondPersonName}` : '' }`

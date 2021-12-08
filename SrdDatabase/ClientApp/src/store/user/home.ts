@@ -1,13 +1,7 @@
 ﻿import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { User } from '.';
-
-export interface SearchParameters {
-    name?: string;
-    username?: string;
-    userTypeId?: number;
-}
+import { Parameters, User } from '../../models/user';
 
 const REQUEST_USERS = 'USER.REQUEST_USERS';
 const RECEIVE_USERS = 'USER.RECEIVE_USERS';
@@ -62,12 +56,12 @@ const setSearchUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dis
 };
 
 const searchUsers = (
-    parameters: SearchParameters = {},
+    parameters: Parameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestUsersAction(showLoading));
 
-    post<SearchParameters>('api/user/search', parameters)
+    post<Parameters>('api/user/search', parameters)
         .then(response => response.json() as Promise<User[]>)
         .then(users => {
             dispatch(receiveUsersAction(users));
@@ -85,7 +79,7 @@ export const actionCreators = {
 export interface State {
     resultsLoading: boolean;
     results: User[];
-    parameters: SearchParameters;
+    parameters: Parameters;
 };
 
 const initialState: State = {

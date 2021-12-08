@@ -1,13 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Congregation } from '../congregation';
-import { Event } from '../event';
-
-export interface CongregationDetails {
-    congregation: Congregation;
-    recentEvents: Event[];
-}
+import { Details } from '../../models/congregation';
 
 const REQUEST_DETAILS = 'CONGREGATION.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'CONGREGATION.RECEIVE_DETAILS';
@@ -16,14 +10,14 @@ const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: CongregationDetails) => ({
+const receiveDetailsAction = (details: Details) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: CongregationDetails;
+    details: Details;
 }
 
 const initialState: State = {
@@ -37,7 +31,7 @@ const initialState: State = {
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<CongregationDetails>(`api/congregation/details/${id}`)
+    get<Details>(`api/congregation/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });
