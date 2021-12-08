@@ -8,6 +8,7 @@ import * as Store from '../../../store/user/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Paging from '../../shared/Paging';
 
 type Props =
     Store.State &
@@ -27,44 +28,59 @@ const SearchResults = ({
         deleteUser(user, () => { searchUsers(parameters); });
     };
 
+    const nextPage = () => {
+        searchUsers(parameters, results.pageNumber + 1);
+    };
+
+    const previousPage = () => {
+        searchUsers(parameters, results.pageNumber - 1);
+    };
+
     return resultsLoading ? <LoadingSpinner /> :
-        !results.length ? <h2>No results.</h2> :
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className="col-3">Name</th>
-                        <th className="col-3">Username</th>
-                        <th className="col-3">User Type</th>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {results.map((user: User) =>
-                        <tr key={user.id}>
-                            <td>{user.name}</td>
-                            <td>{user.username}</td>
-                            <td>{user.userType}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
-                                    View
-                                </Link>
-                            </td>
-                            <td>
-                                <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                            <td>
-                                <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
-                                    {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete'}
-                                </button>
-                            </td>
+        !results.totalResults ? <h2>No results.</h2> :
+            <>
+                <table className='table table-striped' aria-labelledby="tabelLabel">
+                    <thead>
+                        <tr>
+                            <th className="col-3">Name</th>
+                            <th className="col-3">Username</th>
+                            <th className="col-3">User Type</th>
+                            <th className="col-1"></th>
+                            <th className="col-1"></th>
+                            <th className="col-1"></th>
                         </tr>
-                    )}
-                </tbody>
-            </table>;
+                    </thead>
+                    <tbody>
+                        {results.users.map((user: User) =>
+                            <tr key={user.id}>
+                                <td>{user.name}</td>
+                                <td>{user.username}</td>
+                                <td>{user.userType}</td>
+                                <td>
+                                    <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
+                                        View
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
+                                        Edit
+                                    </Link>
+                                </td>
+                                <td>
+                                    <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
+                                        {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete'}
+                                    </button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <Paging
+                    results={results}
+                    nextPage={nextPage}
+                    previousPage={previousPage}
+                />
+            </>;
 };
 
 export default connect(

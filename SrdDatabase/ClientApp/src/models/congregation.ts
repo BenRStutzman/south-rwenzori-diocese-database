@@ -1,5 +1,5 @@
 ﻿import { PagedResults } from './shared';
-import { Results as EventResults } from './event'
+import { EventResults } from './event'
 
 export interface Congregation {
     id?: number;
@@ -10,17 +10,17 @@ export interface Congregation {
     archdeaconry?: string;
 }
 
-export interface Details {
+export interface CongregationDetails {
     congregation: Congregation;
     eventResults: EventResults;
 }
 
-export interface Parameters {
+export interface CongregationParameters {
     name?: string;
     parishId?: number;
     archdeaconryId?: number;
 }
 
-export interface Results extends PagedResults {
+export interface CongregationResults extends PagedResults {
     congregations: Congregation[];
 }

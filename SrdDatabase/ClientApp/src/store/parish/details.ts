@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Details } from '../../models/parish';
+import { ParishDetails } from '../../models/parish';
 import { pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_DETAILS = 'PARISH.REQUEST_DETAILS';
@@ -11,14 +11,14 @@ const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: Details) => ({
+const receiveDetailsAction = (details: ParishDetails) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: Details;
+    details: ParishDetails;
 }
 
 const initialState: State = {
@@ -33,7 +33,7 @@ const initialState: State = {
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<Details>(`api/parish/details/${id}`)
+    get<ParishDetails>(`api/parish/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

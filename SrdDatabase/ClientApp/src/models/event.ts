@@ -21,11 +21,11 @@ export interface EventType {
     involvesTwoPeople: boolean;
 }
 
-export interface Details {
+export interface EventDetails {
     event: Event;
 }
 
-export interface Parameters {
+export interface EventParameters {
     eventTypeId?: number;
     personName?: string;
     parishId?: number;
@@ -35,6 +35,6 @@ export interface Parameters {
     endDate?: Date;
 }
 
-export interface Results extends PagedResults {
+export interface EventResults extends PagedResults {
     events: Event[];
 }

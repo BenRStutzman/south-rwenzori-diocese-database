@@ -2,7 +2,7 @@
 import { Action, AppThunkAction } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { getUser } from '../../helpers/userHelper';
-import { Archdeaconry, Results } from '../../models/archdeaconry';
+import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish } from '../../models/parish';

@@ -10,6 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
+import { formattedDate, peoplesNames } from '../../helpers/eventHelper';
 
 type Props =
     Store.State &
@@ -60,7 +61,7 @@ const Details = ({
                     itemType="event"
                     items={details.eventResults.events.map(event => ({
                         id: event.id,
-                        displayText: `${new Date(event.date as Date).toLocaleDateString('en-ca')}: ${event.eventType} of ${event.firstPersonName}${event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at ${event.congregation} Congregation`,
+                        displayText: `${formattedDate(event)}: ${event.eventType} of ${peoplesNames(event)} at ${event.congregation} Congregation`,
                     }))}
                     />
             </div>

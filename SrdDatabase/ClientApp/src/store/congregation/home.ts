@@ -1,7 +1,8 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Congregation, Parameters, Results } from '../../models/congregation';
+import { CongregationParameters, CongregationResults } from '../../models/congregation';
+import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
@@ -15,7 +16,7 @@ const requestResultsAction = (showLoading: boolean = true) => ({
     value: showLoading,
 });
 
-const receiveResultsAction = (results: Results) => ({
+const receiveResultsAction = (results: CongregationResults) => ({
     type: RECEIVE_RESULTS,
     value: results,
 });
@@ -56,14 +57,14 @@ const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatc
 };
 
 const searchCongregations = (
-    parameters: Parameters = {},
+    parameters: CongregationParameters = {},
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<{ parameters: Parameters, pageNumber: number }>('api/congregation/search', { parameters, pageNumber })
-        .then(response => response.json() as Promise<Results>)
+    post<SearchRequest>('api/congregation/search', { parameters, pageNumber })
+        .then(response => response.json() as Promise<CongregationResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));
         });
@@ -79,17 +80,12 @@ export const actionCreators = {
 
 export interface State {
     resultsLoading: boolean;
-    results: Results;
-    parameters: Parameters;
+    results: CongregationResults;
+    parameters: CongregationParameters;
 }
 
 const initialState: State = {
-    results: {
-        pageNumber: 0,
-        pageSize: 0,
-        totalResults: 0,
-        congregations: [],
-    },
+    results: { ...pagedResultsDefaults, congregations: [] },
     resultsLoading: true,
     parameters: {},
 };

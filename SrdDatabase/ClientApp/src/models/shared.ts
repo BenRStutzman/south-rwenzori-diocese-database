@@ -9,3 +9,8 @@ export const pagedResultsDefaults = {
     pageSize: 0,
     totalResults: 0,
 };
+
+export interface SearchRequest {
+    parameters: any;
+    pageNumber: number;
+};

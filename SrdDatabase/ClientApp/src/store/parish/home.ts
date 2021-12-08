@@ -1,22 +1,23 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Parish, Parameters } from '../../models/parish';
+import { ParishParameters, ParishResults } from '../../models/parish';
+import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
 
-const REQUEST_PARISHES = 'PARISH.REQUEST_PARISHES';
-const RECEIVE_PARISHES = 'PARISH.RECEIVE_PARISHES';
+const REQUEST_RESULTS = 'PARISH.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'PARISH.RECEIVE_RESULTS';
 const SET_SEARCH_NAME = 'PARISH.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PARISH.SET_SEARCH_ARCHDEACONRY_ID';
 const RESET_PARAMETERS = 'PARISH.RESET_PARAMETERS';
 
-const requestParishesAction = (showLoading: boolean = true) => ({
-    type: REQUEST_PARISHES,
+const requestResultsAction = (showLoading: boolean = true) => ({
+    type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveParishesAction = (parishes: Parish[]) => ({
-    type: RECEIVE_PARISHES,
-    value: parishes,
+const receiveResultsAction = (results: ParishResults) => ({
+    type: RECEIVE_RESULTS,
+    value: results,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -46,15 +47,16 @@ export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<
 };
 
 const searchParishes = (
-    parameters: Parameters = {},
+    parameters: ParishParameters = {},
+    pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestParishesAction(showLoading));
+    dispatch(requestResultsAction(showLoading));
 
-    post<Parameters>('api/parish/search', parameters)
-        .then(response => response.json() as Promise<Parish[]>)
-        .then(parishes => {
-            dispatch(receiveParishesAction(parishes));
+    post<SearchRequest>('api/parish/search', { parameters, pageNumber })
+        .then(response => response.json() as Promise<ParishResults>)
+        .then(results => {
+            dispatch(receiveResultsAction(results));
         });
 };
 
@@ -67,12 +69,12 @@ export const actionCreators = {
 
 export interface State {
     resultsLoading: boolean;
-    results: Parish[];
-    parameters: Parameters;
+    results: ParishResults;
+    parameters: ParishParameters;
 }
 
 const initialState: State = {
-    results: [],
+    results: { ...pagedResultsDefaults, parishes: [] },
     resultsLoading: true,
     parameters: {},
 };
@@ -84,12 +86,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: initialState.parameters,
             };
-        case REQUEST_PARISHES:
+        case REQUEST_RESULTS:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_PARISHES:
+        case RECEIVE_RESULTS:
             return {
                 ...state,
                 results: action.value,

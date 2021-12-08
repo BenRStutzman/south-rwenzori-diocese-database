@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { Details } from '../../models/archdeaconry';
+import { ArchdeaconryDetails } from '../../models/archdeaconry';
 import { pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_DETAILS = 'ARCHDEACONRY.REQUEST_DETAILS';
@@ -11,14 +11,14 @@ const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: Details) => ({
+const receiveDetailsAction = (details: ArchdeaconryDetails) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: Details;
+    details: ArchdeaconryDetails;
 }
 
 const initialState: State = {
@@ -34,7 +34,7 @@ const initialState: State = {
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<Details>(`api/archdeaconry/details/${id}`)
+    get<ArchdeaconryDetails>(`api/archdeaconry/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

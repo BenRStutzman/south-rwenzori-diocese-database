@@ -1,7 +1,8 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Event, Parameters } from '../../models/event';
+import { Event, EventParameters, EventResults } from '../../models/event';
+import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
 
 const RESET_PARAMETERS = 'EVENT.RESET_PARAMETERS';
 const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
@@ -11,17 +12,17 @@ const SET_SEARCH_PERSON_NAME = 'EVENT.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'EVENT.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'EVENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_EVENTS = 'EVENT.REQUEST_EVENTS';
-const RECEIVE_EVENTS = 'EVENT.RECEIVE_EVENTS';
+const REQUEST_RESULTS = 'EVENT.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'EVENT.RECEIVE_RESULTS';
 
-const requestEventsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_EVENTS,
+const requestResultsAction = (showLoading: boolean = true) => ({
+    type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveEventsAction = (events: Event[]) => ({
-    type: RECEIVE_EVENTS,
-    value: events,
+const receiveResultsAction = (results: EventResults) => ({
+    type: RECEIVE_RESULTS,
+    value: results,
 });
 
 const setSearchEventTypeIdAction = (eventTypeId: number) => ({
@@ -96,15 +97,16 @@ const setSearchCongregationId = (congregationId: number): AppThunkAction<Action>
 };
 
 const searchEvents = (
-    parameters: Parameters = {},
+    parameters: EventParameters = {},
+    pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventsAction(showLoading));
+    dispatch(requestResultsAction(showLoading));
 
-    post<Parameters>('api/event/search', parameters)
-        .then(response => response.json() as Promise<Event[]>)
-        .then(events => {
-            dispatch(receiveEventsAction(events));
+    post<SearchRequest>('api/event/search', { parameters, pageNumber })
+        .then(response => response.json() as Promise<EventResults>)
+        .then(results => {
+            dispatch(receiveResultsAction(results));
         });
 };
 
@@ -122,12 +124,12 @@ export const actionCreators = {
 
 export interface State {
     resultsLoading: boolean;
-    results: Event[];
-    parameters: Parameters,
+    results: EventResults;
+    parameters: EventParameters,
 }
 
 const initialState: State = {
-    results: [],
+    results: { ...pagedResultsDefaults, events: [] },
     resultsLoading: true,
     parameters: {},
 };
@@ -195,12 +197,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: initialState.parameters,
             };
-        case REQUEST_EVENTS:
+        case REQUEST_RESULTS:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_EVENTS:
+        case RECEIVE_RESULTS:
             return {
                 ...state,
                 results: action.value,

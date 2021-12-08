@@ -27,16 +27,16 @@ export interface CurrentUser {
     userType: string;
 }
 
-export interface Details {
+export interface UserDetails {
     user: User;
 }
 
-export interface Parameters {
+export interface UserParameters {
     name?: string;
     username?: string;
     userTypeId?: number;
 }
 
-export interface Results extends PagedResults {
+export interface UserResults extends PagedResults {
     users: User[];
 }

@@ -1,23 +1,24 @@
 ﻿import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Parameters, User } from '../../models/user';
+import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
+import { UserParameters, User, UserResults } from '../../models/user';
 
-const REQUEST_USERS = 'USER.REQUEST_USERS';
-const RECEIVE_USERS = 'USER.RECEIVE_USERS';
+const REQUEST_RESULTS = 'USER.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'USER.RECEIVE_RESULTS';
 const RESET_PARAMETERS = 'USER.RESET_PARAMETERS';
 const SET_SEARCH_NAME = 'USER.SET_SEARCH_NAME';
 const SET_SEARCH_USERNAME = 'USER.SET_SEARCH_USERNAME';
 const SET_SEARCH_USER_TYPE_ID = 'USER.SET_SEARCH_USER_TYPE_ID';
 
-const requestUsersAction = (showLoading: boolean = true) => ({
-    type: REQUEST_USERS,
+const requestResultsAction = (showLoading: boolean = true) => ({
+    type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveUsersAction = (users: User[]) => ({
-    type: RECEIVE_USERS,
-    value: users,
+const receiveResultsAction = (results: UserResults) => ({
+    type: RECEIVE_RESULTS,
+    value: results,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -56,15 +57,16 @@ const setSearchUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dis
 };
 
 const searchUsers = (
-    parameters: Parameters = {},
+    parameters: UserParameters = {},
+    pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestUsersAction(showLoading));
+    dispatch(requestResultsAction(showLoading));
 
-    post<Parameters>('api/user/search', parameters)
-        .then(response => response.json() as Promise<User[]>)
-        .then(users => {
-            dispatch(receiveUsersAction(users));
+    post<SearchRequest>('api/user/search', { parameters, pageNumber })
+        .then(response => response.json() as Promise<UserResults>)
+        .then(results => {
+            dispatch(receiveResultsAction(results));
         });
 };
 
@@ -78,12 +80,12 @@ export const actionCreators = {
 
 export interface State {
     resultsLoading: boolean;
-    results: User[];
-    parameters: Parameters;
+    results: UserResults;
+    parameters: UserParameters;
 };
 
 const initialState: State = {
-    results: [],
+    results: { ...pagedResultsDefaults, users: [] },
     resultsLoading: true,
     parameters: {},
 };
@@ -119,12 +121,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     userTypeId: action.value,
                 }
             };
-        case REQUEST_USERS:
+        case REQUEST_RESULTS:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_USERS:
+        case RECEIVE_RESULTS:
             return {
                 ...state,
                 results: action.value,

@@ -1,8 +1,9 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Parameters } from '../../models/archdeaconry';
-import { Results } from '../../models/archdeaconry';
+import { ArchdeaconryParameters } from '../../models/archdeaconry';
+import { ArchdeaconryResults } from '../../models/archdeaconry';
+import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
 
 const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'ARCHDEACONRY.RECEIVE_RESULTS';
@@ -14,7 +15,7 @@ const requestResultsAction = (showLoading: boolean = true) => ({
     value: showLoading,
 });
 
-const receiveResultsAction = (results: Results) => ({
+const receiveResultsAction = (results: ArchdeaconryResults) => ({
     type: RECEIVE_RESULTS,
     value: results,
 });
@@ -37,14 +38,14 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 };
 
 const searchArchdeaconries = (
-    parameters: Parameters = {},
+    parameters: ArchdeaconryParameters = {},
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<{ parameters: Parameters, pageNumber: number }>('api/archdeaconry/search', { parameters, pageNumber })
-        .then(response => response.json() as Promise<Results>)
+    post<SearchRequest>('api/archdeaconry/search', { parameters, pageNumber })
+        .then(response => response.json() as Promise<ArchdeaconryResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));
         });
@@ -57,18 +58,13 @@ export const actionCreators = {
 };
 
 export interface State {
-    results: Results
+    results: ArchdeaconryResults
     resultsLoading: boolean;
-    parameters: Parameters;
+    parameters: ArchdeaconryParameters;
 }
 
 const initialState: State = {
-    results: {
-        pageNumber: 0,
-        pageSize: 0,
-        totalResults: 0,
-        archdeaconries: [],
-    },
+    results: { ...pagedResultsDefaults, archdeaconries: [] },
     resultsLoading: true,
     parameters: {},
 };
