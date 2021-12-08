@@ -13,19 +13,26 @@ const Paging = ({
     previousPage,
 }: Props) =>
     <div className="paging">
-        <div>
+        <div className="paging-button-container">
             {
                 results.pageNumber > 0 &&
-                <button className="btn btn-secondary" onClick={previousPage}>Previous page</button>
+                <button className="btn btn-link shadow-none" onClick={previousPage}>
+                    <i className="bi bi-arrow-left"></i>
+                </button>
             }
         </div>
         <div>
-            <span>Showing results {results.pageSize * results.pageNumber + 1} to {Math.min(results.totalResults, results.pageSize * (results.pageNumber + 1))} of {results.totalResults}</span>
+            {
+                results.pageSize < results.totalResults &&
+                <span>Showing results {results.pageSize * results.pageNumber + 1} to {Math.min(results.totalResults, results.pageSize * (results.pageNumber + 1))} of {results.totalResults}</span>
+            }
         </div>
-        <div>
+        <div className="paging-button-container">
             {
                 results.pageNumber < Math.ceil(results.totalResults / results.pageSize) - 1 &&
-                <button className="btn btn-secondary" onClick={nextPage}>Next page</button>
+                <button className="btn btn-link shadow-none" onClick={nextPage}>
+                    <i className="bi bi-arrow-right"></i>
+                </button>
             }
         </div>
     </div>;

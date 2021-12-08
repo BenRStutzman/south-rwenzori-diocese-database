@@ -46,6 +46,11 @@ namespace SrdDatabase.Domain.Queries
         public class SearchParameters
         {
             public string Name { get; }
+
+            public SearchParameters(string name)
+            {
+                Name = name;
+            }
         }
     }
 }

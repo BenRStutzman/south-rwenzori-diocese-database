@@ -103,9 +103,8 @@ button:disabled {
 }
 
 .paging {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .paging span {
@@ -115,6 +114,14 @@ button:disabled {
 .paging div {
     display: flex;
     align-items: center;
+}
+
+.paging-button-container {
+    width: 60px;
+}
+
+.paging-button-container button {
+    font-size: 2em;
 }
 
 .paging div:nth-of-type(2) {
