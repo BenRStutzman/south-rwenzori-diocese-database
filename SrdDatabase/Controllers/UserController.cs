@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Attributes;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Models;
 using SrdDatabase.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SrdDatabase.Domain.Queries;
+using SrdDatabase.Models.Authentication;
+using SrdDatabase.Models.Users;
 
 namespace SrdDatabase.Controllers
 {
@@ -28,7 +29,7 @@ namespace SrdDatabase.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(AuthenticationRequest request)
+        public async Task<IActionResult> Login(Request request)
         {
             var response = await _userService.Authenticate(request);
 

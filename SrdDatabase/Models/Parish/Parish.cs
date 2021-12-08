@@ -1,4 +1,4 @@
-﻿namespace SrdDatabase.Models
+﻿namespace SrdDatabase.Models.Parishes
 {
     public class Parish
     {

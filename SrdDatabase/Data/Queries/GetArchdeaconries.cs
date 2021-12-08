@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Archdeaconries;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
@@ -10,7 +10,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetArchdeaconries
     {
-        public class Query : IRequest<ArchdeaconryResults>
+        public class Query : IRequest<Results>
         {
             public int? Id { get; }
 
@@ -33,7 +33,7 @@ namespace SrdDatabase.Data.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, ArchdeaconryResults>
+        public class Handler : IRequestHandler<Query, Results>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_archdeaconries";
@@ -43,7 +43,7 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<ArchdeaconryResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Results> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -55,7 +55,7 @@ namespace SrdDatabase.Data.Queries
                 var totalResults = results.ReadSingle<int>();
                 var archdeaconries = results.Read<Archdeaconry>();
 
-                return new ArchdeaconryResults(
+                return new Results(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,

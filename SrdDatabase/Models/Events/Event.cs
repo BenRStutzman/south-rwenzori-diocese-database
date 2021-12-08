@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SrdDatabase.Models
+namespace SrdDatabase.Models.Events
 {
     public class Event
     {

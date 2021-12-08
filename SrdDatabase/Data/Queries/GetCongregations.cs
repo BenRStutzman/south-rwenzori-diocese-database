@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using MediatR;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Congregations;
 using SrdDatabase.Services;
 using System.Collections.Generic;
 using System.Data;

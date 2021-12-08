@@ -118,9 +118,9 @@ const logout = (): AppThunkAction<Action> => (dispatch) => {
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction());
 
-    get<Results>('api/archdeaconry/all')
-        .then(results => {
-            dispatch(receiveArchdeaconriesAction(results.archdeaconries));
+    get<Archdeaconry[]>('api/archdeaconry/all')
+        .then(archdeaconries => {
+            dispatch(receiveArchdeaconriesAction(archdeaconries));
         });
 };
 

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Attributes;
+using SrdDatabase.Models.Parishes;
+using SrdDatabase.Models.Users;
 
 namespace SrdDatabase.Controllers
 {
@@ -28,7 +30,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<ParishDetails> Details(int id)
+        public async Task<Details> Details(int id)
         {
             return await _mediator.Send(new GetParishDetails.Query(id));
         }

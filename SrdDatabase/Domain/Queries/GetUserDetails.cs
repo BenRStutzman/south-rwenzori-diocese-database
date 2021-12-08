@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
-using SrdDatabase.Models;
-using System.Linq;
+using SrdDatabase.Models.Users;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,11 +1,13 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Events;
+using SrdDatabase.Models.Parishes;
 
-namespace SrdDatabase.Models
+namespace SrdDatabase.Models.Archdeaconries
 {
-    public class DioceseDetails
+    public class Details
     {
-        public IEnumerable<Archdeaconry> Archdeaconries{ get; }
+        public Archdeaconry Archdeaconry { get; }
 
         public IEnumerable<Parish> Parishes { get; }
 
@@ -13,13 +15,13 @@ namespace SrdDatabase.Models
 
         public IEnumerable<Event> RecentEvents { get; }
 
-        public DioceseDetails(
-            IEnumerable<Archdeaconry> archdeaconries,
+        public Details(
+            Archdeaconry archdeaconry,
             IEnumerable<Parish> parishes,
             IEnumerable<Congregation> congregations,
             IEnumerable<Event> recentEvents)
         {
-            Archdeaconries = archdeaconries;
+            Archdeaconry = archdeaconry;
             Parishes = parishes;
             Congregations = congregations;
             RecentEvents = recentEvents;

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using Dapper;
 using System.Data;
 using System;
 using SrdDatabase.Services;
+using SrdDatabase.Models.Events;
 
 namespace SrdDatabase.Data.Queries
 {

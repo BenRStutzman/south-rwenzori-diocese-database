@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using SrdDatabase.Services;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Users;
 
 namespace SrdDatabase.Data.Queries
 {

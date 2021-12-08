@@ -1,15 +1,14 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Models;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SrdDatabase.Models.Archdeaconries;
 
 namespace SrdDatabase.Domain.Queries
 {
     public class GetArchdeaconryDetails
     {
-        public class Query : IRequest<ArchdeaconryDetails>
+        public class Query : IRequest<Details>
         {
             public int Id { get; set; }
 
@@ -19,7 +18,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, ArchdeaconryDetails>
+        public class Handler : IRequestHandler<Query, Details>
         {
             private readonly IMediator _mediator;
 
@@ -28,7 +27,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<ArchdeaconryDetails> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
             {
                 var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
                 var parishesTask = _mediator.Send(new GetParishes.Query(archdeaconryId: request.Id), cancellationToken);
@@ -40,7 +39,7 @@ namespace SrdDatabase.Domain.Queries
                 var congregations = await congregationsTask;
                 var events = await eventsTask;
 
-                return new ArchdeaconryDetails(
+                return new Details(
                     archdeaconry,
                     parishes,
                     congregations,

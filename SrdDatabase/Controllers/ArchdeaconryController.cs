@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Attributes;
+using SrdDatabase.Models.Archdeaconries;
+using System.Collections.Generic;
+using SrdDatabase.Models.Users;
 
 namespace SrdDatabase.Controllers
 {
@@ -22,7 +23,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<ArchdeaconryDetails> Details(int id)
+        public async Task<Details> Details(int id)
         {
             return await _mediator.Send(new GetArchdeaconryDetails.Query(id));
         }
@@ -34,13 +35,13 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ArchdeaconryResults> GetAll()
+        public async Task<IEnumerable<Archdeaconry>> GetAll()
         {
             return await _mediator.Send(new GetAllArchdeaconries.Query());
         }
 
         [HttpPost("search")]
-        public async Task<ArchdeaconryResults> Search(SearchArchdeaconries.Query query)
+        public async Task<Results> Search(SearchArchdeaconries.Query query)
         {
             return await _mediator.Send(query);
         }

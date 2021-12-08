@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using SrdDatabase.Domain.Queries;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Authentication;
+using SrdDatabase.Models.Users;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace SrdDatabase.Services
             _mediator = mediator;
         }
 
-        public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
+        public async Task<Response> Authenticate(Request request)
         {
             var user = await _mediator.Send(new GetUserByUsername.Query(request.Username));
 
@@ -33,7 +34,7 @@ namespace SrdDatabase.Services
             }
 
             var token = GenerateJwtToken(user);
-            return new AuthenticationResponse(user, token);
+            return new Response(user, token);
         }
 
         public async Task<User> GetUserFromToken(string token)

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace SrdDatabase.Models
+namespace SrdDatabase.Models.Archdeaconries
 {
-    public class ArchdeaconryResults
+    public class Results
     {
         public int PageNumber { get; }
 
@@ -12,7 +12,7 @@ namespace SrdDatabase.Models
 
         public IEnumerable<Archdeaconry> Archdeaconries { get; }
 
-        public ArchdeaconryResults(
+        public Results(
             int pageNumber,
             int? pageSize,
             int totalResults,

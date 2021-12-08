@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,7 +7,7 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetEventDetails
     {
-        public class Query : IRequest<EventDetails>
+        public class Query : IRequest<Details>
         {
             public int Id { get; set; }
 
@@ -17,7 +17,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, EventDetails>
+        public class Handler : IRequestHandler<Query, Details>
         {
             private readonly IMediator _mediator;
 
@@ -26,11 +26,11 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<EventDetails> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
             {
                 var baseEvent = await _mediator.Send(new GetEventById.Query(request.Id), cancellationToken);
 
-                return new EventDetails(baseEvent);
+                return new Details(baseEvent);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Models;
-using System.Linq;
+using SrdDatabase.Models.Parishes;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +8,7 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetParishDetails
     {
-        public class Query : IRequest<ParishDetails>
+        public class Query : IRequest<Details>
         {
             public int Id { get; set; }
 
@@ -19,7 +18,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, ParishDetails>
+        public class Handler : IRequestHandler<Query, Details>
         {
             private readonly IMediator _mediator;
 
@@ -28,7 +27,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<ParishDetails> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
             {
                 var parishTask = _mediator.Send(new GetParishById.Query(request.Id), cancellationToken);
                 var congregationsTask = _mediator.Send(new GetCongregations.Query(parishId: request.Id), cancellationToken);
@@ -38,7 +37,7 @@ namespace SrdDatabase.Domain.Queries
                 var congregations = await congregationsTask;
                 var events = await eventsTask;
 
-                return new ParishDetails(
+                return new Details(
                     parish,
                     congregations,
                     events);

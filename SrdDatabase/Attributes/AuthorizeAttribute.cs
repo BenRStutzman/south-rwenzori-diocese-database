@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

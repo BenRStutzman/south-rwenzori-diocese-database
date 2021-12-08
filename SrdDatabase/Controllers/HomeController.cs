@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using SrdDatabase.Models;
+using SrdDatabase.Models.Diocese;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Attributes;
@@ -21,7 +20,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details")]
-        public async Task<DioceseDetails> Details()
+        public async Task<Details> Details()
         {
             return await _mediator.Send(new GetDioceseDetails.Query());
         }

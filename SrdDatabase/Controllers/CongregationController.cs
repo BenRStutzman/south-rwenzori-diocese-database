@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Data.Commands;
 using SrdDatabase.Attributes;
+using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Users;
 
 namespace SrdDatabase.Controllers
 {
@@ -28,7 +29,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("details/{id}")]
-        public async Task<CongregationDetails> Details(int id)
+        public async Task<Details> Details(int id)
         {
             return await _mediator.Send(new GetCongregationDetails.Query(id));
         }

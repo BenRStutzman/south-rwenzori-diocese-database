@@ -1,4 +1,4 @@
-﻿namespace SrdDatabase.Models
+﻿namespace SrdDatabase.Models.Congregations
 {
     public class Congregation
     {
