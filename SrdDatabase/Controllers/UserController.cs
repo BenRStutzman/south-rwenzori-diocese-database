@@ -72,7 +72,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("save")]
-        public async Task<int> Save(Domain.Commands.SaveUser.Command command)
+        public async Task<int> Save(SaveUser.Command command)
         {
             return await _mediator.Send(command);
         }

@@ -57,14 +57,16 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Contributor)]
         [HttpPost("add")]
-        public async Task<int> Add(AddEvent.Command command)
+        public async Task<SaveEvent.Response> Add(SaveEvent.Command command)
         {
+            command.Id = null;
+
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("edit")]
-        public async Task<int> Edit(EditEvent.Command command)
+        public async Task<SaveEvent.Response> Edit(SaveEvent.Command command)
         {
             return await _mediator.Send(command);
         }
