@@ -30,8 +30,8 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<Congregation> Handle(Query request, CancellationToken cancellationToken)
             {
-                var congregations = await _mediator.Send(new GetCongregations.Query(request.Id), cancellationToken);
-                return congregations.Single();
+                var results = await _mediator.Send(new GetCongregations.Query(id: request.Id), cancellationToken);
+                return results.Congregations.Single();
             }
         }
     }

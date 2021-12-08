@@ -2,6 +2,7 @@
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
 import { Details } from '../../models/home';
+import { pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_DETAILS = 'HOME.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'HOME.RECEIVE_DETAILS';
@@ -23,10 +24,10 @@ export interface State {
 const initialState: State = {
     detailsLoading: true,
     details: {
-        archdeaconries: [],
-        parishes: [],
-        congregations: [],
-        recentEvents: [],
+        archdeaconryResults: { ...pagedResultsDefaults, archdeaconries: [] },
+        parishResults: { ...pagedResultsDefaults, parishes: [] },
+        congregationResults: { ...pagedResultsDefaults, congregations: [] },
+        eventResults: { ...pagedResultsDefaults, events: [] },
     },
 };
 

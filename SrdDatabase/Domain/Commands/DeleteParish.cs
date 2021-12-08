@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries;
 using SrdDatabase.Domain.Queries;
+using SrdDatabase.Models.Congregations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,10 +31,11 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
             {
-                var congregations = await _mediator.Send(
-                    new SearchCongregations.Query(parishId: request.Id), cancellationToken);
+                var congregationsQuery = new GetCongregations.Query(
+                    new Parameters(parishId: request.Id));
+                var congregationsResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
-                if (congregations.Any())
+                if (congregationsResults.TotalResults > 0)
                 {
                     return Response.ForError(
                         "Unable to delete this parish because it has congregations associated with it. " +

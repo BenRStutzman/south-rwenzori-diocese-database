@@ -45,18 +45,23 @@ const Details = ({
             <div className="details-boxes">
                 <DetailsList
                     title="Parishes"
+                    total={details.parishResults.totalResults}
                     itemType="parish"
-                    items={details.parishes.map(parish => ({ id: parish.id, displayText: parish.name}))}
+                    items={details.parishResults.parishes.map(parish => (
+                        { id: parish.id, displayText: parish.name }))}
                 />
                 <DetailsList
                     title="Congregations"
+                    total={details.congregationResults.totalResults}
                     itemType="congregation"
-                    items={details.congregations.map(congregation => ({ id: congregation.id, displayText: congregation.name }))}
+                    items={details.congregationResults.congregations.map(congregation => (
+                        { id: congregation.id, displayText: congregation.name }))}
                 />
                 <DetailsList
                     title="Recent Events"
+                    total={details.eventResults.totalResults}
                     itemType="event"
-                    items={details.recentEvents.map(event => ({
+                    items={details.eventResults.events.map(event => ({
                         id: event.id,
                         displayText: `${new Date(event.date as Date).toLocaleDateString('en-ca')}: ${event.eventType} of ${event.firstPersonName}${event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at ${event.congregation} Congregation`,
                     }))}

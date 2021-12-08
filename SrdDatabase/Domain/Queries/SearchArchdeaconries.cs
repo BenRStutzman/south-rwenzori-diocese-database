@@ -25,8 +25,6 @@ namespace SrdDatabase.Domain.Queries
         {
             private readonly IMediator _mediator;
 
-            private readonly int _pageSize = 3;
-
             public Handler(IMediator mediator)
             {
                 _mediator = mediator;
@@ -36,12 +34,11 @@ namespace SrdDatabase.Domain.Queries
             {
                 return await _mediator.Send(
                     new GetArchdeaconries.Query(
-                        name: request.Parameters.Name,
+                        parameters: request.Parameters,
                         pageNumber: request.PageNumber,
-                        pageSize: _pageSize),
+                        pageSize: Constants.SearchPageSize),
                     cancellationToken);
             }
-
         }
     }
 }

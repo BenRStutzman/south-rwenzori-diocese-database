@@ -1,23 +1,23 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { Congregation, Parameters } from '../../models/congregation';
+import { Congregation, Parameters, Results } from '../../models/congregation';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
-const REQUEST_CONGREGATIONS = 'CONGREGATION.REQUEST_CONGREGATIONS';
-const RECEIVE_CONGREGATIONS = 'CONGREGATION.RECEIVE_CONGREGATIONS';
+const REQUEST_RESULTS = 'CONGREGATION.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'CONGREGATION.RECEIVE_RESULTS';
 const RESET_PARAMETERS = 'CONGREGATION.RESET_PARAMETERS';
 
-const requestCongregationsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_CONGREGATIONS,
+const requestResultsAction = (showLoading: boolean = true) => ({
+    type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveCongregationsAction = (congregations: Congregation[]) => ({
-    type: RECEIVE_CONGREGATIONS,
-    value: congregations,
+const receiveResultsAction = (results: Results) => ({
+    type: RECEIVE_RESULTS,
+    value: results,
 });
 
 const setSearchNameAction = (name: string) => ({
@@ -57,14 +57,15 @@ const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatc
 
 const searchCongregations = (
     parameters: Parameters = {},
+    pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestCongregationsAction(showLoading));
+    dispatch(requestResultsAction(showLoading));
 
-    post<Parameters>('api/congregation/search', parameters)
-        .then(response => response.json() as Promise<Congregation[]>)
-        .then(congregations => {
-            dispatch(receiveCongregationsAction(congregations));
+    post<{ parameters: Parameters, pageNumber: number }>('api/congregation/search', { parameters, pageNumber })
+        .then(response => response.json() as Promise<Results>)
+        .then(results => {
+            dispatch(receiveResultsAction(results));
         });
 };
 
@@ -78,12 +79,17 @@ export const actionCreators = {
 
 export interface State {
     resultsLoading: boolean;
-    results: Congregation[];
+    results: Results;
     parameters: Parameters;
 }
 
 const initialState: State = {
-    results: [],
+    results: {
+        pageNumber: 0,
+        pageSize: 0,
+        totalResults: 0,
+        congregations: [],
+    },
     resultsLoading: true,
     parameters: {},
 };
@@ -119,12 +125,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     parishId: action.value,
                 }
             };
-        case REQUEST_CONGREGATIONS:
+        case REQUEST_RESULTS:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_CONGREGATIONS:
+        case RECEIVE_RESULTS:
             return {
                 ...state,
                 results: action.value,

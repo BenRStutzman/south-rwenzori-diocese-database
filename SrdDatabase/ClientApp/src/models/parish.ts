@@ -1,5 +1,5 @@
-﻿import { Congregation } from './congregation';
-import { Event } from './event';
+﻿import { Results as CongregationResults } from './congregation';
+import { Results as EventResults } from './event';
 import { PagedResults } from './shared';
 
 export interface Parish {
@@ -11,8 +11,8 @@ export interface Parish {
 
 export interface Details {
     parish: Parish;
-    congregations: Congregation[];
-    recentEvents: Event[];
+    congregationResults: CongregationResults;
+    eventResults: EventResults;
 }
 
 export interface Parameters {

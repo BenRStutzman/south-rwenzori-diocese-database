@@ -23,20 +23,25 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
             {
-                var archdeaconriesTask = _mediator.Send(new GetArchdeaconries.Query(), cancellationToken);
+                var archdeaconriesQuery = new GetArchdeaconries.Query(pageSize: Constants.DetailsPageSize);
+                var archdeaconriesTask = _mediator.Send(archdeaconriesQuery, cancellationToken);
+                
                 var parishesTask = _mediator.Send(new GetParishes.Query(), cancellationToken);
-                var congregationsTask = _mediator.Send(new GetCongregations.Query(), cancellationToken);
+                
+                var congregationsQuery = new GetCongregations.Query(pageSize: Constants.DetailsPageSize);
+                var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
+                
                 var eventsTask = _mediator.Send(new GetEvents.Query(), cancellationToken);
 
-                var archdeaconriesResponse = await archdeaconriesTask;
+                var archdeaconryResults = await archdeaconriesTask;
                 var parishes = await parishesTask;
-                var congregations = await congregationsTask;
+                var congregationResults = await congregationsTask;
                 var events = await eventsTask;
 
                 return new Details(
-                    archdeaconriesResponse.Archdeaconries,
+                    archdeaconryResults.Archdeaconries,
                     parishes,
-                    congregations,
+                    congregationResults.Congregations,
                     events);
             }
         }

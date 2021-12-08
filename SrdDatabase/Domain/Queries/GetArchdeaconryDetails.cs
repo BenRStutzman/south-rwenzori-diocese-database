@@ -3,6 +3,7 @@ using SrdDatabase.Data.Queries;
 using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Archdeaconries;
+using Congregations = SrdDatabase.Models.Congregations;
 
 namespace SrdDatabase.Domain.Queries
 {
@@ -30,19 +31,26 @@ namespace SrdDatabase.Domain.Queries
             public async Task<Details> Handle(Query request, CancellationToken cancellationToken)
             {
                 var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
+                
                 var parishesTask = _mediator.Send(new GetParishes.Query(archdeaconryId: request.Id), cancellationToken);
-                var congregationsTask = _mediator.Send(new GetCongregations.Query(archdeaconryId: request.Id), cancellationToken);
+                
+                var congregationsQuery = new GetCongregations.Query(
+                    new Congregations.Parameters(archdeaconryId: request.Id),
+                    pageSize: Constants.DetailsPageSize);
+
+                var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
+                
                 var eventsTask = _mediator.Send(new GetEvents.Query(archdeaconryId: request.Id), cancellationToken);
 
                 var archdeaconry = await archdeaconryTask;
                 var parishes = await parishesTask;
-                var congregations = await congregationsTask;
+                var congregationsResult = await congregationsTask;
                 var events = await eventsTask;
 
                 return new Details(
                     archdeaconry,
                     parishes,
-                    congregations,
+                    congregationsResult.Congregations,
                     events);
             }
         }

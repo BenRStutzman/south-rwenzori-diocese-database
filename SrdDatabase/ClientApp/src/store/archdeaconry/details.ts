@@ -2,6 +2,7 @@ import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
 import { Details } from '../../models/archdeaconry';
+import { pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_DETAILS = 'ARCHDEACONRY.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'ARCHDEACONRY.RECEIVE_DETAILS';
@@ -24,9 +25,9 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         archdeaconry: {},
-        parishes: [],
-        congregations: [],
-        recentEvents: [],
+        parishResults: { ...pagedResultsDefaults, parishes: [] },
+        congregationResults: { ...pagedResultsDefaults, congregations: [] },
+        eventResults: { ...pagedResultsDefaults, events: [] },
     },
 };
 

@@ -14,7 +14,7 @@ const requestResultsAction = (showLoading: boolean = true) => ({
     value: showLoading,
 });
 
-const recevieResultsAction = (results: Results) => ({
+const receiveResultsAction = (results: Results) => ({
     type: RECEIVE_RESULTS,
     value: results,
 });
@@ -46,7 +46,7 @@ const searchArchdeaconries = (
     post<{ parameters: Parameters, pageNumber: number }>('api/archdeaconry/search', { parameters, pageNumber })
         .then(response => response.json() as Promise<Results>)
         .then(results => {
-            dispatch(recevieResultsAction(results));
+            dispatch(receiveResultsAction(results));
         });
 };
 

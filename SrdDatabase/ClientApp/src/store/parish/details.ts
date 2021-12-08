@@ -2,6 +2,7 @@ import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
 import { Details } from '../../models/parish';
+import { pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_DETAILS = 'PARISH.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'PARISH.RECEIVE_DETAILS';
@@ -24,8 +25,8 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         parish: {},
-        congregations: [],
-        recentEvents: [],
+        congregationResults: { ...pagedResultsDefaults, congregations: [] },
+        eventResults: { ...pagedResultsDefaults, events: [] },
     },
 };
 

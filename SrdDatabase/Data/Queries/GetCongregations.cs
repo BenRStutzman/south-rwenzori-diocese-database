@@ -2,7 +2,6 @@
 using MediatR;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Services;
-using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetCongregations
     {
-        public class Query : IRequest<IEnumerable<Congregation>>
+        public class Query : IRequest<Results>
         {
             public int? Id { get; }
 
@@ -21,20 +20,26 @@ namespace SrdDatabase.Data.Queries
 
             public int? ParishId { get; }
 
+            public int PageNumber { get; }
+
+            public int? PageSize { get; }
+
             public Query(
+                Parameters parameters = null,
                 int? id = null,
-                string name = null,
-                int? archdeaconryId = null,
-                int? parishId = null)
+                int pageNumber = 0,
+                int? pageSize = null)
             {
                 Id = id;
-                Name = name;
-                ArchdeaconryId = archdeaconryId;
-                ParishId = parishId;
+                Name = parameters?.Name;
+                ArchdeaconryId = parameters?.ArchdeaconryId;
+                ParishId = parameters?.ParishId;
+                PageNumber = pageNumber;
+                PageSize = pageSize;
             }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Congregation>>
+        public class Handler : IRequestHandler<Query, Results>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_congregations";
@@ -44,14 +49,23 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<IEnumerable<Congregation>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Results> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QueryAsync<Congregation>(
+                using var results = await connection.QueryMultipleAsync(
                     _storedProcedure,
                     request,
                     commandType: CommandType.StoredProcedure);
+
+                var totalResults = results.ReadSingle<int>();
+                var congregations = results.Read<Congregation>();
+
+                return new Results(
+                    request.PageNumber,
+                    request.PageSize,
+                    totalResults,
+                    congregations);
             }
         }
     }

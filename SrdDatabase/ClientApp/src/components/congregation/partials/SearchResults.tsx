@@ -9,6 +9,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Paging from '../../shared/Paging';
 
 type Props =
     Store.State &
@@ -27,56 +28,71 @@ const SearchResults = ({
 }: Props) => {
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
+    const nextPage = () => {
+        searchCongregations(parameters, results.pageNumber + 1);
+    };
+
+    const previousPage = () => {
+        searchCongregations(parameters, results.pageNumber - 1);
+    };
+
     const onDelete = (congregation: Congregation) => {
-        deleteCongregation(congregation, () => { searchCongregations(parameters, false); })
+        deleteCongregation(congregation, () => { searchCongregations(parameters, results.pageNumber, false); })
     };
 
     return resultsLoading ? <LoadingSpinner /> :
-        !results.length ? <h2>No results.</h2> :
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th className={`col-${canEdit ? '5' : '6'}`}>Name</th>
-                        <th className={`col-${canEdit ? '4' : '5'}`}>Parish</th>
-                        <th className="col-1"></th>
-                        {
-                            canEdit &&
-                            <>
-                                <th className="col-1"></th>
-                                <th className="col-1"></th>
-                            </>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    {results.map((congregation: Congregation) =>
-                        <tr key={congregation.id}>
-                            <td>{congregation.name}</td>
-                            <td>{congregation.parish}</td>
-                            <td>
-                                <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
-                                    View
-                                </Link>
-                            </td>
+        !results.totalResults ? <h2>No results.</h2> :
+            <>
+                <table className='table table-striped' aria-labelledby="tabelLabel">
+                    <thead>
+                        <tr>
+                            <th className={`col-${canEdit ? '5' : '6'}`}>Name</th>
+                            <th className={`col-${canEdit ? '4' : '5'}`}>Parish</th>
+                            <th className="col-1"></th>
                             {
                                 canEdit &&
                                 <>
-                                    <td>
-                                        <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
-                                            Edit
-                                        </Link>
-                                     </td>
-                                    <td>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                            {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete"}
-                                        </button>
-                                    </td>
+                                    <th className="col-1"></th>
+                                    <th className="col-1"></th>
                                 </>
                             }
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {results.congregations.map((congregation: Congregation) =>
+                            <tr key={congregation.id}>
+                                <td>{congregation.name}</td>
+                                <td>{congregation.parish}</td>
+                                <td>
+                                    <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
+                                        View
+                                    </Link>
+                                </td>
+                                {
+                                    canEdit &&
+                                    <>
+                                        <td>
+                                            <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
+                                                Edit
+                                            </Link>
+                                        </td>
+                                        <td>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
+                                                {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete"}
+                                            </button>
+                                        </td>
+                                    </>
+                                }
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <Paging
+                    results={results}
+                    nextPage={nextPage}
+                    previousPage={previousPage}
+                />
+            </>;
 };
 
 export default connect(

@@ -21,13 +21,13 @@ namespace SrdDatabase.Data.Queries
             public int? PageSize { get; }
 
             public Query(
+                Parameters parameters = null,
                 int? id = null,
-                string name = null,
                 int pageNumber = 0,
                 int? pageSize = null)
             {
                 Id = id;
-                Name = name;
+                Name = parameters?.Name;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

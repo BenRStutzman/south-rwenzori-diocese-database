@@ -4,6 +4,7 @@ import { plural } from 'pluralize';
 
 interface Props {
     title: string;
+    total: number;
     items: DetailsListItem[];
     itemType: string;
 }
@@ -15,11 +16,12 @@ interface DetailsListItem {
 
 const DetailsList = ({
     title,
+    total,
     items,
     itemType,
 }: Props) =>
     <div className="details-box">
-        <h2>{title} ({items.length})</h2>
+        <h2>{title} ({total})</h2>
         <ul>
             {items.map(item =>
                 <li key={item.id}>

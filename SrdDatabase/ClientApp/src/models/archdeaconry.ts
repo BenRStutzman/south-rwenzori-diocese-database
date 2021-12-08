@@ -1,7 +1,7 @@
-﻿import { Congregation } from "./congregation";
-import { Parish } from "./parish";
+﻿import { Results as CongregationResults } from "./congregation";
+import { Results as ParishResults } from "./parish";
 import { PagedResults } from "./shared";
-import { Event } from './event';
+import { Results as EventResults } from './event';
 
 export interface Archdeaconry {
     id?: number;
@@ -10,9 +10,9 @@ export interface Archdeaconry {
 
 export interface Details {
     archdeaconry: Archdeaconry;
-    parishes: Parish[];
-    congregations: Congregation[];
-    recentEvents: Event[];
+    parishResults: ParishResults;
+    congregationResults: CongregationResults;
+    eventResults: EventResults;
 }
 
 export interface Parameters {
