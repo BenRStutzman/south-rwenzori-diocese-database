@@ -1,23 +1,18 @@
 ﻿using MediatR;
-using System;
-using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
-using SrdDatabase.Services;
 using SrdDatabase.Models.Shared;
+using SrdDatabase.Data.Commands;
 using SrdDatabase.Models.Events;
+using System;
 
-namespace SrdDatabase.Data.Commands
+namespace SrdDatabase.Domain.Commands
 {
-    public class SaveEvent
+    public class AddEvent
     {
         public class Command : EventFields, IRequest<SaveResponse>
         {
-            public int?  Id { get; set; }
-
             public Command(
-                int? id,
                 byte eventTypeId,
                 int congregationId,
                 string firstPersonName,
@@ -30,31 +25,29 @@ namespace SrdDatabase.Data.Commands
                     secondPersonName,
                     date)
             {
-                Id = id;
             }
         }
 
         public class Handler : IRequestHandler<Command, SaveResponse>
         {
-            private readonly IDbService _dbService;
+            private readonly IMediator _mediator;
 
-            private readonly string _storedProcedure = "sto_save_event";
-
-            public Handler(IDbService dbService)
+            public Handler(IMediator mediator)
             {
-                _dbService = dbService;
+                _mediator = mediator;
             }
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                using var connection = _dbService.GetConnection();
+                var dataCommand = new SaveEvent.Command(
+                    null,
+                    request.EventTypeId,
+                    request.CongregationId,
+                    request.FirstPersonName,
+                    request.SecondPersonName,
+                    request.Date);
 
-                var id = await connection.QuerySingleAsync<int>(
-                    _storedProcedure,
-                    request,
-                    commandType: CommandType.StoredProcedure);
-
-                return new SaveResponse(id);
+                return await _mediator.Send(dataCommand, cancellationToken);
             }
         }
     }

@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Attributes;
 using SrdDatabase.Domain.Commands;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Users;
+using SrdDatabase.Models.Shared;
 
 namespace SrdDatabase.Controllers
 {
@@ -56,16 +56,14 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Contributor)]
         [HttpPost("add")]
-        public async Task<SaveEvent.Response> Add(SaveEvent.Command command)
+        public async Task<SaveResponse> Add(AddEvent.Command command)
         {
-            command.Id = null;
-
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("edit")]
-        public async Task<SaveEvent.Response> Edit(SaveEvent.Command command)
+        public async Task<SaveResponse> Edit(EditEvent.Command command)
         {
             return await _mediator.Send(command);
         }
