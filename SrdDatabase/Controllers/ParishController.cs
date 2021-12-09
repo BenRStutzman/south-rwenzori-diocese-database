@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using SrdDatabase.Models;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
-using SrdDatabase.Data.Commands;
+using SrdDatabase.Domain.Commands;
 using SrdDatabase.Attributes;
 using SrdDatabase.Models.Parishes;
 using SrdDatabase.Models.Users;
+using SrdDatabase.Models.Shared;
 
 namespace SrdDatabase.Controllers
 {
@@ -49,23 +49,21 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Editor)]
         [HttpPost("add")]
-        public async Task<SaveParish.Response> Add(SaveParish.Command command)
+        public async Task<SaveResponse> Add(AddParish.Command command)
         {
-            command.Id = null;
-
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("edit")]
-        public async Task<SaveParish.Response> Edit(SaveParish.Command command)
+        public async Task<SaveResponse> Edit(EditParish.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete(Domain.Commands.DeleteParish.Command command)
+        public async Task<IActionResult> Delete(DeleteParish.Command command)
         {
             var response = await _mediator.Send(command);
 

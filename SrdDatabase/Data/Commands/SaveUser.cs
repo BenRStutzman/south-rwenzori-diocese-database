@@ -4,32 +4,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using System;
+using SrdDatabase.Models.Users;
+using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Data.Commands
 {
     public class SaveUser
     {
-        public class Command : IRequest<Response>
+        public class Command : UserFields, IRequest<SaveResponse>
         {
             public int? Id { get; set; }
 
-            [Required]
-            [StringLength(50)]
-            public string Name { get; }
-
-            [Required]
-            [StringLength(50)]
-            public string Username { get; }
-
             [StringLength(60)]
             public string Password { get; }
-
-            [Required]
-            public byte UserTypeId { get; }
-
-            public bool SetPassword { get; }
 
             public Command(
                 int? id,
@@ -37,27 +25,15 @@ namespace SrdDatabase.Data.Commands
                 string username,
                 string password,
                 byte userTypeId)
+                : base (userTypeId, name, username)
             {
-                SetPassword = !string.IsNullOrEmpty(password);
-
-                if (!SetPassword && id == null)
-                {
-                    throw new ArgumentException("You must set a password.");
-                } 
-
                 Id = id;
-                Name = name;
-                Username = username;
-                UserTypeId = userTypeId;
-
-                if (SetPassword)
-                {
-                    Password = BCrypt.Net.BCrypt.HashPassword(password);
-                }
+                Password = string.IsNullOrEmpty(password) ? null
+                    : BCrypt.Net.BCrypt.HashPassword(password);
             }
         }
 
-        public class Handler : IRequestHandler<Command, Response>
+        public class Handler : IRequestHandler<Command, SaveResponse>
         {
             private readonly IDbService _dbService;
 
@@ -68,7 +44,7 @@ namespace SrdDatabase.Data.Commands
                 _dbService = dbService;
             }
 
-            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -77,17 +53,7 @@ namespace SrdDatabase.Data.Commands
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new Response(id);
-            }
-        }
-
-        public class Response
-        {
-            public int Id { get; }
-
-            public Response(int id)
-            {
-                Id = id;
+                return new SaveResponse(id);
             }
         }
     }

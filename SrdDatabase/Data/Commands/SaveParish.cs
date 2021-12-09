@@ -4,32 +4,25 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using System.ComponentModel.DataAnnotations;
+using SrdDatabase.Models.Parishes;
+using SrdDatabase.Models.Shared;
 
 namespace SrdDatabase.Data.Commands
 {
     public class SaveParish
     {
-        public class Command : IRequest<Response>
+        public class Command : ParishFields, IRequest<SaveResponse>
         {
             public int? Id { get; set; }
 
-            [Required]
-            [StringLength(50)]
-            public string Name { get; }
-
-            [Required]
-            public int ArchdeaconryId { get; }
-
             public Command(int? id, string name, int archdeaconryId)
+                : base(name, archdeaconryId)
             {
                 Id = id;
-                Name = name;
-                ArchdeaconryId = archdeaconryId;
             }
         }
 
-        public class Handler : IRequestHandler<Command, Response>
+        public class Handler : IRequestHandler<Command, SaveResponse>
         {
             private readonly IDbService _dbService;
 
@@ -40,7 +33,7 @@ namespace SrdDatabase.Data.Commands
                 _dbService = dbService;
             }
 
-            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -49,17 +42,7 @@ namespace SrdDatabase.Data.Commands
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new Response(id);
-            }
-        }
-
-        public class Response
-        {
-            public int Id { get; }
-
-            public Response(int id)
-            {
-                Id = id;
+                return new SaveResponse(id);
             }
         }
     }
