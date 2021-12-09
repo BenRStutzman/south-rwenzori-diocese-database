@@ -7,6 +7,9 @@ using SrdDatabase.Attributes;
 using SrdDatabase.Models.Archdeaconries;
 using System.Collections.Generic;
 using SrdDatabase.Models.Users;
+using System;
+using SrdDatabase.Models.Shared;
+using SrdDatabase.Domain.Commands;
 
 namespace SrdDatabase.Controllers
 {
@@ -48,16 +51,14 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Editor)]
         [HttpPost("add")]
-        public async Task<SaveArchdeaconry.Response> Add(SaveArchdeaconry.Command command)
+        public async Task<SaveResponse> Add(AddArchdeaconry.Command command)
         {
-            command.Id = null;
-
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("edit")]
-        public async Task<SaveArchdeaconry.Response> Edit(SaveArchdeaconry.Command command)
+        public async Task<SaveResponse> Edit(EditArchdeaconry.Command command)
         {
             return await _mediator.Send(command);
         }
@@ -66,7 +67,7 @@ namespace SrdDatabase.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(Domain.Commands.DeleteArchdeaconry.Command command)
         {
-                var response = await _mediator.Send(command);
+            var response = await _mediator.Send(command);
 
             return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
         }
