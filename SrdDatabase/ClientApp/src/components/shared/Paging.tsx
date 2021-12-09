@@ -27,7 +27,7 @@ const Paging = ({
         <div>
             {
                 startingResultNumber <= endingResultNumber &&
-                <span>Showing results {startingResultNumber} to {endingResultNumber} of {results.totalResults}</span>
+                <span>Showing results {startingResultNumber}&ndash;{endingResultNumber} of {results.totalResults}</span>
             }
         </div>
         <div className="paging-button-container">
