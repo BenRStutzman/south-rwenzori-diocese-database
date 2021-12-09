@@ -174,10 +174,9 @@ const deleteArchdeaconry = (archdeaconry: Archdeaconry, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingArchdeaconryIdAction(undefined));
                         alert(errorMessage);
                     });
-                }).finally(() => {
-                    dispatch(setDeletingArchdeaconryIdAction(undefined));
                 });
         }
     };
@@ -196,10 +195,9 @@ const deleteParish = (parish: Parish, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingParishIdAction(undefined));
                         alert(errorMessage);
                     });
-                }).finally(() => {
-                    dispatch(setDeletingParishIdAction(undefined));
                 });
         }
     };
@@ -218,10 +216,9 @@ const deleteCongregation = (congregation: Congregation, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingCongregationIdAction(undefined));
                         alert(errorMessage);
                     });
-                }).finally(() => {
-                    dispatch(setDeletingCongregationIdAction(undefined));
                 });
         }
     };
@@ -240,10 +237,9 @@ const deleteEvent = (event: Event, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingEventIdAction(undefined));
                         alert(errorMessage);
                     });
-                }).finally(() => {
-                    dispatch(setDeletingEventIdAction(undefined));
                 });
         }
     };
@@ -262,10 +258,9 @@ const deleteUser = (user: User, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingUserIdAction(undefined));
                         alert(errorMessage);
                     });
-                }).finally(() => {
-                    dispatch(setDeletingUserIdAction(undefined));
                 });
         }
     };
