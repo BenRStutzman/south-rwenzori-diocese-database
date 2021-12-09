@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Congregations;
+using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace SrdDatabase.Domain.Commands
 {
     public class DeleteParish
     {
-        public class Command : IRequest<Response>
+        public class Command : IRequest<DeleteResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }
@@ -20,7 +21,7 @@ namespace SrdDatabase.Domain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, Response>
+        public class Handler : IRequestHandler<Command, DeleteResponse>
         {
             private readonly IMediator _mediator;
 
@@ -29,7 +30,7 @@ namespace SrdDatabase.Domain.Commands
                 _mediator = mediator;
             }
 
-            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 var congregationsQuery = new GetCongregations.Query(
                     new CongregationParameters(parishId: request.Id));
@@ -37,7 +38,7 @@ namespace SrdDatabase.Domain.Commands
 
                 if (congregationsResults.TotalResults > 0)
                 {
-                    return Response.ForError(
+                    return DeleteResponse.ForError(
                         "Unable to delete this parish because it has congregations associated with it. " +
                         "Please delete all of those congregations or move them to another parish, " +
                         "then try again."
@@ -47,25 +48,8 @@ namespace SrdDatabase.Domain.Commands
                 await _mediator.Send(
                     new Data.Commands.DeleteParish.Command(request.Id), cancellationToken);
 
-                return Response.ForSuccess();
+                return DeleteResponse.ForSuccess();
             }
-        }
-
-        public class Response
-        {
-            public bool Succeeded { get; }
-
-            public string ErrorMessage { get; }
-
-            private Response(bool succeeded = true, string errorMessage = null)
-            {
-                Succeeded = succeeded;
-                ErrorMessage = errorMessage;
-            }
-
-            public static Response ForSuccess() => new();
-
-            public static Response ForError(string errorMessage) => new(false, errorMessage);
         }
     }
 }

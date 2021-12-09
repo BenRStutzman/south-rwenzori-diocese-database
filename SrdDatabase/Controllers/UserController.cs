@@ -62,7 +62,7 @@ namespace SrdDatabase.Controllers
         [HttpGet("types")]
         public async Task<IEnumerable<UserType>> GetTypes()
         {
-            return await _mediator.Send(new GetUserTypes.Query());
+            return await _mediator.Send(new GetAllUserTypes.Query());
         }
 
         [HttpPost("search")]
@@ -86,7 +86,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete(DeleteUser.Command command)
+        public async Task<IActionResult> Delete(Domain.Commands.DeleteUser.Command command)
         {
             await _mediator.Send(command);
 

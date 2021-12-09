@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
-using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -8,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SrdDatabase.Domain.Commands
 {
-    public class DeleteCongregation
+    public class DeleteEvent
     {
         public class Command : IRequest<DeleteResponse>
         {
@@ -32,21 +30,9 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var eventsQuery = new GetEvents.Query(
-                    new EventParameters(congregationId: request.Id));
-                var eventResults = await _mediator.Send(eventsQuery, cancellationToken);
-
-                if (eventResults.TotalResults > 0)
-                {
-                    return DeleteResponse.ForError(
-                        "Unable to delete this congregation because it has events associated with it. " +
-                        "Please delete all of those events or move them to another congregation, " +
-                        "then try again."
-                    );
-                }
-
                 await _mediator.Send(
-                    new Data.Commands.DeleteCongregation.Command(request.Id), cancellationToken);
+                    new Data.Commands.DeleteEvent.Command(request.Id),
+                    cancellationToken);
 
                 return DeleteResponse.ForSuccess();
             }

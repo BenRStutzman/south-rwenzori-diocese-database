@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
-using SrdDatabase.Data.Commands;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Attributes;
 using SrdDatabase.Domain.Commands;
@@ -46,7 +45,7 @@ namespace SrdDatabase.Controllers
         [HttpGet("types")]
         public async Task<IEnumerable<EventType>> GetTypes()
         {
-            return await _mediator.Send(new GetEventTypes.Query());
+            return await _mediator.Send(new GetAllEventTypes.Query());
         }
 
         [HttpPost("search")]

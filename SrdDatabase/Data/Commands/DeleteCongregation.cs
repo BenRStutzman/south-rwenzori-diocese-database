@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Data.Commands
 {
@@ -12,7 +11,6 @@ namespace SrdDatabase.Data.Commands
     {
         public class Command : IRequest
         {
-            [Range(1, int.MaxValue)]
             public int Id { get; }
 
             public Command(int id)

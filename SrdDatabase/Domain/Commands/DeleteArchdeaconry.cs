@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Domain.Queries;
 using SrdDatabase.Models.Parishes;
+using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +10,7 @@ namespace SrdDatabase.Domain.Commands
 {
     public class DeleteArchdeaconry
     {
-        public class Command : IRequest<Response>
+        public class Command : IRequest<DeleteResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }
@@ -22,7 +21,7 @@ namespace SrdDatabase.Domain.Commands
             }
         }
 
-        public class Handler : IRequestHandler<Command, Response>
+        public class Handler : IRequestHandler<Command, DeleteResponse>
         {
             private readonly IMediator _mediator;
 
@@ -31,7 +30,7 @@ namespace SrdDatabase.Domain.Commands
                 _mediator = mediator;
             }
 
-            public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 var parishesQuery = new GetParishes.Query(
                     new ParishParameters(archdeaconryId: request.Id));
@@ -39,7 +38,7 @@ namespace SrdDatabase.Domain.Commands
 
                 if (parishResults.TotalResults > 0)
                 {
-                    return Response.ForError(
+                    return DeleteResponse.ForError(
                         "Unable to delete this archdeaconry because it has parishes associated with it. " +
                         "Please delete all of those parishes or move them to another archdeaconry, " +
                         "then try again."
@@ -50,25 +49,8 @@ namespace SrdDatabase.Domain.Commands
                     new Data.Commands.DeleteArchdeaconry.Command(request.Id),
                     cancellationToken);
 
-                return Response.ForSuccess();
+                return DeleteResponse.ForSuccess();
             }
-        }
-
-        public class Response
-        {
-            public bool Succeeded { get; }
-
-            public string ErrorMessage { get; }
-
-            private Response(bool succeeded = true, string errorMessage = null)
-            {
-                Succeeded = succeeded;
-                ErrorMessage = errorMessage;
-            }
-
-            public static Response ForSuccess() => new();
-
-            public static Response ForError(string errorMessage) => new(false, errorMessage);
         }
     }
 }
