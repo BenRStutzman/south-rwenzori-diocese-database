@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
-using SrdDatabase.Data.Commands;
 using SrdDatabase.Attributes;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Users;
+using SrdDatabase.Models.Shared;
+using SrdDatabase.Domain.Commands;
 
 namespace SrdDatabase.Controllers
 {
@@ -48,23 +49,21 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Editor)]
         [HttpPost("add")]
-        public async Task<SaveCongregation.Response> Add(SaveCongregation.Command command)
+        public async Task<SaveResponse> Add(AddCongregation.Command command)
         {
-            command.Id = null;
-
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("edit")]
-        public async Task<SaveCongregation.Response> Edit(SaveCongregation.Command command)
+        public async Task<SaveResponse> Edit(EditCongregation.Command command)
         {
             return await _mediator.Send(command);
         }
 
         [Authorize(UserRole.Editor)]
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete(Domain.Commands.DeleteCongregation.Command command)
+        public async Task<IActionResult> Delete(DeleteCongregation.Command command)
         {
             var response = await _mediator.Send(command);
 
