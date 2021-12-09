@@ -41,26 +41,28 @@ const SearchBox = ({
     return (
         <>
             <ExpandButton expanded={expanded} setExpanded={setExpanded} />
-            <form hidden={!expanded} onSubmit={onSubmit} className="search-box">
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        id="name"
-                        className="form-control"
-                        autoComplete={autoCompleteString}
-                        type="text"
-                        spellCheck={false}
-                        value={parameters.name ?? ""}
-                        onChange={onNameChange}
-                        maxLength={50}
+            <div hidden={!expanded} className="search-box">
+                <form onSubmit={onSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            id="name"
+                            className="form-control"
+                            autoComplete={autoCompleteString}
+                            type="text"
+                            spellCheck={false}
+                            value={parameters.name ?? ""}
+                            onChange={onNameChange}
+                            maxLength={50}
+                        />
+                    </div>
+                    <SearchButtons
+                        thingsBeingSearched="archdeaconries"
+                        onClear={resetParameters}
+                        searching={resultsLoading}
                     />
-                </div>
-                <SearchButtons
-                    thingsBeingSearched="archdeaconries"
-                    onClear={resetParameters}
-                    searching={resultsLoading}
-                />
-            </form>
+                </form>
+            </div>
         </>
     );
 }
