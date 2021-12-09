@@ -7,6 +7,9 @@ import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { randomString } from '../../../helpers/miscellaneous';
+
+const autoComplete = randomString();
 
 interface OwnProps {
     isNew?: boolean;
@@ -62,6 +65,7 @@ const SaveForm = ({
                     id="name"
                     className="form-control"
                     type="text"
+                    autoComplete={autoComplete}
                     spellCheck={false}
                     value={parish.name ?? ""}
                     onChange={onNameChange}

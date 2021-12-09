@@ -7,6 +7,9 @@ import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
+import { randomString } from '../../../helpers/miscellaneous';
+
+const autoComplete = randomString();
 
 interface OwnProps {
     isNew?: boolean;
@@ -47,6 +50,7 @@ const SaveForm = ({
                     className="form-control"
                     type="text"
                     spellCheck={false}
+                    autoComplete={autoComplete}
                     value={archdeaconry.name ?? ""}
                     onChange={onNameChange}
                     required

@@ -8,6 +8,9 @@ import { ChangeEvent, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { Dispatch, bindActionCreators } from 'redux';
+import { randomString } from '../../../helpers/miscellaneous';
+
+const autoComplete = randomString();
 
 interface OwnProps {
     isNew?: boolean;
@@ -65,6 +68,7 @@ const SaveForm = ({
                     type="text"
                     spellCheck={false}
                     value={congregation.name ?? ""}
+                    autoComplete={autoComplete}
                     onChange={onNameChange}
                     maxLength={50}
                     required
