@@ -48,14 +48,7 @@ const SearchResults = ({
                         <tr>
                             <th className={`col-${canEdit ? '5' : '6'}`}>Name</th>
                             <th className={`col-${canEdit ? '4' : '5'}`}>Archdeaconry</th>
-                            <th className="col-1"></th>
-                            {
-                                canEdit &&
-                                <>
-                                    <th className="col-1"></th>
-                                    <th className="col-1"></th>
-                                </>
-                            }
+                            <th className={`col-${canEdit ? '1' : '3'}`}></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,26 +56,22 @@ const SearchResults = ({
                             <tr key={parish.id}>
                                 <td>{parish.name}</td>
                                 <td>{parish.archdeaconry}</td>
-                                <td>
+                                <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
                                         View
                                     </Link>
-                                </td>
-                                {
-                                    canEdit &&
-                                    <>
-                                        <td>
+                                    {
+                                        canEdit &&
+                                        <>
                                             <Link className="btn btn-primary" to={`/parish/edit/${parish.id}`}>
                                                 Edit
                                             </Link>
-                                        </td>
-                                        <td>
                                             <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
                                                 {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete'}
                                             </button>
-                                        </td>
-                                    </>
-                                }
+                                        </>
+                                    }
+                                </td>
                             </tr>
                         )}
                     </tbody>

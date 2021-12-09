@@ -23,11 +23,13 @@ namespace SrdDatabase.Data.Commands
             [StringLength(50)]
             public string Username { get; }
 
-            [StringLength(50)]
+            [StringLength(60)]
             public string Password { get; }
 
             [Required]
             public byte UserTypeId { get; }
+
+            public bool SetPassword { get; }
 
             public Command(
                 int? id,
@@ -36,7 +38,9 @@ namespace SrdDatabase.Data.Commands
                 string password,
                 byte userTypeId)
             {
-                if (id == null & string.IsNullOrEmpty(password))
+                SetPassword = !string.IsNullOrEmpty(password);
+
+                if (!SetPassword && id == null)
                 {
                     throw new ArgumentException("You must set a password.");
                 } 
@@ -44,8 +48,12 @@ namespace SrdDatabase.Data.Commands
                 Id = id;
                 Name = name;
                 Username = username;
-                Password = string.IsNullOrEmpty(password) ? "" : BCrypt.Net.BCrypt.HashPassword(password);
                 UserTypeId = userTypeId;
+
+                if (SetPassword)
+                {
+                    Password = BCrypt.Net.BCrypt.HashPassword(password);
+                }
             }
         }
 

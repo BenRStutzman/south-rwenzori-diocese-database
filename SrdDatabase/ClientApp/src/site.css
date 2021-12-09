@@ -37,6 +37,10 @@ html {
     color: red;
 }
 
+.container {
+    padding-bottom: 10px;
+}
+
 .save-alert {
     color: green;
     padding-top: 10px;
@@ -130,4 +134,9 @@ button:disabled {
 
 .paging div:nth-of-type(3) {
     justify-content: flex-end;
+}
+
+.buttons-column {
+    display: flex;
+    gap: 5px;
 }

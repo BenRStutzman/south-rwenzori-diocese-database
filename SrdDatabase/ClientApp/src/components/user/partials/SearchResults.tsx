@@ -45,9 +45,7 @@ const SearchResults = ({
                             <th className="col-3">Name</th>
                             <th className="col-3">Username</th>
                             <th className="col-3">User Type</th>
-                            <th className="col-1"></th>
-                            <th className="col-1"></th>
-                            <th className="col-1"></th>
+                            <th className="col-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,17 +54,13 @@ const SearchResults = ({
                                 <td>{user.name}</td>
                                 <td>{user.username}</td>
                                 <td>{user.userType}</td>
-                                <td>
+                                <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
                                         View
                                     </Link>
-                                </td>
-                                <td>
                                     <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
                                         Edit
                                     </Link>
-                                </td>
-                                <td>
                                     <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
                                         {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete'}
                                     </button>

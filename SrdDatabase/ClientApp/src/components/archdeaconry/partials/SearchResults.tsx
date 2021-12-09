@@ -47,40 +47,29 @@ const SearchResults = ({
                     <thead>
                         <tr>
                             <th className={`col-${canEdit ? '9' : '11'}`}>Name</th>
-                            <th className="col-1"></th>
-                            {
-                                canEdit &&
-                                <>
-                                    <th className="col-1"></th>
-                                    <th className="col-1"></th>
-                                </>
-                            }
+                            <th className={`col-${canEdit ? '1' : '3'}`}></th>
                         </tr>
                     </thead>
                     <tbody>
                         {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                             <tr key={archdeaconry.id}>
                                 <td>{archdeaconry.name}</td>
-                                <td>
+                                <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
                                         View
                                     </Link>
-                                </td>
                                 {
                                     canEdit &&
                                     <>
-                                        <td>
                                             <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
                                                 Edit
                                             </Link>
-                                        </td>
-                                        <td>
                                             <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
                                                 {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
                                             </button>
-                                        </td>
                                     </>
                                 }
+                                </td>
                             </tr>
                         )}
                     </tbody>

@@ -2,12 +2,12 @@
 import * as Store from '../../../store/congregation/home';
 import * as SharedStore from '../../../store/shared';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/miscellaneous';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
+import { randomString } from '../../../helpers/miscellaneous';
 
 const autoCompleteString = randomString();
 

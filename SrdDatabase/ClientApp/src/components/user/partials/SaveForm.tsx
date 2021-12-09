@@ -7,8 +7,8 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
-import { randomString } from '../../../helpers/miscellaneous';
 import { bindActionCreators, Dispatch } from 'redux';
+import { randomString } from '../../../helpers/miscellaneous';
 
 const autoComplete = randomString();
 

@@ -51,14 +51,7 @@ const SearchResults = ({
                             <th className="col-4">Name(s)</th>
                             <th className={`col-${canEdit ? '2' : '3'}`}>Congregation</th>
                             <th className="col-2">Date</th>
-                            <th className="col-1"></th>
-                            {
-                                canEdit &&
-                                <>
-                                    <th className="col-1"></th>
-                                    <th className="col-1"></th>
-                                </>
-                            }
+                            <th className={`col-${canEdit ? '1' : '3'}`}></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,26 +61,22 @@ const SearchResults = ({
                                 <td>{peoplesNames(event)}</td>
                                 <td>{event.congregation}</td>
                                 <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
-                                <td>
+                                <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
                                         View
                                     </Link>
-                                </td>
-                                {
-                                    canEdit &&
-                                    <>
-                                        <td>
+                                    {
+                                        canEdit &&
+                                        <>
                                             <Link className="btn btn-primary" to={`/event/edit/${event.id}`}>
                                                 Edit
                                             </Link>
-                                        </td>
-                                        <td>
                                             <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
                                                 {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete'}
                                             </button>
-                                        </td>
-                                    </>
-                                }
+                                        </>
+                                    }
+                                </td>
                             </tr>
                         )}
                     </tbody>
