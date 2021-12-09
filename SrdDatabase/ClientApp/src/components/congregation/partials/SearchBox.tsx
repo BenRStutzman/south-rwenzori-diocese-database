@@ -2,7 +2,7 @@
 import * as Store from '../../../store/congregation/home';
 import * as SharedStore from '../../../store/shared';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/randomString';
+import { randomString } from '../../../helpers/miscellaneous';
 import { connect } from 'react-redux';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';

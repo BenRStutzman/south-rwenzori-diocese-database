@@ -1,27 +1,22 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { plural } from 'pluralize';
+import { DetailsListItem } from '../../models/shared';
+import { capitalize } from '../../helpers/miscellaneous';
 
 interface Props {
-    title: string;
-    total: number;
-    items: DetailsListItem[];
     itemType: string;
-}
-
-interface DetailsListItem {
-    id?: number;
-    displayText?: string;
+    itemTotal: number;
+    items: DetailsListItem[];
 }
 
 const DetailsList = ({
-    title,
-    total,
-    items,
     itemType,
+    itemTotal,
+    items,
 }: Props) =>
     <div className="details-box">
-        <h2>{title} ({total})</h2>
+        <h2>{capitalize(plural(itemType))} ({itemTotal})</h2>
         <ul>
             {items.map(item =>
                 <li key={item.id}>

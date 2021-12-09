@@ -31,9 +31,9 @@ namespace SrdDatabase.Data.Queries
                 int? pageSize = null)
             {
                 Id = id;
-                UserTypeId = parameters.UserTypeId;
-                Name = parameters.Name;
-                Username = parameters.Username;
+                UserTypeId = parameters?.UserTypeId;
+                Name = parameters?.Name;
+                Username = parameters?.Username;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { plural } from 'pluralize';
+import { capitalize } from '../../helpers/miscellaneous';
 
 interface Props {
     itemType: string;
@@ -15,7 +16,7 @@ const DetailsBox = ({
 }: Props) =>
     <div className="details-box">
         <h2>
-            {`${itemType[0].toUpperCase()}${itemType.substr(1)}: `}
+            {`${capitalize(itemType)}: `}
             {itemId ?
                 <Link to={`/${itemType}/details/${itemId}`}>
                     {itemValue}

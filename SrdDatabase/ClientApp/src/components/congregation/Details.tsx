@@ -11,6 +11,7 @@ import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
 import { formattedDate, peoplesNames } from '../../helpers/eventHelper';
+import { eventItems } from '../../helpers/detailsHelpers';
 
 type Props =
     Store.State &
@@ -56,13 +57,9 @@ const Details = ({
                     itemId={details.congregation.archdeaconryId}
                 />
                 <DetailsList
-                    title="Recent Events"
-                    total={details.eventResults.totalResults}
                     itemType="event"
-                    items={details.eventResults.events.map(event => ({
-                        id: event.id,
-                        displayText: `${formattedDate(event)}: ${event.eventType} of ${peoplesNames(event)} at ${event.congregation} Congregation`,
-                    }))}
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
                     />
             </div>
         </>;

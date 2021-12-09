@@ -11,6 +11,7 @@ import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
 import { Event } from '../../models/event';
+import { congregationItems, eventItems } from '../../helpers/detailsHelpers';
 
 type Props =
     Store.State &
@@ -51,20 +52,14 @@ const Details = ({
                     itemId={details.parish.archdeaconryId}
                 />
                 <DetailsList
-                    title="Congregations"
-                    total={details.congregationResults.totalResults}
                     itemType="congregation"
-                    items={details.congregationResults.congregations.map(congregation => (
-                        { id: congregation.id, displayText: congregation.name }))}
+                    itemTotal={details.congregationResults.totalResults}
+                    items={congregationItems(details.congregationResults)}
                 />
                 <DetailsList
-                    title="Recent Events"
-                    total={details.eventResults.totalResults}
                     itemType="event"
-                    items={details.eventResults.events.map(event => ({
-                        id: event.id,
-                        displayText: `${new Date(event.date as Date).toLocaleDateString('en-ca')}: ${event.eventType} of ${event.firstPersonName}${event.secondPersonName ? ` and ${event.secondPersonName}` : ''} at ${event.congregation} Congregation`,
-                    }))}
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
                 />
             </div>
         </>;

@@ -1,6 +1,6 @@
 ﻿import { State } from '../../../store';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/randomString';
+import { randomString } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/archdeaconry/home';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

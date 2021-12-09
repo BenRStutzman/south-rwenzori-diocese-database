@@ -31,8 +31,8 @@ namespace SrdDatabase.Data.Queries
                 )
             {
                 Id = id;
-                Name = parameters.Name;
-                ArchdeaconryId = parameters.ArchdeaconryId;
+                Name = parameters?.Name;
+                ArchdeaconryId = parameters?.ArchdeaconryId;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

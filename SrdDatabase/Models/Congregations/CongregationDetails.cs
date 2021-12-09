@@ -6,14 +6,14 @@ namespace SrdDatabase.Models.Congregations
     {
         public Congregation Congregation { get; }
 
-        public EventResults EventsResults { get; }
+        public EventResults EventResults { get; }
 
         public CongregationDetails(
             Congregation congregation,
             EventResults eventResults)
         {
             Congregation = congregation;
-            EventsResults = eventResults;
+            EventResults = eventResults;
         }
     }
 

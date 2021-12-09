@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
-import { randomString } from '../../../helpers/randomString';
+import { randomString } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
 import * as Store from '../../../store/event/home';
 import * as SharedStore from '../../../store/shared';

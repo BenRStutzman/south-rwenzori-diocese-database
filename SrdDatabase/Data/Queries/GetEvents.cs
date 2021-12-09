@@ -40,13 +40,13 @@ namespace SrdDatabase.Data.Queries
                 int? pageSize = null)
             {
                 Id = id;
-                EventTypeId = parameters.EventTypeId;
-                ArchdeaconryId = parameters.ArchdeaconryId;
-                ParishId = parameters.ParishId;
-                CongregationId = parameters.CongregationId;
-                PersonName = parameters.PersonName;
-                StartDate = parameters.StartDate;
-                EndDate = parameters.EndDate;
+                EventTypeId = parameters?.EventTypeId;
+                ArchdeaconryId = parameters?.ArchdeaconryId;
+                ParishId = parameters?.ParishId;
+                CongregationId = parameters?.CongregationId;
+                PersonName = parameters?.PersonName;
+                StartDate = parameters?.StartDate;
+                EndDate = parameters?.EndDate;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

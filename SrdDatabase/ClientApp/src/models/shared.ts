@@ -14,3 +14,8 @@ export interface SearchRequest {
     parameters: any;
     pageNumber: number;
 };
+
+export interface DetailsListItem {
+    id?: number;
+    displayText?: string;
+}

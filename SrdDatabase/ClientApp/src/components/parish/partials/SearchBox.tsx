@@ -1,6 +1,6 @@
 ﻿import { State } from '../../../store';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/randomString';
+import { randomString } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/parish/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
