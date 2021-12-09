@@ -4,25 +4,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Models.Shared;
+using SrdDatabase.Models.Archdeaconries;
 
 namespace SrdDatabase.Data.Commands
 {
     public class SaveArchdeaconry
     {
-        public class Command : IRequest<SaveResponse>
+        public class Command : ArchdeaconryFields, IRequest<SaveResponse>
         {
             public int? Id { get; set; }
 
-            [Required]
-            [StringLength(50)]
-            public string Name { get; }
-
-            public Command(int? id, string name)
+            public Command(int? id, string name) : base(name)
             {
                 Id = id;
-                Name = name;
             }
         }
 
