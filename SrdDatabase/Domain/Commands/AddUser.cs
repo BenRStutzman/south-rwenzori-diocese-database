@@ -14,7 +14,7 @@ namespace SrdDatabase.Domain.Commands
         public class Command : UserFields, IRequest<SaveResponse>
         {
             [Required]
-            [StringLength(50)]
+            [StringLength(50, MinimumLength = 8)]
             public string Password { get; }
 
             public Command(

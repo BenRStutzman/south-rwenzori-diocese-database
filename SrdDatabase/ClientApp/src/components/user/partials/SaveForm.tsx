@@ -125,6 +125,7 @@ const SaveForm = ({
                     autoComplete={autoComplete}
                     value={user.password ?? ""}
                     onChange={onPasswordChange}
+                    minLength={8}
                     maxLength={50}
                     required={isNew}
                 />

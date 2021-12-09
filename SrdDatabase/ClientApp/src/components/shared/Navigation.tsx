@@ -21,7 +21,7 @@ const Navigation = ({
         <header>
             <Navbar className='navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3' light>
                 <Container>
-                    <NavbarBrand tag={Link} to='/'>South Rwenzori Diocese Database</NavbarBrand>
+                    <NavbarBrand tag={Link} to='/'>SRD Admin</NavbarBrand>
                     <NavbarToggler onClick={toggle} className='mr-2' />
                     {
                         currentUser &&

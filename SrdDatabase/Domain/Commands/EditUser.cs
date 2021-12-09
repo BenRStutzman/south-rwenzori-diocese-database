@@ -16,7 +16,7 @@ namespace SrdDatabase.Domain.Commands
             [Range(1, int.MaxValue)]
             public int Id { get; }
 
-            [StringLength(50)]
+            [StringLength(50, MinimumLength = 8)]
             public string Password { get; }
 
             public Command(
