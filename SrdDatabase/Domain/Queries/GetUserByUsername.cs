@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Users;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace SrdDatabase.Domain.Queries
     {
         public class Query : IRequest<User>
         {
+            [Required]
+            [StringLength(50)]
             public string Username { get; }
 
             public Query(string username)

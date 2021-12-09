@@ -14,7 +14,9 @@ namespace SrdDatabase.Domain.Queries
 
             public int PageNumber { get; }
 
-            public Query(EventParameters parameters, int pageNumber)
+            public Query(
+                EventParameters parameters = null,
+                int pageNumber = 0)
             {
                 Parameters = parameters;
                 PageNumber = pageNumber;

@@ -66,7 +66,7 @@ namespace SrdDatabase.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(Domain.Commands.DeleteArchdeaconry.Command command)
         {
-            var response = await _mediator.Send(command);
+                var response = await _mediator.Send(command);
 
             return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
         }

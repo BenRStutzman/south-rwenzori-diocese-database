@@ -1,17 +1,23 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Events
 {
     public class EventParameters
     {
+        [Range(1, int.MaxValue)]
         public byte? EventTypeId { get; }
 
+        [Range(1, int.MaxValue)]
         public int? ArchdeaconryId { get; }
 
+        [Range(1, int.MaxValue)]
         public int? ParishId { get; }
 
+        [Range(1, int.MaxValue)]
         public int? CongregationId { get; }
-
+        
+        [StringLength(50)]
         public string PersonName { get; }
 
         public DateTime? StartDate { get; }

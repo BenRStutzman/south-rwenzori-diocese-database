@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Models.Users;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace SrdDatabase.Domain.Queries
     {
         public class Query : IRequest<UserDetails>
         {
+            [Range(1, int.MaxValue)]
             public int Id { get; set; }
 
             public Query(int id)

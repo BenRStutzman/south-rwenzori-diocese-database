@@ -2,6 +2,7 @@
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace SrdDatabase.Domain.Queries
     {
         public class Query : IRequest<CongregationDetails>
         {
+            [Range(1, int.MaxValue)]
             public int Id { get; set; }
 
             public Query(int id)

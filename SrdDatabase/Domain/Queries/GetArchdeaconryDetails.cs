@@ -6,6 +6,7 @@ using SrdDatabase.Models.Archdeaconries;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Domain.Queries
 {
@@ -13,6 +14,7 @@ namespace SrdDatabase.Domain.Queries
     {
         public class Query : IRequest<ArchdeaconryDetails>
         {
+            [Range(1, int.MaxValue)]
             public int Id { get; set; }
 
             public Query(int id)

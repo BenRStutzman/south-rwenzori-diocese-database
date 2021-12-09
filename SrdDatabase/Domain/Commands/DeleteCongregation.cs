@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Domain.Queries;
 using SrdDatabase.Models.Events;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +11,7 @@ namespace SrdDatabase.Domain.Commands
     {
         public class Command : IRequest<Response>
         {
+            [Range(1, int.MaxValue)]
             public int Id { get; }
 
             public Command(int id)

@@ -14,7 +14,9 @@ namespace SrdDatabase.Domain.Queries
 
             public int PageNumber { get; }
 
-            public Query(CongregationParameters parameters, int pageNumber)
+            public Query(
+                CongregationParameters parameters = null,
+                int pageNumber = 0)
             {
                 Parameters = parameters;
                 PageNumber = pageNumber;
