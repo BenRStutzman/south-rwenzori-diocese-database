@@ -28,6 +28,8 @@ namespace SrdDatabase.Models.Events
 
         public DateTime Date { get; }
 
+        public int CreatedBy { get; }
+
         public Event(
             int id,
             sbyte eventTypeId,
@@ -40,7 +42,8 @@ namespace SrdDatabase.Models.Events
             string archdeaconry,
             string firstPersonName,
             string secondPersonName,
-            DateTime date)
+            DateTime date,
+            int createdBy)
         {
             Id = id;
             EventTypeId = eventTypeId;
@@ -54,6 +57,7 @@ namespace SrdDatabase.Models.Events
             FirstPersonName = firstPersonName;
             SecondPersonName = secondPersonName;
             Date = date;
+            CreatedBy = createdBy;
         }
 
         // for Dapper

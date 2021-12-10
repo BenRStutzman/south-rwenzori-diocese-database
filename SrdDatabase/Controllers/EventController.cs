@@ -62,12 +62,23 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(command);
         }
 
-        [Authorize(UserRole.Editor)]
+        [Authorize(UserRole.Contributor)]
         [HttpPost("edit")]
-        public async Task<SaveResponse> Edit(EditEvent.Command command)
+        public async Task<IActionResult> Edit(EditEvent.Command command)
         {
+            // Only allow contributors to edit events they created
+            if (CurrentUser.UserType == UserRole.Contributor)
+            {
+                var eventObject = await _mediator.Send(new GetEventById.Query(command.Id));
+
+                if (eventObject.CreatedBy != CurrentUser.Id)
+                {
+                    return Unauthorized("You can only edit events that you created.");
+                }
+            }
+
             command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
+            return Ok(await _mediator.Send(command));
         }
 
         [Authorize(UserRole.Editor)]

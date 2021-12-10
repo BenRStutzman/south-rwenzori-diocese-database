@@ -31,7 +31,7 @@ namespace SrdDatabase.Attributes
 
             if (user == null || (_roles.Any() && !_roles.Contains(user.UserType)))
             {
-                context.Result = new UnauthorizedObjectResult("Unauthorized");
+                context.Result = new UnauthorizedObjectResult("You do not have the necessary privileges to perform this action.");
             }
         }
     }
