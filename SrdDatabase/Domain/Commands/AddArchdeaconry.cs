@@ -27,7 +27,10 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dataCommand = new SaveArchdeaconry.Command(null, request.Name);
+                var dataCommand = new SaveArchdeaconry.Command(
+                    null,
+                    request.Name,
+                    request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }
