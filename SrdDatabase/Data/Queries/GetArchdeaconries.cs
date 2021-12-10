@@ -12,21 +12,13 @@ namespace SrdDatabase.Data.Queries
     {
         public class Query : ArchdeaconryParameters, IRequest<ArchdeaconryResults>
         {
-            public int? Id { get; }
-
-            public int PageNumber { get; }
-
-            public int? PageSize { get; }
-
             public Query(
-                ArchdeaconryParameters parameters = null,
                 int? id = null,
+                string name = null,
                 int pageNumber = 0,
-                int? pageSize = null) : base(parameters?.Name)
+                int? pageSize = null) :
+                base(name, pageNumber, pageSize, id)
             {
-                Id = id;
-                PageNumber = pageNumber;
-                PageSize = pageSize;
             }
         }
 

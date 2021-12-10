@@ -3,7 +3,7 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { ArchdeaconryParameters } from '../../models/archdeaconry';
 import { ArchdeaconryResults } from '../../models/archdeaconry';
-import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
+import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'ARCHDEACONRY.RECEIVE_RESULTS';
@@ -44,7 +44,7 @@ const searchArchdeaconries = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<SearchRequest>('api/archdeaconry/search', { parameters, pageNumber })
+    post<ArchdeaconryParameters & PagedParameters>('api/archdeaconry/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<ArchdeaconryResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));
