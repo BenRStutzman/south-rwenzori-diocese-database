@@ -66,28 +66,43 @@ namespace SrdDatabase.Controllers
         [HttpPost("edit")]
         public async Task<IActionResult> Edit(EditEvent.Command command)
         {
-            // Only allow contributors to edit events they created
-            if (CurrentUser.UserType == UserRole.Contributor)
-            {
-                var eventObject = await _mediator.Send(new GetEventById.Query(command.Id));
+            var canEdit = await CanEdit(command.Id);
 
-                if (eventObject.CreatedBy != CurrentUser.Id)
-                {
-                    return Unauthorized("You can only edit events that you created.");
-                }
+            if (!canEdit)
+            {
+                return Unauthorized("You can only edit events that you created.");
             }
 
             command.SetUserId(CurrentUser.Id);
             return Ok(await _mediator.Send(command));
         }
 
-        [Authorize(UserRole.Editor)]
+        [Authorize(UserRole.Contributor)]
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteEvent.Command command)
         {
-            await _mediator.Send(command);
+            var canEdit = await CanEdit(command.Id);
 
+            if (!canEdit)
+            {
+                return Unauthorized("You can only delete events that you created.");
+            }
+
+            await _mediator.Send(command);
             return Ok();
+        }
+
+        private async Task<bool> CanEdit(int eventId)
+        {
+            // Only allow contributors to edit events they created
+            if (CurrentUser.UserType == UserRole.Contributor)
+            {
+                var eventObject = await _mediator.Send(new GetEventById.Query(eventId));
+
+                return eventObject.CreatedBy == CurrentUser.Id;
+            }
+
+            return true;
         }
     }
 }

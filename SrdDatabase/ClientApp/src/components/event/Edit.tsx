@@ -35,30 +35,30 @@ const Edit = ({
         loadEvent(eventId);
     };
 
+    // Make sure we're checking the current event,
+    // not a past event left over in state, when deciding whether to redirect.
+    const eventIsCurrent = parseInt(match.params.eventId) === event.id;
+
     useEffect(loadData, []);
 
     const onDelete = () => {
         deleteEvent(event, () => { history.push('/event'); });
     };
 
-    // Redirect contributors trying to edit an event they didn't create
-    if (!canEdit(event, currentUser)) {
-        return <Redirect to='/' />;
-    }
-
     return eventLoading ? <LoadingSpinner /> :
-        <>
-            <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
-            <div className="float-right button-group">
-                <Link className="btn btn-secondary float-right" to={`/event/details/${event.id}`}>
-                    View details
-                </Link>
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
-                </button>
-            </div>
-            <SaveForm />
-        </>;
+         eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
+            <>
+                <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
+                <div className="float-right button-group">
+                    <Link className="btn btn-secondary float-right" to={`/event/details/${event.id}`}>
+                        View details
+                    </Link>
+                    <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                        {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
+                    </button>
+                </div>
+                <SaveForm />
+            </>;
 }
 
 export default connect(
