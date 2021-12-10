@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SrdDatabase.Models.Trnasactions
+namespace SrdDatabase.Models.Transactions
 {
     public class Transaction
     {
