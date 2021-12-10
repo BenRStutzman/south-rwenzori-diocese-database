@@ -15,7 +15,7 @@ namespace SrdDatabase.Controllers
     [ApiController]
     [Authorize(UserRole.Administrator)]
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly IUserService _userService;
 
@@ -74,13 +74,14 @@ namespace SrdDatabase.Controllers
         [HttpPost("add")]
         public async Task<SaveResponse> Add(AddUser.Command command)
         {
-
+            command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
         }
 
         [HttpPost("edit")]
         public async Task<SaveResponse> Edit(EditUser.Command command)
         {
+            command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
         }
 

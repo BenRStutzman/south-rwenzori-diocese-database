@@ -44,7 +44,8 @@ namespace SrdDatabase.Domain.Commands
                     request.Name,
                     request.Username,
                     request.Password,
-                    request.UserTypeId);
+                    request.UserTypeId,
+                    request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }

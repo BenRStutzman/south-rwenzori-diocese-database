@@ -24,8 +24,9 @@ namespace SrdDatabase.Data.Commands
                 string name,
                 string username,
                 string password,
-                byte userTypeId)
-                : base (userTypeId, name, username)
+                byte userTypeId,
+                int userId)
+                : base (userTypeId, name, username, userId)
             {
                 Id = id;
                 Password = string.IsNullOrEmpty(password) ? null

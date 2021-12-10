@@ -52,7 +52,8 @@ namespace SrdDatabase.Domain.Commands
                     request.CongregationId,
                     request.FirstPersonName,
                     request.SecondPersonName,
-                    request.Date);
+                    request.Date,
+                    request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }

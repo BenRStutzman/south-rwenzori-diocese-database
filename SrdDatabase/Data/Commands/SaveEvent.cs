@@ -22,13 +22,15 @@ namespace SrdDatabase.Data.Commands
                 int congregationId,
                 string firstPersonName,
                 string secondPersonName,
-                DateTime date)
+                DateTime date,
+                int userId)
                 : base(
                     eventTypeId,
                     congregationId,
                     firstPersonName,
                     secondPersonName,
-                    date)
+                    date,
+                    userId)
             {
                 Id = id;
             }

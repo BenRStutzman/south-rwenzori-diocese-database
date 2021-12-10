@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SrdDatabase.Models.Shared;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Parishes
 {
-    public class ParishFields
+    public class ParishFields : SaveFields
     {
         [Required]
         [StringLength(50)]
@@ -11,7 +12,8 @@ namespace SrdDatabase.Models.Parishes
         [Range(1, int.MaxValue)]
         public int ArchdeaconryId { get; }
 
-        public ParishFields(string name, int archdeaconryId)
+        public ParishFields(string name, int archdeaconryId, int? userId = null)
+            : base(userId)
         {
             Name = name;
             ArchdeaconryId = archdeaconryId;

@@ -36,7 +36,8 @@ namespace SrdDatabase.Domain.Commands
                 var dataCommand = new SaveParish.Command(
                     request.Id,
                     request.Name,
-                    request.ArchdeaconryId);
+                    request.ArchdeaconryId,
+                    request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }

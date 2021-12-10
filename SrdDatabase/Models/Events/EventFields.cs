@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SrdDatabase.Models.Shared;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Events
 {
-    public class EventFields
+    public class EventFields : SaveFields
     {
         [Range(1, int.MaxValue)]
         public byte EventTypeId { get; }
@@ -26,7 +27,8 @@ namespace SrdDatabase.Models.Events
             int congregationId,
             string firstPersonName,
             string secondPersonName,
-            DateTime date)
+            DateTime date,
+            int? userId = null) : base(userId)
         {
             EventTypeId = eventTypeId;
             CongregationId = congregationId;

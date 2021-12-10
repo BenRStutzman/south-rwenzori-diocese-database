@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SrdDatabase.Models.Shared;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Users
 {
-    public class UserFields
+    public class UserFields : SaveFields
     {
         [Required]
         [StringLength(50)]
@@ -18,7 +19,8 @@ namespace SrdDatabase.Models.Users
         public UserFields(
             byte userTypeId,
             string name,
-            string username)
+            string username,
+            int? userId = null) : base(userId)
         {
             Name = name;
             Username = username;
