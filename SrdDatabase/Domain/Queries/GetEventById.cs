@@ -32,7 +32,7 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<Event> Handle(Query request, CancellationToken cancellationToken)
             {
-                var results = await _mediator.Send(new GetEvents.Query(id: request.Id), cancellationToken);
+                var results = await _mediator.Send(new GetEvents.Query(request.Id), cancellationToken);
                 
                 return results.Events.Single();
             }

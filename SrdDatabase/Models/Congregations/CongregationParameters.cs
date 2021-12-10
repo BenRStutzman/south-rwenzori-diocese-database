@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SrdDatabase.Models.Shared;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Congregations
 {
-    public class CongregationParameters
+    public class CongregationParameters : PagedParameters
     {
+        [Range(1, int.MaxValue)]
+        public int? Id { get; }
+
         [StringLength(50)]
         public string Name { get; }
 
@@ -16,8 +20,12 @@ namespace SrdDatabase.Models.Congregations
         public CongregationParameters(
             string name = null,
             int? parishId = null,
-            int? archdeaconryId = null)
+            int? archdeaconryId = null,
+            int pageNumber = 0,
+            int? pageSize = null,
+            int? id = null) : base(pageNumber, pageSize)
         {
+            Id = id;
             Name = name;
             ParishId = parishId;
             ArchdeaconryId = archdeaconryId;

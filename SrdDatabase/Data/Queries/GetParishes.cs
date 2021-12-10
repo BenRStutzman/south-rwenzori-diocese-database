@@ -12,25 +12,14 @@ namespace SrdDatabase.Data.Queries
     {
         public class Query : ParishParameters, IRequest<ParishResults>
         {
-            public int? Id { get; }
-
-            public int PageNumber { get; }
-
-            public int? PageSize { get; }
-
             public Query(
-                ParishParameters parameters = null, 
                 int? id = null,
+                string name = null,
+                int? archdeaconryId = null,
                 int pageNumber = 0,
                 int? pageSize = null
-                ) : base(
-                    parameters?.Name,
-                    parameters?.ArchdeaconryId
-                    )
+                ) : base(name, archdeaconryId, pageNumber, pageSize, id)
             {
-                Id = id;
-                PageNumber = pageNumber;
-                PageSize = pageSize;
             }
         }
 

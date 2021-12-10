@@ -36,12 +36,12 @@ namespace SrdDatabase.Domain.Queries
                 var parishTask = _mediator.Send(new GetParishById.Query(request.Id), cancellationToken);
                 
                 var congregationsQuery = new GetCongregations.Query(
-                    new CongregationParameters(parishId: request.Id),
+                    parishId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
 
                 var eventsQuery = new GetEvents.Query(
-                    new EventParameters(parishId: request.Id),
+                    parishId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 

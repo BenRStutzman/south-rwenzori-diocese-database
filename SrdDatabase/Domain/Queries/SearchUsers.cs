@@ -8,18 +8,14 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchUsers
     {
-        public class Query : IRequest<UserResults>
+        public class Query : UserParameters, IRequest<UserResults>
         {
-            public UserParameters Parameters { get; }
-
-            public int PageNumber { get; }
-
             public Query(
-                UserParameters parameters = null,
-                int pageNumber = 0)
+                byte? userTypeId = null,
+                string name = null,
+                string username = null,
+                int pageNumber = 0) : base(userTypeId, name, username, pageNumber)
             {
-                Parameters = parameters;
-                PageNumber = pageNumber;
             }
         }
 
@@ -36,9 +32,12 @@ namespace SrdDatabase.Domain.Queries
             {
                 return await _mediator.Send(
                     new GetUsers.Query(
-                        parameters: request.Parameters,
-                        pageNumber: request.PageNumber,
-                        pageSize: Constants.SearchPageSize),
+                        null,
+                        request.UserTypeId,
+                        request.Name,
+                        request.Username,
+                        request.PageNumber,
+                        Constants.SearchPageSize),
                     cancellationToken);
             }
         }

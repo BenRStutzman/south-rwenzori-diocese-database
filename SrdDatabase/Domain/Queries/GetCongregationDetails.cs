@@ -35,7 +35,7 @@ namespace SrdDatabase.Domain.Queries
                 var congregationTask = _mediator.Send(new GetCongregationById.Query(request.Id), cancellationToken);
 
                 var eventsQuery = new GetEvents.Query(
-                    new EventParameters(congregationId: request.Id),
+                    congregationId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 

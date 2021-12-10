@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { Event, EventParameters, EventResults } from '../../models/event';
-import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
+import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
 const RESET_PARAMETERS = 'EVENT.RESET_PARAMETERS';
 const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
@@ -103,7 +103,7 @@ const searchEvents = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<SearchRequest>('api/event/search', { parameters, pageNumber })
+    post<EventParameters & PagedParameters>('api/event/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<EventResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));

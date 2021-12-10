@@ -32,8 +32,7 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var congregationsQuery = new GetCongregations.Query(
-                    new CongregationParameters(parishId: request.Id));
+                var congregationsQuery = new GetCongregations.Query(parishId: request.Id);
                 var congregationsResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
                 if (congregationsResults.TotalResults > 0)

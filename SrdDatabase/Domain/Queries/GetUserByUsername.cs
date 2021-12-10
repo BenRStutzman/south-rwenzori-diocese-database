@@ -33,8 +33,7 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
-                var query = new GetUsers.Query(
-                    new UserParameters(username: request.Username));
+                var query = new GetUsers.Query(username: request.Username);
                 var results = await _mediator.Send(query, cancellationToken);
                 
                 try

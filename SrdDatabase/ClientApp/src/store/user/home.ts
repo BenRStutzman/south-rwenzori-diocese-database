@@ -1,8 +1,8 @@
 ﻿import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
-import { UserParameters, User, UserResults } from '../../models/user';
+import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { UserParameters, UserResults } from '../../models/user';
 
 const REQUEST_RESULTS = 'USER.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'USER.RECEIVE_RESULTS';
@@ -63,7 +63,7 @@ const searchUsers = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<SearchRequest>('api/user/search', { parameters, pageNumber })
+    post<UserParameters & PagedParameters>('api/user/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<UserResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));

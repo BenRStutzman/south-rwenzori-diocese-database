@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { CongregationParameters, CongregationResults } from '../../models/congregation';
-import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
+import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
@@ -63,7 +63,7 @@ const searchCongregations = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<SearchRequest>('api/congregation/search', { parameters, pageNumber })
+    post<CongregationParameters & PagedParameters>('api/congregation/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<CongregationResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));

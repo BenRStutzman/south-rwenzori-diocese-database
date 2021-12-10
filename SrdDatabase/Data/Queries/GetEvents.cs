@@ -13,29 +13,29 @@ namespace SrdDatabase.Data.Queries
     {
         public class Query : EventParameters, IRequest<EventResults>
         {
-            public int? Id { get; }
-
-            public int PageNumber { get; }
-
-            public int? PageSize { get; }
-
             public Query(
-                EventParameters parameters = null,
                 int? id = null,
+                byte? eventTypeId = null,
+                int? archdeaconryId = null,
+                int? parishId = null,
+                int? congregationId = null,
+                string personName = null,
+                DateTime? startDate = null,
+                DateTime? endDate = null,
                 int pageNumber = 0,
                 int? pageSize = null)
                 : base(
-                      parameters?.EventTypeId,
-                      parameters?.ArchdeaconryId,
-                      parameters?.ParishId,
-                      parameters?.CongregationId,
-                      parameters?.PersonName,
-                      parameters?.StartDate,
-                      parameters?.EndDate)
+                      eventTypeId,
+                      archdeaconryId,
+                      parishId,
+                      congregationId,
+                      personName,
+                      startDate,
+                      endDate,
+                      pageNumber,
+                      pageSize,
+                      id)
             {
-                Id = id;
-                PageNumber = pageNumber;
-                PageSize = pageSize;
             }
         }
 

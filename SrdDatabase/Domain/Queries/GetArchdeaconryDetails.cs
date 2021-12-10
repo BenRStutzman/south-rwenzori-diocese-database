@@ -37,17 +37,17 @@ namespace SrdDatabase.Domain.Queries
                 var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
 
                 var parishesQuery = new GetParishes.Query(
-                    new ParishParameters(archdeaconryId: request.Id),
+                    archdeaconryId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var parishesTask = _mediator.Send(parishesQuery, cancellationToken);
 
                 var congregationsQuery = new GetCongregations.Query(
-                    new CongregationParameters(archdeaconryId: request.Id),
+                    archdeaconryId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
 
                 var eventsQuery = new GetEvents.Query(
-                    new EventParameters(archdeaconryId: request.Id),
+                    archdeaconryId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 

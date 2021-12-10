@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Events;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,18 +9,27 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchEvents
     {
-        public class Query : IRequest<EventResults>
+        public class Query : EventParameters, IRequest<EventResults>
         {
-            public EventParameters Parameters { get; }
-
-            public int PageNumber { get; }
-
             public Query(
-                EventParameters parameters = null,
-                int pageNumber = 0)
+                byte? eventTypeId = null,
+                int? archdeaconryId = null,
+                int? parishId = null,
+                int? congregationId = null,
+                string personName = null,
+                DateTime? startDate = null,
+                DateTime? endDate = null,
+                int pageNumber = 0,
+                int? pageSize = null) : base(
+                    eventTypeId,
+                    archdeaconryId,
+                    parishId,
+                    congregationId,
+                    personName,
+                    startDate,
+                    endDate,
+                    pageNumber)
             {
-                Parameters = parameters;
-                PageNumber = pageNumber;
             }
         }
 
@@ -36,9 +46,16 @@ namespace SrdDatabase.Domain.Queries
             {
                 return await _mediator.Send(
                     new GetEvents.Query(
-                        parameters: request.Parameters,
-                        pageNumber: request.PageNumber,
-                        pageSize: Constants.SearchPageSize),
+                        null,
+                        request.EventTypeId,
+                        request.ArchdeaconryId,
+                        request.ParishId,
+                        request.CongregationId,
+                        request.PersonName,
+                        request.StartDate,
+                        request.EndDate,
+                        request.PageNumber,
+                        Constants.SearchPageSize),
                     cancellationToken);
             }
         }

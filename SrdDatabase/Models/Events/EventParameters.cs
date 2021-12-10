@@ -1,10 +1,14 @@
-﻿using System;
+﻿using SrdDatabase.Models.Shared;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Events
 {
-    public class EventParameters
+    public class EventParameters : PagedParameters
     {
+        [Range(1, int.MaxValue)]
+        public int? Id { get; }
+
         [Range(1, int.MaxValue)]
         public byte? EventTypeId { get; }
 
@@ -31,8 +35,12 @@ namespace SrdDatabase.Models.Events
             int? congregationId = null,
             string personName = null,
             DateTime? startDate = null,
-            DateTime? endDate = null)
+            DateTime? endDate = null,
+            int pageNumber = 0,
+            int? pageSize = null,
+            int? id = null) : base(pageNumber, pageSize)
         {
+            Id = id;
             EventTypeId = eventTypeId;
             ArchdeaconryId = archdeaconryId;
             ParishId = parishId;

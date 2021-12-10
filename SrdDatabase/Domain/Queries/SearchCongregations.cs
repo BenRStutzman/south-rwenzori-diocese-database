@@ -8,18 +8,14 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchCongregations
     {
-        public class Query : IRequest<CongregationResults>
+        public class Query : CongregationParameters, IRequest<CongregationResults>
         {
-            public CongregationParameters Parameters { get; }
-
-            public int PageNumber { get; }
-
             public Query(
-                CongregationParameters parameters = null,
-                int pageNumber = 0)
+                string name = null,
+                int? parishId = null,
+                int? archdeaconryId = null,
+                int pageNumber = 0): base(name, parishId, archdeaconryId, pageNumber)
             {
-                Parameters = parameters;
-                PageNumber = pageNumber;
             }
         }
 
@@ -36,9 +32,12 @@ namespace SrdDatabase.Domain.Queries
             {
                 return await _mediator.Send(
                     new GetCongregations.Query(
-                        parameters: request.Parameters,
-                        pageNumber: request.PageNumber,
-                        pageSize: Constants.SearchPageSize),
+                        null,
+                        request.Name,
+                        request.ParishId,
+                        request.ArchdeaconryId,
+                        request.PageNumber,
+                        Constants.SearchPageSize),
                     cancellationToken);
             }
         }

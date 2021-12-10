@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { ParishParameters, ParishResults } from '../../models/parish';
-import { pagedResultsDefaults, SearchRequest } from '../../models/shared';
+import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
 const REQUEST_RESULTS = 'PARISH.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'PARISH.RECEIVE_RESULTS';
@@ -53,7 +53,7 @@ const searchParishes = (
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<SearchRequest>('api/parish/search', { parameters, pageNumber })
+    post<ParishParameters & PagedParameters>('api/parish/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<ParishResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));

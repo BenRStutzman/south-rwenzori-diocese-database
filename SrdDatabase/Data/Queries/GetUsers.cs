@@ -12,25 +12,15 @@ namespace SrdDatabase.Data.Queries
     {
         public class Query : UserParameters, IRequest<UserResults>
         {
-            public int? Id { get; }
-
-            public int PageNumber { get; }
-
-            public int? PageSize { get; }
-
             public Query(
-                UserParameters parameters = null,
                 int? id = null,
+                byte? userTypeId = null,
+                string name = null,
+                string username = null,
                 int pageNumber = 0,
                 int? pageSize = null) :
-                base (
-                    parameters?.UserTypeId,
-                    parameters?.Name,
-                    parameters?.Username)
+                base (userTypeId, name, username, pageNumber, pageSize, id)
             {
-                Id = id;
-                PageNumber = pageNumber;
-                PageSize = pageSize;
             }
         }
 
