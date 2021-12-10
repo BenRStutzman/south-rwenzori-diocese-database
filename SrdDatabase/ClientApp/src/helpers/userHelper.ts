@@ -1,11 +1,4 @@
-﻿import { CurrentUser, UserData } from "../models/user";
-
-export const userRole = {
-    viewer: 'Viewer',
-    contributor: 'Contributor',
-    editor: 'Editor',
-    administrator: 'Administrator',
-}
+﻿import { CurrentUser, UserData, userRole } from "../models/user";
 
 export const atLeast = {
     viewer: [userRole.viewer, userRole.contributor, userRole.editor, userRole.administrator],

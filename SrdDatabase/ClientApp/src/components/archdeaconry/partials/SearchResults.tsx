@@ -47,7 +47,7 @@ const SearchResults = ({
                     <thead>
                         <tr>
                             <th className={`col-${canEdit ? '9' : '11'}`}>Name</th>
-                            <th className={`col-${canEdit ? '1' : '3'}`}></th>
+                            <th className={`col-${canEdit ? '3' : '1'}`}></th>
                         </tr>
                     </thead>
                     <tbody>

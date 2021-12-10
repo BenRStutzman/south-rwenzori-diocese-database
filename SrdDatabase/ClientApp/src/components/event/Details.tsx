@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
-import { formattedDate, peoplesNames } from '../../helpers/eventHelper';
+import { canEdit, formattedDate, peoplesNames } from '../../helpers/eventHelper';
 
 type Props =
     Store.State &
@@ -32,13 +32,11 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
-
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
             {
-                canEdit &&
+                canEdit(details.event, currentUser) &&
                 <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
                     Edit event
                 </Link>

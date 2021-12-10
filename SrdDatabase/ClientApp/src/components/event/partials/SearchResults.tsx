@@ -9,7 +9,7 @@ import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { peoplesNames } from '../../../helpers/eventHelper';
+import { canEdit, peoplesNames } from '../../../helpers/eventHelper';
 import Paging from '../../shared/Paging';
 
 type Props =
@@ -27,7 +27,7 @@ const SearchResults = ({
     parameters,
     searchEvents,
 }: Props) => {
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
+    const canEditSomeEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
 
     const nextPage = () => {
         searchEvents(parameters, results.pageNumber + 1);
@@ -47,11 +47,11 @@ const SearchResults = ({
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th className={`col-${canEdit ? '1' : '2'}`}>Event Type</th>
+                            <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>Event Type</th>
                             <th className="col-4">Name(s)</th>
-                            <th className={`col-${canEdit ? '2' : '3'}`}>Congregation</th>
+                            <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>Congregation</th>
                             <th className="col-2">Date</th>
-                            <th className={`col-${canEdit ? '1' : '3'}`}></th>
+                            <th className={`col-${canEditSomeEvents ? '3' : '1'}`}></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,7 +66,7 @@ const SearchResults = ({
                                         View
                                     </Link>
                                     {
-                                        canEdit &&
+                                        canEdit(event, currentUser) &&
                                         <>
                                             <Link className="btn btn-primary" to={`/event/edit/${event.id}`}>
                                                 Edit

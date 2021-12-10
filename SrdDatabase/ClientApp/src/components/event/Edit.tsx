@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { State } from '../../store';
 import * as Store from '../../store/event/save';
 import * as SharedStore from '../../store/shared';
-import { RouteComponentProps } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import { peoplesNames } from '../../helpers/eventHelper';
+import { canEdit, peoplesNames } from '../../helpers/eventHelper';
+import { userRole } from '../../models/user';
 
 type Props =
     Store.State
@@ -27,6 +28,7 @@ const Edit = ({
     deleteEvent,
     deletingEventId,
     match,
+    currentUser,
 }: Props) => {
     const loadData = () => {
         const eventId = parseInt(match.params.eventId);
@@ -38,6 +40,11 @@ const Edit = ({
     const onDelete = () => {
         deleteEvent(event, () => { history.push('/event'); });
     };
+
+    // Redirect contributors trying to edit an event they didn't create
+    if (!canEdit(event, currentUser)) {
+        return <Redirect to='/' />;
+    }
 
     return eventLoading ? <LoadingSpinner /> :
         <>

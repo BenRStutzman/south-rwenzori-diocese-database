@@ -45,7 +45,7 @@ export default () => (
         <PrivateRoute exact path='/congregation/details/:congregationId' component={CongregationDetails} />
         <PrivateRoute exact path='/event' component={EventHome} />
         <PrivateRoute exact path='/event/add' component={EventAdd} roles={atLeast.contributor} />
-        <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} roles={atLeast.editor} />
+        <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} roles={atLeast.contributor} />
         <PrivateRoute exact path='/event/details/:eventId' component={EventDetails} />
         <PrivateRoute exact path='/user' component={UserHome} roles={atLeast.administrator}/>
         <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import * as Store from '../../store/shared';
 import { State } from '../../store';
 import { connect } from 'react-redux';
-import { userRole } from '../../helpers/userHelper';
+import { atLeast } from '../../helpers/userHelper';
 
 type Props = Store.State;
 
@@ -40,7 +40,7 @@ const Navigation = ({
                                     <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
                                 </NavItem>
                                 {
-                                    currentUser.userType === userRole.administrator &&
+                                    currentUser && atLeast.administrator.includes(currentUser.userType) &&
                                     <NavItem>
                                         <NavLink tag={Link} className='text-dark' to='/user'>Users</NavLink>
                                     </NavItem>

@@ -40,3 +40,10 @@ export interface UserParameters {
 export interface UserResults extends PagedResults {
     users: User[];
 }
+
+export const userRole = {
+    viewer: 'Viewer',
+    contributor: 'Contributor',
+    editor: 'Editor',
+    administrator: 'Administrator',
+};

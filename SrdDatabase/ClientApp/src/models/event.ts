@@ -13,6 +13,7 @@ export interface Event {
     firstPersonName?: string;
     secondPersonName?: string;
     date?: Date;
+    createdBy?: number;
 }
 
 export interface EventType {
