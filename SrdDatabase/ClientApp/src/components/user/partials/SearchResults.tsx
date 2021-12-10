@@ -39,6 +39,11 @@ const SearchResults = ({
     return resultsLoading ? <LoadingSpinner /> :
         !results.totalResults ? <h2>No results.</h2> :
             <>
+                <Paging
+                    results={results}
+                    nextPage={nextPage}
+                    previousPage={previousPage}
+                />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
