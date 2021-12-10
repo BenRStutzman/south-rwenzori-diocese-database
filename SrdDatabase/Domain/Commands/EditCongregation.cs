@@ -36,7 +36,8 @@ namespace SrdDatabase.Domain.Commands
                 var dataCommand = new SaveCongregation.Command(
                     request.Id,
                     request.Name,
-                    request.ParishId);
+                    request.ParishId,
+                    request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }

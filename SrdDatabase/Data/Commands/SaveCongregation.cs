@@ -15,8 +15,8 @@ namespace SrdDatabase.Data.Commands
         {
             public int? Id { get; set; }
 
-            public Command(int? id, string name, int parishId)
-                : base (name, parishId)
+            public Command(int? id, string name, int parishId, int userId)
+                : base (name, parishId, userId)
             {
                 Id = id;
             }

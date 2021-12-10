@@ -14,7 +14,7 @@ namespace SrdDatabase.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class CongregationController : Controller
+    public class CongregationController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -51,6 +51,7 @@ namespace SrdDatabase.Controllers
         [HttpPost("add")]
         public async Task<SaveResponse> Add(AddCongregation.Command command)
         {
+            command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
         }
 
@@ -58,6 +59,7 @@ namespace SrdDatabase.Controllers
         [HttpPost("edit")]
         public async Task<SaveResponse> Edit(EditCongregation.Command command)
         {
+            command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
         }
 
