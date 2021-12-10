@@ -2,7 +2,6 @@
 using MediatR;
 using SrdDatabase.Models.Parishes;
 using SrdDatabase.Services;
-using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,13 +10,9 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetParishes
     {
-        public class Query : IRequest<ParishResults>
+        public class Query : ParishParameters, IRequest<ParishResults>
         {
             public int? Id { get; }
-
-            public string Name { get; }
-
-            public int? ArchdeaconryId { get; }
 
             public int PageNumber { get; }
 
@@ -28,11 +23,12 @@ namespace SrdDatabase.Data.Queries
                 int? id = null,
                 int pageNumber = 0,
                 int? pageSize = null
-                )
+                ) : base(
+                    parameters?.Name,
+                    parameters?.ArchdeaconryId
+                    )
             {
                 Id = id;
-                Name = parameters?.Name;
-                ArchdeaconryId = parameters?.ArchdeaconryId;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

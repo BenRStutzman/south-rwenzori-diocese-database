@@ -11,23 +11,9 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetEvents
     {
-        public class Query : IRequest<EventResults>
+        public class Query : EventParameters, IRequest<EventResults>
         {
             public int? Id { get; }
-
-            public byte? EventTypeId { get; }
-
-            public int? ArchdeaconryId { get; }
-
-            public int? ParishId { get; }
-
-            public int? CongregationId { get; }
-
-            public string PersonName { get; }
-
-            public DateTime? StartDate { get; }
-
-            public DateTime? EndDate { get; }
 
             public int PageNumber { get; }
 
@@ -38,15 +24,16 @@ namespace SrdDatabase.Data.Queries
                 int? id = null,
                 int pageNumber = 0,
                 int? pageSize = null)
+                : base(
+                      parameters?.EventTypeId,
+                      parameters?.ArchdeaconryId,
+                      parameters?.ParishId,
+                      parameters?.CongregationId,
+                      parameters?.PersonName,
+                      parameters?.StartDate,
+                      parameters?.EndDate)
             {
                 Id = id;
-                EventTypeId = parameters?.EventTypeId;
-                ArchdeaconryId = parameters?.ArchdeaconryId;
-                ParishId = parameters?.ParishId;
-                CongregationId = parameters?.CongregationId;
-                PersonName = parameters?.PersonName;
-                StartDate = parameters?.StartDate;
-                EndDate = parameters?.EndDate;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

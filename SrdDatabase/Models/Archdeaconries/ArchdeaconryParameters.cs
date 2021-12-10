@@ -7,7 +7,7 @@ namespace SrdDatabase.Models.Archdeaconries
         [StringLength(50)]
         public string Name { get; }
 
-        public ArchdeaconryParameters(string name)
+        public ArchdeaconryParameters(string name = null)
         {
             Name = name;
         }

@@ -10,15 +10,9 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetUsers
     {
-        public class Query : IRequest<UserResults>
+        public class Query : UserParameters, IRequest<UserResults>
         {
             public int? Id { get; }
-
-            public byte? UserTypeId { get; }
-
-            public string Name { get; }
-
-            public string Username { get; }
 
             public int PageNumber { get; }
 
@@ -28,12 +22,13 @@ namespace SrdDatabase.Data.Queries
                 UserParameters parameters = null,
                 int? id = null,
                 int pageNumber = 0,
-                int? pageSize = null)
+                int? pageSize = null) :
+                base (
+                    parameters?.UserTypeId,
+                    parameters?.Name,
+                    parameters?.Username)
             {
                 Id = id;
-                UserTypeId = parameters?.UserTypeId;
-                Name = parameters?.Name;
-                Username = parameters?.Username;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }

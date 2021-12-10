@@ -10,11 +10,9 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetArchdeaconries
     {
-        public class Query : IRequest<ArchdeaconryResults>
+        public class Query : ArchdeaconryParameters, IRequest<ArchdeaconryResults>
         {
             public int? Id { get; }
-
-            public string Name { get; }
 
             public int PageNumber { get; }
 
@@ -24,10 +22,9 @@ namespace SrdDatabase.Data.Queries
                 ArchdeaconryParameters parameters = null,
                 int? id = null,
                 int pageNumber = 0,
-                int? pageSize = null)
+                int? pageSize = null) : base(parameters?.Name)
             {
                 Id = id;
-                Name = parameters?.Name;
                 PageNumber = pageNumber;
                 PageSize = pageSize;
             }
