@@ -10,6 +10,7 @@ import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -68,7 +69,9 @@ const SearchResults = ({
                                 <td>{congregation.parish}</td>
                                 {
                                     canViewBalance &&
-                                    <td className="balance-column">{congregation.balance}</td>
+                                    <td className="balance-column">
+                                        {parenthesizeIfNegative(congregation.balance as number)}
+                                    </td>
                                 }
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>

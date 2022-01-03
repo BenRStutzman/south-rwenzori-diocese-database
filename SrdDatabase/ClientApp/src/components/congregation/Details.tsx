@@ -11,6 +11,7 @@ import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
 import { eventItems } from '../../helpers/detailsHelpers';
+import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -59,8 +60,8 @@ const Details = ({
                 {
                     canViewBalance &&
                     <DetailsBox
-                        itemType="balance"
-                        itemValue={`${details.congregation.balance} UGX`}
+                        itemType="balance (UGX)"
+                        itemValue={parenthesizeIfNegative(details.congregation.balance as number)}
                         />
                 }
                 <DetailsList

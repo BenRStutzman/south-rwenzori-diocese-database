@@ -10,6 +10,8 @@ namespace SrdDatabase.Models.Transactions
 
         public string TransactionType { get; }
 
+        public bool IsPayment { get; }
+
         public int Amount { get; }
 
         public int CongregationId { get; }
@@ -31,6 +33,7 @@ namespace SrdDatabase.Models.Transactions
             int amount,
             sbyte transactionTypeId,
             string transationType,
+            bool isPayment,
             int congregationId,
             string congregation,
             int parishId,
@@ -43,6 +46,7 @@ namespace SrdDatabase.Models.Transactions
             Amount = amount;
             TransactionTypeId = transactionTypeId;
             TransactionType = transationType;
+            IsPayment = isPayment;
             CongregationId = congregationId;
             Congregation = congregation;
             ParishId = parishId;

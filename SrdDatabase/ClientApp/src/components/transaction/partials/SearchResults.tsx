@@ -9,6 +9,7 @@ import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import { parenthesizeAmountIfPayment } from '../../../helpers/transactionHelper';
 
 type Props =
     Store.State &
@@ -59,7 +60,7 @@ const SearchResults = ({
                             <tr key={transaction.id}>
                                 <td>{transaction.transactionType}</td>
                                 <td>{transaction.congregation}</td>
-                                <td className="balance-column">{Math.abs(transaction.amount as number)}</td>
+                                <td className="balance-column">{parenthesizeAmountIfPayment(transaction)}</td>
                                 <td>{transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/transaction/details/${transaction.id}`}>

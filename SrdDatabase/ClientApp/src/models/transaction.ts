@@ -4,6 +4,7 @@ export interface Transaction {
     id?: number;
     transactionTypeId?: number;
     transactionType?: string;
+    isPayment?: boolean;
     amount?: number;
     congregationId?: number;
     congregation?: string;

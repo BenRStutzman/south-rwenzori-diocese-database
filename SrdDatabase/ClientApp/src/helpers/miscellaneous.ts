@@ -1,4 +1,6 @@
-﻿export function randomString() {
+﻿import { Transaction } from "../models/transaction";
+
+export function randomString() {
     return Math.random().toString(36).substring(7);
 };
 
@@ -8,4 +10,12 @@ export function capitalize(word: string) {
 
 export function formattedDate(item: { date?: Date }): string {
     return item.date ? new Date(item.date).toLocaleDateString('en-ca') : ''
-}
+};
+
+export function parenthesize(number: number): string {
+    return `(${number})`;
+};
+
+export function parenthesizeIfNegative(number: number): string {
+    return number < 0 ? parenthesize(Math.abs(number)) : number.toString();
+};

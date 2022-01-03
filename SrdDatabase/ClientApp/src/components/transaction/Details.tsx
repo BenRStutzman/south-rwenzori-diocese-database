@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../helpers/miscellaneous';
+import { parenthesizeAmountIfPayment } from '../../helpers/transactionHelper';
 
 type Props =
     Store.State &
@@ -32,11 +33,17 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{details.transaction.transactionType}</h1>
+            <h1 className="page-title">
+                {`${details.transaction.isPayment ? 'Payment from' : 'Charge to'} ${details.transaction.congregation} Congregation`}
+            </h1>
             <Link className="btn btn-primary float-right" to={`/transaction/edit/${details.transaction.id}`}>
                 Edit transaction
             </Link>
             <div className="details-boxes">
+                <DetailsBox
+                    itemType="amount (UGX)"
+                    itemValue={parenthesizeAmountIfPayment(details.transaction)}
+                />
                 <DetailsBox
                     itemType="date"
                     itemValue={formattedDate(details.transaction)}
