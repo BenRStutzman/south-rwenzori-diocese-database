@@ -5,6 +5,8 @@ import { DetailsListItem } from "../models/shared";
 import { EventResults } from '../models/event';
 import { peoplesNames } from "./eventHelper";
 import { formattedDate } from "./miscellaneous";
+import { TransactionResults } from "../models/transaction";
+import { describeTransaction } from "./transactionHelper";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
     return archdeaconryResults.archdeaconries.map(archdeaconry => (
@@ -28,5 +30,12 @@ export function eventItems(eventResults: EventResults): DetailsListItem[] {
     return eventResults.events.map(event => ({
         id: event.id,
         displayText: `${formattedDate(event)}: ${event.eventType} of ${peoplesNames(event)}`,
-    }))
+    }));
+}
+
+export function transactionItems(transactionResults: TransactionResults): DetailsListItem[] {
+    return transactionResults.transactions.map(transaction => ({
+        id: transaction.id,
+        displayText: `${formattedDate(transaction)} : ${describeTransaction(transaction)}`,
+    }));
 }

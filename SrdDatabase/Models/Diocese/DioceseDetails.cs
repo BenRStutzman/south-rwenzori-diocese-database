@@ -2,6 +2,7 @@
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
+using SrdDatabase.Models.Transactions;
 
 namespace SrdDatabase.Models.Diocese
 {
@@ -15,16 +16,20 @@ namespace SrdDatabase.Models.Diocese
 
         public EventResults EventResults { get; }
 
+        public TransactionResults TransactionResults { get; }
+
         public DioceseDetails(
             ArchdeaconryResults archdeaconryResults,
             ParishResults parishResults,
             CongregationResults congregationResults,
-            EventResults eventResults)
+            EventResults eventResults,
+            TransactionResults transactionResults)
         {
             ArchdeaconryResults = archdeaconryResults;
             ParishResults = parishResults;
             CongregationResults = congregationResults;
             EventResults = eventResults;
+            TransactionResults = transactionResults;
         }
     }
 
