@@ -53,8 +53,11 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetTransaction = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveTransactionAction(initialState.transaction));
+const resetTransaction = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveTransactionAction({
+        date: new Date(),
+        congregationId: congregationId,
+    }));
 };
 
 const loadTransaction = (id: number): AppThunkAction<Action> => (dispatch) => {

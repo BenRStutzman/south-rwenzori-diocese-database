@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import SaveForm from './partials/SaveForm';
 import { Link } from 'react-router-dom';
 import LoadingSpinner from '../shared/LoadingSpinner';
-import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 
 type Props =
@@ -22,9 +21,6 @@ const Edit = ({
     loadCongregation,
     congregation,
     match,
-    history,
-    deleteCongregation,
-    deletingCongregationId,
     congregationLoading,
 }: Props) => {
     const loadData = () => {
@@ -34,21 +30,12 @@ const Edit = ({
 
     useEffect(loadData, []);
 
-    const onDelete = () => {
-        deleteCongregation(congregation, () => { history.push('/congregation'); });
-    };
-
     return congregationLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Edit {congregation.name} Congregation</h1>
-            <div className="float-right button-group">
-                <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
-                    View details
-                </Link>
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
-                    {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
-                </button>
-            </div>
+            <Link className="btn btn-secondary float-right" to={`/congregation/details/${congregation.id}`}>
+                View details
+            </Link>
             <SaveForm />
         </>;
 }

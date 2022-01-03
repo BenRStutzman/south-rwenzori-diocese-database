@@ -10,6 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
 import { congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
@@ -24,6 +25,9 @@ const Details = ({
     details,
     match,
     currentUser,
+    deletingArchdeaconryId,
+    deleteArchdeaconry,
+    history,
 }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -34,14 +38,23 @@ const Details = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
 
+    const onDelete = () => {
+        deleteArchdeaconry(details.archdeaconry, () => { history.push('/archdeaconry'); });
+    };
+
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.archdeaconry.name} Archdeaconry</h1>
             {
                 canEdit &&
-                <Link className="btn btn-primary float-right" to={`/archdeaconry/edit/${details.archdeaconry.id}`}>
-                    Edit archdeaconry
-                </Link>
+                <div className="button-group float-right">
+                    <Link className="btn btn-primary" to={`/archdeaconry/edit/${details.archdeaconry.id}`}>
+                        Edit archdeaconry
+                    </Link>
+                    <button className='btn btn-danger' type="button" onClick={onDelete}>
+                        {details.archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
+                    </button>
+                </div>
             }
             <div className="details-boxes">
                 <DetailsList
@@ -62,7 +75,7 @@ const Details = ({
             </div>
         </>;
 }
-    
+
 export default connect(
     (state: State) => ({ ...state.archdeaconry.details, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)

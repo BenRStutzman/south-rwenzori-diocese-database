@@ -4,15 +4,19 @@ import { connect } from 'react-redux';
 import * as Store from '../../store/transaction/save';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
+import { RouteComponentProps } from 'react-router';
 
 type Props =
     typeof Store.actionCreators
+    & RouteComponentProps<{ congregationId: string }>;
 
 const Add = ({
     resetTransaction,
+    match,
 }: Props) => {
     const loadData = () => {
-        resetTransaction();
+        const congregationId = match.params.congregationId ? parseInt(match.params.congregationId) : undefined;
+        resetTransaction(congregationId);
     };
 
     useEffect(loadData, []);

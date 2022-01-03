@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
 using SrdDatabase.Models.Congregations;
-using SrdDatabase.Models.Events;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,12 +38,19 @@ namespace SrdDatabase.Domain.Queries
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
+                var transactionsQuery = new GetTransactions.Query(
+                    congregationId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
+
                 var congregation = await congregationTask;
                 var eventResults = await eventsTask;
+                var transactionResults = await transactionsTask;
 
                 return new CongregationDetails(
                     congregation,
-                    eventResults);
+                    eventResults,
+                    transactionResults);
             }
         }
     }

@@ -8,15 +8,19 @@ interface Props {
     itemType: string;
     itemTotal: number;
     items: DetailsListItem[];
+    addParams?: string;
+    altTitle?: string;
 }
 
 const DetailsList = ({
     itemType,
     itemTotal,
     items,
+    addParams,
+    altTitle,
 }: Props) =>
     <div className="details-box">
-        <h2>{capitalize(plural(itemType))} ({itemTotal})</h2>
+        <h2>{altTitle ?? `${capitalize(plural(itemType))} (${itemTotal})`}</h2>
         <ul>
             {items.map(item =>
                 <li key={item.id}>
@@ -27,6 +31,7 @@ const DetailsList = ({
             )}
         </ul>
         <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+        <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
     </div>;
 
 export default DetailsList;

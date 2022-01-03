@@ -1,4 +1,5 @@
 ﻿using SrdDatabase.Models.Events;
+using SrdDatabase.Models.Transactions;
 
 namespace SrdDatabase.Models.Congregations
 {
@@ -8,12 +9,16 @@ namespace SrdDatabase.Models.Congregations
 
         public EventResults EventResults { get; }
 
+        public TransactionResults TransactionResults { get; }
+
         public CongregationDetails(
             Congregation congregation,
-            EventResults eventResults)
+            EventResults eventResults,
+            TransactionResults transactionResults)
         {
             Congregation = congregation;
             EventResults = eventResults;
+            TransactionResults = transactionResults;
         }
     }
 

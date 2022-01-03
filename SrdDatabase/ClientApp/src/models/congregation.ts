@@ -1,5 +1,6 @@
 ﻿import { PagedResults } from './shared';
 import { EventResults } from './event'
+import { TransactionResults } from './transaction';
 
 export interface Congregation {
     id?: number;
@@ -14,6 +15,7 @@ export interface Congregation {
 export interface CongregationDetails {
     congregation: Congregation;
     eventResults: EventResults;
+    transactionResults: TransactionResults;
 }
 
 export interface CongregationParameters {

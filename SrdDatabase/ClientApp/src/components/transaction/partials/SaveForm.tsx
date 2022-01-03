@@ -109,7 +109,7 @@ const SaveForm = ({
                 </select>
             </div>
             <div className="form-group">
-                <label htmlFor="amount">Amount(UGX)</label>
+                <label htmlFor="amount">Amount (UGX)</label>
                 <input
                     id="amount"
                     className="form-control"

@@ -59,8 +59,11 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetEvent = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveEventAction(initialState.event));
+const resetEvent = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveEventAction({
+        date: new Date(),
+        congregationId: congregationId,
+    }));
 };
 
 const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
