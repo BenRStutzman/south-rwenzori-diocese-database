@@ -8,6 +8,7 @@ export interface Congregation {
     parish?: string;
     archdeaconryId?: number;
     archdeaconry?: string;
+    balance?: number;
 }
 
 export interface CongregationDetails {

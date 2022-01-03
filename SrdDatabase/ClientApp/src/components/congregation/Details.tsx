@@ -56,6 +56,10 @@ const Details = ({
                     itemValue={details.congregation.archdeaconry}
                     itemId={details.congregation.archdeaconryId}
                 />
+                <DetailsBox
+                    itemType="balance"
+                    itemValue={`${details.congregation.balance} UGX`}
+                    />
                 <DetailsList
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}

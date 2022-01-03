@@ -51,8 +51,9 @@ const SearchResults = ({
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th className={`col-${canEdit ? '5' : '6'}`}>Name</th>
-                            <th className={`col-${canEdit ? '4' : '5'}`}>Parish</th>
+                            <th className={`col-${canEdit ? '4' : '5'}`}>Name</th>
+                            <th className={`col-${canEdit ? '3' : '4'}`}>Parish</th>
+                            <th className='col-1'>Balance</th>
                             <th className={`col-${canEdit ? '3' : '1'}`}></th>
                         </tr>
                     </thead>
@@ -61,6 +62,7 @@ const SearchResults = ({
                             <tr key={congregation.id}>
                                 <td>{congregation.name}</td>
                                 <td>{congregation.parish}</td>
+                                <td>{congregation.balance}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
                                         View
