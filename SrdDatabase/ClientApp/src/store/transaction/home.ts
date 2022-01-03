@@ -1,33 +1,32 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { EventParameters, EventResults } from '../../models/event';
+import { TransactionParameters, TransactionResults } from '../../models/transaction';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
-const RESET_PARAMETERS = 'EVENT.RESET_PARAMETERS';
-const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
-const SET_SEARCH_START_DATE = 'EVENT.SET_SEARCH_START_DATE';
-const SET_SEARCH_END_DATE = 'EVENT.SET_SEARCH_END_DATE';
-const SET_SEARCH_PERSON_NAME = 'EVENT.SET_SEARCH_NAME';
-const SET_SEARCH_ARCHDEACONRY_ID = 'EVENT.SET_SEARCH_ARCHDEACONRY_ID';
-const SET_SEARCH_PARISH_ID = 'EVENT.SET_SEARCH_PARISH_ID';
-const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_RESULTS = 'EVENT.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'EVENT.RECEIVE_RESULTS';
+const RESET_PARAMETERS = 'TRANSACTION.RESET_PARAMETERS';
+const SET_SEARCH_TRANSACTION_TYPE_ID = 'TRANSACTION.SET_SEARCH_TRANSACTION_TYPE_ID';
+const SET_SEARCH_START_DATE = 'TRANSACTION.SET_SEARCH_START_DATE';
+const SET_SEARCH_END_DATE = 'TRANSACTION.SET_SEARCH_END_DATE';
+const SET_SEARCH_ARCHDEACONRY_ID = 'TRANSACTION.SET_SEARCH_ARCHDEACONRY_ID';
+const SET_SEARCH_PARISH_ID = 'TRANSACTION.SET_SEARCH_PARISH_ID';
+const SET_SEARCH_CONGREGATION_ID = 'TRANSACTION.SET_SEARCH_CONGREGATION_ID';
+const REQUEST_RESULTS = 'TRANSACTION.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'TRANSACTION.RECEIVE_RESULTS';
 
 const requestResultsAction = (showLoading: boolean = true) => ({
     type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: EventResults) => ({
+const receiveResultsAction = (results: TransactionResults) => ({
     type: RECEIVE_RESULTS,
     value: results,
 });
 
-const setSearchEventTypeIdAction = (eventTypeId: number) => ({
-    type: SET_SEARCH_EVENT_TYPE_ID,
-    value: eventTypeId,
+const setSearchTransactionTypeIdAction = (transactionTypeId: number) => ({
+    type: SET_SEARCH_TRANSACTION_TYPE_ID,
+    value: transactionTypeId,
 });
 
 const setSearchStartDateAction = (startDate: Date) => ({
@@ -38,11 +37,6 @@ const setSearchStartDateAction = (startDate: Date) => ({
 const setSearchEndDateAction = (endDate: Date) => ({
     type: SET_SEARCH_END_DATE,
     value: endDate,
-});
-
-const setSearchPersonNameAction = (personName: string) => ({
-    type: SET_SEARCH_PERSON_NAME,
-    value: personName,
 });
 
 const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
@@ -68,8 +62,8 @@ const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(resetParametersAction());
 };
 
-const setSearchEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchEventTypeIdAction(eventTypeId));
+const setSearchTransactionTypeId = (transactionTypeId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchTransactionTypeIdAction(transactionTypeId));
 };
 
 const setSearchStartDate = (startDate: Date): AppThunkAction<Action> => (dispatch) => {
@@ -78,10 +72,6 @@ const setSearchStartDate = (startDate: Date): AppThunkAction<Action> => (dispatc
 
 const setSearchEndDate = (endDate: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchEndDateAction(endDate));
-};
-
-const setSearchPersonName = (personName: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchPersonNameAction(personName));
 };
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
@@ -96,27 +86,26 @@ const setSearchCongregationId = (congregationId: number): AppThunkAction<Action>
     dispatch(setSearchCongregationIdAction(congregationId));
 };
 
-const searchEvents = (
-    parameters: EventParameters = {},
+const searchTransactions = (
+    parameters: TransactionParameters = {},
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<EventParameters & PagedParameters>('api/event/search', { ...parameters, pageNumber })
-        .then(response => response.json() as Promise<EventResults>)
+    post<TransactionParameters & PagedParameters>('api/transaction/search', { ...parameters, pageNumber })
+        .then(response => response.json() as Promise<TransactionResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));
         });
 };
 
 export const actionCreators = {
-    searchEvents,
-    setSearchEventTypeId,
+    searchTransactions,
+    setSearchTransactionTypeId,
     setSearchParishId,
     setSearchCongregationId,
     setSearchArchdeaconryId,
-    setSearchPersonName,
     setSearchStartDate,
     setSearchEndDate,
     resetParameters,
@@ -124,24 +113,24 @@ export const actionCreators = {
 
 export interface State {
     resultsLoading: boolean;
-    results: EventResults;
-    parameters: EventParameters,
+    results: TransactionResults;
+    parameters: TransactionParameters,
 }
 
 const initialState: State = {
-    results: { ...pagedResultsDefaults, events: [] },
+    results: { ...pagedResultsDefaults, transactions: [] },
     resultsLoading: true,
     parameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case SET_SEARCH_EVENT_TYPE_ID:
+        case SET_SEARCH_TRANSACTION_TYPE_ID:
             return {
                 ...state,
                 parameters: {
                     ...state.parameters,
-                    eventTypeId: action.value,
+                    transactionTypeId: action.value,
                 }
             };
         case SET_SEARCH_CONGREGATION_ID:
@@ -166,14 +155,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parameters: {
                     ...state.parameters,
                     archdeaconryId: action.value,
-                }
-            };
-        case SET_SEARCH_PERSON_NAME:
-            return {
-                ...state,
-                parameters: {
-                    ...state.parameters,
-                    personName: action.value,
                 }
             };
         case SET_SEARCH_START_DATE:

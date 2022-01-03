@@ -6,18 +6,10 @@
 
         public UserRole Name { get; }
 
-        public sbyte PrivilegeOrder { get; }
-
-        public UserType(sbyte id, UserRole name, sbyte privilegeOrder)
+        public UserType(sbyte id, UserRole name)
         {
             Id = id;
             Name = name;
-            PrivilegeOrder = privilegeOrder;
-        }
-
-        // for Dapper
-        public UserType()
-        {
         }
     }
 }

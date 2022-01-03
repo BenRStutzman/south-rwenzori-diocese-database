@@ -6,6 +6,7 @@ import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish } from '../../models/parish';
+import { TransactionType } from '../../models/transaction';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
 
 const LOGIN = 'LOGIN';
@@ -18,6 +19,8 @@ const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'RECIEVE_CONGREGATIONS';
 const REQUEST_EVENT_TYPES = 'REQUEST_EVENT_TYPES';
 const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
+const REQUEST_TRANSACTION_TYPES = 'REQUEST_TRANSACTION_TYPES';
+const RECEIVE_TRANSACTION_TYPES = 'RECEIVE_TRANSACTION_TYPES';
 const REQUEST_USER_TYPES = 'REQUEST_USER_TYPES';
 const RECEIVE_USER_TYPES = 'RECEIVE_USER_TYPES';
 const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
@@ -70,6 +73,15 @@ const receiveEventTypesAction = (eventTypes: EventType[]) => ({
     type: RECEIVE_EVENT_TYPES,
     value: eventTypes,
 });
+
+const requestTransactionTypesAction = () => ({
+    type: REQUEST_TRANSACTION_TYPES,
+});
+
+const receiveTransactionTypesAction = (transactionTypes: TransactionType[]) => ({
+    type: RECEIVE_TRANSACTION_TYPES,
+    value: transactionTypes,
+})
 
 const requestUserTypesAction = () => ({
     type: REQUEST_USER_TYPES,
@@ -148,6 +160,15 @@ const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
     get<EventType[]>('api/event/types')
         .then(eventTypes => {
             dispatch(receiveEventTypesAction(eventTypes));
+        });
+};
+
+const loadTransactionTypes = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestTransactionTypesAction());
+
+    get<TransactionType[]>('api/transaction/types')
+        .then(transactionTypes => {
+            dispatch(receiveTransactionTypesAction(transactionTypes));
         });
 };
 
@@ -272,6 +293,7 @@ export const actionCreators = {
     loadParishes,
     loadCongregations,
     loadEventTypes,
+    loadTransactionTypes,
     loadUserTypes,
     deleteArchdeaconry,
     deleteParish,
@@ -290,6 +312,8 @@ export interface State {
     congregationsLoading: boolean;
     eventTypes: EventType[];
     eventTypesLoading: boolean;
+    transactionTypes: TransactionType[];
+    transactionTypesLoading: boolean;
     userTypes: UserType[];
     userTypesLoading: boolean;
     deletingArchdeaconryId?: number;
@@ -309,6 +333,8 @@ const initialState: State = {
     congregationsLoading: true,
     eventTypes: [],
     eventTypesLoading: true,
+    transactionTypes: [],
+    transactionTypesLoading: true,
     userTypes: [],
     userTypesLoading: true,
 }
@@ -368,6 +394,17 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 eventTypes: action.value,
                 eventTypesLoading: false,
+            };
+        case REQUEST_TRANSACTION_TYPES:
+            return {
+                ...state,
+                transactionTypesLoading: true,
+            };
+        case RECEIVE_TRANSACTION_TYPES:
+            return {
+                ...state,
+                transactionTypes: action.value,
+                transactionTypesLoading: false,
             };
         case REQUEST_USER_TYPES:
             return {
