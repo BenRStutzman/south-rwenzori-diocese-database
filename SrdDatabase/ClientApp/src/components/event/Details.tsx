@@ -10,6 +10,7 @@ import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { canEdit, peoplesNames } from '../../helpers/eventHelper';
 import { formattedDate } from '../../helpers/miscellaneous';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
@@ -24,6 +25,9 @@ const Details = ({
     details,
     match,
     currentUser,
+    deletingEventId,
+    deleteEvent,
+    history,
 }: Props) => {
     const loadData = () => {
         const eventId = parseInt(match.params.eventId);
@@ -32,14 +36,23 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
+    const onDelete = () => {
+        deleteEvent(details.event, () => { history.push('/event'); });
+    };
+
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
             {
                 canEdit(details.event, currentUser) &&
-                <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
-                    Edit event
-                </Link>
+                <div className="button-group float-right">
+                    <Link className="btn btn-primary" to={`/event/edit/${details.event.id}`}>
+                        Edit event
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {details.event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
+                    </button>
+                </div>
             }
             <div className="details-boxes">
                 <DetailsBox
@@ -60,11 +73,11 @@ const Details = ({
                     itemType="archdeaconry"
                     itemValue={details.event.archdeaconry}
                     itemId={details.event.archdeaconryId}
-                 />
+                />
             </div>
         </>;
 }
-    
+
 export default connect(
     (state: State) => ({ ...state.event.details, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)

@@ -40,8 +40,10 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 })
 
-const resetCongregation = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveCongregationAction({}));
+const resetCongregation = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveCongregationAction({
+        parishId,
+    }));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {

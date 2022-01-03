@@ -37,6 +37,7 @@ const Details = ({
     React.useEffect(loadData, []);
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteArchdeaconry(details.archdeaconry, () => { history.push('/archdeaconry'); });
@@ -61,16 +62,20 @@ const Details = ({
                     itemType="parish"
                     itemTotal={details.parishResults.totalResults}
                     items={parishItems(details.parishResults)}
+                    showAddLink={canEdit}
+                    addParams={`/${details.archdeaconry.id}`}
                 />
                 <DetailsList
                     itemType="congregation"
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
+                    showAddLink={canEdit}
                 />
                 <DetailsList
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
+                    showAddLink={canAddEvents}
                 />
             </div>
         </>;

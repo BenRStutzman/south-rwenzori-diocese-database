@@ -1,17 +1,23 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import * as Store from '../../store/congregation/save';
 import SaveForm from './partials/SaveForm';
 
 type Props =
-    typeof Store.actionCreators;
+    typeof Store.actionCreators &
+    RouteComponentProps<{ parishId: string }>;
 
 const Add = ({
     resetCongregation,
+    match,
 }: Props) => {
-    const loadData = () => { resetCongregation(); };
+    const loadData = () => {
+        const parishId = match.params.parishId ? parseInt(match.params.parishId) : undefined;
+        resetCongregation(parishId);
+    };
 
     useEffect(loadData, []);
 

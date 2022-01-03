@@ -40,11 +40,11 @@ export default () => (
         <PrivateRoute exact path='/archdeaconry/edit/:archdeaconryId' component={ArchdeaconryEdit} roles={atLeast.editor} />
         <PrivateRoute exact path='/archdeaconry/details/:archdeaconryId' component={ArchdeaconryDetails} />
         <PrivateRoute exact path='/parish' component={ParishHome} />
-        <PrivateRoute exact path='/parish/add' component={ParishAdd} roles={atLeast.editor} />
+        <PrivateRoute exact path='/parish/add/:archdeaconryId?' component={ParishAdd} roles={atLeast.editor} />
         <PrivateRoute exact path='/parish/edit/:parishId' component={ParishEdit} roles={atLeast.editor} />
         <PrivateRoute exact path='/parish/details/:parishId' component={ParishDetails} />
         <PrivateRoute exact path='/congregation' component={CongregationHome} />
-        <PrivateRoute exact path='/congregation/add' component={CongregationAdd} roles={atLeast.editor} />
+        <PrivateRoute exact path='/congregation/add/:parishId?' component={CongregationAdd} roles={atLeast.editor} />
         <PrivateRoute exact path='/congregation/edit/:congregationId' component={CongregationEdit} roles={atLeast.editor} />
         <PrivateRoute exact path='/congregation/details/:congregationId' component={CongregationDetails} />
         <PrivateRoute exact path='/event' component={EventHome} />

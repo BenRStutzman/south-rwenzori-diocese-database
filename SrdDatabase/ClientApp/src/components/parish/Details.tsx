@@ -12,6 +12,7 @@ import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
 import { Event } from '../../models/event';
 import { congregationItems, eventItems } from '../../helpers/detailsHelpers';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
@@ -26,6 +27,9 @@ const Details = ({
     details,
     match,
     currentUser,
+    deleteParish,
+    deletingParishId,
+    history,
 }: Props) => {
     const loadData = () => {
         const parishId = parseInt(match.params.parishId);
@@ -34,16 +38,26 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
+    const onDelete = () => {
+        deleteParish(details.parish, () => { history.push('/parish'); });
+    };
+
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">{details.parish.name} Parish</h1>
             {
                 canEdit &&
-                <Link className="btn btn-primary float-right" to={`/parish/edit/${details.parish.id}`}>
-                    Edit parish
-                </Link>
+                <div className="button-group float-right">
+                    <Link className="btn btn-primary" to={`/parish/edit/${details.parish.id}`}>
+                        Edit parish
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {details.parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
+                    </button>
+                </div>
             }
             <div className="details-boxes">
                 <DetailsBox
@@ -55,16 +69,19 @@ const Details = ({
                     itemType="congregation"
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
+                    showAddLink={canEdit}
+                    addParams={`/${details.parish.id}`}
                 />
                 <DetailsList
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
+                    showAddLink={canAddEvents}
                 />
             </div>
         </>;
 }
-    
+
 export default connect(
     (state: State) => ({ ...state.parish.details, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)

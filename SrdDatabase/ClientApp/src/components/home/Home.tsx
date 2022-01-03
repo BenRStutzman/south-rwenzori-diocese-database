@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { archdeaconryItems, congregationItems, eventItems, parishItems, transactionItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
@@ -27,6 +27,9 @@ const Home = ({
 
     useEffect(loadData, []);
 
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
+
     return <>
         <h1 className="page-title">South Rwenzori Diocese</h1>
         {
@@ -36,30 +39,26 @@ const Home = ({
                         itemType="archdeaconry"
                         itemTotal={details.archdeaconryResults.totalResults}
                         items={archdeaconryItems(details.archdeaconryResults)}
+                        showAddLink={canEdit}
                     />
                     <DetailsList
                         itemType="parish"
                         itemTotal={details.parishResults.totalResults}
                         items={parishItems(details.parishResults)}
+                        showAddLink={canEdit}
                     />
                     <DetailsList
                         itemType="congregation"
                         itemTotal={details.congregationResults.totalResults}
                         items={congregationItems(details.congregationResults)}
+                        showAddLink={canEdit}
                     />
                     <DetailsList
                         itemType="event"
                         itemTotal={details.eventResults.totalResults}
                         items={eventItems(details.eventResults)}
+                        showAddLink={canAddEvents}
                     />
-                    {
-                        currentUser && atLeast.accountant.includes(currentUser.userType) &&
-                        <DetailsList
-                            itemType="transaction"
-                            itemTotal={details.transactionResults.totalResults}
-                            items={transactionItems(details.transactionResults)}
-                        />
-                    }
                 </div>
         }
         </>

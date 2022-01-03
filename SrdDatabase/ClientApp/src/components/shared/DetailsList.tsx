@@ -8,6 +8,7 @@ interface Props {
     itemType: string;
     itemTotal: number;
     items: DetailsListItem[];
+    showAddLink?: boolean;
     addParams?: string;
     altTitle?: string;
 }
@@ -16,6 +17,7 @@ const DetailsList = ({
     itemType,
     itemTotal,
     items,
+    showAddLink,
     addParams,
     altTitle,
 }: Props) =>
@@ -31,7 +33,10 @@ const DetailsList = ({
             )}
         </ul>
         <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
-        <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+        {
+            showAddLink &&
+            <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+        }
     </div>;
 
 export default DetailsList;

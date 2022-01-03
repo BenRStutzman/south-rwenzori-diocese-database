@@ -39,8 +39,8 @@ const Details = ({
     React.useEffect(loadData, []);
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
-    const canAddEvent = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canEditTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
@@ -75,15 +75,17 @@ const Details = ({
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
+                    showAddLink={canAddEvents}
                     addParams={`/${details.congregation.id}`}
                 />
                 {
-                    canViewBalance &&
+                    canEditTransactions &&
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="transaction"
                         itemTotal={details.transactionResults.totalResults}
                         items={transactionItems(details.transactionResults)}
+                        showAddLink={canEditTransactions}
                         addParams={`/${details.congregation.id}`}
                     />
                 }
