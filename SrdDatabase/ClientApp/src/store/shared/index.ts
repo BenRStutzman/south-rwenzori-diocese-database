@@ -6,7 +6,7 @@ import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish } from '../../models/parish';
-import { TransactionType } from '../../models/transaction';
+import { Transaction, TransactionType } from '../../models/transaction';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
 
 const LOGIN = 'LOGIN';
@@ -27,6 +27,7 @@ const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
 const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
 const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
 const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
+const SET_DELETING_TRANSACTION_ID = 'SET_DELETING_TRANSACTION_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
 
 const loginAction = (user: CurrentUser) => ({
@@ -110,6 +111,11 @@ const setDeletingCongregationIdAction = (congregationId?: number) => ({
 const setDeletingEventIdAction = (eventId?: number) => ({
     type: SET_DELETING_EVENT_ID,
     value: eventId,
+});
+
+const setDeletingTransactionIdAction = (transactionId?: number) => ({
+    type: SET_DELETING_TRANSACTION_ID,
+    value: transactionId,
 });
 
 const setDeletingUserIdAction = (userId?: number) => ({
@@ -265,6 +271,27 @@ const deleteEvent = (event: Event, onSuccess: () => void):
         }
     };
 
+const deleteTransaction = (transaction: Transaction, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete this ${transaction.transactionType} transaction?`)) {
+            dispatch(setDeletingTransactionIdAction(transaction.id));
+
+            post<{ id: number }>('api/transaction/delete', { id: transaction.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingTransactionIdAction(undefined));
+                        alert(errorMessage);
+                    });
+                });
+        }
+    };
+
 const deleteUser = (user: User, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
         if (window.confirm(`Are you sure you want to delete the user ${user.name}?`)) {
@@ -299,6 +326,7 @@ export const actionCreators = {
     deleteParish,
     deleteCongregation,
     deleteEvent,
+    deleteTransaction,
     deleteUser,
 };
 
@@ -320,6 +348,7 @@ export interface State {
     deletingParishId?: number;
     deletingCongregationId?: number;
     deletingEventId?: number;
+    deletingTransactionId?: number;
     deletingUserId?: number;
 }
 
@@ -436,6 +465,11 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
             return {
                 ...state,
                 deletingEventId: action.value,
+            };
+        case SET_DELETING_TRANSACTION_ID:
+            return {
+                ...state,
+                deletingTransactionId: action.value,
             };
         case SET_DELETING_USER_ID:
             return {

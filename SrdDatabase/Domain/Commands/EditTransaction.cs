@@ -21,8 +21,6 @@ namespace SrdDatabase.Domain.Commands
                 byte transactionTypeId,
                 int amount,
                 int congregationId,
-                string firstPersonName,
-                string secondPersonName,
                 DateTime date)
                 : base(
                     transactionTypeId,

@@ -1,7 +1,7 @@
 ﻿import React, { ChangeEvent, useEffect, useState } from 'react';
 import { randomString } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
-import * as Store from '../../../store/event/home';
+import * as Store from '../../../store/transaction/home';
 import * as SharedStore from '../../../store/shared';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
@@ -18,26 +18,25 @@ type Props =
 const autoCompleteString = randomString();
 
 const SearchBox = ({
-    searchEvents,
+    searchTransactions,
     parameters,
-    setSearchPersonName,
     setSearchArchdeaconryId,
     setSearchParishId,
     setSearchCongregationId,
-    setSearchEventTypeId,
+    setSearchTransactionTypeId,
     setSearchStartDate,
     setSearchEndDate,
     archdeaconries,
     parishes,
     congregations,
-    eventTypes,
+    transactionTypes,
     resetParameters,
     loadCongregations,
-    loadEventTypes,
+    loadTransactionTypes,
     loadArchdeaconries,
     loadParishes,
     congregationsLoading,
-    eventTypesLoading,
+    transactionTypesLoading,
     resultsLoading,
     archdeaconriesLoading,
     parishesLoading,
@@ -47,17 +46,13 @@ const SearchBox = ({
         loadArchdeaconries();
         loadParishes();
         loadCongregations();
-        loadEventTypes();
-        searchEvents();
+        loadTransactionTypes();
+        searchTransactions();
     };
 
     useEffect(loadData, []);
 
     const [expanded, setExpanded] = useState(false);
-
-    const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchPersonName(event.target.value);
-    };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSearchArchdeaconryId(parseInt(event.target.value));
@@ -71,8 +66,8 @@ const SearchBox = ({
         setSearchCongregationId(parseInt(event.target.value));
     };
 
-    const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setSearchEventTypeId(parseInt(event.target.value));
+    const onTransactionTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSearchTransactionTypeId(parseInt(event.target.value));
     };
 
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,54 +78,37 @@ const SearchBox = ({
         setSearchEndDate(new Date(event.target.value));
     };
 
-    const onSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        searchEvents(parameters);
+    const onSubmit = (transaction: React.FormEvent) => {
+        transaction.preventDefault();
+        searchTransactions(parameters);
     };
 
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
         <div hidden={!expanded} className="search-box">
             {
-                congregationsLoading || eventTypesLoading || archdeaconriesLoading || parishesLoading ? <LoadingSpinner /> :
+                congregationsLoading || transactionTypesLoading || archdeaconriesLoading || parishesLoading ? <LoadingSpinner /> :
                     <form onSubmit={onSubmit}>
                         <div className="row">
                             <div className="col-6">
                                 <div className="form-group">
-                                    <label htmlFor="eventTypeId">Event Type</label>
+                                    <label htmlFor="transactionTypeId">Transaction Type</label>
                                     <select
-                                        id="eventTypeId"
+                                        id="transactionTypeId"
                                         className="form-control"
-                                        value={parameters.eventTypeId ?? ""}
-                                        onChange={onEventTypeIdChange}
+                                        value={parameters.transactionTypeId ?? ""}
+                                        onChange={onTransactionTypeIdChange}
                                     >
-                                        <option key={0} value="">Any event type</option>
-                                        {eventTypes.map(eventType =>
-                                            <option key={eventType.id} value={eventType.id}>
-                                                {eventType.name}
+                                        <option key={0} value="">Any transaction type</option>
+                                        {transactionTypes.map(transactionType =>
+                                            <option key={transactionType.id} value={transactionType.id}>
+                                                {transactionType.name}
                                             </option>
                                         )}
                                     </select>
                                 </div>
                             </div>
                             <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="personName">Person Name</label>
-                                    <input
-                                        id="personName"
-                                        className="form-control"
-                                        autoComplete={autoCompleteString}
-                                        type="text"
-                                        spellCheck={false}
-                                        value={parameters.personName ?? ""}
-                                        onChange={onPersonNameChange}
-                                        maxLength={50}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-4">
                                 <div className="form-group">
                                     <label htmlFor="congregationId">Congregation</label>
                                     <select
@@ -148,7 +126,9 @@ const SearchBox = ({
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-4">
+                        </div>
+                        <div className="row">
+                            <div className="col-6">
                                 <div className="form-group">
                                     <label htmlFor="parishId">Parish</label>
                                     <select
@@ -166,7 +146,7 @@ const SearchBox = ({
                                     </select>
                                 </div>
                             </div>
-                            <div className="col-4">
+                            <div className="col-6">
                                 <div className="form-group">
                                     <label htmlFor="archdeaconryId">Archdeaconry</label>
                                     <select
@@ -214,7 +194,7 @@ const SearchBox = ({
                         <SearchButtons
                             searching={resultsLoading}
                             onClear={resetParameters}
-                            thingsBeingSearched="events"
+                            thingsBeingSearched="transactions"
                         />
                     </form>
             }
@@ -223,6 +203,6 @@ const SearchBox = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.event.home, ...state.shared }),
+    (state: State) => ({ ...state.transaction.home, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchBox);

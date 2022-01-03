@@ -40,6 +40,12 @@ const Navigation = ({
                                     <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
                                 </NavItem>
                                 {
+                                    currentUser && atLeast.accountant.includes(currentUser.userType) &&
+                                    <NavItem>
+                                        <NavLink tag={Link} className='text-dark' to='/transaction'>Transactions</NavLink>
+                                    </NavItem>
+                                }
+                                {
                                     currentUser && atLeast.administrator.includes(currentUser.userType) &&
                                     <NavItem>
                                         <NavLink tag={Link} className='text-dark' to='/user'>Users</NavLink>

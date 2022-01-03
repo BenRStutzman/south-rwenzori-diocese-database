@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
-import * as Store from '../../store/event/details'
+import * as Store from '../../store/transaction/details'
 import * as SharedStore from '../../store/shared';
 import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
@@ -8,7 +8,6 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
-import { canEdit, peoplesNames } from '../../helpers/eventHelper';
 import { formattedDate } from '../../helpers/miscellaneous';
 
 type Props =
@@ -16,56 +15,52 @@ type Props =
     typeof Store.actionCreators &
     SharedStore.State &
     typeof SharedStore.actionCreators &
-    RouteComponentProps<{ eventId: string }>;
+    RouteComponentProps<{ transactionId: string }>;
 
 const Details = ({
     loadDetails,
     detailsLoading,
     details,
     match,
-    currentUser,
 }: Props) => {
     const loadData = () => {
-        const eventId = parseInt(match.params.eventId);
-        loadDetails(eventId);
+        const transactionId = parseInt(match.params.transactionId);
+        loadDetails(transactionId);
     };
 
     React.useEffect(loadData, []);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
-            {
-                canEdit(details.event, currentUser) &&
-                <Link className="btn btn-primary float-right" to={`/event/edit/${details.event.id}`}>
-                    Edit event
-                </Link>
-            }
+            <h1 className="page-title">{details.transaction.transactionType}</h1>
+            <Link className="btn btn-primary float-right" to={`/transaction/edit/${details.transaction.id}`}>
+                Edit transaction
+            </Link>
             <div className="details-boxes">
                 <DetailsBox
                     itemType="date"
-                    itemValue={formattedDate(details.event)}
+                    itemValue={formattedDate(details.transaction)}
                 />
                 <DetailsBox
                     itemType="congregation"
-                    itemValue={details.event.congregation}
-                    itemId={details.event.congregationId}
+                    itemValue={details.transaction.congregation}
+                    itemId={details.transaction.congregationId}
                 />
                 <DetailsBox
                     itemType="parish"
-                    itemValue={details.event.parish}
-                    itemId={details.event.parishId}
+                    itemValue={details.transaction.parish}
+                    itemId={details.transaction.parishId}
                 />
                 <DetailsBox
                     itemType="archdeaconry"
-                    itemValue={details.event.archdeaconry}
-                    itemId={details.event.archdeaconryId}
+                    itemValue={details.transaction.archdeaconry}
+                    itemId={details.transaction.archdeaconryId}
                  />
             </div>
         </>;
 }
     
 export default connect(
-    (state: State) => ({ ...state.event.details, ...state.shared }),
+    (state: State) => ({ ...state.transaction.details, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Details);

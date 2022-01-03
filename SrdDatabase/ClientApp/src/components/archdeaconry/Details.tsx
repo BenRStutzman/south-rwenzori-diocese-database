@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { formattedDate, peoplesNames } from '../../helpers/eventHelper';
 import { congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
 
 type Props =

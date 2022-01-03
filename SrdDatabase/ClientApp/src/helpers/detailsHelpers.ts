@@ -3,7 +3,8 @@ import { CongregationResults } from "../models/congregation";
 import { ParishResults } from "../models/parish";
 import { DetailsListItem } from "../models/shared";
 import { EventResults } from '../models/event';
-import { formattedDate, peoplesNames } from "./eventHelper";
+import { peoplesNames } from "./eventHelper";
+import { formattedDate } from "./miscellaneous";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
     return archdeaconryResults.archdeaconries.map(archdeaconry => (

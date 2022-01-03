@@ -10,7 +10,6 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { formattedDate, peoplesNames } from '../../helpers/eventHelper';
 import { eventItems } from '../../helpers/detailsHelpers';
 
 type Props =
