@@ -46,7 +46,10 @@ export interface ErrorResponse {
 
 function redirectIfUnauthorized(response: Response) {
     if (response.status === 401) {
-        const redirectionPath = localStorage.getItem('userData') ? '/' : '/login';
+        const redirectionPath =
+            localStorage.getItem('userData') && window.location.pathname != '/'
+                ? '/'
+                : '/login';
         window.location.replace(redirectionPath);
     }
 }
