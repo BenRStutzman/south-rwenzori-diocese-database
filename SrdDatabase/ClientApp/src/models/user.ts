@@ -12,6 +12,7 @@ export interface User {
 export interface UserType {
     id: number;
     name: string;
+    privilegeOrder: number;
 }
 
 export interface UserData {
@@ -44,6 +45,7 @@ export interface UserResults extends PagedResults {
 export const userRole = {
     viewer: 'Viewer',
     contributor: 'Contributor',
+    accountant: 'Accountant',
     editor: 'Editor',
     administrator: 'Administrator',
 };

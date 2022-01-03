@@ -26,7 +26,8 @@ const SearchResults = ({
     parameters,
     currentUser,
 }: Props) => {
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const nextPage = () => {
         searchCongregations(parameters, results.pageNumber + 1);
@@ -51,9 +52,12 @@ const SearchResults = ({
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th className={`col-${canEdit ? '4' : '5'}`}>Name</th>
-                            <th className={`col-${canEdit ? '3' : '4'}`}>Parish</th>
-                            <th className='col-1'>Balance</th>
+                            <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>Name</th>
+                            <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>Parish</th>
+                            {
+                                canViewBalance &&
+                                <th className='col-2'>Balance (UGX)</th>
+                            }
                             <th className={`col-${canEdit ? '3' : '1'}`}></th>
                         </tr>
                     </thead>
@@ -62,7 +66,10 @@ const SearchResults = ({
                             <tr key={congregation.id}>
                                 <td>{congregation.name}</td>
                                 <td>{congregation.parish}</td>
-                                <td>{congregation.balance}</td>
+                                {
+                                    canViewBalance &&
+                                    <td className="balance-column">{congregation.balance}</td>
+                                }
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
                                         View

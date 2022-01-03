@@ -144,3 +144,7 @@ button:disabled {
 table {
     margin-bottom: 0;
 }
+
+.balance-column {
+    text-align: right;
+}

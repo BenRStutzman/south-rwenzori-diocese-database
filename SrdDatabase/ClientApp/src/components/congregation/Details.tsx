@@ -35,6 +35,7 @@ const Details = ({
     React.useEffect(loadData, []);
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
@@ -56,10 +57,13 @@ const Details = ({
                     itemValue={details.congregation.archdeaconry}
                     itemId={details.congregation.archdeaconryId}
                 />
-                <DetailsBox
-                    itemType="balance"
-                    itemValue={`${details.congregation.balance} UGX`}
-                    />
+                {
+                    canViewBalance &&
+                    <DetailsBox
+                        itemType="balance"
+                        itemValue={`${details.congregation.balance} UGX`}
+                        />
+                }
                 <DetailsList
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}
