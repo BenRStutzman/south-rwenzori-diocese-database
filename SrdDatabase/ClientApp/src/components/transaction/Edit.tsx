@@ -43,10 +43,10 @@ const Edit = ({
             <>
                 <h1 className="page-title">Edit {transaction.transactionType} of {peoplesNames(transaction)}</h1>
                 <div className="float-right button-group">
-                    <Link className="btn btn-secondary float-right" to={`/transaction/details/${transaction.id}`}>
+                    <Link className="btn btn-secondary" to={`/transaction/details/${transaction.id}`}>
                         View details
                     </Link>
-                    <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
                         {transaction.id === deletingTransactionId ? <Spinner size="sm" /> : 'Delete transaction'}
                     </button>
                 </div>

@@ -50,10 +50,10 @@ const Edit = ({
             <>
                 <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
                 <div className="float-right button-group">
-                    <Link className="btn btn-secondary float-right" to={`/event/details/${event.id}`}>
+                    <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
                         View details
                     </Link>
-                    <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
                         {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
                     </button>
                 </div>

@@ -55,7 +55,7 @@ const Details = ({
                     <Link className="btn btn-primary" to={`/congregation/edit/${details.congregation.id}`}>
                         Edit congregation
                     </Link>
-                    <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
                         {details.congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
                     </button>
                 </div>

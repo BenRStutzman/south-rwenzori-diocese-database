@@ -9,6 +9,7 @@ import SaveForm from './partials/SaveForm';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { Spinner } from 'reactstrap';
 
 type Props =
     Store.State &
@@ -21,6 +22,9 @@ const Edit = ({ archdeaconryLoading,
     archdeaconry,
     loadArchdeaconry,
     match,
+    history,
+    deleteArchdeaconry,
+    deletingArchdeaconryId,
 }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -29,12 +33,21 @@ const Edit = ({ archdeaconryLoading,
 
     useEffect(loadData, []);
 
+    const onDelete = () => {
+        deleteArchdeaconry(archdeaconry, () => { history.push('/archdeaconry'); });
+    };
+
     return archdeaconryLoading ? <LoadingSpinner /> :
         <>
             <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>
-            <Link className="btn btn-secondary float-right" to={`/archdeaconry/details/${archdeaconry.id}`}>
-                View details
-            </Link>
+            <div className="buntton-group float-right">
+                <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                    View details
+                </Link>
+                <button className='btn btn-danger' type="button" onClick={onDelete}>
+                    {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
+                </button>
+            </div>
             <SaveForm />
         </>;
 }

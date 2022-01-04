@@ -42,10 +42,10 @@ const Edit = ({
         <>
             <h1 className="page-title">Edit {parish.name} Parish</h1>
             <div className="float-right button-group">
-                <Link className="btn btn-secondary float-right" to={`/parish/details/${parish.id}`}>
+                <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
                     View details
                 </Link>
-                <button className="btn btn-danger float-right" type="button" onClick={onDelete}>
+                <button className="btn btn-danger" type="button" onClick={onDelete}>
                     {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
                 </button>
             </div>
