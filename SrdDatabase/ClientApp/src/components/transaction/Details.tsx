@@ -54,10 +54,6 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
-                    itemType="amount (UGX)"
-                    itemValue={parenthesizeAmountIfPayment(details.transaction)}
-                />
-                <DetailsBox
                     itemType="date"
                     itemValue={formattedDate(details.transaction)}
                 />

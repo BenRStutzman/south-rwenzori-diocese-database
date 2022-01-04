@@ -22,21 +22,29 @@ const DetailsList = ({
     altTitle,
 }: Props) =>
     <div className="details-box">
-        <h2>{altTitle ?? `${capitalize(plural(itemType))} (${itemTotal})`}</h2>
-        <ul>
-            {items.map(item =>
-                <li key={item.id}>
-                    <Link to={`/${itemType}/details/${item.id}`}>
-                        {item.displayText}
-                    </Link>
-                </li>
-            )}
-        </ul>
-        <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
-        {
-            showAddLink &&
-            <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
-        }
+        <div>
+            <h2>{altTitle ?? `${capitalize(plural(itemType))} (${itemTotal})`}</h2>
+            <ul>
+                {items.map(item =>
+                    <li key={item.id}>
+                        <Link to={`/${itemType}/details/${item.id}`}>
+                            {item.displayText}
+                        </Link>
+                    </li>
+                )}
+                {
+                    itemTotal > items.length &&
+                    <li>... and {itemTotal - items.length} more</li>
+                }
+            </ul>
+        </div>
+        <div>
+            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+            {
+                showAddLink &&
+                <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+            }
+        </div>
     </div>;
 
 export default DetailsList;

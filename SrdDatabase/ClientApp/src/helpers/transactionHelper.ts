@@ -6,5 +6,5 @@ export function parenthesizeAmountIfPayment(transaction: Transaction) : string {
 };
 
 export function describeTransaction(transaction: Transaction): string {
-    return `${transaction.isPayment ? 'Payment from' : 'Charge to'} ${transaction.congregation} Congregation`;
+    return `${transaction.isPayment ? 'Payment' : 'Charge'} of ${transaction.amount} UGX`;
 }

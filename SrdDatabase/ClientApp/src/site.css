@@ -104,6 +104,9 @@ button:disabled {
     background-color: lightgray;
     padding: 10px;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .paging {

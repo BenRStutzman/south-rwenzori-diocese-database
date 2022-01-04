@@ -15,19 +15,19 @@ const DetailsBox = ({
     itemId,
 }: Props) =>
     <div className="details-box">
-        <h2>
-            {`${capitalize(itemType)}: `}
-            {itemId ?
-                <Link to={`/${itemType}/details/${itemId}`}>
-                    {itemValue}
-                </Link>
-                : <span>{itemValue}</span>
+            <h2>
+                {`${capitalize(itemType)}: `}
+                {itemId ?
+                    <Link to={`/${itemType}/details/${itemId}`}>
+                        {itemValue}
+                    </Link>
+                    : <span>{itemValue}</span>
+                }
+            </h2>
+            {
+                itemId &&
+                <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
             }
-        </h2>
-        {
-            itemId &&
-            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
-        }
     </div>;
 
 export default DetailsBox;
