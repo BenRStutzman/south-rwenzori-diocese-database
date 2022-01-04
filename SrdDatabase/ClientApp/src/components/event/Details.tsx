@@ -42,18 +42,20 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
-            {
-                canEdit(details.event, currentUser) &&
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/event/edit/${details.event.id}`}>
-                        Edit event
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {details.event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
-                    </button>
-                </div>
-            }
+            <div className="page-heading">
+                <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
+                {
+                    canEdit(details.event, currentUser) &&
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/event/edit/${details.event.id}`}>
+                            Edit event
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {details.event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
+                        </button>
+                    </div>
+                }
+            </div>
             <div className="details-boxes">
                 <DetailsBox
                     itemType="date"

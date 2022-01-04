@@ -149,3 +149,8 @@ table {
 .balance-column {
     text-align: right;
 }
+
+.page-heading {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}

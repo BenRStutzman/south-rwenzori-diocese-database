@@ -46,16 +46,18 @@ const Edit = ({
     };
 
     return eventLoading ? <LoadingSpinner /> :
-         eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
+        eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
             <>
-                <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
-                <div className="float-right button-group">
-                    <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
-                        View details
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
-                    </button>
+                <div className="page-heading">
+                    <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
+                    <div className="float-right button-group">
+                        <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
+                            View details
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
+                        </button>
+                    </div>
                 </div>
                 <SaveForm />
             </>;

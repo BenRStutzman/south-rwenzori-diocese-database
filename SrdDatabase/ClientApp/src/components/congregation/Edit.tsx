@@ -40,14 +40,16 @@ const Edit = ({
 
     return congregationLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">Edit {congregation.name} Congregation</h1>
-            <div className="button-group float-right">
-                <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
-                    View details
-                </Link>
-                <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
-                </button>
+            <div className="page-heading">
+                <h1 className="page-title">Edit {congregation.name} Congregation</h1>
+                <div className="button-group float-right">
+                    <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
+                        View details
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
+                    </button>
+                </div>
             </div>
             <SaveForm />
         </>;

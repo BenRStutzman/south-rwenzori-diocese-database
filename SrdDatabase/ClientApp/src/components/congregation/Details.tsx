@@ -48,18 +48,20 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{details.congregation.name} Congregation</h1>
-            {
-                canEdit &&
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/congregation/edit/${details.congregation.id}`}>
-                        Edit congregation
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {details.congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
-                    </button>
-                </div>
-            }
+            <div className="page-heading">
+                <h1 className="page-title">{details.congregation.name} Congregation</h1>
+                {
+                    canEdit &&
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/congregation/edit/${details.congregation.id}`}>
+                            Edit congregation
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {details.congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
+                        </button>
+                    </div>
+                }
+            </div>
             <div className="details-boxes">
                 <DetailsBox
                     itemType="parish"

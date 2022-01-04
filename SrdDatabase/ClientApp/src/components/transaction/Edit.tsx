@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import { peoplesNames } from '../../helpers/eventHelper';
+import { describeTransaction } from '../../helpers/transactionHelper';
 
 type Props =
     Store.State
@@ -40,8 +41,9 @@ const Edit = ({
     };
 
     return transactionLoading ? <LoadingSpinner /> :
-            <>
-                <h1 className="page-title">Edit {transaction.transactionType} of {peoplesNames(transaction)}</h1>
+        <>
+            <div className="page-heading">
+                <h1 className="page-title">Edit {describeTransaction(transaction)}</h1>
                 <div className="float-right button-group">
                     <Link className="btn btn-secondary" to={`/transaction/details/${transaction.id}`}>
                         View details
@@ -50,8 +52,9 @@ const Edit = ({
                         {transaction.id === deletingTransactionId ? <Spinner size="sm" /> : 'Delete transaction'}
                     </button>
                 </div>
-                <SaveForm />
-            </>;
+            </div>
+            <SaveForm />
+        </>;
 }
 
 export default connect(

@@ -39,14 +39,16 @@ const Edit = ({ archdeaconryLoading,
 
     return archdeaconryLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>
-            <div className="buntton-group float-right">
-                <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
-                    View details
-                </Link>
-                <button className='btn btn-danger' type="button" onClick={onDelete}>
-                    {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
-                </button>
+            <div className="page-heading">
+                <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>
+                <div className="button-group float-right">
+                    <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                        View details
+                    </Link>
+                    <button className='btn btn-danger' type="button" onClick={onDelete}>
+                        {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
+                    </button>
+                </div>
             </div>
             <SaveForm />
         </>;

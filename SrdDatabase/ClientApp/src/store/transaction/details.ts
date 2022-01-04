@@ -3,8 +3,8 @@ import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
 import { TransactionDetails } from '../../models/transaction';
 
-const REQUEST_DETAILS = 'EVENT.REQUEST_DETAILS';
-const RECEIVE_DETAILS = 'EVENT.RECEIVE_DETAILS';
+const REQUEST_DETAILS = 'TRANSACTION.REQUEST_DETAILS';
+const RECEIVE_DETAILS = 'TRANSACTION.RECEIVE_DETAILS';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,

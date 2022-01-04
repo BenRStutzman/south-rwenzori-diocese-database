@@ -40,14 +40,16 @@ const Edit = ({
 
     return parishLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">Edit {parish.name} Parish</h1>
-            <div className="float-right button-group">
-                <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
-                    View details
-                </Link>
-                <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
-                </button>
+            <div className="page-heading">
+                <h1 className="page-title">Edit {parish.name} Parish</h1>
+                <div className="float-right button-group">
+                    <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
+                        View details
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
+                    </button>
+                </div>
             </div>
             <SaveForm />
         </>;

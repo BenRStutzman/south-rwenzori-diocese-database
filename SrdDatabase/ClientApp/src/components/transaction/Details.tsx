@@ -41,14 +41,16 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{describeTransaction(details.transaction)}</h1>
-            <div className="button-group float-right">
-                <Link className="btn btn-primary" to={`/transaction/edit/${details.transaction.id}`}>
-                    Edit transaction
-                </Link>
-                <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {details.transaction.id === deletingTransactionId ? <Spinner size="sm" /> : 'Delete transaction'}
-                </button>
+            <div className="page-heading">
+                <h1 className="page-title">{describeTransaction(details.transaction)}</h1>
+                <div className="button-group float-right">
+                    <Link className="btn btn-primary" to={`/transaction/edit/${details.transaction.id}`}>
+                        Edit transaction
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {details.transaction.id === deletingTransactionId ? <Spinner size="sm" /> : 'Delete transaction'}
+                    </button>
+                </div>
             </div>
             <div className="details-boxes">
                 <DetailsBox

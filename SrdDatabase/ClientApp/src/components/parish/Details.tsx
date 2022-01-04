@@ -47,18 +47,20 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner /> :
         <>
-            <h1 className="page-title">{details.parish.name} Parish</h1>
-            {
-                canEdit &&
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/parish/edit/${details.parish.id}`}>
-                        Edit parish
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {details.parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
-                    </button>
-                </div>
-            }
+            <div className="page-heading">
+                <h1 className="page-title">{details.parish.name} Parish</h1>
+                {
+                    canEdit &&
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/parish/edit/${details.parish.id}`}>
+                            Edit parish
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {details.parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
+                        </button>
+                    </div>
+                }
+            </div>
             <div className="details-boxes">
                 <DetailsBox
                     itemType="archdeaconry"
