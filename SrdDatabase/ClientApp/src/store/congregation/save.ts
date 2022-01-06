@@ -3,10 +3,12 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '../../models/congregation';
 import { History } from 'history';
+import { loadParishes } from '../shared';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
 const SET_NAME = 'CONGREGATION.SET_NAME';
+const SET_ARCHDEACONRY_ID = 'CONGREGATION.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'CONGREGATION.SET_PARISH_ID';
 const SET_IS_SAVING = 'CONGREGATION.SET_IS_SAVING';
 const SET_ERRORS = 'CONGREGATION.SET_ERRORS';
@@ -25,7 +27,12 @@ const setNameAction = (name: string) => ({
     value: name,
 });
 
-const setParishIdAction = (parishId: number) => ({
+const setArchdeaconryIdAction = (archdeaconryId: number) => ({
+    type: SET_ARCHDEACONRY_ID,
+    value: archdeaconryId,
+});
+
+const setParishIdAction = (parishId?: number) => ({
     type: SET_PARISH_ID,
     value: parishId,
 });
@@ -59,7 +66,13 @@ const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setNameAction(name));
 };
 
-const setParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(loadParishes(archdeaconryId));
+    dispatch(setArchdeaconryIdAction(archdeaconryId));
+    dispatch(setParishIdAction(undefined));
+}
+
+const setParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParishIdAction(parishId));
 };
 
@@ -90,6 +103,7 @@ export const actionCreators = {
     saveCongregation,
     setName,
     setParishId,
+    setArchdeaconryId,
 };
 
 export interface State {
@@ -131,6 +145,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 congregation: {
                     ...state.congregation,
                     name: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                congregation: {
+                    ...state.congregation,
+                    archdeaconryId: action.value,
                 },
                 hasBeenChanged: true,
             };

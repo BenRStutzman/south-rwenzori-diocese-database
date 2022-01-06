@@ -5,7 +5,7 @@ import { getUser } from '../../helpers/userHelper';
 import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
-import { Parish } from '../../models/parish';
+import { Parish, ParishParameters, ParishResults } from '../../models/parish';
 import { Transaction, TransactionType } from '../../models/transaction';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
 
@@ -142,12 +142,13 @@ const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
-const loadParishes = (): AppThunkAction<Action> => (dispatch) => {
+export const loadParishes = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestParishesAction());
 
-    get<Parish[]>('api/parish/all')
-        .then(parishes => {
-            dispatch(receiveParishesAction(parishes));
+    post<ParishParameters>('api/parish/search', { archdeaconryId })
+        .then(response => response.json() as Promise<ParishResults>)
+        .then(results => {
+            dispatch(receiveParishesAction(results.parishes));
         });
 };
 

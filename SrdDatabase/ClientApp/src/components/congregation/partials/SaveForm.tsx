@@ -28,25 +28,34 @@ const SaveForm = ({
     isSaving,
     congregation,
     parishes,
+    archdeaconries,
     saveCongregation,
     setName,
     setParishId,
+    setArchdeaconryId,
     hasBeenChanged,
     errors,
     isNew,
     loadParishes,
+    loadArchdeaconries,
+    archdeaconriesLoading,
     congregationLoading,
     parishesLoading,
     history,
 }: Props) => {
     const loadData = () => {
-        loadParishes();
+        loadArchdeaconries();
+        loadParishes(congregation.archdeaconryId);
     };
 
     useEffect(loadData, []);
         
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
+    }
+
+    const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setArchdeaconryId(parseInt(event.target.value));
     }
 
     const onParishIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -58,7 +67,7 @@ const SaveForm = ({
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading || parishesLoading ? <LoadingSpinner /> :
+    return congregationLoading || parishesLoading || archdeaconriesLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -73,6 +82,23 @@ const SaveForm = ({
                     maxLength={50}
                     required
                 />
+            </div>
+            <div className="form-group">
+                <label htmlFor="archdeaconryId">Archdeaconry</label>
+                <select
+                    id="archdeaconryId"
+                    className="form-control"
+                    value={congregation.archdeaconryId ?? ""}
+                    onChange={onArchdeaconryIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>--- select an archdeaconry ---</option>
+                    {archdeaconries.map(archdeaconry =>
+                        <option key={archdeaconry.id} value={archdeaconry.id}>
+                            {archdeaconry.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
