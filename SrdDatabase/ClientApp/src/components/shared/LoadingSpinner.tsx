@@ -1,8 +1,12 @@
 ﻿import React from 'react';
 import { Spinner } from "reactstrap";
 
-const LoadingSpinner = () =>
-    <div className="loading-spinner-container">
+interface Props {
+    fullPage?: boolean;
+}
+
+const LoadingSpinner = ({ fullPage }: Props) =>
+    <div className={`loading-spinner-container${fullPage ? ' full-page' : ''}`}>
         <Spinner />
     </div>;
 

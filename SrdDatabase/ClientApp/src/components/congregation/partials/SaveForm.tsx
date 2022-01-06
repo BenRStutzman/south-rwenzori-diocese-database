@@ -49,7 +49,7 @@ const SaveForm = ({
     };
 
     useEffect(loadData, []);
-        
+
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
     }
@@ -67,7 +67,7 @@ const SaveForm = ({
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading || parishesLoading || archdeaconriesLoading ? <LoadingSpinner /> :
+    return congregationLoading ? <LoadingSpinner fullPage /> :
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -85,49 +85,56 @@ const SaveForm = ({
             </div>
             <div className="form-group">
                 <label htmlFor="archdeaconryId">Archdeaconry</label>
-                <select
-                    id="archdeaconryId"
-                    className="form-control"
-                    value={congregation.archdeaconryId ?? ""}
-                    onChange={onArchdeaconryIdChange}
-                    required
-                >
-                    <option key={0} value="" disabled>--- select an archdeaconry ---</option>
-                    {archdeaconries.map(archdeaconry =>
-                        <option key={archdeaconry.id} value={archdeaconry.id}>
-                            {archdeaconry.name}
-                        </option>
-                    )}
-                </select>
+                {
+                    archdeaconriesLoading ? <LoadingSpinner /> :
+                        <select
+                            id="archdeaconryId"
+                            className="form-control"
+                            value={congregation.archdeaconryId ?? ""}
+                            onChange={onArchdeaconryIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>--- select an archdeaconry ---</option>
+                            {archdeaconries.map(archdeaconry =>
+                                <option key={archdeaconry.id} value={archdeaconry.id}>
+                                    {archdeaconry.name}
+                                </option>
+                            )}
+                        </select>
+                }
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
-                <select
-                    id="parishId"
-                    className="form-control"
-                    value={congregation.parishId ?? ""}
-                    onChange={onParishIdChange}
-                    required
-                >
-                    <option key={0} value="" disabled>--- select a parish ---</option>
-                    {parishes.map(parish =>
-                        <option key={parish.id} value={parish.id}>
-                            {parish.name}
-                        </option>
-                    )}
-                </select>
+                {
+                    parishes.length > 0 ?
+                        <select
+                            id="parishId"
+                            className="form-control"
+                            value={congregation.parishId ?? ""}
+                            onChange={onParishIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>{parishesLoading ? 'Loading...' : '--- select a parish ---'}</option>
+                            {parishes.map(parish =>
+                                <option key={parish.id} value={parish.id}>
+                                    {parish.name}
+                                </option>
+                            )}
+                        </select>
+                        : <p className="error-alert">No parishes available in the selected archdeaconry</p>
+                }
             </div>
             {Object.values(errors).length > 0 &&
                 <ul>
-                {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
-                    <li
-                        className="error-alert"
-                        key={fieldName}>
-                        {errorList.join(" ")}</li>
+                    {Object.entries(errors).map(([fieldName, errorList]: [string, string[]]) =>
+                        <li
+                            className="error-alert"
+                            key={fieldName}>
+                            {errorList.join(" ")}</li>
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
+            <button disabled={!hasBeenChanged || parishes.length === 0} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} congregation`}
             </button>
         </form>;
