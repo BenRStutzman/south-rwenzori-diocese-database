@@ -3,7 +3,7 @@ import { Action, AppThunkAction } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { getUser } from '../../helpers/userHelper';
 import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
-import { Congregation } from '../../models/congregation';
+import { Congregation, CongregationParameters, CongregationResults } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish, ParishParameters, ParishResults } from '../../models/parish';
 import { Transaction, TransactionType } from '../../models/transaction';
@@ -152,13 +152,18 @@ export const loadParishes = (archdeaconryId?: number): AppThunkAction<Action> =>
         });
 };
 
-const loadCongregations = (): AppThunkAction<Action> => (dispatch) => {
+export const loadCongregations = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationsAction());
 
-    get<Congregation[]>('api/congregation/all')
-        .then(congregations => {
-            dispatch(receiveCongregationsAction(congregations));
+    post<CongregationParameters>('api/congregation/search', { parishId })
+        .then(response => response.json() as Promise<CongregationResults>)
+        .then(results => {
+            dispatch(receiveCongregationsAction(results.congregations));
         });
+};
+
+export const clearCongregations = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveCongregationsAction([]));
 };
 
 const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {

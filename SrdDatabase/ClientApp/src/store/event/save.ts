@@ -4,10 +4,13 @@ import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Event } from '../../models/event';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
+import { clearCongregations, loadCongregations, loadParishes } from '../shared';
 
 const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
 const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
 const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
+const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
+const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
 const SET_FIRST_PERSON_NAME = 'EVENT.SET_FIRST_PERSON_NAME';
 const SET_SECOND_PERSON_NAME = 'EVENT.SET_SECOND_PERSON_NAME';
@@ -29,7 +32,17 @@ const setEventTypeIdAction = (eventTypeId: number) => ({
     value: eventTypeId,
 });
 
-const setCongregationIdAction = (congregationId: number) => ({
+const setArchdeaconryIdAction = (archdeaconryId: number) => ({
+    type: SET_ARCHDEACONRY_ID,
+    value: archdeaconryId,
+});
+
+const setParishIdAction = (parishId?: number) => ({
+    type: SET_PARISH_ID,
+    value: parishId,
+});
+
+const setCongregationIdAction = (congregationId?: number) => ({
     type: SET_CONGREGATION_ID,
     value: congregationId,
 });
@@ -60,6 +73,10 @@ const setErrorsAction = (errors: Errors) => ({
 });
 
 const resetEvent = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
+    if (congregationId) {
+        get<Congregation>(`api/congregation`)
+    }
+
     dispatch(receiveEventAction({
         date: new Date(),
         congregationId: congregationId,
@@ -100,8 +117,26 @@ const setEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatc
     dispatch(setEventTypeIdAction(eventTypeId));
 };
 
-const setCongregationId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setCongregationIdAction(parishId));
+const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setArchdeaconryIdAction(archdeaconryId));
+    dispatch(loadParishes(archdeaconryId));
+    dispatch(setParishId(undefined));
+};
+
+const setParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParishIdAction(parishId));
+
+    if (parishId) {
+        dispatch(loadCongregations(parishId));
+    } else {
+        dispatch(clearCongregations());
+    }
+
+    dispatch(setCongregationId(undefined));
+}
+
+const setCongregationId = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationIdAction(congregationId));
 };
 
 const setFirstPersonName = (firstPersonName: string): AppThunkAction<Action> => (dispatch) => {
@@ -122,6 +157,8 @@ export const actionCreators = {
     saveEvent,
     setEventTypeId,
     setCongregationId,
+    setParishId,
+    setArchdeaconryId,
     setFirstPersonName,
     setSecondPersonName,
     setDate,

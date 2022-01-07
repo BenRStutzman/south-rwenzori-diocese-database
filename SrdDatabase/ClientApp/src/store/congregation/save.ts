@@ -69,7 +69,7 @@ const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
 const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(loadParishes(archdeaconryId));
     dispatch(setArchdeaconryIdAction(archdeaconryId));
-    dispatch(setParishIdAction(undefined));
+    dispatch(setParishId(undefined));
 }
 
 const setParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
