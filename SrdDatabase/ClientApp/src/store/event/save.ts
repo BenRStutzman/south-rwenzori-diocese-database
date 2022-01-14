@@ -4,7 +4,7 @@ import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Event } from '../../models/event';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
-import { clearCongregations, loadCongregations, loadParishes } from '../shared';
+import { loadCongregations, loadParishes } from '../shared';
 
 const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
 const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
@@ -125,13 +125,7 @@ const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (d
 
 const setParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParishIdAction(parishId));
-
-    if (parishId) {
-        dispatch(loadCongregations(parishId));
-    } else {
-        dispatch(clearCongregations());
-    }
-
+    dispatch(loadCongregations(parishId));
     dispatch(setCongregationId(undefined));
 }
 

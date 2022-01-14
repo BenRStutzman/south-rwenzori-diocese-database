@@ -145,25 +145,29 @@ const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
 export const loadParishes = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestParishesAction());
 
-    post<ParishParameters>('api/parish/search', { archdeaconryId })
-        .then(response => response.json() as Promise<ParishResults>)
-        .then(results => {
-            dispatch(receiveParishesAction(results.parishes));
-        });
+    if (archdeaconryId) {
+        post<ParishParameters>('api/parish/search', { archdeaconryId })
+            .then(response => response.json() as Promise<ParishResults>)
+            .then(results => {
+                dispatch(receiveParishesAction(results.parishes));
+            });
+    } else {
+        dispatch(receiveParishesAction([]));
+    }
 };
 
 export const loadCongregations = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationsAction());
 
-    post<CongregationParameters>('api/congregation/search', { parishId })
-        .then(response => response.json() as Promise<CongregationResults>)
-        .then(results => {
-            dispatch(receiveCongregationsAction(results.congregations));
-        });
-};
-
-export const clearCongregations = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveCongregationsAction([]));
+    if (parishId) {
+        post<CongregationParameters>('api/congregation/search', { parishId })
+            .then(response => response.json() as Promise<CongregationResults>)
+            .then(results => {
+                dispatch(receiveCongregationsAction(results.congregations));
+            });
+    } else {
+        dispatch(receiveCongregationsAction([]));
+    }
 };
 
 const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
