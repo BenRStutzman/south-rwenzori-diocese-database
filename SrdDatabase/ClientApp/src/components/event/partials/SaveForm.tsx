@@ -26,13 +26,19 @@ type Props =
 
 const SaveForm = ({
     event,
+    archdeaconries,
+    parishes,
     congregations,
     eventTypes,
     saveEvent,
     setEventTypeId,
     setCongregationId,
+    setArchdeaconryId,
+    setParishId,
     setFirstPersonName,
     setSecondPersonName,
+    loadArchdeaconries,
+    loadParishes,
     loadCongregations,
     loadEventTypes,
     setDate,
@@ -44,9 +50,13 @@ const SaveForm = ({
     eventLoading,
     eventTypesLoading,
     congregationsLoading,
+    archdeaconriesLoading,
+    parishesLoading,
 }: Props) => {
     const loadData = () => {
-        loadCongregations();
+        loadArchdeaconries();
+        loadParishes(event.archdeaconryId);
+        loadCongregations(event.parishId);
         loadEventTypes();
     };
 
@@ -55,6 +65,14 @@ const SaveForm = ({
     const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setEventTypeId(parseInt(event.target.value));
     };
+
+    const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setArchdeaconryId(parseInt(event.target.value));
+    }
+
+    const onParishIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setParishId(parseInt(event.target.value));
+    }
 
     const onCongregationIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setCongregationId(parseInt(event.target.value));
@@ -79,41 +97,89 @@ const SaveForm = ({
 
     const involvesTwoPeople = eventTypes.find(eventType => eventType.id === event.eventTypeId)?.involvesTwoPeople;
 
-    return eventLoading || eventTypesLoading || congregationsLoading ? <LoadingSpinner /> :
+    return eventLoading ? <LoadingSpinner /> :
         <form onSubmit={onSubmit}>
-            <div className="form-group">    
+            <div className="form-group">
                 <label htmlFor="eventTypeId">Event Type</label>
-                <select
-                    id="eventTypeId"
-                    className="form-control"
-                    value={event.eventTypeId ?? ""}
-                    onChange={onEventTypeIdChange}
-                    required
-                >
-                    <option key={0} value="" disabled>--- select an event type ---</option>
-                    {eventTypes.map(eventType =>
-                        <option key={eventType.id} value={eventType.id}>
-                            {eventType.name}
-                        </option>
-                    )}
-                </select>
+                {
+                    eventTypesLoading ? <LoadingSpinner /> :
+                        <select
+                            id="eventTypeId"
+                            className="form-control"
+                            value={event.eventTypeId ?? ""}
+                            onChange={onEventTypeIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>--- select an event type ---</option>
+                            {eventTypes.map(eventType =>
+                                <option key={eventType.id} value={eventType.id}>
+                                    {eventType.name}
+                                </option>
+                            )}
+                        </select>
+                }
+            </div>
+            <div className="form-group">
+                <label htmlFor="archdeaconryId">Archdeaconry</label>
+                {
+                    archdeaconriesLoading ? <LoadingSpinner /> :
+                        <select
+                            id="archdeaconryId"
+                            className="form-control"
+                            value={event.archdeaconryId ?? ""}
+                            onChange={onArchdeaconryIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>--- select an archdeaconry ---</option>
+                            {archdeaconries.map(archdeaconry =>
+                                <option key={archdeaconry.id} value={archdeaconry.id}>
+                                    {archdeaconry.name}
+                                </option>
+                            )}
+                        </select>
+                }
+            </div>
+            <div className="form-group">
+                <label htmlFor="parishId">Parish</label>
+                {
+                    parishes.length > 0 ?
+                        <select
+                            id="parishId"
+                            className="form-control"
+                            value={event.parishId ?? ""}
+                            onChange={onParishIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>{parishesLoading ? 'Loading...' : '--- select a parish ---'}</option>
+                            {parishes.map(parish =>
+                                <option key={parish.id} value={parish.id}>
+                                    {parish.name}
+                                </option>
+                            )}
+                        </select>
+                        : <p className="error-alert">No parishes available in the selected archdeaconry</p>
+                }
             </div>
             <div className="form-group">
                 <label htmlFor="congregationId">Congregation</label>
-                <select
-                    id="congregationId"
-                    className="form-control"
-                    value={event.congregationId ?? ""}
-                    onChange={onCongregationIdChange}
-                    required
-                >
-                    <option key={0} value="" disabled>--- select a congregation ---</option>
-                    {congregations.map(congregation =>
-                        <option key={congregation.id} value={congregation.id}>
-                            {congregation.name}
-                        </option>
-                    )}
-                </select>
+                {
+                    congregations.length > 0 ?
+                        <select
+                            id="congregationId"
+                            className="form-control"
+                            value={event.congregationId ?? ""}
+                            onChange={onCongregationIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>{congregationsLoading ? 'Loading...' : '--- select a congregation ---'}</option>
+                            {congregations.map(congregation =>
+                                <option key={congregation.id} value={congregation.id}>
+                                    {congregation.name}
+                                </option>
+                            )}
+                        </select>
+                        : <p className="error-alert">No congregations available in the selected parish</p>
+                }
             </div>
             <div className="form-group">
                 <label htmlFor="firstPersonName">{involvesTwoPeople ? 'First ' : ''} Person Name</label>
@@ -185,4 +251,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     ...SharedStore.actionCreators,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm ));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SaveForm));

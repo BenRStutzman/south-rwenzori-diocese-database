@@ -212,6 +212,24 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
+        case SET_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                event: {
+                    ...state.event,
+                    archdeaconryId: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_PARISH_ID:
+            return {
+                ...state,
+                event: {
+                    ...state.event,
+                    parishId: action.value,
+                },
+                hasBeenChanged: true,
+            };
         case SET_CONGREGATION_ID:
             return {
                 ...state,
