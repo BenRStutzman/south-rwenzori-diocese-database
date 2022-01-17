@@ -4,10 +4,13 @@ import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Transaction } from '../../models/transaction';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
+import { loadCongregations, loadParishes } from '../shared';
 
 const REQUEST_TRANSACTION = 'TRANSACTION.REQUEST_TRANSACTION';
 const RECEIVE_TRANSACTION = 'TRANSACTION.RECEIVE_TRANSACTION';
 const SET_TRANSACTION_TYPE_ID = 'TRANSACTION.SET_TRANSACTION_TYPE_ID';
+const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
+const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'TRANSACTION.SET_CONGREGATION_ID';
 const SET_AMOUNT = 'TRANSACTION.SET_AMOUNT';
 const SET_DATE = 'TRANSACTION.SET_DATE';
@@ -28,7 +31,17 @@ const setTransactionTypeIdAction = (transactionTypeId: number) => ({
     value: transactionTypeId,
 });
 
-const setCongregationIdAction = (congregationId: number) => ({
+const setArchdeaconryIdAction = (archdeaconryId: number) => ({
+    type: SET_ARCHDEACONRY_ID,
+    value: archdeaconryId,
+});
+
+const setParishIdAction = (parishId?: number) => ({
+    type: SET_PARISH_ID,
+    value: parishId,
+});
+
+const setCongregationIdAction = (congregationId?: number) => ({
     type: SET_CONGREGATION_ID,
     value: congregationId,
 });
@@ -94,8 +107,20 @@ const setTransactionTypeId = (transactionTypeId: number): AppThunkAction<Action>
     dispatch(setTransactionTypeIdAction(transactionTypeId));
 };
 
-const setCongregationId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setCongregationIdAction(parishId));
+const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setArchdeaconryIdAction(archdeaconryId));
+    dispatch(loadParishes(archdeaconryId));
+    dispatch(setParishId(undefined));
+};
+
+const setParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParishIdAction(parishId));
+    dispatch(loadCongregations(parishId));
+    dispatch(setCongregationId(undefined));
+}
+
+const setCongregationId = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationIdAction(congregationId));
 };
 
 const setAmount = (amount: number): AppThunkAction<Action> => (dispatch) => {
@@ -111,6 +136,8 @@ export const actionCreators = {
     loadTransaction,
     saveTransaction,
     setTransactionTypeId,
+    setArchdeaconryId,
+    setParishId,
     setCongregationId,
     setAmount,
     setDate,
@@ -159,6 +186,24 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 transaction: {
                     ...state.transaction,
                     transactionTypeId: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_ARCHDEACONRY_ID:
+            return {
+                ...state,
+                transaction: {
+                    ...state.transaction,
+                    archdeaconryId: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_PARISH_ID:
+            return {
+                ...state,
+                transaction: {
+                    ...state.transaction,
+                    parishId: action.value,
                 },
                 hasBeenChanged: true,
             };
