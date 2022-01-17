@@ -78,7 +78,7 @@ const Details = ({
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
-                    addParams={`/${details.congregation.id}`}
+                    addParams={`?congregationId=${details.congregation.id}`}
                 />
                 {
                     canEditTransactions &&

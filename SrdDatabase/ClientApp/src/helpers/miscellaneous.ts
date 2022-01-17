@@ -1,4 +1,7 @@
-﻿export function randomString() {
+﻿import React from "react";
+import { useLocation } from "react-router";
+
+export function randomString() {
     return Math.random().toString(36).substring(7);
 };
 
@@ -17,3 +20,8 @@ export function parenthesize(number: number): string {
 export function parenthesizeIfNegative(number: number): string {
     return number < 0 ? parenthesize(Math.abs(number)) : number.toString();
 };
+
+export function useQueryParams() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+}

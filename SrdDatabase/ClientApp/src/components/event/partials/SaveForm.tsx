@@ -38,8 +38,6 @@ const SaveForm = ({
     setFirstPersonName,
     setSecondPersonName,
     loadArchdeaconries,
-    loadParishes,
-    loadCongregations,
     loadEventTypes,
     setDate,
     hasBeenChanged,
@@ -55,8 +53,6 @@ const SaveForm = ({
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
-        loadParishes(event.archdeaconryId);
-        loadCongregations(event.parishId);
         loadEventTypes();
     };
 

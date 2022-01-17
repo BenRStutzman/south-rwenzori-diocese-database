@@ -4,18 +4,22 @@ import { connect } from 'react-redux';
 import * as Store from '../../store/event/save';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
-import { RouteComponentProps } from 'react-router';
+import LoadingSpinner from '../shared/LoadingSpinner';
+import { useQueryParams } from '../../helpers/miscellaneous';
 
 type Props =
-    typeof Store.actionCreators &
-    RouteComponentProps<{ congregationId: string }>;
+    Store.State &
+    typeof Store.actionCreators;
 
 const Add = ({
     resetEvent,
-    match,
+    eventLoading,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
-        const congregationId = match.params.congregationId ? parseInt(match.params.congregationId) : undefined;
+        var congregationIdString = queryParams.get('congregationId');
+        const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
         resetEvent(congregationId);
     };
 
@@ -24,7 +28,10 @@ const Add = ({
     return (
         <>
             <h1>Add Event</h1>
-            <SaveForm isNew />
+            {
+                eventLoading ? <LoadingSpinner /> :
+                    <SaveForm isNew />
+            }
         </>
     );
 }

@@ -73,22 +73,37 @@ const setErrorsAction = (errors: Errors) => ({
 });
 
 const resetEvent = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
-    if (congregationId) {
-        get<Congregation>(`api/congregation`)
-    }
+    dispatch(requestEventAction);
 
-    dispatch(receiveEventAction({
-        date: new Date(),
-        congregationId: congregationId,
-    }));
+    if (congregationId) {
+        get<Congregation>(`api/congregation/${congregationId}`)
+            .then(congregation => {
+                dispatch(receiveEvent({
+                    date: new Date(),
+                    congregationId: congregation.id,
+                    parishId: congregation.parishId,
+                    archdeaconryId: congregation.archdeaconryId,
+                }));
+            });
+    } else {
+        dispatch(receiveEventAction({
+            date: new Date(),
+        }));
+    }
 };
+
+const receiveEvent = (event: Event): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveEventAction(event));
+    dispatch(loadParishes(event.archdeaconryId));
+    dispatch(loadCongregations(event.parishId));
+}
 
 const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestEventAction());
 
     get<Event>(`api/event/${id}`)
         .then(event => {
-            dispatch(receiveEventAction(event));
+            dispatch(receiveEvent(event));
         });
 };
 
