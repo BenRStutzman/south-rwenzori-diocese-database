@@ -1,21 +1,23 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
+import { useQueryParams } from '../../helpers/miscellaneous';
 import * as Store from '../../store/parish/save';
 import SaveForm from './partials/SaveForm';
 
 type Props =
-    typeof Store.actionCreators &
-    RouteComponentProps<{ archdeaconryId: string }>;
+    typeof Store.actionCreators;
 
 const Add = ({
     resetParish,
-    match,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
-        const archdeaconryId = match.params.archdeaconryId ? parseInt(match.params.archdeaconryId) : undefined;
+        const archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+
         resetParish(archdeaconryId);
     };
 

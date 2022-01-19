@@ -65,7 +65,7 @@ const Details = ({
                     itemTotal={details.parishResults.totalResults}
                     items={parishItems(details.parishResults)}
                     showAddLink={canEdit}
-                    addParams={`/${details.archdeaconry.id}`}
+                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
                 <DetailsList
                     itemType="congregation"

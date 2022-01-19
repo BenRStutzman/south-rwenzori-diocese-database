@@ -75,7 +75,6 @@ const resetCongregation = (parishId?: number, archdeaconryId?: number): AppThunk
 const receiveCongregation = (congregation: Congregation): AppThunkAction<Action> => (dispatch) => {
     dispatch(receiveCongregationAction(congregation));
     dispatch(loadParishes(congregation.archdeaconryId));
-    dispatch(loadCongregations(congregation.parishId));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
