@@ -66,7 +66,9 @@ const SearchResults = ({
                         {results.congregations.map((congregation: Congregation) =>
                             <tr key={congregation.id}>
                                 <td>{congregation.name}</td>
-                                <td>{congregation.parish}</td>
+                                <td>
+                                    <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
+                                </td>
                                 {
                                     canViewBalance &&
                                     <td className="balance-column">

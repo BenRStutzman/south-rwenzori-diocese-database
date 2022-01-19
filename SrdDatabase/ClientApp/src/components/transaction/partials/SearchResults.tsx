@@ -49,8 +49,8 @@ const SearchResults = ({
                     <thead>
                         <tr>
                             <th className="col-2">Transaction Type</th>
-                            <th className="col-3">Congregation</th>
                             <th className="col-2">Amount (UGX)</th>
+                            <th className="col-3">Congregation</th>
                             <th className="col-2">Date</th>
                             <th className="col-3"></th>
                         </tr>
@@ -59,8 +59,10 @@ const SearchResults = ({
                         {results.transactions.map((transaction: Transaction) =>
                             <tr key={transaction.id}>
                                 <td>{transaction.transactionType}</td>
-                                <td>{transaction.congregation}</td>
                                 <td className="balance-column">{parenthesizeAmountIfPayment(transaction)}</td>
+                                <td>
+                                    <Link to={`/congregation/details/${transaction.congregationId}`}>{transaction.congregation}</Link>
+                                </td>
                                 <td>{transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/transaction/details/${transaction.id}`}>

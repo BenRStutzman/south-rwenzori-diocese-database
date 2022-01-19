@@ -64,7 +64,8 @@ const SearchResults = ({
                             <tr key={event.id}>
                                 <td>{event.eventType}</td>
                                 <td>{peoplesNames(event)}</td>
-                                <td>{event.congregation}</td>
+                                <td>
+                                    <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation}</Link></td>
                                 <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>

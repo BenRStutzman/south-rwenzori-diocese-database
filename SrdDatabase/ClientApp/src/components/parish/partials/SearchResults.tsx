@@ -60,7 +60,9 @@ const SearchResults = ({
                         {results.parishes.map((parish: Parish) =>
                             <tr key={parish.id}>
                                 <td>{parish.name}</td>
-                                <td>{parish.archdeaconry}</td>
+                                <td>
+                                    <Link to={`/archdeaconry/details/${parish.archdeaconryId}`}>{parish.archdeaconry}</Link>
+                                </td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
                                         View
