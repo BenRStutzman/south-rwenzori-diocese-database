@@ -139,42 +139,47 @@ const SaveForm = ({
                 <label htmlFor="parishId">Parish</label>
                 {
                     !event.archdeaconryId ? undefined
-                        : parishes.length === 0 ? <p className="error-alert">No parishes available in the selected archdeaconry</p>
-                            : <select
-                                id="parishId"
-                                className="form-control"
-                                value={event.parishId ?? ""}
-                                onChange={onParishIdChange}
-                                required
-                            >
-                                <option key={0} value="" disabled>{parishesLoading ? 'Loading...' : '--- select a parish ---'}</option>
-                                {parishes.map(parish =>
-                                    <option key={parish.id} value={parish.id}>
-                                        {parish.name}
-                                    </option>
-                                )}
-                            </select>
+                        : <select
+                            id="parishId"
+                            className="form-control"
+                            value={event.parishId ?? ""}
+                            onChange={onParishIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>{
+                                parishesLoading ? 'Loading...'
+                                    : parishes.length === 0 ? '--- no parishes available in the selected archdeaconry ---'
+                                        : '--- select a parish ---'}</option>
+                            {parishes.map(parish =>
+                                <option key={parish.id} value={parish.id}>
+                                    {parish.name}
+                                </option>
+                            )}
+                        </select>
                 }
             </div>
             <div className="form-group">
                 <label htmlFor="congregationId">Congregation</label>
                 {
                     !event.parishId ? undefined
-                        : congregations.length === 0 ? <p className="error-alert">No congregations available in the selected parish</p>
-                            : <select
-                                id="congregationId"
-                                className="form-control"
-                                value={event.congregationId ?? ""}
-                                onChange={onCongregationIdChange}
-                                required
-                            >
-                                <option key={0} value="" disabled>{congregationsLoading ? 'Loading...' : '--- select a congregation ---'}</option>
-                                {congregations.map(congregation =>
-                                    <option key={congregation.id} value={congregation.id}>
-                                        {congregation.name}
-                                    </option>
-                                )}
-                            </select>
+                        : <select
+                            id="congregationId"
+                            className="form-control"
+                            value={event.congregationId ?? ""}
+                            onChange={onCongregationIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>{
+                                congregationsLoading ? 'Loading...'
+                                    : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
+                                        : '-- - select a congregation ---'
+                            }</option>
+                            {congregations.map(congregation =>
+                                <option key={congregation.id} value={congregation.id}>
+                                    {congregation.name}
+                                </option>
+                            )}
+                        </select>
                 }
             </div>
             <div className="form-group">

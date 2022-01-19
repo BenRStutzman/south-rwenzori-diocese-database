@@ -5,6 +5,8 @@ import { Transaction } from '../../models/transaction';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';
+import { Parish } from '../../models/parish';
+import { Archdeaconry } from '../../models/archdeaconry';
 
 const REQUEST_TRANSACTION = 'TRANSACTION.REQUEST_TRANSACTION';
 const RECEIVE_TRANSACTION = 'TRANSACTION.RECEIVE_TRANSACTION';
@@ -66,19 +68,57 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetTransaction = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveTransactionAction({
-        date: new Date(),
-        congregationId: congregationId,
-    }));
+const resetTransaction = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestTransactionAction());
+
+    const date = new Date();
+
+    if (congregationId) {
+        get<Congregation>(`api/congregation/${congregationId}`)
+            .then(congregation => {
+                dispatch(receiveTransaction({
+                    date,
+                    congregationId: congregation.id,
+                    parishId: congregation.parishId,
+                    archdeaconryId: congregation.archdeaconryId,
+                }));
+            });
+    } else if (parishId) {
+        get<Parish>(`api/parish/${parishId}`)
+            .then(parish => {
+                dispatch(receiveTransaction({
+                    date,
+                    parishId: parish.id,
+                    archdeaconryId: parish.archdeaconryId,
+                }));
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
+            .then(archdeaconry => {
+                dispatch(receiveTransaction({
+                    date,
+                    archdeaconryId: archdeaconry.id,
+                }));
+            });
+    } else {
+        dispatch(receiveTransaction({
+            date,
+        }));
+    }
 };
+
+const receiveTransaction = (transaction: Transaction): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveTransactionAction(transaction));
+    dispatch(loadParishes(transaction.archdeaconryId));
+    dispatch(loadCongregations(transaction.parishId));
+}
 
 const loadTransaction = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestTransactionAction());
 
     get<Transaction>(`api/transaction/${id}`)
         .then(transaction => {
-            dispatch(receiveTransactionAction(transaction));
+            dispatch(receiveTransaction(transaction));
         });
 };
 

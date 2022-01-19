@@ -4,19 +4,27 @@ import { connect } from 'react-redux';
 import * as Store from '../../store/transaction/save';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
-import { RouteComponentProps } from 'react-router';
+import { useQueryParams } from '../../helpers/miscellaneous';
 
 type Props =
-    typeof Store.actionCreators
-    & RouteComponentProps<{ congregationId: string }>;
+    typeof Store.actionCreators;
 
 const Add = ({
     resetTransaction,
-    match,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
-        const congregationId = match.params.congregationId ? parseInt(match.params.congregationId) : undefined;
-        resetTransaction(congregationId);
+        var congregationIdString = queryParams.get('congregationId');
+        const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
+
+        var parishIdString = queryParams.get('parishId');
+        const parishId = parishIdString ? parseInt(parishIdString) : undefined;
+
+        var archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+
+        resetTransaction(congregationId, parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);

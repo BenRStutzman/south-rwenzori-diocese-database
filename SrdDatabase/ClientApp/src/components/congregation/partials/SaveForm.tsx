@@ -105,21 +105,23 @@ const SaveForm = ({
                 <label htmlFor="parishId">Parish</label>
                 {
                     !congregation.archdeaconryId ? undefined
-                        : parishes.length === 0 ? <p className="error-alert">No parishes available in the selected archdeaconry</p>
-                            : <select
-                                id="parishId"
-                                className="form-control"
-                                value={congregation.parishId ?? ""}
-                                onChange={onParishIdChange}
-                                required
-                            >
-                                <option key={0} value="" disabled>{parishesLoading ? 'Loading...' : '--- select a parish ---'}</option>
-                                {parishes.map(parish =>
-                                    <option key={parish.id} value={parish.id}>
-                                        {parish.name}
-                                    </option>
-                                )}
-                            </select>
+                        : <select
+                            id="parishId"
+                            className="form-control"
+                            value={congregation.parishId ?? ""}
+                            onChange={onParishIdChange}
+                            required
+                        >
+                            <option key={0} value="" disabled>{
+                                parishesLoading ? 'Loading...'
+                                    : parishes.length === 0 ? '--- no parishes available in the selected archdeaconry ---'
+                                        : '--- select a parish ---'}</option>
+                            {parishes.map(parish =>
+                                <option key={parish.id} value={parish.id}>
+                                    {parish.name}
+                                </option>
+                            )}
+                        </select>
                 }
             </div>
             {Object.values(errors).length > 0 &&

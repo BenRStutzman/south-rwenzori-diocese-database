@@ -88,7 +88,7 @@ const Details = ({
                         itemTotal={details.transactionResults.totalResults}
                         items={transactionItems(details.transactionResults)}
                         showAddLink={canEditTransactions}
-                        addParams={`/${details.congregation.id}`}
+                        addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }
             </div>
