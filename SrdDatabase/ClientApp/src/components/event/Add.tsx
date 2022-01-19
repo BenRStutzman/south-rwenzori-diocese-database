@@ -18,7 +18,14 @@ const Add = ({
     const loadData = () => {
         var congregationIdString = queryParams.get('congregationId');
         const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
-        resetEvent(congregationId);
+
+        var parishIdString = queryParams.get('parishId');
+        const parishId = parishIdString ? parseInt(parishIdString) : undefined;
+
+        var archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+
+        resetEvent(congregationId, parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);
