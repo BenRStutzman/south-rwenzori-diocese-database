@@ -5,6 +5,8 @@ import { Event } from '../../models/event';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';
+import { Parish } from '../../models/parish';
+import { Archdeaconry } from '../../models/archdeaconry';
 
 const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
 const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
@@ -72,22 +74,41 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetEvent = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventAction);
+const resetEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestEventAction());
+
+    const date = new Date();
 
     if (congregationId) {
         get<Congregation>(`api/congregation/${congregationId}`)
             .then(congregation => {
                 dispatch(receiveEvent({
-                    date: new Date(),
+                    date,
                     congregationId: congregation.id,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
                 }));
             });
+    } else if (parishId) {
+        get<Parish>(`api/parish/${parishId}`)
+            .then(parish => {
+                dispatch(receiveEvent({
+                    date,
+                    parishId: parish.id,
+                    archdeaconryId: parish.archdeaconryId,
+                }));
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
+            .then(archdeaconry => {
+                dispatch(receiveEvent({
+                    date,
+                    archdeaconryId: archdeaconry.id,
+                }));
+            });
     } else {
-        dispatch(receiveEventAction({
-            date: new Date(),
+        dispatch(receiveEvent({
+            date,
         }));
     }
 };

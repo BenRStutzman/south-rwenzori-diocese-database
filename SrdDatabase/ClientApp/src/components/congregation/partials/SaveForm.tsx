@@ -36,7 +36,6 @@ const SaveForm = ({
     hasBeenChanged,
     errors,
     isNew,
-    loadParishes,
     loadArchdeaconries,
     archdeaconriesLoading,
     congregationLoading,
@@ -45,7 +44,6 @@ const SaveForm = ({
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
-        loadParishes(congregation.archdeaconryId);
     };
 
     useEffect(loadData, []);

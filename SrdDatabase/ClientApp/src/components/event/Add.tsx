@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as Store from '../../store/event/save';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
-import LoadingSpinner from '../shared/LoadingSpinner';
 import { useQueryParams } from '../../helpers/miscellaneous';
 
 type Props =
@@ -13,7 +12,6 @@ type Props =
 
 const Add = ({
     resetEvent,
-    eventLoading,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -28,10 +26,7 @@ const Add = ({
     return (
         <>
             <h1>Add Event</h1>
-            {
-                eventLoading ? <LoadingSpinner /> :
-                    <SaveForm isNew />
-            }
+            <SaveForm isNew />
         </>
     );
 }

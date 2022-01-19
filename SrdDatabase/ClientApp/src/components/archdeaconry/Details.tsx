@@ -72,12 +72,14 @@ const Details = ({
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
                     showAddLink={canEdit}
+                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
                 <DetailsList
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
+                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
             </div>
         </>;

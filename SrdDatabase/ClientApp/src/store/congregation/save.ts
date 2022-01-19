@@ -3,7 +3,9 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '../../models/congregation';
 import { History } from 'history';
-import { loadParishes } from '../shared';
+import { loadCongregations, loadParishes } from '../shared';
+import { Parish } from '../../models/parish';
+import { Archdeaconry } from '../../models/archdeaconry';
 
 const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
 const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
@@ -47,10 +49,33 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 })
 
-const resetCongregation = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveCongregationAction({
-        parishId,
-    }));
+const resetCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestCongregationAction());
+
+    if (parishId) {
+        get<Parish>(`api/parish/${parishId}`)
+            .then(parish => {
+                dispatch(receiveCongregation({
+                    parishId: parish.id,
+                    archdeaconryId: parish.archdeaconryId,
+                }));
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
+            .then(archdeaconry => {
+                dispatch(receiveCongregation({
+                    archdeaconryId: archdeaconry.id,
+                }));
+            });
+    } else {
+        dispatch(receiveCongregation({}));
+    }
+}
+
+const receiveCongregation = (congregation: Congregation): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveCongregationAction(congregation));
+    dispatch(loadParishes(congregation.archdeaconryId));
+    dispatch(loadCongregations(congregation.parishId));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -58,7 +83,7 @@ const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
 
     get<Congregation>(`api/congregation/${id}`)
         .then(congregation => {
-            dispatch(receiveCongregationAction(congregation));
+            dispatch(receiveCongregation(congregation));
         });
 }
 
