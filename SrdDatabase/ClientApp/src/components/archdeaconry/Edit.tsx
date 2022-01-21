@@ -37,7 +37,7 @@ const Edit = ({ archdeaconryLoading,
         deleteArchdeaconry(archdeaconry, () => { history.push('/archdeaconry'); });
     };
 
-    return archdeaconryLoading ? <LoadingSpinner /> :
+    return archdeaconryLoading ? <LoadingSpinner fullPage/> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>

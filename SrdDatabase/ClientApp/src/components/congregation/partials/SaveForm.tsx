@@ -38,7 +38,6 @@ const SaveForm = ({
     isNew,
     loadArchdeaconries,
     archdeaconriesLoading,
-    congregationLoading,
     parishesLoading,
     history,
 }: Props) => {
@@ -65,7 +64,7 @@ const SaveForm = ({
         saveCongregation(congregation, history);
     }
 
-    return congregationLoading ? <LoadingSpinner fullPage /> :
+    return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -83,46 +82,44 @@ const SaveForm = ({
             </div>
             <div className="form-group">
                 <label htmlFor="archdeaconryId">Archdeaconry</label>
-                {
-                    archdeaconriesLoading ? <LoadingSpinner /> :
-                        <select
-                            id="archdeaconryId"
-                            className="form-control"
-                            value={congregation.archdeaconryId ?? ""}
-                            onChange={onArchdeaconryIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>--- select an archdeaconry ---</option>
-                            {archdeaconries.map(archdeaconry =>
-                                <option key={archdeaconry.id} value={archdeaconry.id}>
-                                    {archdeaconry.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="archdeaconryId"
+                    className="form-control"
+                    value={congregation.archdeaconryId ?? ""}
+                    onChange={onArchdeaconryIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>
+                        {archdeaconriesLoading ? 'Loading...' : '--- select an archdeaconry ---'}
+                    </option>
+                    {archdeaconries.map(archdeaconry =>
+                        <option key={archdeaconry.id} value={archdeaconry.id}>
+                            {archdeaconry.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
-                {
-                    !congregation.archdeaconryId ? undefined
-                        : <select
-                            id="parishId"
-                            className="form-control"
-                            value={congregation.parishId ?? ""}
-                            onChange={onParishIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>{
-                                parishesLoading ? 'Loading...'
-                                    : parishes.length === 0 ? '--- no parishes available in the selected archdeaconry ---'
-                                        : '--- select a parish ---'}</option>
-                            {parishes.map(parish =>
-                                <option key={parish.id} value={parish.id}>
-                                    {parish.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="parishId"
+                    className="form-control"
+                    value={congregation.parishId ?? ""}
+                    onChange={onParishIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>{
+                        !congregation.archdeaconryId ? 'First select an archdeaconry above'
+                            : parishesLoading ? 'Loading...'
+                                : parishes.length ? '--- select a parish ---'
+                                    : 'No parishes available in the selected archdeaconry'
+                    }</option>
+                    {parishes.map(parish =>
+                        <option key={parish.id} value={parish.id}>
+                            {parish.name}
+                        </option>
+                    )}
+                </select>
             </div>
             {Object.values(errors).length > 0 &&
                 <ul>
@@ -137,7 +134,8 @@ const SaveForm = ({
             <button disabled={!hasBeenChanged || parishes.length === 0} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} congregation`}
             </button>
-        </form>;
+        </form>
+    );
 }
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({

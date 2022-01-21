@@ -4,7 +4,6 @@ import { FormEvent, ChangeEvent } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { State } from '../../../store';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import { randomString } from '../../../helpers/miscellaneous';
@@ -29,7 +28,6 @@ const SaveForm = ({
     hasBeenChanged,
     errors,
     history,
-    archdeaconryLoading,
     isSaving,
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +39,7 @@ const SaveForm = ({
         saveArchdeaconry(archdeaconry, history);
     };
 
-    return archdeaconryLoading ? <LoadingSpinner /> :
+    return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -70,7 +68,8 @@ const SaveForm = ({
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} archdeaconry`}
             </button>
-        </form>;
+        </form>
+    );
 }
 
 export default connect(
