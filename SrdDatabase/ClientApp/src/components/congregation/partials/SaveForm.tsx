@@ -3,7 +3,6 @@ import * as React from 'react';
 import * as Store from '../../../store/congregation/save';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { ChangeEvent, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
@@ -111,8 +110,8 @@ const SaveForm = ({
                     <option key={0} value="" disabled>{
                         !congregation.archdeaconryId ? 'First select an archdeaconry above'
                             : parishesLoading ? 'Loading...'
-                                : parishes.length ? '--- select a parish ---'
-                                    : 'No parishes available in the selected archdeaconry'
+                                : parishes.length === 0 ? 'No parishes available in the selected archdeaconry'
+                                    : '--- select a parish ---'
                     }</option>
                     {parishes.map(parish =>
                         <option key={parish.id} value={parish.id}>

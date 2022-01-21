@@ -6,7 +6,6 @@ import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { bindActionCreators, Dispatch } from 'redux';
 import { randomString } from '../../../helpers/miscellaneous';
 
@@ -45,7 +44,6 @@ const SaveForm = ({
     isNew,
     history,
     isSaving,
-    eventLoading,
     eventTypesLoading,
     congregationsLoading,
     archdeaconriesLoading,
@@ -93,94 +91,89 @@ const SaveForm = ({
 
     const involvesTwoPeople = eventTypes.find(eventType => eventType.id === event.eventTypeId)?.involvesTwoPeople;
 
-    return eventLoading ? <LoadingSpinner /> :
+    return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="eventTypeId">Event Type</label>
-                {
-                    eventTypesLoading ? <LoadingSpinner /> :
-                        <select
-                            id="eventTypeId"
-                            className="form-control"
-                            value={event.eventTypeId ?? ""}
-                            onChange={onEventTypeIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>--- select an event type ---</option>
-                            {eventTypes.map(eventType =>
-                                <option key={eventType.id} value={eventType.id}>
-                                    {eventType.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="eventTypeId"
+                    className="form-control"
+                    value={event.eventTypeId ?? ""}
+                    onChange={onEventTypeIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>
+                        {eventTypesLoading ? 'Loading...' : '--- select an event type ---'}
+                    </option>
+                    {eventTypes.map(eventType =>
+                        <option key={eventType.id} value={eventType.id}>
+                            {eventType.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="archdeaconryId">Archdeaconry</label>
-                {
-                    archdeaconriesLoading ? <LoadingSpinner /> :
-                        <select
-                            id="archdeaconryId"
-                            className="form-control"
-                            value={event.archdeaconryId ?? ""}
-                            onChange={onArchdeaconryIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>--- select an archdeaconry ---</option>
-                            {archdeaconries.map(archdeaconry =>
-                                <option key={archdeaconry.id} value={archdeaconry.id}>
-                                    {archdeaconry.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="archdeaconryId"
+                    className="form-control"
+                    value={event.archdeaconryId ?? ""}
+                    onChange={onArchdeaconryIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>
+                        {archdeaconriesLoading ? 'Loading...' : '--- select an archdeaconry ---'}
+                    </option>
+                    {archdeaconries.map(archdeaconry =>
+                        <option key={archdeaconry.id} value={archdeaconry.id}>
+                            {archdeaconry.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
-                {
-                    !event.archdeaconryId ? undefined
-                        : <select
-                            id="parishId"
-                            className="form-control"
-                            value={event.parishId ?? ""}
-                            onChange={onParishIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>{
-                                parishesLoading ? 'Loading...'
-                                    : parishes.length === 0 ? '--- no parishes available in the selected archdeaconry ---'
-                                        : '--- select a parish ---'}</option>
-                            {parishes.map(parish =>
-                                <option key={parish.id} value={parish.id}>
-                                    {parish.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                : <select
+                    id="parishId"
+                    className="form-control"
+                    value={event.parishId ?? ""}
+                    onChange={onParishIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>{
+                        !event.archdeaconryId ? 'First select an archdeaconry above'
+                            : parishesLoading ? 'Loading...'
+                                : parishes.length === 0 ? 'No parishes available in the selected archdeaconry'
+                                    : '--- select a parish ---'
+                    }</option>
+                    {parishes.map(parish =>
+                        <option key={parish.id} value={parish.id}>
+                            {parish.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="congregationId">Congregation</label>
-                {
-                    !event.parishId ? undefined
-                        : <select
-                            id="congregationId"
-                            className="form-control"
-                            value={event.congregationId ?? ""}
-                            onChange={onCongregationIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>{
-                                congregationsLoading ? 'Loading...'
-                                    : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
-                                        : '-- - select a congregation ---'
-                            }</option>
-                            {congregations.map(congregation =>
-                                <option key={congregation.id} value={congregation.id}>
-                                    {congregation.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                : <select
+                    id="congregationId"
+                    className="form-control"
+                    value={event.congregationId ?? ""}
+                    onChange={onCongregationIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>{
+                        !event.parishId ? 'First select a parish above'
+                            : congregationsLoading ? 'Loading...'
+                                : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
+                                    : '-- - select a congregation ---'
+                    }</option>
+                    {congregations.map(congregation =>
+                        <option key={congregation.id} value={congregation.id}>
+                            {congregation.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="firstPersonName">{involvesTwoPeople ? 'First ' : ''} Person Name</label>
@@ -238,7 +231,8 @@ const SaveForm = ({
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} event`}
             </button>
-        </form>;
+        </form>
+    );
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({

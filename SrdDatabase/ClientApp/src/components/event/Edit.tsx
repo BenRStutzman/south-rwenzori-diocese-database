@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import { canEdit, peoplesNames } from '../../helpers/eventHelper';
-import { userRole } from '../../models/user';
 
 type Props =
     Store.State
@@ -45,7 +44,7 @@ const Edit = ({
         deleteEvent(event, () => { history.push('/event'); });
     };
 
-    return eventLoading ? <LoadingSpinner /> :
+    return eventLoading ? <LoadingSpinner fullPage/> :
         eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
             <>
                 <div className="page-heading">

@@ -40,7 +40,7 @@ const Details = ({
         deleteEvent(details.event, () => { history.push('/event'); });
     };
 
-    return detailsLoading ? <LoadingSpinner /> :
+    return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>

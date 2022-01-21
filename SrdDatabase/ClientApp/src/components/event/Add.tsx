@@ -5,12 +5,15 @@ import * as Store from '../../store/event/save';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
 import { useQueryParams } from '../../helpers/miscellaneous';
+import { State } from '../../store';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
     Store.State &
     typeof Store.actionCreators;
 
 const Add = ({
+    eventLoading,
     resetEvent,
 }: Props) => {
     const queryParams = useQueryParams();
@@ -30,15 +33,14 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    return (
+    return eventLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Event</h1>
             <SaveForm isNew />
-        </>
-    );
+        </>;
 }
 
 export default connect(
-    null,
+    (state: State) => state.event.save,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Add);
