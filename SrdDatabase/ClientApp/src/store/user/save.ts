@@ -70,6 +70,8 @@ const saveUser = (user: User, history: History): AppThunkAction<Action> => (disp
 
     const action = user.id ? 'edit' : 'add';
 
+    user.password = user.password?.length ? user.password : undefined;
+
     post<User>(`api/user/${action}`, user)
         .then(response => {
             if (response.ok) {
