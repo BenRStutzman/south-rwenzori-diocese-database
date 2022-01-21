@@ -38,7 +38,7 @@ const Edit = ({
         deleteCongregation(congregation, () => { history.push('/congregation'); });
     };
 
-    return congregationLoading ? <LoadingSpinner /> :
+    return congregationLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {congregation.name} Congregation</h1>

@@ -27,6 +27,6 @@ const Add = ({
 };
 
 export default connect(
-    (state: State) => state.archdeaconry,
+    (state: State) => state.archdeaconry.save,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Add);

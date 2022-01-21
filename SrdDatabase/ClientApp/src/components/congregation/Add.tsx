@@ -3,7 +3,9 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useQueryParams } from '../../helpers/miscellaneous';
+import { State } from '../../store';
 import * as Store from '../../store/congregation/save';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import SaveForm from './partials/SaveForm';
 
 type Props =
@@ -11,6 +13,7 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
+    congregationLoading,
     resetCongregation,
 }: Props) => {
     const queryParams = useQueryParams();
@@ -27,15 +30,14 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    return (
+    return congregationLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Congregation</h1>
             <SaveForm isNew />
-        </>
-    );
+        </>;
 }
 
 export default connect(
-    null,
+    (state: State) => state.congregation.save,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Add);
