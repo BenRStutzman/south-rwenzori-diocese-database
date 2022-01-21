@@ -10,7 +10,6 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import { peoplesNames } from '../../helpers/eventHelper';
 import { describeTransaction } from '../../helpers/transactionHelper';
 
 type Props =
@@ -40,7 +39,7 @@ const Edit = ({
         deleteTransaction(transaction, () => { history.push('/transaction'); });
     };
 
-    return transactionLoading ? <LoadingSpinner /> :
+    return transactionLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {describeTransaction(transaction)}</h1>

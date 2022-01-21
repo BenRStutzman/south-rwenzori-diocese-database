@@ -44,7 +44,7 @@ const Details = ({
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
 
-    return detailsLoading ? <LoadingSpinner /> :
+    return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">{details.parish.name} Parish</h1>

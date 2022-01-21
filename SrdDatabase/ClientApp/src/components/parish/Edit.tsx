@@ -38,7 +38,7 @@ const Edit = ({
         deleteParish(parish, () => { history.push('/parish'); });
     };
 
-    return parishLoading ? <LoadingSpinner /> :
+    return parishLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {parish.name} Parish</h1>

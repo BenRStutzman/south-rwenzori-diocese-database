@@ -6,7 +6,6 @@ import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { bindActionCreators, Dispatch } from 'redux';
 import { randomString } from '../../../helpers/miscellaneous';
 
@@ -44,7 +43,6 @@ const SaveForm = ({
     isNew,
     history,
     isSaving,
-    transactionLoading,
     transactionTypesLoading,
     archdeaconriesLoading,
     parishesLoading,
@@ -86,94 +84,88 @@ const SaveForm = ({
         saveTransaction(transaction, history);
     };
 
-    return transactionLoading ? <LoadingSpinner /> :
+    return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="transactionTypeId">Transaction Type</label>
-                {
-                    transactionTypesLoading ? <LoadingSpinner /> :
-                        <select
-                            id="transactionTypeId"
-                            className="form-control"
-                            value={transaction.transactionTypeId ?? ""}
-                            onChange={onTransactionTypeIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>--- select a transaction type ---</option>
-                            {transactionTypes.map(transactionType =>
-                                <option key={transactionType.id} value={transactionType.id}>
-                                    {transactionType.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="transactionTypeId"
+                    className="form-control"
+                    value={transaction.transactionTypeId ?? ""}
+                    onChange={onTransactionTypeIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>
+                        {transactionTypesLoading ? 'Loading...' : '--- select a transaction type ---'}
+                    </option>
+                    {transactionTypes.map(transactionType =>
+                        <option key={transactionType.id} value={transactionType.id}>
+                            {transactionType.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="archdeaconryId">Archdeaconry</label>
-                {
-                    archdeaconriesLoading ? <LoadingSpinner /> :
-                        <select
-                            id="archdeaconryId"
-                            className="form-control"
-                            value={transaction.archdeaconryId ?? ""}
-                            onChange={onArchdeaconryIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>--- select an archdeaconry ---</option>
-                            {archdeaconries.map(archdeaconry =>
-                                <option key={archdeaconry.id} value={archdeaconry.id}>
-                                    {archdeaconry.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="archdeaconryId"
+                    className="form-control"
+                    value={transaction.archdeaconryId ?? ""}
+                    onChange={onArchdeaconryIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>
+                        {archdeaconriesLoading ? 'Loading' : '--- select an archdeaconry ---'}
+                    </option>
+                    {archdeaconries.map(archdeaconry =>
+                        <option key={archdeaconry.id} value={archdeaconry.id}>
+                            {archdeaconry.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
-                {
-                    !transaction.archdeaconryId ? undefined
-                        : <select
-                            id="parishId"
-                            className="form-control"
-                            value={transaction.parishId ?? ""}
-                            onChange={onParishIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>{
-                                parishesLoading ? 'Loading...'
-                                    : parishes.length === 0 ? '--- no parishes available in the selected archdeaconry ---'
-                                        : '--- select a parish ---'}</option>
-                            {parishes.map(parish =>
-                                <option key={parish.id} value={parish.id}>
-                                    {parish.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="parishId"
+                    className="form-control"
+                    value={transaction.parishId ?? ""}
+                    onChange={onParishIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>{
+                        !transaction.archdeaconryId ? 'First select an archdeaconry above'
+                            : parishesLoading ? 'Loading...'
+                                : parishes.length === 0 ? 'No parishes available in the selected archdeaconry'
+                                    : '--- select a parish ---'}</option>
+                    {parishes.map(parish =>
+                        <option key={parish.id} value={parish.id}>
+                            {parish.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="congregationId">Congregation</label>
-                {
-                    !transaction.parishId ? undefined
-                        : <select
-                            id="congregationId"
-                            className="form-control"
-                            value={transaction.congregationId ?? ""}
-                            onChange={onCongregationIdChange}
-                            required
-                        >
-                            <option key={0} value="" disabled>{
-                                congregationsLoading ? 'Loading...'
-                                    : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
-                                        : '-- - select a congregation ---'
-                            }</option>
-                            {congregations.map(congregation =>
-                                <option key={congregation.id} value={congregation.id}>
-                                    {congregation.name}
-                                </option>
-                            )}
-                        </select>
-                }
+                <select
+                    id="congregationId"
+                    className="form-control"
+                    value={transaction.congregationId ?? ""}
+                    onChange={onCongregationIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>{
+                        !transaction.parishId ? 'First select a parish above'
+                            : congregationsLoading ? 'Loading...'
+                                : congregations.length === 0 ? 'No congregations available in the selected parish'
+                                    : '-- - select a congregation ---'
+                    }</option>
+                    {congregations.map(congregation =>
+                        <option key={congregation.id} value={congregation.id}>
+                            {congregation.name}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="amount">Amount (UGX)</label>
@@ -206,14 +198,16 @@ const SaveForm = ({
                         <li
                             className="error-alert"
                             key={fieldName}>
-                            {errorList.join(" ")}</li>
+                            {errorList.join(" ")}
+                        </li>
                     )}
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} transaction`}
             </button>
-        </form>;
+        </form>
+    );
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({

@@ -37,7 +37,7 @@ const Details = ({
         deleteUser(details.user, () => { history.push('/user'); })
     };
 
-    return detailsLoading ? <LoadingSpinner /> :
+    return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1 className="page-title">User {details.user.name}</h1>
             <div className="button-group float-right">

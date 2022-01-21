@@ -39,7 +39,7 @@ const Details = ({
         deleteTransaction(details.transaction, () => { history.push('/transaction'); });
     };
 
-    return detailsLoading ? <LoadingSpinner /> :
+    return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">{describeTransaction(details.transaction)}</h1>

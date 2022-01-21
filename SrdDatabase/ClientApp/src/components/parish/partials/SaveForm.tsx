@@ -4,7 +4,6 @@ import * as Store from '../../../store/parish/save';
 import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { randomString } from '../../../helpers/miscellaneous';
@@ -27,7 +26,6 @@ const SaveForm = ({
     loadArchdeaconries,
     archdeaconriesLoading,
     parish,
-    parishLoading,
     isSaving,
     archdeaconries,
     saveParish,
@@ -57,7 +55,7 @@ const SaveForm = ({
         saveParish(parish, history);
     };
 
-    return parishLoading || archdeaconriesLoading ? <LoadingSpinner /> :
+    return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
@@ -82,7 +80,9 @@ const SaveForm = ({
                     onChange={onArchdeaconryIdChange}
                     required
                 >
-                    <option key={0} value="" disabled>--- select an archdeaconry ---</option>
+                    <option key={0} value="" disabled>
+                        {archdeaconriesLoading ? 'Loading...' : '--- select an archdeaconry ---'}
+                    </option>
                     {archdeaconries.map(archdeaconry =>
                         <option key={archdeaconry.id} value={archdeaconry.id}>
                             {archdeaconry.name}
@@ -96,14 +96,16 @@ const SaveForm = ({
                         <li
                             className="error-alert"
                             key={fieldName}>
-                            {errorList.join(" ")}</li>
+                            {errorList.join(" ")}
+                        </li>
                     )}
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} parish`}
             </button>
-        </form>;
+        </form>
+    );
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({

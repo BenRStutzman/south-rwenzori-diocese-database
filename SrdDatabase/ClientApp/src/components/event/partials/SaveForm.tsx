@@ -133,7 +133,7 @@ const SaveForm = ({
             </div>
             <div className="form-group">
                 <label htmlFor="parishId">Parish</label>
-                : <select
+                <select
                     id="parishId"
                     className="form-control"
                     value={event.parishId ?? ""}
@@ -155,7 +155,7 @@ const SaveForm = ({
             </div>
             <div className="form-group">
                 <label htmlFor="congregationId">Congregation</label>
-                : <select
+                <select
                     id="congregationId"
                     className="form-control"
                     value={event.congregationId ?? ""}

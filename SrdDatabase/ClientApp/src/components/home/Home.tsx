@@ -30,37 +30,35 @@ const Home = ({
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
 
-    return <>
-        <h1 className="page-title">South Rwenzori Diocese</h1>
-        {
-            detailsLoading ? <LoadingSpinner /> :
-                <div className="details-boxes">
-                    <DetailsList
-                        itemType="archdeaconry"
-                        itemTotal={details.archdeaconryResults.totalResults}
-                        items={archdeaconryItems(details.archdeaconryResults)}
-                        showAddLink={canEdit}
-                    />
-                    <DetailsList
-                        itemType="parish"
-                        itemTotal={details.parishResults.totalResults}
-                        items={parishItems(details.parishResults)}
-                        showAddLink={canEdit}
-                    />
-                    <DetailsList
-                        itemType="congregation"
-                        itemTotal={details.congregationResults.totalResults}
-                        items={congregationItems(details.congregationResults)}
-                        showAddLink={canEdit}
-                    />
-                    <DetailsList
-                        itemType="event"
-                        itemTotal={details.eventResults.totalResults}
-                        items={eventItems(details.eventResults)}
-                        showAddLink={canAddEvents}
-                    />
-                </div>
-        }
+    return detailsLoading ? <LoadingSpinner fullPage /> :
+        <>
+            <h1 className="page-title">South Rwenzori Diocese</h1>
+            <div className="details-boxes">
+                <DetailsList
+                    itemType="archdeaconry"
+                    itemTotal={details.archdeaconryResults.totalResults}
+                    items={archdeaconryItems(details.archdeaconryResults)}
+                    showAddLink={canEdit}
+                />
+                <DetailsList
+                    itemType="parish"
+                    itemTotal={details.parishResults.totalResults}
+                    items={parishItems(details.parishResults)}
+                    showAddLink={canEdit}
+                />
+                <DetailsList
+                    itemType="congregation"
+                    itemTotal={details.congregationResults.totalResults}
+                    items={congregationItems(details.congregationResults)}
+                    showAddLink={canEdit}
+                />
+                <DetailsList
+                    itemType="event"
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
+                    showAddLink={canAddEvents}
+                />
+            </div>
         </>
 };
 

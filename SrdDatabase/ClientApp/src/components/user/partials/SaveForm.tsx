@@ -5,7 +5,6 @@ import * as Store from '../../../store/user/save';
 import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { randomString } from '../../../helpers/miscellaneous';
@@ -68,7 +67,7 @@ const SaveForm = ({
         saveUser(user, history);
     }
 
-    return userLoading || userTypesLoading ? <LoadingSpinner /> :
+    return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="userTypeId">User Type</label>
@@ -79,7 +78,9 @@ const SaveForm = ({
                     onChange={onUserTypeIdChange}
                     required
                 >
-                    <option key={0} value="" disabled>--- select a user type ---</option>
+                    <option key={0} value="" disabled>
+                        {userTypesLoading ? 'Loading...' : '--- select a user type ---'}
+                    </option>
                     {userTypes.map(userType =>
                         <option key={userType.id} value={userType.id}>
                             {userType.name}
@@ -140,14 +141,16 @@ const SaveForm = ({
                         <li
                             className="error-alert"
                             key={fieldName}>
-                            {errorList.join(" ")}</li>
+                            {errorList.join(" ")}
+                        </li>
                     )}
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} user`}
             </button>
-        </form>;
+        </form>
+    );
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({

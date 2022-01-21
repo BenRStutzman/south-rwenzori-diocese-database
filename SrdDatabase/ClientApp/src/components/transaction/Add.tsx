@@ -2,14 +2,18 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as Store from '../../store/transaction/save';
+import { State } from '../../store';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
 import { useQueryParams } from '../../helpers/miscellaneous';
+import LoadingSpinner from '../shared/LoadingSpinner';
 
 type Props =
+    Store.State &
     typeof Store.actionCreators;
 
 const Add = ({
+    transactionLoading,
     resetTransaction,
 }: Props) => {
     const queryParams = useQueryParams();
@@ -29,15 +33,14 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    return (
+    return transactionLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Transaction</h1>
             <SaveForm isNew />
-        </>
-    );
+        </>;
 }
 
 export default connect(
-    null,
+    (state: State) => state.transaction.save,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Add);

@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useQueryParams } from '../../helpers/miscellaneous';
 import * as Store from '../../store/parish/save';
+import LoadingSpinner from '../shared/LoadingSpinner';
 import SaveForm from './partials/SaveForm';
+import { State } from '../../store';
 
 type Props =
+    Store.State &
     typeof Store.actionCreators;
 
 const Add = ({
+    parishLoading,
     resetParish,
 }: Props) => {
     const queryParams = useQueryParams();
@@ -23,15 +27,14 @@ const Add = ({
 
     useEffect(loadData, []);
 
-    return (
+    return parishLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Parish</h1>
             <SaveForm isNew />
-        </>
-     );
+        </>;
 }
 
 export default connect(
-    null,
+    (state: State) => state.parish.save,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch),
 )(Add);

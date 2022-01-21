@@ -38,7 +38,7 @@ const Edit = ({
         deleteUser(user, () => { history.push('/user'); })
     };
 
-    return userLoading ? <LoadingSpinner /> :
+    return userLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1 className="page-title">Edit user {user.name}</h1>
             <div className="float-right button-group">
