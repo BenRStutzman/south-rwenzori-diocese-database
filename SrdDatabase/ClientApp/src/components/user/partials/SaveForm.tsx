@@ -24,7 +24,6 @@ type Props =
     OwnProps;
 
 const SaveForm = ({
-    userLoading,
     loadUserTypes,
     userTypesLoading,
     user,
@@ -74,7 +73,7 @@ const SaveForm = ({
                 <select
                     id="userTypeId"
                     className="form-control"
-                    value={user.userTypeId ?? ""}
+                    value={userTypesLoading ? "" : user.userTypeId ?? ""}
                     onChange={onUserTypeIdChange}
                     required
                 >

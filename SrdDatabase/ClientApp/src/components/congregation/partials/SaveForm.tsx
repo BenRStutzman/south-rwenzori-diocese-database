@@ -84,7 +84,7 @@ const SaveForm = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={congregation.archdeaconryId ?? ""}
+                    value={archdeaconriesLoading ? "" : congregation.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                     required
                 >
@@ -103,7 +103,7 @@ const SaveForm = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={congregation.parishId ?? ""}
+                    value={parishesLoading ? "" : congregation.parishId ?? ""}
                     onChange={onParishIdChange}
                     required
                 >

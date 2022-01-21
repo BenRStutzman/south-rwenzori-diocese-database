@@ -76,7 +76,7 @@ const SaveForm = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={parish.archdeaconryId ?? ""}
+                    value={archdeaconriesLoading ? "" : parish.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                     required
                 >

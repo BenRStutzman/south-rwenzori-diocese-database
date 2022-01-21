@@ -91,7 +91,7 @@ const SaveForm = ({
                 <select
                     id="transactionTypeId"
                     className="form-control"
-                    value={transaction.transactionTypeId ?? ""}
+                    value={transactionTypesLoading ? "" : transaction.transactionTypeId ?? ""}
                     onChange={onTransactionTypeIdChange}
                     required
                 >
@@ -110,7 +110,7 @@ const SaveForm = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={transaction.archdeaconryId ?? ""}
+                    value={archdeaconriesLoading ? "" : transaction.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                     required
                 >
@@ -129,7 +129,7 @@ const SaveForm = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={transaction.parishId ?? ""}
+                    value={parishesLoading ? "" : transaction.parishId ?? ""}
                     onChange={onParishIdChange}
                     required
                 >
@@ -150,7 +150,7 @@ const SaveForm = ({
                 <select
                     id="congregationId"
                     className="form-control"
-                    value={transaction.congregationId ?? ""}
+                    value={congregationsLoading ? "" : transaction.congregationId ?? ""}
                     onChange={onCongregationIdChange}
                     required
                 >

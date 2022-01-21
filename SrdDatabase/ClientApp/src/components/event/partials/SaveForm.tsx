@@ -98,7 +98,7 @@ const SaveForm = ({
                 <select
                     id="eventTypeId"
                     className="form-control"
-                    value={event.eventTypeId ?? ""}
+                    value={eventTypesLoading ? "" : event.eventTypeId ?? ""}
                     onChange={onEventTypeIdChange}
                     required
                 >
@@ -117,7 +117,7 @@ const SaveForm = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={event.archdeaconryId ?? ""}
+                    value={archdeaconriesLoading ? "" : event.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                     required
                 >
@@ -136,7 +136,7 @@ const SaveForm = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={event.parishId ?? ""}
+                    value={parishesLoading ? "" : event.parishId ?? ""}
                     onChange={onParishIdChange}
                     required
                 >
@@ -158,7 +158,7 @@ const SaveForm = ({
                 <select
                     id="congregationId"
                     className="form-control"
-                    value={event.congregationId ?? ""}
+                    value={congregationsLoading ? "" : event.congregationId ?? ""}
                     onChange={onCongregationIdChange}
                     required
                 >
