@@ -115,7 +115,7 @@ const SaveForm = ({
                     required
                 >
                     <option key={0} value="" disabled>
-                        {archdeaconriesLoading ? 'Loading' : '--- select an archdeaconry ---'}
+                        {archdeaconriesLoading ? 'Loading...' : '--- select an archdeaconry ---'}
                     </option>
                     {archdeaconries.map(archdeaconry =>
                         <option key={archdeaconry.id} value={archdeaconry.id}>
