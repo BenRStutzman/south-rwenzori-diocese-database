@@ -1,7 +1,7 @@
 ﻿import { State } from '../../../store';
 import * as React from 'react';
 import { ChangeEvent, useEffect } from 'react';
-import * as Store from '../../../store/payment/save;
+import * as Store from '../../../store/payment/save';
 import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
@@ -28,15 +28,12 @@ const SaveForm = ({
     archdeaconries,
     parishes,
     congregations,
-    paymentTypes,
     savePayment,
-    setPaymentTypeId,
     setArchdeaconryId,
     setParishId,
     setCongregationId,
     setAmount,
     loadArchdeaconries,
-    loadPaymentTypes,
     setDate,
     hasBeenChanged,
     errors,
@@ -49,14 +46,9 @@ const SaveForm = ({
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
-        loadPaymentTypes();
     };
 
     useEffect(loadData, []);
-
-    const onPaymentTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setPaymentTypeId(parseInt(event.target.value));
-    };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setArchdeaconryId(parseInt(event.target.value));
@@ -85,25 +77,6 @@ const SaveForm = ({
 
     return (
         <form onSubmit={onSubmit}>
-            <div className="form-group">
-                <label htmlFor="paymentTypeId">Payment Type</label>
-                <select
-                    id="paymentTypeId"
-                    className="form-control"
-                    value={paymentTypesLoading ? "" : payment.paymentTypeId ?? ""}
-                    onChange={onPaymentTypeIdChange}
-                    required
-                >
-                    <option key={0} value="" disabled>
-                        {paymentTypesLoading ? 'Loading...' : '--- select a payment type ---'}
-                    </option>
-                    {paymentTypes.map(paymentType =>
-                        <option key={paymentType.id} value={paymentType.id}>
-                            {paymentType.name}
-                        </option>
-                    )}
-                </select>
-            </div>
             <div className="form-group">
                 <label htmlFor="archdeaconryId">Archdeaconry</label>
                 <select

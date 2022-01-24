@@ -5,7 +5,9 @@ import * as Archdeaconry from './archdeaconry';
 import * as Parish from './parish';
 import * as Congregation from './congregation';
 import * as Event from './event';
-import * as Transaction from './chargeimport * as Shared from './shared';
+import * as Payment from './payment';
+import * as Charge from './charge';
+import * as Shared from './shared';
 
 export interface Action {
     type: string;
@@ -24,7 +26,8 @@ export interface State {
     parish: Parish.State;
     congregation: Congregation.State;
     event: Event.State;
-    transaction: Transaction.State;
+    payment: Payment.State;
+    charge: Charge.State;
     shared: Shared.State;
 }
 
@@ -36,6 +39,7 @@ export const reducers = {
     parish: Parish.reducer,
     congregation: Congregation.reducer,
     event: Event.reducer,
-    transaction: Transaction.reducer,
+    payment: Payment.reducer,
+    charge: Charge.reducer,
     shared: Shared.reducer,
 };
