@@ -4,26 +4,24 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Data.Commands;
-using SrdDatabase.Models.Transactions;
+using SrdDatabase.Models.Payments;
 using System;
 
 namespace SrdDatabase.Domain.Commands
 {
-    public class EditTransaction
+    public class EditPayment
     {
-        public class Command : ChargeFields, IRequest<SaveResponse>
+        public class Command : PaymentFields, IRequest<SaveResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }
 
             public Command(
                 int id,
-                byte transactionTypeId,
                 int amount,
                 int congregationId,
                 DateTime date)
                 : base(
-                    transactionTypeId,
                     amount,
                     congregationId,
                     date)
@@ -45,7 +43,6 @@ namespace SrdDatabase.Domain.Commands
             {
                 var dataCommand = new SavePayment.Command(
                     request.Id,
-                    request.TransactionTypeId,
                     request.Amount,
                     request.CongregationId,
                     request.Date,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SrdDatabase.Domain.Commands
 {
-    public class DeleteTransaction
+    public class DeletePayment
     {
         public class Command : IRequest<DeleteResponse>
         {
@@ -31,7 +31,7 @@ namespace SrdDatabase.Domain.Commands
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _mediator.Send(
-                    new Data.Commands.DeleteCharge.Command(request.Id),
+                    new Data.Commands.DeletePayment.Command(request.Id),
                     cancellationToken);
 
                 return DeleteResponse.ForSuccess();

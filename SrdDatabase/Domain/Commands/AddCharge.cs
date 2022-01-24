@@ -3,25 +3,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Data.Commands;
-using SrdDatabase.Models.Transactions;
-using System;
+using SrdDatabase.Models.Charges;
 
 namespace SrdDatabase.Domain.Commands
 {
-    public class AddTransaction
+    public class AddCharge
     {
         public class Command : ChargeFields, IRequest<SaveResponse>
         {
             public Command(
-                byte transactionTypeId,
-                int amount,
+                int amountPerYear,
                 int congregationId,
-                DateTime date)
+                int startYear,
+                int? endYear)
                 : base(
-                    transactionTypeId,
-                    amount,
+                    amountPerYear,
                     congregationId,
-                    date)
+                    startYear,
+                    endYear)
             {
             }
         }
@@ -37,12 +36,12 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dataCommand = new SavePayment.Command(
+                var dataCommand = new SaveCharge.Command(
                     null,
-                    request.TransactionTypeId,
-                    request.Amount,
+                    request.AmountPerYear,
+                    request.StartYear,
+                    request.EndYear,
                     request.CongregationId,
-                    request.Date,
                     request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);

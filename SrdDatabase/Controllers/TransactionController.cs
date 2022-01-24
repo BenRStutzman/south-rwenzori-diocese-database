@@ -55,21 +55,21 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<SaveResponse> Add(AddTransaction.Command command)
+        public async Task<SaveResponse> Add(AddPayment.Command command)
         {
             command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
         }
 
         [HttpPost("edit")]
-        public async Task<SaveResponse> Edit(EditTransaction.Command command)
+        public async Task<SaveResponse> Edit(EditPayment.Command command)
         {
             command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
         }
 
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete(DeleteTransaction.Command command)
+        public async Task<IActionResult> Delete(DeletePayment.Command command)
         {
             var response = await _mediator.Send(command);
 
