@@ -6,7 +6,7 @@ import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
 import { Congregation, CongregationParameters, CongregationResults } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish, ParishParameters, ParishResults } from '../../models/parish';
-import { Transaction, TransactionType } from '../../models/transaction';
+import { Transaction, TransactionType } from '../../models/payment';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
 
 const LOGIN = 'LOGIN';

@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
-import { Transaction } from '../../../models/transaction';
+import { Transaction } from '../../../models/payment';
 import * as Store from '../../../store/transaction/home';
 import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';

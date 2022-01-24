@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { TransactionParameters, TransactionResults } from '../../models/transaction';
+import { TransactionParameters, TransactionResults } from '../../models/payment';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
 const RESET_PARAMETERS = 'TRANSACTION.RESET_PARAMETERS';

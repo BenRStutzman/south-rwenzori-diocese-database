@@ -5,7 +5,7 @@ import { DetailsListItem } from "../models/shared";
 import { EventResults } from '../models/event';
 import { peoplesNames } from "./eventHelper";
 import { formattedDate } from "./miscellaneous";
-import { TransactionResults } from "../models/transaction";
+import { TransactionResults } from "../models/payment";
 import { describeTransaction } from "./transactionHelper";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {

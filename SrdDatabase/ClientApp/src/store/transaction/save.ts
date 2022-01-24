@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Transaction } from '../../models/transaction';
+import { Transaction } from '../../models/payment';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';

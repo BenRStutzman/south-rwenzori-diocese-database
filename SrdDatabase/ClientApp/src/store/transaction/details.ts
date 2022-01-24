@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { TransactionDetails } from '../../models/transaction';
+import { TransactionDetails } from '../../models/payment';
 
 const REQUEST_DETAILS = 'TRANSACTION.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'TRANSACTION.RECEIVE_DETAILS';
