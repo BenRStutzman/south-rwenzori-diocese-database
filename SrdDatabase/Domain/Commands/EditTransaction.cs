@@ -11,7 +11,7 @@ namespace SrdDatabase.Domain.Commands
 {
     public class EditTransaction
     {
-        public class Command : TransactionFields, IRequest<SaveResponse>
+        public class Command : ChargeFields, IRequest<SaveResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }

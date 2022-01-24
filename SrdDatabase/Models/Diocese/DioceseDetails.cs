@@ -16,14 +16,14 @@ namespace SrdDatabase.Models.Diocese
 
         public EventResults EventResults { get; }
 
-        public TransactionResults TransactionResults { get; }
+        public ChargeResults TransactionResults { get; }
 
         public DioceseDetails(
             ArchdeaconryResults archdeaconryResults,
             ParishResults parishResults,
             CongregationResults congregationResults,
             EventResults eventResults,
-            TransactionResults transactionResults)
+            ChargeResults transactionResults)
         {
             ArchdeaconryResults = archdeaconryResults;
             ParishResults = parishResults;

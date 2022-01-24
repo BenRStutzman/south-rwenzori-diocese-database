@@ -10,7 +10,7 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetTransactionById
     {
-        public class Query : IRequest<Transaction>
+        public class Query : IRequest<Charge>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }
@@ -21,7 +21,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, Transaction>
+        public class Handler : IRequestHandler<Query, Charge>
         {
             private readonly IMediator _mediator;
 
@@ -30,7 +30,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<Transaction> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Charge> Handle(Query request, CancellationToken cancellationToken)
             {
                 var results = await _mediator.Send(new GetTransactions.Query(request.Id), cancellationToken);
                 

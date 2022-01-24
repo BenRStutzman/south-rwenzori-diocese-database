@@ -1,18 +1,14 @@
-﻿using System;
-
-namespace SrdDatabase.Models.Transactions
+﻿namespace SrdDatabase.Models.Charges
 {
-    public class Transaction
+    public class Charge
     {
         public int Id { get; }
 
-        public sbyte TransactionTypeId { get; }
+        public int AmountPerYear { get; }
 
-        public string TransactionType { get; }
+        public int StartYear { get; }
 
-        public bool IsPayment { get; }
-
-        public int Amount { get; }
+        public int? EndYear { get; }
 
         public int CongregationId { get; }
 
@@ -26,38 +22,32 @@ namespace SrdDatabase.Models.Transactions
 
         public string Archdeaconry { get; }
 
-        public DateTime Date { get; }
-
-        public Transaction(
+        public Charge(
             int id,
-            int amount,
-            sbyte transactionTypeId,
-            string transationType,
-            bool isPayment,
+            int amountPerYear,
+            int startYear,
+            int endYear,
             int congregationId,
             string congregation,
             int parishId,
             string parish,
             int archdeaconryId,
-            string archdeaconry,
-            DateTime date)
+            string archdeaconry)
         {
             Id = id;
-            Amount = amount;
-            TransactionTypeId = transactionTypeId;
-            TransactionType = transationType;
-            IsPayment = isPayment;
+            AmountPerYear = amountPerYear;
+            StartYear = startYear;
+            EndYear = endYear;
             CongregationId = congregationId;
             Congregation = congregation;
             ParishId = parishId;
             Parish = parish;
             ArchdeaconryId = archdeaconryId;
             Archdeaconry = archdeaconry;
-            Date = date;
         }
 
         // for Dapper
-        public Transaction()
+        public Charge()
         {
         }
     }

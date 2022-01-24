@@ -31,7 +31,7 @@ namespace SrdDatabase.Domain.Commands
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _mediator.Send(
-                    new Data.Commands.DeleteTransaction.Command(request.Id),
+                    new Data.Commands.DeleteCharge.Command(request.Id),
                     cancellationToken);
 
                 return DeleteResponse.ForSuccess();

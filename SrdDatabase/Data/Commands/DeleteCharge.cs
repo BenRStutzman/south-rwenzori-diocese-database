@@ -7,7 +7,7 @@ using SrdDatabase.Services;
 
 namespace SrdDatabase.Data.Commands
 {
-    public class DeleteTransaction
+    public class DeleteCharge
     {
         public class Command : IRequest
         {
@@ -23,7 +23,7 @@ namespace SrdDatabase.Data.Commands
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_delete_transaction";
+            private readonly string _storedProcedure = "sto_delete_charge";
 
             public Handler(IDbService dbService)
             {

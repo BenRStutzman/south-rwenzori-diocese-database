@@ -2,15 +2,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SrdDatabase.Models.Transactions
+namespace SrdDatabase.Models.Charges
 {
-    public class TransactionParameters : PagedParameters
+    public class ChargeParameters : PagedParameters
     {
         [Range(1, int.MaxValue)]
         public int? Id { get; }
-
-        [Range(1, int.MaxValue)]
-        public byte? TransactionTypeId { get; }
 
         [Range(1, int.MaxValue)]
         public int? ArchdeaconryId { get; }
@@ -21,28 +18,28 @@ namespace SrdDatabase.Models.Transactions
         [Range(1, int.MaxValue)]
         public int? CongregationId { get; }
 
-        public DateTime? StartDate { get; }
+        [Range(1, int.MaxValue)]
+        public int? StartYear { get; }
 
-        public DateTime? EndDate { get; }
+        [Range(1, int.MaxValue)]
+        public int? EndYear { get; }
 
-        public TransactionParameters(
-            byte? transactionTypeId = null,
+        public ChargeParameters(
             int? archdeaconryId = null,
             int? parishId = null,
             int? congregationId = null,
-            DateTime? startDate = null,
-            DateTime? endDate = null,
+            int? startYear = null,
+            int? endYear = null,
             int pageNumber = 0,
             int? pageSize = null,
             int? id = null) : base(pageNumber, pageSize)
         {
             Id = id;
-            TransactionTypeId = transactionTypeId;
             ArchdeaconryId = archdeaconryId;
             ParishId = parishId;
             CongregationId = congregationId;
-            StartDate = startDate;
-            EndDate = endDate;
+            StartYear = startYear;
+            EndYear = endYear;
         }
     }
 }

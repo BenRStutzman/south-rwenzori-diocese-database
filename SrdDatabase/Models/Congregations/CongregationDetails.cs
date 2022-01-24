@@ -9,12 +9,12 @@ namespace SrdDatabase.Models.Congregations
 
         public EventResults EventResults { get; }
 
-        public TransactionResults TransactionResults { get; }
+        public ChargeResults TransactionResults { get; }
 
         public CongregationDetails(
             Congregation congregation,
             EventResults eventResults,
-            TransactionResults transactionResults)
+            ChargeResults transactionResults)
         {
             Congregation = congregation;
             EventResults = eventResults;

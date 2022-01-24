@@ -9,11 +9,11 @@ namespace SrdDatabase.Domain.Queries
 {
     public class GetAllTransactions
     {
-        public class Query : IRequest<IEnumerable<Transaction>>
+        public class Query : IRequest<IEnumerable<Charge>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<Transaction>>
+        public class Handler : IRequestHandler<Query, IEnumerable<Charge>>
         {
             private readonly IMediator _mediator;
 
@@ -22,7 +22,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<IEnumerable<Transaction>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Charge>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var results = await _mediator.Send(new GetTransactions.Query(), cancellationToken);
                 

@@ -12,7 +12,7 @@ namespace SrdDatabase.Data.Commands
 {
     public class SaveTransaction
     {
-        public class Command : TransactionFields, IRequest<SaveResponse>
+        public class Command : ChargeFields, IRequest<SaveResponse>
         {
             public int?  Id { get; set; }
 

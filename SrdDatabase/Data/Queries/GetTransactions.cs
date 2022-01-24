@@ -11,7 +11,7 @@ namespace SrdDatabase.Data.Queries
 {
     public class GetTransactions
     {
-        public class Query : TransactionParameters, IRequest<TransactionResults>
+        public class Query : TransactionParameters, IRequest<ChargeResults>
         {
             public Query(
                 int? id = null,
@@ -37,7 +37,7 @@ namespace SrdDatabase.Data.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, TransactionResults>
+        public class Handler : IRequestHandler<Query, ChargeResults>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_transactions";
@@ -47,7 +47,7 @@ namespace SrdDatabase.Data.Queries
                 _dbService = dbService;
             }
 
-            public async Task<TransactionResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ChargeResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -57,7 +57,7 @@ namespace SrdDatabase.Data.Queries
                     commandType: CommandType.StoredProcedure);
 
                 var totalResults = results.ReadSingle<int>();
-                var transactions = results.Read<Transaction>();
+                var transactions = results.Read<Charge>();
 
                 return new TransactionResults(
                     request.PageNumber,

@@ -9,7 +9,7 @@ namespace SrdDatabase.Domain.Queries
 {
     public class SearchTransactions
     {
-        public class Query : TransactionParameters, IRequest<TransactionResults>
+        public class Query : TransactionParameters, IRequest<ChargeResults>
         {
             public Query(
                 byte? transactionTypeId = null,
@@ -31,7 +31,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, TransactionResults>
+        public class Handler : IRequestHandler<Query, ChargeResults>
         {
             private readonly IMediator _mediator;
 
@@ -40,7 +40,7 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<TransactionResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ChargeResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
                     new GetTransactions.Query(

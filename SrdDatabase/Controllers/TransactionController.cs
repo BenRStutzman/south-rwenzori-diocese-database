@@ -24,7 +24,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Transaction> GetById(int id)
+        public async Task<Charge> GetById(int id)
         {
             return await _mediator.Send(new GetTransactionById.Query(id));
         }
@@ -37,7 +37,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IEnumerable<Transaction>> GetAll()
+        public async Task<IEnumerable<Charge>> GetAll()
         {
             return await _mediator.Send(new GetAllTransactions.Query());
         }
@@ -49,7 +49,7 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("search")]
-        public async Task<TransactionResults> Search(SearchTransactions.Query query)
+        public async Task<ChargeResults> Search(SearchTransactions.Query query)
         {
             return await _mediator.Send(query);
         }

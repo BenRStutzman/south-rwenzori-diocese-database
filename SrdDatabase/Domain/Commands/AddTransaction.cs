@@ -10,7 +10,7 @@ namespace SrdDatabase.Domain.Commands
 {
     public class AddTransaction
     {
-        public class Command : TransactionFields, IRequest<SaveResponse>
+        public class Command : ChargeFields, IRequest<SaveResponse>
         {
             public Command(
                 byte transactionTypeId,
