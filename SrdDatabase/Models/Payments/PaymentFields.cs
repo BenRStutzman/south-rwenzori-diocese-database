@@ -9,25 +9,20 @@ namespace SrdDatabase.Models.Payments
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }
 
-        [Range(0, int.MaxValue)]
-        public int AmountPerYear { get; }
-
         [Range(1, int.MaxValue)]
-        public int StartYear { get; }
+        public int Amount { get; }
 
-        [Range(1, int.MaxValue)]
-        public int? EndYear { get; }
+        [Required]
+        public DateTime Date { get; }
 
         public PaymentFields(
-            int amountPerYear,
+            int amount,
             int congregationId,
-            int startYear,
-            int? endYear,
+            DateTime date,
             int? userId = null) : base(userId)
         {
-            AmountPerYear = amountPerYear;
-            StartYear = startYear;
-            EndYear = endYear;
+            Amount = amount;
+            Date = date;
             CongregationId = congregationId;
         }
     }

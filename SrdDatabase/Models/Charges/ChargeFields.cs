@@ -9,7 +9,7 @@ namespace SrdDatabase.Models.Charges
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }
 
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int AmountPerYear { get; }
 
         [Range(1, int.MaxValue)]

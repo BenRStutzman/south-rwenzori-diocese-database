@@ -1,16 +1,15 @@
 ﻿using MediatR;
-using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Models.Transactions;
+using SrdDatabase.Models.Charges;
 
 namespace SrdDatabase.Data.Commands
 {
-    public class SaveTransaction
+    public class SaveCharge
     {
         public class Command : ChargeFields, IRequest<SaveResponse>
         {
@@ -18,16 +17,16 @@ namespace SrdDatabase.Data.Commands
 
             public Command(
                 int? id,
-                byte transactionTypeId,
-                int amount,
+                int amountPerYear,
+                int startYear,
+                int? endYear,
                 int congregationId,
-                DateTime date,
                 int userId)
                 : base(
-                    transactionTypeId,
-                    amount,
+                    amountPerYear,
                     congregationId,
-                    date,
+                    startYear,
+                    endYear,
                     userId)
             {
                 Id = id;
@@ -38,7 +37,7 @@ namespace SrdDatabase.Data.Commands
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_save_transaction";
+            private readonly string _storedProcedure = "sto_save_charge";
 
             public Handler(IDbService dbService)
             {

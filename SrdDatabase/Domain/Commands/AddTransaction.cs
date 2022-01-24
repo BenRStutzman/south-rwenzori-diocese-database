@@ -37,7 +37,7 @@ namespace SrdDatabase.Domain.Commands
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dataCommand = new SaveTransaction.Command(
+                var dataCommand = new SavePayment.Command(
                     null,
                     request.TransactionTypeId,
                     request.Amount,
