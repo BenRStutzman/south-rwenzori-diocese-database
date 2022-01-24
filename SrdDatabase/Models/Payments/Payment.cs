@@ -35,7 +35,7 @@ namespace SrdDatabase.Models.Payments
         {
             Id = id;
             Amount = amountPerYear;
-            Date = date,
+            Date = date;
             CongregationId = congregationId;
             Congregation = congregation;
             ParishId = parishId;

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Attributes;
 using SrdDatabase.Domain.Commands;
-using SrdDatabase.Models.Transactions;
+using SrdDatabase.Models.Payments;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
 
@@ -14,42 +14,36 @@ namespace SrdDatabase.Controllers
     [ApiController]
     [Authorize(UserRole.Accountant)]
     [Route("api/[controller]")]
-    public class TransactionController : BaseController
+    public class PaymentController : BaseController
     {
         private readonly IMediator _mediator;
 
-        public TransactionController(IMediator mediator)
+        public PaymentController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
-        public async Task<Charge> GetById(int id)
+        public async Task<Payment> GetById(int id)
         {
             return await _mediator.Send(new GetPaymentById.Query(id));
         }
 
 
         [HttpGet("details/{id}")]
-        public async Task<TransactionDetails> Details(int id)
+        public async Task<PaymentDetails> Details(int id)
         {
             return await _mediator.Send(new GetPaymentDetails.Query(id));
         }
 
         [HttpGet("all")]
-        public async Task<IEnumerable<Charge>> GetAll()
+        public async Task<IEnumerable<Payment>> GetAll()
         {
             return await _mediator.Send(new GetAllPayments.Query());
         }
 
-        [HttpGet("types")]
-        public async Task<IEnumerable<TransactionType>> GetTypes()
-        {
-            return await _mediator.Send(new GetAllTransactionTypes.Query());
-        }
-
         [HttpPost("search")]
-        public async Task<ChargeResults> Search(SearchPayments.Query query)
+        public async Task<PaymentResults> Search(SearchPayments.Query query)
         {
             return await _mediator.Send(query);
         }
