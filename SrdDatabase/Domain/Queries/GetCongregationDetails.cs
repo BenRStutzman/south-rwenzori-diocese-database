@@ -38,7 +38,7 @@ namespace SrdDatabase.Domain.Queries
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
-                var transactionsQuery = new GetTransactions.Query(
+                var transactionsQuery = new GetPayments.Query(
                     congregationId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);

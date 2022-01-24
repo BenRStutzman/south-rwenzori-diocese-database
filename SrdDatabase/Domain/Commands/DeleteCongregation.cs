@@ -34,7 +34,7 @@ namespace SrdDatabase.Domain.Commands
                 var eventsQuery = new GetEvents.Query(congregationId: request.Id);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
-                var transactionsQuery = new GetTransactions.Query(congregationId: request.Id);
+                var transactionsQuery = new GetPayments.Query(congregationId: request.Id);
                 var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
 
                 var eventResults = await eventsTask;

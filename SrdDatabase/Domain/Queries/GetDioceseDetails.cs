@@ -35,7 +35,7 @@ namespace SrdDatabase.Domain.Queries
                 var eventsQuery = new GetEvents.Query(pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
-                var transactionsQuery = new GetTransactions.Query(pageSize: Constants.DetailsPageSize);
+                var transactionsQuery = new GetPayments.Query(pageSize: Constants.DetailsPageSize);
                 var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
 
                 var archdeaconryResults = await archdeaconriesTask;

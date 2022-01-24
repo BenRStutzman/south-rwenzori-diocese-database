@@ -3,33 +3,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using System.Data;
-using System;
 using SrdDatabase.Services;
-using SrdDatabase.Models.Transactions;
+using SrdDatabase.Models.Charges;
 
 namespace SrdDatabase.Data.Queries
 {
-    public class GetTransactions
+    public class GetCharges
     {
-        public class Query : TransactionParameters, IRequest<ChargeResults>
+        public class Query : ChargeParameters, IRequest<ChargeResults>
         {
             public Query(
                 int? id = null,
-                byte? transactionTypeId = null,
                 int? archdeaconryId = null,
                 int? parishId = null,
                 int? congregationId = null,
-                DateTime? startDate = null,
-                DateTime? endDate = null,
+                int? startYear = null,
+                int? endYear = null,
                 int pageNumber = 0,
                 int? pageSize = null)
                 : base(
-                      transactionTypeId,
                       archdeaconryId,
                       parishId,
                       congregationId,
-                      startDate,
-                      endDate,
+                      startYear,
+                      endYear,
                       pageNumber,
                       pageSize,
                       id)
@@ -40,7 +37,7 @@ namespace SrdDatabase.Data.Queries
         public class Handler : IRequestHandler<Query, ChargeResults>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_transactions";
+            private readonly string _storedProcedure = "sto_get_charges";
 
             public Handler(IDbService dbService)
             {
@@ -57,13 +54,13 @@ namespace SrdDatabase.Data.Queries
                     commandType: CommandType.StoredProcedure);
 
                 var totalResults = results.ReadSingle<int>();
-                var transactions = results.Read<Charge>();
+                var charges = results.Read<Charge>();
 
-                return new TransactionResults(
+                return new ChargeResults(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,
-                    transactions);
+                    charges);
             }
         }
     }

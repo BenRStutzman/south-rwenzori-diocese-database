@@ -43,7 +43,7 @@ namespace SrdDatabase.Domain.Queries
             public async Task<ChargeResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
-                    new GetTransactions.Query(
+                    new GetPayments.Query(
                         null,
                         request.TransactionTypeId,
                         request.ArchdeaconryId,
