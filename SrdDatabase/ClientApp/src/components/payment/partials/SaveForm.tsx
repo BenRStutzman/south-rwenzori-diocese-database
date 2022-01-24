@@ -1,7 +1,8 @@
 ﻿import { State } from '../../../store';
 import * as React from 'react';
 import { ChangeEvent, useEffect } from 'react';
-import * as Store from '../../../store/charge/saveimport * as SharedStore from '../../../store/shared';
+import * as Store from '../../../store/payment/save;
+import * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
@@ -23,39 +24,38 @@ type Props =
     OwnProps;
 
 const SaveForm = ({
-    transaction,
+    payment,
     archdeaconries,
     parishes,
     congregations,
-    transactionTypes,
-    saveTransaction,
-    setTransactionTypeId,
+    paymentTypes,
+    savePayment,
+    setPaymentTypeId,
     setArchdeaconryId,
     setParishId,
     setCongregationId,
     setAmount,
     loadArchdeaconries,
-    loadTransactionTypes,
+    loadPaymentTypes,
     setDate,
     hasBeenChanged,
     errors,
     isNew,
     history,
     isSaving,
-    transactionTypesLoading,
     archdeaconriesLoading,
     parishesLoading,
     congregationsLoading,
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
-        loadTransactionTypes();
+        loadPaymentTypes();
     };
 
     useEffect(loadData, []);
 
-    const onTransactionTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setTransactionTypeId(parseInt(event.target.value));
+    const onPaymentTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setPaymentTypeId(parseInt(event.target.value));
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -78,28 +78,28 @@ const SaveForm = ({
         setDate(new Date(event.target.value));
     };
 
-    const onSubmit = (formTransaction: React.FormEvent) => {
-        formTransaction.preventDefault();
-        saveTransaction(transaction, history);
+    const onSubmit = (formPayment: React.FormEvent) => {
+        formPayment.preventDefault();
+        savePayment(payment, history);
     };
 
     return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
-                <label htmlFor="transactionTypeId">Transaction Type</label>
+                <label htmlFor="paymentTypeId">Payment Type</label>
                 <select
-                    id="transactionTypeId"
+                    id="paymentTypeId"
                     className="form-control"
-                    value={transactionTypesLoading ? "" : transaction.transactionTypeId ?? ""}
-                    onChange={onTransactionTypeIdChange}
+                    value={paymentTypesLoading ? "" : payment.paymentTypeId ?? ""}
+                    onChange={onPaymentTypeIdChange}
                     required
                 >
                     <option key={0} value="" disabled>
-                        {transactionTypesLoading ? 'Loading...' : '--- select a transaction type ---'}
+                        {paymentTypesLoading ? 'Loading...' : '--- select a payment type ---'}
                     </option>
-                    {transactionTypes.map(transactionType =>
-                        <option key={transactionType.id} value={transactionType.id}>
-                            {transactionType.name}
+                    {paymentTypes.map(paymentType =>
+                        <option key={paymentType.id} value={paymentType.id}>
+                            {paymentType.name}
                         </option>
                     )}
                 </select>
@@ -109,7 +109,7 @@ const SaveForm = ({
                 <select
                     id="archdeaconryId"
                     className="form-control"
-                    value={archdeaconriesLoading ? "" : transaction.archdeaconryId ?? ""}
+                    value={archdeaconriesLoading ? "" : payment.archdeaconryId ?? ""}
                     onChange={onArchdeaconryIdChange}
                     required
                 >
@@ -128,12 +128,12 @@ const SaveForm = ({
                 <select
                     id="parishId"
                     className="form-control"
-                    value={parishesLoading ? "" : transaction.parishId ?? ""}
+                    value={parishesLoading ? "" : payment.parishId ?? ""}
                     onChange={onParishIdChange}
                     required
                 >
                     <option key={0} value="" disabled>{
-                        !transaction.archdeaconryId ? 'First select an archdeaconry above'
+                        !payment.archdeaconryId ? 'First select an archdeaconry above'
                             : parishesLoading ? 'Loading...'
                                 : parishes.length === 0 ? 'No parishes available in the selected archdeaconry'
                                     : '--- select a parish ---'}</option>
@@ -149,12 +149,12 @@ const SaveForm = ({
                 <select
                     id="congregationId"
                     className="form-control"
-                    value={congregationsLoading ? "" : transaction.congregationId ?? ""}
+                    value={congregationsLoading ? "" : payment.congregationId ?? ""}
                     onChange={onCongregationIdChange}
                     required
                 >
                     <option key={0} value="" disabled>{
-                        !transaction.parishId ? 'First select a parish above'
+                        !payment.parishId ? 'First select a parish above'
                             : congregationsLoading ? 'Loading...'
                                 : congregations.length === 0 ? 'No congregations available in the selected parish'
                                     : '-- - select a congregation ---'
@@ -172,7 +172,7 @@ const SaveForm = ({
                     id="amount"
                     className="form-control"
                     type="number"
-                    value={transaction.amount ?? ""}
+                    value={payment.amount ?? ""}
                     onChange={onAmountChange}
                     autoComplete={autoComplete}
                     min={1}
@@ -185,7 +185,7 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}
+                    value={payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
                     required
                 />
@@ -203,14 +203,14 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
-                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} transaction`}
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} payment`}
             </button>
         </form>
     );
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({
-    ...state.transaction.save,
+    ...state.payment.save,
     ...state.shared,
     ...ownProps,
 });

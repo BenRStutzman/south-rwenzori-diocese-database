@@ -3,10 +3,11 @@ import { Action, AppThunkAction } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { getUser } from '../../helpers/userHelper';
 import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
+import { Charge } from '../../models/charge';
 import { Congregation, CongregationParameters, CongregationResults } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish, ParishParameters, ParishResults } from '../../models/parish';
-import { Transaction, TransactionType } from '../../models/payment';
+import { Payment } from '../../models/payment';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
 
 const LOGIN = 'LOGIN';
@@ -19,15 +20,14 @@ const REQUEST_CONGREGATIONS = 'REQUEST_CONGREGATIONS';
 const RECEIVE_CONGREGATIONS = 'RECIEVE_CONGREGATIONS';
 const REQUEST_EVENT_TYPES = 'REQUEST_EVENT_TYPES';
 const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
-const REQUEST_TRANSACTION_TYPES = 'REQUEST_TRANSACTION_TYPES';
-const RECEIVE_TRANSACTION_TYPES = 'RECEIVE_TRANSACTION_TYPES';
 const REQUEST_USER_TYPES = 'REQUEST_USER_TYPES';
 const RECEIVE_USER_TYPES = 'RECEIVE_USER_TYPES';
 const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
 const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
 const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
 const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
-const SET_DELETING_TRANSACTION_ID = 'SET_DELETING_TRANSACTION_ID';
+const SET_DELETING_PAYMENT_ID = 'SET_DELETING_PAYMENT_ID';
+const SET_DELETING_CHARGE_ID = 'SET_DELETING_CHARGE_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
 
 const loginAction = (user: CurrentUser) => ({
@@ -75,15 +75,6 @@ const receiveEventTypesAction = (eventTypes: EventType[]) => ({
     value: eventTypes,
 });
 
-const requestTransactionTypesAction = () => ({
-    type: REQUEST_TRANSACTION_TYPES,
-});
-
-const receiveTransactionTypesAction = (transactionTypes: TransactionType[]) => ({
-    type: RECEIVE_TRANSACTION_TYPES,
-    value: transactionTypes,
-})
-
 const requestUserTypesAction = () => ({
     type: REQUEST_USER_TYPES,
 });
@@ -113,9 +104,14 @@ const setDeletingEventIdAction = (eventId?: number) => ({
     value: eventId,
 });
 
-const setDeletingTransactionIdAction = (transactionId?: number) => ({
-    type: SET_DELETING_TRANSACTION_ID,
-    value: transactionId,
+const setDeletingPaymentIdAction = (paymentId?: number) => ({
+    type: SET_DELETING_PAYMENT_ID,
+    value: paymentId,
+});
+
+const setDeletingChargeIdAction = (chargeId?: number) => ({
+    type: SET_DELETING_CHARGE_ID,
+    value: chargeId,
 });
 
 const setDeletingUserIdAction = (userId?: number) => ({
@@ -176,15 +172,6 @@ const loadEventTypes = (): AppThunkAction<Action> => (dispatch) => {
     get<EventType[]>('api/event/types')
         .then(eventTypes => {
             dispatch(receiveEventTypesAction(eventTypes));
-        });
-};
-
-const loadTransactionTypes = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestTransactionTypesAction());
-
-    get<TransactionType[]>('api/transaction/types')
-        .then(transactionTypes => {
-            dispatch(receiveTransactionTypesAction(transactionTypes));
         });
 };
 
@@ -281,12 +268,12 @@ const deleteEvent = (event: Event, onSuccess: () => void):
         }
     };
 
-const deleteTransaction = (transaction: Transaction, onSuccess: () => void):
+const deletePayment = (payment: Payment, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this ${transaction.transactionType} transaction?`)) {
-            dispatch(setDeletingTransactionIdAction(transaction.id));
+        if (window.confirm(`Are you sure you want to delete this payment from ${payment.congregation}?`)) {
+            dispatch(setDeletingPaymentIdAction(payment.id));
 
-            post<{ id: number }>('api/transaction/delete', { id: transaction.id as number })
+            post<{ id: number }>('api/payment/delete', { id: payment.id as number })
                 .then(response => {
                     if (response.ok) {
                         onSuccess();
@@ -295,7 +282,28 @@ const deleteTransaction = (transaction: Transaction, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingTransactionIdAction(undefined));
+                        dispatch(setDeletingPaymentIdAction(undefined));
+                        alert(errorMessage);
+                    });
+                });
+        }
+    };
+
+const deleteCharge = (charge: Charge, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete this charge to ${charge.congregation}?`)) {
+            dispatch(setDeletingChargeIdAction(charge.id));
+
+            post<{ id: number }>('api/charge/delete', { id: charge.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingChargeIdAction(undefined));
                         alert(errorMessage);
                     });
                 });
@@ -330,13 +338,13 @@ export const actionCreators = {
     loadParishes,
     loadCongregations,
     loadEventTypes,
-    loadTransactionTypes,
     loadUserTypes,
     deleteArchdeaconry,
     deleteParish,
     deleteCongregation,
     deleteEvent,
-    deleteTransaction,
+    deletePayment,
+    deleteCharge,
     deleteUser,
 };
 
@@ -350,15 +358,14 @@ export interface State {
     congregationsLoading: boolean;
     eventTypes: EventType[];
     eventTypesLoading: boolean;
-    transactionTypes: TransactionType[];
-    transactionTypesLoading: boolean;
     userTypes: UserType[];
     userTypesLoading: boolean;
     deletingArchdeaconryId?: number;
     deletingParishId?: number;
     deletingCongregationId?: number;
     deletingEventId?: number;
-    deletingTransactionId?: number;
+    deletingPaymentId?: number;
+    deletingChargeId?: number;
     deletingUserId?: number;
 }
 
@@ -372,8 +379,6 @@ const initialState: State = {
     congregationsLoading: true,
     eventTypes: [],
     eventTypesLoading: true,
-    transactionTypes: [],
-    transactionTypesLoading: true,
     userTypes: [],
     userTypesLoading: true,
 }
@@ -434,17 +439,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 eventTypes: action.value,
                 eventTypesLoading: false,
             };
-        case REQUEST_TRANSACTION_TYPES:
-            return {
-                ...state,
-                transactionTypesLoading: true,
-            };
-        case RECEIVE_TRANSACTION_TYPES:
-            return {
-                ...state,
-                transactionTypes: action.value,
-                transactionTypesLoading: false,
-            };
         case REQUEST_USER_TYPES:
             return {
                 ...state,
@@ -476,10 +470,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 deletingEventId: action.value,
             };
-        case SET_DELETING_TRANSACTION_ID:
+        case SET_DELETING_PAYMENT_ID:
             return {
                 ...state,
-                deletingTransactionId: action.value,
+                deletingPaymentId: action.value,
+            };
+        case SET_DELETING_CHARGE_ID:
+            return {
+                ...state,
+                deletingChargeId: action.value,
             };
         case SET_DELETING_USER_ID:
             return {
