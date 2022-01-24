@@ -1,8 +1,7 @@
 ﻿import React, { ChangeEvent, useEffect, useState } from 'react';
 import { randomString } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
-import * as Store from '../../../store/transaction/home';
-import * as SharedStore from '../../../store/shared';
+import * as Store from '../../../store/charge/homeimport * as SharedStore from '../../../store/shared';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';

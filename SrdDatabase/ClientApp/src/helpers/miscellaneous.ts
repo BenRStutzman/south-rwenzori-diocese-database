@@ -17,10 +17,6 @@ export function parenthesize(number: number): string {
     return `(${number})`;
 };
 
-export function parenthesizeIfNegative(number: number): string {
-    return number < 0 ? parenthesize(Math.abs(number)) : number.toString();
-};
-
 export function useQueryParams() {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);

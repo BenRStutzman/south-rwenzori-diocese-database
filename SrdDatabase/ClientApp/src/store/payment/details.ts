@@ -1,36 +1,36 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { get } from '../../helpers/apiHelpers';
-import { TransactionDetails } from '../../models/payment';
+import { PaymentDetails } from '../../models/payment';
 
-const REQUEST_DETAILS = 'TRANSACTION.REQUEST_DETAILS';
-const RECEIVE_DETAILS = 'TRANSACTION.RECEIVE_DETAILS';
+const REQUEST_DETAILS = 'PAYMENT.REQUEST_DETAILS';
+const RECEIVE_DETAILS = 'PAYMENT.RECEIVE_DETAILS';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: TransactionDetails) => ({
+const receiveDetailsAction = (details: PaymentDetails) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
 export interface State {
     detailsLoading: boolean;
-    details: TransactionDetails;
+    details: PaymentDetails;
 }
 
 const initialState: State = {
     detailsLoading: true,
     details: {
-        transaction: {},
+        payment: {},
     },
 };
 
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<TransactionDetails>(`api/transaction/details/${id}`)
+    get<PaymentDetails>(`api/payment/details/${id}`)
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

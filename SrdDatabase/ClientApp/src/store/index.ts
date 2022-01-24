@@ -5,8 +5,7 @@ import * as Archdeaconry from './archdeaconry';
 import * as Parish from './parish';
 import * as Congregation from './congregation';
 import * as Event from './event';
-import * as Transaction from './transaction';
-import * as Shared from './shared';
+import * as Transaction from './chargeimport * as Shared from './shared';
 
 export interface Action {
     type: string;

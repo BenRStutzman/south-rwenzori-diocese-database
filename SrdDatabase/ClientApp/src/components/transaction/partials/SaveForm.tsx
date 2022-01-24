@@ -1,8 +1,7 @@
 ﻿import { State } from '../../../store';
 import * as React from 'react';
 import { ChangeEvent, useEffect } from 'react';
-import * as Store from '../../../store/transaction/save';
-import * as SharedStore from '../../../store/shared';
+import * as Store from '../../../store/charge/saveimport * as SharedStore from '../../../store/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';

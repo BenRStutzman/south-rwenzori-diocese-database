@@ -1,42 +1,36 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { TransactionParameters, TransactionResults } from '../../models/payment';
+import { ChargeParameters, ChargeResults } from '../../models/charge';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
-const RESET_PARAMETERS = 'TRANSACTION.RESET_PARAMETERS';
-const SET_SEARCH_TRANSACTION_TYPE_ID = 'TRANSACTION.SET_SEARCH_TRANSACTION_TYPE_ID';
-const SET_SEARCH_START_DATE = 'TRANSACTION.SET_SEARCH_START_DATE';
-const SET_SEARCH_END_DATE = 'TRANSACTION.SET_SEARCH_END_DATE';
-const SET_SEARCH_ARCHDEACONRY_ID = 'TRANSACTION.SET_SEARCH_ARCHDEACONRY_ID';
-const SET_SEARCH_PARISH_ID = 'TRANSACTION.SET_SEARCH_PARISH_ID';
-const SET_SEARCH_CONGREGATION_ID = 'TRANSACTION.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_RESULTS = 'TRANSACTION.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'TRANSACTION.RECEIVE_RESULTS';
+const RESET_PARAMETERS = 'CHARGE.RESET_PARAMETERS';
+const Set_SEARCH_START_YEAR = 'CHARGE.SET_SEARCH_START_YEAR';
+const SET_SEARCH_END_YEAR = 'CHARGE.SET_SEARCH_END_YEAR';
+const SET_SEARCH_ARCHDEACONRY_ID = 'CHARGE.SET_SEARCH_ARCHDEACONRY_ID';
+const SET_SEARCH_PARISH_ID = 'CHARGE.SET_SEARCH_PARISH_ID';
+const SET_SEARCH_CONGREGATION_ID = 'CHARGE.SET_SEARCH_CONGREGATION_ID';
+const REQUEST_RESULTS = 'CHARGE.REQUEST_RESULTS';
+const RECEIVE_RESULTS = 'CHARGE.RECEIVE_RESULTS';
 
 const requestResultsAction = (showLoading: boolean = true) => ({
     type: REQUEST_RESULTS,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: TransactionResults) => ({
+const receiveResultsAction = (results: ChargeResults) => ({
     type: RECEIVE_RESULTS,
     value: results,
 });
 
-const setSearchTransactionTypeIdAction = (transactionTypeId: number) => ({
-    type: SET_SEARCH_TRANSACTION_TYPE_ID,
-    value: transactionTypeId,
+const setSearchStartYearAction = (startYear: number) => ({
+    type: Set_SEARCH_START_YEAR,
+    value: startYear,
 });
 
-const setSearchStartDateAction = (startDate: Date) => ({
-    type: SET_SEARCH_START_DATE,
-    value: startDate,
-});
-
-const setSearchEndDateAction = (endDate: Date) => ({
-    type: SET_SEARCH_END_DATE,
-    value: endDate,
+const setSearchEndYearAction = (endYear: number) => ({
+    type: SET_SEARCH_END_YEAR,
+    value: endYear,
 });
 
 const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
@@ -62,16 +56,12 @@ const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(resetParametersAction());
 };
 
-const setSearchTransactionTypeId = (transactionTypeId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchTransactionTypeIdAction(transactionTypeId));
+const setSearchStartYear = (startYear: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchStartYearAction(startYear));
 };
 
-const setSearchStartDate = (startDate: Date): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchStartDateAction(startDate));
-};
-
-const setSearchEndDate = (endDate: Date): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchEndDateAction(endDate));
+const setSearchEndYear = (endYear: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchEndYearAction(endYear));
 };
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
@@ -86,53 +76,44 @@ const setSearchCongregationId = (congregationId: number): AppThunkAction<Action>
     dispatch(setSearchCongregationIdAction(congregationId));
 };
 
-const searchTransactions = (
-    parameters: TransactionParameters = {},
+const searchCharges = (
+    parameters: ChargeParameters = {},
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestResultsAction(showLoading));
 
-    post<TransactionParameters & PagedParameters>('api/transaction/search', { ...parameters, pageNumber })
-        .then(response => response.json() as Promise<TransactionResults>)
+    post<ChargeParameters & PagedParameters>('api/charge/search', { ...parameters, pageNumber })
+        .then(response => response.json() as Promise<ChargeResults>)
         .then(results => {
             dispatch(receiveResultsAction(results));
         });
 };
 
 export const actionCreators = {
-    searchTransactions,
-    setSearchTransactionTypeId,
+    searchCharges,
     setSearchParishId,
     setSearchCongregationId,
     setSearchArchdeaconryId,
-    setSearchStartDate,
-    setSearchEndDate,
+    setSearchStartYear,
+    setSearchEndYear,
     resetParameters,
 };
 
 export interface State {
     resultsLoading: boolean;
-    results: TransactionResults;
-    parameters: TransactionParameters,
+    results: ChargeResults;
+    parameters: ChargeParameters,
 }
 
 const initialState: State = {
-    results: { ...pagedResultsDefaults, transactions: [] },
+    results: { ...pagedResultsDefaults, charges: [] },
     resultsLoading: true,
     parameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case SET_SEARCH_TRANSACTION_TYPE_ID:
-            return {
-                ...state,
-                parameters: {
-                    ...state.parameters,
-                    transactionTypeId: action.value,
-                }
-            };
         case SET_SEARCH_CONGREGATION_ID:
             return {
                 ...state,
@@ -157,20 +138,20 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     archdeaconryId: action.value,
                 }
             };
-        case SET_SEARCH_START_DATE:
+        case Set_SEARCH_START_YEAR:
             return {
                 ...state,
                 parameters: {
                     ...state.parameters,
-                    startDate: action.value,
+                    startYear: action.value,
                 }
             };
-        case SET_SEARCH_END_DATE:
+        case SET_SEARCH_END_YEAR:
             return {
                 ...state,
                 parameters: {
                     ...state.parameters,
-                    endDate: action.value,
+                    endYear: action.value,
                 }
             };
         case RESET_PARAMETERS:

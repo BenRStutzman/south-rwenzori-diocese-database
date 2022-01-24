@@ -1,37 +1,31 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Event } from '../../models/event';
+import { Charge } from '../../models/charge';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
 
-const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
-const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
-const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
+const REQUEST_CHARGE = 'CHARGE.REQUEST_CHARGE';
+const RECEIVE_CHARGE = 'CHARGE.RECEIVE_CHARGE';
 const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
-const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
-const SET_FIRST_PERSON_NAME = 'EVENT.SET_FIRST_PERSON_NAME';
-const SET_SECOND_PERSON_NAME = 'EVENT.SET_SECOND_PERSON_NAME';
-const SET_DATE = 'EVENT.SET_DATE';
-const SET_IS_SAVING = 'EVENT.SET_IS_SAVING';
-const SET_ERRORS = 'EVENT.SET_ERRORS';
+const SET_CONGREGATION_ID = 'CHARGE.SET_CONGREGATION_ID';
+const SET_AMOUNT_PER_YEAR = 'CHARGE.SET_AMOUNT_PER_YEAR';
+const SET_START_YEAR = 'CHARGE.SET_START_YEAR';
+const SET_END_YEAR = 'CHARGE.SET_END_YEAR';
+const SET_IS_SAVING = 'CHARGE.SET_IS_SAVING';
+const SET_ERRORS = 'CHARGE.SET_ERRORS';
 
-const requestEventAction = () => ({
-    type: REQUEST_EVENT,
+const requestChargeAction = () => ({
+    type: REQUEST_CHARGE,
 });
 
-const receiveEventAction = (event: Event) => ({
-    type: RECEIVE_EVENT,
-    value: event,
-});
-
-const setEventTypeIdAction = (eventTypeId: number) => ({
-    type: SET_EVENT_TYPE_ID,
-    value: eventTypeId,
+const receiveChargeAction = (charge: Charge) => ({
+    type: RECEIVE_CHARGE,
+    value: charge,
 });
 
 const setArchdeaconryIdAction = (archdeaconryId: number) => ({
@@ -49,19 +43,19 @@ const setCongregationIdAction = (congregationId?: number) => ({
     value: congregationId,
 });
 
-const setFirstPersonNameAction = (firstPersonName: string) => ({
-    type: SET_FIRST_PERSON_NAME,
-    value: firstPersonName,
+const setAmountPerYearAction = (amount: number) => ({
+    type: SET_AMOUNT_PER_YEAR,
+    value: amount,
 });
 
-const setSecondPersonNameAction = (secondPersonName: string) => ({
-    type: SET_SECOND_PERSON_NAME,
-    value: secondPersonName,
+const setStartYearAction = (startYear: number) => ({
+    type: SET_START_YEAR,
+    value: startYear,
 });
 
-const setDateAction = (date: Date) => ({
-    type: SET_DATE,
-    value: date,
+const setEndYearAction = (endYear: number) => ({
+    type: SET_START_YEAR,
+    value: endYear,
 });
 
 const setIsSavingAction = (isSaving: boolean) => ({
@@ -74,16 +68,16 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventAction());
+const resetCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestChargeAction());
 
-    const date = new Date();
+    const startYear = (new Date()).getFullYear();
 
     if (congregationId) {
         get<Congregation>(`api/congregation/${congregationId}`)
             .then(congregation => {
-                dispatch(receiveEvent({
-                    date,
+                dispatch(receiveCharge({
+                    startYear,
                     congregationId: congregation.id,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
@@ -92,8 +86,8 @@ const resetEvent = (congregationId?: number, parishId?: number, archdeaconryId?:
     } else if (parishId) {
         get<Parish>(`api/parish/${parishId}`)
             .then(parish => {
-                dispatch(receiveEvent({
-                    date,
+                dispatch(receiveCharge({
+                    startYear,
                     parishId: parish.id,
                     archdeaconryId: parish.archdeaconryId,
                 }));
@@ -101,42 +95,42 @@ const resetEvent = (congregationId?: number, parishId?: number, archdeaconryId?:
     } else if (archdeaconryId) {
         get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
             .then(archdeaconry => {
-                dispatch(receiveEvent({
-                    date,
+                dispatch(receiveCharge({
+                    startYear,
                     archdeaconryId: archdeaconry.id,
                 }));
             });
     } else {
-        dispatch(receiveEvent({
-            date,
+        dispatch(receiveCharge({
+            startYear,
         }));
     }
 };
 
-const receiveEvent = (event: Event): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveEventAction(event));
-    dispatch(loadParishes(event.archdeaconryId));
-    dispatch(loadCongregations(event.parishId));
+const receiveCharge = (charge: Charge): AppThunkAction<Action> => (dispatch) => {
+    dispatch(receiveChargeAction(charge));
+    dispatch(loadParishes(charge.archdeaconryId));
+    dispatch(loadCongregations(charge.parishId));
 }
 
-const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventAction());
+const loadCharge = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestChargeAction());
 
-    get<Event>(`api/event/${id}`)
-        .then(event => {
-            dispatch(receiveEvent(event));
+    get<Charge>(`api/charge/${id}`)
+        .then(charge => {
+            dispatch(receiveCharge(charge));
         });
 };
 
-const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (dispatch) => {
+const saveCharge = (charge: Charge, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    const action = event.id ? 'edit' : 'add';
+    const action = charge.id ? 'edit' : 'add';
 
-    post<Event>(`api/event/${action}`, event)
+    post<Charge>(`api/charge/${action}`, charge)
         .then(response => {
             if (response.ok) {
-                history.push('/event');
+                history.push('/charge');
             } else {
                 throw response.json();
             }
@@ -147,10 +141,6 @@ const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (d
         }).finally(() => {
             dispatch(setIsSavingAction(false));
         });
-};
-
-const setEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setEventTypeIdAction(eventTypeId));
 };
 
 const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
@@ -169,47 +159,44 @@ const setCongregationId = (congregationId?: number): AppThunkAction<Action> => (
     dispatch(setCongregationIdAction(congregationId));
 };
 
-const setFirstPersonName = (firstPersonName: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setFirstPersonNameAction(firstPersonName));
+const setAmountPerYear = (amount: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setAmountPerYearAction(amount));
 };
 
-const setSecondPersonName = (secondPersonName: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSecondPersonNameAction(secondPersonName));
+const setStartYear = (startYear: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setStartYearAction(startYear));
 };
 
-const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDateAction(date));
+const setEndYear = (endYear: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setEndYearAction(endYear));
 };
 
 export const actionCreators = {
-    resetEvent,
-    loadEvent,
-    saveEvent,
-    setEventTypeId,
-    setCongregationId,
-    setParishId,
+    resetCharge,
+    loadCharge,
+    saveCharge,
     setArchdeaconryId,
-    setFirstPersonName,
-    setSecondPersonName,
-    setDate,
+    setParishId,
+    setCongregationId,
+    setAmountPerYear,
+    setStartYear,
+    setEndYear,
 };
 
 export interface State {
-    eventLoading: boolean;
+    chargeLoading: boolean;
     congregationsLoading: boolean;
     congregations: Congregation[];
-    event: Event;
-    involvesTwoPeople: boolean;
+    charge: Charge;
     hasBeenChanged: boolean,
     isSaving: boolean,
     errors: Errors;
 }
 
 const initialState: State = {
-    event: {},
-    involvesTwoPeople: false,
+    charge: {},
     congregations: [],
-    eventLoading: true,
+    chargeLoading: true,
     congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
@@ -218,33 +205,24 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_EVENT:
+        case REQUEST_CHARGE:
             return {
                 ...state,
-                eventLoading: true,
+                chargeLoading: true,
             };
-        case RECEIVE_EVENT:
+        case RECEIVE_CHARGE:
             return {
                 ...state,
-                event: action.value,
+                charge: action.value,
                 errors: {},
-                eventLoading: false,
+                chargeLoading: false,
                 hasBeenChanged: false,
-            };
-        case SET_EVENT_TYPE_ID:
-            return {
-                ...state,
-                event: {
-                    ...state.event,
-                    eventTypeId: action.value,
-                },
-                hasBeenChanged: true,
             };
         case SET_ARCHDEACONRY_ID:
             return {
                 ...state,
-                event: {
-                    ...state.event,
+                charge: {
+                    ...state.charge,
                     archdeaconryId: action.value,
                 },
                 hasBeenChanged: true,
@@ -252,8 +230,8 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_PARISH_ID:
             return {
                 ...state,
-                event: {
-                    ...state.event,
+                charge: {
+                    ...state.charge,
                     parishId: action.value,
                 },
                 hasBeenChanged: true,
@@ -261,36 +239,36 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_CONGREGATION_ID:
             return {
                 ...state,
-                event: {
-                    ...state.event,
+                charge: {
+                    ...state.charge,
                     congregationId: action.value,
                 },
                 hasBeenChanged: true,
             };
-        case SET_FIRST_PERSON_NAME:
+        case SET_AMOUNT_PER_YEAR:
             return {
                 ...state,
-                event: {
-                    ...state.event,
-                    firstPersonName: action.value,
+                charge: {
+                    ...state.charge,
+                    amountPerYear: action.value,
                 },
                 hasBeenChanged: true,
             };
-        case SET_SECOND_PERSON_NAME:
+        case SET_START_YEAR:
             return {
                 ...state,
-                event: {
-                    ...state.event,
-                    secondPersonName: action.value,
+                charge: {
+                    ...state.charge,
+                    startYear: action.value,
                 },
                 hasBeenChanged: true,
             };
-        case SET_DATE:
+        case SET_END_YEAR:
             return {
                 ...state,
-                event: {
-                    ...state.event,
-                    date: action.value,
+                charge: {
+                    ...state.charge,
+                    endYear: action.value,
                 },
                 hasBeenChanged: true,
             };
