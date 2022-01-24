@@ -1,14 +1,14 @@
 ﻿using MediatR;
-using SrdDatabase.Models.Transactions;
+using SrdDatabase.Models.Payments;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SrdDatabase.Domain.Queries
 {
-    public class GetTransactionDetails
+    public class GetPaymentDetails
     {
-        public class Query : IRequest<TransactionDetails>
+        public class Query : IRequest<PaymentDetails>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace SrdDatabase.Domain.Queries
             }
         }
 
-        public class Handler : IRequestHandler<Query, TransactionDetails>
+        public class Handler : IRequestHandler<Query, PaymentDetails>
         {
             private readonly IMediator _mediator;
 
@@ -28,11 +28,11 @@ namespace SrdDatabase.Domain.Queries
                 _mediator = mediator;
             }
 
-            public async Task<TransactionDetails> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PaymentDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var baseTransaction = await _mediator.Send(new GetTransactionById.Query(request.Id), cancellationToken);
+                var payment = await _mediator.Send(new GetPaymentById.Query(request.Id), cancellationToken);
 
-                return new TransactionDetails(baseTransaction);
+                return new PaymentDetails(payment);
             }
         }
     }

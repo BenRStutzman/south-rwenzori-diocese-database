@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries;
-using SrdDatabase.Models.Transactions;
+using SrdDatabase.Models.Charges;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SrdDatabase.Domain.Queries
 {
-    public class GetAllTransactions
+    public class GetAllCharges
     {
         public class Query : IRequest<IEnumerable<Charge>>
         {
@@ -24,9 +24,9 @@ namespace SrdDatabase.Domain.Queries
 
             public async Task<IEnumerable<Charge>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var results = await _mediator.Send(new GetPayments.Query(), cancellationToken);
+                var results = await _mediator.Send(new GetCharges.Query(), cancellationToken);
                 
-                return results.Transactions;
+                return results.Charges;
             }
         }
     }
