@@ -35,21 +35,16 @@ namespace SrdDatabase.Domain.Queries
                 var eventsQuery = new GetEvents.Query(pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
-                var transactionsQuery = new GetPayments.Query(pageSize: Constants.DetailsPageSize);
-                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
-
                 var archdeaconryResults = await archdeaconriesTask;
                 var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
-                var transactionResults = await transactionsTask;
 
                 return new DioceseDetails(
                     archdeaconryResults,
                     parishResults,
                     congregationResults,
-                    eventResults,
-                    transactionResults);
+                    eventResults);
             }
         }
     }

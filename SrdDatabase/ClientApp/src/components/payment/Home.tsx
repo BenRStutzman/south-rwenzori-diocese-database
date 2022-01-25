@@ -5,8 +5,8 @@ import SearchResults from './partials/SearchResults';
 
 const Home = () =>
     <>
-        <h1 className="page-title">Transactions</h1>
-        <Link className="btn btn-primary float-right" to="/transaction/add">Add new</Link>
+        <h1 className="page-title">Payments</h1>
+        <Link className="btn btn-primary float-right" to="/payment/add">Add new</Link>
         <SearchBox />
         <SearchResults />
     </>;

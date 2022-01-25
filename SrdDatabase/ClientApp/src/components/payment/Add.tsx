@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import * as Store from '../../store/charge/saveimport { State } from '../../store';
+import * as Store from '../../store/payment/save';
+import { State } from '../../store';
 import SaveForm from './partials/SaveForm';
 import { bindActionCreators } from 'redux';
 import { useQueryParams } from '../../helpers/miscellaneous';
@@ -12,8 +13,8 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    transactionLoading,
-    resetTransaction,
+    paymentLoading,
+    resetPayment,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -27,19 +28,19 @@ const Add = ({
         var archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        resetTransaction(congregationId, parishId, archdeaconryId);
+        resetPayment(congregationId, parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);
 
-    return transactionLoading ? <LoadingSpinner fullPage /> :
+    return paymentLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1>Add Transaction</h1>
+            <h1>Add Payment</h1>
             <SaveForm isNew />
         </>;
 }
 
 export default connect(
-    (state: State) => state.transaction.save,
+    (state: State) => state.payment.save,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Add);

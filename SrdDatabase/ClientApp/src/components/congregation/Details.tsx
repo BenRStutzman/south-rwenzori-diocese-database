@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { eventItems, transactionItems } from '../../helpers/detailsHelpers';
+import { eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -40,7 +40,7 @@ const Details = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canEditTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditPayments = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
@@ -81,13 +81,13 @@ const Details = ({
                     addParams={`?congregationId=${details.congregation.id}`}
                 />
                 {
-                    canEditTransactions &&
+                    canEditPayments &&
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
-                        itemType="transaction"
-                        itemTotal={details.transactionResults.totalResults}
-                        items={transactionItems(details.transactionResults)}
-                        showAddLink={canEditTransactions}
+                        itemType="payment"
+                        itemTotal={details.paymentResults.totalResults}
+                        items={paymentItems(details.paymentResults)}
+                        showAddLink={canEditPayments}
                         addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }

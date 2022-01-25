@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
-import * as Store from '../../store/charge/detailsmport * as SharedStore from '../../store/shared';
+import * as Store from '../../store/payment/details';
+import * as SharedStore from '../../store/shared';
 import { State } from '../../store';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
@@ -8,7 +9,6 @@ import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../helpers/miscellaneous';
-import { describeTransaction, parenthesizeAmountIfPayment } from '../../helpers/transactionHelper';
 import { Spinner } from 'reactstrap';
 
 type Props =
@@ -16,7 +16,7 @@ type Props =
     typeof Store.actionCreators &
     SharedStore.State &
     typeof SharedStore.actionCreators &
-    RouteComponentProps<{ transactionId: string }>;
+    RouteComponentProps<{ paymentId: string }>;
 
 const Details = ({
     loadDetails,
@@ -24,58 +24,58 @@ const Details = ({
     details,
     match,
     history,
-    deletingTransactionId,
-    deleteTransaction,
+    deletingPaymentId,
+    deletePayment,
 }: Props) => {
     const loadData = () => {
-        const transactionId = parseInt(match.params.transactionId);
-        loadDetails(transactionId);
+        const paymentId = parseInt(match.params.paymentId);
+        loadDetails(paymentId);
     };
 
     React.useEffect(loadData, []);
 
     const onDelete = () => {
-        deleteTransaction(details.transaction, () => { history.push('/transaction'); });
+        deletePayment(details.payment, () => { history.push('/payment'); });
     };
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">{describeTransaction(details.transaction)}</h1>
+                <h1 className="page-title">{`Payment of ${details.payment.amount} UGX`}</h1>
                 <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/transaction/edit/${details.transaction.id}`}>
-                        Edit transaction
+                    <Link className="btn btn-primary" to={`/payment/edit/${details.payment.id}`}>
+                        Edit payment
                     </Link>
                     <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {details.transaction.id === deletingTransactionId ? <Spinner size="sm" /> : 'Delete transaction'}
+                        {details.payment.id === deletingPaymentId ? <Spinner size="sm" /> : 'Delete payment'}
                     </button>
                 </div>
             </div>
             <div className="details-boxes">
                 <DetailsBox
                     itemType="date"
-                    itemValue={formattedDate(details.transaction)}
+                    itemValue={formattedDate(details.payment)}
                 />
                 <DetailsBox
                     itemType="congregation"
-                    itemValue={details.transaction.congregation}
-                    itemId={details.transaction.congregationId}
+                    itemValue={details.payment.congregation}
+                    itemId={details.payment.congregationId}
                 />
                 <DetailsBox
                     itemType="parish"
-                    itemValue={details.transaction.parish}
-                    itemId={details.transaction.parishId}
+                    itemValue={details.payment.parish}
+                    itemId={details.payment.parishId}
                 />
                 <DetailsBox
                     itemType="archdeaconry"
-                    itemValue={details.transaction.archdeaconry}
-                    itemId={details.transaction.archdeaconryId}
+                    itemValue={details.payment.archdeaconry}
+                    itemId={details.payment.archdeaconryId}
                  />
             </div>
         </>;
 }
     
 export default connect(
-    (state: State) => ({ ...state.transaction.details, ...state.shared }),
+    (state: State) => ({ ...state.payment.details, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Details);

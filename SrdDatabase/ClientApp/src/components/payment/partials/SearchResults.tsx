@@ -2,13 +2,13 @@
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
-import { Transaction } from '../../../models/payment';
-import * as Store from '../.../../../store/charge/homert * as SharedStore from '../../../store/shared';
+import { Payment } from '../../../models/payment';
+import * as Store from '../../../store/payment/home';
+import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
-import { parenthesizeAmountIfPayment } from '../../../helpers/transactionHelper';
 
 type Props =
     Store.State &
@@ -19,21 +19,21 @@ type Props =
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingTransactionId,
-    deleteTransaction,
+    deletingPaymentId,
+    deletePayment,
     parameters,
-    searchTransactions,
+    searchPayments,
 }: Props) => {
     const nextPage = () => {
-        searchTransactions(parameters, results.pageNumber + 1);
+        searchPayments(parameters, results.pageNumber + 1);
     };
 
     const previousPage = () => {
-        searchTransactions(parameters, results.pageNumber - 1);
+        searchPayments(parameters, results.pageNumber - 1);
     };
 
-    const onDelete = (transaction: Transaction) => {
-        deleteTransaction(transaction, () => { searchTransactions(parameters, results.pageNumber, false); });
+    const onDelete = (payment: Payment) => {
+        deletePayment(payment, () => { searchPayments(parameters, results.pageNumber, false); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :
@@ -47,7 +47,6 @@ const SearchResults = ({
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th className="col-2">Transaction Type</th>
                             <th className="col-2">Amount (UGX)</th>
                             <th className="col-3">Congregation</th>
                             <th className="col-2">Date</th>
@@ -55,24 +54,23 @@ const SearchResults = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {results.transactions.map((transaction: Transaction) =>
-                            <tr key={transaction.id}>
-                                <td>{transaction.transactionType}</td>
-                                <td className="balance-column">{parenthesizeAmountIfPayment(transaction)}</td>
+                        {results.payments.map((payment: Payment) =>
+                            <tr key={payment.id}>
+                                <td className="balance-column">{payment.amount}</td>
                                 <td>
-                                    <Link to={`/congregation/details/${transaction.congregationId}`}>{transaction.congregation}</Link>
+                                    <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                                 </td>
-                                <td>{transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}</td>
+                                <td>{payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}</td>
                                 <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/transaction/details/${transaction.id}`}>
+                                    <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View
                                     </Link>
                                     <>
-                                        <Link className="btn btn-primary" to={`/transaction/edit/${transaction.id}`}>
+                                        <Link className="btn btn-primary" to={`/payment/edit/${payment.id}`}>
                                             Edit
                                         </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(transaction); }}>
-                                            {transaction.id === deletingTransactionId ? <Spinner size="sm" /> : 'Delete'}
+                                        <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
+                                            {payment.id === deletingPaymentId ? <Spinner size="sm" /> : 'Delete'}
                                         </button>
                                     </>
                                 </td>
@@ -89,6 +87,6 @@ const SearchResults = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.transaction.home, ...state.shared }),
+    (state: State) => ({ ...state.payment.home, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchResults);
