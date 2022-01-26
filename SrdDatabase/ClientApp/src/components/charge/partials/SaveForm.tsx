@@ -171,7 +171,7 @@ const SaveForm = ({
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="endYear">End Year (UGX)</label>
+                <label htmlFor="endYear">End Year</label>
                 <input
                     id="endYear"
                     className="form-control"
@@ -181,7 +181,7 @@ const SaveForm = ({
                     autoComplete={autoComplete}
                     min={1}
                 />
-                <p className="field-note">Leave this field blank to make the charge continue in future years.</p>
+                <p className="field-note">Leave this field blank to make the charge ongoing.</p>
             </div>
             {
                 Object.values(errors).length > 0 &&

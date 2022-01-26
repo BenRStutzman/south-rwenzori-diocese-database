@@ -41,9 +41,14 @@ const Navigation = ({
                                 </NavItem>
                                 {
                                     currentUser && atLeast.accountant.includes(currentUser.userType) &&
-                                    <NavItem>
-                                        <NavLink tag={Link} className='text-dark' to='/payment'>Payments</NavLink>
-                                    </NavItem>
+                                    <>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/charge'>Charges</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/payment'>Payments</NavLink>
+                                        </NavItem>
+                                    </>
                                 }
                                 {
                                     currentUser && atLeast.administrator.includes(currentUser.userType) &&

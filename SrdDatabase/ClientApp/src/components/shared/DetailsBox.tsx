@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { plural } from 'pluralize';
-import { capitalize } from '../../helpers/miscellaneous';
+import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 
 interface Props {
     itemType: string;
@@ -15,19 +15,19 @@ const DetailsBox = ({
     itemId,
 }: Props) =>
     <div className="details-box">
-            <h2>
-                {`${capitalize(itemType)}: `}
-                {itemId ?
-                    <Link to={`/${itemType}/details/${itemId}`}>
-                        {itemValue}
-                    </Link>
-                    : <span>{itemValue}</span>
-                }
-            </h2>
-            {
-                itemId &&
-                <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+        <h2>
+            {`${camelCaseToTitleCase(itemType)}: `}
+            {itemId ?
+                <Link to={`/${itemType}/details/${itemId}`}>
+                    {itemValue}
+                </Link>
+                : <span>{itemValue}</span>
             }
+        </h2>
+        {
+            itemId &&
+            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+        }
     </div>;
 
 export default DetailsBox;

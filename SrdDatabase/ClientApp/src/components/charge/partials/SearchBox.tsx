@@ -21,8 +21,8 @@ const SearchBox = ({
     setSearchArchdeaconryId,
     setSearchParishId,
     setSearchCongregationId,
-    setSearchStartDate,
-    setSearchEndDate,
+    setSearchStartYear,
+    setSearchEndYear,
     archdeaconries,
     parishes,
     congregations,
@@ -59,12 +59,12 @@ const SearchBox = ({
         setSearchCongregationId(parseInt(event.target.value));
     };
 
-    const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchStartDate(new Date(event.target.value));
+    const onStartYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchStartYear(parseInt(event.target.value));
     };
 
-    const onEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchEndDate(new Date(event.target.value));
+    const onEndYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchEndYear(parseInt(event.target.value));
     };
 
     const onSubmit = (event: React.FormEvent) => {
@@ -137,25 +137,25 @@ const SearchBox = ({
                         <div className="row">
                             <div className="col-6">
                                 <div className="form-group">
-                                    <label htmlFor="startDate">Start Date</label>
+                                    <label htmlFor="startYear">Start Year</label>
                                     <input
-                                        id="startDate"
+                                        id="startYear"
                                         className="form-control"
-                                        type="date"
-                                        value={parameters.startDate?.toLocaleDateString('en-ca') ?? ""}
-                                        onChange={onStartDateChange}
+                                        type="number"
+                                        value={parameters.startYear ?? ""}
+                                        onChange={onStartYearChange}
                                     />
                                 </div>
                             </div>
                             <div className="col-6">
                                 <div className="form-group">
-                                    <label htmlFor="endDate">End Date</label>
+                                    <label htmlFor="endYear">End Year</label>
                                     <input
-                                        id="endDate"
+                                        id="endYear"
                                         className="form-control"
-                                        type="date"
-                                        value={parameters.endDate?.toLocaleDateString('en-ca') ?? ""}
-                                        onChange={onEndDateChange}
+                                        type="number"
+                                        value={parameters.endYear ?? ""}
+                                        onChange={onEndYearChange}
                                     />
                                 </div>
                             </div>

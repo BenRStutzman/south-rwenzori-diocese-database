@@ -25,6 +25,10 @@ import PaymentHome from './components/payment/Home';
 import PaymentAdd from './components/payment/Add';
 import PaymentEdit from './components/payment/Edit';
 import PaymentDetails from './components/payment/Details';
+import ChargeHome from './components/charge/Home';
+import ChargeAdd from './components/charge/Add';
+import ChargeEdit from './components/charge/Edit';
+import ChargeDetails from './components/charge/Details';
 import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
@@ -55,6 +59,10 @@ export default () => (
         <PrivateRoute exact path='/payment/add' component={PaymentAdd} roles={atLeast.accountant} />
         <PrivateRoute exact path='/payment/edit/:paymentId' component={PaymentEdit} roles={atLeast.accountant} />
         <PrivateRoute exact path='/payment/details/:paymentId' component={PaymentDetails} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge' component={ChargeHome} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge/add' component={ChargeAdd} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge/edit/:chargeId' component={ChargeEdit} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge/details/:chargeId' component={ChargeDetails} roles={atLeast.accountant} />
         <PrivateRoute exact path='/user' component={UserHome} roles={atLeast.administrator}/>
         <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />
         <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={atLeast.administrator} />

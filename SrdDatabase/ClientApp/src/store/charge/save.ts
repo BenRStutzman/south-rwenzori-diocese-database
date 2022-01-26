@@ -54,7 +54,7 @@ const setStartYearAction = (startYear: number) => ({
 });
 
 const setEndYearAction = (endYear: number) => ({
-    type: SET_START_YEAR,
+    type: SET_END_YEAR,
     value: endYear,
 });
 

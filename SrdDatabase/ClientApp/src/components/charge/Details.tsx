@@ -41,7 +41,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">{`Charge of ${details.charge.amount} UGX`}</h1>
+                <h1 className="page-title">{`Charge of ${details.charge.amountPerYear} UGX per year`}</h1>
                 <div className="button-group float-right">
                     <Link className="btn btn-primary" to={`/charge/edit/${details.charge.id}`}>
                         Edit charge
@@ -53,8 +53,8 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
-                    itemType="date"
-                    itemValue={formattedDate(details.charge)}
+                    itemType="years"
+                    itemValue={`${details.charge.startYear} to ${details.charge.endYear ?? 'ongoing'}`}
                 />
                 <DetailsBox
                     itemType="congregation"

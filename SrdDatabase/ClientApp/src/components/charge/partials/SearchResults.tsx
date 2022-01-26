@@ -47,20 +47,22 @@ const SearchResults = ({
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th className="col-2">Amount (UGX)</th>
-                            <th className="col-3">Congregation</th>
-                            <th className="col-2">Date</th>
+                            <th className="col-3">Amount Per Year (UGX)</th>
+                            <th className="col-2">Congregation</th>
+                            <th className="col-2">Start Year</th>
+                            <th className="col-2">End Year</th>
                             <th className="col-3"></th>
                         </tr>
                     </thead>
                     <tbody>
                         {results.charges.map((charge: Charge) =>
                             <tr key={charge.id}>
-                                <td className="balance-column">{charge.amount}</td>
+                                <td className="balance-column">{charge.amountPerYear}</td>
                                 <td>
                                     <Link to={`/congregation/details/${charge.congregationId}`}>{charge.congregation}</Link>
                                 </td>
-                                <td>{charge.date ? new Date(charge.date).toLocaleDateString('en-ca') : ''}</td>
+                                <td>{charge.startYear}</td>
+                                <td>{charge.endYear ?? 'ongoing'}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/charge/details/${charge.id}`}>
                                         View

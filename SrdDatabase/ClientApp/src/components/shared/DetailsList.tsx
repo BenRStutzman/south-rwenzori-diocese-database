@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { plural } from 'pluralize';
 import { DetailsListItem } from '../../models/shared';
-import { capitalize } from '../../helpers/miscellaneous';
+import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 
 interface Props {
     itemType: string;
@@ -23,7 +23,7 @@ const DetailsList = ({
 }: Props) =>
     <div className="details-box">
         <div>
-            <h2>{altTitle ?? `${capitalize(plural(itemType))} (${itemTotal})`}</h2>
+            <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
             <ul>
                 {items.map(item =>
                     <li key={item.id}>

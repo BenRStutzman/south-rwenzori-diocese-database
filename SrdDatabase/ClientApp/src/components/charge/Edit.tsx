@@ -41,7 +41,7 @@ const Edit = ({
     return chargeLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">{`Edit charge from ${charge.congregation}`}</h1>
+                <h1 className="page-title">{`Edit charge of ${charge.amountPerYear} UGX per year`}</h1>
                 <div className="float-right button-group">
                     <Link className="btn btn-secondary" to={`/charge/details/${charge.id}`}>
                         View details
