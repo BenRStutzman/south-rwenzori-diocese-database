@@ -5,7 +5,7 @@ import { PaymentParameters, PaymentResults } from '../../models/payment';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
 
-const RESET_PARAMETERS = 'PAYMENT.RESET_PARAMETERS';
+const SET_PARAMETERS = 'PAYMENT.SET_PARAMETERS';
 const SET_SEARCH_START_DATE = 'PAYMENT.SET_SEARCH_START_DATE';
 const SET_SEARCH_END_DATE = 'PAYMENT.SET_SEARCH_END_DATE';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PAYMENT.SET_SEARCH_ARCHDEACONRY_ID';
@@ -49,12 +49,13 @@ const setSearchCongregationIdAction = (congregationId?: number) => ({
     value: congregationId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: PaymentParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const setParameters = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction({}));
     dispatch(loadParishes(undefined));
     dispatch(loadCongregations(undefined));
 };
@@ -104,7 +105,7 @@ export const actionCreators = {
     setSearchArchdeaconryId,
     setSearchStartDate,
     setSearchEndDate,
-    resetParameters,
+    setParameters,
 };
 
 export interface State {
@@ -161,10 +162,10 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     endDate: action.value,
                 }
             };
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case REQUEST_RESULTS:
             return {

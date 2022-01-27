@@ -62,7 +62,7 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetPayment = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+const setPayment = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestPaymentAction());
 
     const date = new Date();
@@ -162,7 +162,7 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    resetPayment,
+    setPayment,
     loadPayment,
     savePayment,
     setArchdeaconryId,

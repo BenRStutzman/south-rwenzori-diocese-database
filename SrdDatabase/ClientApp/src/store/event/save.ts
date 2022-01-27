@@ -74,7 +74,7 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+const setEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestEventAction());
 
     const date = new Date();
@@ -182,7 +182,7 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    resetEvent,
+    setEvent,
     loadEvent,
     saveEvent,
     setEventTypeId,

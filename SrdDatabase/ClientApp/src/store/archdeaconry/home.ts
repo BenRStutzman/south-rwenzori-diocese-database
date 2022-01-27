@@ -25,13 +25,13 @@ const setSearchNameAction = (name: string) => ({
     value: name,
 });
 
-const setParametersAction = (parameters: ArchdeaconryParameters = {}) => ({
+const setParametersAction = (parameters: ArchdeaconryParameters) => ({
     type: SET_PARAMETERS,
     value: parameters,
 });
 
 const setParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction());
+    dispatch(setParametersAction({}));
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {

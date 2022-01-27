@@ -68,7 +68,7 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+const setCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestChargeAction());
 
     const startYear = (new Date()).getFullYear();
@@ -176,7 +176,7 @@ const setEndYear = (endYear?: number): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    resetCharge,
+    setCharge,
     loadCharge,
     saveCharge,
     setArchdeaconryId,

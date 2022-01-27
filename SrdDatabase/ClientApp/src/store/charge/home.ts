@@ -5,8 +5,8 @@ import { ChargeParameters, ChargeResults } from '../../models/charge';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
 
-const RESET_PARAMETERS = 'CHARGE.RESET_PARAMETERS';
-const Set_SEARCH_START_YEAR = 'CHARGE.SET_SEARCH_START_YEAR';
+const SET_PARAMETERS = 'CHARGE.SET_PARAMETERS';
+const SET_SEARCH_START_YEAR = 'CHARGE.SET_SEARCH_START_YEAR';
 const SET_SEARCH_END_YEAR = 'CHARGE.SET_SEARCH_END_YEAR';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CHARGE.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CHARGE.SET_SEARCH_PARISH_ID';
@@ -25,7 +25,7 @@ const receiveResultsAction = (results: ChargeResults) => ({
 });
 
 const setSearchStartYearAction = (startYear: number) => ({
-    type: Set_SEARCH_START_YEAR,
+    type: SET_SEARCH_START_YEAR,
     value: startYear,
 });
 
@@ -49,12 +49,13 @@ const setSearchCongregationIdAction = (congregationId?: number) => ({
     value: congregationId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: ChargeParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const setParameters = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction({}));
     dispatch(loadParishes(undefined));
     dispatch(loadCongregations(undefined));
 };
@@ -104,7 +105,7 @@ export const actionCreators = {
     setSearchArchdeaconryId,
     setSearchStartYear,
     setSearchEndYear,
-    resetParameters,
+    setParameters,
 };
 
 export interface State {
@@ -145,7 +146,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     archdeaconryId: action.value,
                 }
             };
-        case Set_SEARCH_START_YEAR:
+        case SET_SEARCH_START_YEAR:
             return {
                 ...state,
                 parameters: {
@@ -161,10 +162,10 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     endYear: action.value,
                 }
             };
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case REQUEST_RESULTS:
             return {

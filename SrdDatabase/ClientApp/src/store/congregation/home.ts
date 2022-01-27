@@ -10,7 +10,7 @@ const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
 const REQUEST_RESULTS = 'CONGREGATION.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'CONGREGATION.RECEIVE_RESULTS';
-const RESET_PARAMETERS = 'CONGREGATION.RESET_PARAMETERS';
+const SET_PARAMETERS = 'CONGREGATION.SET_PARAMETERS';
 
 const requestResultsAction = (showLoading: boolean = true) => ({
     type: REQUEST_RESULTS,
@@ -37,12 +37,13 @@ const setSearchParishIdAction = (parishId?: number) => ({
     value: parishId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: CongregationParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const setParameters = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction({}));
     dispatch(loadParishes(undefined));
 };
 
@@ -76,7 +77,7 @@ const searchCongregations = (
 
 export const actionCreators = {
     searchCongregations,
-    resetParameters,
+    setParameters,
     setSearchName,
     setSearchArchdeaconryId,
     setSearchParishId,
@@ -96,10 +97,10 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case SET_SEARCH_NAME:
             return {

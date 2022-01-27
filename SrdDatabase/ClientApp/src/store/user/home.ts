@@ -6,7 +6,7 @@ import { UserParameters, UserResults } from '../../models/user';
 
 const REQUEST_RESULTS = 'USER.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'USER.RECEIVE_RESULTS';
-const RESET_PARAMETERS = 'USER.RESET_PARAMETERS';
+const SET_PARAMETERS = 'USER.SET_PARAMETERS';
 const SET_SEARCH_NAME = 'USER.SET_SEARCH_NAME';
 const SET_SEARCH_USERNAME = 'USER.SET_SEARCH_USERNAME';
 const SET_SEARCH_USER_TYPE_ID = 'USER.SET_SEARCH_USER_TYPE_ID';
@@ -36,12 +36,13 @@ const setSearchUserTypeIdAction = (userTypeId: number) => ({
     value: userTypeId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: UserParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
 const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+    dispatch(setParametersAction({}));
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -92,10 +93,10 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case SET_SEARCH_NAME:
             return {

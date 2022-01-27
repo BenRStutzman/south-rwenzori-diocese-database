@@ -49,7 +49,7 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 })
 
-const resetCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+const setCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestCongregationAction());
 
     if (parishId) {
@@ -122,7 +122,7 @@ const saveCongregation = (congregation: Congregation, history: History): AppThun
 };
 
 export const actionCreators = {
-    resetCongregation,
+    setCongregation,
     loadCongregation,
     saveCongregation,
     setName,

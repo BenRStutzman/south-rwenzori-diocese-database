@@ -40,7 +40,7 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 })
 
-const resetParish = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+const setParish = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(receiveParishAction({
         archdeaconryId,
     }));
@@ -85,7 +85,7 @@ const saveParish = (parish: Parish, history: History): AppThunkAction<Action> =>
 };
 
 export const actionCreators = {
-    resetParish,
+    setParish,
     loadParish,
     setName,
     setArchdeaconryId,
