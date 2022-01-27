@@ -12,10 +12,10 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    resetArchdeaconry,
+    setArchdeaconry,
     archdeaconryLoading,
 }: Props) => {
-    const loadData = () => { resetArchdeaconry(); };
+    const loadData = () => { setArchdeaconry(); };
 
     useEffect(loadData, []);
 

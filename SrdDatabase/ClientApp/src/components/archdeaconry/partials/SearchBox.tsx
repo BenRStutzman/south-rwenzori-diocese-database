@@ -17,11 +17,11 @@ const SearchBox = ({
     searchArchdeaconries,
     parameters,
     setSearchName,
-    resetParameters,
+    setParameters,
     resultsLoading,
 }: Props) => {
     const loadData = () => {
-        resetParameters();
+        setParameters();
         searchArchdeaconries();
     };
 
@@ -58,7 +58,7 @@ const SearchBox = ({
                     </div>
                     <SearchButtons
                         thingsBeingSearched="archdeaconries"
-                        onClear={resetParameters}
+                        onClear={setParameters}
                         searching={resultsLoading}
                     />
                 </form>
