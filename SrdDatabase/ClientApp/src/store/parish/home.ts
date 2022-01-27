@@ -39,7 +39,10 @@ const setParameters = (archdeaconryId?: number, search: boolean = false): AppThu
     const parameters = { archdeaconryId };
 
     dispatch(setParametersAction(parameters));
-    dispatch(searchParishes(parameters));
+
+    if (search) {
+        dispatch(searchParishes(parameters));
+    }
 };
 
 export const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {

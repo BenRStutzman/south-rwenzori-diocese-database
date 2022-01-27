@@ -42,7 +42,9 @@ const setParametersAction = (parameters: CongregationParameters) => ({
     value: parameters,
 });
 
-const setParameters = (): AppThunkAction<Action> => (dispatch) => {
+const setParameters = (archdeaconryId?: number, parishId?: number): AppThunkAction<Action> => (dispatch) => {
+
+
     dispatch(setParametersAction({}));
     dispatch(loadParishes(undefined));
 };

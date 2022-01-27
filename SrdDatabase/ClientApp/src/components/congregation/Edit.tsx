@@ -22,7 +22,7 @@ const Edit = ({
     loadCongregation,
     congregation,
     match,
-    congregationLoading,
+    isLoading,
     deleteCongregation,
     deletingCongregationId,
     history,
@@ -38,7 +38,7 @@ const Edit = ({
         deleteCongregation(congregation, () => { history.push('/congregation'); });
     };
 
-    return congregationLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {congregation.name} Congregation</h1>

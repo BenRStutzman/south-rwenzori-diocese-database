@@ -3,24 +3,24 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Congregation } from '../../models/congregation';
 import { History } from 'history';
-import { loadCongregations, loadParishes } from '../shared';
+import { loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
 
-const REQUEST_CONGREGATION = 'CONGREGATION.REQUEST_CONGREGATION';
-const RECEIVE_CONGREGATION = 'CONGREGATION.RECEIVE_CONGREGATION';
+const SET_IS_LOADING = 'CONGREGATION.SET_LOADING';
+const SET_CONGREGATION = 'CONGREGATION.SET_CONGREGATION';
 const SET_NAME = 'CONGREGATION.SET_NAME';
 const SET_ARCHDEACONRY_ID = 'CONGREGATION.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'CONGREGATION.SET_PARISH_ID';
 const SET_IS_SAVING = 'CONGREGATION.SET_IS_SAVING';
 const SET_ERRORS = 'CONGREGATION.SET_ERRORS';
 
-const requestCongregationAction = () => ({
-    type: REQUEST_CONGREGATION,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receiveCongregationAction = (congregation: Congregation) => ({
-    type: RECEIVE_CONGREGATION,
+const setCongregationAction = (congregation: Congregation) => ({
+    type: SET_CONGREGATION,
     value: congregation,
 });
 
@@ -49,13 +49,13 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 })
 
-const setCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestCongregationAction());
+const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsLoadingAction());
 
     if (parishId) {
         get<Parish>(`api/parish/${parishId}`)
             .then(parish => {
-                dispatch(receiveCongregation({
+                dispatch(setCongregation({
                     parishId: parish.id,
                     archdeaconryId: parish.archdeaconryId,
                 }));
@@ -63,26 +63,26 @@ const setCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAc
     } else if (archdeaconryId) {
         get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
             .then(archdeaconry => {
-                dispatch(receiveCongregation({
+                dispatch(setCongregation({
                     archdeaconryId: archdeaconry.id,
                 }));
             });
     } else {
-        dispatch(receiveCongregation({}));
+        dispatch(setCongregation({}));
     }
 }
 
-const receiveCongregation = (congregation: Congregation): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveCongregationAction(congregation));
+const setCongregation = (congregation: Congregation): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationAction(congregation));
     dispatch(loadParishes(congregation.archdeaconryId));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestCongregationAction());
+    dispatch(setIsLoadingAction());
 
     get<Congregation>(`api/congregation/${id}`)
         .then(congregation => {
-            dispatch(receiveCongregation(congregation));
+            dispatch(setCongregation(congregation));
         });
 }
 
@@ -122,7 +122,7 @@ const saveCongregation = (congregation: Congregation, history: History): AppThun
 };
 
 export const actionCreators = {
-    setCongregation,
+    prefillCongregation,
     loadCongregation,
     saveCongregation,
     setName,
@@ -132,7 +132,7 @@ export const actionCreators = {
 
 export interface State {
     isSaving: boolean;
-    congregationLoading: boolean;
+    isLoading: boolean;
     congregation: Congregation;
     hasBeenChanged: boolean,
     hasBeenSaved: boolean;
@@ -142,7 +142,7 @@ export interface State {
 const initialState: State = {
     isSaving: false,
     congregation: {},
-    congregationLoading: true,
+    isLoading: true,
     hasBeenChanged: false,
     hasBeenSaved: false,
     errors: {},
@@ -150,16 +150,16 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_CONGREGATION:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                congregationLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_CONGREGATION:
+        case SET_CONGREGATION:
             return {
                 ...state,
                 congregation: action.value,
-                congregationLoading: false,
+                isLoading: false,
                 hasBeenChanged: false,
                 errors: {},
             };
