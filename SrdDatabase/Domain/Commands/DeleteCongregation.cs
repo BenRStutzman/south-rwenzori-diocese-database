@@ -34,14 +34,19 @@ namespace SrdDatabase.Domain.Commands
                 var eventsQuery = new GetEvents.Query(congregationId: request.Id);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
-                var transactionsQuery = new GetPayments.Query(congregationId: request.Id);
-                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
+                var paymentsQuery = new GetPayments.Query(congregationId: request.Id);
+                var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
+                
+                var chargesQuery = new GetPayments.Query(congregationId: request.Id);
+                var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
 
                 var eventResults = await eventsTask;
-                var transactionResults = await transactionsTask;
+                var paymentResults = await paymentsTask;
+                var chargeResults = await chargesTask;
 
                 var associatedItems = eventResults.TotalResults > 0 ? "events"
-                    : transactionResults.TotalResults > 0 ? "transactions"
+                    : paymentResults.TotalResults > 0 ? "payments"
+                    : chargeResults.TotalResults > 0 ? "charges"
                     : null;
 
                 if (!string.IsNullOrEmpty(associatedItems))
