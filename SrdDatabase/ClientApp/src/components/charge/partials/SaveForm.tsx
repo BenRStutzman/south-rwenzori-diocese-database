@@ -179,7 +179,7 @@ const SaveForm = ({
                     value={charge.endYear ?? ""}
                     onChange={onEndYearChange}
                     autoComplete={autoComplete}
-                    min={1}
+                    min={charge.startYear}
                 />
                 <p className="field-note">Leave this field blank to make the charge ongoing.</p>
             </div>

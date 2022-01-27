@@ -1,9 +1,11 @@
-﻿using SrdDatabase.Models.Shared;
+﻿using SrdDatabase.Attributes;
+using SrdDatabase.Models.Shared;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Charges
 {
+    [StartAndEndYears]
     public class ChargeFields : SaveFields
     {
         [Range(1, int.MaxValue)]
