@@ -67,11 +67,11 @@ const SaveForm = ({
         setAmountPerYear(parseInt(event.target.value));
     };
 
-    const onStartYearChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setStartYear(parseInt(event.target.value));
+    const onStartYearChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setStartYear(parseInt(event.target.value), charge.endYear);
     };
 
-    const onEndYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const onEndYearChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setEndYear(parseInt(event.target.value));
     };
 
@@ -79,6 +79,21 @@ const SaveForm = ({
         formCharge.preventDefault();
         saveCharge(charge, history);
     };
+
+    const currentYear = new Date().getFullYear();
+
+    let startYears = [];
+    let endYears = [];
+
+    for (let year = 2000; year <= currentYear + 10; year++) {
+        startYears.push(year);
+    }
+
+    if (charge.startYear) {
+        for (let year = charge.startYear; year <= currentYear + 100; year++) {
+            endYears.push(year);
+        }
+    }
 
     return (
         <form onSubmit={onSubmit}>
@@ -159,29 +174,34 @@ const SaveForm = ({
             </div>
             <div className="form-group">
                 <label htmlFor="startYear">Start Year</label>
-                <input
+                <select
                     id="startYear"
                     className="form-control"
-                    type="number"
                     value={charge.startYear ?? ""}
                     onChange={onStartYearChange}
-                    autoComplete={autoComplete}
-                    min={1}
-                    required
-                />
+                >
+                    {
+                        startYears.map(year =>
+                            <option key={year} value={year}>{year}</option>
+                        )
+                    }
+                </select>
             </div>
             <div className="form-group">
                 <label htmlFor="endYear">End Year</label>
-                <input
+                <select
                     id="endYear"
                     className="form-control"
-                    type="number"
                     value={charge.endYear ?? ""}
                     onChange={onEndYearChange}
-                    autoComplete={autoComplete}
-                    min={charge.startYear}
-                />
-                <p className="field-note">Leave this field blank to make the charge ongoing.</p>
+                >
+                    <option key={0} value="">Ongoing</option>
+                    {
+                        endYears.map(year =>
+                            <option key={year} value={year}>{year}</option>
+                        )
+                    }
+                </select>
             </div>
             {
                 Object.values(errors).length > 0 &&

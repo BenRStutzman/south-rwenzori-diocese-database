@@ -53,7 +53,7 @@ const setStartYearAction = (startYear: number) => ({
     value: startYear,
 });
 
-const setEndYearAction = (endYear: number) => ({
+const setEndYearAction = (endYear?: number) => ({
     type: SET_END_YEAR,
     value: endYear,
 });
@@ -163,11 +163,15 @@ const setAmountPerYear = (amount: number): AppThunkAction<Action> => (dispatch) 
     dispatch(setAmountPerYearAction(amount));
 };
 
-const setStartYear = (startYear: number): AppThunkAction<Action> => (dispatch) => {
+const setStartYear = (startYear: number, endYear?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setStartYearAction(startYear));
+
+    if (endYear && endYear < startYear) {
+        dispatch(setEndYear(undefined));
+    }
 };
 
-const setEndYear = (endYear: number): AppThunkAction<Action> => (dispatch) => {
+const setEndYear = (endYear?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setEndYearAction(endYear));
 };
 
