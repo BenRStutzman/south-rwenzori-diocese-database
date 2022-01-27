@@ -3,6 +3,7 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { EventParameters, EventResults } from '../../models/event';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { loadCongregations, loadParishes } from '../shared';
 
 const RESET_PARAMETERS = 'EVENT.RESET_PARAMETERS';
 const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
@@ -50,12 +51,12 @@ const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
     value: archdeaconryId,
 });
 
-const setSearchParishIdAction = (parishId: number) => ({
+const setSearchParishIdAction = (parishId?: number) => ({
     type: SET_SEARCH_PARISH_ID,
     value: parishId,
 });
 
-const setSearchCongregationIdAction = (congregationId: number) => ({
+const setSearchCongregationIdAction = (congregationId?: number) => ({
     type: SET_SEARCH_CONGREGATION_ID,
     value: congregationId,
 });
@@ -66,6 +67,8 @@ const resetParametersAction = () => ({
 
 const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(resetParametersAction());
+    dispatch(loadParishes(undefined));
+    dispatch(loadCongregations(undefined));
 };
 
 const setSearchEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
@@ -86,13 +89,17 @@ const setSearchPersonName = (personName: string): AppThunkAction<Action> => (dis
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchArchdeaconryIdAction(archdeaconryId));
+    dispatch(loadParishes(archdeaconryId));
+    dispatch(setSearchParishId(undefined));
 };
 
-const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchParishIdAction(parishId));
+    dispatch(loadCongregations(parishId));
+    dispatch(setSearchCongregationId(undefined));
 };
 
-const setSearchCongregationId = (congregationId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchCongregationIdAction(congregationId));
 };
 

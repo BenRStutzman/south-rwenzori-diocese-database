@@ -3,7 +3,7 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { CongregationParameters, CongregationResults } from '../../models/congregation';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
-import { loadCongregations, loadParishes } from '../shared';
+import { loadParishes } from '../shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
