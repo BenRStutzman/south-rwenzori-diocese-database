@@ -3,7 +3,6 @@ import { randomString } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
 import * as Store from '../../../store/event/home';
 import * as SharedStore from '../../../store/shared';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
 import ExpandButton from '../../shared/ExpandButton';
@@ -32,10 +31,8 @@ const SearchBox = ({
     congregations,
     eventTypes,
     resetParameters,
-    loadCongregations,
     loadEventTypes,
     loadArchdeaconries,
-    loadParishes,
     congregationsLoading,
     eventTypesLoading,
     resultsLoading,

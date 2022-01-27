@@ -57,7 +57,7 @@ const SearchResults = ({
                     <tbody>
                         {results.charges.map((charge: Charge) =>
                             <tr key={charge.id}>
-                                <td className="balance-column">{charge.amountPerYear}</td>
+                                <td className="money-column">{charge.amountPerYear}</td>
                                 <td>
                                     <Link to={`/congregation/details/${charge.congregationId}`}>{charge.congregation}</Link>
                                 </td>

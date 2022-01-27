@@ -4,7 +4,6 @@ import { randomString } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/parish/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
@@ -54,51 +53,50 @@ const SearchBox = ({
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
         <div hidden={!expanded} className="search-box">
-            {
-                archdeaconriesLoading ? <LoadingSpinner /> :
-                    <form onSubmit={onSubmit}>
-                        <div className="row">
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="name">Name</label>
-                                    <input
-                                        id="name"
-                                        className="form-control"
-                                        autoComplete={autoComplete}
-                                        type="text"
-                                        spellCheck={false}
-                                        value={parameters.name ?? ""}
-                                        onChange={onNameChange}
-                                        maxLength={50}
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="archdeaconryId">Archdeaconry</label>
-                                    <select
-                                        id="archdeaconryId"
-                                        className="form-control"
-                                        value={parameters.archdeaconryId ?? ""}
-                                        onChange={onArchdeaconryIdChange}
-                                    >
-                                        <option key={0} value="">Any archdeaconry</option>
-                                        {archdeaconries.map(archdeaconry =>
-                                            <option key={archdeaconry.id} value={archdeaconry.id}>
-                                                {archdeaconry.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
+            <form onSubmit={onSubmit}>
+                <div className="row">
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                id="name"
+                                className="form-control"
+                                autoComplete={autoComplete}
+                                type="text"
+                                spellCheck={false}
+                                value={parameters.name ?? ""}
+                                onChange={onNameChange}
+                                maxLength={50}
+                            />
                         </div>
-                        <SearchButtons
-                            searching={resultsLoading}
-                            thingsBeingSearched="parishes"
-                            onClear={resetParameters}
-                        />
-                    </form>
-            }
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="archdeaconryId">Archdeaconry</label>
+                            <select
+                                id="archdeaconryId"
+                                className="form-control"
+                                value={parameters.archdeaconryId ?? ""}
+                                onChange={onArchdeaconryIdChange}
+                            >
+                                <option key={0} value="">
+                                    {archdeaconriesLoading ? 'Loading...' : 'Any archdeaconry'}
+                                </option>
+                                {archdeaconries.map(archdeaconry =>
+                                    <option key={archdeaconry.id} value={archdeaconry.id}>
+                                        {archdeaconry.name}
+                                    </option>
+                                )}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <SearchButtons
+                    searching={resultsLoading}
+                    thingsBeingSearched="parishes"
+                    onClear={resetParameters}
+                />
+            </form>
         </div>
     </>;
 };

@@ -4,7 +4,6 @@ import { randomString } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/user/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
@@ -59,8 +58,6 @@ const SearchBox = ({
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
         <div hidden={!expanded} className="search-box">
-            {
-                userTypesLoading ? <LoadingSpinner /> :
                     <form onSubmit={onSubmit}>
                         <div className="form-group">
                             <label htmlFor="userTypeId">User Type</label>
@@ -70,7 +67,9 @@ const SearchBox = ({
                                 value={parameters.userTypeId ?? ""}
                                 onChange={onUserTypeIdChange}
                             >
-                                <option key={0} value="">Any user type</option>
+                        <option key={0} value="">
+                            {userTypesLoading ? 'Loading...' : 'Any user type'}
+                        </option>
                                 {userTypes.map(userType =>
                                     <option key={userType.id} value={userType.id}>
                                         {userType.name}
@@ -116,7 +115,6 @@ const SearchBox = ({
                             onClear={resetParameters}
                         />
                     </form>
-            }
         </div>
     </>;
 };

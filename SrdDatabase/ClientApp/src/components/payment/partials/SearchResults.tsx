@@ -56,7 +56,7 @@ const SearchResults = ({
                     <tbody>
                         {results.payments.map((payment: Payment) =>
                             <tr key={payment.id}>
-                                <td className="balance-column">{payment.amount}</td>
+                                <td className="money-column">{payment.amount}</td>
                                 <td>
                                     <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                                 </td>

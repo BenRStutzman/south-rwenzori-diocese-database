@@ -1,5 +1,4 @@
 ﻿import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
 import * as Store from '../../../store/charge/home';
 import * as SharedStore from '../../../store/shared';
@@ -27,19 +26,15 @@ const SearchBox = ({
     parishes,
     congregations,
     resetParameters,
-    loadCongregations,
     loadArchdeaconries,
-    loadParishes,
     congregationsLoading,
     resultsLoading,
     archdeaconriesLoading,
     parishesLoading,
 }: Props) => {
     const loadData = () => {
-        resetParameters();
         loadArchdeaconries();
-        loadParishes();
-        loadCongregations();
+        resetParameters();
         searchCharges();
     };
 
@@ -75,98 +70,101 @@ const SearchBox = ({
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
         <div hidden={!expanded} className="search-box">
-            {
-                congregationsLoading || archdeaconriesLoading || parishesLoading ? <LoadingSpinner /> :
-                    <form onSubmit={onSubmit}>
-                        <div className="row">
-                            <div className="col-4">
-                                <div className="form-group">
-                                    <label htmlFor="archdeaconryId">Archdeaconry</label>
-                                    <select
-                                        id="archdeaconryId"
-                                        className="form-control"
-                                        value={parameters.archdeaconryId ?? ""}
-                                        onChange={onArchdeaconryIdChange}
-                                    >
-                                        <option key={0} value="">Any archdeaconry</option>
-                                        {archdeaconries.map(archdeaconry =>
-                                            <option key={archdeaconry.id} value={archdeaconry.id}>
-                                                {archdeaconry.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-4">
-                                <div className="form-group">
-                                    <label htmlFor="parishId">Parish</label>
-                                    <select
-                                        id="parishId"
-                                        className="form-control"
-                                        value={parameters.parishId ?? ""}
-                                        onChange={onParishIdChange}
-                                    >
-                                        <option key={0} value="">Any parish</option>
-                                        {parishes.map(parish =>
-                                            <option key={parish.id} value={parish.id}>
-                                                {parish.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-4">
-                                <div className="form-group">
-                                    <label htmlFor="congregationId">Congregation</label>
-                                    <select
-                                        id="congregationId"
-                                        className="form-control"
-                                        value={parameters.congregationId ?? ""}
-                                        onChange={onCongregationIdChange}
-                                    >
-                                        <option key={0} value="">Any congregation</option>
-                                        {congregations.map(congregation =>
-                                            <option key={congregation.id} value={congregation.id}>
-                                                {congregation.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
+            <form onSubmit={onSubmit}>
+                <div className="row">
+                    <div className="col-4">
+                        <div className="form-group">
+                            <label htmlFor="archdeaconryId">Archdeaconry</label>
+                            <select
+                                id="archdeaconryId"
+                                className="form-control"
+                                value={parameters.archdeaconryId ?? ""}
+                                onChange={onArchdeaconryIdChange}
+                            >
+                                <option key={0} value="">
+                                    {archdeaconriesLoading ? 'Loading...' : 'Any archdeaconry'}
+                                </option>
+                                {archdeaconries.map(archdeaconry =>
+                                    <option key={archdeaconry.id} value={archdeaconry.id}>
+                                        {archdeaconry.name}
+                                    </option>
+                                )}
+                            </select>
                         </div>
-                        <div className="row">
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="startYear">Start Year</label>
-                                    <input
-                                        id="startYear"
-                                        className="form-control"
-                                        type="number"
-                                        value={parameters.startYear ?? ""}
-                                        onChange={onStartYearChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="endYear">End Year</label>
-                                    <input
-                                        id="endYear"
-                                        className="form-control"
-                                        type="number"
-                                        value={parameters.endYear ?? ""}
-                                        onChange={onEndYearChange}
-                                    />
-                                </div>
-                            </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-group">
+                            <label htmlFor="parishId">Parish</label>
+                            <select
+                                id="parishId"
+                                className="form-control"
+                                value={parameters.parishId ?? ""}
+                                onChange={onParishIdChange}
+                            >
+                                <option key={0} value="">
+                                    {parishesLoading ? 'Loading...' : 'Any parish'}
+                                </option>
+                                {parishes.map(parish =>
+                                    <option key={parish.id} value={parish.id}>
+                                        {parish.name}
+                                    </option>
+                                )}
+                            </select>
                         </div>
-                        <SearchButtons
-                            searching={resultsLoading}
-                            onClear={resetParameters}
-                            thingsBeingSearched="charges"
-                        />
-                    </form>
-            }
+                    </div>
+                    <div className="col-4">
+                        <div className="form-group">
+                            <label htmlFor="congregationId">Congregation</label>
+                            <select
+                                id="congregationId"
+                                className="form-control"
+                                value={parameters.congregationId ?? ""}
+                                onChange={onCongregationIdChange}
+                            >
+                                <option key={0} value="">
+                                    {congregationsLoading ? 'Loading...' : 'Any congregation'}
+                                </option>
+                                {congregations.map(congregation =>
+                                    <option key={congregation.id} value={congregation.id}>
+                                        {congregation.name}
+                                    </option>
+                                )}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="startYear">Start Year</label>
+                            <input
+                                id="startYear"
+                                className="form-control"
+                                type="number"
+                                value={parameters.startYear ?? ""}
+                                onChange={onStartYearChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="endYear">End Year</label>
+                            <input
+                                id="endYear"
+                                className="form-control"
+                                type="number"
+                                value={parameters.endYear ?? ""}
+                                onChange={onEndYearChange}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <SearchButtons
+                    searching={resultsLoading}
+                    onClear={resetParameters}
+                    thingsBeingSearched="charges"
+                />
+            </form>
         </div>
     </>;
 }
