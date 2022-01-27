@@ -5,6 +5,7 @@ import { DetailsListItem } from '../../models/shared';
 import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 
 interface Props {
+    viewAllEnding?: string;
     itemType: string;
     itemTotal?: number;
     items: DetailsListItem[];
@@ -16,6 +17,7 @@ interface Props {
 
 const DetailsList = ({
     itemType,
+    viewAllEnding,
     itemTotal,
     items,
     showAddLink,
@@ -43,7 +45,7 @@ const DetailsList = ({
         </div>
         <div>
             <div>
-                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}</Link>
+                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{viewAllEnding ?? ''}</Link>
                 {
                     showAddLink &&
                     <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
@@ -52,7 +54,7 @@ const DetailsList = ({
             {
                 secondType &&
                 <div>
-                    <Link to={`/${secondType}`}>View all {plural(secondType)}</Link>
+                    <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{viewAllEnding ?? ''}</Link>
                     {
                         showAddLink &&
                         <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>

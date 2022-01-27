@@ -71,11 +71,13 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
+                    baseItemType="congregation"
                     itemType="parish"
                     itemValue={details.congregation.parish}
                     itemId={details.congregation.parishId}
                 />
                 <DetailsBox
+                    baseItemType="congregation"
                     itemType="archdeaconry"
                     itemValue={details.congregation.archdeaconry}
                     itemId={details.congregation.archdeaconryId}
@@ -92,6 +94,7 @@ const Details = ({
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="payment"
+                        viewAllEnding="for this congregation"
                         secondType="charge"
                         items={transactions}
                         showAddLink

@@ -7,10 +7,12 @@ interface Props {
     itemType: string;
     itemValue?: string;
     itemId?: number;
+    baseItemType?: string;
 }
 
 const DetailsBox = ({
     itemValue,
+    baseItemType,
     itemType,
     itemId,
 }: Props) =>
@@ -25,8 +27,8 @@ const DetailsBox = ({
             }
         </h2>
         {
-            itemId &&
-            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+            itemId && baseItemType &&
+            <Link to={`/${baseItemType}?${itemType}Id=${itemId}`}>View all {plural(baseItemType)} in this {itemType}</Link>
         }
     </div>;
 

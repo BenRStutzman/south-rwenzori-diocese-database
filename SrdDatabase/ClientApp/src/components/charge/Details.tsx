@@ -56,16 +56,19 @@ const Details = ({
                     itemValue={`${details.charge.startYear} to ${details.charge.endYear ?? 'ongoing'}`}
                 />
                 <DetailsBox
+                    baseItemType="charge"
                     itemType="congregation"
                     itemValue={details.charge.congregation}
                     itemId={details.charge.congregationId}
                 />
                 <DetailsBox
+                    baseItemType="charge"
                     itemType="parish"
                     itemValue={details.charge.parish}
                     itemId={details.charge.parishId}
                 />
                 <DetailsBox
+                    baseItemType="charge"
                     itemType="archdeaconry"
                     itemValue={details.charge.archdeaconry}
                     itemId={details.charge.archdeaconryId}

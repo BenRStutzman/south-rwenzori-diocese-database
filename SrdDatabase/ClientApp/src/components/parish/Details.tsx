@@ -62,12 +62,14 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
+                    baseItemType="parish"
                     itemType="archdeaconry"
                     itemValue={details.parish.archdeaconry}
                     itemId={details.parish.archdeaconryId}
                 />
                 <DetailsList
                     itemType="congregation"
+                    viewAllEnding="in this parish"
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
                     showAddLink={canEdit}
@@ -75,6 +77,7 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="event"
+                    viewAllEnding="in this parish"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}

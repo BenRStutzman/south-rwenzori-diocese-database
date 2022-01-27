@@ -57,16 +57,19 @@ const Details = ({
                     itemValue={formattedDate(details.payment.date)}
                 />
                 <DetailsBox
+                    baseItemType="payment"
                     itemType="congregation"
                     itemValue={details.payment.congregation}
                     itemId={details.payment.congregationId}
                 />
                 <DetailsBox
+                    baseItemType="payment"
                     itemType="parish"
                     itemValue={details.payment.parish}
                     itemId={details.payment.parishId}
                 />
                 <DetailsBox
+                    baseItemType="payment"
                     itemType="archdeaconry"
                     itemValue={details.payment.archdeaconry}
                     itemId={details.payment.archdeaconryId}
