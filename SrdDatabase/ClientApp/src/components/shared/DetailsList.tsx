@@ -11,6 +11,7 @@ interface Props {
     showAddLink?: boolean;
     addParams?: string;
     altTitle?: string;
+    secondType?: string;
 }
 
 const DetailsList = ({
@@ -20,6 +21,7 @@ const DetailsList = ({
     showAddLink,
     addParams,
     altTitle,
+    secondType,
 }: Props) =>
     <div className="details-box">
         <div>
@@ -40,10 +42,22 @@ const DetailsList = ({
             </ul>
         </div>
         <div>
-            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+            <div>
+                <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+                {
+                    showAddLink &&
+                    <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+                }
+            </div>
             {
-                showAddLink &&
-                <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+                secondType &&
+                <div>
+                    <Link to={`/${secondType}`}>View all {plural(secondType)}</Link>
+                    {
+                        showAddLink &&
+                        <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>
+                    }
+                </div>
             }
         </div>
     </div>;

@@ -40,7 +40,7 @@ const Details = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canEditPayments = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
@@ -88,12 +88,13 @@ const Details = ({
                     addParams={`?congregationId=${details.congregation.id}`}
                 />
                 {
-                    canEditPayments &&
+                    canEditTransactions &&
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="payment"
+                        secondType="charge"
                         items={transactions}
-                        showAddLink={canEditPayments}
+                        showAddLink
                         addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }
