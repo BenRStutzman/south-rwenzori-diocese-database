@@ -3,6 +3,7 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { CongregationParameters, CongregationResults } from '../../models/congregation';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { loadCongregations, loadParishes } from '../shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
@@ -31,7 +32,7 @@ const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
     value: archdeaconryId,
 });
 
-const setSearchParishIdAction = (parishId: number) => ({
+const setSearchParishIdAction = (parishId?: number) => ({
     type: SET_SEARCH_PARISH_ID,
     value: parishId,
 });
@@ -42,6 +43,7 @@ const resetParametersAction = () => ({
 
 const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(resetParametersAction());
+    dispatch(loadParishes(undefined));
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -49,10 +51,12 @@ const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
 };
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(loadParishes(archdeaconryId));
     dispatch(setSearchArchdeaconryIdAction(archdeaconryId));
+    dispatch(setSearchParishId(undefined));
 };
 
-const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchParishIdAction(parishId));
 };
 

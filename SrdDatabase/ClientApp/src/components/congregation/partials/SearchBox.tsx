@@ -22,7 +22,6 @@ const SearchBox = ({
     archdeaconriesLoading,
     parishesLoading,
     loadArchdeaconries,
-    loadParishes,
     searchCongregations,
     parameters,
     setSearchName,
@@ -33,9 +32,8 @@ const SearchBox = ({
     resultsLoading,
 }: Props) => {
     const loadData = () => {
-        resetParameters();
         loadArchdeaconries();
-        loadParishes();
+        resetParameters();
         searchCongregations();
     }
 
@@ -63,67 +61,68 @@ const SearchBox = ({
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
         <div hidden={!expanded} className="search-box">
-            {
-                archdeaconriesLoading || parishesLoading ? <LoadingSpinner /> :
-                    <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                        id="name"
+                        className="form-control"
+                        autoComplete={autoCompleteString}
+                        type="text"
+                        spellCheck={false}
+                        value={parameters.name ?? ""}
+                        onChange={onNameChange}
+                        maxLength={50}
+                    />
+                </div>
+                <div className="row">
+                    <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input
-                                id="name"
+                            <label htmlFor="archdeaconryId">Archdeaconry</label>
+                            <select
+                                id="archdeaconryId"
                                 className="form-control"
-                                autoComplete={autoCompleteString}
-                                type="text"
-                                spellCheck={false}
-                                value={parameters.name ?? ""}
-                                onChange={onNameChange}
-                                maxLength={50}
-                            />
+                                value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
+                                onChange={onArchdeaconryIdChange}
+                            >
+                                <option key={0} value="">
+                                    {archdeaconriesLoading ? 'Loading...' : 'Any archdeaconry'}
+                                </option>
+                                {archdeaconries.map(archdeaconry =>
+                                    <option key={archdeaconry.id} value={archdeaconry.id}>
+                                        {archdeaconry.name}
+                                    </option>
+                                )}
+                            </select>
                         </div>
-                        <div className="row">
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="parishId">Parish</label>
-                                    <select
-                                        id="parishId"
-                                        className="form-control"
-                                        value={parameters.parishId ?? ""}
-                                        onChange={onParishIdChange}
-                                    >
-                                        <option key={0} value="">Any parish</option>
-                                        {parishes.map(parish =>
-                                            <option key={parish.id} value={parish.id}>
-                                                {parish.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="archdeaconryId">Archdeaconry</label>
-                                    <select
-                                        id="archdeaconryId"
-                                        className="form-control"
-                                        value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
-                                        onChange={onArchdeaconryIdChange}
-                                    >
-                                        <option key={0} value="">Any archdeaconry</option>
-                                        {archdeaconries.map(archdeaconry =>
-                                            <option key={archdeaconry.id} value={archdeaconry.id}>
-                                                {archdeaconry.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="parishId">Parish</label>
+                            <select
+                                id="parishId"
+                                className="form-control"
+                                value={parameters.parishId ?? ""}
+                                onChange={onParishIdChange}
+                            >
+                                <option key={0} value="">
+                                    {parishesLoading ? 'Loading...' : 'Any parish'}
+                                </option>
+                                {parishes.map(parish =>
+                                    <option key={parish.id} value={parish.id}>
+                                        {parish.name}
+                                    </option>
+                                )}
+                            </select>
                         </div>
-                        <SearchButtons
-                            thingsBeingSearched="congregations"
-                            searching={resultsLoading}
-                            onClear={resetParameters}
-                        />
-                    </form>
-            }
+                    </div>
+                </div>
+                <SearchButtons
+                    thingsBeingSearched="congregations"
+                    searching={resultsLoading}
+                    onClear={resetParameters}
+                />
+            </form>
         </div>
     </>;
 }
