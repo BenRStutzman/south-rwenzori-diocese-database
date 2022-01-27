@@ -8,8 +8,8 @@ import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
 
-const REQUEST_CHARGE = 'CHARGE.REQUEST_CHARGE';
-const RECEIVE_CHARGE = 'CHARGE.RECEIVE_CHARGE';
+const SET_IS_LOADING = 'CHARGE.SET_IS_LOADING';
+const SET_CHARGE = 'CHARGE.SET_CHARGE';
 const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'CHARGE.SET_CONGREGATION_ID';
@@ -19,12 +19,12 @@ const SET_END_YEAR = 'CHARGE.SET_END_YEAR';
 const SET_IS_SAVING = 'CHARGE.SET_IS_SAVING';
 const SET_ERRORS = 'CHARGE.SET_ERRORS';
 
-const requestChargeAction = () => ({
-    type: REQUEST_CHARGE,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receiveChargeAction = (charge: Charge) => ({
-    type: RECEIVE_CHARGE,
+const setChargeAction = (charge: Charge) => ({
+    type: SET_CHARGE,
     value: charge,
 });
 
@@ -68,15 +68,15 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const setCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestChargeAction());
+const prefillCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsLoadingAction());
 
     const startYear = (new Date()).getFullYear();
 
     if (congregationId) {
         get<Congregation>(`api/congregation/${congregationId}`)
             .then(congregation => {
-                dispatch(receiveCharge({
+                dispatch(setCharge({
                     startYear,
                     congregationId: congregation.id,
                     parishId: congregation.parishId,
@@ -86,7 +86,7 @@ const setCharge = (congregationId?: number, parishId?: number, archdeaconryId?: 
     } else if (parishId) {
         get<Parish>(`api/parish/${parishId}`)
             .then(parish => {
-                dispatch(receiveCharge({
+                dispatch(setCharge({
                     startYear,
                     parishId: parish.id,
                     archdeaconryId: parish.archdeaconryId,
@@ -95,30 +95,30 @@ const setCharge = (congregationId?: number, parishId?: number, archdeaconryId?: 
     } else if (archdeaconryId) {
         get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
             .then(archdeaconry => {
-                dispatch(receiveCharge({
+                dispatch(setCharge({
                     startYear,
                     archdeaconryId: archdeaconry.id,
                 }));
             });
     } else {
-        dispatch(receiveCharge({
+        dispatch(setCharge({
             startYear,
         }));
     }
 };
 
-const receiveCharge = (charge: Charge): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveChargeAction(charge));
+const setCharge = (charge: Charge): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setChargeAction(charge));
     dispatch(loadParishes(charge.archdeaconryId));
     dispatch(loadCongregations(charge.parishId));
 }
 
 const loadCharge = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestChargeAction());
+    dispatch(setIsLoadingAction());
 
     get<Charge>(`api/charge/${id}`)
         .then(charge => {
-            dispatch(receiveCharge(charge));
+            dispatch(setCharge(charge));
         });
 };
 
@@ -176,7 +176,7 @@ const setEndYear = (endYear?: number): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    setCharge,
+    prefillCharge,
     loadCharge,
     saveCharge,
     setArchdeaconryId,
@@ -188,7 +188,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    chargeLoading: boolean;
+    isLoading: boolean;
     congregationsLoading: boolean;
     congregations: Congregation[];
     charge: Charge;
@@ -200,7 +200,7 @@ export interface State {
 const initialState: State = {
     charge: {},
     congregations: [],
-    chargeLoading: true,
+    isLoading: true,
     congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
@@ -209,17 +209,17 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_CHARGE:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                chargeLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_CHARGE:
+        case SET_CHARGE:
             return {
                 ...state,
                 charge: action.value,
                 errors: {},
-                chargeLoading: false,
+                isLoading: false,
                 hasBeenChanged: false,
             };
         case SET_ARCHDEACONRY_ID:

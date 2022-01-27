@@ -7,7 +7,7 @@ import { loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
 
-const SET_IS_LOADING = 'CONGREGATION.SET_LOADING';
+const SET_IS_LOADING = 'CONGREGATION.SET_IS_LOADING';
 const SET_CONGREGATION = 'CONGREGATION.SET_CONGREGATION';
 const SET_NAME = 'CONGREGATION.SET_NAME';
 const SET_ARCHDEACONRY_ID = 'CONGREGATION.SET_ARCHDEACONRY_ID';

@@ -19,7 +19,7 @@ type Props =
     & RouteComponentProps<{ chargeId: string }>;
 
 const Edit = ({
-    chargeLoading,
+    isLoading,
     history,
     charge,
     loadCharge,
@@ -38,7 +38,7 @@ const Edit = ({
         deleteCharge(charge, () => { history.push('/charge'); });
     };
 
-    return chargeLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">{`Edit charge of ${charge.amountPerYear} UGX per year`}</h1>
