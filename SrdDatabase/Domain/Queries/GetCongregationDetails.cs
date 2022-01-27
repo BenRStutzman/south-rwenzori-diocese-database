@@ -38,19 +38,26 @@ namespace SrdDatabase.Domain.Queries
                     pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
-                var transactionsQuery = new GetPayments.Query(
+                var paymentsQuery = new GetPayments.Query(
                     congregationId: request.Id,
                     pageSize: Constants.DetailsPageSize);
-                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
+                var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
+
+                var chargesQuery = new GetCharges.Query(
+                    congregationId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
 
                 var congregation = await congregationTask;
                 var eventResults = await eventsTask;
-                var transactionResults = await transactionsTask;
+                var paymentResults = await paymentsTask;
+                var chargeResults = await chargesTask;
 
                 return new CongregationDetails(
                     congregation,
                     eventResults,
-                    transactionResults);
+                    paymentResults,
+                    chargeResults);
             }
         }
     }

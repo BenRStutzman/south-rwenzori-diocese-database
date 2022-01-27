@@ -80,10 +80,10 @@ const SaveForm = ({
         saveCharge(charge, history);
     };
 
-    const currentYear = new Date().getFullYear();
+    const currentYear = (new Date()).getFullYear();
 
-    let startYears = [];
-    let endYears = [];
+    const startYears = [];
+    const endYears = [];
 
     for (let year = 2000; year <= currentYear + 10; year++) {
         startYears.push(year);

@@ -54,11 +54,11 @@ const SearchBox = ({
         setSearchCongregationId(parseInt(event.target.value));
     };
 
-    const onStartYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const onStartYearChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSearchStartYear(parseInt(event.target.value));
     };
 
-    const onEndYearChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const onEndYearChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSearchEndYear(parseInt(event.target.value));
     };
 
@@ -66,6 +66,19 @@ const SearchBox = ({
         event.preventDefault();
         searchCharges(parameters);
     };
+
+    const currentYear = (new Date()).getFullYear();
+
+    const startYears = [];
+    const endYears = [];
+
+    for (let year = 2000; year <= currentYear + 10; year++) {
+        startYears.push(year);
+    }
+
+    for (let year = parameters.startYear ?? 2000; year <= currentYear + 100; year++) {
+        endYears.push(year);
+    }
 
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
@@ -134,28 +147,43 @@ const SearchBox = ({
                     </div>
                 </div>
                 <div className="row">
+
                     <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="startYear">Start Year</label>
-                            <input
-                                id="startYear"
-                                className="form-control"
-                                type="number"
-                                value={parameters.startYear ?? ""}
-                                onChange={onStartYearChange}
-                            />
+                            <div className="form-group">
+                                <label htmlFor="startYear">Start Year</label>
+                                <select
+                                    id="startYear"
+                                    className="form-control"
+                                    value={parameters.startYear ?? ""}
+                                    onChange={onStartYearChange}
+                                >
+                                    <option key={0} value=""></option>
+                                    {
+                                        startYears.map(year =>
+                                            <option key={year} value={year}>{year}</option>
+                                        )
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="endYear">End Year</label>
-                            <input
+                            <select
                                 id="endYear"
                                 className="form-control"
-                                type="number"
                                 value={parameters.endYear ?? ""}
                                 onChange={onEndYearChange}
-                            />
+                            >
+                                <option key={0} value=""></option>
+                                {
+                                    endYears.map(year =>
+                                        <option key={year} value={year}>{year}</option>
+                                    )
+                                }
+                            </select>
                         </div>
                     </div>
                 </div>

@@ -27,6 +27,7 @@ const initialState: State = {
         congregation: {},
         eventResults: { ...pagedResultsDefaults, events: [] },
         paymentResults: { ...pagedResultsDefaults, payments: [] },
+        chargeResults: { ...pagedResultsDefaults, charges: [] },
     },
 };
 

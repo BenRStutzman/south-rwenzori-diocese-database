@@ -54,7 +54,7 @@ const Details = ({
             <div className="details-boxes">
                 <DetailsBox
                     itemType="date"
-                    itemValue={formattedDate(details.payment)}
+                    itemValue={formattedDate(details.payment.date)}
                 />
                 <DetailsBox
                     itemType="congregation"

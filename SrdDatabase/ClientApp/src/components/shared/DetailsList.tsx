@@ -6,7 +6,7 @@ import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 
 interface Props {
     itemType: string;
-    itemTotal: number;
+    itemTotal?: number;
     items: DetailsListItem[];
     showAddLink?: boolean;
     addParams?: string;
@@ -26,13 +26,14 @@ const DetailsList = ({
             <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
             <ul>
                 {items.map(item =>
-                    <li key={item.id}>
-                        <Link to={`/${itemType}/details/${item.id}`}>
+                    <li key={item.altKey ?? item.id}>
+                        <Link to={`/${item.altType ?? itemType}/details/${item.id}`}>
                             {item.displayText}
                         </Link>
                     </li>
                 )}
                 {
+                    itemTotal &&
                     itemTotal > items.length &&
                     <li>... and {itemTotal - items.length} more</li>
                 }

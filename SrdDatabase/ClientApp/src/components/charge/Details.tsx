@@ -8,7 +8,6 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
-import { formattedDate } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
 type Props =

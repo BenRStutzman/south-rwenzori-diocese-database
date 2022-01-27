@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { eventItems, paymentItems } from '../../helpers/detailsHelpers';
+import { chargeItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -85,8 +85,12 @@ const Details = ({
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="payment"
-                        itemTotal={details.paymentResults.totalResults}
-                        items={paymentItems(details.paymentResults)}
+                        items={[
+                            ...paymentItems(details.paymentResults),
+                            ...chargeItems(details.chargeResults)]
+                            .sort((a, b) => +(a.date as Date) - +(b.date as Date))
+                            .slice(0, 10)
+                        }
                         showAddLink={canEditPayments}
                         addParams={`?congregationId=${details.congregation.id}`}
                     />
