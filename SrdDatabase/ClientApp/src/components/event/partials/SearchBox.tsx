@@ -30,7 +30,7 @@ const SearchBox = ({
     parishes,
     congregations,
     eventTypes,
-    resetParameters,
+    setParameters,
     loadEventTypes,
     loadArchdeaconries,
     congregationsLoading,
@@ -42,7 +42,7 @@ const SearchBox = ({
     const loadData = () => {
         loadArchdeaconries();
         loadEventTypes();
-        resetParameters();
+        setParameters();
         searchEvents();
     };
 
@@ -214,7 +214,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     searching={resultsLoading}
-                    onClear={resetParameters}
+                    onClear={setParameters}
                     thingsBeingSearched="events"
                 />
             </form>

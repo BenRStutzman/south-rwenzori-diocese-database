@@ -18,7 +18,7 @@ type Props =
     typeof SharedStore.actionCreators;
 
 const SearchBox = ({
-    resetParameters,
+    setParameters,
     archdeaconriesLoading,
     parishesLoading,
     loadArchdeaconries,
@@ -33,7 +33,7 @@ const SearchBox = ({
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
-        resetParameters();
+        setParameters();
         searchCongregations();
     }
 
@@ -120,7 +120,7 @@ const SearchBox = ({
                 <SearchButtons
                     thingsBeingSearched="congregations"
                     searching={resultsLoading}
-                    onClear={resetParameters}
+                    onClear={setParameters}
                 />
             </form>
         </div>

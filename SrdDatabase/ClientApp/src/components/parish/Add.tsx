@@ -14,7 +14,7 @@ type Props =
 
 const Add = ({
     parishLoading,
-    resetParish,
+    setParish,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -22,7 +22,7 @@ const Add = ({
         const archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        resetParish(archdeaconryId);
+        setParish(archdeaconryId);
     };
 
     useEffect(loadData, []);

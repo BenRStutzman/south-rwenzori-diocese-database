@@ -14,7 +14,7 @@ type Props =
 
 const Add = ({
     congregationLoading,
-    resetCongregation,
+    setCongregation,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -25,7 +25,7 @@ const Add = ({
         const archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        resetCongregation(parishId, archdeaconryId);
+        setCongregation(parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);

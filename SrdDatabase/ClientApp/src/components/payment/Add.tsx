@@ -14,7 +14,7 @@ type Props =
 
 const Add = ({
     paymentLoading,
-    resetPayment,
+    setPayment,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -28,7 +28,7 @@ const Add = ({
         var archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        resetPayment(congregationId, parishId, archdeaconryId);
+        setPayment(congregationId, parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);

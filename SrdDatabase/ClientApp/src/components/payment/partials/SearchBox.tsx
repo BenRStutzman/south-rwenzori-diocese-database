@@ -25,7 +25,7 @@ const SearchBox = ({
     archdeaconries,
     parishes,
     congregations,
-    resetParameters,
+    setParameters,
     loadArchdeaconries,
     congregationsLoading,
     resultsLoading,
@@ -34,7 +34,7 @@ const SearchBox = ({
 }: Props) => {
     const loadData = () => {
         loadArchdeaconries();
-        resetParameters();
+        setParameters();
         searchPayments();
     };
 
@@ -161,7 +161,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     searching={resultsLoading}
-                    onClear={resetParameters}
+                    onClear={setParameters}
                     thingsBeingSearched="payments"
                 />
             </form>
