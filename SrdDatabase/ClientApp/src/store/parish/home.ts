@@ -35,8 +35,11 @@ const setParametersAction = (parameters: ParishParameters) => ({
     value: parameters,
 });
 
-const setParameters = (parameters: ParishParameters = {}): AppThunkAction<Action> => (dispatch) => {
+const setParameters = (archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const parameters = { archdeaconryId };
+
     dispatch(setParametersAction(parameters));
+    dispatch(searchParishes(parameters));
 };
 
 export const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {

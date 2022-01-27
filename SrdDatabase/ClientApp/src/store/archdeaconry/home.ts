@@ -8,7 +8,7 @@ import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'ARCHDEACONRY.RECEIVE_RESULTS';
 const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
-const RESET_PARAMETERS = 'ARCHDEACONRY.RESET_PARAMETERS';
+const SET_PARAMETERS = 'ARCHDEACONRY.SET_PARAMETERS';
 
 const requestResultsAction = (showLoading: boolean = true) => ({
     type: REQUEST_RESULTS,
@@ -25,12 +25,13 @@ const setSearchNameAction = (name: string) => ({
     value: name,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: ArchdeaconryParameters = {}) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const setParameters = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction());
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -54,7 +55,7 @@ const searchArchdeaconries = (
 export const actionCreators = {
     searchArchdeaconries,
     setSearchName,
-    resetParameters,
+    setParameters,
 };
 
 export interface State {
@@ -71,10 +72,10 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case REQUEST_RESULTS:
             return {

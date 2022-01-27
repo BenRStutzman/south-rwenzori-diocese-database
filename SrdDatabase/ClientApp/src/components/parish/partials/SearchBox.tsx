@@ -34,10 +34,8 @@ const SearchBox = ({
 
         const archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
-        const parameters = { archdeaconryId };
 
-        setParameters(parameters);
-        searchParishes(parameters);
+        setParameters(archdeaconryId, true);
     };
 
     useEffect(loadData, []);

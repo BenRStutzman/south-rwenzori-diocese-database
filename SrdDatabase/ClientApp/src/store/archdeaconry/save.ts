@@ -34,7 +34,7 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
+const setArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(receiveArchdeaconryAction({}));
 };
 
@@ -73,7 +73,7 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
 };
 
 export const actionCreators = {
-    resetArchdeaconry,
+    setArchdeaconry,
     loadArchdeaconry,
     setName,
     saveArchdeaconry,
