@@ -53,7 +53,7 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
-                    itemType="years"
+                    itemType="yearsFallApart"
                     itemValue={`${details.charge.startYear} to ${details.charge.endYear ?? 'ongoing'}`}
                 />
                 <DetailsBox

@@ -6,7 +6,7 @@ export function randomString() {
 };
 
 export function camelCaseToTitleCase(word: string) {
-    return capitalize(word.replace(/[A-Z]/g, (substring) => ` ${substring}`));
+    return capitalize(word.replace(/(?=[A-Z])/g, ' '));
 }
 
 export function capitalize(word: string) {

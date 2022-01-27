@@ -6,7 +6,9 @@ export function peoplesNames(event: Event): string {
     return `${event.firstPersonName}${event.secondPersonName ? ` and ${event.secondPersonName}` : '' }`
 };
 
-export function canEdit(event: Event, user: CurrentUser | undefined) {
-    const canEditAllEvents = user && atLeast.editor.includes(user.userType);
-    return canEditAllEvents || (user?.id === event.createdBy)
+export function canEdit(event: Event, currentUser: CurrentUser | undefined) {
+    return currentUser &&
+        (atLeast.editor.includes(currentUser.userType) ||
+        (atLeast.contributor.includes(currentUser.userType)
+            && currentUser.id === event.createdBy))
 }
