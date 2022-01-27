@@ -46,6 +46,13 @@ const Details = ({
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
     };
 
+    const transactions = [
+        ...paymentItems(details.paymentResults),
+        ...chargeItems(details.chargeResults)
+    ]
+        .sort((a, b) => (b.dateTime as number) - (a.dateTime as number))
+        .slice(0, 10);
+
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
@@ -85,12 +92,7 @@ const Details = ({
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="payment"
-                        items={[
-                            ...paymentItems(details.paymentResults),
-                            ...chargeItems(details.chargeResults)]
-                            .sort((a, b) => +(a.date as Date) - +(b.date as Date))
-                            .slice(0, 10)
-                        }
+                        items={transactions}
                         showAddLink={canEditPayments}
                         addParams={`?congregationId=${details.congregation.id}`}
                     />

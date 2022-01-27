@@ -19,5 +19,5 @@ export interface DetailsListItem {
     displayText?: string;
     altKey?: string;
     altType?: string;
-    date?: Date;
+    dateTime?: number;
 }

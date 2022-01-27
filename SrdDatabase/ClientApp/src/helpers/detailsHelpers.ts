@@ -37,7 +37,7 @@ export function paymentItems(paymentResults: PaymentResults): DetailsListItem[] 
     return paymentResults.payments.map(payment => ({
         id: payment.id,
         displayText: `${formattedDate(payment.date)}: Payment of ${payment.amount} UGX`,
-        date: payment.date,
+        dateTime: new Date(payment.date as Date).getTime()
     }));
 }
 
@@ -50,14 +50,15 @@ export function chargeItems(chargeResults: ChargeResults): DetailsListItem[] {
 
         if (charge.startYear) {
             for (let year = charge.startYear; year <= lastYear; year++) {
-                const date = new Date(year, 1, 1);
+                const date = new Date(year, 0, 1);
+                const dateTime = date.getTime();
 
                 yearlyCharges.push({
                     id: charge.id,
                     altKey: `${charge.id}-${year}`,
                     altType: 'charge',
                     displayText: `${formattedDate(date)}: Charge of ${charge.amountPerYear} UGX`,
-                    date,
+                    dateTime,
                 });
             }
         }
