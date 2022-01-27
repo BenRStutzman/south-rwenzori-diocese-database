@@ -8,7 +8,7 @@ const REQUEST_RESULTS = 'PARISH.REQUEST_RESULTS';
 const RECEIVE_RESULTS = 'PARISH.RECEIVE_RESULTS';
 const SET_SEARCH_NAME = 'PARISH.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PARISH.SET_SEARCH_ARCHDEACONRY_ID';
-const RESET_PARAMETERS = 'PARISH.RESET_PARAMETERS';
+const SET_PARAMETERS = 'PARISH.SET_PARAMETERS';
 
 const requestResultsAction = (showLoading: boolean = true) => ({
     type: REQUEST_RESULTS,
@@ -30,12 +30,13 @@ const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
     value: archdeaconryId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: ParishParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const setParameters = (parameters: ParishParameters = {}): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
 };
 
 export const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -64,7 +65,7 @@ export const actionCreators = {
     searchParishes,
     setSearchName,
     setSearchArchdeaconryId,
-    resetParameters,
+    setParameters,
 };
 
 export interface State {
@@ -81,10 +82,10 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case REQUEST_RESULTS:
             return {

@@ -43,7 +43,7 @@ const DetailsList = ({
         </div>
         <div>
             <div>
-                <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}</Link>
                 {
                     showAddLink &&
                     <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>

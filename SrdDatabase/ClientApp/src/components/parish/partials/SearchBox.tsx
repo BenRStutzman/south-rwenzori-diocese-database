@@ -1,6 +1,6 @@
 ﻿import { State } from '../../../store';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/miscellaneous';
+import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/parish/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
@@ -24,13 +24,20 @@ const SearchBox = ({
     archdeaconries,
     loadArchdeaconries,
     archdeaconriesLoading,
-    resetParameters,
+    setParameters,
     resultsLoading,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
-        resetParameters();
         loadArchdeaconries();
-        searchParishes();
+
+        const archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+        const parameters = { archdeaconryId };
+
+        setParameters(parameters);
+        searchParishes(parameters);
     };
 
     useEffect(loadData, []);
@@ -94,7 +101,7 @@ const SearchBox = ({
                 <SearchButtons
                     searching={resultsLoading}
                     thingsBeingSearched="parishes"
-                    onClear={resetParameters}
+                    onClear={setParameters}
                 />
             </form>
         </div>
