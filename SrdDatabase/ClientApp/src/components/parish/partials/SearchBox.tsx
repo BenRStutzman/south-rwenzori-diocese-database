@@ -81,7 +81,7 @@ const SearchBox = ({
                             <select
                                 id="archdeaconryId"
                                 className="form-control"
-                                value={parameters.archdeaconryId ?? ""}
+                                value={archdeaconriesLoading ? "" : parameters.archdeaconryId ?? ""}
                                 onChange={onArchdeaconryIdChange}
                             >
                                 <option key={0} value="">

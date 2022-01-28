@@ -3,7 +3,6 @@ import * as Store from '../../../store/congregation/home';
 import * as SharedStore from '../../../store/shared';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
@@ -90,7 +89,7 @@ const SearchBox = ({
                             <select
                                 id="archdeaconryId"
                                 className="form-control"
-                                value={parameters.archdeaconryId ? parameters.archdeaconryId : ""}
+                                value={archdeaconriesLoading ? "" : parameters.archdeaconryId ? parameters.archdeaconryId : ""}
                                 onChange={onArchdeaconryIdChange}
                             >
                                 <option key={0} value="">
@@ -110,7 +109,7 @@ const SearchBox = ({
                             <select
                                 id="parishId"
                                 className="form-control"
-                                value={parameters.parishId ?? ""}
+                                value={parishesLoading ? "" : parameters.parishId ?? ""}
                                 onChange={onParishIdChange}
                             >
                                 <option key={0} value="">

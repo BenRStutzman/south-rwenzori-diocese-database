@@ -102,7 +102,7 @@ const SearchBox = ({
                             <select
                                 id="archdeaconryId"
                                 className="form-control"
-                                value={parameters.archdeaconryId ?? ""}
+                                value={archdeaconriesLoading ? "" : parameters.archdeaconryId ?? ""}
                                 onChange={onArchdeaconryIdChange}
                             >
                                 <option key={0} value="">
@@ -122,7 +122,7 @@ const SearchBox = ({
                             <select
                                 id="parishId"
                                 className="form-control"
-                                value={parameters.parishId ?? ""}
+                                value={parishesLoading ? "" : parameters.parishId ?? ""}
                                 onChange={onParishIdChange}
                             >
                                 <option key={0} value="">
@@ -142,7 +142,7 @@ const SearchBox = ({
                             <select
                                 id="congregationId"
                                 className="form-control"
-                                value={parameters.congregationId ?? ""}
+                                value={congregationsLoading ? "" : parameters.congregationId ?? ""}
                                 onChange={onCongregationIdChange}
                             >
                                 <option key={0} value="">
