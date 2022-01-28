@@ -4,19 +4,19 @@ import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Parish } from '../../models/parish';
 import { History } from 'history';
 
-const REQUEST_PARISH = 'PARISH.REQUEST_PARISH';
-const RECEIVE_PARISH = 'PARISH.RECEIVE_PARISH';
+const SET_IS_LOADING = 'PARISH.SET_IS_LOADING';
+const SET_PARISH = 'PARISH.SET_PARISH';
 const SET_NAME = 'PARISH.SET_NAME';
 const SET_ARCHDEACONRY_ID = 'PARISH.SET_ARCHDEACONRY_ID';
 const SET_IS_SAVING = 'PARISH.SET_IS_SAVING';
 const SET_ERRORS = 'PARISH.SET_ERRORS';
 
-const requestParishAction = () => ({
-    type: REQUEST_PARISH,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receiveParishAction = (parish: Parish) => ({
-    type: RECEIVE_PARISH,
+const setParishAction = (parish: Parish) => ({
+    type: SET_PARISH,
     value: parish,
 });
 
@@ -40,19 +40,23 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 })
 
-const setParish = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveParishAction({
+const prefillParish = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParish({
         archdeaconryId,
     }));
 }
 
 const loadParish = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestParishAction());
+    dispatch(setIsLoadingAction());
 
     get<Parish>(`api/parish/${id}`)
         .then(parish => {
-            dispatch(receiveParishAction(parish));
+            dispatch(setParish(parish));
         });
+};
+
+const setParish = (parish: Parish): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParishAction(parish));
 };
 
 const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -85,7 +89,7 @@ const saveParish = (parish: Parish, history: History): AppThunkAction<Action> =>
 };
 
 export const actionCreators = {
-    setParish,
+    prefillParish,
     loadParish,
     setName,
     setArchdeaconryId,
@@ -93,7 +97,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    parishLoading: boolean;
+    isLoading: boolean;
     parish: Parish;
     hasBeenChanged: boolean,
     isSaving: boolean;
@@ -102,7 +106,7 @@ export interface State {
 }
 
 const initialState: State = {
-    parishLoading: true,
+    isLoading: true,
     parish: {},
     hasBeenChanged: false,
     isSaving: false,
@@ -112,16 +116,16 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_PARISH:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                parishLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_PARISH:
+        case SET_PARISH:
             return {
                 ...state,
                 parish: action.value,
-                parishLoading: false,
+                isLoading: false,
                 hasBeenChanged: false,
             };
         case SET_NAME:

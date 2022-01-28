@@ -8,8 +8,8 @@ import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
 
-const REQUEST_PAYMENT = 'PAYMENT.REQUEST_PAYMENT';
-const RECEIVE_PAYMENT = 'PAYMENT.RECEIVE_PAYMENT';
+const SET_IS_LOADING = 'PAYMENT.SET_IS_LOADING';
+const SET_PAYMENT = 'PAYMENT.SET_PAYMENT';
 const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'PAYMENT.SET_CONGREGATION_ID';
@@ -18,12 +18,12 @@ const SET_DATE = 'PAYMENT.SET_DATE';
 const SET_IS_SAVING = 'PAYMENT.SET_IS_SAVING';
 const SET_ERRORS = 'PAYMENT.SET_ERRORS';
 
-const requestPaymentAction = () => ({
-    type: REQUEST_PAYMENT,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receivePaymentAction = (payment: Payment) => ({
-    type: RECEIVE_PAYMENT,
+const setPaymentAction = (payment: Payment) => ({
+    type: SET_PAYMENT,
     value: payment,
 });
 
@@ -62,15 +62,15 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const setPayment = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestPaymentAction());
+const prefillPayment = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsLoadingAction());
 
     const date = new Date();
 
     if (congregationId) {
         get<Congregation>(`api/congregation/${congregationId}`)
             .then(congregation => {
-                dispatch(receivePayment({
+                dispatch(setPayment({
                     date,
                     congregationId: congregation.id,
                     parishId: congregation.parishId,
@@ -80,7 +80,7 @@ const setPayment = (congregationId?: number, parishId?: number, archdeaconryId?:
     } else if (parishId) {
         get<Parish>(`api/parish/${parishId}`)
             .then(parish => {
-                dispatch(receivePayment({
+                dispatch(setPayment({
                     date,
                     parishId: parish.id,
                     archdeaconryId: parish.archdeaconryId,
@@ -89,30 +89,30 @@ const setPayment = (congregationId?: number, parishId?: number, archdeaconryId?:
     } else if (archdeaconryId) {
         get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
             .then(archdeaconry => {
-                dispatch(receivePayment({
+                dispatch(setPayment({
                     date,
                     archdeaconryId: archdeaconry.id,
                 }));
             });
     } else {
-        dispatch(receivePayment({
+        dispatch(setPayment({
             date,
         }));
     }
 };
 
-const receivePayment = (payment: Payment): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receivePaymentAction(payment));
+const setPayment = (payment: Payment): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setPaymentAction(payment));
     dispatch(loadParishes(payment.archdeaconryId));
     dispatch(loadCongregations(payment.parishId));
 }
 
 const loadPayment = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestPaymentAction());
+    dispatch(setIsLoadingAction());
 
     get<Payment>(`api/payment/${id}`)
         .then(payment => {
-            dispatch(receivePayment(payment));
+            dispatch(setPayment(payment));
         });
 };
 
@@ -162,7 +162,7 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    setPayment,
+    prefillPayment,
     loadPayment,
     savePayment,
     setArchdeaconryId,
@@ -173,7 +173,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    paymentLoading: boolean;
+    isLoading: boolean;
     congregationsLoading: boolean;
     congregations: Congregation[];
     payment: Payment;
@@ -185,7 +185,7 @@ export interface State {
 const initialState: State = {
     payment: {},
     congregations: [],
-    paymentLoading: true,
+    isLoading: true,
     congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
@@ -194,17 +194,17 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_PAYMENT:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                paymentLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_PAYMENT:
+        case SET_PAYMENT:
             return {
                 ...state,
                 payment: action.value,
                 errors: {},
-                paymentLoading: false,
+                isLoading: false,
                 hasBeenChanged: false,
             };
         case SET_ARCHDEACONRY_ID:

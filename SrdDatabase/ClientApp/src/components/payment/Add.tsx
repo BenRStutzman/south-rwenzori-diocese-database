@@ -13,8 +13,8 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    paymentLoading,
-    setPayment,
+    isLoading,
+    prefillPayment,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -28,12 +28,12 @@ const Add = ({
         var archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        setPayment(congregationId, parishId, archdeaconryId);
+        prefillPayment(congregationId, parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);
 
-    return paymentLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Payment</h1>
             <SaveForm isNew />

@@ -13,8 +13,8 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    eventLoading,
-    setEvent,
+    isLoading,
+    prefillEvent,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -28,12 +28,12 @@ const Add = ({
         var archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        setEvent(congregationId, parishId, archdeaconryId);
+        prefillEvent(congregationId, parishId, archdeaconryId);
     };
 
     useEffect(loadData, []);
 
-    return eventLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Event</h1>
             <SaveForm isNew />

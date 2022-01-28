@@ -19,7 +19,7 @@ type Props =
     & RouteComponentProps<{ parishId: string }>;
 
 const Edit = ({
-    parishLoading,
+    isLoading,
     history,
     parish,
     loadParish,
@@ -38,7 +38,7 @@ const Edit = ({
         deleteParish(parish, () => { history.push('/parish'); });
     };
 
-    return parishLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {parish.name} Parish</h1>

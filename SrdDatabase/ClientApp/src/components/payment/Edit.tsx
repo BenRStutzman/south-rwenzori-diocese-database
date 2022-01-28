@@ -19,7 +19,7 @@ type Props =
     & RouteComponentProps<{ paymentId: string }>;
 
 const Edit = ({
-    paymentLoading,
+    isLoading,
     history,
     payment,
     loadPayment,
@@ -38,7 +38,7 @@ const Edit = ({
         deletePayment(payment, () => { history.push('/payment'); });
     };
 
-    return paymentLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">{`Edit payment of ${payment.amount} UGX`}</h1>

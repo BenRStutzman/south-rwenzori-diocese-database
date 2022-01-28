@@ -12,16 +12,16 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    userLoading,
-    resetUser,
+    isLoading,
+    prefillUser,
 }: Props) => {
     const loadData = () => {
-        resetUser();
+        prefillUser();
     };
 
     useEffect(loadData, []);
 
-    return userLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add User</h1>
             <SaveForm isNew />
