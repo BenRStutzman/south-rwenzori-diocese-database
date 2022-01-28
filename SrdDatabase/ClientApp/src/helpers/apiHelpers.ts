@@ -1,6 +1,6 @@
 ﻿import { UserData } from "../models/user";
 
-export function get<TResponse>(url: string): Promise<TResponse> {
+export function get<TResponse>(url: string, backupUrl?: string): Promise<TResponse> {
     const token = getToken();
 
     const requestOptions = {
@@ -13,6 +13,7 @@ export function get<TResponse>(url: string): Promise<TResponse> {
     return fetch(url, requestOptions)
         .then(response => {
             redirectIfUnauthorized(response);
+            redirectIfServerError(response, backupUrl);
             return response.json() as Promise<TResponse>
         });
 };
@@ -43,6 +44,12 @@ export interface Errors {
 export interface ErrorResponse {
     errors: Errors
 };
+
+function redirectIfServerError(response: Response, backupUrl?: string) {
+    if (response.status === 500 && backupUrl) {
+        window.location.replace(backupUrl);
+    }
+}
 
 function redirectIfUnauthorized(response: Response) {
     if (response.status === 401) {

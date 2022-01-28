@@ -72,7 +72,7 @@ const prefillPayment = (congregationId?: number, parishId?: number, archdeaconry
             .then(congregation => {
                 dispatch(setPayment({
                     date,
-                    congregationId: congregation.id,
+                    congregationId,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
                 }));
@@ -82,21 +82,14 @@ const prefillPayment = (congregationId?: number, parishId?: number, archdeaconry
             .then(parish => {
                 dispatch(setPayment({
                     date,
-                    parishId: parish.id,
+                    parishId,
                     archdeaconryId: parish.archdeaconryId,
-                }));
-            });
-    } else if (archdeaconryId) {
-        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
-            .then(archdeaconry => {
-                dispatch(setPayment({
-                    date,
-                    archdeaconryId: archdeaconry.id,
                 }));
             });
     } else {
         dispatch(setPayment({
             date,
+            archdeaconryId,
         }));
     }
 };

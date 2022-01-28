@@ -24,7 +24,7 @@ const SearchBox = ({
     archdeaconries,
     loadArchdeaconries,
     archdeaconriesLoading,
-    setParameters,
+    prefillParameters,
     resultsLoading,
 }: Props) => {
     const queryParams = useQueryParams();
@@ -35,7 +35,7 @@ const SearchBox = ({
         const archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        setParameters(archdeaconryId, true);
+        prefillParameters(archdeaconryId, true);
     };
 
     useEffect(loadData, []);
@@ -99,7 +99,7 @@ const SearchBox = ({
                 <SearchButtons
                     searching={resultsLoading}
                     thingsBeingSearched="parishes"
-                    onClear={setParameters}
+                    onClear={prefillParameters}
                 />
             </form>
         </div>

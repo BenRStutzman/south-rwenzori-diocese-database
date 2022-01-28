@@ -7,7 +7,7 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
-import { randomString } from '../../../helpers/miscellaneous';
+import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
 
 const autoCompleteString = randomString();
 
@@ -18,7 +18,7 @@ type Props =
     typeof SharedStore.actionCreators;
 
 const SearchBox = ({
-    setParameters,
+    prefillParameters,
     archdeaconriesLoading,
     parishesLoading,
     loadArchdeaconries,
@@ -31,10 +31,18 @@ const SearchBox = ({
     parishes,
     resultsLoading,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
         loadArchdeaconries();
-        setParameters();
-        searchCongregations();
+
+        const parishIdString = queryParams.get('parishId');
+        const parishId = parishIdString ? parseInt(parishIdString) : undefined;
+
+        const archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+
+        prefillParameters(parishId, archdeaconryId);
     }
 
     useEffect(loadData, []);
@@ -120,7 +128,7 @@ const SearchBox = ({
                 <SearchButtons
                     thingsBeingSearched="congregations"
                     searching={resultsLoading}
-                    onClear={setParameters}
+                    onClear={prefillParameters}
                 />
             </form>
         </div>

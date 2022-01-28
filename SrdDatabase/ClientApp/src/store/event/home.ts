@@ -13,16 +13,16 @@ const SET_SEARCH_PERSON_NAME = 'EVENT.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'EVENT.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'EVENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_RESULTS = 'EVENT.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'EVENT.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'EVENT.SET_RESULTS_LOADING';
+const SET_RESULTS = 'EVENT.SET_RESULTS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: EventResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: EventResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -109,12 +109,12 @@ const searchEvents = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<EventParameters & PagedParameters>('api/event/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<EventResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
@@ -205,12 +205,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: action.value,
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

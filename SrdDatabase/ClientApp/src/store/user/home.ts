@@ -4,20 +4,20 @@ import { post } from '../../helpers/apiHelpers';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { UserParameters, UserResults } from '../../models/user';
 
-const REQUEST_RESULTS = 'USER.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'USER.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'USER.SET_RESULTS_LOADING';
+const SET_RESULTS = 'USER.SET_RESULTS';
 const SET_PARAMETERS = 'USER.SET_PARAMETERS';
 const SET_SEARCH_NAME = 'USER.SET_SEARCH_NAME';
 const SET_SEARCH_USERNAME = 'USER.SET_SEARCH_USERNAME';
 const SET_SEARCH_USER_TYPE_ID = 'USER.SET_SEARCH_USER_TYPE_ID';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: UserResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: UserResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -41,7 +41,7 @@ const setParametersAction = (parameters: UserParameters) => ({
     value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
+const prefillParameters = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParametersAction({}));
 };
 
@@ -62,18 +62,18 @@ const searchUsers = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<UserParameters & PagedParameters>('api/user/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<UserResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
 export const actionCreators = {
     searchUsers,
-    resetParameters,
+    prefillParameters,
     setSearchName,
     setSearchUsername,
     setSearchUserTypeId,
@@ -122,12 +122,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     userTypeId: action.value,
                 }
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

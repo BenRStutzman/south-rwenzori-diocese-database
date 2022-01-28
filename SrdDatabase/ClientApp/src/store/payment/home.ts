@@ -11,16 +11,16 @@ const SET_SEARCH_END_DATE = 'PAYMENT.SET_SEARCH_END_DATE';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PAYMENT.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'PAYMENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'PAYMENT.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_RESULTS = 'PAYMENT.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'PAYMENT.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'PAYMENT.SET_RESULTS_LOADING';
+const SET_RESULTS = 'PAYMENT.SET_RESULTS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: PaymentResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: PaymentResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -89,12 +89,12 @@ const searchPayments = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<PaymentParameters & PagedParameters>('api/payment/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<PaymentResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
@@ -167,12 +167,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: action.value,
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

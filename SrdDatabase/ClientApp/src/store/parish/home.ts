@@ -4,19 +4,19 @@ import { post } from '../../helpers/apiHelpers';
 import { ParishParameters, ParishResults } from '../../models/parish';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
-const REQUEST_RESULTS = 'PARISH.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'PARISH.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'PARISH.SET_RESULTS_LOADING';
+const SET_RESULTS = 'PARISH.SET_RESULTS';
 const SET_SEARCH_NAME = 'PARISH.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PARISH.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_PARAMETERS = 'PARISH.SET_PARAMETERS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: ParishResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: ParishResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -35,15 +35,19 @@ const setParametersAction = (parameters: ParishParameters) => ({
     value: parameters,
 });
 
-const setParameters = (archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+const prefillParameters = (archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const parameters = { archdeaconryId };
 
-    dispatch(setParametersAction(parameters));
+    dispatch(setParameters(parameters));
 
     if (search) {
         dispatch(searchParishes(parameters));
     }
 };
+
+const setParameters = (parameters: ParishParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+}
 
 export const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchNameAction(name));
@@ -58,12 +62,12 @@ const searchParishes = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<ParishParameters & PagedParameters>('api/parish/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<ParishResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
@@ -71,7 +75,7 @@ export const actionCreators = {
     searchParishes,
     setSearchName,
     setSearchArchdeaconryId,
-    setParameters,
+    prefillParameters,
 };
 
 export interface State {
@@ -93,12 +97,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: action.value,
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

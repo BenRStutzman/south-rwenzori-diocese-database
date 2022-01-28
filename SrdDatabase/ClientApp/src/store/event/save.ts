@@ -84,7 +84,7 @@ const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId
             .then(congregation => {
                 dispatch(setEvent({
                     date,
-                    congregationId: congregation.id,
+                    congregationId,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
                 }));
@@ -94,21 +94,14 @@ const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId
             .then(parish => {
                 dispatch(setEvent({
                     date,
-                    parishId: parish.id,
+                    parishId,
                     archdeaconryId: parish.archdeaconryId,
-                }));
-            });
-    } else if (archdeaconryId) {
-        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
-            .then(archdeaconry => {
-                dispatch(setEvent({
-                    date,
-                    archdeaconryId: archdeaconry.id,
                 }));
             });
     } else {
         dispatch(setEvent({
             date,
+            archdeaconryId,
         }));
     }
 };

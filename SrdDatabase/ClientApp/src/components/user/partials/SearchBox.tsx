@@ -25,11 +25,11 @@ const SearchBox = ({
     searchUsers,
     loadUserTypes,
     userTypesLoading,
-    resetParameters,
+    prefillParameters,
     resultsLoading,
 }: Props) => {
     const loadData = () => {
-        resetParameters();
+        prefillParameters();
         loadUserTypes();
         searchUsers();
     };
@@ -112,7 +112,7 @@ const SearchBox = ({
                         <SearchButtons
                             searching={resultsLoading}
                             thingsBeingSearched="users"
-                            onClear={resetParameters}
+                            onClear={prefillParameters}
                         />
                     </form>
         </div>

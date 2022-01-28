@@ -5,18 +5,18 @@ import { ArchdeaconryParameters } from '../../models/archdeaconry';
 import { ArchdeaconryResults } from '../../models/archdeaconry';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
-const REQUEST_RESULTS = 'ARCHDEACONRY.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'ARCHDEACONRY.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'ARCHDEACONRY.SET_RESULTS_LOADING';
+const SET_RESULTS = 'ARCHDEACONRY.SET_RESULTS';
 const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
 const SET_PARAMETERS = 'ARCHDEACONRY.SET_PARAMETERS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: ArchdeaconryResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: ArchdeaconryResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -30,8 +30,18 @@ const setParametersAction = (parameters: ArchdeaconryParameters) => ({
     value: parameters,
 });
 
-const setParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction({}));
+const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const parameters = {};
+
+    dispatch(setParameters(parameters));
+
+    if (search) {
+        searchArchdeaconries(parameters);
+    }
+};
+
+const setParameters = (parameters: ArchdeaconryParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -43,19 +53,19 @@ const searchArchdeaconries = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<ArchdeaconryParameters & PagedParameters>('api/archdeaconry/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<ArchdeaconryResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
 export const actionCreators = {
     searchArchdeaconries,
     setSearchName,
-    setParameters,
+    prefillParameters,
 };
 
 export interface State {
@@ -77,12 +87,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: action.value,
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

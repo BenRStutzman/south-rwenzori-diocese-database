@@ -1,7 +1,10 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { post } from '../../helpers/apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
+import { Archdeaconry } from '../../models/archdeaconry';
 import { ChargeParameters, ChargeResults } from '../../models/charge';
+import { Congregation } from '../../models/congregation';
+import { Parish } from '../../models/parish';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
 
@@ -11,16 +14,16 @@ const SET_SEARCH_END_YEAR = 'CHARGE.SET_SEARCH_END_YEAR';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CHARGE.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CHARGE.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'CHARGE.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_RESULTS = 'CHARGE.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'CHARGE.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'CHARGE.SET_RESULTS_LOADING';
+const SET_RESULTS = 'CHARGE.SET_RESULTS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: ChargeResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: ChargeResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -54,11 +57,51 @@ const setParametersAction = (parameters: ChargeParameters) => ({
     value: parameters,
 });
 
-const setParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction({}));
-    dispatch(loadParishes(undefined));
-    dispatch(loadCongregations(undefined));
+const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const backupUrl = '/charge';
+
+    const setParametersAndSearch = (parameters: ChargeParameters) => {
+        dispatch(setParameters(parameters));
+
+        if (search) {
+            dispatch(searchCharges(parameters));
+        }
+    };
+
+    if (congregationId) {
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
+            .then(congregation => {
+                setParametersAndSearch({
+                    congregationId,
+                    parishId: congregation.parishId,
+                    archdeaconryId: congregation.archdeaconryId,
+                });
+            });
+    } else if (parishId) {
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
+            .then(parish => {
+                setParametersAndSearch({
+                    parishId,
+                    archdeaconryId: parish.archdeaconryId,
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setParametersAndSearch({
+                    archdeaconryId,
+                });
+            });
+    } else {
+        setParametersAndSearch({});
+    }  
 };
+
+const setParameters = (parameters: ChargeParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+    dispatch(loadCongregations(parameters.parishId));
+}
 
 const setSearchStartYear = (startYear: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchStartYearAction(startYear));
@@ -89,12 +132,12 @@ const searchCharges = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<ChargeParameters & PagedParameters>('api/charge/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<ChargeResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
@@ -105,7 +148,7 @@ export const actionCreators = {
     setSearchArchdeaconryId,
     setSearchStartYear,
     setSearchEndYear,
-    setParameters,
+    prefillParameters,
 };
 
 export interface State {
@@ -167,12 +210,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 parameters: action.value,
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

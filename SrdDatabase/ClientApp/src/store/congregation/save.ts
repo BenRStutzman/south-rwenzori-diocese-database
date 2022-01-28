@@ -56,19 +56,14 @@ const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThu
         get<Parish>(`api/parish/${parishId}`)
             .then(parish => {
                 dispatch(setCongregation({
-                    parishId: parish.id,
+                    parishId,
                     archdeaconryId: parish.archdeaconryId,
                 }));
             });
-    } else if (archdeaconryId) {
-        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
-            .then(archdeaconry => {
-                dispatch(setCongregation({
-                    archdeaconryId: archdeaconry.id,
-                }));
-            });
     } else {
-        dispatch(setCongregation({}));
+        dispatch(setCongregation({
+            archdeaconryId,
+        }));
     }
 }
 

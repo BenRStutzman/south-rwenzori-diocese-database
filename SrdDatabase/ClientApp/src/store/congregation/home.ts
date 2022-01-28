@@ -1,24 +1,26 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { post } from '../../helpers/apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
+import { Archdeaconry } from '../../models/archdeaconry';
 import { CongregationParameters, CongregationResults } from '../../models/congregation';
+import { Parish } from '../../models/parish';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { loadParishes } from '../shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
-const REQUEST_RESULTS = 'CONGREGATION.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'CONGREGATION.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'CONGREGATION.SET_RESULTS_LOADING';
+const SET_RESULTS = 'CONGREGATION.SET_RESULTS';
 const SET_PARAMETERS = 'CONGREGATION.SET_PARAMETERS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: CongregationResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: CongregationResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -42,12 +44,36 @@ const setParametersAction = (parameters: CongregationParameters) => ({
     value: parameters,
 });
 
-const setParameters = (archdeaconryId?: number, parishId?: number): AppThunkAction<Action> => (dispatch) => {
+const prefillParameters = (parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const getParameters = new Promise<CongregationParameters>((resolve) => {
+        if (parishId) {
+            get<Parish>(`api/parish/${parishId}`)
+                .then(parish => {
+                    resolve({
+                        parishId,
+                        archdeaconryId: parish.archdeaconryId,
+                    });
+                });
+        } else {
+            resolve({
+                archdeaconryId,
+            });
+        }
+    });
 
+    getParameters.then(parameters => {
+        dispatch(setParameters(parameters));
 
-    dispatch(setParametersAction({}));
-    dispatch(loadParishes(undefined));
+        if (search) {
+            dispatch(searchCongregations(parameters));
+        }
+    });
 };
+
+const setParameters = (parameters: CongregationParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+}
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchNameAction(name));
@@ -68,18 +94,18 @@ const searchCongregations = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<CongregationParameters & PagedParameters>('api/congregation/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<CongregationResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
 export const actionCreators = {
     searchCongregations,
-    setParameters,
+    prefillParameters,
     setSearchName,
     setSearchArchdeaconryId,
     setSearchParishId,
@@ -128,12 +154,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     parishId: action.value,
                 }
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

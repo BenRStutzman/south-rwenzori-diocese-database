@@ -70,40 +70,41 @@ const setErrorsAction = (errors: Errors) => ({
 
 const prefillCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
+    const backupUrl = '/charge/add';
 
-    const startYear = (new Date()).getFullYear();
+    const setChargeWithYear = (charge: Charge) => {
+        dispatch(setCharge({
+            ...charge,
+            startYear: (new Date()).getFullYear(),
+        }))
+    };
 
     if (congregationId) {
-        get<Congregation>(`api/congregation/${congregationId}`)
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
             .then(congregation => {
-                dispatch(setCharge({
-                    startYear,
-                    congregationId: congregation.id,
+                setChargeWithYear({
+                    congregationId,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
-                }));
+                });
             });
     } else if (parishId) {
-        get<Parish>(`api/parish/${parishId}`)
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
             .then(parish => {
-                dispatch(setCharge({
-                    startYear,
-                    parishId: parish.id,
+                setChargeWithYear({
+                    parishId,
                     archdeaconryId: parish.archdeaconryId,
-                }));
+                });
             });
     } else if (archdeaconryId) {
-        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
-            .then(archdeaconry => {
-                dispatch(setCharge({
-                    startYear,
-                    archdeaconryId: archdeaconry.id,
-                }));
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setChargeWithYear({
+                    archdeaconryId,
+                });
             });
     } else {
-        dispatch(setCharge({
-            startYear,
-        }));
+        setChargeWithYear({});
     }
 };
 
