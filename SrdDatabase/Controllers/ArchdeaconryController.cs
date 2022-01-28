@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Commands;
+using SrdDatabase.Domain.Queries.Archdeaconries;
+using SrdDatabase.Domain.Commands.Archdeaconries;
 
 namespace SrdDatabase.Controllers
 {
@@ -65,7 +67,7 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Editor)]
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete(Domain.Commands.DeleteArchdeaconry.Command command)
+        public async Task<IActionResult> Delete(DeleteArchdeaconry.Command command)
         {
             var response = await _mediator.Send(command);
 

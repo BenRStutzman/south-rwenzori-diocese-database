@@ -8,6 +8,8 @@ using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Commands;
+using SrdDatabase.Domain.Queries.Congregations;
+using SrdDatabase.Domain.Commands.Congregations;
 
 namespace SrdDatabase.Controllers
 {

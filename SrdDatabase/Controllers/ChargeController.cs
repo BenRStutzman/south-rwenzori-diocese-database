@@ -8,6 +8,8 @@ using SrdDatabase.Domain.Commands;
 using SrdDatabase.Models.Charges;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
+using SrdDatabase.Domain.Queries.Charges;
+using SrdDatabase.Domain.Commands.Charges;
 
 namespace SrdDatabase.Controllers
 {

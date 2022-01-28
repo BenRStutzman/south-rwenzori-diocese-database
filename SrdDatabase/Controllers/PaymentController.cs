@@ -8,6 +8,8 @@ using SrdDatabase.Domain.Commands;
 using SrdDatabase.Models.Payments;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
+using SrdDatabase.Domain.Queries.Payments;
+using SrdDatabase.Domain.Commands.Payments;
 
 namespace SrdDatabase.Controllers
 {

@@ -4,6 +4,7 @@ using SrdDatabase.Models.Diocese;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Domain.Queries;
 using SrdDatabase.Attributes;
+using SrdDatabase.Domain.Queries.Diocese;
 
 namespace SrdDatabase.Controllers
 {
