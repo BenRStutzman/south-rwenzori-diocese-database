@@ -69,7 +69,7 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="congregation"
-                    viewAllEnding="in this parish"
+                    baseItemType="parish"
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
                     showAddLink={canEdit}
@@ -77,7 +77,7 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="event"
-                    viewAllEnding="in this parish"
+                    baseItemType="parish"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}

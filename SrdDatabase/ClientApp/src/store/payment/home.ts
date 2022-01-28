@@ -1,6 +1,9 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { post } from '../../helpers/apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
+import { Archdeaconry } from '../../models/archdeaconry';
+import { Congregation } from '../../models/congregation';
+import { Parish } from '../../models/parish';
 import { PaymentParameters, PaymentResults } from '../../models/payment';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
@@ -54,11 +57,51 @@ const setParametersAction = (parameters: PaymentParameters) => ({
     value: parameters,
 });
 
-const setParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction({}));
-    dispatch(loadParishes(undefined));
-    dispatch(loadCongregations(undefined));
+const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const backupUrl = '/payment';
+
+    const setParametersAndSearch = (parameters: PaymentParameters) => {
+        dispatch(setParameters(parameters));
+
+        if (search) {
+            dispatch(searchPayments(parameters));
+        }
+    };
+
+    if (congregationId) {
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
+            .then(congregation => {
+                setParametersAndSearch({
+                    congregationId,
+                    parishId: congregation.parishId,
+                    archdeaconryId: congregation.archdeaconryId,
+                });
+            });
+    } else if (parishId) {
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
+            .then(parish => {
+                setParametersAndSearch({
+                    parishId,
+                    archdeaconryId: parish.archdeaconryId,
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setParametersAndSearch({
+                    archdeaconryId,
+                });
+            });
+    } else {
+        setParametersAndSearch({});
+    }
 };
+
+const setParameters = (parameters: PaymentParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+    dispatch(loadCongregations(parameters.parishId));
+}
 
 const setSearchStartDate = (startDate: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchStartDateAction(startDate));
@@ -105,7 +148,7 @@ export const actionCreators = {
     setSearchArchdeaconryId,
     setSearchStartDate,
     setSearchEndDate,
-    setParameters,
+    prefillParameters,
 };
 
 export interface State {

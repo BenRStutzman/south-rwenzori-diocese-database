@@ -2,11 +2,11 @@
 import { State } from '../../../store';
 import * as Store from '../../../store/payment/home';
 import * as SharedStore from '../../../store/shared';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
 import ExpandButton from '../../shared/ExpandButton';
 import { bindActionCreators } from 'redux';
+import { useQueryParams } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -25,17 +25,28 @@ const SearchBox = ({
     archdeaconries,
     parishes,
     congregations,
-    setParameters,
+    prefillParameters,
     loadArchdeaconries,
     congregationsLoading,
     resultsLoading,
     archdeaconriesLoading,
     parishesLoading,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
         loadArchdeaconries();
-        setParameters();
-        searchPayments();
+
+        var congregationIdString = queryParams.get('congregationId');
+        const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
+
+        var parishIdString = queryParams.get('parishId');
+        const parishId = parishIdString ? parseInt(parishIdString) : undefined;
+
+        var archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+
+        prefillParameters(congregationId, parishId, archdeaconryId, true);
     };
 
     useEffect(loadData, []);
@@ -161,7 +172,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     searching={resultsLoading}
-                    onClear={setParameters}
+                    onClear={prefillParameters}
                     thingsBeingSearched="payments"
                 />
             </form>

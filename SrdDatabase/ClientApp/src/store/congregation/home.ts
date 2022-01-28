@@ -45,29 +45,34 @@ const setParametersAction = (parameters: CongregationParameters) => ({
 });
 
 const prefillParameters = (parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
-    const getParameters = new Promise<CongregationParameters>((resolve) => {
-        if (parishId) {
-            get<Parish>(`api/parish/${parishId}`)
-                .then(parish => {
-                    resolve({
-                        parishId,
-                        archdeaconryId: parish.archdeaconryId,
-                    });
-                });
-        } else {
-            resolve({
-                archdeaconryId,
-            });
-        }
-    });
+    const backupUrl = '/parish';
 
-    getParameters.then(parameters => {
+    const setParametersAndSearch = (parameters: CongregationParameters) => {
         dispatch(setParameters(parameters));
 
         if (search) {
             dispatch(searchCongregations(parameters));
         }
-    });
+    };
+
+    if (parishId) {
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
+            .then(parish => {
+                setParametersAndSearch({
+                    parishId,
+                    archdeaconryId: parish.archdeaconryId,
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setParametersAndSearch({
+                    archdeaconryId,
+                })
+            })
+    } else {
+        setParametersAndSearch({});
+    }
 };
 
 const setParameters = (parameters: CongregationParameters): AppThunkAction<Action> => (dispatch) => {

@@ -84,6 +84,7 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="event"
+                    baseItemType="congregation"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
@@ -94,7 +95,7 @@ const Details = ({
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="payment"
-                        viewAllEnding="for this congregation"
+                        baseItemType="congregation"
                         secondType="charge"
                         items={transactions}
                         showAddLink

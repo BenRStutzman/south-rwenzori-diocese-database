@@ -1,5 +1,5 @@
 ﻿import React, { ChangeEvent, useEffect, useState } from 'react';
-import { randomString } from '../../../helpers/miscellaneous';
+import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
 import * as Store from '../../../store/event/home';
 import * as SharedStore from '../../../store/shared';
@@ -30,7 +30,7 @@ const SearchBox = ({
     parishes,
     congregations,
     eventTypes,
-    setParameters,
+    prefillParameters,
     loadEventTypes,
     loadArchdeaconries,
     congregationsLoading,
@@ -39,11 +39,21 @@ const SearchBox = ({
     archdeaconriesLoading,
     parishesLoading,
 }: Props) => {
+    const queryParams = useQueryParams();
+
     const loadData = () => {
         loadArchdeaconries();
-        loadEventTypes();
-        setParameters();
-        searchEvents();
+
+        var congregationIdString = queryParams.get('congregationId');
+        const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
+
+        var parishIdString = queryParams.get('parishId');
+        const parishId = parishIdString ? parseInt(parishIdString) : undefined;
+
+        var archdeaconryIdString = queryParams.get('archdeaconryId');
+        const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
+
+        prefillParameters(congregationId, parishId, archdeaconryId, true);
     };
 
     useEffect(loadData, []);
@@ -214,7 +224,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     searching={resultsLoading}
-                    onClear={setParameters}
+                    onClear={prefillParameters}
                     thingsBeingSearched="events"
                 />
             </form>

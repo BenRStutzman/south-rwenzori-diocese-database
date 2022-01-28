@@ -5,8 +5,8 @@ import { DetailsListItem } from '../../models/shared';
 import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 
 interface Props {
-    viewAllEnding?: string;
     itemType: string;
+    baseItemType?: string;
     itemTotal?: number;
     items: DetailsListItem[];
     showAddLink?: boolean;
@@ -17,7 +17,7 @@ interface Props {
 
 const DetailsList = ({
     itemType,
-    viewAllEnding,
+    baseItemType,
     itemTotal,
     items,
     showAddLink,
@@ -45,7 +45,7 @@ const DetailsList = ({
         </div>
         <div>
             <div>
-                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{viewAllEnding ?? ''}</Link>
+                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
                 {
                     showAddLink &&
                     <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
@@ -54,7 +54,7 @@ const DetailsList = ({
             {
                 secondType &&
                 <div>
-                    <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{viewAllEnding ?? ''}</Link>
+                    <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
                     {
                         showAddLink &&
                         <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>

@@ -52,18 +52,25 @@ const setErrorsAction = (errors: Errors) => ({
 const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
+    const backupUrl = 'parish/add';
+
     if (parishId) {
-        get<Parish>(`api/parish/${parishId}`)
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
             .then(parish => {
                 dispatch(setCongregation({
                     parishId,
                     archdeaconryId: parish.archdeaconryId,
                 }));
             });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                dispatch(setCongregation({
+                    archdeaconryId,
+                }));
+            });
     } else {
-        dispatch(setCongregation({
-            archdeaconryId,
-        }));
+        dispatch(setCongregation({}));
     }
 }
 

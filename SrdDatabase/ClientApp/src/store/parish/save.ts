@@ -3,6 +3,7 @@ import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Parish } from '../../models/parish';
 import { History } from 'history';
+import { Archdeaconry } from '../../models/archdeaconry';
 
 const SET_IS_LOADING = 'PARISH.SET_IS_LOADING';
 const SET_PARISH = 'PARISH.SET_PARISH';
@@ -41,9 +42,18 @@ const setErrorsAction = (errors: Errors) => ({
 })
 
 const prefillParish = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParish({
-        archdeaconryId,
-    }));
+    const backupUrl = '/parish/add';
+
+    if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                dispatch(setParish({
+                    archdeaconryId,
+                }));
+            });
+    } else {
+        dispatch(setParish({}));
+    }
 }
 
 const loadParish = (id: number): AppThunkAction<Action> => (dispatch) => {

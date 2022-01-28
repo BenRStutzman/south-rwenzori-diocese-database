@@ -76,33 +76,41 @@ const setErrorsAction = (errors: Errors) => ({
 
 const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
+    const backupUrl = '/event/add';
 
-    const date = new Date();
+    const setEventWithDate = (event: Event) => {
+        dispatch(setEvent({
+            ...event,
+            date: new Date(),
+        }))
+    };
 
     if (congregationId) {
-        get<Congregation>(`api/congregation/${congregationId}`)
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
             .then(congregation => {
-                dispatch(setEvent({
-                    date,
+                setEventWithDate({
                     congregationId,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
-                }));
+                });
             });
     } else if (parishId) {
-        get<Parish>(`api/parish/${parishId}`)
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
             .then(parish => {
-                dispatch(setEvent({
-                    date,
+                setEventWithDate({
                     parishId,
                     archdeaconryId: parish.archdeaconryId,
-                }));
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setEventWithDate({
+                    archdeaconryId,
+                });
             });
     } else {
-        dispatch(setEvent({
-            date,
-            archdeaconryId,
-        }));
+        setEventWithDate({});
     }
 };
 

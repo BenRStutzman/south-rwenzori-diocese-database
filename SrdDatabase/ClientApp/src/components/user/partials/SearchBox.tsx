@@ -29,9 +29,8 @@ const SearchBox = ({
     resultsLoading,
 }: Props) => {
     const loadData = () => {
-        prefillParameters();
         loadUserTypes();
-        searchUsers();
+        prefillParameters(true);
     };
 
     useEffect(loadData, []);

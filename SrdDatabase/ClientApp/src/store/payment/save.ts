@@ -64,33 +64,41 @@ const setErrorsAction = (errors: Errors) => ({
 
 const prefillPayment = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
+    const backupUrl = '/payment/add';
 
-    const date = new Date();
+    const setPaymentWithDate = (payment: Payment) => {
+        dispatch(setPayment({
+            ...payment,
+            date: new Date(),
+        }))
+    };
 
     if (congregationId) {
-        get<Congregation>(`api/congregation/${congregationId}`)
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
             .then(congregation => {
-                dispatch(setPayment({
-                    date,
+                setPaymentWithDate({
                     congregationId,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
-                }));
+                });
             });
     } else if (parishId) {
-        get<Parish>(`api/parish/${parishId}`)
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
             .then(parish => {
-                dispatch(setPayment({
-                    date,
+                setPaymentWithDate({
                     parishId,
                     archdeaconryId: parish.archdeaconryId,
-                }));
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setPaymentWithDate({
+                    archdeaconryId,
+                });
             });
     } else {
-        dispatch(setPayment({
-            date,
-            archdeaconryId,
-        }));
+        setPaymentWithDate({});
     }
 };
 

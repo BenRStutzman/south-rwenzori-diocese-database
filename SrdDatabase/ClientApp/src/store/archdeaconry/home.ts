@@ -36,7 +36,7 @@ const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (
     dispatch(setParameters(parameters));
 
     if (search) {
-        searchArchdeaconries(parameters);
+        dispatch(searchArchdeaconries(parameters));
     }
 };
 

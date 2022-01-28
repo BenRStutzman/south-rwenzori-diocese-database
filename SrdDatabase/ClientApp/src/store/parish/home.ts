@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { post } from '../../helpers/apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
+import { Archdeaconry } from '../../models/archdeaconry';
 import { ParishParameters, ParishResults } from '../../models/parish';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 
@@ -36,12 +37,25 @@ const setParametersAction = (parameters: ParishParameters) => ({
 });
 
 const prefillParameters = (archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
-    const parameters = { archdeaconryId };
+    const backupUrl = '/parish';
 
-    dispatch(setParameters(parameters));
+    const setParametersAndSearch = (parameters: ParishParameters) => {
+        dispatch(setParameters(parameters));
 
-    if (search) {
-        dispatch(searchParishes(parameters));
+        if (search) {
+            dispatch(searchParishes(parameters));
+        }
+    };
+
+    if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setParametersAndSearch({
+                    archdeaconryId,
+                });
+            });
+    } else {
+        setParametersAndSearch({});
     }
 };
 

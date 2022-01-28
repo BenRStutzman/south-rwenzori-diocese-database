@@ -41,8 +41,18 @@ const setParametersAction = (parameters: UserParameters) => ({
     value: parameters,
 });
 
-const prefillParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction({}));
+const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const parameters = {};
+
+    dispatch(setParameters(parameters));
+
+    if (search) {
+        dispatch(searchUsers(parameters));
+    }
+};
+
+const setParameters = (parameters: UserParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
