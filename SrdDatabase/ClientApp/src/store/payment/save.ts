@@ -62,6 +62,12 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
+const setPayment = (payment: Payment): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setPaymentAction(payment));
+    dispatch(loadParishes(payment.archdeaconryId));
+    dispatch(loadCongregations(payment.parishId));
+};
+
 const prefillPayment = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
     const backupUrl = '/payment/add';
@@ -101,12 +107,6 @@ const prefillPayment = (congregationId?: number, parishId?: number, archdeaconry
         setPaymentWithDate({});
     }
 };
-
-const setPayment = (payment: Payment): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setPaymentAction(payment));
-    dispatch(loadParishes(payment.archdeaconryId));
-    dispatch(loadCongregations(payment.parishId));
-}
 
 const loadPayment = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());

@@ -15,18 +15,6 @@ const receiveDetailsAction = (details: ChargeDetails) => ({
     value: details,
 });
 
-export interface State {
-    detailsLoading: boolean;
-    details: ChargeDetails;
-}
-
-const initialState: State = {
-    detailsLoading: true,
-    details: {
-        charge: {},
-    },
-};
-
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
@@ -38,6 +26,18 @@ const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
 
 export const actionCreators = {
     loadDetails,
+};
+
+export interface State {
+    detailsLoading: boolean;
+    details: ChargeDetails;
+}
+
+const initialState: State = {
+    detailsLoading: true,
+    details: {
+        charge: {},
+    },
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

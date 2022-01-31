@@ -47,7 +47,12 @@ const setIsSavingAction = (isSaving: boolean) => ({
 const setErrorsAction = (errors: Errors) => ({
     type: SET_ERRORS,
     value: errors,
-})
+});
+
+const setCongregation = (congregation: Congregation): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCongregationAction(congregation));
+    dispatch(loadParishes(congregation.archdeaconryId));
+};
 
 const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
@@ -72,11 +77,6 @@ const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThu
     } else {
         dispatch(setCongregation({}));
     }
-}
-
-const setCongregation = (congregation: Congregation): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setCongregationAction(congregation));
-    dispatch(loadParishes(congregation.archdeaconryId));
 }
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {

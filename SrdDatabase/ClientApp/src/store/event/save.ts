@@ -74,6 +74,12 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
+const setEvent = (event: Event): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setEventAction(event));
+    dispatch(loadParishes(event.archdeaconryId));
+    dispatch(loadCongregations(event.parishId));
+};
+
 const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
     const backupUrl = '/event/add';
@@ -113,12 +119,6 @@ const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId
         setEventWithDate({});
     }
 };
-
-const setEvent = (event: Event): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setEventAction(event));
-    dispatch(loadParishes(event.archdeaconryId));
-    dispatch(loadCongregations(event.parishId));
-}
 
 const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());

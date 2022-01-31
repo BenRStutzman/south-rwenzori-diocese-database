@@ -44,6 +44,11 @@ const setParametersAction = (parameters: CongregationParameters) => ({
     value: parameters,
 });
 
+const setParameters = (parameters: CongregationParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+};
+
 const prefillParameters = (parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = '/parish';
 
@@ -74,11 +79,6 @@ const prefillParameters = (parishId?: number, archdeaconryId?: number, search: b
         setParametersAndSearch({});
     }
 };
-
-const setParameters = (parameters: CongregationParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction(parameters));
-    dispatch(loadParishes(parameters.archdeaconryId));
-}
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchNameAction(name));

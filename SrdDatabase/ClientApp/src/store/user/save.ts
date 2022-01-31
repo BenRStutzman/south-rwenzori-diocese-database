@@ -52,13 +52,13 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
+const setUser = (user: User): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setUserAction(user));
+};
+
 const prefillUser = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(setUser({}));
 };
-
-const setUser = (user: User): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setUserAction(user));
-}
 
 const loadUser = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());

@@ -26,12 +26,13 @@ const setIsLoadingAction = (isLoading: boolean) => ({
     value: isLoading,
 });
 
-const resetCredentialsAction = () => ({
+const setCredentialsAction = (credentials: Credentials) => ({
     type: RESET_CREDENTIALS,
+    value: credentials,
 });
 
-const resetCredentials = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetCredentialsAction());
+const setCredentials = (credentials: Credentials = {}): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setCredentialsAction(credentials));
 };
 
 const setUsername = (username: string): AppThunkAction<Action> => (dispatch) => {
@@ -66,7 +67,7 @@ const authenticate = (credentials: Credentials, history: History, location: Loca
 };
 
 export const actionCreators = {
-    resetCredentials,
+    setCredentials,
     setUsername,
     setPassword,
     authenticate,
@@ -108,7 +109,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case RESET_CREDENTIALS:
             return {
                 ...state,
-                credentials: {},
+                credentials: action.value,
             };
         default:
             return state;

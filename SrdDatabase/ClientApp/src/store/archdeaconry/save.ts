@@ -34,13 +34,13 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
+const setArchdeaconry = (archdeaconry: Archdeaconry): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setArchdeaconryAction(archdeaconry));
+};
+
 const prefillArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(setArchdeaconry({}));
 };
-
-const setArchdeaconry = (archdeaconry: Archdeaconry): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setArchdeaconryAction(archdeaconry));
-}
 
 const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());

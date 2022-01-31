@@ -69,6 +69,12 @@ const setParametersAction = (parameters: EventParameters) => ({
     value: parameters,
 });
 
+const setParameters = (parameters: EventParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+    dispatch(loadCongregations(parameters.parishId));
+};
+
 const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = '/event';
 
@@ -108,12 +114,6 @@ const prefillParameters = (congregationId?: number, parishId?: number, archdeaco
         setParametersAndSearch({});
     }
 };
-
-const setParameters = (parameters: EventParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction(parameters));
-    dispatch(loadParishes(parameters.archdeaconryId));
-    dispatch(loadCongregations(parameters.parishId));
-}
 
 const setSearchEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchEventTypeIdAction(eventTypeId));

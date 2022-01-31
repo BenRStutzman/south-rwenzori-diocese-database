@@ -57,6 +57,12 @@ const setParametersAction = (parameters: ChargeParameters) => ({
     value: parameters,
 });
 
+const setParameters = (parameters: ChargeParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+    dispatch(loadCongregations(parameters.parishId));
+}
+
 const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = '/charge';
 
@@ -96,12 +102,6 @@ const prefillParameters = (congregationId?: number, parishId?: number, archdeaco
         setParametersAndSearch({});
     }  
 };
-
-const setParameters = (parameters: ChargeParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction(parameters));
-    dispatch(loadParishes(parameters.archdeaconryId));
-    dispatch(loadCongregations(parameters.parishId));
-}
 
 const setSearchStartYear = (startYear: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchStartYearAction(startYear));

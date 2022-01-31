@@ -39,7 +39,11 @@ const setIsSavingAction = (isSaving: boolean) => ({
 const setErrorsAction = (errors: Errors) => ({
     type: SET_ERRORS,
     value: errors,
-})
+});
+
+const setParish = (parish: Parish): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParishAction(parish));
+};
 
 const prefillParish = (archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = '/parish/add';
@@ -63,10 +67,6 @@ const loadParish = (id: number): AppThunkAction<Action> => (dispatch) => {
         .then(parish => {
             dispatch(setParish(parish));
         });
-};
-
-const setParish = (parish: Parish): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParishAction(parish));
 };
 
 const setName = (name: string): AppThunkAction<Action> => (dispatch) => {

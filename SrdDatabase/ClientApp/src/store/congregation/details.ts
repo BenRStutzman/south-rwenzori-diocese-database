@@ -16,6 +16,19 @@ const receiveDetailsAction = (details: CongregationDetails) => ({
     value: details,
 });
 
+const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestDetailsAction());
+
+    get<CongregationDetails>(`api/congregation/details/${id}`)
+        .then(details => {
+            dispatch(receiveDetailsAction(details));
+        });
+}
+
+export const actionCreators = {
+    loadDetails,
+};
+
 export interface State {
     detailsLoading: boolean;
     details: CongregationDetails;
@@ -29,19 +42,6 @@ const initialState: State = {
         paymentResults: { ...pagedResultsDefaults, payments: [] },
         chargeResults: { ...pagedResultsDefaults, charges: [] },
     },
-};
-
-const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestDetailsAction());
-
-    get<CongregationDetails>(`api/congregation/details/${id}`)
-        .then(details => {
-            dispatch(receiveDetailsAction(details));
-        });
-}
-
-export const actionCreators = {
-    loadDetails
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

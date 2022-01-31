@@ -16,6 +16,19 @@ const receiveDetailsAction = (details: ParishDetails) => ({
     value: details,
 });
 
+const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestDetailsAction());
+
+    get<ParishDetails>(`api/parish/details/${id}`)
+        .then(details => {
+            dispatch(receiveDetailsAction(details));
+        });
+}
+
+export const actionCreators = {
+    loadDetails,
+};
+
 export interface State {
     detailsLoading: boolean;
     details: ParishDetails;
@@ -28,19 +41,6 @@ const initialState: State = {
         congregationResults: { ...pagedResultsDefaults, congregations: [] },
         eventResults: { ...pagedResultsDefaults, events: [] },
     },
-};
-
-const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestDetailsAction());
-
-    get<ParishDetails>(`api/parish/details/${id}`)
-        .then(details => {
-            dispatch(receiveDetailsAction(details));
-        });
-}
-
-export const actionCreators = {
-    loadDetails
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {

@@ -30,6 +30,10 @@ const setParametersAction = (parameters: ArchdeaconryParameters) => ({
     value: parameters,
 });
 
+const setParameters = (parameters: ArchdeaconryParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+};
+
 const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const parameters = {};
 
@@ -38,14 +42,6 @@ const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (
     if (search) {
         dispatch(searchArchdeaconries(parameters));
     }
-};
-
-const setParameters = (parameters: ArchdeaconryParameters): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setParametersAction(parameters));
-};
-
-const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchNameAction(name));
 };
 
 const searchArchdeaconries = (
@@ -60,6 +56,10 @@ const searchArchdeaconries = (
         .then(results => {
             dispatch(setResultsAction(results));
         });
+};
+
+const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchNameAction(name));
 };
 
 export const actionCreators = {

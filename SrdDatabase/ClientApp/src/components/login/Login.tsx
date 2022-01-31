@@ -18,7 +18,7 @@ const Login = ({
     setUsername,
     setPassword,
     isAuthenticating,
-    resetCredentials,
+    setCredentials,
     credentials,
     history,
     location,
@@ -26,7 +26,7 @@ const Login = ({
 }: Props) => {
     const loadData = () => {
         logout();
-        resetCredentials();
+        setCredentials();
     }
 
     useEffect(loadData, []);

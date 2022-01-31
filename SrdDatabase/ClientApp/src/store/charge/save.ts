@@ -68,6 +68,12 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
+const setCharge = (charge: Charge): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setChargeAction(charge));
+    dispatch(loadParishes(charge.archdeaconryId));
+    dispatch(loadCongregations(charge.parishId));
+};
+
 const prefillCharge = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
     const backupUrl = '/charge/add';
@@ -107,12 +113,6 @@ const prefillCharge = (congregationId?: number, parishId?: number, archdeaconryI
         setChargeWithYear({});
     }
 };
-
-const setCharge = (charge: Charge): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setChargeAction(charge));
-    dispatch(loadParishes(charge.archdeaconryId));
-    dispatch(loadCongregations(charge.parishId));
-}
 
 const loadCharge = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
