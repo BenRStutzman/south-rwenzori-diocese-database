@@ -10,7 +10,6 @@ import * as SharedStore from '../../store/shared';
 type Props =
     Store.State &
     typeof Store.actionCreators &
-    SharedStore.State &
     typeof SharedStore.actionCreators &
     RouteComponentProps;
 
@@ -81,6 +80,6 @@ const Login = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.login, ...state.shared }),
+    (state: State) => state.login,
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Login);

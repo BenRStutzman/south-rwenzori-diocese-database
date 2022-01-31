@@ -60,8 +60,8 @@ const Details = ({
             </div>
         </>;
 }
-    
+
 export default connect(
-    (state: State) => state.user.details,
-    (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
+    (state: State) => ({ ...state.user.details, ...state.shared }),
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Details);

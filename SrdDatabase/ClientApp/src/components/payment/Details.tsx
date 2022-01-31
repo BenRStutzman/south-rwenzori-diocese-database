@@ -73,11 +73,11 @@ const Details = ({
                     itemType="archdeaconry"
                     itemValue={details.payment.archdeaconry}
                     itemId={details.payment.archdeaconryId}
-                 />
+                />
             </div>
         </>;
 }
-    
+
 export default connect(
     (state: State) => ({ ...state.payment.details, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)

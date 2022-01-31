@@ -56,6 +56,6 @@ const Edit = ({
 }
 
 export default connect(
-    (state: State) => state.congregation.save,
+    (state: State) => ({ ...state.congregation.save, ...state.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Edit);

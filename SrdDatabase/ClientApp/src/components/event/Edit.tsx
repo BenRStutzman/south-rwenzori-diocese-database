@@ -44,7 +44,7 @@ const Edit = ({
         deleteEvent(event, () => { history.push('/event'); });
     };
 
-    return isLoading ? <LoadingSpinner fullPage/> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
             <>
                 <div className="page-heading">
