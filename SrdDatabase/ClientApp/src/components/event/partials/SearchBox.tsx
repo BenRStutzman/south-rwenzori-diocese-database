@@ -43,6 +43,7 @@ const SearchBox = ({
 
     const loadData = () => {
         loadArchdeaconries();
+        loadEventTypes();
 
         var congregationIdString = queryParams.get('congregationId');
         const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
