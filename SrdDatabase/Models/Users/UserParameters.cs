@@ -17,11 +17,14 @@ namespace SrdDatabase.Models.Users
         [StringLength(50)]
         public string Username { get; }
 
+        public bool HideRoot { get; }
+
 
         public UserParameters(
             byte? userTypeId = null,
             string name = null,
             string username = null,
+            bool hideRoot = false,
             int pageNumber = 0,
             int? pageSize = null,
             int? id = null) : base(pageNumber, pageSize)
@@ -30,6 +33,7 @@ namespace SrdDatabase.Models.Users
             UserTypeId = userTypeId;
             Name = name;
             Username = username;
+            HideRoot = hideRoot;
         }
     }
 }

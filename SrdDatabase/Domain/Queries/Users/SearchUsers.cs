@@ -14,7 +14,8 @@ namespace SrdDatabase.Domain.Queries.Users
                 byte? userTypeId = null,
                 string name = null,
                 string username = null,
-                int pageNumber = 0) : base(userTypeId, name, username, pageNumber)
+                bool hideRoot = true,
+                int pageNumber = 0) : base(userTypeId, name, username, hideRoot, pageNumber)
             {
             }
         }
@@ -36,6 +37,7 @@ namespace SrdDatabase.Domain.Queries.Users
                         request.UserTypeId,
                         request.Name,
                         request.Username,
+                        request.HideRoot,
                         request.PageNumber,
                         Constants.SearchPageSize),
                     cancellationToken);

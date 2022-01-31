@@ -17,9 +17,10 @@ namespace SrdDatabase.Data.Queries.Users
                 byte? userTypeId = null,
                 string name = null,
                 string username = null,
+                bool hideRoot = false,
                 int pageNumber = 0,
                 int? pageSize = null) :
-                base (userTypeId, name, username, pageNumber, pageSize, id)
+                base (userTypeId, name, username, hideRoot, pageNumber, pageSize, id)
             {
             }
         }
