@@ -26,7 +26,7 @@ const Home = ({
             <SearchResults />
         </>
     );
-}    
+}
 
 export default connect(
     (state: State) => state.shared,

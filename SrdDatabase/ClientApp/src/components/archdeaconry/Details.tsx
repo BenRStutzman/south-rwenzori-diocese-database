@@ -43,7 +43,7 @@ const Details = ({
         deleteArchdeaconry(details.archdeaconry, () => { history.push('/archdeaconry'); });
     };
 
-    return detailsLoading ? <LoadingSpinner fullPage/> :
+    return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">{details.archdeaconry.name} Archdeaconry</h1>

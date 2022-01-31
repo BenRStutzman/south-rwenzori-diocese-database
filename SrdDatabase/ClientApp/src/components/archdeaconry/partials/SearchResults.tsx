@@ -63,17 +63,17 @@ const SearchResults = ({
                                     <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
                                         View
                                     </Link>
-                                {
-                                    canEdit &&
-                                    <>
+                                    {
+                                        canEdit &&
+                                        <>
                                             <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
                                                 Edit
                                             </Link>
                                             <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
                                                 {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
                                             </button>
-                                    </>
-                                }
+                                        </>
+                                    }
                                 </td>
                             </tr>
                         )}
