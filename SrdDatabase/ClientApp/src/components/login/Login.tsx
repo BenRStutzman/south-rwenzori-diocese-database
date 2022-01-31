@@ -72,7 +72,7 @@ const Login = ({
                     maxLength={50}
                 />
             </div>
-            <button disabled={!credentials.username || !credentials.password} className="btn btn-primary" type="submit">
+            <button className="btn btn-primary" type="submit">
                 {isAuthenticating ? <Spinner size="sm" /> : 'Log in'}
             </button>
         </form>

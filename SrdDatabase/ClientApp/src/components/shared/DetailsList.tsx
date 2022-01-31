@@ -37,7 +37,7 @@ const DetailsList = ({
                     </li>
                 )}
                 {
-                    itemTotal &&
+                    itemTotal !== undefined &&
                     itemTotal > items.length &&
                     <li>... and {itemTotal - items.length} more</li>
                 }
