@@ -2,47 +2,64 @@
 import { Link } from 'react-router-dom';
 import { plural } from 'pluralize';
 import { DetailsListItem } from '../../models/shared';
-import { capitalize } from '../../helpers/miscellaneous';
+import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 
 interface Props {
     itemType: string;
-    itemTotal: number;
+    baseItemType?: string;
+    itemTotal?: number;
     items: DetailsListItem[];
     showAddLink?: boolean;
     addParams?: string;
     altTitle?: string;
+    secondType?: string;
 }
 
 const DetailsList = ({
     itemType,
+    baseItemType,
     itemTotal,
     items,
     showAddLink,
     addParams,
     altTitle,
+    secondType,
 }: Props) =>
     <div className="details-box">
         <div>
-            <h2>{altTitle ?? `${capitalize(plural(itemType))} (${itemTotal})`}</h2>
+            <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
             <ul>
                 {items.map(item =>
-                    <li key={item.id}>
-                        <Link to={`/${itemType}/details/${item.id}`}>
+                    <li key={item.altKey ?? item.id}>
+                        <Link to={`/${item.altType ?? itemType}/details/${item.id}`}>
                             {item.displayText}
                         </Link>
                     </li>
                 )}
                 {
+                    itemTotal &&
                     itemTotal > items.length &&
                     <li>... and {itemTotal - items.length} more</li>
                 }
             </ul>
         </div>
         <div>
-            <Link to={`/${itemType}`}>View all {plural(itemType)}</Link>
+            <div>
+                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
+                {
+                    showAddLink &&
+                    <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+                }
+            </div>
             {
-                showAddLink &&
-                <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+                secondType &&
+                <div>
+                    <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
+                    {
+                        showAddLink &&
+                        <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>
+                    }
+                </div>
             }
         </div>
     </div>;

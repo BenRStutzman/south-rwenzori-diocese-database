@@ -2,7 +2,7 @@
 
 export const atLeast = {
     viewer: [userRole.viewer, userRole.contributor, userRole.accountant, userRole.editor, userRole.administrator],
-    contributor: [userRole.contributor, userRole.accountant, userRole.editor, userRole.administrator],
+    contributor: [userRole.contributor, userRole.editor, userRole.administrator],
     accountant: [userRole.accountant, userRole.editor, userRole.administrator],
     editor: [userRole.editor, userRole.administrator],
     administrator: [userRole.administrator],

@@ -8,8 +8,8 @@ import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
 
-const REQUEST_EVENT = 'EVENT.REQUEST_EVENT';
-const RECEIVE_EVENT = 'EVENT.RECEIVE_EVENT';
+const SET_IS_LOADING = 'EVENT.SET_IS_LOADING';
+const SET_EVENT = 'EVENT.SET_EVENT';
 const SET_EVENT_TYPE_ID = 'EVENT.SET_EVENT_TYPE_ID';
 const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
@@ -20,12 +20,12 @@ const SET_DATE = 'EVENT.SET_DATE';
 const SET_IS_SAVING = 'EVENT.SET_IS_SAVING';
 const SET_ERRORS = 'EVENT.SET_ERRORS';
 
-const requestEventAction = () => ({
-    type: REQUEST_EVENT,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receiveEventAction = (event: Event) => ({
-    type: RECEIVE_EVENT,
+const setEventAction = (event: Event) => ({
+    type: SET_EVENT,
     value: event,
 });
 
@@ -74,57 +74,58 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventAction());
+const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsLoadingAction());
+    const backupUrl = '/event/add';
 
-    const date = new Date();
+    const setEventWithDate = (event: Event) => {
+        dispatch(setEvent({
+            ...event,
+            date: new Date(),
+        }))
+    };
 
     if (congregationId) {
-        get<Congregation>(`api/congregation/${congregationId}`)
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
             .then(congregation => {
-                dispatch(receiveEvent({
-                    date,
-                    congregationId: congregation.id,
+                setEventWithDate({
+                    congregationId,
                     parishId: congregation.parishId,
                     archdeaconryId: congregation.archdeaconryId,
-                }));
+                });
             });
     } else if (parishId) {
-        get<Parish>(`api/parish/${parishId}`)
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
             .then(parish => {
-                dispatch(receiveEvent({
-                    date,
-                    parishId: parish.id,
+                setEventWithDate({
+                    parishId,
                     archdeaconryId: parish.archdeaconryId,
-                }));
+                });
             });
     } else if (archdeaconryId) {
-        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`)
-            .then(archdeaconry => {
-                dispatch(receiveEvent({
-                    date,
-                    archdeaconryId: archdeaconry.id,
-                }));
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setEventWithDate({
+                    archdeaconryId,
+                });
             });
     } else {
-        dispatch(receiveEvent({
-            date,
-        }));
+        setEventWithDate({});
     }
 };
 
-const receiveEvent = (event: Event): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveEventAction(event));
+const setEvent = (event: Event): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setEventAction(event));
     dispatch(loadParishes(event.archdeaconryId));
     dispatch(loadCongregations(event.parishId));
 }
 
 const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestEventAction());
+    dispatch(setIsLoadingAction());
 
     get<Event>(`api/event/${id}`)
         .then(event => {
-            dispatch(receiveEvent(event));
+            dispatch(setEvent(event));
         });
 };
 
@@ -182,7 +183,7 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
 };
 
 export const actionCreators = {
-    resetEvent,
+    prefillEvent,
     loadEvent,
     saveEvent,
     setEventTypeId,
@@ -195,7 +196,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    eventLoading: boolean;
+    isLoading: boolean;
     congregationsLoading: boolean;
     congregations: Congregation[];
     event: Event;
@@ -206,12 +207,10 @@ export interface State {
 }
 
 const initialState: State = {
-    event: {
-        date: new Date(),
-    },
+    event: {},
     involvesTwoPeople: false,
     congregations: [],
-    eventLoading: true,
+    isLoading: true,
     congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
@@ -220,17 +219,17 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_EVENT:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                eventLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_EVENT:
+        case SET_EVENT:
             return {
                 ...state,
                 event: action.value,
                 errors: {},
-                eventLoading: false,
+                isLoading: false,
                 hasBeenChanged: false,
             };
         case SET_EVENT_TYPE_ID:

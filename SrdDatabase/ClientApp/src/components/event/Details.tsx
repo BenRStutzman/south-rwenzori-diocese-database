@@ -59,19 +59,22 @@ const Details = ({
             <div className="details-boxes">
                 <DetailsBox
                     itemType="date"
-                    itemValue={formattedDate(details.event)}
+                    itemValue={formattedDate(details.event.date)}
                 />
                 <DetailsBox
+                    baseItemType="event"
                     itemType="congregation"
                     itemValue={details.event.congregation}
                     itemId={details.event.congregationId}
                 />
                 <DetailsBox
+                    baseItemType="event"
                     itemType="parish"
                     itemValue={details.event.parish}
                     itemId={details.event.parishId}
                 />
                 <DetailsBox
+                    baseItemType="event"
                     itemType="archdeaconry"
                     itemValue={details.event.archdeaconry}
                     itemId={details.event.archdeaconryId}

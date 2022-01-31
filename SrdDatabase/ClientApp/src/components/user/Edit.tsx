@@ -20,7 +20,7 @@ type Props =
 
 const Edit = ({
     loadUser,
-    userLoading,
+    isLoading,
     history,
     user,
     deleteUser,
@@ -38,7 +38,7 @@ const Edit = ({
         deleteUser(user, () => { history.push('/user'); })
     };
 
-    return userLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1 className="page-title">Edit user {user.name}</h1>
             <div className="float-right button-group">

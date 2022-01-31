@@ -5,6 +5,7 @@ import * as Store from '../../store/shared';
 import { State } from '../../store';
 import { connect } from 'react-redux';
 import { atLeast } from '../../helpers/userHelper';
+import { userRole } from '../../models/user';
 
 type Props = Store.State;
 
@@ -27,23 +28,36 @@ const Navigation = ({
                         currentUser &&
                         <Collapse className='d-sm-inline-flex flex-sm-row-reverse' isOpen={isOpen} navbar>
                             <ul className='navbar-nav flex-grow'>
-                                <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/archdeaconry'>Archdeaconries</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/parish'>Parishes</NavLink>
-                                </NavItem>
+                                {
+                                    currentUser?.userType !== userRole.accountant &&
+                                    <>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/archdeaconry'>Archdeaconries</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/parish'>Parishes</NavLink>
+                                        </NavItem>
+                                    </>
+                                }
                                 <NavItem>
                                     <NavLink tag={Link} className='text-dark' to='/congregation'>Congregations</NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
-                                </NavItem>
+                                {
+                                    currentUser?.userType !== userRole.accountant &&
+                                    <NavItem>
+                                        <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
+                                    </NavItem>
+                                }
                                 {
                                     currentUser && atLeast.accountant.includes(currentUser.userType) &&
-                                    <NavItem>
-                                        <NavLink tag={Link} className='text-dark' to='/transaction'>Transactions</NavLink>
-                                    </NavItem>
+                                    <>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/charge'>Charges</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/payment'>Payments</NavLink>
+                                        </NavItem>
+                                    </>
                                 }
                                 {
                                     currentUser && atLeast.administrator.includes(currentUser.userType) &&

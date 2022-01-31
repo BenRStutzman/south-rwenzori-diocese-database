@@ -4,18 +4,18 @@ import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { History } from 'history';
 
-const REQUEST_ARCHDEACONRY = 'ARCHDEACONRY.REQUEST_ARCHDEACONRY';
-const RECEIVE_ARCHDEACONRY = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRY';
+const SET_IS_LOADING = 'ARCHDEACONRY.SET_IS_LOADING';
+const SET_ARCHDEACONRY = 'ARCHDEACONRY.RECEIVE_ARCHDEACONRY';
 const SET_NAME = 'ARCHDEACONRY.SET_NAME';
 const SET_IS_SAVING = 'ARCHDEACONRY.SET_IS_SAVING';
 const SET_ERRORS = 'ARCHDEACONRY.SET_ERRORS';
 
-const requestArchdeaconryAction = () => ({
-    type: REQUEST_ARCHDEACONRY,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receiveArchdeaconryAction = (archdeaconry: Archdeaconry) => ({
-    type: RECEIVE_ARCHDEACONRY,
+const setArchdeaconryAction = (archdeaconry: Archdeaconry) => ({
+    type: SET_ARCHDEACONRY,
     value: archdeaconry,
 });
 
@@ -34,16 +34,20 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveArchdeaconryAction({}));
+const prefillArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setArchdeaconry({}));
 };
 
+const setArchdeaconry = (archdeaconry: Archdeaconry): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setArchdeaconryAction(archdeaconry));
+}
+
 const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestArchdeaconryAction());
+    dispatch(setIsLoadingAction());
 
     get<Archdeaconry>(`api/archdeaconry/${id}`)
         .then(archdeaconry => {
-            dispatch(receiveArchdeaconryAction(archdeaconry));
+            dispatch(setArchdeaconry(archdeaconry));
         });
 }
 
@@ -73,14 +77,14 @@ const saveArchdeaconry = (archdeaconry: Archdeaconry, history: History): AppThun
 };
 
 export const actionCreators = {
-    resetArchdeaconry,
+    prefillArchdeaconry,
     loadArchdeaconry,
     setName,
     saveArchdeaconry,
 };
 
 export interface State {
-    archdeaconryLoading: boolean;
+    isLoading: boolean;
     archdeaconry: Archdeaconry;
     hasBeenChanged: boolean,
     isSaving: boolean;
@@ -88,7 +92,7 @@ export interface State {
 }
 
 const initialState: State = {
-    archdeaconryLoading: true,
+    isLoading: true,
     archdeaconry: {},
     hasBeenChanged: false,
     isSaving: false,
@@ -97,15 +101,15 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_ARCHDEACONRY:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                archdeaconryLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_ARCHDEACONRY:
+        case SET_ARCHDEACONRY:
             return {
                 ...state,
-                archdeaconryLoading: false,
+                isLoading: false,
                 archdeaconry: action.value,
                 hasBeenChanged: false,
                 errors: {},

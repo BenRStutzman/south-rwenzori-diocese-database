@@ -1,10 +1,14 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { post } from '../../helpers/apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
+import { Archdeaconry } from '../../models/archdeaconry';
+import { Congregation } from '../../models/congregation';
 import { EventParameters, EventResults } from '../../models/event';
+import { Parish } from '../../models/parish';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { loadCongregations, loadParishes } from '../shared';
 
-const RESET_PARAMETERS = 'EVENT.RESET_PARAMETERS';
+const SET_PARAMETERS = 'EVENT.SET_PARAMETERS';
 const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
 const SET_SEARCH_START_DATE = 'EVENT.SET_SEARCH_START_DATE';
 const SET_SEARCH_END_DATE = 'EVENT.SET_SEARCH_END_DATE';
@@ -12,16 +16,16 @@ const SET_SEARCH_PERSON_NAME = 'EVENT.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'EVENT.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'EVENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
-const REQUEST_RESULTS = 'EVENT.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'EVENT.RECEIVE_RESULTS';
+const SET_RESULTS_LOADING = 'EVENT.SET_RESULTS_LOADING';
+const SET_RESULTS = 'EVENT.SET_RESULTS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: EventResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: EventResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -50,23 +54,66 @@ const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
     value: archdeaconryId,
 });
 
-const setSearchParishIdAction = (parishId: number) => ({
+const setSearchParishIdAction = (parishId?: number) => ({
     type: SET_SEARCH_PARISH_ID,
     value: parishId,
 });
 
-const setSearchCongregationIdAction = (congregationId: number) => ({
+const setSearchCongregationIdAction = (congregationId?: number) => ({
     type: SET_SEARCH_CONGREGATION_ID,
     value: congregationId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: EventParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const backupUrl = '/event';
+
+    const setParametersAndSearch = (parameters: EventParameters) => {
+        dispatch(setParameters(parameters));
+
+        if (search) {
+            dispatch(searchEvents(parameters));
+        }
+    };
+
+    if (congregationId) {
+        get<Congregation>(`api/congregation/${congregationId}`, backupUrl)
+            .then(congregation => {
+                setParametersAndSearch({
+                    congregationId,
+                    parishId: congregation.parishId,
+                    archdeaconryId: congregation.archdeaconryId,
+                });
+            });
+    } else if (parishId) {
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
+            .then(parish => {
+                setParametersAndSearch({
+                    parishId,
+                    archdeaconryId: parish.archdeaconryId,
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setParametersAndSearch({
+                    archdeaconryId,
+                });
+            });
+    } else {
+        setParametersAndSearch({});
+    }
 };
+
+const setParameters = (parameters: EventParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+    dispatch(loadCongregations(parameters.parishId));
+}
 
 const setSearchEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchEventTypeIdAction(eventTypeId));
@@ -86,13 +133,17 @@ const setSearchPersonName = (personName: string): AppThunkAction<Action> => (dis
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchArchdeaconryIdAction(archdeaconryId));
+    dispatch(loadParishes(archdeaconryId));
+    dispatch(setSearchParishId(undefined));
 };
 
-const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchParishIdAction(parishId));
+    dispatch(loadCongregations(parishId));
+    dispatch(setSearchCongregationId(undefined));
 };
 
-const setSearchCongregationId = (congregationId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchCongregationIdAction(congregationId));
 };
 
@@ -101,12 +152,12 @@ const searchEvents = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<EventParameters & PagedParameters>('api/event/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<EventResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
@@ -119,7 +170,7 @@ export const actionCreators = {
     setSearchPersonName,
     setSearchStartDate,
     setSearchEndDate,
-    resetParameters,
+    prefillParameters,
 };
 
 export interface State {
@@ -192,17 +243,17 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     endDate: action.value,
                 }
             };
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

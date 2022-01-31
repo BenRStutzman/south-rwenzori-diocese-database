@@ -12,14 +12,14 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    resetArchdeaconry,
-    archdeaconryLoading,
+    prefillArchdeaconry,
+    isLoading,
 }: Props) => {
-    const loadData = () => { resetArchdeaconry(); };
+    const loadData = () => { prefillArchdeaconry(); };
 
     useEffect(loadData, []);
 
-    return archdeaconryLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Archdeaconry</h1>
             <SaveForm isNew />

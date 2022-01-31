@@ -20,7 +20,7 @@ type Props =
     & RouteComponentProps<{ eventId: string }>;
 
 const Edit = ({
-    eventLoading,
+    isLoading,
     history,
     event,
     loadEvent,
@@ -44,7 +44,7 @@ const Edit = ({
         deleteEvent(event, () => { history.push('/event'); });
     };
 
-    return eventLoading ? <LoadingSpinner fullPage/> :
+    return isLoading ? <LoadingSpinner fullPage/> :
         eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
             <>
                 <div className="page-heading">

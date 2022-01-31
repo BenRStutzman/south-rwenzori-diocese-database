@@ -4,7 +4,6 @@ import { randomString } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/user/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
@@ -26,13 +25,12 @@ const SearchBox = ({
     searchUsers,
     loadUserTypes,
     userTypesLoading,
-    resetParameters,
+    prefillParameters,
     resultsLoading,
 }: Props) => {
     const loadData = () => {
-        resetParameters();
         loadUserTypes();
-        searchUsers();
+        prefillParameters(true);
     };
 
     useEffect(loadData, []);
@@ -59,64 +57,63 @@ const SearchBox = ({
     return <>
         <ExpandButton expanded={expanded} setExpanded={setExpanded} />
         <div hidden={!expanded} className="search-box">
-            {
-                userTypesLoading ? <LoadingSpinner /> :
-                    <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
+                <div className="form-group">
+                    <label htmlFor="userTypeId">User Type</label>
+                    <select
+                        id="userTypeId"
+                        className="form-control"
+                        value={userTypesLoading ? "" : parameters.userTypeId ?? ""}
+                        onChange={onUserTypeIdChange}
+                    >
+                        <option key={0} value="">
+                            {userTypesLoading ? 'Loading...' : 'Any user type'}
+                        </option>
+                        {userTypes.map(userType =>
+                            <option key={userType.id} value={userType.id}>
+                                {userType.name}
+                            </option>
+                        )}
+                    </select>
+                </div>
+                <div className="row">
+                    <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="userTypeId">User Type</label>
-                            <select
-                                id="userTypeId"
+                            <label htmlFor="name">Name</label>
+                            <input
+                                id="name"
                                 className="form-control"
-                                value={parameters.userTypeId ?? ""}
-                                onChange={onUserTypeIdChange}
-                            >
-                                <option key={0} value="">Any user type</option>
-                                {userTypes.map(userType =>
-                                    <option key={userType.id} value={userType.id}>
-                                        {userType.name}
-                                    </option>
-                                )}
-                            </select>
+                                autoComplete={autoComplete}
+                                type="text"
+                                spellCheck={false}
+                                value={parameters.name ?? ""}
+                                onChange={onNameChange}
+                                maxLength={50}
+                            />
                         </div>
-                        <div className="row">
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="name">Name</label>
-                                    <input
-                                        id="name"
-                                        className="form-control"
-                                        autoComplete={autoComplete}
-                                        type="text"
-                                        spellCheck={false}
-                                        value={parameters.name ?? ""}
-                                        onChange={onNameChange}
-                                        maxLength={50}
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-6">
-                                <div className="form-group">
-                                    <label htmlFor="username">Username</label>
-                                    <input
-                                        id="username"
-                                        className="form-control"
-                                        autoComplete={autoComplete}
-                                        type="text"
-                                        spellCheck={false}
-                                        value={parameters.username ?? ""}
-                                        onChange={onUsernameChange}
-                                        maxLength={50}
-                                    />
-                                </div>
-                            </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input
+                                id="username"
+                                className="form-control"
+                                autoComplete={autoComplete}
+                                type="text"
+                                spellCheck={false}
+                                value={parameters.username ?? ""}
+                                onChange={onUsernameChange}
+                                maxLength={50}
+                            />
                         </div>
-                        <SearchButtons
-                            searching={resultsLoading}
-                            thingsBeingSearched="users"
-                            onClear={resetParameters}
-                        />
-                    </form>
-            }
+                    </div>
+                </div>
+                <SearchButtons
+                    searching={resultsLoading}
+                    thingsBeingSearched="users"
+                    onClear={prefillParameters}
+                />
+            </form>
         </div>
     </>;
 };

@@ -13,8 +13,8 @@ type Props =
     typeof Store.actionCreators;
 
 const Add = ({
-    parishLoading,
-    resetParish,
+    isLoading,
+    prefillParish,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -22,12 +22,12 @@ const Add = ({
         const archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        resetParish(archdeaconryId);
+        prefillParish(archdeaconryId);
     };
 
     useEffect(loadData, []);
 
-    return parishLoading ? <LoadingSpinner fullPage /> :
+    return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <h1>Add Parish</h1>
             <SaveForm isNew />

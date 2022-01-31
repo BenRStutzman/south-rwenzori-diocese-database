@@ -17,12 +17,11 @@ const SearchBox = ({
     searchArchdeaconries,
     parameters,
     setSearchName,
-    resetParameters,
+    prefillParameters,
     resultsLoading,
 }: Props) => {
     const loadData = () => {
-        resetParameters();
-        searchArchdeaconries();
+        prefillParameters(true);
     };
 
     useEffect(loadData, []);
@@ -58,7 +57,7 @@ const SearchBox = ({
                     </div>
                     <SearchButtons
                         thingsBeingSearched="archdeaconries"
-                        onClear={resetParameters}
+                        onClear={prefillParameters}
                         searching={resultsLoading}
                     />
                 </form>

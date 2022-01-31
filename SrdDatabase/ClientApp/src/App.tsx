@@ -21,10 +21,14 @@ import EventHome from './components/event/Home';
 import EventAdd from './components/event/Add';
 import EventEdit from './components/event/Edit';
 import EventDetails from './components/event/Details';
-import TransactionHome from './components/transaction/Home';
-import TransactionAdd from './components/transaction/Add';
-import TransactionEdit from './components/transaction/Edit';
-import TransactionDetails from './components/transaction/Details';
+import PaymentHome from './components/payment/Home';
+import PaymentAdd from './components/payment/Add';
+import PaymentEdit from './components/payment/Edit';
+import PaymentDetails from './components/payment/Details';
+import ChargeHome from './components/charge/Home';
+import ChargeAdd from './components/charge/Add';
+import ChargeEdit from './components/charge/Edit';
+import ChargeDetails from './components/charge/Details';
 import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
@@ -51,10 +55,14 @@ export default () => (
         <PrivateRoute exact path='/event/add' component={EventAdd} roles={atLeast.contributor} />
         <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} roles={atLeast.contributor} />
         <PrivateRoute exact path='/event/details/:eventId' component={EventDetails} />
-        <PrivateRoute exact path='/transaction' component={TransactionHome} roles={atLeast.accountant} />
-        <PrivateRoute exact path='/transaction/add' component={TransactionAdd} roles={atLeast.accountant} />
-        <PrivateRoute exact path='/transaction/edit/:transactionId' component={TransactionEdit} roles={atLeast.accountant} />
-        <PrivateRoute exact path='/transaction/details/:transactionId' component={TransactionDetails} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/payment' component={PaymentHome} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/payment/add' component={PaymentAdd} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/payment/edit/:paymentId' component={PaymentEdit} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/payment/details/:paymentId' component={PaymentDetails} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge' component={ChargeHome} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge/add' component={ChargeAdd} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge/edit/:chargeId' component={ChargeEdit} roles={atLeast.accountant} />
+        <PrivateRoute exact path='/charge/details/:chargeId' component={ChargeDetails} roles={atLeast.accountant} />
         <PrivateRoute exact path='/user' component={UserHome} roles={atLeast.administrator}/>
         <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />
         <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={atLeast.administrator} />

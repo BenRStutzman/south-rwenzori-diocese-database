@@ -8,6 +8,8 @@ using SrdDatabase.Domain.Commands;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
+using SrdDatabase.Domain.Queries.Events;
+using SrdDatabase.Domain.Commands.Events;
 
 namespace SrdDatabase.Controllers
 {

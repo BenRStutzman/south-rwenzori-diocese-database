@@ -18,7 +18,8 @@ type Props =
     typeof SharedStore.actionCreators &
     RouteComponentProps<{ archdeaconryId: string }>;
 
-const Edit = ({ archdeaconryLoading,
+const Edit = ({
+    isLoading,
     archdeaconry,
     loadArchdeaconry,
     match,
@@ -37,7 +38,7 @@ const Edit = ({ archdeaconryLoading,
         deleteArchdeaconry(archdeaconry, () => { history.push('/archdeaconry'); });
     };
 
-    return archdeaconryLoading ? <LoadingSpinner fullPage/> :
+    return isLoading ? <LoadingSpinner fullPage/> :
         <>
             <div className="page-heading">
                 <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>

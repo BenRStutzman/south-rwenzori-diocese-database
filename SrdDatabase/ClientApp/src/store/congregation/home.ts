@@ -1,23 +1,26 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
-import { post } from '../../helpers/apiHelpers';
+import { get, post } from '../../helpers/apiHelpers';
+import { Archdeaconry } from '../../models/archdeaconry';
 import { CongregationParameters, CongregationResults } from '../../models/congregation';
+import { Parish } from '../../models/parish';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { loadParishes } from '../shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'CONGREGATION.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'CONGREGATION.SET_SEARCH_PARISH_ID';
-const REQUEST_RESULTS = 'CONGREGATION.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'CONGREGATION.RECEIVE_RESULTS';
-const RESET_PARAMETERS = 'CONGREGATION.RESET_PARAMETERS';
+const SET_RESULTS_LOADING = 'CONGREGATION.SET_RESULTS_LOADING';
+const SET_RESULTS = 'CONGREGATION.SET_RESULTS';
+const SET_PARAMETERS = 'CONGREGATION.SET_PARAMETERS';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: CongregationResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: CongregationResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -31,28 +34,63 @@ const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
     value: archdeaconryId,
 });
 
-const setSearchParishIdAction = (parishId: number) => ({
+const setSearchParishIdAction = (parishId?: number) => ({
     type: SET_SEARCH_PARISH_ID,
     value: parishId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: CongregationParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const prefillParameters = (parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const backupUrl = '/parish';
+
+    const setParametersAndSearch = (parameters: CongregationParameters) => {
+        dispatch(setParameters(parameters));
+
+        if (search) {
+            dispatch(searchCongregations(parameters));
+        }
+    };
+
+    if (parishId) {
+        get<Parish>(`api/parish/${parishId}`, backupUrl)
+            .then(parish => {
+                setParametersAndSearch({
+                    parishId,
+                    archdeaconryId: parish.archdeaconryId,
+                });
+            });
+    } else if (archdeaconryId) {
+        get<Archdeaconry>(`api/archdeaconry/${archdeaconryId}`, backupUrl)
+            .then(() => {
+                setParametersAndSearch({
+                    archdeaconryId,
+                })
+            })
+    } else {
+        setParametersAndSearch({});
+    }
 };
+
+const setParameters = (parameters: CongregationParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadParishes(parameters.archdeaconryId));
+}
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchNameAction(name));
 };
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(loadParishes(archdeaconryId));
     dispatch(setSearchArchdeaconryIdAction(archdeaconryId));
+    dispatch(setSearchParishId(undefined));
 };
 
-const setSearchParishId = (parishId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchParishIdAction(parishId));
 };
 
@@ -61,18 +99,18 @@ const searchCongregations = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<CongregationParameters & PagedParameters>('api/congregation/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<CongregationResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
 export const actionCreators = {
     searchCongregations,
-    resetParameters,
+    prefillParameters,
     setSearchName,
     setSearchArchdeaconryId,
     setSearchParishId,
@@ -92,10 +130,10 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case SET_SEARCH_NAME:
             return {
@@ -121,12 +159,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     parishId: action.value,
                 }
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,

@@ -1,5 +1,6 @@
-﻿using SrdDatabase.Models.Events;
-using SrdDatabase.Models.Transactions;
+﻿using SrdDatabase.Models.Charges;
+using SrdDatabase.Models.Events;
+using SrdDatabase.Models.Payments;
 
 namespace SrdDatabase.Models.Congregations
 {
@@ -9,16 +10,20 @@ namespace SrdDatabase.Models.Congregations
 
         public EventResults EventResults { get; }
 
-        public TransactionResults TransactionResults { get; }
+        public PaymentResults PaymentResults { get; }
+
+        public ChargeResults ChargeResults { get; }
 
         public CongregationDetails(
             Congregation congregation,
             EventResults eventResults,
-            TransactionResults transactionResults)
+            PaymentResults transactionResults,
+            ChargeResults chargeResults)
         {
             Congregation = congregation;
             EventResults = eventResults;
-            TransactionResults = transactionResults;
+            PaymentResults = transactionResults;
+            ChargeResults = chargeResults;
         }
     }
 

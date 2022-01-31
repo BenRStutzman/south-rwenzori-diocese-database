@@ -4,8 +4,8 @@ import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
 import { User } from '../../models/user';
 import { History } from 'history';
 
-const REQUEST_USER = 'USER.REQUEST_USER';
-const RECEIVE_USER = 'USER.RECEIVE_USER';
+const SET_IS_LOADING = 'USER.SET_IS_LOADING';
+const SET_USER = 'USER.SET_USER';
 const SET_USER_TYPE_ID = 'USER.SET_USER_TYPE_ID';
 const SET_NAME = 'USER.SET_NAME';
 const SET_USERNAME = 'USER.SET_USERNAME';
@@ -13,12 +13,12 @@ const SET_PASSWORD = 'USER.SET_PASSWORD';
 const SET_IS_SAVING = 'USER.SET_IS_SAVING';
 const SET_ERRORS = 'USER.SET_ERRORS';
 
-const requestUserAction = () => ({
-    type: REQUEST_USER,
+const setIsLoadingAction = () => ({
+    type: SET_IS_LOADING,
 });
 
-const receiveUserAction = (user: User) => ({
-    type: RECEIVE_USER,
+const setUserAction = (user: User) => ({
+    type: SET_USER,
     value: user,
 });
 
@@ -52,16 +52,20 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const resetUser = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(receiveUserAction(initialState.user));
+const prefillUser = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setUser({}));
 };
 
+const setUser = (user: User): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setUserAction(user));
+}
+
 const loadUser = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestUserAction());
+    dispatch(setIsLoadingAction());
 
     get<User>(`api/user/${id}`)
         .then(user => {
-            dispatch(receiveUserAction(user));
+            dispatch(setUser(user));
         });
 };
 
@@ -106,7 +110,7 @@ const setPassword = (password: string): AppThunkAction<Action> => (dispatch) => 
 
 export const actionCreators = {
     loadUser,
-    resetUser,
+    prefillUser,
     saveUser,
     setUserTypeId,
     setName,
@@ -115,7 +119,7 @@ export const actionCreators = {
 };
 
 export interface State {
-    userLoading: boolean;
+    isLoading: boolean;
     user: User;
     hasBeenChanged: boolean,
     isSaving: boolean,
@@ -124,7 +128,7 @@ export interface State {
 
 const initialState: State = {
     user: {},
-    userLoading: true,
+    isLoading: true,
     hasBeenChanged: false,
     isSaving: false,
     errors: {},
@@ -132,17 +136,17 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case REQUEST_USER:
+        case SET_IS_LOADING:
             return {
                 ...state,
-                userLoading: true,
+                isLoading: true,
             };
-        case RECEIVE_USER:
+        case SET_USER:
             return {
                 ...state,
                 user: action.value,
                 errors: {},
-                userLoading: false,
+                isLoading: false,
                 hasBeenChanged: false,
             };
         case SET_USER_TYPE_ID:

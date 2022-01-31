@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { eventItems, transactionItems } from '../../helpers/detailsHelpers';
+import { chargeItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -46,6 +46,13 @@ const Details = ({
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
     };
 
+    const transactions = [
+        ...paymentItems(details.paymentResults),
+        ...chargeItems(details.chargeResults)
+    ]
+        .sort((a, b) => (b.dateTime as number) - (a.dateTime as number))
+        .slice(0, 10);
+
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
@@ -64,17 +71,20 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
+                    baseItemType="congregation"
                     itemType="parish"
                     itemValue={details.congregation.parish}
                     itemId={details.congregation.parishId}
                 />
                 <DetailsBox
+                    baseItemType="congregation"
                     itemType="archdeaconry"
                     itemValue={details.congregation.archdeaconry}
                     itemId={details.congregation.archdeaconryId}
                 />
                 <DetailsList
                     itemType="event"
+                    baseItemType="congregation"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
@@ -84,10 +94,11 @@ const Details = ({
                     canEditTransactions &&
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
-                        itemType="transaction"
-                        itemTotal={details.transactionResults.totalResults}
-                        items={transactionItems(details.transactionResults)}
-                        showAddLink={canEditTransactions}
+                        itemType="payment"
+                        baseItemType="congregation"
+                        secondType="charge"
+                        items={transactions}
+                        showAddLink
                         addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }

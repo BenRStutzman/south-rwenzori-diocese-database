@@ -71,7 +71,7 @@ const SearchResults = ({
                                 </td>
                                 {
                                     canViewBalance &&
-                                    <td className="balance-column">
+                                    <td className="money-column">
                                         {parenthesizeIfNegative(congregation.balance as number)}
                                     </td>
                                 }

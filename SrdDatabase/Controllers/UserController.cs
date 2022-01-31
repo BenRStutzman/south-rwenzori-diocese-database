@@ -9,6 +9,8 @@ using SrdDatabase.Models.Authentication;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Commands;
+using SrdDatabase.Domain.Queries.Users;
+using SrdDatabase.Domain.Commands.Users;
 
 namespace SrdDatabase.Controllers
 {

@@ -4,20 +4,20 @@ import { post } from '../../helpers/apiHelpers';
 import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
 import { UserParameters, UserResults } from '../../models/user';
 
-const REQUEST_RESULTS = 'USER.REQUEST_RESULTS';
-const RECEIVE_RESULTS = 'USER.RECEIVE_RESULTS';
-const RESET_PARAMETERS = 'USER.RESET_PARAMETERS';
+const SET_RESULTS_LOADING = 'USER.SET_RESULTS_LOADING';
+const SET_RESULTS = 'USER.SET_RESULTS';
+const SET_PARAMETERS = 'USER.SET_PARAMETERS';
 const SET_SEARCH_NAME = 'USER.SET_SEARCH_NAME';
 const SET_SEARCH_USERNAME = 'USER.SET_SEARCH_USERNAME';
 const SET_SEARCH_USER_TYPE_ID = 'USER.SET_SEARCH_USER_TYPE_ID';
 
-const requestResultsAction = (showLoading: boolean = true) => ({
-    type: REQUEST_RESULTS,
+const setResultsLoadingAction = (showLoading: boolean = true) => ({
+    type: SET_RESULTS_LOADING,
     value: showLoading,
 });
 
-const receiveResultsAction = (results: UserResults) => ({
-    type: RECEIVE_RESULTS,
+const setResultsAction = (results: UserResults) => ({
+    type: SET_RESULTS,
     value: results,
 });
 
@@ -36,12 +36,23 @@ const setSearchUserTypeIdAction = (userTypeId: number) => ({
     value: userTypeId,
 });
 
-const resetParametersAction = () => ({
-    type: RESET_PARAMETERS,
+const setParametersAction = (parameters: UserParameters) => ({
+    type: SET_PARAMETERS,
+    value: parameters,
 });
 
-const resetParameters = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(resetParametersAction());
+const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    const parameters = {};
+
+    dispatch(setParameters(parameters));
+
+    if (search) {
+        dispatch(searchUsers(parameters));
+    }
+};
+
+const setParameters = (parameters: UserParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
@@ -61,18 +72,18 @@ const searchUsers = (
     pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestResultsAction(showLoading));
+    dispatch(setResultsLoadingAction(showLoading));
 
     post<UserParameters & PagedParameters>('api/user/search', { ...parameters, pageNumber })
         .then(response => response.json() as Promise<UserResults>)
         .then(results => {
-            dispatch(receiveResultsAction(results));
+            dispatch(setResultsAction(results));
         });
 };
 
 export const actionCreators = {
     searchUsers,
-    resetParameters,
+    prefillParameters,
     setSearchName,
     setSearchUsername,
     setSearchUserTypeId,
@@ -92,10 +103,10 @@ const initialState: State = {
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case RESET_PARAMETERS:
+        case SET_PARAMETERS:
             return {
                 ...state,
-                parameters: initialState.parameters,
+                parameters: action.value,
             };
         case SET_SEARCH_NAME:
             return {
@@ -121,12 +132,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     userTypeId: action.value,
                 }
             };
-        case REQUEST_RESULTS:
+        case SET_RESULTS_LOADING:
             return {
                 ...state,
                 resultsLoading: action.value,
             };
-        case RECEIVE_RESULTS:
+        case SET_RESULTS:
             return {
                 ...state,
                 results: action.value,
