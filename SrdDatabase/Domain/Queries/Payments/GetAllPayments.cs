@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Payments;
 using SrdDatabase.Models.Payments;
 using System.Collections.Generic;

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Archdeaconries;
 using SrdDatabase.Models.Archdeaconries;
 using System.Threading;

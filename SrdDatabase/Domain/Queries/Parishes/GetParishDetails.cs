@@ -1,9 +1,6 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Events;
-using SrdDatabase.Models.Congregations;
-using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;

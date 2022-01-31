@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Models.Events;
 using System.Collections.Generic;

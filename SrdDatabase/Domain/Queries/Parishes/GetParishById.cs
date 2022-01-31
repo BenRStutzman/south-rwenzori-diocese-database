@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Parishes;
 using SrdDatabase.Models.Parishes;
 using System.ComponentModel.DataAnnotations;

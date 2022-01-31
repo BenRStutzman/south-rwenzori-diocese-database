@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Congregations;
-using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;

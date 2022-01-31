@@ -3,8 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Data.Commands;
-using SrdDatabase.Models.Archdeaconries;
 using SrdDatabase.Models.Events;
 using System;
 using SrdDatabase.Data.Commands.Events;

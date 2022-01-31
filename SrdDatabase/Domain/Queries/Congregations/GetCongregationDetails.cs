@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Charges;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Payments;

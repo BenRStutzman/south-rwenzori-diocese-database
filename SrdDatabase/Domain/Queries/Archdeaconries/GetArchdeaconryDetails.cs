@@ -1,11 +1,7 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Archdeaconries;
-using SrdDatabase.Models.Congregations;
-using SrdDatabase.Models.Events;
-using SrdDatabase.Models.Parishes;
 using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Data.Queries.Parishes;
 using SrdDatabase.Data.Queries.Congregations;

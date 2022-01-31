@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Models.Congregations;
 using System.Collections.Generic;
