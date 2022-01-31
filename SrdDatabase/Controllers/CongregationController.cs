@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using SrdDatabase.Domain.Queries;
 using SrdDatabase.Attributes;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Domain.Commands;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Commands.Congregations;
 

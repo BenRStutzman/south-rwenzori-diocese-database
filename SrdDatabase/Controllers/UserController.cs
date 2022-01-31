@@ -4,11 +4,9 @@ using SrdDatabase.Attributes;
 using SrdDatabase.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SrdDatabase.Domain.Queries;
 using SrdDatabase.Models.Authentication;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Domain.Commands;
 using SrdDatabase.Domain.Queries.Users;
 using SrdDatabase.Domain.Commands.Users;
 

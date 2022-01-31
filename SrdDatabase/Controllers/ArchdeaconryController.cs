@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SrdDatabase.Domain.Queries;
 using SrdDatabase.Attributes;
 using SrdDatabase.Models.Archdeaconries;
 using System.Collections.Generic;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Domain.Commands;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Commands.Archdeaconries;
 
