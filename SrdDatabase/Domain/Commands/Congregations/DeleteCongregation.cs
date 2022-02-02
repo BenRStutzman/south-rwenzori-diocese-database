@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries.Charges;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Payments;
 using SrdDatabase.Models.Shared;
@@ -38,7 +39,7 @@ namespace SrdDatabase.Domain.Commands.Congregations
                 var paymentsQuery = new GetPayments.Query(congregationId: request.Id);
                 var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
                 
-                var chargesQuery = new GetPayments.Query(congregationId: request.Id);
+                var chargesQuery = new GetCharges.Query(congregationId: request.Id);
                 var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
 
                 var eventResults = await eventsTask;
