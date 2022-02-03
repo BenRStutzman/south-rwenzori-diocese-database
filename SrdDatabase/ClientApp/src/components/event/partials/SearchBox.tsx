@@ -59,7 +59,7 @@ const SearchBox = ({
 
     useEffect(loadData, []);
 
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchPersonName(event.target.value);

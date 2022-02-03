@@ -51,7 +51,7 @@ const SearchBox = ({
 
     useEffect(loadData, []);
 
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSearchArchdeaconryId(parseInt(event.target.value));
