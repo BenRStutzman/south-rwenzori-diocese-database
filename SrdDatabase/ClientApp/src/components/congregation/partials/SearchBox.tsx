@@ -3,14 +3,18 @@ import * as Store from '../../../store/congregation/home';
 import * as SharedStore from '../../../store/shared';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
 import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
 
 const autoCompleteString = randomString();
 
+type OwnProps = {
+    expanded: boolean;
+};
+
 type Props =
+    OwnProps &
     Store.State &
     typeof Store.actionCreators &
     SharedStore.State &
@@ -29,6 +33,7 @@ const SearchBox = ({
     archdeaconries,
     parishes,
     resultsLoading,
+    expanded,
 }: Props) => {
     const queryParams = useQueryParams();
 
@@ -45,8 +50,6 @@ const SearchBox = ({
     }
 
     useEffect(loadData, []);
-
-    const [expanded, setExpanded] = useState(true);
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
@@ -65,8 +68,7 @@ const SearchBox = ({
         searchCongregations(parameters);
     };
 
-    return <>
-        <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+    return (
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="form-group">
@@ -131,10 +133,14 @@ const SearchBox = ({
                 />
             </form>
         </div>
-    </>;
+    );
 }
 
 export default connect(
-    (state: State) => ({ ...state.congregation.home, ...state.shared }),
+    (state: State, ownProps: OwnProps) => ({
+        ...state.congregation.home,
+        ...state.shared,
+        ...ownProps,
+    }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchBox);

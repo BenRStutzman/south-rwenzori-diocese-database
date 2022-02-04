@@ -5,10 +5,14 @@ import * as Store from '../../../store/event/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
-import ExpandButton from '../../shared/ExpandButton';
 import { bindActionCreators } from 'redux';
 
+type OwnProps = {
+    expanded: boolean;
+}
+
 type Props =
+    OwnProps &
     Store.State &
     typeof Store.actionCreators &
     SharedStore.State &
@@ -37,6 +41,7 @@ const SearchBox = ({
     eventTypesLoading,
     resultsLoading,
     archdeaconriesLoading,
+    expanded,
     parishesLoading,
 }: Props) => {
     const queryParams = useQueryParams();
@@ -58,8 +63,6 @@ const SearchBox = ({
     };
 
     useEffect(loadData, []);
-
-    const [expanded, setExpanded] = useState(true);
 
     const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchPersonName(event.target.value);
@@ -94,8 +97,7 @@ const SearchBox = ({
         searchEvents(parameters);
     };
 
-    return <>
-        <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+    return (
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="row">
@@ -230,10 +232,14 @@ const SearchBox = ({
                 />
             </form>
         </div>
-    </>;
+    );
 }
 
 export default connect(
-    (state: State) => ({ ...state.event.home, ...state.shared }),
+    (state: State, ownProps: OwnProps) => ({
+        ...state.event.home,
+        ...state.shared,
+        ...ownProps,
+    }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchBox);

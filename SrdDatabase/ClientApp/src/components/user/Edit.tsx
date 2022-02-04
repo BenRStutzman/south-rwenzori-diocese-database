@@ -40,7 +40,7 @@ const Edit = ({
 
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1 className="page-title">Edit user {user.name}</h1>
+            <h1>Edit user {user.name}</h1>
             <div className="float-right button-group">
                 <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
                     View details

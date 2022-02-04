@@ -43,7 +43,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">{details.event.eventType} of {peoplesNames(details.event)}</h1>
+                <h1>{details.event.eventType} of {peoplesNames(details.event)}</h1>
                 {
                     canEdit(details.event, currentUser) &&
                     <div className="button-group float-right">

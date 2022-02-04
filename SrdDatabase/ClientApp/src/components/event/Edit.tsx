@@ -48,7 +48,7 @@ const Edit = ({
         eventIsCurrent && !canEdit(event, currentUser) ? <Redirect to='/' /> :
             <>
                 <div className="page-heading">
-                    <h1 className="page-title">Edit {event.eventType} of {peoplesNames(event)}</h1>
+                    <h1>Edit {event.eventType} of {peoplesNames(event)}</h1>
                     <div className="float-right button-group">
                         <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
                             View details

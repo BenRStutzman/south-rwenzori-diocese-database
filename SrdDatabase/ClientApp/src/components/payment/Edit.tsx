@@ -41,7 +41,7 @@ const Edit = ({
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">{`Edit payment of ${payment.amount} UGX`}</h1>
+                <h1>{`Edit payment of ${payment.amount} UGX`}</h1>
                 <div className="float-right button-group">
                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                         View details

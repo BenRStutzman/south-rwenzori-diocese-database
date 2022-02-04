@@ -41,7 +41,7 @@ const Edit = ({
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">Edit {archdeaconry.name} Archdeaconry</h1>
+                <h1>Edit {archdeaconry.name} Archdeaconry</h1>
                 <div className="button-group float-right">
                     <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
                         View details

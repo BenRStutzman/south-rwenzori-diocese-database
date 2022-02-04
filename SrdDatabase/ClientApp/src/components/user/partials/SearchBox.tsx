@@ -4,13 +4,17 @@ import { randomString } from '../../../helpers/miscellaneous';
 import * as Store from '../../../store/user/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
-import ExpandButton from '../../shared/ExpandButton';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
 
 const autoComplete = randomString();
 
+type OwnProps = {
+    expanded: boolean;
+}
+
 type Props =
+    OwnProps &
     Store.State &
     typeof Store.actionCreators &
     SharedStore.State &
@@ -27,6 +31,7 @@ const SearchBox = ({
     userTypesLoading,
     prefillParameters,
     resultsLoading,
+    expanded,
 }: Props) => {
     const loadData = () => {
         loadUserTypes();
@@ -34,8 +39,6 @@ const SearchBox = ({
     };
 
     useEffect(loadData, []);
-
-    const [expanded, setExpanded] = useState(true);
 
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchName(event.target.value);
@@ -54,8 +57,7 @@ const SearchBox = ({
         searchUsers(parameters);
     };
 
-    return <>
-        <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+    return (
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="form-group">
@@ -115,10 +117,14 @@ const SearchBox = ({
                 />
             </form>
         </div>
-    </>;
+    );
 };
 
 export default connect(
-    (state: State) => ({ ...state.user.home, ...state.shared }),
+    (state: State, ownProps: OwnProps) => ({
+        ...state.user.home,
+        ...state.shared,
+        ...ownProps,
+    }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchBox);

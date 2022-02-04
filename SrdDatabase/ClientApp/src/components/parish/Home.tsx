@@ -6,23 +6,30 @@ import { Link } from 'react-router-dom';
 import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
 import { atLeast } from '../../helpers/userHelper';
+import ExpandButton from '../shared/ExpandButton';
 
 type Props =
-    SharedStore.State
+    SharedStore.State;
 
 const Home = ({
     currentUser,
 }: Props) => {
+    const [expanded, setExpanded] = React.useState(false);
+
     const canAdd = currentUser && atLeast.editor.includes(currentUser.userType as string);
 
     return (
         <>
-            <h1 className="page-title">Parishes</h1>
-            {
-                canAdd &&
-                <Link className="btn btn-primary float-right" to="/parish/add">Add new</Link>
-            }
-            <SearchBox />
+            <div className="page-heading" >
+                <h1>Parishes</h1>
+                <ExpandButton expanded={expanded} setExpanded={setExpanded} />
+
+                {
+                    canAdd &&
+                    <Link className="btn btn-primary float-right" to="/parish/add">Add new</Link>
+                }
+            </div>
+            <SearchBox expanded={expanded} />
             <SearchResults />
         </>
     );

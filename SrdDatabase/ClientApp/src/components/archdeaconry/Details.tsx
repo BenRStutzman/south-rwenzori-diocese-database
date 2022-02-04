@@ -46,7 +46,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1 className="page-title">{details.archdeaconry.name} Archdeaconry</h1>
+                <h1>{details.archdeaconry.name} Archdeaconry</h1>
                 {
                     canEdit &&
                     <div className="button-group float-right">

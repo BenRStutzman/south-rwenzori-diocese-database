@@ -49,11 +49,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.page-title {
-    display: inline-block;
-    margin-bottom: 20px;   
-}
-
 .float-right {
     float: right;
 }
@@ -89,16 +84,6 @@ button:disabled {
     display: flex;
     gap: 5px;
     flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.expand-button {
-    display: block;
-    margin-bottom: 10px;
-}
-
-.expand-button-expanded {
-    padding: 0;
 }
 
 .details-boxes {
@@ -163,6 +148,12 @@ button:disabled {
 }
 
 .page-heading {
-    display: grid;
-    grid-template-columns: 5fr 1fr;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.page-heading h1 {
+    margin-bottom: 0;
 }

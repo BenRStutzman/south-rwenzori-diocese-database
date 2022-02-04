@@ -32,7 +32,7 @@ const Home = ({
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1 className="page-title">South Rwenzori Diocese</h1>
+            <h1>South Rwenzori Diocese</h1>
             <div className="details-boxes">
                 <DetailsList
                     itemType="archdeaconry"

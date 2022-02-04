@@ -39,7 +39,7 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1 className="page-title">User {details.user.name}</h1>
+            <h1>User {details.user.name}</h1>
             <div className="button-group float-right">
                 <Link className="btn btn-primary" to={`/user/edit/${details.user.id}`}>
                     Edit user
