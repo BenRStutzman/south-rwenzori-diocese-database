@@ -13,7 +13,7 @@ const SearchButtons = ({
     searching,
 }: Props) =>
     <>
-        <button className="btn btn-success" type="submit">
+        <button disabled={searching} className="btn btn-success" type="submit">
             {searching ? <Spinner size="sm" /> : `Search ${thingsBeingSearched}`}
         </button>
         <button

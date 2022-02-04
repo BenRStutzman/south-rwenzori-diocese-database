@@ -101,7 +101,7 @@ const SaveForm = ({
                     )}
                 </ul>
             }
-            <button disabled={!hasBeenChanged} className="btn btn-primary" type="submit">
+            <button disabled={!hasBeenChanged || isSaving} className="btn btn-primary" type="submit">
                 {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} parish`}
             </button>
         </form>
