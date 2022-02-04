@@ -6,6 +6,7 @@ import { EventResults } from './event';
 export interface Archdeaconry {
     id?: number;
     name?: string;
+    balance?: number;
 }
 
 export interface ArchdeaconryDetails {

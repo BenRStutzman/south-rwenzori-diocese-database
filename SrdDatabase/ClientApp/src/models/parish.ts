@@ -7,6 +7,7 @@ export interface Parish {
     name?: string;
     archdeaconryId?: number;
     archdeaconry?: string;
+    balance?: number;
 }
 
 export interface ParishDetails {

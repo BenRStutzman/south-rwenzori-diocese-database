@@ -11,6 +11,8 @@ import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
 import { congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
+import DetailsBox from '../shared/DetailsBox';
+import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -38,6 +40,7 @@ const Details = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteArchdeaconry(details.archdeaconry, () => { history.push('/archdeaconry'); });
@@ -84,6 +87,13 @@ const Details = ({
                     showAddLink={canAddEvents}
                     addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
+                {
+                    canViewBalance &&
+                    <DetailsBox
+                        itemValue={`${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                        itemType="balance"
+                    />
+                }
             </div>
         </>;
 }

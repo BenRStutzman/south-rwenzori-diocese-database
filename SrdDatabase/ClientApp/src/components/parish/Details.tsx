@@ -12,6 +12,7 @@ import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
 import { congregationItems, eventItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
+import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -43,6 +44,7 @@ const Details = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
@@ -83,6 +85,13 @@ const Details = ({
                     showAddLink={canAddEvents}
                     addParams={`?parishId=${details.parish.id}`}
                 />
+                {
+                    canViewBalance &&
+                    <DetailsBox
+                        itemValue={`${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
+                        itemType="balance"
+                    />
+                }
             </div>
         </>;
 }

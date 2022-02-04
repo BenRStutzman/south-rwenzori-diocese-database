@@ -9,13 +9,16 @@
         public int ArchdeaconryId { get; }
 
         public string Archdeaconry { get; }
+
+        public int Balance { get; }
         
-        public Parish(int id, string name, int archdeaconryId, string archdeaconry)
+        public Parish(int id, string name, int archdeaconryId, string archdeaconry, int balance)
         {
             Id = id;
             Name = name;
             ArchdeaconryId = archdeaconryId;
             Archdeaconry = archdeaconry;
+            Balance = balance;
         }
 
         // for Dapper
