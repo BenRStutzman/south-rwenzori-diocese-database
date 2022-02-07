@@ -90,8 +90,7 @@ const Details = ({
                 {
                     canViewBalance &&
                     <DetailsBox
-                        itemValue={`${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
-                        itemType="balance"
+                        altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
                     />
                 }
             </div>

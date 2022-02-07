@@ -41,6 +41,7 @@ const initialState: State = {
         parishResults: { ...pagedResultsDefaults, parishes: [] },
         congregationResults: { ...pagedResultsDefaults, congregations: [] },
         eventResults: { ...pagedResultsDefaults, events: [] },
+        balance: 0,
     },
 };
 

@@ -3,10 +3,12 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { archdeaconryItems, congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
+import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
+import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
@@ -29,6 +31,7 @@ const Home = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
@@ -58,6 +61,12 @@ const Home = ({
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
                 />
+                {
+                    canViewBalance &&
+                    <DetailsBox
+                        altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                    />
+                }
             </div>
         </>
 };

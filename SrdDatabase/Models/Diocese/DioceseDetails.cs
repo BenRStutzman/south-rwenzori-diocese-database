@@ -15,16 +15,20 @@ namespace SrdDatabase.Models.Diocese
 
         public EventResults EventResults { get; }
 
+        public int Balance { get; }
+
         public DioceseDetails(
             ArchdeaconryResults archdeaconryResults,
             ParishResults parishResults,
             CongregationResults congregationResults,
-            EventResults eventResults)
+            EventResults eventResults,
+            int balance)
         {
             ArchdeaconryResults = archdeaconryResults;
             ParishResults = parishResults;
             CongregationResults = congregationResults;
             EventResults = eventResults;
+            Balance = balance;
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries.Archdeaconries;
 using SrdDatabase.Data.Queries.Congregations;
+using SrdDatabase.Data.Queries.Diocese;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Parishes;
 using SrdDatabase.Models.Diocese;
@@ -38,16 +39,21 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var eventsQuery = new GetEvents.Query(pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
+                var balanceQuery = new GetDioceseBalance.Query();
+                var balanceTask = _mediator.Send(balanceQuery, cancellationToken);
+
                 var archdeaconryResults = await archdeaconriesTask;
                 var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
+                var balance = await balanceTask;
 
                 return new DioceseDetails(
                     archdeaconryResults,
                     parishResults,
                     congregationResults,
-                    eventResults);
+                    eventResults,
+                    balance);
             }
         }
     }

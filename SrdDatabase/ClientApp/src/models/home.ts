@@ -8,4 +8,5 @@ export interface DioceseDetails {
     parishResults: ParishResults;
     congregationResults: CongregationResults;
     eventResults: EventResults;
+    balance: number;
 }
