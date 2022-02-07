@@ -5,7 +5,7 @@ import SearchBox from './partials/SearchBox';
 import SearchResults from './partials/SearchResults';
 
 const Home = () => {
-    const [expanded, setExpanded] = React.useState(true);
+    const [expanded, setExpanded] = React.useState(false);
 
     return (
         <>
