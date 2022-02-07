@@ -10,6 +10,7 @@ import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -27,6 +28,7 @@ const SearchResults = ({
     parameters,
 }: Props) => {
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const nextPage = () => {
         searchParishes(parameters, results.pageNumber + 1);
@@ -50,11 +52,28 @@ const SearchResults = ({
                 />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
-                        <tr>
-                            <th className={`col-${canEdit ? '5' : '6'}`}>Name</th>
-                            <th className={`col-${canEdit ? '4' : '5'}`}>Archdeaconry</th>
-                            <th className={`col-${canEdit ? '3' : '1'}`}></th>
-                        </tr>
+                        {
+                            canEdit ?
+                                <tr>
+                                    <th className="col-4">Name</th>
+                                    <th className="col-3">Archdeaconry</th>
+                                    <th className="col-2">Balance (UGX)</th>
+                                    <th className="col-3"></th>
+                                </tr>
+                                : canViewBalance ?
+                                    <tr>
+                                        <th className="col-5">Name</th>
+                                        <th className="col-4">Archdeaconry</th>
+                                        <th className="col-2">Balance (UGX)</th>
+                                        <th className="col-1"></th>
+                                    </tr>
+                                    :
+                                    <tr>
+                                        <th className="col-6">Name</th>
+                                        <th className="col-5">Archdeaconry</th>
+                                        <th className="col-1"></th>
+                                    </tr>
+                        }
                     </thead>
                     <tbody>
                         {results.parishes.map((parish: Parish) =>
@@ -63,6 +82,10 @@ const SearchResults = ({
                                 <td>
                                     <Link to={`/archdeaconry/details/${parish.archdeaconryId}`}>{parish.archdeaconry}</Link>
                                 </td>
+                                {
+                                    canViewBalance &&
+                                    <td className="money-column">{parenthesizeIfNegative(parish.balance as number)}</td>
+                                }
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
                                         View

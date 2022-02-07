@@ -10,6 +10,7 @@ import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -26,7 +27,8 @@ const SearchResults = ({
     searchArchdeaconries,
     currentUser,
 }: Props) => {
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
+    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const nextPage = () => {
         searchArchdeaconries(parameters, results.pageNumber + 1);
@@ -50,15 +52,34 @@ const SearchResults = ({
                 />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
-                        <tr>
-                            <th className={`col-${canEdit ? '9' : '11'}`}>Name</th>
-                            <th className={`col-${canEdit ? '3' : '1'}`}></th>
-                        </tr>
+                        {
+                            canEdit ?
+                                <tr>
+                                    <th className="col-7">Name</th>
+                                    <th className="col-2">Balance (UGX)</th>
+                                    <th className="col-3"></th>
+                                </tr>
+                                : canViewBalance ?
+                                    <tr>
+                                        <th className="col-9">Name</th>
+                                        <th className="col-2">Balance (UGX)</th>
+                                        <th className="col-1"></th>
+                                    </tr>
+                                    :
+                                    <tr>
+                                        <th className="col-11">Name</th>
+                                        <th className="col-1"></th>
+                                    </tr>
+                        }
                     </thead>
                     <tbody>
                         {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                             <tr key={archdeaconry.id}>
                                 <td>{archdeaconry.name}</td>
+                                {
+                                    canViewBalance &&
+                                    <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
+                                }
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
                                         View
