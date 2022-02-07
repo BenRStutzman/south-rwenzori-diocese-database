@@ -68,3 +68,10 @@ export function chargeItems(chargeResults: ChargeResults): DetailsListItem[] {
 
     return chargeArrays.reduce((acc, val) => acc.concat(val), []);
 }
+
+export function transactionItems(paymentResults: PaymentResults, chargeResults: ChargeResults): DetailsListItem[] {
+    return paymentItems(paymentResults)
+        .concat(chargeItems(chargeResults))
+        .sort((a, b) => (b.dateTime as number) - (a.dateTime as number))
+        .slice(0, 10);
+}

@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { congregationItems, eventItems } from '../../helpers/detailsHelpers';
+import { congregationItems, eventItems, transactionItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 
@@ -87,8 +87,14 @@ const Details = ({
                 />
                 {
                     canViewBalance &&
-                    <DetailsBox
+                    <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
+                        itemType="payment"
+                        baseItemType="congregation"
+                        secondType="charge"
+                        items={transactionItems(details.paymentResults, details.chargeResults)}
+                        showAddLink
+                        addParams={`?parishId=${details.parish.id}`}
                     />
                 }
             </div>

@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { chargeItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
+import { chargeItems, eventItems, paymentItems, transactionItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -45,13 +45,6 @@ const Details = ({
     const onDelete = () => {
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
     };
-
-    const transactions = [
-        ...paymentItems(details.paymentResults),
-        ...chargeItems(details.chargeResults)
-    ]
-        .sort((a, b) => (b.dateTime as number) - (a.dateTime as number))
-        .slice(0, 10);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
@@ -97,7 +90,7 @@ const Details = ({
                         itemType="payment"
                         baseItemType="congregation"
                         secondType="charge"
-                        items={transactions}
+                        items={transactionItems(details.paymentResults, details.chargeResults)}
                         showAddLink
                         addParams={`?congregationId=${details.congregation.id}`}
                     />

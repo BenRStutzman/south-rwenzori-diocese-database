@@ -1,5 +1,7 @@
-﻿import { CongregationResults } from './congregation';
+﻿import { ChargeResults } from './charge';
+import { CongregationResults } from './congregation';
 import { EventResults } from './event';
+import { PaymentResults } from './payment';
 import { PagedResults } from './shared';
 
 export interface Parish {
@@ -14,6 +16,8 @@ export interface ParishDetails {
     parish: Parish;
     congregationResults: CongregationResults;
     eventResults: EventResults;
+    paymentResults: PaymentResults;
+    chargeResults: ChargeResults;
 }
 
 export interface ParishParameters {
