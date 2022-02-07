@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries.Archdeaconries;
+using SrdDatabase.Data.Queries.Charges;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Diocese;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Parishes;
+using SrdDatabase.Data.Queries.Payments;
 using SrdDatabase.Models.Diocese;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,6 +41,12 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var eventsQuery = new GetEvents.Query(pageSize: Constants.DetailsPageSize);
                 var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
 
+                var paymentsQuery = new GetPayments.Query(pageSize: Constants.DetailsPageSize);
+                var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
+
+                var chargesQuery = new GetCharges.Query(pageSize: Constants.DetailsPageSize);
+                var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
+
                 var balanceQuery = new GetDioceseBalance.Query();
                 var balanceTask = _mediator.Send(balanceQuery, cancellationToken);
 
@@ -46,6 +54,8 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
+                var paymentResults = await paymentsTask;
+                var chargeResults = await chargesTask;
                 var balance = await balanceTask;
 
                 return new DioceseDetails(
@@ -53,6 +63,8 @@ namespace SrdDatabase.Domain.Queries.Diocese
                     parishResults,
                     congregationResults,
                     eventResults,
+                    paymentResults,
+                    chargeResults,
                     balance);
             }
         }

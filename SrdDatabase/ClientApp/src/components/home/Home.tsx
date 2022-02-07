@@ -2,13 +2,12 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { archdeaconryItems, congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, congregationItems, eventItems, parishItems, transactionItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
-import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
@@ -63,8 +62,12 @@ const Home = ({
                 />
                 {
                     canViewBalance &&
-                    <DetailsBox
+                    <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                        itemType="payment"
+                        secondType="charge"
+                        items={transactionItems(details.paymentResults, details.chargeResults)}
+                        showAddLink
                     />
                 }
             </div>

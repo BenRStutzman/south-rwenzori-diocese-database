@@ -9,9 +9,8 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { congregationItems, eventItems, parishItems } from '../../helpers/detailsHelpers';
+import { congregationItems, eventItems, parishItems, transactionItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
-import DetailsBox from '../shared/DetailsBox';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 
 type Props =
@@ -89,8 +88,14 @@ const Details = ({
                 />
                 {
                     canViewBalance &&
-                    <DetailsBox
+                    <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                        itemType="payment"
+                        baseItemType="archdeaconry"
+                        secondType="charge"
+                        items={transactionItems(details.paymentResults, details.chargeResults)}
+                        showAddLink
+                        addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                     />
                 }
             </div>

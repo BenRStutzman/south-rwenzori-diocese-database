@@ -90,7 +90,7 @@ const Details = ({
                     <DetailsList
                         altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
                         itemType="payment"
-                        baseItemType="congregation"
+                        baseItemType="parish"
                         secondType="charge"
                         items={transactionItems(details.paymentResults, details.chargeResults)}
                         showAddLink

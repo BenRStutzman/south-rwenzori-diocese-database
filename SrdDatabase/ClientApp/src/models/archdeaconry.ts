@@ -2,6 +2,8 @@
 import { ParishResults } from "./parish";
 import { PagedResults } from "./shared";
 import { EventResults } from './event';
+import { PaymentResults } from "./payment";
+import { ChargeResults } from "./charge";
 
 export interface Archdeaconry {
     id?: number;
@@ -14,6 +16,8 @@ export interface ArchdeaconryDetails {
     parishResults: ParishResults;
     congregationResults: CongregationResults;
     eventResults: EventResults;
+    paymentResults: PaymentResults;
+    chargeResults: ChargeResults;
 }
 
 export interface ArchdeaconryParameters {
