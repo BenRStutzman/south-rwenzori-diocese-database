@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { congregationItems, eventItems, parishItems, transactionItems } from '../../helpers/detailsHelpers';
+import { congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 
@@ -93,7 +93,7 @@ const Details = ({
                         itemType="payment"
                         baseItemType="archdeaconry"
                         secondType="charge"
-                        items={transactionItems(details.paymentResults, details.chargeResults)}
+                        items={paymentItems(details.paymentResults)}
                         showAddLink
                         addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                     />

@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { chargeItems, eventItems, paymentItems, transactionItems } from '../../helpers/detailsHelpers';
+import { eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -90,7 +90,7 @@ const Details = ({
                         itemType="payment"
                         baseItemType="congregation"
                         secondType="charge"
-                        items={transactionItems(details.paymentResults, details.chargeResults)}
+                        items={paymentItems(details.paymentResults)}
                         showAddLink
                         addParams={`?congregationId=${details.congregation.id}`}
                     />

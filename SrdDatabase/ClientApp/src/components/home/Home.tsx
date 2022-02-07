@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { archdeaconryItems, congregationItems, eventItems, parishItems, transactionItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
@@ -66,7 +66,7 @@ const Home = ({
                         altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
                         itemType="payment"
                         secondType="charge"
-                        items={transactionItems(details.paymentResults, details.chargeResults)}
+                        items={paymentItems(details.paymentResults)}
                         showAddLink
                     />
                 }
