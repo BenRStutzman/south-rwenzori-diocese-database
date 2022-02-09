@@ -190,24 +190,38 @@ const SaveForm = ({
                     )}
                 </select>
             </div>
+            <div className="form-group">
+                <label htmlFor="date">Date</label>
+                <input
+                    id="date"
+                    className="form-control"
+                    type="date"
+                    value={event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}
+                    onChange={onDateChange}
+                    required
+                />
+            </div>
             {
                 isNew && !involvesTwoPeople &&
-                <div className="form-group">
-                    <label htmlFor="multiInput">Add events for multiple people at once?</label>
+                <>
                     <input
                         id="multiInput"
                         type="checkbox"
                         checked={multiInput}
                         onChange={() => { setMultiInput(!multiInput) }}
                     />
-                </div>
+                    <label htmlFor="multiInput">Create events for multiple people with the same details</label>
+                    <p className="field-note">(for example, if many people were confirmed together on the same day)</p>
+                </>
             }
             {
                 multiInput && !involvesTwoPeople ?
                     <div className="form-group">
                         <label htmlFor="personNames">Person Names</label>
+                        <p className="field-note no-bottom-margin">Enter each name on a separate line.</p>
                         <textarea
                             id="personNames"
+                            rows={5}
                             className="form-control"
                             spellCheck={false}
                             value={personNames ?? ""}
@@ -249,17 +263,6 @@ const SaveForm = ({
                     />
                 </div>
             }
-            <div className="form-group">
-                <label htmlFor="date">Date</label>
-                <input
-                    id="date"
-                    className="form-control"
-                    type="date"
-                    value={event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}
-                    onChange={onDateChange}
-                    required
-                />
-            </div>
             {
                 Object.values(errors).length > 0 &&
                 <ul>

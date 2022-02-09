@@ -80,6 +80,10 @@ button:disabled {
     color: gray;
 }
 
+.no-bottom-margin {
+    margin-bottom: 0;
+}
+
 .button-group {
     display: flex;
     gap: 5px;
@@ -156,4 +160,8 @@ button:disabled {
 
 .page-heading h1 {
     margin-bottom: 0;
+}
+
+input[type=checkbox] {
+    margin-right: 5px;
 }
