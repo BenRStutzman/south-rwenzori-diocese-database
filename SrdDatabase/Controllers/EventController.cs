@@ -63,6 +63,14 @@ namespace SrdDatabase.Controllers
         }
 
         [Authorize(UserRole.Contributor)]
+        [HttpPost("add-multiple")]
+        public async Task<MultiSaveResponse> AddMultiple(AddEvents.Command command)
+        {
+            command.SetUserId(CurrentUser.Id);
+            return await _mediator.Send(command);
+        }
+
+        [Authorize(UserRole.Contributor)]
         [HttpPost("edit")]
         public async Task<IActionResult> Edit(EditEvent.Command command)
         {
