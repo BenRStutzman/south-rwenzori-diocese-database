@@ -49,6 +49,9 @@ const SaveForm = ({
     archdeaconriesLoading,
     parishesLoading,
 }: Props) => {
+    const [multiInput, setMultiInput] = React.useState(false);
+    const [personNames, setPersonNames] = React.useState('');
+
     const loadData = () => {
         loadArchdeaconries();
         loadEventTypes();
@@ -80,12 +83,24 @@ const SaveForm = ({
         setSecondPersonName(event.target.value);
     };
 
+    const onPersonNamesChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setPersonNames(event.target.value);
+    }
+
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
         setDate(new Date(event.target.value));
     };
 
     const onSubmit = (formEvent: React.FormEvent) => {
         formEvent.preventDefault();
+
+        if (multiInput && !involvesTwoPeople) {
+            event.personNames = personNames
+                .trim()
+                .split(/\s*\n+\s*/)
+                .filter(name => name.length);
+        }
+
         saveEvent(event, history);
     };
 
@@ -175,20 +190,48 @@ const SaveForm = ({
                     )}
                 </select>
             </div>
-            <div className="form-group">
-                <label htmlFor="firstPersonName">{involvesTwoPeople ? 'First ' : ''} Person Name</label>
-                <input
-                    id="firstPersonName"
-                    className="form-control"
-                    type="text"
-                    spellCheck={false}
-                    value={event.firstPersonName ?? ""}
-                    onChange={onFirstPersonNameChange}
-                    autoComplete={autoComplete}
-                    maxLength={50}
-                    required
-                />
-            </div>
+            {
+                isNew && !involvesTwoPeople &&
+                <div className="form-group">
+                    <label htmlFor="multiInput">Add events for multiple people at once?</label>
+                    <input
+                        id="multiInput"
+                        type="checkbox"
+                        checked={multiInput}
+                        onChange={() => { setMultiInput(!multiInput) }}
+                    />
+                </div>
+            }
+            {
+                multiInput && !involvesTwoPeople ?
+                    <div className="form-group">
+                        <label htmlFor="personNames">Person Names</label>
+                        <textarea
+                            id="personNames"
+                            className="form-control"
+                            spellCheck={false}
+                            value={personNames ?? ""}
+                            onChange={onPersonNamesChange}
+                            autoComplete={autoComplete}
+                            required
+                        />
+                    </div>
+                    :
+                    <div className="form-group">
+                        <label htmlFor="firstPersonName">{involvesTwoPeople ? 'First ' : ''} Person Name</label>
+                        <input
+                            id="firstPersonName"
+                            className="form-control"
+                            type="text"
+                            spellCheck={false}
+                            value={event.firstPersonName ?? ""}
+                            onChange={onFirstPersonNameChange}
+                            autoComplete={autoComplete}
+                            maxLength={50}
+                            required
+                        />
+                    </div>
+            }
             {
                 involvesTwoPeople &&
                 <div className="form-group">

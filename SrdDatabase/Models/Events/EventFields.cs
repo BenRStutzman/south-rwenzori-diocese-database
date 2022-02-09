@@ -12,7 +12,6 @@ namespace SrdDatabase.Models.Events
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }
 
-        [Required]
         [StringLength(50)]
         public string FirstPersonName { get; }
 

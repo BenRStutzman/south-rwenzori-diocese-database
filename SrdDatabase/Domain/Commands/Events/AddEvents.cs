@@ -7,6 +7,7 @@ using System;
 using SrdDatabase.Data.Commands.Events;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Domain.Commands.Events
 {
@@ -14,6 +15,8 @@ namespace SrdDatabase.Domain.Commands.Events
     {
         public class Command : EventFields, IRequest<MultiSaveResponse>
         {
+            [Required]
+            [MinLength(1)]
             public IEnumerable<string> PersonNames { get; }
 
             public Command(
@@ -24,7 +27,7 @@ namespace SrdDatabase.Domain.Commands.Events
                 : base(
                     eventTypeId,
                     congregationId,
-                    personNames.First(),
+                    null,
                     null,
                     date)
             {

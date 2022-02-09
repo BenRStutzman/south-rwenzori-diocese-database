@@ -132,7 +132,7 @@ const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
 const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
-    const action = event.id ? 'edit' : 'add';
+    const action = event.id ? 'edit' : event.personNames ? 'add-multiple' : 'add';
 
     post<Event>(`api/event/${action}`, event)
         .then(response => {

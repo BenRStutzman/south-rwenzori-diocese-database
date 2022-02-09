@@ -12,6 +12,7 @@ export interface Event {
     archdeaconry?: string;
     firstPersonName?: string;
     secondPersonName?: string;
+    personNames?: string[];
     date?: Date;
     createdBy?: number;
 }
