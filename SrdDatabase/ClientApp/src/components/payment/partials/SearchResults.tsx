@@ -47,7 +47,11 @@ const SearchResults = ({
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
-                            <th className="col-2">Amount (UGX)</th>
+                            <th className="col-2">Amount (UGX)
+                                <button className="btn sort-buttons">
+                                    <i className="bi bi-caret-up"></i>
+                                    <i className="bi bi-caret-down"></i>
+                                </button></th>
                             <th className="col-3">Congregation</th>
                             <th className="col-2">Date</th>
                             <th className="col-2">Receipt Number</th>

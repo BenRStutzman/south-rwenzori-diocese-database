@@ -12,7 +12,13 @@ namespace SrdDatabase.Domain.Queries.Archdeaconries
         {
             public Query(
                 string name = null,
-                int pageNumber = 0) : base(name, pageNumber)
+                string sortColumn = null,
+                bool sortDescending = false,
+                int pageNumber = 0) : base(
+                    name,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -33,6 +39,8 @@ namespace SrdDatabase.Domain.Queries.Archdeaconries
                         null,
                         request.Name,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

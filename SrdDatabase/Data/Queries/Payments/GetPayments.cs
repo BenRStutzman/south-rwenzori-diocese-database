@@ -22,6 +22,8 @@ namespace SrdDatabase.Data.Queries.Payments
                 DateTime? endDate = null,
                 int? receiptNumber = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null)
                 : base(
                       archdeaconryId,
@@ -31,6 +33,8 @@ namespace SrdDatabase.Data.Queries.Payments
                       endDate,
                       receiptNumber,
                       pageNumber,
+                      sortColumn,
+                      sortDescending,
                       pageSize,
                       id)
             {

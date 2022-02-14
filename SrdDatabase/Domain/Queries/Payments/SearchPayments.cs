@@ -18,14 +18,19 @@ namespace SrdDatabase.Domain.Queries.Payments
                 DateTime? startDate = null,
                 DateTime? endDate = null,
                 int? receiptNumber = null,
-                int pageNumber = 0) : base(
+                int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false
+                ) : base(
                     archdeaconryId,
                     parishId,
                     congregationId,
                     startDate,
                     endDate,
                     receiptNumber,
-                    pageNumber)
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -51,6 +56,8 @@ namespace SrdDatabase.Domain.Queries.Payments
                         request.EndDate,
                         request.ReceiptNumber,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

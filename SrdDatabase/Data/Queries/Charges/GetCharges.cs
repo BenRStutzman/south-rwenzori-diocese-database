@@ -20,6 +20,8 @@ namespace SrdDatabase.Data.Queries.Charges
                 int? startYear = null,
                 int? endYear = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null)
                 : base(
                       archdeaconryId,
@@ -28,6 +30,8 @@ namespace SrdDatabase.Data.Queries.Charges
                       startYear,
                       endYear,
                       pageNumber,
+                      sortColumn,
+                      sortDescending,
                       pageSize,
                       id)
             {

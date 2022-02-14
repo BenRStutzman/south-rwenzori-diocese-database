@@ -16,13 +16,17 @@ namespace SrdDatabase.Domain.Queries.Charges
                 int? congregationId = null,
                 int? startYear = null,
                 int? endYear = null,
-                int pageNumber = 0) : base(
+                int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false) : base(
                     archdeaconryId,
                     parishId,
                     congregationId,
                     startYear,
                     endYear,
-                    pageNumber)
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -47,6 +51,8 @@ namespace SrdDatabase.Domain.Queries.Charges
                         request.StartYear,
                         request.EndYear,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

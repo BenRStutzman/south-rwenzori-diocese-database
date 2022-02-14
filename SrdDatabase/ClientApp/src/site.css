@@ -165,3 +165,9 @@ button:disabled {
 input[type=checkbox] {
     margin-right: 5px;
 }
+
+.sort-buttons {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 1px;
+}

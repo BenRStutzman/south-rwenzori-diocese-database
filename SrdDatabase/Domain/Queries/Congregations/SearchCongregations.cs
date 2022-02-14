@@ -14,7 +14,15 @@ namespace SrdDatabase.Domain.Queries.Congregations
                 string name = null,
                 int? parishId = null,
                 int? archdeaconryId = null,
-                int pageNumber = 0): base(name, parishId, archdeaconryId, pageNumber)
+                int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false) : base(
+                    name,
+                    parishId,
+                    archdeaconryId,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -37,6 +45,8 @@ namespace SrdDatabase.Domain.Queries.Congregations
                         request.ParishId,
                         request.ArchdeaconryId,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

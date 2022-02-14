@@ -15,7 +15,16 @@ namespace SrdDatabase.Domain.Queries.Users
                 string name = null,
                 string username = null,
                 bool hideRoot = true,
-                int pageNumber = 0) : base(userTypeId, name, username, hideRoot, pageNumber)
+                int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false) : base
+                    (userTypeId,
+                    name,
+                    username,
+                    hideRoot,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -39,6 +48,8 @@ namespace SrdDatabase.Domain.Queries.Users
                         request.Username,
                         request.HideRoot,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

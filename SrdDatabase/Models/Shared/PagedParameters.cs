@@ -10,10 +10,20 @@ namespace SrdDatabase.Models.Shared
         [Range(1, int.MaxValue)]
         public int? PageSize { get; }
 
-        public PagedParameters(int pageNumber = 0, int? pageSize = null)
+        public string SortColumn { get; }
+
+        public bool SortDescending { get; }
+
+        public PagedParameters(
+            int pageNumber = 0,
+            string sortColumn = null,
+            bool sortDescending = false,
+            int? pageSize = null)
         {
             PageNumber = pageNumber;
             PageSize = pageSize;
+            SortColumn = sortColumn;
+            SortDescending = sortDescending;
         }
     }
 }

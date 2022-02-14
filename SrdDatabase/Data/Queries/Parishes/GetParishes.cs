@@ -17,8 +17,16 @@ namespace SrdDatabase.Data.Queries.Parishes
                 string name = null,
                 int? archdeaconryId = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null
-                ) : base(name, archdeaconryId, pageNumber, pageSize, id)
+                ) : base(name,
+                    archdeaconryId,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending,
+                    pageSize,
+                    id)
             {
             }
         }

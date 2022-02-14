@@ -16,8 +16,16 @@ namespace SrdDatabase.Data.Queries.Archdeaconries
                 int? id = null,
                 string name = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null) :
-                base(name, pageNumber, pageSize, id)
+                base(
+                    name,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending,
+                    pageSize,
+                    id)
             {
             }
         }

@@ -20,6 +20,8 @@ namespace SrdDatabase.Domain.Queries.Events
                 DateTime? startDate = null,
                 DateTime? endDate = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null) : base(
                     eventTypeId,
                     archdeaconryId,
@@ -28,7 +30,9 @@ namespace SrdDatabase.Domain.Queries.Events
                     personName,
                     startDate,
                     endDate,
-                    pageNumber)
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -55,6 +59,8 @@ namespace SrdDatabase.Domain.Queries.Events
                         request.StartDate,
                         request.EndDate,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

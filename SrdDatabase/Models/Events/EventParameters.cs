@@ -37,8 +37,14 @@ namespace SrdDatabase.Models.Events
             DateTime? startDate = null,
             DateTime? endDate = null,
             int pageNumber = 0,
+            string sortColumn = null,
+            bool sortDescending = false,
             int? pageSize = null,
-            int? id = null) : base(pageNumber, pageSize)
+            int? id = null) : base(
+                pageNumber,
+                sortColumn,
+                sortDescending,
+                pageSize)
         {
             Id = id;
             EventTypeId = eventTypeId;

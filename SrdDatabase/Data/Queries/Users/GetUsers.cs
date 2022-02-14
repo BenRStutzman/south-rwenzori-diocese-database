@@ -19,8 +19,18 @@ namespace SrdDatabase.Data.Queries.Users
                 string username = null,
                 bool hideRoot = false,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null) :
-                base (userTypeId, name, username, hideRoot, pageNumber, pageSize, id)
+                base (userTypeId,
+                      name,
+                      username,
+                      hideRoot,
+                      pageNumber,
+                      sortColumn,
+                      sortDescending,
+                      pageSize,
+                      id)
             {
             }
         }

@@ -18,8 +18,17 @@ namespace SrdDatabase.Data.Queries.Congregations
                 int? parishId = null,
                 int? archdeaconryId = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null) :
-                base(name, parishId, archdeaconryId, pageNumber, pageSize, id)
+                base(name,
+                    parishId,
+                    archdeaconryId,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending,
+                    pageSize,
+                    id)
             {
             }
         }

@@ -23,6 +23,8 @@ namespace SrdDatabase.Data.Queries.Events
                 DateTime? startDate = null,
                 DateTime? endDate = null,
                 int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false,
                 int? pageSize = null)
                 : base(
                       eventTypeId,
@@ -33,6 +35,8 @@ namespace SrdDatabase.Data.Queries.Events
                       startDate,
                       endDate,
                       pageNumber,
+                      sortColumn,
+                      sortDescending,
                       pageSize,
                       id)
             {

@@ -13,7 +13,14 @@ namespace SrdDatabase.Domain.Queries.Parishes
             public Query(
                 string name = null,
                 int? archdeaconryId = null,
-                int pageNumber = 0) : base(name, archdeaconryId, pageNumber)
+                int pageNumber = 0,
+                string sortColumn = null,
+                bool sortDescending = false) : base(
+                    name,
+                    archdeaconryId,
+                    pageNumber,
+                    sortColumn,
+                    sortDescending)
             {
             }
         }
@@ -35,6 +42,8 @@ namespace SrdDatabase.Domain.Queries.Parishes
                         request.Name,
                         request.ArchdeaconryId,
                         request.PageNumber,
+                        request.SortColumn,
+                        request.SortDescending,
                         Constants.SearchPageSize),
                     cancellationToken);
             }

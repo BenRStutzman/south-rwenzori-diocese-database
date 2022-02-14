@@ -26,8 +26,14 @@ namespace SrdDatabase.Models.Users
             string username = null,
             bool hideRoot = false,
             int pageNumber = 0,
+            string sortColumn = null,
+            bool sortDescending = false,
             int? pageSize = null,
-            int? id = null) : base(pageNumber, pageSize)
+            int? id = null) : base(
+                pageNumber,
+                sortColumn,
+                sortDescending,
+                pageSize)
         {
             Id = id;
             UserTypeId = userTypeId;
