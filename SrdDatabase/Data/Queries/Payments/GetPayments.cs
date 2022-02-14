@@ -20,6 +20,7 @@ namespace SrdDatabase.Data.Queries.Payments
                 int? congregationId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null,
+                int? receiptNumber = null,
                 int pageNumber = 0,
                 int? pageSize = null)
                 : base(
@@ -28,6 +29,7 @@ namespace SrdDatabase.Data.Queries.Payments
                       congregationId,
                       startDate,
                       endDate,
+                      receiptNumber,
                       pageNumber,
                       pageSize,
                       id)

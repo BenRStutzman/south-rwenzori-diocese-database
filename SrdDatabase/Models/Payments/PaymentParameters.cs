@@ -18,6 +18,9 @@ namespace SrdDatabase.Models.Payments
         [Range(1, int.MaxValue)]
         public int? CongregationId { get; }
 
+        [Range(1, int.MaxValue)]
+        public int? ReceiptNumber { get; }
+
         public DateTime? StartDate { get; }
 
         public DateTime? EndDate { get; }
@@ -28,6 +31,7 @@ namespace SrdDatabase.Models.Payments
             int? congregationId = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
+            int? receiptNumber = null,
             int pageNumber = 0,
             int? pageSize = null,
             int? id = null) : base(pageNumber, pageSize)
@@ -38,6 +42,7 @@ namespace SrdDatabase.Models.Payments
             CongregationId = congregationId;
             StartDate = startDate;
             EndDate = endDate;
+            ReceiptNumber = receiptNumber;
         }
     }
 }

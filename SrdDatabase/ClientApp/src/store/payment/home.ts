@@ -14,6 +14,7 @@ const SET_SEARCH_END_DATE = 'PAYMENT.SET_SEARCH_END_DATE';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PAYMENT.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'PAYMENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'PAYMENT.SET_SEARCH_CONGREGATION_ID';
+const SET_SEARCH_RECEIPT_NUMBER = 'PAYMENT.SET_SEARCH_RECEIPT_NUMBER';
 const SET_RESULTS_LOADING = 'PAYMENT.SET_RESULTS_LOADING';
 const SET_RESULTS = 'PAYMENT.SET_RESULTS';
 
@@ -50,6 +51,11 @@ const setSearchParishIdAction = (parishId?: number) => ({
 const setSearchCongregationIdAction = (congregationId?: number) => ({
     type: SET_SEARCH_CONGREGATION_ID,
     value: congregationId,
+});
+
+const setSearchReceiptNumberAction = (receiptNumber?: number) => ({
+    type: SET_SEARCH_RECEIPT_NUMBER,
+    value: receiptNumber,
 });
 
 const setParametersAction = (parameters: PaymentParameters) => ({
@@ -127,6 +133,10 @@ const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action
     dispatch(setSearchCongregationIdAction(congregationId));
 };
 
+const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchReceiptNumberAction(receiptNumber));
+};
+
 const searchPayments = (
     parameters: PaymentParameters = {},
     pageNumber: number = 0,
@@ -148,6 +158,7 @@ export const actionCreators = {
     setSearchArchdeaconryId,
     setSearchStartDate,
     setSearchEndDate,
+    setSearchReceiptNumber,
     prefillParameters,
 };
 
@@ -203,6 +214,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parameters: {
                     ...state.parameters,
                     endDate: action.value,
+                }
+            };
+        case SET_SEARCH_RECEIPT_NUMBER:
+            return {
+                ...state,
+                parameters: {
+                    ...state.parameters,
+                    receiptNumber: action.value,
                 }
             };
         case SET_PARAMETERS:

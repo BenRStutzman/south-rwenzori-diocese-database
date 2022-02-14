@@ -33,6 +33,7 @@ const SaveForm = ({
     setParishId,
     setCongregationId,
     setAmount,
+    setReceiptNumber,
     loadArchdeaconries,
     setDate,
     hasBeenChanged,
@@ -69,6 +70,10 @@ const SaveForm = ({
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
         setDate(new Date(event.target.value));
     };
+
+    const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setReceiptNumber(parseInt(event.target.value));
+    }
 
     const onSubmit = (formPayment: React.FormEvent) => {
         formPayment.preventDefault();
@@ -145,7 +150,7 @@ const SaveForm = ({
                     id="amount"
                     className="form-control"
                     type="number"
-                    value={payment.amount ?? ""}
+                    value={payment.amount?.toString() ?? ""}
                     onChange={onAmountChange}
                     autoComplete={autoComplete}
                     min={1}
@@ -161,6 +166,18 @@ const SaveForm = ({
                     value={payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
                     required
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="receiptNumber">Receipt Number</label>
+                <input
+                    id="receiptNumber"
+                    className="form-control"
+                    type="number"
+                    value={payment.receiptNumber?.toString() ?? ""}
+                    onChange={onReceiptNumberChange}
+                    autoComplete={autoComplete}
+                    min={1}
                 />
             </div>
             {

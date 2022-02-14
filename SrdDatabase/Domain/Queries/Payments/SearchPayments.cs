@@ -17,12 +17,14 @@ namespace SrdDatabase.Domain.Queries.Payments
                 int? congregationId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null,
+                int? receiptNumber = null,
                 int pageNumber = 0) : base(
                     archdeaconryId,
                     parishId,
                     congregationId,
                     startDate,
                     endDate,
+                    receiptNumber,
                     pageNumber)
             {
             }
@@ -47,6 +49,7 @@ namespace SrdDatabase.Domain.Queries.Payments
                         request.CongregationId,
                         request.StartDate,
                         request.EndDate,
+                        request.ReceiptNumber,
                         request.PageNumber,
                         Constants.SearchPageSize),
                     cancellationToken);

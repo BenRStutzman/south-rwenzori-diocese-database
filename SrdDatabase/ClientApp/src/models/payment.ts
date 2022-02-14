@@ -10,6 +10,7 @@ export interface Payment {
     archdeaconryId?: number;
     archdeaconry?: string;
     date?: Date;
+    receiptNumber?: number;
     createdBy?: number;
 }
 
@@ -23,6 +24,7 @@ export interface PaymentParameters {
     congregationId?: number;
     startDate?: Date;
     endDate?: Date;
+    receiptNumber?: number;
 }
 
 export interface PaymentResults extends PagedResults {

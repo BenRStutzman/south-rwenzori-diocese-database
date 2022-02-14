@@ -15,6 +15,7 @@ const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'PAYMENT.SET_CONGREGATION_ID';
 const SET_AMOUNT = 'PAYMENT.SET_AMOUNT';
 const SET_DATE = 'PAYMENT.SET_DATE';
+const SET_RECEIPT_NUMBER = 'PAYMENT.SET_RECEIPT_NUMBER';
 const SET_IS_SAVING = 'PAYMENT.SET_IS_SAVING';
 const SET_ERRORS = 'PAYMENT.SET_ERRORS';
 
@@ -50,6 +51,11 @@ const setAmountAction = (amount: number) => ({
 const setDateAction = (date: Date) => ({
     type: SET_DATE,
     value: date,
+});
+
+const setReceiptNumberAction = (receiptNumber?: number) => ({
+    type: SET_RECEIPT_NUMBER,
+    value: receiptNumber,
 });
 
 const setIsSavingAction = (isSaving: boolean) => ({
@@ -162,6 +168,10 @@ const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDateAction(date));
 };
 
+const setReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setReceiptNumberAction(receiptNumber));
+};
+
 export const actionCreators = {
     prefillPayment,
     loadPayment,
@@ -171,6 +181,7 @@ export const actionCreators = {
     setCongregationId,
     setAmount,
     setDate,
+    setReceiptNumber,
 };
 
 export interface State {
@@ -250,6 +261,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 payment: {
                     ...state.payment,
                     date: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_RECEIPT_NUMBER:
+            return {
+                ...state,
+                payment: {
+                    ...state.payment,
+                    receiptNumber: action.value,
                 },
                 hasBeenChanged: true,
             };

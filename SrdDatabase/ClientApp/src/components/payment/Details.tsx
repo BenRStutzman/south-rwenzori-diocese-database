@@ -57,6 +57,10 @@ const Details = ({
                     itemValue={formattedDate(details.payment.date)}
                 />
                 <DetailsBox
+                    itemType="receiptNumber"
+                    itemValue={details.payment.receiptNumber?.toString() ?? ""}
+                />
+                <DetailsBox
                     baseItemType="payment"
                     itemType="congregation"
                     itemValue={details.payment.congregation}

@@ -10,6 +10,8 @@ namespace SrdDatabase.Models.Payments
 
         public DateTime Date { get; }
 
+        public int? ReceiptNumber { get; }
+
         public int CongregationId { get; }
 
         public string Congregation { get; }
@@ -26,6 +28,7 @@ namespace SrdDatabase.Models.Payments
             int id,
             int amountPerYear,
             DateTime date,
+            int? receiptNumber,
             int congregationId,
             string congregation,
             int parishId,
@@ -36,6 +39,7 @@ namespace SrdDatabase.Models.Payments
             Id = id;
             Amount = amountPerYear;
             Date = date;
+            ReceiptNumber = receiptNumber;
             CongregationId = congregationId;
             Congregation = congregation;
             ParishId = parishId;

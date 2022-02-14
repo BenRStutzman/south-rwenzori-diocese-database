@@ -20,11 +20,13 @@ namespace SrdDatabase.Domain.Commands.Payments
                 int id,
                 int amount,
                 int congregationId,
-                DateTime date)
+                DateTime date,
+                int? receiptNumber)
                 : base(
                     amount,
                     congregationId,
-                    date)
+                    date,
+                    receiptNumber)
             {
                 Id = id;
             }
@@ -46,6 +48,7 @@ namespace SrdDatabase.Domain.Commands.Payments
                     request.Amount,
                     request.CongregationId,
                     request.Date,
+                    request.ReceiptNumber,
                     request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);

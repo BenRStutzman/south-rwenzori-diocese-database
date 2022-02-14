@@ -1,11 +1,11 @@
-﻿import React, { ChangeEvent, useEffect, useState } from 'react';
+﻿import React, { ChangeEvent, useEffect } from 'react';
 import { State } from '../../../store';
 import * as Store from '../../../store/payment/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
-import { useQueryParams } from '../../../helpers/miscellaneous';
+import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
 
 type OwnProps = {
     expanded: boolean;
@@ -18,6 +18,8 @@ type Props =
     SharedStore.State &
     typeof SharedStore.actionCreators;
 
+const autoCompleteString = randomString();
+
 const SearchBox = ({
     searchPayments,
     parameters,
@@ -26,6 +28,7 @@ const SearchBox = ({
     setSearchCongregationId,
     setSearchStartDate,
     setSearchEndDate,
+    setSearchReceiptNumber,
     archdeaconries,
     parishes,
     congregations,
@@ -76,6 +79,10 @@ const SearchBox = ({
         setSearchEndDate(new Date(event.target.value));
     };
 
+    const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchReceiptNumber(parseInt(event.target.value));
+    }
+
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         searchPayments(parameters);
@@ -85,7 +92,7 @@ const SearchBox = ({
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="row">
-                    <div className="col-4">
+                    <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="archdeaconryId">Archdeaconry</label>
                             <select
@@ -105,7 +112,7 @@ const SearchBox = ({
                             </select>
                         </div>
                     </div>
-                    <div className="col-4">
+                    <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="parishId">Parish</label>
                             <select
@@ -125,7 +132,9 @@ const SearchBox = ({
                             </select>
                         </div>
                     </div>
-                    <div className="col-4">
+                </div>
+                <div className="row">
+                    <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="congregationId">Congregation</label>
                             <select
@@ -143,6 +152,20 @@ const SearchBox = ({
                                     </option>
                                 )}
                             </select>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="receiptNumber">Receipt Number</label>
+                            <input
+                                id="receiptNumber"
+                                className="form-control"
+                                autoComplete={autoCompleteString}
+                                type="number"
+                                value={parameters.receiptNumber?.toString() ?? ""}
+                                onChange={onReceiptNumberChange}
+                                min={1}
+                            />
                         </div>
                     </div>
                 </div>

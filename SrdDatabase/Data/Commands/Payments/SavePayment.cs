@@ -21,11 +21,13 @@ namespace SrdDatabase.Data.Commands.Payments
                 int amount,
                 int congregationId,
                 DateTime date,
+                int? receiptNumber,
                 int userId)
                 : base(
                     amount,
                     congregationId,
                     date,
+                    receiptNumber,
                     userId)
             {
                 Id = id;

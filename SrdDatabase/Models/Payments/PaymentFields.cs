@@ -15,15 +15,20 @@ namespace SrdDatabase.Models.Payments
         [Required]
         public DateTime Date { get; }
 
+        [Range(1, int.MaxValue)]
+        public int? ReceiptNumber { get; }
+
         public PaymentFields(
             int amount,
             int congregationId,
             DateTime date,
+            int? receiptNumber,
             int? userId = null) : base(userId)
         {
             Amount = amount;
             Date = date;
             CongregationId = congregationId;
+            ReceiptNumber = receiptNumber;
         }
     }
 }
