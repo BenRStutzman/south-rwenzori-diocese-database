@@ -227,7 +227,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     searching={resultsLoading}
-                    onClear={prefillParameters}
+                    onClear={() => { prefillParameters(); }}
                     thingsBeingSearched="events"
                 />
             </form>

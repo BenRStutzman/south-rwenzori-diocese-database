@@ -101,7 +101,7 @@ const SearchBox = ({
                 <SearchButtons
                     searching={resultsLoading}
                     thingsBeingSearched="parishes"
-                    onClear={prefillParameters}
+                    onClear={() => { prefillParameters(); }}
                 />
             </form>
         </div>

@@ -58,7 +58,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     thingsBeingSearched="archdeaconries"
-                    onClear={prefillParameters}
+                    onClear={() => { prefillParameters(); }}
                     searching={resultsLoading}
                 />
             </form>
