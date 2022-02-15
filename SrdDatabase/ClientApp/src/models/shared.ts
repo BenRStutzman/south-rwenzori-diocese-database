@@ -5,7 +5,9 @@
 }
 
 export interface PagedParameters {
-    pageNumber: number;
+    pageNumber?: number;
+    sortColumn?: string;
+    sortDescending?: boolean;
 }
 
 export const pagedResultsDefaults = {

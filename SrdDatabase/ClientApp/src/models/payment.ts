@@ -1,4 +1,4 @@
-﻿import { PagedResults } from "./shared";
+﻿import { PagedParameters, PagedResults } from "./shared";
 
 export interface Payment {
     id?: number;
@@ -18,7 +18,7 @@ export interface PaymentDetails {
     payment: Payment;
 }
 
-export interface PaymentParameters {
+export interface PaymentParameters extends PagedParameters {
     parishId?: number;
     archdeaconryId?: number;
     congregationId?: number;

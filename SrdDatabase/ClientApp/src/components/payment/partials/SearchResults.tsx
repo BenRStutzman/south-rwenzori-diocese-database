@@ -25,15 +25,19 @@ const SearchResults = ({
     searchPayments,
 }: Props) => {
     const nextPage = () => {
-        searchPayments(parameters, results.pageNumber + 1);
+        searchPayments({ ...parameters, pageNumber: (parameters.pageNumber ?? 0) + 1 });
     };
 
     const previousPage = () => {
-        searchPayments(parameters, results.pageNumber - 1);
+        searchPayments({ ...parameters, pageNumber: (parameters.pageNumber as number) - 1 });
+    };
+
+    const sort = (sortColumn: string, sortDescending: boolean) => {
+        searchPayments({ ...parameters, sortColumn, sortDescending });
     };
 
     const onDelete = (payment: Payment) => {
-        deletePayment(payment, () => { searchPayments(parameters, results.pageNumber, false); });
+        deletePayment(payment, () => { searchPayments(parameters, false); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :
@@ -48,7 +52,7 @@ const SearchResults = ({
                     <thead>
                         <tr>
                             <th className="col-2">Amount (UGX)
-                                <button className="btn sort-buttons">
+                                <button className="btn sort-buttons" onClick={() => { sort('amount', true); }}>
                                     <i className="bi bi-caret-up"></i>
                                     <i className="bi bi-caret-down"></i>
                                 </button></th>

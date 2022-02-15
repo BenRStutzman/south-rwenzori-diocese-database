@@ -5,7 +5,7 @@ import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Parish } from '../../models/parish';
 import { PaymentParameters, PaymentResults } from '../../models/payment';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
 
 const SET_PARAMETERS = 'PAYMENT.SET_PARAMETERS';
@@ -139,15 +139,15 @@ const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> 
 
 const searchPayments = (
     parameters: PaymentParameters = {},
-    pageNumber: number = 0,
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     dispatch(setResultsLoadingAction(showLoading));
 
-    post<PaymentParameters & PagedParameters>('api/payment/search', { ...parameters, pageNumber })
+    post<PaymentParameters>('api/payment/search', parameters)
         .then(response => response.json() as Promise<PaymentResults>)
         .then(results => {
             dispatch(setResultsAction(results));
+            dispatch(setParametersAction(parameters));
         });
 };
 
