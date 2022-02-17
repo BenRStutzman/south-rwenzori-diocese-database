@@ -70,7 +70,7 @@ const SearchResults = ({
                                 </tr>
                     }
                 </thead>
-                <tbody>
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.parishes.map((parish: Parish) =>
                         <tr key={parish.id}>
                             <td>{parish.name}</td>
@@ -101,6 +101,7 @@ const SearchResults = ({
                     )}
                 </tbody>
             </table>
+            {!resultsLoading && !results.totalResults && <h2>No results.</h2>}
             <Paging
                 results={results}
                 onPage={onPage}

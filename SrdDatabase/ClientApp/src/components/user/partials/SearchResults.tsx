@@ -48,7 +48,7 @@ const SearchResults = ({
                         <th className="col-3"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody> className={resultsLoading ? 'results-loading' : ''}
                     {results.users.map((user: User) =>
                         <tr key={user.id}>
                             <td>{user.name}</td>
@@ -69,6 +69,7 @@ const SearchResults = ({
                     )}
                 </tbody>
             </table>
+            {!resultsLoading && !results.totalResults && <h2>No results.</h2>}
             <Paging
                 results={results}
                 onPage={onPage}

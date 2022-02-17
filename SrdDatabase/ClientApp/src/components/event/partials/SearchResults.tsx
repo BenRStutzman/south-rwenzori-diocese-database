@@ -54,7 +54,7 @@ const SearchResults = ({
                         <th className={`col-${canEditSomeEvents ? '3' : '1'}`}></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.events.map((event: Event) =>
                         <tr key={event.id}>
                             <td>{event.eventType}</td>
@@ -82,6 +82,7 @@ const SearchResults = ({
                     )}
                 </tbody>
             </table>
+            {!resultsLoading && !results.totalResults && <h2>No results.</h2>}
             <Paging
                 results={results}
                 onPage={onPage}

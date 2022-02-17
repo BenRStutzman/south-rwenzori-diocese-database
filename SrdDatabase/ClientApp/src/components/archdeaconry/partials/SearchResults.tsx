@@ -67,7 +67,7 @@ const SearchResults = ({
                                 </tr>
                     }
                 </thead>
-                <tbody>
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.name}</td>
@@ -95,6 +95,7 @@ const SearchResults = ({
                     )}
                 </tbody>
             </table>
+            {!resultsLoading && !results.totalResults && <h2>No results.</h2>}
             <Paging
                 results={results}
                 onPage={onPage}

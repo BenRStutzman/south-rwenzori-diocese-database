@@ -49,7 +49,7 @@ const SearchResults = ({
                         <th className="col-3"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.charges.map((charge: Charge) =>
                         <tr key={charge.id}>
                             <td className="money-column">{charge.amountPerYear}</td>
@@ -75,6 +75,7 @@ const SearchResults = ({
                     )}
                 </tbody>
             </table>
+            {!resultsLoading && !results.totalResults && <h2>No results.</h2>}
             <Paging
                 results={results}
                 onPage={onPage}

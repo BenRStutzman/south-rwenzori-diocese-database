@@ -57,7 +57,7 @@ const SearchResults = ({
                         <th className={`col-${canEdit ? '3' : '1'}`}></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.congregations.map((congregation: Congregation) =>
                         <tr key={congregation.id}>
                             <td>{congregation.name}</td>
@@ -90,6 +90,7 @@ const SearchResults = ({
                     )}
                 </tbody>
             </table>
+            {!resultsLoading && !results.totalResults && <h2>No results.</h2>}
             <Paging
                 results={results}
                 onPage={onPage}
