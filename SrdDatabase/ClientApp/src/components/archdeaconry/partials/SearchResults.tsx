@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -34,6 +35,10 @@ const SearchResults = ({
         searchArchdeaconries({ ...parameters, pageNumber });
     };
 
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
+        searchArchdeaconries({ ...parameters, sortColumn, sortDescending });
+    };
+
     const onDelete = (archdeaconry: Archdeaconry) => {
         deleteArchdeaconry(archdeaconry, () => { searchArchdeaconries(parameters, false); });
     };
@@ -50,8 +55,21 @@ const SearchResults = ({
                     {
                         canEdit ?
                             <tr>
-                                <th className="col-7">Name</th>
-                                <th className="col-2">Balance (UGX)</th>
+                                <th className="col-7">
+                                    Name
+                                    <SortButton
+                                        parameters={parameters}
+                                        columnName="name"
+                                        onSort={onSort}
+                                    />
+                                </th>
+                                <th className="col-2">
+                                    Balance (UGX)
+                                    <SortButton
+                                        parameters={parameters}
+                                        columnName="balance"
+                                        onSort={onSort}
+                                    />                                </th>
                                 <th className="col-3"></th>
                             </tr>
                             : canViewBalance ?
