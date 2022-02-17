@@ -32,54 +32,55 @@ const SearchResults = ({
         deleteCharge(charge, () => { searchCharges(parameters, false); });
     };
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th className="col-3">Amount Per Year (UGX)</th>
-                            <th className="col-2">Congregation</th>
-                            <th className="col-2">Start Year</th>
-                            <th className="col-2">End Year</th>
-                            <th className="col-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.charges.map((charge: Charge) =>
-                            <tr key={charge.id}>
-                                <td className="money-column">{charge.amountPerYear}</td>
-                                <td>
-                                    <Link to={`/congregation/details/${charge.congregationId}`}>{charge.congregation}</Link>
-                                </td>
-                                <td>{charge.startYear}</td>
-                                <td>{charge.endYear ?? 'ongoing'}</td>
-                                <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/charge/details/${charge.id}`}>
-                                        View
+    return (
+        <>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+            {resultsLoading && <LoadingSpinner onTable />}
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th className="col-3">Amount Per Year (UGX)</th>
+                        <th className="col-2">Congregation</th>
+                        <th className="col-2">Start Year</th>
+                        <th className="col-2">End Year</th>
+                        <th className="col-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {results.charges.map((charge: Charge) =>
+                        <tr key={charge.id}>
+                            <td className="money-column">{charge.amountPerYear}</td>
+                            <td>
+                                <Link to={`/congregation/details/${charge.congregationId}`}>{charge.congregation}</Link>
+                            </td>
+                            <td>{charge.startYear}</td>
+                            <td>{charge.endYear ?? 'ongoing'}</td>
+                            <td className="buttons-column">
+                                <Link className="btn btn-secondary" to={`/charge/details/${charge.id}`}>
+                                    View
+                                </Link>
+                                <>
+                                    <Link className="btn btn-primary" to={`/charge/edit/${charge.id}`}>
+                                        Edit
                                     </Link>
-                                    <>
-                                        <Link className="btn btn-primary" to={`/charge/edit/${charge.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(charge); }}>
-                                            {charge.id === deletingChargeId ? <Spinner size="sm" /> : 'Delete'}
-                                        </button>
-                                    </>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-            </>;
+                                    <button className="btn btn-danger" onClick={() => { onDelete(charge); }}>
+                                        {charge.id === deletingChargeId ? <Spinner size="sm" /> : 'Delete'}
+                                    </button>
+                                </>
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 }
 
 export default connect(

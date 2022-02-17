@@ -37,56 +37,57 @@ const SearchResults = ({
         deleteEvent(event, () => { searchEvents(parameters, false); });
     };
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>Event Type</th>
-                            <th className="col-4">Name(s)</th>
-                            <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>Congregation</th>
-                            <th className="col-2">Date</th>
-                            <th className={`col-${canEditSomeEvents ? '3' : '1'}`}></th>
+    return (
+        <>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+            {resultsLoading && <LoadingSpinner onTable />}
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>Event Type</th>
+                        <th className="col-4">Name(s)</th>
+                        <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>Congregation</th>
+                        <th className="col-2">Date</th>
+                        <th className={`col-${canEditSomeEvents ? '3' : '1'}`}></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {results.events.map((event: Event) =>
+                        <tr key={event.id}>
+                            <td>{event.eventType}</td>
+                            <td>{peoplesNames(event)}</td>
+                            <td>
+                                <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation}</Link></td>
+                            <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td className="buttons-column">
+                                <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
+                                    View
+                                </Link>
+                                {
+                                    canEdit(event, currentUser) &&
+                                    <>
+                                        <Link className="btn btn-primary" to={`/event/edit/${event.id}`}>
+                                            Edit
+                                        </Link>
+                                        <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
+                                            {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete'}
+                                        </button>
+                                    </>
+                                }
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {results.events.map((event: Event) =>
-                            <tr key={event.id}>
-                                <td>{event.eventType}</td>
-                                <td>{peoplesNames(event)}</td>
-                                <td>
-                                    <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation}</Link></td>
-                                <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
-                                <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
-                                        View
-                                    </Link>
-                                    {
-                                        canEdit(event, currentUser) &&
-                                        <>
-                                            <Link className="btn btn-primary" to={`/event/edit/${event.id}`}>
-                                                Edit
-                                            </Link>
-                                            <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
-                                                {event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete'}
-                                            </button>
-                                        </>
-                                    }
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-            </>;
+                    )}
+                </tbody>
+            </table>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 }
 
 export default connect(

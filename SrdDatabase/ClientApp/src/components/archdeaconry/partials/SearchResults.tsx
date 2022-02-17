@@ -38,68 +38,69 @@ const SearchResults = ({
         deleteArchdeaconry(archdeaconry, () => { searchArchdeaconries(parameters, false); });
     };
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        {
-                            canEdit ?
-                                <tr>
-                                    <th className="col-7">Name</th>
-                                    <th className="col-2">Balance (UGX)</th>
-                                    <th className="col-3"></th>
-                                </tr>
-                                : canViewBalance ?
-                                    <tr>
-                                        <th className="col-9">Name</th>
-                                        <th className="col-2">Balance (UGX)</th>
-                                        <th className="col-1"></th>
-                                    </tr>
-                                    :
-                                    <tr>
-                                        <th className="col-11">Name</th>
-                                        <th className="col-1"></th>
-                                    </tr>
-                        }
-                    </thead>
-                    <tbody>
-                        {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
-                            <tr key={archdeaconry.id}>
-                                <td>{archdeaconry.name}</td>
-                                {
-                                    canViewBalance &&
-                                    <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
-                                }
-                                <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
-                                        View
-                                    </Link>
-                                    {
-                                        canEdit &&
-                                        <>
-                                            <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
-                                                Edit
-                                            </Link>
-                                            <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
-                                                {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
-                                            </button>
-                                        </>
-                                    }
-                                </td>
+    return (
+        <>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+            {resultsLoading && <LoadingSpinner onTable />}
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    {
+                        canEdit ?
+                            <tr>
+                                <th className="col-7">Name</th>
+                                <th className="col-2">Balance (UGX)</th>
+                                <th className="col-3"></th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-            </>;
+                            : canViewBalance ?
+                                <tr>
+                                    <th className="col-9">Name</th>
+                                    <th className="col-2">Balance (UGX)</th>
+                                    <th className="col-1"></th>
+                                </tr>
+                                :
+                                <tr>
+                                    <th className="col-11">Name</th>
+                                    <th className="col-1"></th>
+                                </tr>
+                    }
+                </thead>
+                <tbody>
+                    {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
+                        <tr key={archdeaconry.id}>
+                            <td>{archdeaconry.name}</td>
+                            {
+                                canViewBalance &&
+                                <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
+                            }
+                            <td className="buttons-column">
+                                <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                                    View
+                                </Link>
+                                {
+                                    canEdit &&
+                                    <>
+                                        <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
+                                            Edit
+                                        </Link>
+                                        <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
+                                            {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
+                                        </button>
+                                    </>
+                                }
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 }
 
 export default connect(

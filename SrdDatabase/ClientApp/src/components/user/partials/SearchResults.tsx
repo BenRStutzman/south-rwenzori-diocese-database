@@ -32,48 +32,49 @@ const SearchResults = ({
         searchUsers({ ...parameters, pageNumber });
     }
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th className="col-3">Name</th>
-                            <th className="col-3">Username</th>
-                            <th className="col-3">User Type</th>
-                            <th className="col-3"></th>
+    return (
+        <>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+            {resultsLoading && <LoadingSpinner onTable />}
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th className="col-3">Name</th>
+                        <th className="col-3">Username</th>
+                        <th className="col-3">User Type</th>
+                        <th className="col-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {results.users.map((user: User) =>
+                        <tr key={user.id}>
+                            <td>{user.name}</td>
+                            <td>{user.username}</td>
+                            <td>{user.userType}</td>
+                            <td className="buttons-column">
+                                <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
+                                    View
+                                </Link>
+                                <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
+                                    Edit
+                                </Link>
+                                <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
+                                    {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete'}
+                                </button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {results.users.map((user: User) =>
-                            <tr key={user.id}>
-                                <td>{user.name}</td>
-                                <td>{user.username}</td>
-                                <td>{user.userType}</td>
-                                <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
-                                        View
-                                    </Link>
-                                    <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
-                                        Edit
-                                    </Link>
-                                    <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
-                                        {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete'}
-                                    </button>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-            </>;
+                    )}
+                </tbody>
+            </table>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 };
 
 export default connect(

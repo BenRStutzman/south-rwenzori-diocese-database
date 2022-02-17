@@ -38,63 +38,64 @@ const SearchResults = ({
         deleteCongregation(congregation, () => { searchCongregations(parameters, false); })
     };
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>Name</th>
-                            <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>Parish</th>
+    return (
+        <>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+            {resultsLoading && <LoadingSpinner onTable />}
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>Name</th>
+                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>Parish</th>
+                        {
+                            canViewBalance &&
+                            <th className='col-2'>Balance (UGX)</th>
+                        }
+                        <th className={`col-${canEdit ? '3' : '1'}`}></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {results.congregations.map((congregation: Congregation) =>
+                        <tr key={congregation.id}>
+                            <td>{congregation.name}</td>
+                            <td>
+                                <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
+                            </td>
                             {
                                 canViewBalance &&
-                                <th className='col-2'>Balance (UGX)</th>
+                                <td className="money-column">
+                                    {parenthesizeIfNegative(congregation.balance as number)}
+                                </td>
                             }
-                            <th className={`col-${canEdit ? '3' : '1'}`}></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.congregations.map((congregation: Congregation) =>
-                            <tr key={congregation.id}>
-                                <td>{congregation.name}</td>
-                                <td>
-                                    <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
-                                </td>
+                            <td className="buttons-column">
+                                <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
+                                    View
+                                </Link>
                                 {
-                                    canViewBalance &&
-                                    <td className="money-column">
-                                        {parenthesizeIfNegative(congregation.balance as number)}
-                                    </td>
+                                    canEdit &&
+                                    <>
+                                        <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
+                                            Edit
+                                        </Link>
+                                        <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
+                                            {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete"}
+                                        </button>
+                                    </>
                                 }
-                                <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
-                                        View
-                                    </Link>
-                                    {
-                                        canEdit &&
-                                        <>
-                                            <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
-                                                Edit
-                                            </Link>
-                                            <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                                {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete"}
-                                            </button>
-                                        </>
-                                    }
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-            </>;
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 };
 
 export default connect(

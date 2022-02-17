@@ -43,10 +43,7 @@ const SearchResults = ({
                 results={results}
                 onPage={onPage}
             />
-            {
-                resultsLoading &&
-                <LoadingSpinner onTable />
-            }
+            {resultsLoading && <LoadingSpinner onTable />}
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>

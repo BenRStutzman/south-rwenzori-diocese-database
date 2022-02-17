@@ -38,74 +38,75 @@ const SearchResults = ({
         deleteParish(parish, () => { searchParishes(parameters, false); });
     };
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        {
-                            canEdit ?
-                                <tr>
-                                    <th className="col-4">Name</th>
-                                    <th className="col-3">Archdeaconry</th>
-                                    <th className="col-2">Balance (UGX)</th>
-                                    <th className="col-3"></th>
-                                </tr>
-                                : canViewBalance ?
-                                    <tr>
-                                        <th className="col-5">Name</th>
-                                        <th className="col-4">Archdeaconry</th>
-                                        <th className="col-2">Balance (UGX)</th>
-                                        <th className="col-1"></th>
-                                    </tr>
-                                    :
-                                    <tr>
-                                        <th className="col-6">Name</th>
-                                        <th className="col-5">Archdeaconry</th>
-                                        <th className="col-1"></th>
-                                    </tr>
-                        }
-                    </thead>
-                    <tbody>
-                        {results.parishes.map((parish: Parish) =>
-                            <tr key={parish.id}>
-                                <td>{parish.name}</td>
-                                <td>
-                                    <Link to={`/archdeaconry/details/${parish.archdeaconryId}`}>{parish.archdeaconry}</Link>
-                                </td>
-                                {
-                                    canViewBalance &&
-                                    <td className="money-column">{parenthesizeIfNegative(parish.balance as number)}</td>
-                                }
-                                <td className="buttons-column">
-                                    <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
-                                        View
-                                    </Link>
-                                    {
-                                        canEdit &&
-                                        <>
-                                            <Link className="btn btn-primary" to={`/parish/edit/${parish.id}`}>
-                                                Edit
-                                            </Link>
-                                            <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
-                                                {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete'}
-                                            </button>
-                                        </>
-                                    }
-                                </td>
+    return (
+        <>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+            {resultsLoading && <LoadingSpinner onTable />}
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    {
+                        canEdit ?
+                            <tr>
+                                <th className="col-4">Name</th>
+                                <th className="col-3">Archdeaconry</th>
+                                <th className="col-2">Balance (UGX)</th>
+                                <th className="col-3"></th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    onPage={onPage}
-                />
-            </>;
+                            : canViewBalance ?
+                                <tr>
+                                    <th className="col-5">Name</th>
+                                    <th className="col-4">Archdeaconry</th>
+                                    <th className="col-2">Balance (UGX)</th>
+                                    <th className="col-1"></th>
+                                </tr>
+                                :
+                                <tr>
+                                    <th className="col-6">Name</th>
+                                    <th className="col-5">Archdeaconry</th>
+                                    <th className="col-1"></th>
+                                </tr>
+                    }
+                </thead>
+                <tbody>
+                    {results.parishes.map((parish: Parish) =>
+                        <tr key={parish.id}>
+                            <td>{parish.name}</td>
+                            <td>
+                                <Link to={`/archdeaconry/details/${parish.archdeaconryId}`}>{parish.archdeaconry}</Link>
+                            </td>
+                            {
+                                canViewBalance &&
+                                <td className="money-column">{parenthesizeIfNegative(parish.balance as number)}</td>
+                            }
+                            <td className="buttons-column">
+                                <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
+                                    View
+                                </Link>
+                                {
+                                    canEdit &&
+                                    <>
+                                        <Link className="btn btn-primary" to={`/parish/edit/${parish.id}`}>
+                                            Edit
+                                        </Link>
+                                        <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
+                                            {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete'}
+                                        </button>
+                                    </>
+                                }
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <Paging
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 }
 
 export default connect(
