@@ -1,4 +1,4 @@
-﻿import { PagedResults } from './shared';
+﻿import { PagedParameters, PagedResults } from './shared';
 import { EventResults } from './event'
 import { PaymentResults } from './payment';
 import { ChargeResults } from './charge';
@@ -20,7 +20,7 @@ export interface CongregationDetails {
     chargeResults: ChargeResults;
 }
 
-export interface CongregationParameters {
+export interface CongregationParameters extends PagedParameters {
     name?: string;
     parishId?: number;
     archdeaconryId?: number;

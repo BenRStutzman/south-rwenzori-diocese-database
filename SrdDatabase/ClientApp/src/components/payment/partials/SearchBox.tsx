@@ -85,7 +85,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchPayments(parameters);
+        searchPayments(parameters, true);
     };
 
     return (

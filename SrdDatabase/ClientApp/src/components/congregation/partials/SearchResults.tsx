@@ -30,25 +30,21 @@ const SearchResults = ({
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
-    const nextPage = () => {
-        searchCongregations(parameters, results.pageNumber + 1);
-    };
-
-    const previousPage = () => {
-        searchCongregations(parameters, results.pageNumber - 1);
-    };
+    const onPage = (pageNumber: number) => {
+        searchCongregations({ ...parameters, pageNumber });
+    }
 
     const onDelete = (congregation: Congregation) => {
-        deleteCongregation(congregation, () => { searchCongregations(parameters, results.pageNumber, false); })
+        deleteCongregation(congregation, () => { searchCongregations(parameters); })
     };
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.totalResults ? <h2>No results.</h2> :
             <>
                 <Paging
+                    resultsLoading={resultsLoading}
                     results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
+                    onPage={onPage}
                 />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
@@ -96,9 +92,9 @@ const SearchResults = ({
                     </tbody>
                 </table>
                 <Paging
+                    resultsLoading={resultsLoading}
                     results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
+                    onPage={onPage}
                 />
             </>;
 };

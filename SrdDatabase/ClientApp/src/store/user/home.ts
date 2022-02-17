@@ -11,9 +11,8 @@ const SET_SEARCH_NAME = 'USER.SET_SEARCH_NAME';
 const SET_SEARCH_USERNAME = 'USER.SET_SEARCH_USERNAME';
 const SET_SEARCH_USER_TYPE_ID = 'USER.SET_SEARCH_USER_TYPE_ID';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: UserResults) => ({
@@ -69,12 +68,13 @@ const setSearchUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dis
 
 const searchUsers = (
     parameters: UserParameters = {},
-    pageNumber: number = 0,
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
-    post<UserParameters & PagedParameters>('api/user/search', { ...parameters, pageNumber })
+    post<UserParameters & PagedParameters>('api/user/search', parameters)
         .then(response => response.json() as Promise<UserResults>)
         .then(results => {
             dispatch(setResultsAction(results));
@@ -135,7 +135,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

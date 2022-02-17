@@ -9,6 +9,7 @@ import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -24,46 +25,46 @@ const SearchResults = ({
     parameters,
     searchPayments,
 }: Props) => {
-    const nextPage = () => {
-        searchPayments({ ...parameters, pageNumber: (parameters.pageNumber ?? 0) + 1 });
-    };
+    const onPage = (pageNumber: number) => {
+        searchPayments({ ...parameters, pageNumber });
+    }
 
-    const previousPage = () => {
-        searchPayments({ ...parameters, pageNumber: (parameters.pageNumber as number) - 1 });
-    };
-
-    const sort = (sortColumn: string, sortDescending: boolean) => {
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
         searchPayments({ ...parameters, sortColumn, sortDescending });
     };
 
     const onDelete = (payment: Payment) => {
-        deletePayment(payment, () => { searchPayments(parameters, false); });
+        deletePayment(payment, () => { searchPayments(parameters); });
     };
 
-    return resultsLoading ? <LoadingSpinner /> :
-        !results.totalResults ? <h2>No results.</h2> :
-            <>
-                <Paging
-                    results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
-                />
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th className="col-2">Amount (UGX)
-                                <button className="btn sort-buttons" onClick={() => { sort('amount', true); }}>
-                                    <i className="bi bi-caret-up"></i>
-                                    <i className="bi bi-caret-down"></i>
-                                </button></th>
-                            <th className="col-3">Congregation</th>
-                            <th className="col-2">Date</th>
-                            <th className="col-2">Receipt Number</th>
-                            <th className="col-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.payments.map((payment: Payment) =>
+    return (
+        <>
+            <Paging
+                resultsLoading={resultsLoading}
+                results={results}
+                onPage={onPage}
+            />
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th className="col-2">
+                            Amount (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="amount"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-3">Congregation</th>
+                        <th className="col-2">Date</th>
+                        <th className="col-2">Receipt Number</th>
+                        <th className="col-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        !resultsLoading && results.totalResults > 0 &&
+                        results.payments.map((payment: Payment) =>
                             <tr key={payment.id}>
                                 <td className="money-column">{payment.amount}</td>
                                 <td>
@@ -85,15 +86,23 @@ const SearchResults = ({
                                     </>
                                 </td>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Paging
-                    results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
-                />
-            </>;
+                        )
+                    }
+                </tbody>
+            </table>
+            {
+                resultsLoading && <LoadingSpinner />
+            }
+            {
+                !results.totalResults && <h2>No results.</h2>
+            }
+            <Paging
+                resultsLoading={resultsLoading}
+                results={results}
+                onPage={onPage}
+            />
+        </>
+    );
 }
 
 export default connect(

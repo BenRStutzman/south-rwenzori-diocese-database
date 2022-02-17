@@ -12,7 +12,9 @@ const Home = () => {
             <div className="page-heading">
                 <h1>Charges</h1>
                 <ExpandButton expanded={expanded} setExpanded={setExpanded} />
-                <Link className="btn btn-primary float-right" to="/charge/add">Add new</Link>
+                <div>
+                    <Link className="btn btn-primary float-right" to="/charge/add">Add new</Link>
+                </div>
             </div>
             <SearchBox expanded={expanded} />
             <SearchResults />

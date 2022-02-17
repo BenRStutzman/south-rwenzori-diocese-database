@@ -14,9 +14,8 @@ const SET_RESULTS_LOADING = 'CONGREGATION.SET_RESULTS_LOADING';
 const SET_RESULTS = 'CONGREGATION.SET_RESULTS';
 const SET_PARAMETERS = 'CONGREGATION.SET_PARAMETERS';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: CongregationResults) => ({
@@ -96,12 +95,13 @@ const setSearchParishId = (parishId?: number): AppThunkAction<Action> => (dispat
 
 const searchCongregations = (
     parameters: CongregationParameters = {},
-    pageNumber: number = 0,
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
-    post<CongregationParameters & PagedParameters>('api/congregation/search', { ...parameters, pageNumber })
+    post<CongregationParameters & PagedParameters>('api/congregation/search', parameters)
         .then(response => response.json() as Promise<CongregationResults>)
         .then(results => {
             dispatch(setResultsAction(results));
@@ -162,7 +162,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

@@ -26,7 +26,9 @@ const Home = ({
 
                 {
                     canAdd &&
-                    <Link className="btn btn-primary float-right" to="/event/add">Add new</Link>
+                    <div>
+                        <Link className="btn btn-primary float-right" to="/event/add">Add new</Link>
+                    </div>
                 }
             </div>
             <SearchBox expanded={expanded} />

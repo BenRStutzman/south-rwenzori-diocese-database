@@ -12,14 +12,14 @@ const SearchButtons = ({
     thingsBeingSearched,
     searching,
 }: Props) =>
-    <>
+    <div className="search-buttons">
         <button disabled={searching} className="btn btn-success" type="submit">
             {searching ? <Spinner size="sm" /> : `Search ${thingsBeingSearched}`}
         </button>
         <button
-            className="btn btn-secondary float-right" type="button" onClick={onClear}>
+            className="btn btn-secondary" type="button" onClick={onClear}>
             Clear search options
         </button>
-    </>;
+    </div>;
 
 export default SearchButtons;

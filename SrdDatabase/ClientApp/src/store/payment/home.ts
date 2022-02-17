@@ -18,9 +18,8 @@ const SET_SEARCH_RECEIPT_NUMBER = 'PAYMENT.SET_SEARCH_RECEIPT_NUMBER';
 const SET_RESULTS_LOADING = 'PAYMENT.SET_RESULTS_LOADING';
 const SET_RESULTS = 'PAYMENT.SET_RESULTS';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: PaymentResults) => ({
@@ -139,9 +138,11 @@ const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> 
 
 const searchPayments = (
     parameters: PaymentParameters = {},
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
     post<PaymentParameters>('api/payment/search', parameters)
         .then(response => response.json() as Promise<PaymentResults>)
@@ -232,7 +233,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

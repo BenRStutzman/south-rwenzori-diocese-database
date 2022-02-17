@@ -9,10 +9,12 @@ const Home = () => {
 
     return (
         <>
-            <div className="page-heading" >
+            <div className="page-heading">
                 <h1>Payments</h1>
                 <ExpandButton expanded={expanded} setExpanded={setExpanded} />
-                <Link className="btn btn-primary float-right" to="/payment/add">Add new</Link>
+                <div>
+                    <Link className="btn btn-primary float-right" to="/payment/add">Add new</Link>
+                </div>
             </div>
             <SearchBox expanded={expanded} />
             <SearchResults />

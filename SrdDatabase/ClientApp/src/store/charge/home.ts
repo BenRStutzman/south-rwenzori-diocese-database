@@ -17,9 +17,8 @@ const SET_SEARCH_CONGREGATION_ID = 'CHARGE.SET_SEARCH_CONGREGATION_ID';
 const SET_RESULTS_LOADING = 'CHARGE.SET_RESULTS_LOADING';
 const SET_RESULTS = 'CHARGE.SET_RESULTS';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: ChargeResults) => ({
@@ -129,12 +128,13 @@ const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action
 
 const searchCharges = (
     parameters: ChargeParameters = {},
-    pageNumber: number = 0,
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
-    post<ChargeParameters & PagedParameters>('api/charge/search', { ...parameters, pageNumber })
+    post<ChargeParameters & PagedParameters>('api/charge/search', parameters)
         .then(response => response.json() as Promise<ChargeResults>)
         .then(results => {
             dispatch(setResultsAction(results));
@@ -213,7 +213,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

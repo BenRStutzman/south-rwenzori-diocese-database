@@ -156,6 +156,13 @@ button:disabled {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
+    gap: 5px;
+}
+
+.page-heading :nth-child(1),
+.page-heading :nth-child(3) {
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 .page-heading h1 {
@@ -166,8 +173,22 @@ input[type=checkbox] {
     margin-right: 5px;
 }
 
-.sort-buttons {
+.sort-button {
     display: inline-flex;
     flex-direction: column;
-    padding: 1px;
+    padding: 0;
+    justify-content: center;
+    height: 100%;
+}
+
+.sort-button i {
+    height: 0.7rem;
+    position: relative;
+    top: -7px;
+}
+
+.search-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
 }

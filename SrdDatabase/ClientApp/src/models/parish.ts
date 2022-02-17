@@ -2,7 +2,7 @@
 import { CongregationResults } from './congregation';
 import { EventResults } from './event';
 import { PaymentResults } from './payment';
-import { PagedResults } from './shared';
+import { PagedParameters, PagedResults } from './shared';
 
 export interface Parish {
     id?: number;
@@ -20,7 +20,7 @@ export interface ParishDetails {
     chargeResults: ChargeResults;
 }
 
-export interface ParishParameters {
+export interface ParishParameters extends PagedParameters {
     name?: string;
     archdeaconryId?: number;
 }

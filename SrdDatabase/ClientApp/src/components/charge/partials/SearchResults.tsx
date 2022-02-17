@@ -24,25 +24,21 @@ const SearchResults = ({
     parameters,
     searchCharges,
 }: Props) => {
-    const nextPage = () => {
-        searchCharges(parameters, results.pageNumber + 1);
-    };
-
-    const previousPage = () => {
-        searchCharges(parameters, results.pageNumber - 1);
-    };
+    const onPage = (pageNumber: number) => {
+        searchCharges({ ...parameters, pageNumber });
+    }
 
     const onDelete = (charge: Charge) => {
-        deleteCharge(charge, () => { searchCharges(parameters, results.pageNumber, false); });
+        deleteCharge(charge, () => { searchCharges(parameters); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.totalResults ? <h2>No results.</h2> :
             <>
                 <Paging
+                    resultsLoading={resultsLoading}
                     results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
+                    onPage={onPage}
                 />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
@@ -81,9 +77,9 @@ const SearchResults = ({
                     </tbody>
                 </table>
                 <Paging
+                    resultsLoading={resultsLoading}
                     results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
+                    onPage={onPage}
                 />
             </>;
 }

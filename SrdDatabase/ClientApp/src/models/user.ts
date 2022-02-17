@@ -1,4 +1,4 @@
-﻿import { PagedResults } from "./shared";
+﻿import { PagedParameters, PagedResults } from "./shared";
 
 export interface User {
     id?: number;
@@ -32,7 +32,7 @@ export interface UserDetails {
     user: User;
 }
 
-export interface UserParameters {
+export interface UserParameters extends PagedParameters  {
     name?: string;
     username?: string;
     userTypeId?: number;

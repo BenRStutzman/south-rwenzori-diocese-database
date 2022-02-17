@@ -1,6 +1,6 @@
 ﻿import { CongregationResults } from "./congregation";
 import { ParishResults } from "./parish";
-import { PagedResults } from "./shared";
+import { PagedParameters, PagedResults } from "./shared";
 import { EventResults } from './event';
 import { PaymentResults } from "./payment";
 import { ChargeResults } from "./charge";
@@ -20,7 +20,7 @@ export interface ArchdeaconryDetails {
     chargeResults: ChargeResults;
 }
 
-export interface ArchdeaconryParameters {
+export interface ArchdeaconryParameters extends PagedParameters {
     name?: string;
 }
 

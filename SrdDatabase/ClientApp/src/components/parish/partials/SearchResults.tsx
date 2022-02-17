@@ -30,25 +30,21 @@ const SearchResults = ({
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
     const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
-    const nextPage = () => {
-        searchParishes(parameters, results.pageNumber + 1);
-    };
-
-    const previousPage = () => {
-        searchParishes(parameters, results.pageNumber - 1);
-    };
+    const onPage = (pageNumber: number) => {
+        searchParishes({ ...parameters, pageNumber });
+    }
 
     const onDelete = (parish: Parish) => {
-        deleteParish(parish, () => { searchParishes(parameters, results.pageNumber, false); });
+        deleteParish(parish, () => { searchParishes(parameters); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :
         !results.totalResults ? <h2>No results.</h2> :
             <>
                 <Paging
+                    resultsLoading={resultsLoading}
                     results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
+                    onPage={onPage}
                 />
                 <table className='table table-striped' aria-labelledby="tabelLabel">
                     <thead>
@@ -107,9 +103,9 @@ const SearchResults = ({
                     </tbody>
                 </table>
                 <Paging
+                    resultsLoading={resultsLoading}
                     results={results}
-                    nextPage={nextPage}
-                    previousPage={previousPage}
+                    onPage={onPage}
                 />
             </>;
 }

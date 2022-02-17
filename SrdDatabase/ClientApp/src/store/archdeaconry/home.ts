@@ -10,9 +10,8 @@ const SET_RESULTS = 'ARCHDEACONRY.SET_RESULTS';
 const SET_SEARCH_NAME = 'ARCHDEACONRY.SET_SEARCH_NAME';
 const SET_PARAMETERS = 'ARCHDEACONRY.SET_PARAMETERS';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: ArchdeaconryResults) => ({
@@ -46,12 +45,13 @@ const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (
 
 const searchArchdeaconries = (
     parameters: ArchdeaconryParameters = {},
-    pageNumber: number = 0,
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
-    post<ArchdeaconryParameters & PagedParameters>('api/archdeaconry/search', { ...parameters, pageNumber })
+    post<ArchdeaconryParameters>('api/archdeaconry/search', parameters)
         .then(response => response.json() as Promise<ArchdeaconryResults>)
         .then(results => {
             dispatch(setResultsAction(results));
@@ -90,7 +90,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

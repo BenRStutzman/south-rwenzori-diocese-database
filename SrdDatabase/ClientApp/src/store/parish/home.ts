@@ -11,9 +11,8 @@ const SET_SEARCH_NAME = 'PARISH.SET_SEARCH_NAME';
 const SET_SEARCH_ARCHDEACONRY_ID = 'PARISH.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_PARAMETERS = 'PARISH.SET_PARAMETERS';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: ParishResults) => ({
@@ -73,12 +72,13 @@ export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<
 
 const searchParishes = (
     parameters: ParishParameters = {},
-    pageNumber: number = 0,
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
-    post<ParishParameters & PagedParameters>('api/parish/search', { ...parameters, pageNumber })
+    post<ParishParameters & PagedParameters>('api/parish/search', parameters)
         .then(response => response.json() as Promise<ParishResults>)
         .then(results => {
             dispatch(setResultsAction(results));
@@ -114,7 +114,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

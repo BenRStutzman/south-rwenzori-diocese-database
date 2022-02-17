@@ -19,9 +19,8 @@ const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
 const SET_RESULTS_LOADING = 'EVENT.SET_RESULTS_LOADING';
 const SET_RESULTS = 'EVENT.SET_RESULTS';
 
-const setResultsLoadingAction = (showLoading: boolean = true) => ({
+const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
-    value: showLoading,
 });
 
 const setResultsAction = (results: EventResults) => ({
@@ -149,12 +148,13 @@ const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action
 
 const searchEvents = (
     parameters: EventParameters = {},
-    pageNumber: number = 0,
-    showLoading: boolean = true,
+    showLoading: boolean = false,
 ): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction(showLoading));
+    if (showLoading) {
+        dispatch(setResultsLoadingAction());
+    }
 
-    post<EventParameters & PagedParameters>('api/event/search', { ...parameters, pageNumber })
+    post<EventParameters & PagedParameters>('api/event/search', parameters)
         .then(response => response.json() as Promise<EventResults>)
         .then(results => {
             dispatch(setResultsAction(results));
@@ -251,7 +251,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_RESULTS_LOADING:
             return {
                 ...state,
-                resultsLoading: action.value,
+                resultsLoading: true,
             };
         case SET_RESULTS:
             return {

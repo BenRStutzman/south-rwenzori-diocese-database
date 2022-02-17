@@ -25,7 +25,9 @@ const Home = ({
                 <ExpandButton expanded={expanded} setExpanded={setExpanded} />
                 {
                     canAdd &&
-                    <Link className="btn btn-primary float-right" to="/archdeaconry/add">Add new</Link>
+                    <div>
+                        <Link className="btn btn-primary float-right" to="/archdeaconry/add">Add new</Link>
+                    </div>
                 }
             </div>
             <SearchBox expanded={expanded} />

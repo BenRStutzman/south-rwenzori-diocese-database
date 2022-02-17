@@ -1,4 +1,4 @@
-﻿import { PagedResults } from "./shared";
+﻿import { PagedParameters, PagedResults } from "./shared";
 
 export interface Event {
     id?: number;
@@ -27,7 +27,7 @@ export interface EventDetails {
     event: Event;
 }
 
-export interface EventParameters {
+export interface EventParameters extends PagedParameters {
     eventTypeId?: number;
     personName?: string;
     parishId?: number;
