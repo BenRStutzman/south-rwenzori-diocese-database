@@ -55,9 +55,30 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-3">Congregation</th>
-                        <th className="col-2">Date</th>
-                        <th className="col-2">Receipt Number</th>
+                        <th className="col-3">
+                            Congregation
+                            <SortButton
+                                parameters={parameters}
+                                columnName="congregation"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Date
+                            <SortButton
+                                parameters={parameters}
+                                columnName="date"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Receipt Number
+                            <SortButton
+                                parameters={parameters}
+                                columnName="receiptNumber"
+                                onSort={onSort}
+                            />
+                        </th>
                         <th className="col-3"></th>
                     </tr>
                 </thead>
