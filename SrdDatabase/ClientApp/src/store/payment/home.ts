@@ -138,17 +138,18 @@ const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> 
 
 const searchPayments = (
     parameters: PaymentParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
+    dispatch(setParametersAction(parameters));
+
     post<PaymentParameters>('api/payment/search', parameters)
         .then(response => response.json() as Promise<PaymentResults>)
         .then(results => {
             dispatch(setResultsAction(results));
-            dispatch(setParametersAction(parameters));
         });
 };
 

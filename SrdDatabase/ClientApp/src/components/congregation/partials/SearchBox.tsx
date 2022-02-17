@@ -128,7 +128,6 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     thingsBeingSearched="congregations"
-                    searching={resultsLoading}
                     onClear={() => { prefillParameters(); }}
                 />
             </form>

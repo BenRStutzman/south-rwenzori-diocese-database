@@ -3,13 +3,11 @@ import { PagedResults } from "../../models/shared";
 
 interface Props {
     results: PagedResults;
-    resultsLoading: boolean;
     onPage: (pageNumber: number) => void;
 }
 
 const Paging = ({
     results,
-    resultsLoading,
     onPage,
 }: Props) => {
     const startingResultNumber = results.pageSize * results.pageNumber + 1;
@@ -24,34 +22,29 @@ const Paging = ({
     };
 
     return <div className="paging">
-        {
-            !resultsLoading &&
-            <>
-                <div className="paging-button-container">
-                    {
-                        results.pageNumber > 0 &&
-                        <button className="btn btn-link shadow-none" onClick={previousPage}>
-                            <i className="bi bi-arrow-left"></i>
-                        </button>
-                    }
-                </div>
-                <div>
-                    {
-                        startingResultNumber <= endingResultNumber &&
-                        <span>Showing results {startingResultNumber}&ndash;{endingResultNumber} of {results.totalResults}</span>
-                    }
-                </div>
-                <div className="paging-button-container">
-                    {
-                        results.pageNumber < Math.ceil(results.totalResults / results.pageSize) - 1 &&
-                        <button className="btn btn-link shadow-none" onClick={nextPage}>
-                            <i className="bi bi-arrow-right"></i>
-                        </button>
-                    }
-                </div>
-            </>
-        }
-    </div>;
+        <div className="paging-button-container">
+            {
+                results.pageNumber > 0 &&
+                <button className="btn btn-link shadow-none" onClick={previousPage}>
+                    <i className="bi bi-arrow-left"></i>
+                </button>
+            }
+        </div>
+        <div>
+            {
+                startingResultNumber <= endingResultNumber &&
+                <span>Showing results {startingResultNumber}&ndash;{endingResultNumber} of {results.totalResults}</span>
+            }
+        </div>
+        <div className="paging-button-container">
+            {
+                results.pageNumber < Math.ceil(results.totalResults / results.pageSize) - 1 &&
+                <button className="btn btn-link shadow-none" onClick={nextPage}>
+                    <i className="bi bi-arrow-right"></i>
+                </button>
+            }
+        </div>
+    </div >;
 }
 
 export default Paging;

@@ -36,7 +36,6 @@ const SearchResults = ({
         !results.totalResults ? <h2>No results.</h2> :
             <>
                 <Paging
-                    resultsLoading={resultsLoading}
                     results={results}
                     onPage={onPage}
                 />
@@ -71,7 +70,6 @@ const SearchResults = ({
                     </tbody>
                 </table>
                 <Paging
-                    resultsLoading={resultsLoading}
                     results={results}
                     onPage={onPage}
                 />

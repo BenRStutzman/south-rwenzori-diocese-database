@@ -22,7 +22,6 @@ const SearchBox = ({
     parameters,
     setSearchName,
     prefillParameters,
-    resultsLoading,
     expanded,
 }: Props) => {
     const loadData = () => {
@@ -59,7 +58,6 @@ const SearchBox = ({
                 <SearchButtons
                     thingsBeingSearched="archdeaconries"
                     onClear={() => { prefillParameters(); }}
-                    searching={resultsLoading}
                 />
             </form>
         </div>

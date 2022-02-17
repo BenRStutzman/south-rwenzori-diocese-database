@@ -193,3 +193,13 @@ input[type=checkbox] {
     justify-content: space-between;
     gap: 5px;
 }
+
+.results-loading {
+    opacity: 0.3;
+}
+
+.loading-spinner-container.on-table {
+    position: relative;
+    top: 150px;
+    height: 0;
+}

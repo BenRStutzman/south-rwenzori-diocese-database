@@ -111,7 +111,6 @@ const SearchBox = ({
                     </div>
                 </div>
                 <SearchButtons
-                    searching={resultsLoading}
                     thingsBeingSearched="users"
                     onClear={() => { prefillParameters(); }}
                 />

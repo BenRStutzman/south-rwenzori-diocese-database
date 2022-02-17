@@ -34,16 +34,19 @@ const SearchResults = ({
     };
 
     const onDelete = (payment: Payment) => {
-        deletePayment(payment, () => { searchPayments(parameters); });
+        deletePayment(payment, () => { searchPayments(parameters, false); });
     };
 
     return (
         <>
             <Paging
-                resultsLoading={resultsLoading}
                 results={results}
                 onPage={onPage}
             />
+            {
+                resultsLoading &&
+                <LoadingSpinner onTable />
+            }
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -82,9 +85,8 @@ const SearchResults = ({
                         <th className="col-3"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {
-                        !resultsLoading && results.totalResults > 0 &&
                         results.payments.map((payment: Payment) =>
                             <tr key={payment.id}>
                                 <td className="money-column">{payment.amount}</td>
@@ -112,13 +114,9 @@ const SearchResults = ({
                 </tbody>
             </table>
             {
-                resultsLoading && <LoadingSpinner />
-            }
-            {
-                !results.totalResults && <h2>No results.</h2>
+                !resultsLoading && !results.totalResults && <h2>No results.</h2>
             }
             <Paging
-                resultsLoading={resultsLoading}
                 results={results}
                 onPage={onPage}
             />

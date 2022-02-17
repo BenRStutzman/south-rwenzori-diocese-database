@@ -35,7 +35,6 @@ const SearchBox = ({
     prefillParameters,
     loadArchdeaconries,
     congregationsLoading,
-    resultsLoading,
     archdeaconriesLoading,
     parishesLoading,
     expanded,
@@ -85,7 +84,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchPayments(parameters, true);
+        searchPayments(parameters);
     };
 
     return (
@@ -196,7 +195,6 @@ const SearchBox = ({
                     </div>
                 </div>
                 <SearchButtons
-                    searching={resultsLoading}
                     onClear={() => { prefillParameters(); }}
                     thingsBeingSearched="payments"
                 />
