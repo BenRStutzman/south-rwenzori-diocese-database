@@ -25,7 +25,7 @@ const SearchResults = ({
     parameters,
 }: Props) => {
     const onDelete = (user: User) => {
-        deleteUser(user, () => { searchUsers(parameters); });
+        deleteUser(user, () => { searchUsers(parameters, false); });
     };
 
     const onPage = (pageNumber: number) => {

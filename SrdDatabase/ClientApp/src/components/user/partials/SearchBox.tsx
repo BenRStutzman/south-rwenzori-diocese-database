@@ -54,7 +54,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchUsers(parameters, true);
+        searchUsers(parameters);
     };
 
     return (

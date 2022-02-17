@@ -5,7 +5,7 @@ import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { EventParameters, EventResults } from '../../models/event';
 import { Parish } from '../../models/parish';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
 
 const SET_PARAMETERS = 'EVENT.SET_PARAMETERS';
@@ -148,13 +148,15 @@ const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action
 
 const searchEvents = (
     parameters: EventParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
-    post<EventParameters & PagedParameters>('api/event/search', parameters)
+    dispatch(setParametersAction(parameters));
+
+    post<EventParameters>('api/event/search', parameters)
         .then(response => response.json() as Promise<EventResults>)
         .then(results => {
             dispatch(setResultsAction(results));

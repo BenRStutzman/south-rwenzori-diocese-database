@@ -200,6 +200,6 @@ input[type=checkbox] {
 
 .loading-spinner-container.on-table {
     position: relative;
-    top: 150px;
     height: 0;
+    top: 100px;
 }

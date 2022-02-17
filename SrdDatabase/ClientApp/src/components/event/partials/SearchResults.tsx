@@ -34,7 +34,7 @@ const SearchResults = ({
     }
 
     const onDelete = (event: Event) => {
-        deleteEvent(event, () => { searchEvents(parameters); });
+        deleteEvent(event, () => { searchEvents(parameters, false); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :

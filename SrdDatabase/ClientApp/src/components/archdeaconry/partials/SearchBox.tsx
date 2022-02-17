@@ -36,7 +36,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchArchdeaconries(parameters, true);
+        searchArchdeaconries(parameters);
     };
 
     return (

@@ -65,7 +65,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchCongregations(parameters, true);
+        searchCongregations(parameters);
     };
 
     return (

@@ -3,7 +3,7 @@ import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
 import { ArchdeaconryParameters } from '../../models/archdeaconry';
 import { ArchdeaconryResults } from '../../models/archdeaconry';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 
 const SET_RESULTS_LOADING = 'ARCHDEACONRY.SET_RESULTS_LOADING';
 const SET_RESULTS = 'ARCHDEACONRY.SET_RESULTS';
@@ -45,11 +45,13 @@ const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (
 
 const searchArchdeaconries = (
     parameters: ArchdeaconryParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
+
+    dispatch(setParametersAction(parameters));
 
     post<ArchdeaconryParameters>('api/archdeaconry/search', parameters)
         .then(response => response.json() as Promise<ArchdeaconryResults>)

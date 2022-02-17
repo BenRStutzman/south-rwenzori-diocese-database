@@ -5,7 +5,7 @@ import { Archdeaconry } from '../../models/archdeaconry';
 import { ChargeParameters, ChargeResults } from '../../models/charge';
 import { Congregation } from '../../models/congregation';
 import { Parish } from '../../models/parish';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
 
 const SET_PARAMETERS = 'CHARGE.SET_PARAMETERS';
@@ -128,13 +128,15 @@ const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action
 
 const searchCharges = (
     parameters: ChargeParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
-    post<ChargeParameters & PagedParameters>('api/charge/search', parameters)
+    dispatch(setParametersAction(parameters));
+
+    post<ChargeParameters>('api/charge/search', parameters)
         .then(response => response.json() as Promise<ChargeResults>)
         .then(results => {
             dispatch(setResultsAction(results));

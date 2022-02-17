@@ -1,7 +1,7 @@
 ﻿import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { post } from '../../helpers/apiHelpers';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 import { UserParameters, UserResults } from '../../models/user';
 
 const SET_RESULTS_LOADING = 'USER.SET_RESULTS_LOADING';
@@ -68,13 +68,15 @@ const setSearchUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dis
 
 const searchUsers = (
     parameters: UserParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
-    post<UserParameters & PagedParameters>('api/user/search', parameters)
+    dispatch(setParametersAction(parameters));
+
+    post<UserParameters>('api/user/search', parameters)
         .then(response => response.json() as Promise<UserResults>)
         .then(results => {
             dispatch(setResultsAction(results));

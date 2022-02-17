@@ -35,7 +35,7 @@ const SearchResults = ({
     }
 
     const onDelete = (parish: Parish) => {
-        deleteParish(parish, () => { searchParishes(parameters); });
+        deleteParish(parish, () => { searchParishes(parameters, false); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :

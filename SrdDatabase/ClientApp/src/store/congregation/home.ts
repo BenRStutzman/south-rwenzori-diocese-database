@@ -4,7 +4,7 @@ import { get, post } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { CongregationParameters, CongregationResults } from '../../models/congregation';
 import { Parish } from '../../models/parish';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 import { loadParishes } from '../shared';
 
 const SET_SEARCH_NAME = 'CONGREGATION.SET_SEARCH_NAME';
@@ -95,13 +95,15 @@ const setSearchParishId = (parishId?: number): AppThunkAction<Action> => (dispat
 
 const searchCongregations = (
     parameters: CongregationParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
-    post<CongregationParameters & PagedParameters>('api/congregation/search', parameters)
+    dispatch(setParametersAction(parameters));
+
+    post<CongregationParameters>('api/congregation/search', parameters)
         .then(response => response.json() as Promise<CongregationResults>)
         .then(results => {
             dispatch(setResultsAction(results));

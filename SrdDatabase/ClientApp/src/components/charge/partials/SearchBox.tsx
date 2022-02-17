@@ -78,7 +78,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchCharges(parameters, true);
+        searchCharges(parameters);
     };
 
     const currentYear = (new Date()).getFullYear();

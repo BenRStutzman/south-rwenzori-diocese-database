@@ -3,7 +3,7 @@ import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { ParishParameters, ParishResults } from '../../models/parish';
-import { PagedParameters, pagedResultsDefaults } from '../../models/shared';
+import { pagedResultsDefaults } from '../../models/shared';
 
 const SET_RESULTS_LOADING = 'PARISH.SET_RESULTS_LOADING';
 const SET_RESULTS = 'PARISH.SET_RESULTS';
@@ -72,13 +72,15 @@ export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<
 
 const searchParishes = (
     parameters: ParishParameters = {},
-    showLoading: boolean = false,
+    showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
-    post<ParishParameters & PagedParameters>('api/parish/search', parameters)
+    dispatch(setParametersAction(parameters));
+
+    post<ParishParameters>('api/parish/search', parameters)
         .then(response => response.json() as Promise<ParishResults>)
         .then(results => {
             dispatch(setResultsAction(results));

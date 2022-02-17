@@ -35,7 +35,7 @@ const SearchResults = ({
     }
 
     const onDelete = (congregation: Congregation) => {
-        deleteCongregation(congregation, () => { searchCongregations(parameters); })
+        deleteCongregation(congregation, () => { searchCongregations(parameters, false); })
     };
 
     return resultsLoading ? <LoadingSpinner /> :

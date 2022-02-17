@@ -29,7 +29,7 @@ const SearchResults = ({
     }
 
     const onDelete = (charge: Charge) => {
-        deleteCharge(charge, () => { searchCharges(parameters); });
+        deleteCharge(charge, () => { searchCharges(parameters, false); });
     };
 
     return resultsLoading ? <LoadingSpinner /> :
