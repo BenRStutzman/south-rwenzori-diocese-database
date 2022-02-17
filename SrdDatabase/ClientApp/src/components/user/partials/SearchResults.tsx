@@ -9,6 +9,7 @@ import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -30,7 +31,11 @@ const SearchResults = ({
 
     const onPage = (pageNumber: number) => {
         searchUsers({ ...parameters, pageNumber });
-    }
+    };
+
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
+        searchUsers({ ...parameters, sortColumn, sortDescending });
+    };
 
     return (
         <>
@@ -42,9 +47,30 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-3">Name</th>
-                        <th className="col-3">Username</th>
-                        <th className="col-3">User Type</th>
+                        <th className="col-3">
+                            Name
+                            <SortButton
+                                parameters={parameters}
+                                columnName="name"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-3">
+                            Username
+                            <SortButton
+                                parameters={parameters}
+                                columnName="username"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-3">
+                            User Type
+                            <SortButton
+                                parameters={parameters}
+                                columnName="userType"
+                                onSort={onSort}
+                            />
+                        </th>
                         <th className="col-3"></th>
                     </tr>
                 </thead>

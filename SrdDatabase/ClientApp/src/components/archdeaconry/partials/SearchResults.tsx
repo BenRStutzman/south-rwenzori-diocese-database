@@ -52,38 +52,28 @@ const SearchResults = ({
             {resultsLoading && <LoadingSpinner onTable />}
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
-                    {
-                        canEdit ?
-                            <tr>
-                                <th className="col-7">
-                                    Name
-                                    <SortButton
-                                        parameters={parameters}
-                                        columnName="name"
-                                        onSort={onSort}
-                                    />
-                                </th>
-                                <th className="col-2">
-                                    Balance (UGX)
-                                    <SortButton
-                                        parameters={parameters}
-                                        columnName="balance"
-                                        onSort={onSort}
-                                    />                                </th>
-                                <th className="col-3"></th>
-                            </tr>
-                            : canViewBalance ?
-                                <tr>
-                                    <th className="col-9">Name</th>
-                                    <th className="col-2">Balance (UGX)</th>
-                                    <th className="col-1"></th>
-                                </tr>
-                                :
-                                <tr>
-                                    <th className="col-11">Name</th>
-                                    <th className="col-1"></th>
-                                </tr>
-                    }
+                    <tr>
+                        <th className={`col-${canEdit ? '7' : canViewBalance ? '9' : '11'}`}>
+                            Name
+                            <SortButton
+                                parameters={parameters}
+                                columnName="name"
+                                onSort={onSort}
+                            />
+                        </th>
+                        {
+                            canViewBalance &&
+                            <th className="col-2">
+                                Balance (UGX)
+                                <SortButton
+                                    parameters={parameters}
+                                    columnName="balance"
+                                    onSort={onSort}
+                                />
+                            </th>
+                        }
+                        <th className={`col-${canEdit ? '3' : '1'}`}></th>
+                    </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.archdeaconries.map((archdeaconry: Archdeaconry) =>

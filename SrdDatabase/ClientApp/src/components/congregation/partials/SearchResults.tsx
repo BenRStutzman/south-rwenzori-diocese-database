@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -32,7 +33,11 @@ const SearchResults = ({
 
     const onPage = (pageNumber: number) => {
         searchCongregations({ ...parameters, pageNumber });
-    }
+    };
+
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
+        searchCongregations({ ...parameters, sortColumn, sortDescending });
+    };
 
     const onDelete = (congregation: Congregation) => {
         deleteCongregation(congregation, () => { searchCongregations(parameters, false); })
@@ -48,11 +53,32 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>Name</th>
-                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>Parish</th>
+                        <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>
+                            Name
+                            <SortButton
+                                parameters={parameters}
+                                columnName="name"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>
+                            Parish
+                            <SortButton
+                                parameters={parameters}
+                                columnName="parish"
+                                onSort={onSort}
+                            />
+                        </th>
                         {
                             canViewBalance &&
-                            <th className='col-2'>Balance (UGX)</th>
+                            <th className='col-2'>
+                                Balance (UGX)
+                                <SortButton
+                                    parameters={parameters}
+                                    columnName="balance"
+                                    onSort={onSort}
+                                />
+                            </th>
                         }
                         <th className={`col-${canEdit ? '3' : '1'}`}></th>
                     </tr>

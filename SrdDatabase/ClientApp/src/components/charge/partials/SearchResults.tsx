@@ -9,6 +9,7 @@ import { State } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -26,7 +27,11 @@ const SearchResults = ({
 }: Props) => {
     const onPage = (pageNumber: number) => {
         searchCharges({ ...parameters, pageNumber });
-    }
+    };
+
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
+        searchCharges({ ...parameters, sortColumn, sortDescending });
+    };
 
     const onDelete = (charge: Charge) => {
         deleteCharge(charge, () => { searchCharges(parameters, false); });
@@ -42,10 +47,38 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-3">Amount Per Year (UGX)</th>
-                        <th className="col-2">Congregation</th>
-                        <th className="col-2">Start Year</th>
-                        <th className="col-2">End Year</th>
+                        <th className="col-3">
+                            Amount Per Year (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="amountPerYear"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Congregation
+                            <SortButton
+                                parameters={parameters}
+                                columnName="congregation"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Start Year
+                            <SortButton
+                                parameters={parameters}
+                                columnName="startYear"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            End Year
+                            <SortButton
+                                parameters={parameters}
+                                columnName="endYear"
+                                onSort={onSort}
+                            />
+                        </th>
                         <th className="col-3"></th>
                     </tr>
                 </thead>

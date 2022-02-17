@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -32,7 +33,11 @@ const SearchResults = ({
 
     const onPage = (pageNumber: number) => {
         searchParishes({ ...parameters, pageNumber });
-    }
+    };
+
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
+        searchParishes({ ...parameters, sortColumn, sortDescending });
+    };
 
     const onDelete = (parish: Parish) => {
         deleteParish(parish, () => { searchParishes(parameters, false); });
@@ -47,28 +52,36 @@ const SearchResults = ({
             {resultsLoading && <LoadingSpinner onTable />}
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
-                    {
-                        canEdit ?
-                            <tr>
-                                <th className="col-4">Name</th>
-                                <th className="col-3">Archdeaconry</th>
-                                <th className="col-2">Balance (UGX)</th>
-                                <th className="col-3"></th>
-                            </tr>
-                            : canViewBalance ?
-                                <tr>
-                                    <th className="col-5">Name</th>
-                                    <th className="col-4">Archdeaconry</th>
-                                    <th className="col-2">Balance (UGX)</th>
-                                    <th className="col-1"></th>
-                                </tr>
-                                :
-                                <tr>
-                                    <th className="col-6">Name</th>
-                                    <th className="col-5">Archdeaconry</th>
-                                    <th className="col-1"></th>
-                                </tr>
-                    }
+                    <tr>
+                        <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>
+                            Name
+                            <SortButton
+                                parameters={parameters}
+                                columnName="name"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>
+                            Archdeaconry
+                            <SortButton
+                                parameters={parameters}
+                                columnName="archdeaconry"
+                                onSort={onSort}
+                            />
+                        </th>
+                        {
+                            canViewBalance &&
+                            <th className="col-2">
+                                Balance (UGX)
+                                <SortButton
+                                    parameters={parameters}
+                                    columnName="balance"
+                                    onSort={onSort}
+                                />
+                            </th>
+                        }
+                        <th className={`col-${canEdit ? '3' : '1'}`}></th>
+                    </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.parishes.map((parish: Parish) =>

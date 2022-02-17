@@ -48,10 +48,10 @@ const SearchResults = ({
                 <thead>
                     <tr>
                         <th className="col-2">
-                            Amount (UGX)
+                            Date
                             <SortButton
                                 parameters={parameters}
-                                columnName="amount"
+                                columnName="date"
                                 onSort={onSort}
                             />
                         </th>
@@ -64,18 +64,18 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Date
-                            <SortButton
-                                parameters={parameters}
-                                columnName="date"
-                                onSort={onSort}
-                            />
-                        </th>
-                        <th className="col-2">
                             Receipt Number
                             <SortButton
                                 parameters={parameters}
                                 columnName="receiptNumber"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Amount (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="amount"
                                 onSort={onSort}
                             />
                         </th>
@@ -85,12 +85,12 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.payments.map((payment: Payment) =>
                             <tr key={payment.id}>
-                                <td className="money-column">{payment.amount}</td>
+                                <td>{payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}</td>
                                 <td>
                                     <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                                 </td>
-                                <td>{payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}</td>
                                 <td>{payment.receiptNumber}</td>
+                                <td className="money-column">{payment.amount}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View

@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { canEdit, peoplesNames } from '../../../helpers/eventHelper';
 import Paging from '../../shared/Paging';
+import SortButton from '../../shared/SortButton';
 
 type Props =
     Store.State &
@@ -31,7 +32,11 @@ const SearchResults = ({
 
     const onPage = (pageNumber: number) => {
         searchEvents({ ...parameters, pageNumber });
-    }
+    };
+
+    const onSort = (sortColumn?: string, sortDescending?: boolean) => {
+        searchEvents({ ...parameters, sortColumn, sortDescending });
+    };
 
     const onDelete = (event: Event) => {
         deleteEvent(event, () => { searchEvents(parameters, false); });
@@ -47,21 +52,50 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>Event Type</th>
-                        <th className="col-4">Name(s)</th>
-                        <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>Congregation</th>
-                        <th className="col-2">Date</th>
+                        <th className="col-2">
+                            Date
+                            <SortButton
+                                parameters={parameters}
+                                columnName="date"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>
+                            Congregation
+                            <SortButton
+                                parameters={parameters}
+                                columnName="congregation"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>
+                            Event Type
+                            <SortButton
+                                parameters={parameters}
+                                columnName="eventType"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-4">
+                            Name(s)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="firstPersonName"
+                                onSort={onSort}
+                            />
+                        </th>
                         <th className={`col-${canEditSomeEvents ? '3' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.events.map((event: Event) =>
                         <tr key={event.id}>
+                            <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>
+                                <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation}</Link>
+                            </td>
                             <td>{event.eventType}</td>
                             <td>{peoplesNames(event)}</td>
-                            <td>
-                                <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation}</Link></td>
-                            <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
                                     View
