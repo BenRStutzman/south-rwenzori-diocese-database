@@ -24,6 +24,9 @@ namespace SrdDatabase.Models.Events
         [StringLength(50)]
         public string PersonName { get; }
 
+        [StringLength(50)]
+        public string Description { get; }
+
         public DateTime? StartDate { get; }
 
         public DateTime? EndDate { get; }
@@ -34,6 +37,7 @@ namespace SrdDatabase.Models.Events
             int? parishId = null,
             int? congregationId = null,
             string personName = null,
+            string description = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
             int pageNumber = 0,
@@ -52,6 +56,7 @@ namespace SrdDatabase.Models.Events
             ParishId = parishId;
             CongregationId = congregationId;
             PersonName = personName;
+            Description = description;
             StartDate = startDate;
             EndDate = endDate;
         }

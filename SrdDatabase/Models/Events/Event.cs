@@ -26,6 +26,8 @@ namespace SrdDatabase.Models.Events
 
         public string SecondPersonName { get; }
 
+        public string Description { get; }
+
         public DateTime Date { get; }
 
         public int CreatedBy { get; }
@@ -42,6 +44,7 @@ namespace SrdDatabase.Models.Events
             string archdeaconry,
             string firstPersonName,
             string secondPersonName,
+            string description,
             DateTime date,
             int createdBy)
         {
@@ -56,6 +59,7 @@ namespace SrdDatabase.Models.Events
             Archdeaconry = archdeaconry;
             FirstPersonName = firstPersonName;
             SecondPersonName = secondPersonName;
+            Description = description;
             Date = date;
             CreatedBy = createdBy;
         }

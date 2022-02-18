@@ -18,6 +18,9 @@ namespace SrdDatabase.Models.Events
         [StringLength(50)]
         public string SecondPersonName { get; }
 
+        [StringLength(50)]
+        public string Description { get; }
+
         [Required]
         public DateTime Date { get; }
 
@@ -26,6 +29,7 @@ namespace SrdDatabase.Models.Events
             int congregationId,
             string firstPersonName,
             string secondPersonName,
+            string description,
             DateTime date,
             int? userId = null) : base(userId)
         {
@@ -33,6 +37,7 @@ namespace SrdDatabase.Models.Events
             CongregationId = congregationId;
             FirstPersonName = firstPersonName;
             SecondPersonName = secondPersonName;
+            Description = description;
             Date = date;
         }
     }
