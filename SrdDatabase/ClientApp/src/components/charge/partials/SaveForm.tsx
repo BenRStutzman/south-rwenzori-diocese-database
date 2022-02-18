@@ -195,7 +195,7 @@ const SaveForm = ({
                     value={charge.endYear ?? ""}
                     onChange={onEndYearChange}
                 >
-                    <option key={0} value="">Ongoing</option>
+                    <option key={0} value="">Ongoing (repeats every year indefinitely)</option>
                     {
                         endYears.map(year =>
                             <option key={year} value={year}>{year}</option>

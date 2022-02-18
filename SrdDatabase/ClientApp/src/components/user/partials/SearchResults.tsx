@@ -64,7 +64,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-3">
-                            User Type
+                            Type
                             <SortButton
                                 parameters={parameters}
                                 columnName="userType"

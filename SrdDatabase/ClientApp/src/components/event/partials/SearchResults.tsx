@@ -69,7 +69,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>
-                            Event Type
+                            Type
                             <SortButton
                                 parameters={parameters}
                                 columnName="eventType"

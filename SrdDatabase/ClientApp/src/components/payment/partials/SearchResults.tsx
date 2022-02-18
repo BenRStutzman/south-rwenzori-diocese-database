@@ -64,7 +64,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Receipt Number
+                            Receipt #
                             <SortButton
                                 parameters={parameters}
                                 columnName="receiptNumber"
