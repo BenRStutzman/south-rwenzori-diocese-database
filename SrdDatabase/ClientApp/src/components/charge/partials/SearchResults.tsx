@@ -56,7 +56,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-2">
+                        <th className="col-4">
                             Congregation
                             <SortButton
                                 parameters={parameters}

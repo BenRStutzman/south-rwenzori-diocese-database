@@ -74,7 +74,7 @@ const SearchResults = ({
                         <th className="col-3"></th>
                     </tr>
                 </thead>
-                <tbody> className={resultsLoading ? 'results-loading' : ''}
+                <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.users.map((user: User) =>
                         <tr key={user.id}>
                             <td>{user.name}</td>
