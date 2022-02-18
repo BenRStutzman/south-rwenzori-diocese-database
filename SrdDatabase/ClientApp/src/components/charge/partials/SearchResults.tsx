@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
+import { combineYears } from '../../../helpers/chargeHelper';
 
 type Props =
     Store.State &
@@ -47,11 +48,11 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-3">
-                            Amount Per Year (UGX)
+                        <th className="col-2">
+                            Year(s)
                             <SortButton
                                 parameters={parameters}
-                                columnName="amountPerYear"
+                                columnName="endYear"
                                 onSort={onSort}
                             />
                         </th>
@@ -63,19 +64,11 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-2">
-                            Start Year
+                        <th className="col-3">
+                            Amount Per Year (UGX)
                             <SortButton
                                 parameters={parameters}
-                                columnName="startYear"
-                                onSort={onSort}
-                            />
-                        </th>
-                        <th className="col-2">
-                            End Year
-                            <SortButton
-                                parameters={parameters}
-                                columnName="endYear"
+                                columnName="amountPerYear"
                                 onSort={onSort}
                             />
                         </th>
@@ -85,12 +78,11 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.charges.map((charge: Charge) =>
                         <tr key={charge.id}>
-                            <td className="money-column">{charge.amountPerYear}</td>
+                            <td>{combineYears(charge)}</td>
                             <td>
                                 <Link to={`/congregation/details/${charge.congregationId}`}>{charge.congregation}</Link>
                             </td>
-                            <td>{charge.startYear}</td>
-                            <td>{charge.endYear ?? 'ongoing'}</td>
+                            <td className="money-column">{charge.amountPerYear}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/charge/details/${charge.id}`}>
                                     View
