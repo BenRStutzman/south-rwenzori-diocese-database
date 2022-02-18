@@ -28,7 +28,7 @@ const Details = ({
     match,
     currentUser,
     deleteParish,
-    deletingParishId,
+    deletingParishIds,
     history,
 }: Props) => {
     const loadData = () => {
@@ -57,7 +57,7 @@ const Details = ({
                             Edit parish
                         </Link>
                         <button className="btn btn-danger" type="button" onClick={onDelete}>
-                            {details.parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
+                            {deletingParishIds.includes(details.parish.id as number) ? <Spinner size="sm" /> : 'Delete parish'}
                         </button>
                     </div>
                 }

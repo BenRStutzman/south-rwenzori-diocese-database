@@ -24,7 +24,7 @@ const Edit = ({
     match,
     isLoading,
     deleteCongregation,
-    deletingCongregationId,
+    deletingCongregationIds,
     history,
 }: Props) => {
     const loadData = () => {
@@ -47,7 +47,7 @@ const Edit = ({
                         View details
                     </Link>
                     <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
+                        {deletingCongregationIds.includes(congregation.id as number) ? <Spinner size="sm" /> : "Delete congregation"}
                     </button>
                 </div>
             </div>

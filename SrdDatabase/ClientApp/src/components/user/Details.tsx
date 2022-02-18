@@ -22,7 +22,7 @@ const Details = ({
     detailsLoading,
     details,
     match,
-    deletingUserId,
+    deletingUserIds,
     deleteUser,
     history,
 }: Props) => {
@@ -45,7 +45,7 @@ const Details = ({
                     Edit user
                 </Link>
                 <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {details.user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete user'}
+                    {deletingUserIds.includes(details.user.id as number) ? <Spinner size="sm" /> : 'Delete user'}
                 </button>
             </div>
             <div className="details-boxes">

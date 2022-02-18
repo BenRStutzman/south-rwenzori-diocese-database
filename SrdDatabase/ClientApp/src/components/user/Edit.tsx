@@ -25,7 +25,7 @@ const Edit = ({
     user,
     deleteUser,
     match,
-    deletingUserId,
+    deletingUserIds,
 }: Props) => {
     const loadData = () => {
         const userId = parseInt(match.params.userId);
@@ -46,7 +46,7 @@ const Edit = ({
                     View details
                 </Link>
                 <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete user'}
+                    {deletingUserIds.includes(user.id as number) ? <Spinner size="sm" /> : 'Delete user'}
                 </button>
             </div>
             <SaveForm />

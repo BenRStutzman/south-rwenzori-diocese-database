@@ -23,7 +23,7 @@ const SearchResults = ({
     resultsLoading,
     parameters,
     results,
-    deletingArchdeaconryId,
+    deletingArchdeaconryIds,
     deleteArchdeaconry,
     searchArchdeaconries,
     currentUser,
@@ -94,7 +94,7 @@ const SearchResults = ({
                                             Edit
                                         </Link>
                                         <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
-                                            {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete"}
+                                            {deletingArchdeaconryIds.includes(archdeaconry.id as number) ? <Spinner size="sm" /> : "Delete"}
                                         </button>
                                     </>
                                 }

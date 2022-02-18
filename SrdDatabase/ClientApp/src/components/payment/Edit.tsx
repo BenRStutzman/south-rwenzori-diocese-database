@@ -24,7 +24,7 @@ const Edit = ({
     payment,
     loadPayment,
     deletePayment,
-    deletingPaymentId,
+    deletingPaymentIds,
     match,
 }: Props) => {
     const loadData = () => {
@@ -47,7 +47,7 @@ const Edit = ({
                         View details
                     </Link>
                     <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {payment.id === deletingPaymentId ? <Spinner size="sm" /> : 'Delete payment'}
+                        {deletingPaymentIds.includes(payment.id as number) ? <Spinner size="sm" /> : 'Delete payment'}
                     </button>
                 </div>
             </div>

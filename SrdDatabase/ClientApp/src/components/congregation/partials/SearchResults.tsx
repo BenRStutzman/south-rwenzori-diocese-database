@@ -22,7 +22,7 @@ type Props =
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingCongregationId,
+    deletingCongregationIds,
     deleteCongregation,
     searchCongregations,
     parameters,
@@ -107,7 +107,7 @@ const SearchResults = ({
                                             Edit
                                         </Link>
                                         <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                            {congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete"}
+                                            {deletingCongregationIds.includes(congregation.id as number) ? <Spinner size="sm" /> : "Delete"}
                                         </button>
                                     </>
                                 }

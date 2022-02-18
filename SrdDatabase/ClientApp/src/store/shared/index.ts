@@ -84,39 +84,39 @@ const receiveUserTypesAction = (userTypes: UserType[]) => ({
     value: userTypes,
 });
 
-const setDeletingArchdeaconryIdAction = (archdeaconryId?: number) => ({
+const setDeletingArchdeaconryIdAction = (archdeaconryId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_ARCHDEACONRY_ID,
-    value: archdeaconryId,
+    value: { archdeaconryId, isDeleting },
 });
 
-const setDeletingParishIdAction = (parishId?: number) => ({
+const setDeletingParishIdAction = (parishId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_PARISH_ID,
-    value: parishId,
+    value: { parishId, isDeleting },
 });
 
-const setDeletingCongregationIdAction = (congregationId?: number) => ({
+const setDeletingCongregationIdAction = (congregationId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_CONGREGATION_ID,
-    value: congregationId,
+    value: { congregationId, isDeleting },
 });
 
-const setDeletingEventIdAction = (eventId?: number) => ({
+const setDeletingEventIdAction = (eventId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_EVENT_ID,
-    value: eventId,
+    value: { eventId, isDeleting },
 });
 
-const setDeletingPaymentIdAction = (paymentId?: number) => ({
+const setDeletingPaymentIdAction = (paymentId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_PAYMENT_ID,
-    value: paymentId,
+    value: { paymentId, isDeleting },
 });
 
-const setDeletingChargeIdAction = (chargeId?: number) => ({
+const setDeletingChargeIdAction = (chargeId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_CHARGE_ID,
-    value: chargeId,
+    value: { chargeId, isDeleting },
 });
 
-const setDeletingUserIdAction = (userId?: number) => ({
+const setDeletingUserIdAction = (userId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_USER_ID,
-    value: userId,
+    value: { userId, isDeleting },
 });
 
 const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
@@ -198,7 +198,7 @@ const deleteArchdeaconry = (archdeaconry: Archdeaconry, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingArchdeaconryIdAction(undefined));
+                        dispatch(setDeletingArchdeaconryIdAction(archdeaconry.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -219,7 +219,7 @@ const deleteParish = (parish: Parish, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingParishIdAction(undefined));
+                        dispatch(setDeletingParishIdAction(parish.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -240,7 +240,7 @@ const deleteCongregation = (congregation: Congregation, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingCongregationIdAction(undefined));
+                        dispatch(setDeletingCongregationIdAction(congregation.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -261,7 +261,7 @@ const deleteEvent = (event: Event, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingEventIdAction(undefined));
+                        dispatch(setDeletingEventIdAction(event.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -282,7 +282,7 @@ const deletePayment = (payment: Payment, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingPaymentIdAction(undefined));
+                        dispatch(setDeletingPaymentIdAction(payment.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -303,7 +303,7 @@ const deleteCharge = (charge: Charge, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingChargeIdAction(undefined));
+                        dispatch(setDeletingChargeIdAction(charge.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -324,7 +324,7 @@ const deleteUser = (user: User, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingUserIdAction(undefined));
+                        dispatch(setDeletingUserIdAction(user.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -360,13 +360,13 @@ export interface State {
     eventTypesLoading: boolean;
     userTypes: UserType[];
     userTypesLoading: boolean;
-    deletingArchdeaconryId?: number;
-    deletingParishId?: number;
-    deletingCongregationId?: number;
-    deletingEventId?: number;
-    deletingPaymentId?: number;
-    deletingChargeId?: number;
-    deletingUserId?: number;
+    deletingArchdeaconryIds: number[];
+    deletingParishIds: number[];
+    deletingCongregationIds: number[];
+    deletingEventIds: number[];
+    deletingPaymentIds: number[];
+    deletingChargeIds: number[];
+    deletingUserIds: number[];
 }
 
 const initialState: State = {
@@ -381,6 +381,13 @@ const initialState: State = {
     eventTypesLoading: true,
     userTypes: [],
     userTypesLoading: true,
+    deletingArchdeaconryIds: [],
+    deletingParishIds: [],
+    deletingCongregationIds: [],
+    deletingEventIds: [],
+    deletingChargeIds: [],
+    deletingPaymentIds: [],
+    deletingUserIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -453,37 +460,51 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
         case SET_DELETING_ARCHDEACONRY_ID:
             return {
                 ...state,
-                deletingArchdeaconryId: action.value,
+                deletingArchdeaconryIds: action.value.isDeleting
+                    ? [...state.deletingArchdeaconryIds, action.value.archdeaconryId]
+                    : state.deletingArchdeaconryIds.filter(id => id != action.value.archdeaconryId),
             };
         case SET_DELETING_PARISH_ID:
             return {
                 ...state,
-                deletingParishId: action.value,
+                deletingParishIds: action.value.isDeleting
+                    ? [...state.deletingParishIds, action.value.parishId]
+                    : state.deletingParishIds.filter(id => id != action.value.parishId),
             };
         case SET_DELETING_CONGREGATION_ID:
             return {
                 ...state,
-                deletingCongregationId: action.value,
+                deletingCongregationIds: action.value.isDeleting
+                    ? [...state.deletingCongregationIds, action.value.congregationId]
+                    : state.deletingCongregationIds.filter(id => id != action.value.congregationId),
             };
         case SET_DELETING_EVENT_ID:
             return {
                 ...state,
-                deletingEventId: action.value,
+                deletingEventIds: action.value.isDeleting
+                    ? [...state.deletingEventIds, action.value.eventId]
+                    : state.deletingEventIds.filter(id => id != action.value.eventId),
             };
         case SET_DELETING_PAYMENT_ID:
             return {
                 ...state,
-                deletingPaymentId: action.value,
+                deletingPaymentIds: action.value.isDeleting
+                    ? [...state.deletingPaymentIds, action.value.paymentId]
+                    : state.deletingPaymentIds.filter(id => id != action.value.paymentId),
             };
         case SET_DELETING_CHARGE_ID:
             return {
                 ...state,
-                deletingChargeId: action.value,
+                deletingChargeIds: action.value.isDeleting
+                    ? [...state.deletingChargeIds, action.value.chargeId]
+                    : state.deletingChargeIds.filter(id => id != action.value.chargeId),
             };
         case SET_DELETING_USER_ID:
             return {
                 ...state,
-                deletingUserId: action.value,
+                deletingUserIds: action.value.isDeleting
+                    ? [...state.deletingUserIds, action.value.userId]
+                    : state.deletingUserIds.filter(id => id != action.value.userId),
             };
         default:
             return state;

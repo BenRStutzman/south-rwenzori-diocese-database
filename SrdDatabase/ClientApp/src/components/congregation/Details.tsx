@@ -29,7 +29,7 @@ const Details = ({
     currentUser,
     history,
     deleteCongregation,
-    deletingCongregationId,
+    deletingCongregationIds,
 }: Props) => {
     const loadData = () => {
         const congregationId = parseInt(match.params.congregationId);
@@ -57,7 +57,7 @@ const Details = ({
                             Edit congregation
                         </Link>
                         <button className="btn btn-danger" type="button" onClick={onDelete}>
-                            {details.congregation.id === deletingCongregationId ? <Spinner size="sm" /> : "Delete congregation"}
+                            {deletingCongregationIds.includes(details.congregation.id as number) ? <Spinner size="sm" /> : "Delete congregation"}
                         </button>
                     </div>
                 }

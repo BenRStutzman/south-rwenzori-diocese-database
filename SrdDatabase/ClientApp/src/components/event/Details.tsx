@@ -25,7 +25,7 @@ const Details = ({
     details,
     match,
     currentUser,
-    deletingEventId,
+    deletingEventIds,
     deleteEvent,
     history,
 }: Props) => {
@@ -51,7 +51,7 @@ const Details = ({
                             Edit event
                         </Link>
                         <button className="btn btn-danger" type="button" onClick={onDelete}>
-                            {details.event.id === deletingEventId ? <Spinner size="sm" /> : 'Delete event'}
+                            {deletingEventIds.includes(details.event.id as number) ? <Spinner size="sm" /> : 'Delete event'}
                         </button>
                     </div>
                 }

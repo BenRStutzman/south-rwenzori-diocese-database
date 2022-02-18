@@ -21,7 +21,7 @@ type Props =
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingChargeId,
+    deletingChargeIds,
     deleteCharge,
     parameters,
     searchCharges,
@@ -92,7 +92,7 @@ const SearchResults = ({
                                         Edit
                                     </Link>
                                     <button className="btn btn-danger" onClick={() => { onDelete(charge); }}>
-                                        {charge.id === deletingChargeId ? <Spinner size="sm" /> : 'Delete'}
+                                        {deletingChargeIds.includes(charge.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                     </button>
                                 </>
                             </td>

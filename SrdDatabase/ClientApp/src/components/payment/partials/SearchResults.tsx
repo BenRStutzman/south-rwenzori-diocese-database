@@ -20,7 +20,7 @@ type Props =
 const SearchResults = ({
     resultsLoading,
     results,
-    deletingPaymentId,
+    deletingPaymentIds,
     deletePayment,
     parameters,
     searchPayments,
@@ -100,7 +100,7 @@ const SearchResults = ({
                                             Edit
                                         </Link>
                                         <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
-                                            {payment.id === deletingPaymentId ? <Spinner size="sm" /> : 'Delete'}
+                                        {deletingPaymentIds.includes(payment.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                         </button>
                                     </>
                                 </td>

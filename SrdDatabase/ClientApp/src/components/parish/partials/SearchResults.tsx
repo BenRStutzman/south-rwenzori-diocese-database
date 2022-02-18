@@ -21,7 +21,7 @@ type Props =
 
 const SearchResults = ({
     deleteParish,
-    deletingParishId,
+    deletingParishIds,
     resultsLoading,
     results,
     currentUser,
@@ -105,7 +105,7 @@ const SearchResults = ({
                                             Edit
                                         </Link>
                                         <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
-                                            {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete'}
+                                            {deletingParishIds.includes(parish.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                         </button>
                                     </>
                                 }

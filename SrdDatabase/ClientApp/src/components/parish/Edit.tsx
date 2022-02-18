@@ -25,7 +25,7 @@ const Edit = ({
     loadParish,
     deleteParish,
     match,
-    deletingParishId,
+    deletingParishIds,
 }: Props) => {
     const loadData = () => {
         const parishId = parseInt(match.params.parishId);
@@ -47,7 +47,7 @@ const Edit = ({
                         View details
                     </Link>
                     <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {parish.id === deletingParishId ? <Spinner size="sm" /> : 'Delete parish'}
+                        {deletingParishIds.includes(parish.id as number) ? <Spinner size="sm" /> : 'Delete parish'}
                     </button>
                 </div>
             </div>

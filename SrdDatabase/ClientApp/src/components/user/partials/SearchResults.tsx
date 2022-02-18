@@ -21,7 +21,7 @@ const SearchResults = ({
     resultsLoading,
     results,
     deleteUser,
-    deletingUserId,
+    deletingUserIds,
     searchUsers,
     parameters,
 }: Props) => {
@@ -88,7 +88,7 @@ const SearchResults = ({
                                     Edit
                                 </Link>
                                 <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
-                                    {user.id === deletingUserId ? <Spinner size="sm" /> : 'Delete'}
+                                    {deletingUserIds.includes(user.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                 </button>
                             </td>
                         </tr>

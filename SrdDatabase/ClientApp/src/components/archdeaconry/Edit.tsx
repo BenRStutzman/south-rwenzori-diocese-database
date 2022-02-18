@@ -25,7 +25,7 @@ const Edit = ({
     match,
     history,
     deleteArchdeaconry,
-    deletingArchdeaconryId,
+    deletingArchdeaconryIds,
 }: Props) => {
     const loadData = () => {
         const archdeaconryId = parseInt(match.params.archdeaconryId);
@@ -47,7 +47,7 @@ const Edit = ({
                         View details
                     </Link>
                     <button className='btn btn-danger' type="button" onClick={onDelete}>
-                        {archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
+                        {deletingArchdeaconryIds.includes(archdeaconry.id as number) ? <Spinner size="sm" /> : "Delete archdeaconry"}
                     </button>
                 </div>
             </div>

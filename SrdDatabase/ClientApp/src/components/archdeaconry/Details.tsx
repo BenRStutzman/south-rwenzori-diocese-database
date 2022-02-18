@@ -26,7 +26,7 @@ const Details = ({
     details,
     match,
     currentUser,
-    deletingArchdeaconryId,
+    deletingArchdeaconryIds,
     deleteArchdeaconry,
     history,
 }: Props) => {
@@ -56,7 +56,7 @@ const Details = ({
                             Edit archdeaconry
                         </Link>
                         <button className='btn btn-danger' type="button" onClick={onDelete}>
-                            {details.archdeaconry.id === deletingArchdeaconryId ? <Spinner size="sm" /> : "Delete archdeaconry"}
+                            {deletingArchdeaconryIds.includes(details.archdeaconry.id as number) ? <Spinner size="sm" /> : "Delete archdeaconry"}
                         </button>
                     </div>
                 }
