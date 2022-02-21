@@ -20,12 +20,12 @@ namespace SrdDatabase.Models.Events
 
         [Range(1, int.MaxValue)]
         public int? CongregationId { get; }
-        
-        [StringLength(50)]
-        public string PersonName { get; }
 
         [StringLength(50)]
         public string Description { get; }
+
+        [StringLength(50)]
+        public string PersonName { get; }
 
         public DateTime? StartDate { get; }
 
@@ -36,8 +36,8 @@ namespace SrdDatabase.Models.Events
             int? archdeaconryId = null,
             int? parishId = null,
             int? congregationId = null,
-            string personName = null,
             string description = null,
+            string personName = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
             int pageNumber = 0,
@@ -55,8 +55,8 @@ namespace SrdDatabase.Models.Events
             ArchdeaconryId = archdeaconryId;
             ParishId = parishId;
             CongregationId = congregationId;
-            PersonName = personName;
             Description = description;
+            PersonName = personName;
             StartDate = startDate;
             EndDate = endDate;
         }

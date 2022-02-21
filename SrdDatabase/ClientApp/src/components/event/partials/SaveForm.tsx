@@ -36,6 +36,7 @@ const SaveForm = ({
     setParishId,
     setFirstPersonName,
     setSecondPersonName,
+    setDescription,
     loadArchdeaconries,
     loadEventTypes,
     setDate,
@@ -83,6 +84,10 @@ const SaveForm = ({
         setSecondPersonName(event.target.value);
     };
 
+    const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDescription(event.target.value);
+    };
+
     const onPersonNamesChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setPersonNames(event.target.value);
     }
@@ -94,17 +99,31 @@ const SaveForm = ({
     const onSubmit = (formEvent: React.FormEvent) => {
         formEvent.preventDefault();
 
-        if (multiInput && !involvesTwoPeople) {
-            event.personNames = personNames
-                .trim()
-                .split(/\s*\n+\s*/)
-                .filter(name => name.length);
+        const eventToSave = {
+            ...event,
+            parishId: associatedWithParish ? event.parishId : undefined,
+            congregationId: associatedWithParish ? undefined : event.congregationId,
+            description: involvesDescription ? event.description : undefined,
+            personNames: allowMultiInput && multiInput ?
+                personNames
+                    .trim()
+                    .split(/\s*\n+\s*/)
+                    .filter(name => name.length) : undefined,
+            firstPersonName: involvesFirstPerson ? event.firstPersonName : undefined,
+            secondPersonName: involvesSecondPerson ? event.secondPersonName : undefined,
         }
 
-        saveEvent(event, history);
+        saveEvent(eventToSave, history);
     };
 
-    const involvesTwoPeople = eventTypes.find(eventType => eventType.id === event.eventTypeId)?.involvesTwoPeople;
+    const eventType = eventTypes.find(eventType => eventType.id === event.eventTypeId);
+
+    const associatedWithParish = eventType?.associatedWithParish;
+    const involvesDescription = eventType?.involvesDescription;
+    const involvesFirstPerson = eventType?.involvesFirstPerson;
+    const involvesSecondPerson = eventType?.involvesSecondPerson;
+
+    const allowMultiInput = isNew && involvesFirstPerson && !involvesSecondPerson;
 
     return (
         <form onSubmit={onSubmit}>
@@ -168,28 +187,31 @@ const SaveForm = ({
                     )}
                 </select>
             </div>
-            <div className="form-group">
-                <label htmlFor="congregationId">Congregation</label>
-                <select
-                    id="congregationId"
-                    className="form-control"
-                    value={congregationsLoading ? "" : event.congregationId ?? ""}
-                    onChange={onCongregationIdChange}
-                    required
-                >
-                    <option key={0} value="" disabled>{
-                        !event.parishId ? 'First select a parish above'
-                            : congregationsLoading ? 'Loading...'
-                                : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
-                                    : '-- - select a congregation ---'
-                    }</option>
-                    {congregations.map(congregation =>
-                        <option key={congregation.id} value={congregation.id}>
-                            {congregation.name}
-                        </option>
-                    )}
-                </select>
-            </div>
+            {
+                !associatedWithParish &&
+                <div className="form-group">
+                    <label htmlFor="congregationId">Congregation</label>
+                    <select
+                        id="congregationId"
+                        className="form-control"
+                        value={congregationsLoading ? "" : event.congregationId ?? ""}
+                        onChange={onCongregationIdChange}
+                        required
+                    >
+                        <option key={0} value="" disabled>{
+                            !event.parishId ? 'First select a parish above'
+                                : congregationsLoading ? 'Loading...'
+                                    : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
+                                        : '-- - select a congregation ---'
+                        }</option>
+                        {congregations.map(congregation =>
+                            <option key={congregation.id} value={congregation.id}>
+                                {congregation.name}
+                            </option>
+                        )}
+                    </select>
+                </div>
+            }
             <div className="form-group">
                 <label htmlFor="date">Date</label>
                 <input
@@ -202,7 +224,24 @@ const SaveForm = ({
                 />
             </div>
             {
-                isNew && !involvesTwoPeople &&
+                involvesDescription &&
+                <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <input
+                        id="description"
+                        className="form-control"
+                        type="text"
+                        spellCheck={false}
+                        autoComplete={autoComplete}
+                        value={event.description ?? ""}
+                        onChange={onDescriptionChange}
+                        maxLength={50}
+                        required
+                    />
+                </div>
+            }
+            {
+                allowMultiInput &&
                 <>
                     <input
                         id="multiInput"
@@ -215,7 +254,7 @@ const SaveForm = ({
                 </>
             }
             {
-                multiInput && !involvesTwoPeople ?
+                allowMultiInput && multiInput ?
                     <div className="form-group">
                         <label htmlFor="personNames">Person Names</label>
                         <p className="field-note no-bottom-margin">Enter each name on a separate line.</p>
@@ -230,9 +269,9 @@ const SaveForm = ({
                             required
                         />
                     </div>
-                    :
+                    : involvesFirstPerson &&
                     <div className="form-group">
-                        <label htmlFor="firstPersonName">{involvesTwoPeople ? 'First ' : ''} Person Name</label>
+                        <label htmlFor="firstPersonName">{involvesSecondPerson ? 'First ' : ''} Person Name</label>
                         <input
                             id="firstPersonName"
                             className="form-control"
@@ -247,7 +286,7 @@ const SaveForm = ({
                     </div>
             }
             {
-                involvesTwoPeople &&
+                involvesSecondPerson &&
                 <div className="form-group">
                     <label htmlFor="secondPersonName">Second Person Name</label>
                     <input

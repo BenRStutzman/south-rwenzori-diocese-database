@@ -19,17 +19,21 @@ namespace SrdDatabase.Data.Commands.Events
             public Command(
                 int? id,
                 byte eventTypeId,
-                int congregationId,
+                DateTime date,
+                int? congregationId,
+                int? parishId,
+                string description,
                 string firstPersonName,
                 string secondPersonName,
-                DateTime date,
                 int userId)
                 : base(
                     eventTypeId,
+                    date,
                     congregationId,
+                    parishId,
+                    description,
                     firstPersonName,
                     secondPersonName,
-                    date,
                     userId)
             {
                 Id = id;

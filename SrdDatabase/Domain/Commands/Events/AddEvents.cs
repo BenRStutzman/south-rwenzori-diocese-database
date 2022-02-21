@@ -21,15 +21,19 @@ namespace SrdDatabase.Domain.Commands.Events
 
             public Command(
                 byte eventTypeId,
-                int congregationId,
-                IEnumerable<string> personNames,
-                DateTime date)
+                DateTime date,
+                int? congregationId,
+                int? parishId,
+                string description,
+                IEnumerable<string> personNames)
                 : base(
                     eventTypeId,
+                    date,
                     congregationId,
+                    parishId,
+                    description,
                     null,
-                    null,
-                    date)
+                    null)
             {
                 PersonNames = personNames;
             }
@@ -51,10 +55,12 @@ namespace SrdDatabase.Domain.Commands.Events
                     var dataCommand = new SaveEvent.Command(
                         null,
                         request.EventTypeId,
+                        request.Date,
                         request.CongregationId,
+                        request.ParishId,
+                        request.Description,
                         personName,
                         null,
-                        request.Date,
                         request.UserId.Value);
 
                     return _mediator.Send(dataCommand, cancellationToken);

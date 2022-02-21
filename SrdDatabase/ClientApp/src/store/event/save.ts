@@ -16,6 +16,7 @@ const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'EVENT.SET_CONGREGATION_ID';
 const SET_FIRST_PERSON_NAME = 'EVENT.SET_FIRST_PERSON_NAME';
 const SET_SECOND_PERSON_NAME = 'EVENT.SET_SECOND_PERSON_NAME';
+const SET_DESCRIPTION = 'EVENT.SET_DESCRIPTION';
 const SET_DATE = 'EVENT.SET_DATE';
 const SET_IS_SAVING = 'EVENT.SET_IS_SAVING';
 const SET_ERRORS = 'EVENT.SET_ERRORS';
@@ -57,6 +58,11 @@ const setFirstPersonNameAction = (firstPersonName: string) => ({
 const setSecondPersonNameAction = (secondPersonName: string) => ({
     type: SET_SECOND_PERSON_NAME,
     value: secondPersonName,
+});
+
+const setDescriptionAction = (description: string) => ({
+    type: SET_DESCRIPTION,
+    value: description,
 });
 
 const setDateAction = (date: Date) => ({
@@ -178,6 +184,10 @@ const setSecondPersonName = (secondPersonName: string): AppThunkAction<Action> =
     dispatch(setSecondPersonNameAction(secondPersonName));
 };
 
+const setDescription = (description: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDescriptionAction(description));
+};
+
 const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDateAction(date));
 };
@@ -192,6 +202,7 @@ export const actionCreators = {
     setArchdeaconryId,
     setFirstPersonName,
     setSecondPersonName,
+    setDescription,
     setDate,
 };
 
@@ -200,7 +211,6 @@ export interface State {
     congregationsLoading: boolean;
     congregations: Congregation[];
     event: Event;
-    involvesTwoPeople: boolean;
     hasBeenChanged: boolean,
     isSaving: boolean,
     errors: Errors;
@@ -208,7 +218,6 @@ export interface State {
 
 const initialState: State = {
     event: {},
-    involvesTwoPeople: false,
     congregations: [],
     isLoading: true,
     congregationsLoading: true,
@@ -283,6 +292,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 event: {
                     ...state.event,
                     secondPersonName: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_DESCRIPTION:
+            return {
+                ...state,
+                event: {
+                    ...state.event,
+                    description: action.value,
                 },
                 hasBeenChanged: true,
             };

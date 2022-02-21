@@ -10,6 +10,7 @@ export interface Event {
     parish?: string;
     archdeaconryId?: number;
     archdeaconry?: string;
+    description?: string;
     firstPersonName?: string;
     secondPersonName?: string;
     personNames?: string[];
@@ -20,7 +21,10 @@ export interface Event {
 export interface EventType {
     id: number;
     name: string;
-    involvesTwoPeople: boolean;
+    associatedWithParish: boolean;
+    involvesDescription: boolean;
+    involvesFirstPerson: boolean;
+    involvesSecondPerson: boolean;
 }
 
 export interface EventDetails {

@@ -6,13 +6,28 @@
 
         public string Name { get; }
 
-        public bool InvolvesTwoPeople { get; }
+        public bool AssociatedWithParish { get; }
 
-        public EventType(sbyte id, string name, bool involvesTwoPeople)
+        public bool InvolvesDescription { get; }
+
+        public bool InvolvesFirstPerson { get; }
+
+        public bool InvolvesSecondPerson { get; }
+
+        public EventType(
+            sbyte id,
+            string name,
+            bool associatedWithParish,
+            bool involvesDescription,
+            bool involvesFirstPerson,
+            bool involvesSecondPerson)
         {
             Id = id;
             Name = name;
-            InvolvesTwoPeople = involvesTwoPeople;
+            AssociatedWithParish = associatedWithParish;
+            InvolvesDescription = involvesDescription;
+            InvolvesFirstPerson = involvesFirstPerson;
+            InvolvesSecondPerson = involvesSecondPerson;
         }
 
         // for Dapper

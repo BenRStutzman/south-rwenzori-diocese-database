@@ -61,7 +61,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>
-                            Congregation
+                            Location
                             <SortButton
                                 parameters={parameters}
                                 columnName="congregation"
@@ -76,7 +76,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-4">
+                        <th className="col-2">
                             Name(s)
                             <SortButton
                                 parameters={parameters}
@@ -92,9 +92,14 @@ const SearchResults = ({
                         <tr key={event.id}>
                             <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
                             <td>
-                                <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation}</Link>
+                                {
+                                    event.congregationId ?
+                                        <Link to={`/congregation/details/${event.congregationId}`}>{event.congregation} Congregation</Link>
+                                        : <Link to={`/parish/details/${event.parishId}`}>{event.parish} Parish</Link>
+
+                                }
                             </td>
-                            <td>{event.eventType}</td>
+                            <td>{event.description ?? event.eventType}</td>
                             <td>{peoplesNames(event)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>

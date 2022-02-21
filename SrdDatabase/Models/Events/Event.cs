@@ -10,7 +10,7 @@ namespace SrdDatabase.Models.Events
 
         public string EventType { get; }
 
-        public int CongregationId { get; }
+        public int? CongregationId { get; }
 
         public string Congregation { get; }
 
@@ -36,7 +36,7 @@ namespace SrdDatabase.Models.Events
             int id,
             sbyte eventTypeId,
             string eventType,
-            int congregationId,
+            int? congregationId,
             string congregation,
             int parishId,
             string parish,

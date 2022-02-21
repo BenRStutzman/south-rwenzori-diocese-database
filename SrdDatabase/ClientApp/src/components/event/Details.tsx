@@ -61,12 +61,15 @@ const Details = ({
                     itemType="date"
                     itemValue={formattedDate(details.event.date)}
                 />
-                <DetailsBox
-                    baseItemType="event"
-                    itemType="congregation"
-                    itemValue={details.event.congregation}
-                    itemId={details.event.congregationId}
-                />
+                {
+                    details.event.congregationId &&
+                    <DetailsBox
+                        baseItemType="event"
+                        itemType="congregation"
+                        itemValue={details.event.congregation}
+                        itemId={details.event.congregationId}
+                    />
+                }
                 <DetailsBox
                     baseItemType="event"
                     itemType="parish"
