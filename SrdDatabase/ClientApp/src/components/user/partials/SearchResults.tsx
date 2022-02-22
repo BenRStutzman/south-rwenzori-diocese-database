@@ -67,7 +67,7 @@ const SearchResults = ({
                             Type
                             <SortButton
                                 parameters={parameters}
-                                columnName="userType"
+                                columnName="type"
                                 onSort={onSort}
                             />
                         </th>

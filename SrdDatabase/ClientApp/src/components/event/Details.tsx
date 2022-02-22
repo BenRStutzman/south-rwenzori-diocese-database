@@ -8,7 +8,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
-import { canEdit, peoplesNames } from '../../helpers/eventHelper';
+import { canEdit, describeEvent } from '../../helpers/eventHelper';
 import { formattedDate } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -43,7 +43,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{details.event.eventType} of {peoplesNames(details.event)}</h1>
+                <h1>{describeEvent(details.event)}</h1>
                 {
                     canEdit(details.event, currentUser) &&
                     <div className="button-group float-right">

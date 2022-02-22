@@ -64,7 +64,7 @@ const SearchResults = ({
                             Location
                             <SortButton
                                 parameters={parameters}
-                                columnName="congregation"
+                                columnName="location"
                                 onSort={onSort}
                             />
                         </th>
@@ -72,7 +72,7 @@ const SearchResults = ({
                             Type
                             <SortButton
                                 parameters={parameters}
-                                columnName="eventType"
+                                columnName="type"
                                 onSort={onSort}
                             />
                         </th>
@@ -80,7 +80,7 @@ const SearchResults = ({
                             Name(s)
                             <SortButton
                                 parameters={parameters}
-                                columnName="firstPersonName"
+                                columnName="names"
                                 onSort={onSort}
                             />
                         </th>

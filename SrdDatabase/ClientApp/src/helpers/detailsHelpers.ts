@@ -3,10 +3,9 @@ import { CongregationResults } from "../models/congregation";
 import { ParishResults } from "../models/parish";
 import { DetailsListItem } from "../models/shared";
 import { EventResults } from '../models/event';
-import { peoplesNames } from "./eventHelper";
+import { describeEvent } from "./eventHelper";
 import { formattedDate } from "./miscellaneous";
 import { PaymentResults } from "../models/payment";
-import { ChargeResults } from "../models/charge";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
     return archdeaconryResults.archdeaconries.map(archdeaconry => (
@@ -29,7 +28,7 @@ export function congregationItems(congregationResults: CongregationResults): Det
 export function eventItems(eventResults: EventResults): DetailsListItem[] {
     return eventResults.events.map(event => ({
         id: event.id,
-        displayText: `${formattedDate(event.date)}: ${event.eventType} of ${peoplesNames(event)}`,
+        displayText: `${formattedDate(event.date)}: ${describeEvent(event)}`,
     }));
 }
 

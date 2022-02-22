@@ -52,7 +52,7 @@ const SearchResults = ({
                             Year(s)
                             <SortButton
                                 parameters={parameters}
-                                columnName="endYear"
+                                columnName="years"
                                 onSort={onSort}
                             />
                         </th>
