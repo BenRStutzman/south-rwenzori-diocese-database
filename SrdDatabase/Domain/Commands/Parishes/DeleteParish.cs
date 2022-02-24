@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries.Congregations;
+using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -32,13 +33,22 @@ namespace SrdDatabase.Domain.Commands.Parishes
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 var congregationsQuery = new GetCongregations.Query(parishId: request.Id);
-                var congregationsResults = await _mediator.Send(congregationsQuery, cancellationToken);
+                var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
 
-                if (congregationsResults.TotalResults > 0)
+                var eventsQuery = new GetEvents.Query(parishId: request.Id);
+                var eventsTask = _mediator.Send(eventsQuery, cancellationToken);
+
+                var congregationResults = await congregationsTask;
+                var eventResults = await eventsTask;
+
+                var associatedItems = congregationResults.TotalResults > 0 ? "congregations"
+                    : eventResults.TotalResults > 0 ? "events" : null;
+
+                if (!string.IsNullOrEmpty(associatedItems))
                 {
                     return DeleteResponse.ForError(
-                        "Unable to delete this parish because it has congregations associated with it. " +
-                        "Please delete all of those congregations or move them to another parish, " +
+                        $"Unable to delete this parish because it has {associatedItems} associated with it. " +
+                        $"Please delete all of those {associatedItems} or move them to another parish, " +
                         "then try again."
                     );
                 }
