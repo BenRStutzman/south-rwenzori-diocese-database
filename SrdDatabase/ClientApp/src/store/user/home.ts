@@ -20,12 +20,12 @@ const setResultsAction = (results: UserResults) => ({
     value: results,
 });
 
-const setSearchNameAction = (name: string) => ({
+const setSearchNameAction = (name?: string) => ({
     type: SET_SEARCH_NAME,
     value: name,
 });
 
-const setSearchUsernameAction = (username: string) => ({
+const setSearchUsernameAction = (username?: string) => ({
     type: SET_SEARCH_USERNAME,
     value: username,
 });
@@ -55,11 +55,11 @@ const prefillParameters = (search: boolean = false): AppThunkAction<Action> => (
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchNameAction(name));
+    dispatch(setSearchNameAction(name.length ? name : undefined));
 };
 
 const setSearchUsername = (username: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchUsernameAction(username));
+    dispatch(setSearchUsernameAction(username.length ? username : undefined));
 };
 
 const setSearchUserTypeId = (userTypeId: number): AppThunkAction<Action> => (dispatch) => {

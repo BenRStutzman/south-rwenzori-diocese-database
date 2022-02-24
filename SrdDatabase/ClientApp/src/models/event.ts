@@ -34,6 +34,7 @@ export interface EventDetails {
 export interface EventParameters extends PagedParameters {
     eventTypeId?: number;
     personName?: string;
+    description?: string;
     parishId?: number;
     archdeaconryId?: number;
     congregationId?: number;

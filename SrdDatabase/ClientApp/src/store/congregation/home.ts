@@ -23,7 +23,7 @@ const setResultsAction = (results: CongregationResults) => ({
     value: results,
 });
 
-const setSearchNameAction = (name: string) => ({
+const setSearchNameAction = (name?: string) => ({
     type: SET_SEARCH_NAME,
     value: name,
 });
@@ -80,7 +80,7 @@ const prefillParameters = (parishId?: number, archdeaconryId?: number, search: b
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchNameAction(name));
+    dispatch(setSearchNameAction(name.length ? name : undefined));
 };
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {

@@ -13,6 +13,7 @@ const SET_SEARCH_EVENT_TYPE_ID = 'EVENT.SET_SEARCH_EVENT_TYPE_ID';
 const SET_SEARCH_START_DATE = 'EVENT.SET_SEARCH_START_DATE';
 const SET_SEARCH_END_DATE = 'EVENT.SET_SEARCH_END_DATE';
 const SET_SEARCH_PERSON_NAME = 'EVENT.SET_SEARCH_NAME';
+const SET_SEARCH_DESCRIPTION = 'EVENT.SET_SEARCH_DESCRIPTION';
 const SET_SEARCH_ARCHDEACONRY_ID = 'EVENT.SET_SEARCH_ARCHDEACONRY_ID';
 const SET_SEARCH_PARISH_ID = 'EVENT.SET_SEARCH_PARISH_ID';
 const SET_SEARCH_CONGREGATION_ID = 'EVENT.SET_SEARCH_CONGREGATION_ID';
@@ -43,10 +44,15 @@ const setSearchEndDateAction = (endDate: Date) => ({
     value: endDate,
 });
 
-const setSearchPersonNameAction = (personName: string) => ({
+const setSearchPersonNameAction = (personName?: string) => ({
     type: SET_SEARCH_PERSON_NAME,
     value: personName,
 });
+
+const setSearchDescriptionAction = (description?: string) => ({
+    type: SET_SEARCH_DESCRIPTION,
+    value: description,
+})
 
 const setSearchArchdeaconryIdAction = (archdeaconryId: number) => ({
     type: SET_SEARCH_ARCHDEACONRY_ID,
@@ -127,7 +133,11 @@ const setSearchEndDate = (endDate: Date): AppThunkAction<Action> => (dispatch) =
 };
 
 const setSearchPersonName = (personName: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchPersonNameAction(personName));
+    dispatch(setSearchPersonNameAction(personName.length ? personName : undefined));
+};
+
+const setSearchDescription = (description: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchDescriptionAction(description.length ? description : undefined));
 };
 
 const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {
@@ -170,6 +180,7 @@ export const actionCreators = {
     setSearchCongregationId,
     setSearchArchdeaconryId,
     setSearchPersonName,
+    setSearchDescription,
     setSearchStartDate,
     setSearchEndDate,
     prefillParameters,
@@ -227,6 +238,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parameters: {
                     ...state.parameters,
                     personName: action.value,
+                }
+            };
+        case SET_SEARCH_DESCRIPTION:
+            return {
+                ...state,
+                parameters: {
+                    ...state.parameters,
+                    description: action.value,
                 }
             };
         case SET_SEARCH_START_DATE:

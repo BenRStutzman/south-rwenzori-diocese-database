@@ -19,7 +19,7 @@ const setResultsAction = (results: ArchdeaconryResults) => ({
     value: results,
 });
 
-const setSearchNameAction = (name: string) => ({
+const setSearchNameAction = (name?: string) => ({
     type: SET_SEARCH_NAME,
     value: name,
 });
@@ -61,7 +61,7 @@ const searchArchdeaconries = (
 };
 
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchNameAction(name));
+    dispatch(setSearchNameAction(name.length ? name : undefined));
 };
 
 export const actionCreators = {

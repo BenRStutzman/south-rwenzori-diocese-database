@@ -20,7 +20,7 @@ const setResultsAction = (results: ParishResults) => ({
     value: results,
 });
 
-const setSearchNameAction = (name: string) => ({
+const setSearchNameAction = (name?: string) => ({
     type: SET_SEARCH_NAME,
     value: name,
 });
@@ -63,7 +63,7 @@ const prefillParameters = (archdeaconryId?: number, search: boolean = false): Ap
 };
 
 export const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchNameAction(name));
+    dispatch(setSearchNameAction(name.length ? name : undefined));
 }
 
 export const setSearchArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (dispatch) => {

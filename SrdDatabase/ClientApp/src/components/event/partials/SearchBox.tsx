@@ -24,6 +24,7 @@ const SearchBox = ({
     searchEvents,
     parameters,
     setSearchPersonName,
+    setSearchDescription,
     setSearchArchdeaconryId,
     setSearchParishId,
     setSearchCongregationId,
@@ -39,7 +40,6 @@ const SearchBox = ({
     loadArchdeaconries,
     congregationsLoading,
     eventTypesLoading,
-    resultsLoading,
     archdeaconriesLoading,
     expanded,
     parishesLoading,
@@ -66,6 +66,10 @@ const SearchBox = ({
 
     const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchPersonName(event.target.value);
+    };
+
+    const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchDescription(event.target.value);
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -101,7 +105,7 @@ const SearchBox = ({
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="eventTypeId">Event Type</label>
                             <select
@@ -121,7 +125,22 @@ const SearchBox = ({
                             </select>
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
+                        <div className="form-group">
+                            <label htmlFor="description">Description</label>
+                            <input
+                                id="description"
+                                className="form-control"
+                                autoComplete={autoCompleteString}
+                                type="text"
+                                spellCheck={false}
+                                value={parameters.description ?? ""}
+                                onChange={onDescriptionChange}
+                                maxLength={50}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="personName">Person Name</label>
                             <input
