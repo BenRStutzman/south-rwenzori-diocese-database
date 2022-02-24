@@ -1,16 +1,14 @@
 ﻿using System;
 
-namespace SrdDatabase.Models.Payments
+namespace SrdDatabase.Models.ChristianCounts
 {
-    public class Payment
+    public class ChristianCount
     {
         public int Id { get; }
 
-        public int Amount { get; }
+        public int NumberOfChristians { get; }
 
         public DateTime Date { get; }
-
-        public int? ReceiptNumber { get; }
 
         public int CongregationId { get; }
 
@@ -24,11 +22,10 @@ namespace SrdDatabase.Models.Payments
 
         public string Archdeaconry { get; }
 
-        public Payment(
+        public ChristianCount(
             int id,
-            int amount,
+            int numberOfChristians,
             DateTime date,
-            int? receiptNumber,
             int congregationId,
             string congregation,
             int parishId,
@@ -37,9 +34,8 @@ namespace SrdDatabase.Models.Payments
             string archdeaconry)
         {
             Id = id;
-            Amount = amount;
+            NumberOfChristians = numberOfChristians;
             Date = date;
-            ReceiptNumber = receiptNumber;
             CongregationId = congregationId;
             Congregation = congregation;
             ParishId = parishId;
@@ -49,7 +45,7 @@ namespace SrdDatabase.Models.Payments
         }
 
         // for Dapper
-        public Payment()
+        public ChristianCount()
         {
         }
     }
