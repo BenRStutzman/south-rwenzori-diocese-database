@@ -29,7 +29,7 @@ const SearchResults = ({
     currentUser,
 }: Props) => {
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
-    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onPage = (pageNumber: number) => {
         searchArchdeaconries({ ...parameters, pageNumber });
@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '5' : canViewBalance ? '7' : '9'}`}>
+                        <th className={`col-${canEdit ? '5' : canViewTransactions ? '7' : '9'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -70,7 +70,7 @@ const SearchResults = ({
                             />
                         </th>
                         {
-                            canViewBalance &&
+                            canViewTransactions &&
                             <th className="col-2">
                                 Balance (UGX)
                                 <SortButton
@@ -89,7 +89,7 @@ const SearchResults = ({
                             <td>{archdeaconry.name}</td>
                             <td>{archdeaconry.numberOfChristians}</td>
                             {
-                                canViewBalance &&
+                                canViewTransactions &&
                                 <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
                             }
                             <td className="buttons-column">

@@ -8,6 +8,9 @@ import { formattedDate } from "./miscellaneous";
 import { PaymentResults } from "../models/payment";
 import { CensusResults } from "../models/census";
 import { describeCensus } from "./censusHelper";
+import { ChargeResults } from "../models/charge";
+import { describeCharge, formattedDates } from "./chargeHelper";
+import { describePayment } from "./paymentHelper";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
     return archdeaconryResults.archdeaconries.map(archdeaconry => (
@@ -41,10 +44,16 @@ export function censusItems(censusResults: CensusResults, useCount: boolean = fa
     }));
 }
 
-export function paymentItems(paymentResults: PaymentResults): DetailsListItem[] {
+export function paymentItems(paymentResults: PaymentResults, useAmount: boolean = false): DetailsListItem[] {
     return paymentResults.payments.map(payment => ({
         id: payment.id,
-        displayText: `${formattedDate(payment.date)}: Payment of ${payment.amount} UGX`,
-        dateTime: new Date(payment.date as Date).getTime()
+        displayText: `${formattedDate(payment.date)}: ${describePayment(payment, useAmount)}`,
+    }));
+}
+
+export function chargeItems(chargeResults: ChargeResults, useAmount: boolean = false): DetailsListItem[] {
+    return chargeResults.charges.map(charge => ({
+        id: charge.id,
+        displayText: `${formattedDates(charge)}: ${describeCharge(charge, useAmount)}`,
     }));
 }

@@ -45,6 +45,7 @@ const initialState: State = {
         chargeResults: { ...pagedResultsDefaults, charges: [] },
         censusResults: { ...pagedResultsDefaults, censuses: [] },
         numberOfChristians: 0,
+        quota: 0,
         balance: 0,
     },
 };

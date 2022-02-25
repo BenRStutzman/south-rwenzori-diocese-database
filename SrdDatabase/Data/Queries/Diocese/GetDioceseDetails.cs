@@ -4,30 +4,31 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using SrdDatabase.Services;
+using SrdDatabase.Models.Diocese;
 
 namespace SrdDatabase.Data.Queries.Diocese
 {
-    public class GetDioceseBalance
+    public class GetDioceseDetails
     {
-        public class Query : IRequest<int>
+        public class Query : IRequest<DioceseDetails>
         {
         }
 
-        public class Handler : IRequestHandler<Query, int>
+        public class Handler : IRequestHandler<Query, DioceseDetails>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_diocese_balance";
+            private readonly string _storedProcedure = "sto_get_diocese_details";
 
             public Handler(IDbService dbService)
             {
                 _dbService = dbService;
             }
 
-            public async Task<int> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<DioceseDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QuerySingleAsync<int>(
+                return await connection.QuerySingleAsync<DioceseDetails>(
                     _storedProcedure,
                     commandType: CommandType.StoredProcedure);
             }

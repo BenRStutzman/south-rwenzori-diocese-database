@@ -10,6 +10,7 @@ export interface Archdeaconry {
     id?: number;
     name?: string;
     numberOfChristians?: number;
+    quota?: number;
     balance?: number;
 }
 

@@ -19,7 +19,4 @@ export const pagedResultsDefaults = {
 export interface DetailsListItem {
     id?: number;
     displayText?: string;
-    altKey?: string;
-    altType?: string;
-    dateTime?: number;
 }

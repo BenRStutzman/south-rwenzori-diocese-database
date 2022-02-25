@@ -26,6 +26,8 @@ namespace SrdDatabase.Models.Diocese
 
         public int? NumberOfChristians { get; }
 
+        public int Quota { get; }
+
         public int Balance { get; }
 
         public DioceseDetails(
@@ -37,6 +39,7 @@ namespace SrdDatabase.Models.Diocese
             ChargeResults chargeResults,
             CensusResults censusResults,
             int? numberOfChristians,
+            int quota,
             int balance)
         {
             ArchdeaconryResults = archdeaconryResults;
@@ -47,7 +50,37 @@ namespace SrdDatabase.Models.Diocese
             ChargeResults = chargeResults;
             CensusResults = censusResults;
             NumberOfChristians = numberOfChristians;
+            Quota = quota;
             Balance = balance;
+        }
+
+        public DioceseDetails(
+            ArchdeaconryResults archdeaconryResults,
+            ParishResults parishResults,
+            CongregationResults congregationResults,
+            EventResults eventResults,
+            PaymentResults paymentResults,
+            ChargeResults chargeResults,
+            CensusResults censusResults,
+            DioceseDetails dioceseDetails
+        ) : this(
+            archdeaconryResults,
+            parishResults,
+            congregationResults,
+            eventResults,
+            paymentResults,
+            chargeResults,
+            censusResults,
+            dioceseDetails.NumberOfChristians,
+            dioceseDetails.Quota,
+            dioceseDetails.Balance
+            )
+        {
+        }
+
+        // for Dapper
+        public DioceseDetails()
+        {
         }
     }
 

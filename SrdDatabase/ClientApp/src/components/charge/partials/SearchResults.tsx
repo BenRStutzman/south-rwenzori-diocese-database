@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
-import { combineYears } from '../../../helpers/chargeHelper';
+import { formattedDates } from '../../../helpers/chargeHelper';
 
 type Props =
     Store.State &
@@ -78,7 +78,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.charges.map((charge: Charge) =>
                         <tr key={charge.id}>
-                            <td>{combineYears(charge)}</td>
+                            <td>{formattedDates(charge)}</td>
                             <td>
                                 <Link to={`/congregation/details/${charge.congregationId}`}>{charge.congregation}</Link>
                             </td>

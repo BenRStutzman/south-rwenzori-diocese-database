@@ -16,6 +16,8 @@
 
         public int? NumberOfChristians { get; }
 
+        public int Quota { get; }
+
         public int Balance { get; }
 
         public Congregation(
@@ -26,6 +28,7 @@
             int archdeaconryId,
             string archdeaconry,
             int? numberOfChristians,
+            int quota,
             int balance
             )
         {
@@ -36,6 +39,7 @@
             ArchdeaconryId = archdeaconryId;
             Archdeaconry = archdeaconry;
             NumberOfChristians = numberOfChristians;
+            Quota = quota;
             Balance = balance;
         }
 

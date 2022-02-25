@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
-import { combineYears } from '../../helpers/chargeHelper';
+import { formattedDates } from '../../helpers/chargeHelper';
 
 type Props =
     Store.State &
@@ -54,7 +54,7 @@ const Details = ({
             <div className="details-boxes">
                 <DetailsBox
                     itemType="year(s)"
-                    itemValue={combineYears(details.charge)}
+                    itemValue={formattedDates(details.charge)}
                 />
                 <DetailsBox
                     baseItemType="charge"

@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
-import { archdeaconryItems, censusItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, censusItems, chargeItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
@@ -32,7 +32,7 @@ const Home = ({
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
     const canAddCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
@@ -62,22 +62,29 @@ const Home = ({
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
                 />
+                {
+                    canViewTransactions &&
+                    <>
+                        <DetailsList
+                            itemType="charge"
+                            altTitle={`${new Date().getFullYear()} Quota: ${details.quota} UGX`}
+                            items={chargeItems(details.chargeResults)}
+                            showAddLink
+                        />
+                        <DetailsList
+                            itemType="payment"
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                            items={paymentItems(details.paymentResults)}
+                            showAddLink
+                        />
+                    </>
+                }
                 <DetailsList
                     itemType="census"
                     altTitle={`Number of Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
                     items={censusItems(details.censusResults)}
                     showAddLink={canAddCensuses}
                 />
-                {
-                    canViewBalance &&
-                    <DetailsList
-                        itemType="payment"
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
-                        items={paymentItems(details.paymentResults)}
-                        showAddLink
-                        secondType="charge"
-                    />
-                }
             </div>
         </>
 };

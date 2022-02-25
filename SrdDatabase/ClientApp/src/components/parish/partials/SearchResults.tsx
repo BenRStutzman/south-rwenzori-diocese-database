@@ -29,7 +29,7 @@ const SearchResults = ({
     parameters,
 }: Props) => {
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType as string);
-    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onPage = (pageNumber: number) => {
         searchParishes({ ...parameters, pageNumber });
@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>
+                        <th className={`col-${canEdit ? '3' : canViewTransactions ? '4' : '5'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -61,7 +61,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEdit ? '2' : canViewBalance ? '3' : '4'}`}>
+                        <th className={`col-${canEdit ? '2' : canViewTransactions ? '3' : '4'}`}>
                             Archdeaconry
                             <SortButton
                                 parameters={parameters}
@@ -78,7 +78,7 @@ const SearchResults = ({
                             />
                         </th>
                         {
-                            canViewBalance &&
+                            canViewTransactions &&
                             <th className="col-2">
                                 Balance (UGX)
                                 <SortButton
@@ -100,7 +100,7 @@ const SearchResults = ({
                             </td>
                             <td>{parish.numberOfChristians}</td>
                             {
-                                canViewBalance &&
+                                canViewTransactions &&
                                 <td className="money-column">{parenthesizeIfNegative(parish.balance as number)}</td>
                             }
                             <td className="buttons-column">

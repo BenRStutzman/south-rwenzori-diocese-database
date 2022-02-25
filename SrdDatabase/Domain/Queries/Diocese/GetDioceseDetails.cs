@@ -3,7 +3,6 @@ using SrdDatabase.Data.Queries.Archdeaconries;
 using SrdDatabase.Data.Queries.Censuses;
 using SrdDatabase.Data.Queries.Charges;
 using SrdDatabase.Data.Queries.Congregations;
-using SrdDatabase.Data.Queries.Diocese;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Parishes;
 using SrdDatabase.Data.Queries.Payments;
@@ -51,11 +50,8 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var censusesQuery = new GetCensuses.Query(pageSize: Constants.DetailsPageSize);
                 var censusesTask = _mediator.Send(censusesQuery, cancellationToken);
 
-                var numberOfChristiansQuery = new GetDioceseNumberOfChristians.Query();
-                var numberOfChristiansTask = _mediator.Send(numberOfChristiansQuery, cancellationToken);
-
-                var balanceQuery = new GetDioceseBalance.Query();
-                var balanceTask = _mediator.Send(balanceQuery, cancellationToken);
+                var detailsQuery = new Data.Queries.Diocese.GetDioceseDetails.Query();
+                var detailsTask = _mediator.Send(detailsQuery, cancellationToken);
 
                 var archdeaconryResults = await archdeaconriesTask;
                 var parishResults = await parishesTask;
@@ -64,8 +60,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var paymentResults = await paymentsTask;
                 var chargeResults = await chargesTask;
                 var censusResults = await censusesTask;
-                var numberOfChristians = await numberOfChristiansTask;
-                var balance = await balanceTask;
+                var details = await detailsTask;
 
                 return new DioceseDetails(
                     archdeaconryResults,
@@ -75,8 +70,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                     paymentResults,
                     chargeResults,
                     censusResults,
-                    numberOfChristians,
-                    balance);
+                    details);
             }
         }
     }

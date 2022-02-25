@@ -11,6 +11,7 @@ export interface Parish {
     archdeaconryId?: number;
     archdeaconry?: string;
     numberOfChristians?: number;
+    quota?: number;
     balance?: number;
 }
 

@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { censusItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { censusItems, chargeItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
@@ -40,7 +40,7 @@ const Details = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteArchdeaconry(details.archdeaconry, () => { history.push('/archdeaconry'); });
@@ -87,6 +87,27 @@ const Details = ({
                     baseItemId={details.archdeaconry.id}
                     showAddLink={canAddEvents}
                 />
+                {
+                    canViewTransactions &&
+                    <>
+                        <DetailsList
+                            itemType="charge"
+                            altTitle={`${new Date().getFullYear()} Quota: ${details.archdeaconry.quota} UGX`}
+                            items={chargeItems(details.chargeResults)}
+                            baseItemType="archdeaconry"
+                            baseItemId={details.archdeaconry.id}
+                            showAddLink
+                        />
+                        <DetailsList
+                            itemType="payment"
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                            items={paymentItems(details.paymentResults)}
+                            baseItemType="archdeaconry"
+                            baseItemId={details.archdeaconry.id}
+                            showAddLink
+                        />
+                    </>
+                }
                 <DetailsList
                     itemType="census"
                     altTitle={`Number of Christians: ${stringNumberOfChristians(details.archdeaconry.numberOfChristians)}`}
@@ -95,18 +116,6 @@ const Details = ({
                     baseItemId={details.archdeaconry.id}
                     showAddLink
                 />
-                {
-                    canViewBalance &&
-                    <DetailsList
-                        itemType="payment"
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
-                        items={paymentItems(details.paymentResults)}
-                        baseItemType="archdeaconry"
-                        baseItemId={details.archdeaconry.id}
-                        showAddLink
-                        secondType="charge"
-                    />
-                }
             </div>
         </>;
 }

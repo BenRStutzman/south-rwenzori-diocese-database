@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { censusItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
+import { censusItems, chargeItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
@@ -84,6 +84,27 @@ const Details = ({
                     baseItemId={details.congregation.id}
                     showAddLink={canAddEvents}
                 />
+                {
+                    canEditTransactions &&
+                    <>
+                        <DetailsList
+                            itemType="charge"
+                            altTitle={`${new Date().getFullYear()} Quota: ${details.congregation.quota} UGX`}
+                            items={chargeItems(details.chargeResults, true)}
+                            baseItemType="congregation"
+                            baseItemId={details.congregation.id}
+                            showAddLink
+                        />
+                        <DetailsList
+                            itemType="payment"
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
+                            items={paymentItems(details.paymentResults, true)}
+                            baseItemType="congregation"
+                            baseItemId={details.congregation.id}
+                            showAddLink
+                        />
+                    </>
+                }
                 <DetailsList
                     itemType="census"
                     altTitle={`Number of Christians: ${stringNumberOfChristians(details.congregation.numberOfChristians)}`}
@@ -92,18 +113,6 @@ const Details = ({
                     baseItemId={details.congregation.id}
                     showAddLink
                 />
-                {
-                    canEditTransactions &&
-                    <DetailsList
-                        itemType="payment"
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
-                        items={paymentItems(details.paymentResults)}
-                        baseItemType="congregation"
-                        baseItemId={details.congregation.id}
-                        secondType="charge"
-                        showAddLink
-                    />
-                }
             </div>
         </>;
 }

@@ -12,7 +12,6 @@ interface Props {
     items: DetailsListItem[];
     showAddLink?: boolean;
     altTitle?: string;
-    secondType?: string;
 }
 
 const DetailsList = ({
@@ -23,7 +22,6 @@ const DetailsList = ({
     items,
     showAddLink,
     altTitle,
-    secondType,
 }: Props) => {
 
     const addParams = baseItemType && baseItemId ? `?${baseItemType}Id=${baseItemId}` : undefined;
@@ -34,8 +32,8 @@ const DetailsList = ({
                 <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
                 <ul>
                     {items.map(item =>
-                        <li key={item.altKey ?? item.id}>
-                            <Link to={`/${item.altType ?? itemType}/details/${item.id}`}>
+                        <li key={item.id}>
+                            <Link to={`/${itemType}/details/${item.id}`}>
                                 {item.displayText}
                             </Link>
                         </li>
@@ -55,16 +53,6 @@ const DetailsList = ({
                         <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
                     }
                 </div>
-                {
-                    secondType &&
-                    <div>
-                        <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
-                        {
-                            showAddLink &&
-                            <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>
-                        }
-                    </div>
-                }
             </div>
         </div>
     );
