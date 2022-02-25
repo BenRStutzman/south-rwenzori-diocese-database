@@ -58,7 +58,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="receiptNumber"
-                    itemValue={details.payment.receiptNumber?.toString() ?? ""}
+                    itemValue={details.payment.receiptNumber?.toString() ?? "Not set"}
                 />
                 <DetailsBox
                     baseItemType="payment"
