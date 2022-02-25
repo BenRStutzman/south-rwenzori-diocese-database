@@ -65,15 +65,15 @@ const Details = ({
             <div className="details-boxes">
                 <DetailsBox
                     baseItemType="congregation"
-                    itemType="parish"
-                    itemValue={details.congregation.parish}
-                    itemId={details.congregation.parishId}
-                />
-                <DetailsBox
-                    baseItemType="congregation"
                     itemType="archdeaconry"
                     itemValue={details.congregation.archdeaconry}
                     itemId={details.congregation.archdeaconryId}
+                />
+                <DetailsBox
+                    baseItemType="congregation"
+                    itemType="parish"
+                    itemValue={details.congregation.parish}
+                    itemId={details.congregation.parishId}
                 />
                 <DetailsList
                     itemType="event"
@@ -95,6 +95,10 @@ const Details = ({
                         addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }
+                <DetailsBox
+                    itemValue={details.congregation.numberOfChristians?.toString() ?? 'not counted'}
+                    itemType="numberOfChristians"
+                />
             </div>
         </>;
 }

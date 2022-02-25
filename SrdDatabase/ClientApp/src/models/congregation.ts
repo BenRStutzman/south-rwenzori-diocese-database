@@ -10,6 +10,7 @@ export interface Congregation {
     parish?: string;
     archdeaconryId?: number;
     archdeaconry?: string;
+    numberOfChristians?: number;
     balance?: number;
 }
 

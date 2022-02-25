@@ -97,6 +97,10 @@ const Details = ({
                         addParams={`?parishId=${details.parish.id}`}
                     />
                 }
+                <DetailsBox
+                    itemValue={details.parish.numberOfChristians?.toString()}
+                    itemType="numberOfChristians"
+                />
             </div>
         </>;
 }

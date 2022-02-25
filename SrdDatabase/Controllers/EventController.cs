@@ -96,8 +96,8 @@ namespace SrdDatabase.Controllers
                 return Unauthorized("You can only delete events that you created.");
             }
 
-            await _mediator.Send(command);
-            return Ok();
+            var response = await _mediator.Send(command);
+            return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
         }
 
         private async Task<bool> CanEdit(int eventId)

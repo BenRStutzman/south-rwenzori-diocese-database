@@ -22,6 +22,8 @@ namespace SrdDatabase.Models.ChristianCounts
 
         public string Archdeaconry { get; }
 
+        public int CreatedBy { get; }
+
         public ChristianCount(
             int id,
             int numberOfChristians,
@@ -31,7 +33,8 @@ namespace SrdDatabase.Models.ChristianCounts
             int parishId,
             string parish,
             int archdeaconryId,
-            string archdeaconry)
+            string archdeaconry,
+            int createdBy)
         {
             Id = id;
             NumberOfChristians = numberOfChristians;
@@ -42,6 +45,7 @@ namespace SrdDatabase.Models.ChristianCounts
             Parish = parish;
             ArchdeaconryId = archdeaconryId;
             Archdeaconry = archdeaconry;
+            CreatedBy = createdBy;
         }
 
         // for Dapper

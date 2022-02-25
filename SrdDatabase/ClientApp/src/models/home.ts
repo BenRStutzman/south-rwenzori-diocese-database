@@ -12,5 +12,6 @@ export interface DioceseDetails {
     eventResults: EventResults;
     paymentResults: PaymentResults;
     chargeResults: ChargeResults;
+    numberOfChristians: number;
     balance: number;
 }

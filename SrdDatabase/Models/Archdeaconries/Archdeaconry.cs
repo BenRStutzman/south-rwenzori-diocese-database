@@ -6,12 +6,19 @@
 
         public string Name { get;  }
 
+        public int NumberOfChristians { get; }
+
         public int Balance { get; }
         
-        public Archdeaconry(int id, string name, int balance)
+        public Archdeaconry(
+            int id,
+            string name,
+            int numberOfChristians,
+            int balance)
         {
             Id = id;
             Name = name;
+            NumberOfChristians = numberOfChristians;
             Balance = balance;
         }
 

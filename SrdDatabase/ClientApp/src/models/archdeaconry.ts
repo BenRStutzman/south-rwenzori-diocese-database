@@ -8,6 +8,7 @@ import { ChargeResults } from "./charge";
 export interface Archdeaconry {
     id?: number;
     name?: string;
+    numberOfChristians?: number;
     balance?: number;
 }
 

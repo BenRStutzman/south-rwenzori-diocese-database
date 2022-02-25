@@ -47,6 +47,9 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var chargesQuery = new GetCharges.Query(pageSize: Constants.DetailsPageSize);
                 var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
 
+                var numberOfChristiansQuery = new GetDioceseNumberOfChristians.Query();
+                var numberOfChristiansTask = _mediator.Send(numberOfChristiansQuery, cancellationToken);
+
                 var balanceQuery = new GetDioceseBalance.Query();
                 var balanceTask = _mediator.Send(balanceQuery, cancellationToken);
 
@@ -56,6 +59,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
                 var chargeResults = await chargesTask;
+                var numberOfChristians = await numberOfChristiansTask;
                 var balance = await balanceTask;
 
                 return new DioceseDetails(
@@ -65,6 +69,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                     eventResults,
                     paymentResults,
                     chargeResults,
+                    numberOfChristians,
                     balance);
             }
         }

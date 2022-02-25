@@ -8,6 +8,7 @@ import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
+import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
@@ -70,6 +71,10 @@ const Home = ({
                         showAddLink
                     />
                 }
+                <DetailsBox
+                    itemValue={details.numberOfChristians?.toString()}
+                    itemType="numberOfChristians"
+                />
             </div>
         </>
 };

@@ -12,6 +12,7 @@ import DetailsList from '../shared/DetailsList';
 import { congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
+import DetailsBox from '../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -98,6 +99,10 @@ const Details = ({
                         addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                     />
                 }
+                <DetailsBox
+                    itemValue={details.archdeaconry.numberOfChristians?.toString()}
+                    itemType="numberOfChristians"
+                />
             </div>
         </>;
 }

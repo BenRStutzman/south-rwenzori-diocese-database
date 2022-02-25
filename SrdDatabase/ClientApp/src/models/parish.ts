@@ -9,6 +9,7 @@ export interface Parish {
     name?: string;
     archdeaconryId?: number;
     archdeaconry?: string;
+    numberOfChristians?: number;
     balance?: number;
 }
 
