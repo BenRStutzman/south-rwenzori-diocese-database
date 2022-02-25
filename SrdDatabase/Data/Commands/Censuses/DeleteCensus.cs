@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
 
-namespace SrdDatabase.Data.Commands.ChristianCounts
+namespace SrdDatabase.Data.Commands.Censuses
 {
-    public class DeleteChristianCount
+    public class DeleteCensus
     {
         public class Command : IRequest
         {
@@ -23,7 +23,7 @@ namespace SrdDatabase.Data.Commands.ChristianCounts
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_delete_christian_count";
+            private readonly string _storedProcedure = "sto_delete_census";
 
             public Handler(IDbService dbService)
             {

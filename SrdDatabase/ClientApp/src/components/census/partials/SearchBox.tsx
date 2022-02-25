@@ -1,7 +1,7 @@
 ﻿import React, { ChangeEvent, useEffect } from 'react';
 import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
-import * as Store from '../../../store/event/home';
+import * as Store from '../../../store/census/home';
 import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
@@ -18,28 +18,20 @@ type Props =
     SharedStore.State &
     typeof SharedStore.actionCreators;
 
-const autoCompleteString = randomString();
-
 const SearchBox = ({
-    searchEvents,
+    searchCensuss,
     parameters,
-    setSearchPersonName,
-    setSearchDescription,
     setSearchArchdeaconryId,
     setSearchParishId,
     setSearchCongregationId,
-    setSearchEventTypeId,
     setSearchStartDate,
     setSearchEndDate,
     archdeaconries,
     parishes,
     congregations,
-    eventTypes,
     prefillParameters,
-    loadEventTypes,
     loadArchdeaconries,
     congregationsLoading,
-    eventTypesLoading,
     archdeaconriesLoading,
     expanded,
     parishesLoading,
@@ -48,7 +40,6 @@ const SearchBox = ({
 
     const loadData = () => {
         loadArchdeaconries();
-        loadEventTypes();
 
         var congregationIdString = queryParams.get('congregationId');
         const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
@@ -64,14 +55,6 @@ const SearchBox = ({
 
     useEffect(loadData, []);
 
-    const onPersonNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchPersonName(event.target.value);
-    };
-
-    const onDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchDescription(event.target.value);
-    };
-
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSearchArchdeaconryId(parseInt(event.target.value));
     };
@@ -84,10 +67,6 @@ const SearchBox = ({
         setSearchCongregationId(parseInt(event.target.value));
     };
 
-    const onEventTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setSearchEventTypeId(parseInt(event.target.value));
-    };
-
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchStartDate(new Date(event.target.value));
     };
@@ -98,64 +77,12 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchEvents(parameters);
+        searchCensuss(parameters);
     };
 
     return (
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
-                <div className="row">
-                    <div className="col-4">
-                        <div className="form-group">
-                            <label htmlFor="eventTypeId">Event Type</label>
-                            <select
-                                id="eventTypeId"
-                                className="form-control"
-                                value={eventTypesLoading ? "" : parameters.eventTypeId ?? ""}
-                                onChange={onEventTypeIdChange}
-                            >
-                                <option key={0} value="">
-                                    {eventTypesLoading ? 'Loading...' : 'Any event type'}
-                                </option>
-                                {eventTypes.map(eventType =>
-                                    <option key={eventType.id} value={eventType.id}>
-                                        {eventType.name}
-                                    </option>
-                                )}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <div className="form-group">
-                            <label htmlFor="description">Description</label>
-                            <input
-                                id="description"
-                                className="form-control"
-                                autoComplete={autoCompleteString}
-                                type="text"
-                                spellCheck={false}
-                                value={parameters.description ?? ""}
-                                onChange={onDescriptionChange}
-                                maxLength={50}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <div className="form-group">
-                            <label htmlFor="personName">Person Name</label>
-                            <input
-                                id="personName"
-                                className="form-control"
-                                autoComplete={autoCompleteString}
-                                type="text"
-                                spellCheck={false}
-                                value={parameters.personName ?? ""}
-                                onChange={onPersonNameChange}
-                                maxLength={50}
-                            />
-                        </div>
-                    </div>
-                </div>
                 <div className="row">
                     <div className="col-4">
                         <div className="form-group">
@@ -246,7 +173,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     onClear={() => { prefillParameters(); }}
-                    thingsBeingSearched="events"
+                    thingsBeingSearched="censuses"
                 />
             </form>
         </div>
@@ -255,7 +182,7 @@ const SearchBox = ({
 
 export default connect(
     (state: State, ownProps: OwnProps) => ({
-        ...state.event.home,
+        ...state.census.home,
         ...state.shared,
         ...ownProps,
     }),

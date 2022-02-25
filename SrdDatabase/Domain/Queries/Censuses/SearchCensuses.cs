@@ -1,15 +1,15 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries.ChristianCounts;
-using SrdDatabase.Models.ChristianCounts;
+using SrdDatabase.Data.Queries.Censuses;
+using SrdDatabase.Models.Censuses;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SrdDatabase.Domain.Queries.ChristianCounts
+namespace SrdDatabase.Domain.Queries.Censuses
 {
-    public class SearchChristianCounts
+    public class SearchCensuses
     {
-        public class Query : ChristianCountParameters, IRequest<ChristianCountResults>
+        public class Query : CensusParameters, IRequest<CensusResults>
         {
             public Query(
                 int? archdeaconryId = null,
@@ -33,7 +33,7 @@ namespace SrdDatabase.Domain.Queries.ChristianCounts
             }
         }
 
-        public class Handler : IRequestHandler<Query, ChristianCountResults>
+        public class Handler : IRequestHandler<Query, CensusResults>
         {
             private readonly IMediator _mediator;
 
@@ -42,10 +42,10 @@ namespace SrdDatabase.Domain.Queries.ChristianCounts
                 _mediator = mediator;
             }
 
-            public async Task<ChristianCountResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CensusResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
-                    new GetChristianCounts.Query(
+                    new GetCensuses.Query(
                         null,
                         request.ArchdeaconryId,
                         request.ParishId,

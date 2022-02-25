@@ -3,54 +3,54 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Attributes;
-using SrdDatabase.Models.ChristianCounts;
+using SrdDatabase.Models.Censuses;
 using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Domain.Queries.ChristianCounts;
-using SrdDatabase.Domain.Commands.ChristianCounts;
+using SrdDatabase.Domain.Queries.Censuses;
+using SrdDatabase.Domain.Commands.Censuses;
 
 namespace SrdDatabase.Controllers
 {
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class ChristianCountController : BaseController
+    public class CensusController : BaseController
     {
         private readonly IMediator _mediator;
 
-        public ChristianCountController(IMediator mediator)
+        public CensusController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet("{id}")]
-        public async Task<ChristianCount> GetById(int id)
+        public async Task<Census> GetById(int id)
         {
-            return await _mediator.Send(new GetChristianCountById.Query(id));
+            return await _mediator.Send(new GetCensusById.Query(id));
         }
 
 
         [HttpGet("details/{id}")]
-        public async Task<ChristianCountDetails> Details(int id)
+        public async Task<CensusDetails> Details(int id)
         {
-            return await _mediator.Send(new GetChristianCountDetails.Query(id));
+            return await _mediator.Send(new GetCensusDetails.Query(id));
         }
 
         [HttpGet("all")]
-        public async Task<IEnumerable<ChristianCount>> GetAll()
+        public async Task<IEnumerable<Census>> GetAll()
         {
-            return await _mediator.Send(new GetAllChristianCounts.Query());
+            return await _mediator.Send(new GetAllCensuses.Query());
         }
 
         [HttpPost("search")]
-        public async Task<ChristianCountResults> Search(SearchChristianCounts.Query query)
+        public async Task<CensusResults> Search(SearchCensuses.Query query)
         {
             return await _mediator.Send(query);
         }
 
         [Authorize(UserRole.Contributor)]
         [HttpPost("add")]
-        public async Task<SaveResponse> Add(AddChristianCount.Command command)
+        public async Task<SaveResponse> Add(AddCensus.Command command)
         {
             command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
@@ -58,7 +58,7 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Contributor)]
         [HttpPost("edit")]
-        public async Task<IActionResult> Edit(EditChristianCount.Command command)
+        public async Task<IActionResult> Edit(EditCensus.Command command)
         {
             var canEdit = await CanEdit(command.Id);
 
@@ -74,7 +74,7 @@ namespace SrdDatabase.Controllers
 
         [Authorize(UserRole.Contributor)]
         [HttpPost("delete")]
-        public async Task<IActionResult> Delete(DeleteChristianCount.Command command)
+        public async Task<IActionResult> Delete(DeleteCensus.Command command)
         {
             var canEdit = await CanEdit(command.Id);
 
@@ -87,14 +87,14 @@ namespace SrdDatabase.Controllers
             return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
         }
 
-        private async Task<bool> CanEdit(int christianCountId)
+        private async Task<bool> CanEdit(int censusId)
         {
             // Only allow contributors to edit christian counts they created
             if (CurrentUser.UserType == UserRole.Contributor)
             {
-                var christianCount = await _mediator.Send(new GetChristianCountById.Query(christianCountId));
+                var census = await _mediator.Send(new GetCensusById.Query(censusId));
 
-                return christianCount.CreatedBy == CurrentUser.Id;
+                return census.CreatedBy == CurrentUser.Id;
             }
 
             return true;

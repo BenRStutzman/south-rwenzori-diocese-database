@@ -5,13 +5,13 @@ using Dapper;
 using System.Data;
 using System;
 using SrdDatabase.Services;
-using SrdDatabase.Models.ChristianCounts;
+using SrdDatabase.Models.Censuses;
 
-namespace SrdDatabase.Data.Queries.ChristianCounts
+namespace SrdDatabase.Data.Queries.Censuses
 {
-    public class GetChristianCounts
+    public class GetCensuses
     {
-        public class Query : ChristianCountParameters, IRequest<ChristianCountResults>
+        public class Query : CensusParameters, IRequest<CensusResults>
         {
             public Query(
                 int? id = null,
@@ -39,17 +39,17 @@ namespace SrdDatabase.Data.Queries.ChristianCounts
             }
         }
 
-        public class Handler : IRequestHandler<Query, ChristianCountResults>
+        public class Handler : IRequestHandler<Query, CensusResults>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_christian_counts";
+            private readonly string _storedProcedure = "sto_get_censuses";
 
             public Handler(IDbService dbService)
             {
                 _dbService = dbService;
             }
 
-            public async Task<ChristianCountResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CensusResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -59,13 +59,13 @@ namespace SrdDatabase.Data.Queries.ChristianCounts
                     commandType: CommandType.StoredProcedure);
 
                 var totalResults = results.ReadSingle<int>();
-                var christianCounts = results.Read<ChristianCount>();
+                var censuses = results.Read<Census>();
 
-                return new ChristianCountResults(
+                return new CensusResults(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,
-                    christianCounts);
+                    censuses);
             }
         }
     }

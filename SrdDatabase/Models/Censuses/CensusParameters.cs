@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SrdDatabase.Models.ChristianCounts
+namespace SrdDatabase.Models.Censuses
 {
-    public class ChristianCountParameters : PagedParameters
+    public class CensusParameters : PagedParameters
     {
         [Range(1, int.MaxValue)]
         public int? Id { get; }
@@ -22,7 +22,7 @@ namespace SrdDatabase.Models.ChristianCounts
 
         public DateTime? EndDate { get; }
 
-        public ChristianCountParameters(
+        public CensusParameters(
             int? archdeaconryId = null,
             int? parishId = null,
             int? congregationId = null,

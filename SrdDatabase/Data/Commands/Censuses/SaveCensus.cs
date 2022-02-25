@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Models.ChristianCounts;
+using SrdDatabase.Models.Censuses;
 
-namespace SrdDatabase.Data.Commands.ChristianCounts
+namespace SrdDatabase.Data.Commands.Censuses
 {
-    public class SaveChristianCount
+    public class SaveCensus
     {
-        public class Command : ChristianCountFields, IRequest<SaveResponse>
+        public class Command : CensusFields, IRequest<SaveResponse>
         {
             public int?  Id { get; set; }
 
@@ -36,7 +36,7 @@ namespace SrdDatabase.Data.Commands.ChristianCounts
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_save_christian_count";
+            private readonly string _storedProcedure = "sto_save_census";
 
             public Handler(IDbService dbService)
             {

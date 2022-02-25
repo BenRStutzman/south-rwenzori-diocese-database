@@ -4,6 +4,7 @@ import { get, post } from '../../helpers/apiHelpers';
 import { getUser } from '../../helpers/userHelper';
 import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
 import { Charge } from '../../models/charge';
+import { Census } from '../../models/census';
 import { Congregation, CongregationParameters, CongregationResults } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
 import { Parish, ParishParameters, ParishResults } from '../../models/parish';
@@ -26,6 +27,7 @@ const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
 const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
 const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
 const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
+const SET_DELETING_CENSUS_ID = 'SET_DELETING_CENSUS_ID';
 const SET_DELETING_PAYMENT_ID = 'SET_DELETING_PAYMENT_ID';
 const SET_DELETING_CHARGE_ID = 'SET_DELETING_CHARGE_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
@@ -117,6 +119,11 @@ const setDeletingChargeIdAction = (chargeId?: number, isDeleting: boolean = true
 const setDeletingUserIdAction = (userId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_USER_ID,
     value: { userId, isDeleting },
+});
+
+const setDeletingCensusIdAction = (censusId?: number, isDeleting: boolean = true) => ({
+    type: SET_DELETING_CENSUS_ID,
+    value: { censusId, isDeleting },
 });
 
 const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
@@ -331,6 +338,27 @@ const deleteUser = (user: User, onSuccess: () => void):
         }
     };
 
+const deleteCensus = (census: Census, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete this christian count for ${census.congregation}?`)) {
+            dispatch(setDeletingCensusIdAction(census.id));
+
+            post<{ id: number }>('api/census/delete', { id: census.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingCensusIdAction(census.id, false));
+                        alert(errorMessage);
+                    });
+                });
+        }
+    };
+
 export const actionCreators = {
     login,
     logout,
@@ -346,6 +374,7 @@ export const actionCreators = {
     deletePayment,
     deleteCharge,
     deleteUser,
+    deleteCensus,
 };
 
 export interface State {
@@ -367,6 +396,7 @@ export interface State {
     deletingPaymentIds: number[];
     deletingChargeIds: number[];
     deletingUserIds: number[];
+    deletingCensusIds: number[];
 }
 
 const initialState: State = {
@@ -388,6 +418,7 @@ const initialState: State = {
     deletingChargeIds: [],
     deletingPaymentIds: [],
     deletingUserIds: [],
+    deletingCensusIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -505,6 +536,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 deletingUserIds: action.value.isDeleting
                     ? [...state.deletingUserIds, action.value.userId]
                     : state.deletingUserIds.filter(id => id != action.value.userId),
+            };
+        case SET_DELETING_CENSUS_ID:
+            return {
+                ...state,
+                deletingCensusIds: action.value.isDeleting
+                    ? [...state.deletingCensusIds, action.value.censusId]
+                    : state.deletingCensusIds.filter(id => id != action.value.censusId),
             };
         default:
             return state;

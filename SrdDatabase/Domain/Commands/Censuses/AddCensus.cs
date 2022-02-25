@@ -1,23 +1,18 @@
 ﻿using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Models.ChristianCounts;
+using SrdDatabase.Models.Censuses;
 using System;
-using SrdDatabase.Data.Commands.ChristianCounts;
+using SrdDatabase.Data.Commands.Censuses;
 
-namespace SrdDatabase.Domain.Commands.ChristianCounts
+namespace SrdDatabase.Domain.Commands.Censuses
 {
-    public class EditChristianCount
+    public class AddCensus
     {
-        public class Command : ChristianCountFields, IRequest<SaveResponse>
+        public class Command : CensusFields, IRequest<SaveResponse>
         {
-            [Range(1, int.MaxValue)]
-            public int Id { get; }
-
             public Command(
-                int id,
                 int numberOfChristians,
                 int congregationId,
                 DateTime date)
@@ -26,7 +21,6 @@ namespace SrdDatabase.Domain.Commands.ChristianCounts
                     congregationId,
                     date)
             {
-                Id = id;
             }
         }
 
@@ -41,8 +35,8 @@ namespace SrdDatabase.Domain.Commands.ChristianCounts
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dataCommand = new SaveChristianCount.Command(
-                    request.Id,
+                var dataCommand = new SaveCensus.Command(
+                    null,
                     request.NumberOfChristians,
                     request.CongregationId,
                     request.Date,

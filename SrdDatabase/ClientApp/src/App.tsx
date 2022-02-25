@@ -21,6 +21,10 @@ import EventHome from './components/event/Home';
 import EventAdd from './components/event/Add';
 import EventEdit from './components/event/Edit';
 import EventDetails from './components/event/Details';
+import CensusHome from './components/census/Home';
+import CensusAdd from './components/census/Add';
+import CensusEdit from './components/census/Edit';
+import CensusDetails from './components/census/Details';
 import PaymentHome from './components/payment/Home';
 import PaymentAdd from './components/payment/Add';
 import PaymentEdit from './components/payment/Edit';
@@ -56,6 +60,10 @@ export default () => (
             <PrivateRoute exact path='/event/add' component={EventAdd} roles={atLeast.contributor} />
             <PrivateRoute exact path='/event/edit/:eventId' component={EventEdit} roles={atLeast.contributor} />
             <PrivateRoute exact path='/event/details/:eventId' component={EventDetails} />
+            <PrivateRoute exact path='/census' component={CensusHome} />
+            <PrivateRoute exact path='/census/add' component={CensusAdd} roles={atLeast.contributor} />
+            <PrivateRoute exact path='/census/edit/:censusId' component={CensusEdit} roles={atLeast.contributor} />
+            <PrivateRoute exact path='/census/details/:censusId' component={CensusDetails} />
             <PrivateRoute exact path='/payment' component={PaymentHome} roles={atLeast.accountant} />
             <PrivateRoute exact path='/payment/add' component={PaymentAdd} roles={atLeast.accountant} />
             <PrivateRoute exact path='/payment/edit/:paymentId' component={PaymentEdit} roles={atLeast.accountant} />

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SrdDatabase.Models.ChristianCounts
+namespace SrdDatabase.Models.Censuses
 {
-    public class ChristianCount
+    public class Census
     {
         public int Id { get; }
 
@@ -24,7 +24,7 @@ namespace SrdDatabase.Models.ChristianCounts
 
         public int CreatedBy { get; }
 
-        public ChristianCount(
+        public Census(
             int id,
             int numberOfChristians,
             DateTime date,
@@ -49,7 +49,7 @@ namespace SrdDatabase.Models.ChristianCounts
         }
 
         // for Dapper
-        public ChristianCount()
+        public Census()
         {
         }
     }

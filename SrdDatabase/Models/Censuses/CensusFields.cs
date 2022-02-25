@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SrdDatabase.Models.ChristianCounts
+namespace SrdDatabase.Models.Censuses
 {
-    public class ChristianCountFields : SaveFields
+    public class CensusFields : SaveFields
     {
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }
@@ -15,7 +15,7 @@ namespace SrdDatabase.Models.ChristianCounts
         [Required]
         public DateTime Date { get; }
 
-        public ChristianCountFields(
+        public CensusFields(
             int numberOfChristians,
             int congregationId,
             DateTime date,

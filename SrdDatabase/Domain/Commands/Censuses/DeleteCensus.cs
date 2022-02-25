@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SrdDatabase.Domain.Commands.ChristianCounts
+namespace SrdDatabase.Domain.Commands.Censuses
 {
-    public class DeleteChristianCount
+    public class DeleteCensus
     {
         public class Command : IRequest<DeleteResponse>
         {
@@ -31,7 +31,7 @@ namespace SrdDatabase.Domain.Commands.ChristianCounts
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _mediator.Send(
-                    new Data.Commands.ChristianCounts.DeleteChristianCount.Command(request.Id),
+                    new Data.Commands.Censuses.DeleteCensus.Command(request.Id),
                     cancellationToken);
 
                 return DeleteResponse.ForSuccess();
