@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { eventItems, paymentItems } from '../../helpers/detailsHelpers';
+import { censusItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -83,6 +83,14 @@ const Details = ({
                     showAddLink={canAddEvents}
                     addParams={`?congregationId=${details.congregation.id}`}
                 />
+                <DetailsList
+                    altTitle={`Number of Christians: ${details.congregation.numberOfChristians?.toString() ?? 'Not counted'}`}
+                    itemType="census"
+                    baseItemType="congregation"
+                    items={censusItems(details.censusResults, true)}
+                    showAddLink
+                    addParams={`?congregationId=${details.congregation.id}`}
+                />
                 {
                     canEditTransactions &&
                     <DetailsList
@@ -95,10 +103,6 @@ const Details = ({
                         addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }
-                <DetailsBox
-                    itemValue={details.congregation.numberOfChristians?.toString() ?? 'not counted'}
-                    itemType="numberOfChristians"
-                />
             </div>
         </>;
 }

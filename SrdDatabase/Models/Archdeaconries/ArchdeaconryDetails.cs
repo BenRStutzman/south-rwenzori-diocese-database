@@ -1,4 +1,5 @@
-﻿using SrdDatabase.Models.Charges;
+﻿using SrdDatabase.Models.Censuses;
+using SrdDatabase.Models.Charges;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
@@ -20,13 +21,16 @@ namespace SrdDatabase.Models.Archdeaconries
 
         public ChargeResults ChargeResults { get; }
 
+        public CensusResults CensusResults { get; }
+
         public ArchdeaconryDetails(
             Archdeaconry archdeaconry,
             ParishResults parishResults,
             CongregationResults congregationResults,
             EventResults eventResults,
             PaymentResults paymentResults,
-            ChargeResults chargeResults)
+            ChargeResults chargeResults,
+            CensusResults censusResults)
         {
             Archdeaconry = archdeaconry;
             ParishResults = parishResults;
@@ -34,6 +38,7 @@ namespace SrdDatabase.Models.Archdeaconries
             EventResults = eventResults;
             PaymentResults = paymentResults;
             ChargeResults = chargeResults;
+            CensusResults = censusResults;
         }
     }
 

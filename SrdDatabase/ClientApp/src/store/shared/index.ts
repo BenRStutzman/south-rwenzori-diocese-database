@@ -340,7 +340,7 @@ const deleteUser = (user: User, onSuccess: () => void):
 
 const deleteCensus = (census: Census, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this christian count for ${census.congregation}?`)) {
+        if (window.confirm(`Are you sure you want to delete this census for ${census.congregation}?`)) {
             dispatch(setDeletingCensusIdAction(census.id));
 
             post<{ id: number }>('api/census/delete', { id: census.id as number })

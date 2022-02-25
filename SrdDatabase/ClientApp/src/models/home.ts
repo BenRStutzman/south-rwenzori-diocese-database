@@ -4,6 +4,7 @@ import { ParishResults } from "./parish";
 import { EventResults } from './event';
 import { ChargeResults } from "./charge";
 import { PaymentResults } from "./payment";
+import { CensusResults } from "./census";
 
 export interface DioceseDetails {
     archdeaconryResults: ArchdeaconryResults;
@@ -12,6 +13,7 @@ export interface DioceseDetails {
     eventResults: EventResults;
     paymentResults: PaymentResults;
     chargeResults: ChargeResults;
+    censusResults: CensusResults;
     numberOfChristians: number;
     balance: number;
 }

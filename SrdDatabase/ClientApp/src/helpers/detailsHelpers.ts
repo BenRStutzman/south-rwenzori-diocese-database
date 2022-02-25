@@ -6,6 +6,8 @@ import { EventResults } from '../models/event';
 import { describeEvent } from "./eventHelper";
 import { formattedDate } from "./miscellaneous";
 import { PaymentResults } from "../models/payment";
+import { CensusResults } from "../models/census";
+import { describeCensus } from "./censusHelper";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
     return archdeaconryResults.archdeaconries.map(archdeaconry => (
@@ -29,6 +31,13 @@ export function eventItems(eventResults: EventResults): DetailsListItem[] {
     return eventResults.events.map(event => ({
         id: event.id,
         displayText: `${formattedDate(event.date)}: ${describeEvent(event)}`,
+    }));
+}
+
+export function censusItems(censusResults: CensusResults, useCount: boolean = false): DetailsListItem[] {
+    return censusResults.censuses.map(census => ({
+        id: census.id,
+        displayText: `${formattedDate(census.date)}: ${describeCensus(census, useCount)}`,
     }));
 }
 

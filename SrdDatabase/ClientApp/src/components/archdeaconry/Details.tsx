@@ -9,10 +9,9 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { censusItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
-import DetailsBox from '../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -87,6 +86,14 @@ const Details = ({
                     showAddLink={canAddEvents}
                     addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
+                <DetailsList
+                    altTitle={`Number of Christians: ${details.archdeaconry.numberOfChristians}`}
+                    itemType="census"
+                    baseItemType="archdeaconry"
+                    items={censusItems(details.censusResults)}
+                    showAddLink
+                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
+                />
                 {
                     canViewBalance &&
                     <DetailsList
@@ -99,10 +106,6 @@ const Details = ({
                         addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                     />
                 }
-                <DetailsBox
-                    itemValue={details.archdeaconry.numberOfChristians?.toString()}
-                    itemType="numberOfChristians"
-                />
             </div>
         </>;
 }

@@ -1,4 +1,5 @@
-﻿import { ChargeResults } from './charge';
+﻿import { CensusResults } from './census';
+import { ChargeResults } from './charge';
 import { CongregationResults } from './congregation';
 import { EventResults } from './event';
 import { PaymentResults } from './payment';
@@ -19,6 +20,7 @@ export interface ParishDetails {
     eventResults: EventResults;
     paymentResults: PaymentResults;
     chargeResults: ChargeResults;
+    censusResults: CensusResults;
 }
 
 export interface ParishParameters extends PagedParameters {

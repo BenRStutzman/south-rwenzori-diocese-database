@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { archdeaconryItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, censusItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
@@ -31,6 +31,7 @@ const Home = ({
 
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canAddCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
     const canViewBalance = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
@@ -61,6 +62,12 @@ const Home = ({
                     items={eventItems(details.eventResults)}
                     showAddLink={canAddEvents}
                 />
+                <DetailsList
+                    altTitle={`Number of Christians: ${details.numberOfChristians}`}
+                    itemType="census"
+                    items={censusItems(details.censusResults)}
+                    showAddLink={canAddCensuses}
+                />
                 {
                     canViewBalance &&
                     <DetailsList
@@ -71,10 +78,6 @@ const Home = ({
                         showAddLink
                     />
                 }
-                <DetailsBox
-                    itemValue={details.numberOfChristians?.toString()}
-                    itemType="numberOfChristians"
-                />
             </div>
         </>
 };

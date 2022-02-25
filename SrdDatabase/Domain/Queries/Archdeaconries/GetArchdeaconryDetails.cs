@@ -8,6 +8,7 @@ using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Payments;
 using SrdDatabase.Data.Queries.Charges;
+using SrdDatabase.Data.Queries.Censuses;
 
 namespace SrdDatabase.Domain.Queries.Archdeaconries
 {
@@ -62,12 +63,18 @@ namespace SrdDatabase.Domain.Queries.Archdeaconries
                     pageSize: Constants.DetailsPageSize);
                 var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
 
+                var censusesQuery = new GetCensuses.Query(
+                    archdeaconryId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var censusesTask = _mediator.Send(censusesQuery, cancellationToken);
+
                 var archdeaconry = await archdeaconryTask;
                 var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
                 var chargeResults = await chargesTask;
+                var censusResults = await censusesTask;
 
                 return new ArchdeaconryDetails(
                     archdeaconry,
@@ -75,7 +82,8 @@ namespace SrdDatabase.Domain.Queries.Archdeaconries
                     congregationResults,
                     eventResults,
                     paymentResults,
-                    chargeResults);
+                    chargeResults,
+                    censusResults);
             }
         }
     }

@@ -8,7 +8,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
-import { canEdit } from '../../helpers/censusHelper';
+import { canEdit, describeCensus } from '../../helpers/censusHelper';
 import { formattedDate } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 
@@ -43,7 +43,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>Count of {details.census.numberOfChristians} Christians</h1>
+                <h1>{describeCensus(details.census)}</h1>
                 {
                     canEdit(details.census, currentUser) &&
                     <div className="button-group float-right">
@@ -60,6 +60,10 @@ const Details = ({
                 <DetailsBox
                     itemType="date"
                     itemValue={formattedDate(details.census.date)}
+                />
+                <DetailsBox
+                    itemType="numberOfChristians"
+                    itemValue={details.census.numberOfChristians?.toString()}
                 />
                 <DetailsBox
                     baseItemType="census"

@@ -1,4 +1,5 @@
 ﻿using SrdDatabase.Models.Archdeaconries;
+using SrdDatabase.Models.Censuses;
 using SrdDatabase.Models.Charges;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
@@ -21,6 +22,8 @@ namespace SrdDatabase.Models.Diocese
 
         public ChargeResults ChargeResults { get; }
 
+        public CensusResults CensusResults { get; }
+
         public int NumberOfChristians { get; }
 
         public int Balance { get; }
@@ -32,6 +35,7 @@ namespace SrdDatabase.Models.Diocese
             EventResults eventResults,
             PaymentResults paymentResults,
             ChargeResults chargeResults,
+            CensusResults censusResults,
             int numberOfChristians,
             int balance)
         {
@@ -41,6 +45,7 @@ namespace SrdDatabase.Models.Diocese
             EventResults = eventResults;
             PaymentResults = paymentResults;
             ChargeResults = chargeResults;
+            CensusResults = censusResults;
             NumberOfChristians = numberOfChristians;
             Balance = balance;
         }

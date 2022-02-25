@@ -2,6 +2,7 @@
 import { EventResults } from './event'
 import { PaymentResults } from './payment';
 import { ChargeResults } from './charge';
+import { CensusResults } from './census';
 
 export interface Congregation {
     id?: number;
@@ -19,6 +20,7 @@ export interface CongregationDetails {
     eventResults: EventResults;
     paymentResults: PaymentResults;
     chargeResults: ChargeResults;
+    censusResults: CensusResults;
 }
 
 export interface CongregationParameters extends PagedParameters {

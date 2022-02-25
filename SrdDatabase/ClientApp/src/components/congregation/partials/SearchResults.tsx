@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '4' : canViewBalance ? '5' : '6'}`}>
+                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -61,11 +61,19 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEdit ? '3' : canViewBalance ? '4' : '5'}`}>
+                        <th className={`col-${canEdit ? '2' : canViewBalance ? '3' : '4'}`}>
                             Parish
                             <SortButton
                                 parameters={parameters}
                                 columnName="parish"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            # of Christians
+                            <SortButton
+                                parameters={parameters}
+                                columnName="numberOfChristians"
                                 onSort={onSort}
                             />
                         </th>
@@ -90,6 +98,7 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
                             </td>
+                            <td>{congregation.numberOfChristians}</td>
                             {
                                 canViewBalance &&
                                 <td className="money-column">

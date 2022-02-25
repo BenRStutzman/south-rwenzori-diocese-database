@@ -53,11 +53,19 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '7' : canViewBalance ? '9' : '11'}`}>
+                        <th className={`col-${canEdit ? '5' : canViewBalance ? '7' : '9'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
                                 columnName="name"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            # of Christians
+                            <SortButton
+                                parameters={parameters}
+                                columnName="numberOfChristians"
                                 onSort={onSort}
                             />
                         </th>
@@ -79,6 +87,7 @@ const SearchResults = ({
                     {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.name}</td>
+                            <td>{archdeaconry.numberOfChristians}</td>
                             {
                                 canViewBalance &&
                                 <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>

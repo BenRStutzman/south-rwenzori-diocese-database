@@ -10,7 +10,7 @@ import LoadingSpinner from '../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import { canEdit } from '../../helpers/censusHelper';
+import { canEdit, describeCensus } from '../../helpers/censusHelper';
 
 type Props =
     Store.State
@@ -48,7 +48,7 @@ const Edit = ({
         censusIsCurrent && !canEdit(census, currentUser) ? <Redirect to='/' /> :
             <>
                 <div className="page-heading">
-                    <h1>Edit Christian Count at {census.congregation}</h1>
+                    <h1>Edit {describeCensus(census)}</h1>
                     <div className="float-right button-group">
                         <Link className="btn btn-secondary" to={`/census/details/${census.id}`}>
                             View details

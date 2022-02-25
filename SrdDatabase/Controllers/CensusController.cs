@@ -64,7 +64,7 @@ namespace SrdDatabase.Controllers
 
             if (!canEdit)
             {
-                return Unauthorized("You can only edit christian counts that you created.");
+                return Unauthorized("You can only edit censuses that you created.");
             }
 
             command.SetUserId(CurrentUser.Id);
@@ -80,7 +80,7 @@ namespace SrdDatabase.Controllers
 
             if (!canEdit)
             {
-                return Unauthorized("You can only delete christian counts that you created.");
+                return Unauthorized("You can only delete censuses that you created.");
             }
 
             var response = await _mediator.Send(command);
@@ -89,7 +89,7 @@ namespace SrdDatabase.Controllers
 
         private async Task<bool> CanEdit(int censusId)
         {
-            // Only allow contributors to edit christian counts they created
+            // Only allow contributors to edit censuses they created
             if (CurrentUser.UserType == UserRole.Contributor)
             {
                 var census = await _mediator.Send(new GetCensusById.Query(censusId));

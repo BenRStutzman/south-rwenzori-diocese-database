@@ -35,7 +35,7 @@ const Add = ({
 
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1>Add Christian Count</h1>
+            <h1>Add Census</h1>
             <SaveForm isNew />
         </>;
 }

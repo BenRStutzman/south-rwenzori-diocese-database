@@ -4,6 +4,7 @@ import { PagedParameters, PagedResults } from "./shared";
 import { EventResults } from './event';
 import { PaymentResults } from "./payment";
 import { ChargeResults } from "./charge";
+import { CensusResults } from "./census";
 
 export interface Archdeaconry {
     id?: number;
@@ -19,6 +20,7 @@ export interface ArchdeaconryDetails {
     eventResults: EventResults;
     paymentResults: PaymentResults;
     chargeResults: ChargeResults;
+    censusResults: CensusResults;
 }
 
 export interface ArchdeaconryParameters extends PagedParameters {

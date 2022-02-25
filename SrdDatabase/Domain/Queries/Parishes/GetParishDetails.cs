@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries.Censuses;
 using SrdDatabase.Data.Queries.Charges;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Events;
@@ -56,18 +57,25 @@ namespace SrdDatabase.Domain.Queries.Parishes
                     pageSize: Constants.DetailsPageSize);
                 var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
 
+                var censusesQuery = new GetCensuses.Query(
+                    parishId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var censusesTask = _mediator.Send(censusesQuery, cancellationToken);
+
                 var parish = await parishTask;
                 var congregationResults = await congregationsTask;
                 var eventsResults = await eventsTask;
                 var paymentResults = await paymentsTask;
                 var chargeResults = await chargesTask;
+                var censusResults = await censusesTask;
 
                 return new ParishDetails(
                     parish,
                     congregationResults,
                     eventsResults,
                     paymentResults,
-                    chargeResults);
+                    chargeResults,
+                    censusResults);
             }
         }
     }
