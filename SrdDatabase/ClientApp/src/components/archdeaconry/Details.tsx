@@ -64,46 +64,46 @@ const Details = ({
             <div className="details-boxes">
                 <DetailsList
                     itemType="parish"
-                    baseItemType="archdeaconry"
                     itemTotal={details.parishResults.totalResults}
                     items={parishItems(details.parishResults)}
+                    baseItemType="archdeaconry"
+                    baseItemId={details.archdeaconry.id}
                     showAddLink={canEdit}
-                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
                 <DetailsList
                     itemType="congregation"
-                    baseItemType="archdeaconry"
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
+                    baseItemType="archdeaconry"
+                    baseItemId={details.archdeaconry.id}
                     showAddLink={canEdit}
-                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
                 <DetailsList
-                    baseItemType="archdeaconry"
                     itemType="event"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
+                    baseItemType="archdeaconry"
+                    baseItemId={details.archdeaconry.id}
                     showAddLink={canAddEvents}
-                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
                 <DetailsList
-                    altTitle={`Number of Christians: ${details.archdeaconry.numberOfChristians}`}
                     itemType="census"
-                    baseItemType="archdeaconry"
+                    altTitle={`Number of Christians: ${details.archdeaconry.numberOfChristians}`}
                     items={censusItems(details.censusResults)}
+                    baseItemType="archdeaconry"
+                    baseItemId={details.archdeaconry.id}
                     showAddLink
-                    addParams={`?archdeaconryId=${details.archdeaconry.id}`}
                 />
                 {
                     canViewBalance &&
                     <DetailsList
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
                         itemType="payment"
-                        baseItemType="archdeaconry"
-                        secondType="charge"
+                        altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
                         items={paymentItems(details.paymentResults)}
+                        baseItemType="archdeaconry"
+                        baseItemId={details.archdeaconry.id}
                         showAddLink
-                        addParams={`?archdeaconryId=${details.archdeaconry.id}`}
+                        secondType="charge"
                     />
                 }
             </div>

@@ -77,30 +77,30 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="event"
-                    baseItemType="congregation"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
+                    baseItemType="congregation"
+                    baseItemId={details.congregation.id}
                     showAddLink={canAddEvents}
-                    addParams={`?congregationId=${details.congregation.id}`}
                 />
                 <DetailsList
-                    altTitle={`Number of Christians: ${details.congregation.numberOfChristians?.toString() ?? 'Not counted'}`}
                     itemType="census"
-                    baseItemType="congregation"
+                    altTitle={`Number of Christians: ${details.congregation.numberOfChristians?.toString() ?? 'Not counted'}`}
                     items={censusItems(details.censusResults, true)}
+                    baseItemType="congregation"
+                    baseItemId={details.congregation.id}
                     showAddLink
-                    addParams={`?congregationId=${details.congregation.id}`}
                 />
                 {
                     canEditTransactions &&
                     <DetailsList
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         itemType="payment"
-                        baseItemType="congregation"
-                        secondType="charge"
+                        altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
                         items={paymentItems(details.paymentResults)}
+                        baseItemType="congregation"
+                        baseItemId={details.congregation.id}
+                        secondType="charge"
                         showAddLink
-                        addParams={`?congregationId=${details.congregation.id}`}
                     />
                 }
             </div>

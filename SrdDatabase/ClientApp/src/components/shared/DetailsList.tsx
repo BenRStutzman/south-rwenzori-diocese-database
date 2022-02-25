@@ -7,10 +7,10 @@ import { camelCaseToTitleCase } from '../../helpers/miscellaneous';
 interface Props {
     itemType: string;
     baseItemType?: string;
+    baseItemId?: number;
     itemTotal?: number;
     items: DetailsListItem[];
     showAddLink?: boolean;
-    addParams?: string;
     altTitle?: string;
     secondType?: string;
 }
@@ -18,50 +18,56 @@ interface Props {
 const DetailsList = ({
     itemType,
     baseItemType,
+    baseItemId,
     itemTotal,
     items,
     showAddLink,
-    addParams,
     altTitle,
     secondType,
-}: Props) =>
-    <div className="details-box">
-        <div>
-            <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
-            <ul>
-                {items.map(item =>
-                    <li key={item.altKey ?? item.id}>
-                        <Link to={`/${item.altType ?? itemType}/details/${item.id}`}>
-                            {item.displayText}
-                        </Link>
-                    </li>
-                )}
-                {
-                    itemTotal !== undefined &&
-                    itemTotal > items.length &&
-                    <li>... and {itemTotal - items.length} more</li>
-                }
-            </ul>
-        </div>
-        <div>
+}: Props) => {
+
+    const addParams = baseItemType && baseItemId ? `?${baseItemType}Id=${baseItemId}` : undefined;
+
+    return (
+        <div className="details-box">
             <div>
-                <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
-                {
-                    showAddLink &&
-                    <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
-                }
+                <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
+                <ul>
+                    {items.map(item =>
+                        <li key={item.altKey ?? item.id}>
+                            <Link to={`/${item.altType ?? itemType}/details/${item.id}`}>
+                                {item.displayText}
+                            </Link>
+                        </li>
+                    )}
+                    {
+                        itemTotal !== undefined &&
+                        itemTotal > items.length &&
+                        <li>... and {itemTotal - items.length} more</li>
+                    }
+                </ul>
             </div>
-            {
-                secondType &&
+            <div>
                 <div>
-                    <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
+                    <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
                     {
                         showAddLink &&
-                        <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>
+                        <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
                     }
                 </div>
-            }
+                {
+                    secondType &&
+                    <div>
+                        <Link to={`/${secondType}${addParams ?? ''}`}>View all {plural(secondType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
+                        {
+                            showAddLink &&
+                            <Link className="float-right" to={`/${secondType}/add${addParams ?? ''}`}>Add {secondType}</Link>
+                        }
+                    </div>
+                }
+            </div>
         </div>
-    </div>;
+    );
+}
 
 export default DetailsList;

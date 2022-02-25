@@ -71,38 +71,38 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="congregation"
-                    baseItemType="parish"
                     itemTotal={details.congregationResults.totalResults}
                     items={congregationItems(details.congregationResults)}
+                    baseItemType="parish"
+                    baseItemId={details.parish.id}
                     showAddLink={canEdit}
-                    addParams={`?parishId=${details.parish.id}`}
                 />
                 <DetailsList
                     itemType="event"
-                    baseItemType="parish"
                     itemTotal={details.eventResults.totalResults}
                     items={eventItems(details.eventResults)}
+                    baseItemType="parish"
+                    baseItemId={details.parish.id }
                     showAddLink={canAddEvents}
-                    addParams={`?parishId=${details.parish.id}`}
                 />
                 <DetailsList
-                    altTitle={`Number of Christians: ${details.parish.numberOfChristians}`}
                     itemType="census"
-                    baseItemType="parish"
+                    altTitle={`Number of Christians: ${details.parish.numberOfChristians}`}
                     items={censusItems(details.censusResults)}
+                    baseItemType="parish"
+                    baseItemId={details.parish.id}
                     showAddLink
-                    addParams={`?parishId=${details.parish.id}`}
                 />
                 {
                     canViewBalance &&
                     <DetailsList
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
                         itemType="payment"
-                        baseItemType="parish"
-                        secondType="charge"
+                        altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
                         items={paymentItems(details.paymentResults)}
+                        baseItemType="parish"
+                        baseItemId={details.parish.id}
                         showAddLink
-                        addParams={`?parishId=${details.parish.id}`}
+                        secondType="charge"
                     />
                 }
             </div>

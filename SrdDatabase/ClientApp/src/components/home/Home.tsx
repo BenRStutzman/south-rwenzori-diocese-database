@@ -8,7 +8,6 @@ import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
-import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
@@ -63,19 +62,19 @@ const Home = ({
                     showAddLink={canAddEvents}
                 />
                 <DetailsList
-                    altTitle={`Number of Christians: ${details.numberOfChristians}`}
                     itemType="census"
+                    altTitle={`Number of Christians: ${details.numberOfChristians}`}
                     items={censusItems(details.censusResults)}
                     showAddLink={canAddCensuses}
                 />
                 {
                     canViewBalance &&
                     <DetailsList
-                        altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
                         itemType="payment"
-                        secondType="charge"
+                        altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
                         items={paymentItems(details.paymentResults)}
                         showAddLink
+                        secondType="charge"
                     />
                 }
             </div>
