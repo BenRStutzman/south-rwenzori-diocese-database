@@ -9,11 +9,11 @@ namespace SrdDatabase.Data.Queries.Diocese
 {
     public class GetDioceseNumberOfChristians
     {
-        public class Query : IRequest<int>
+        public class Query : IRequest<int?>
         {
         }
 
-        public class Handler : IRequestHandler<Query, int>
+        public class Handler : IRequestHandler<Query, int?>
         {
             private readonly IDbService _dbService;
             private readonly string _storedProcedure = "sto_get_diocese_number_of_christians";
@@ -23,11 +23,11 @@ namespace SrdDatabase.Data.Queries.Diocese
                 _dbService = dbService;
             }
 
-            public async Task<int> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<int?> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
-                return await connection.QuerySingleAsync<int>(
+                return await connection.QuerySingleAsync<int?>(
                     _storedProcedure,
                     commandType: CommandType.StoredProcedure);
             }

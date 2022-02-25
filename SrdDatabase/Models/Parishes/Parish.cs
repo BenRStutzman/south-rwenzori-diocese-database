@@ -10,7 +10,7 @@
 
         public string Archdeaconry { get; }
 
-        public int NumberOfChristians { get; }
+        public int? NumberOfChristians { get; }
 
         public int Balance { get; }
         
@@ -19,7 +19,7 @@
             string name,
             int archdeaconryId,
             string archdeaconry,
-            int numberOfChristians,
+            int? numberOfChristians,
             int balance)
         {
             Id = id;

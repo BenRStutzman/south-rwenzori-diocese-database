@@ -14,6 +14,6 @@ export interface DioceseDetails {
     paymentResults: PaymentResults;
     chargeResults: ChargeResults;
     censusResults: CensusResults;
-    numberOfChristians: number;
+    numberOfChristians?: number;
     balance: number;
 }

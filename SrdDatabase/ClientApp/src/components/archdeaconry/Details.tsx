@@ -12,6 +12,7 @@ import DetailsList from '../shared/DetailsList';
 import { censusItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
+import { stringNumberOfChristians } from '../../helpers/censusHelper';
 
 type Props =
     Store.State &
@@ -88,7 +89,7 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="census"
-                    altTitle={`Number of Christians: ${details.archdeaconry.numberOfChristians}`}
+                    altTitle={`Number of Christians: ${stringNumberOfChristians(details.archdeaconry.numberOfChristians)}`}
                     items={censusItems(details.censusResults)}
                     baseItemType="archdeaconry"
                     baseItemId={details.archdeaconry.id}

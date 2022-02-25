@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux';
 import { censusItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
+import { stringNumberOfChristians } from '../../helpers/censusHelper';
 
 type Props =
     Store.State &
@@ -85,7 +86,7 @@ const Details = ({
                 />
                 <DetailsList
                     itemType="census"
-                    altTitle={`Number of Christians: ${details.congregation.numberOfChristians?.toString() ?? 'Not counted'}`}
+                    altTitle={`Number of Christians: ${stringNumberOfChristians(details.congregation.numberOfChristians)}`}
                     items={censusItems(details.censusResults, true)}
                     baseItemType="congregation"
                     baseItemId={details.congregation.id}

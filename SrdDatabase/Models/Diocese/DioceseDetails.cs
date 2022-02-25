@@ -24,7 +24,7 @@ namespace SrdDatabase.Models.Diocese
 
         public CensusResults CensusResults { get; }
 
-        public int NumberOfChristians { get; }
+        public int? NumberOfChristians { get; }
 
         public int Balance { get; }
 
@@ -36,7 +36,7 @@ namespace SrdDatabase.Models.Diocese
             PaymentResults paymentResults,
             ChargeResults chargeResults,
             CensusResults censusResults,
-            int numberOfChristians,
+            int? numberOfChristians,
             int balance)
         {
             ArchdeaconryResults = archdeaconryResults;

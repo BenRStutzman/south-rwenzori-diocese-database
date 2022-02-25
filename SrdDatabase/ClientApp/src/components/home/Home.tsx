@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { stringNumberOfChristians } from '../../helpers/censusHelper';
 import { archdeaconryItems, censusItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
@@ -63,7 +64,7 @@ const Home = ({
                 />
                 <DetailsList
                     itemType="census"
-                    altTitle={`Number of Christians: ${details.numberOfChristians}`}
+                    altTitle={`Number of Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
                     items={censusItems(details.censusResults)}
                     showAddLink={canAddCensuses}
                 />

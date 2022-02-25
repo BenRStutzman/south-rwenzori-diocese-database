@@ -14,3 +14,7 @@ export function canEdit(census: Census, currentUser: CurrentUser | undefined) {
             (atLeast.contributor.includes(currentUser.userType)
                 && currentUser.id === census.createdBy))
 }
+
+export function stringNumberOfChristians(numberOfChristians?: number) {
+    return numberOfChristians?.toString() ?? 'Not counted';
+}

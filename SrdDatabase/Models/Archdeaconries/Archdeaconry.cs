@@ -6,14 +6,14 @@
 
         public string Name { get;  }
 
-        public int NumberOfChristians { get; }
+        public int? NumberOfChristians { get; }
 
         public int Balance { get; }
         
         public Archdeaconry(
             int id,
             string name,
-            int numberOfChristians,
+            int? numberOfChristians,
             int balance)
         {
             Id = id;
