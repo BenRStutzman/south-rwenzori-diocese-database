@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '3' : canViewTransactions ? '4' : '5'}`}>
+                        <th className={`col-${canEdit ? '2' : canViewTransactions ? '3' : '5'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -61,7 +61,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEdit ? '2' : canViewTransactions ? '3' : '4'}`}>
+                        <th className={`col-${canEdit ? '2' : canViewTransactions ? '2' : '4'}`}>
                             Parish
                             <SortButton
                                 parameters={parameters}
@@ -70,7 +70,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            # of Christians
+                            Christians
                             <SortButton
                                 parameters={parameters}
                                 columnName="numberOfChristians"
@@ -79,16 +79,26 @@ const SearchResults = ({
                         </th>
                         {
                             canViewTransactions &&
-                            <th className='col-2'>
-                                Balance (UGX)
-                                <SortButton
-                                    parameters={parameters}
-                                    columnName="balance"
-                                    onSort={onSort}
-                                />
-                            </th>
+                            <>
+                                <th className='col-2'>
+                                    2022 Quota
+                                    <SortButton
+                                        parameters={parameters}
+                                        columnName="quota"
+                                        onSort={onSort}
+                                    />
+                                </th>
+                                <th className='col-2'>
+                                    Balance
+                                    <SortButton
+                                        parameters={parameters}
+                                        columnName="balance"
+                                        onSort={onSort}
+                                    />
+                                </th>
+                            </>
                         }
-                        <th className={`col-${canEdit ? '3' : '1'}`}></th>
+                        <th className={`col-${canEdit ? '2' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
@@ -101,9 +111,12 @@ const SearchResults = ({
                             <td>{congregation.numberOfChristians}</td>
                             {
                                 canViewTransactions &&
-                                <td className="money-column">
-                                    {parenthesizeIfNegative(congregation.balance as number)}
-                                </td>
+                                <>
+                                    <td className="money-column">{congregation.quota}</td>
+                                    <td className="money-column">
+                                        {parenthesizeIfNegative(congregation.balance as number)}
+                                    </td>
+                                </>
                             }
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>

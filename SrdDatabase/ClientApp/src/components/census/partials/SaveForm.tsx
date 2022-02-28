@@ -155,7 +155,7 @@ const SaveForm = ({
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="numberOfChristians">Number of Christians</label>
+                <label htmlFor="numberOfChristians">Christians</label>
                 <input
                     id="numberOfChristians"
                     className="form-control"

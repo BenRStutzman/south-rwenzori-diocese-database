@@ -81,7 +81,7 @@ const Home = ({
                 }
                 <DetailsList
                     itemType="census"
-                    altTitle={`Number of Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
+                    altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
                     items={censusItems(details.censusResults)}
                     showAddLink={canAddCensuses}
                 />

@@ -62,7 +62,7 @@ const Details = ({
                     itemValue={formattedDate(details.census.date)}
                 />
                 <DetailsBox
-                    itemType="numberOfChristians"
+                    itemType="christians"
                     itemValue={details.census.numberOfChristians?.toString()}
                 />
                 <DetailsBox

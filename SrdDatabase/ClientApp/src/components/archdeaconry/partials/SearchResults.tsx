@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '5' : canViewTransactions ? '7' : '9'}`}>
+                        <th className={`col-${canEdit ? '4' : canViewTransactions ? '5' : '9'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -62,7 +62,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            # of Christians
+                            Christians
                             <SortButton
                                 parameters={parameters}
                                 columnName="numberOfChristians"
@@ -71,16 +71,26 @@ const SearchResults = ({
                         </th>
                         {
                             canViewTransactions &&
-                            <th className="col-2">
-                                Balance (UGX)
-                                <SortButton
-                                    parameters={parameters}
-                                    columnName="balance"
-                                    onSort={onSort}
-                                />
-                            </th>
+                            <>
+                                <th className='col-2'>
+                                    2022 Quota
+                                    <SortButton
+                                        parameters={parameters}
+                                        columnName="quota"
+                                        onSort={onSort}
+                                    />
+                                </th>
+                                <th className='col-2'>
+                                    Balance
+                                    <SortButton
+                                        parameters={parameters}
+                                        columnName="balance"
+                                        onSort={onSort}
+                                    />
+                                </th>
+                            </>
                         }
-                        <th className={`col-${canEdit ? '3' : '1'}`}></th>
+                        <th className={`col-${canEdit ? '2' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
@@ -90,7 +100,10 @@ const SearchResults = ({
                             <td>{archdeaconry.numberOfChristians}</td>
                             {
                                 canViewTransactions &&
-                                <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
+                                <>
+                                    <td className="money-column">{archdeaconry.quota}</td>
+                                    <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
+                                </>
                             }
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>

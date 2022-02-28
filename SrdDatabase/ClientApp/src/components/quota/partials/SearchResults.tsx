@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Quota } from '../../../models/quota';
-import * as Store from '.../../../store/quota/home;
+import * as Store from '../../../store/quota/home';
 import * as SharedStore from '../../../store/shared';
 import { State } from '../../../store';
 import { connect } from 'react-redux';

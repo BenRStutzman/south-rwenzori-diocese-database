@@ -109,7 +109,7 @@ const Details = ({
                 }
                 <DetailsList
                     itemType="census"
-                    altTitle={`Number of Christians: ${stringNumberOfChristians(details.parish.numberOfChristians)}`}
+                    altTitle={`Christians: ${stringNumberOfChristians(details.parish.numberOfChristians)}`}
                     items={censusItems(details.censusResults)}
                     baseItemType="parish"
                     baseItemId={details.parish.id}
