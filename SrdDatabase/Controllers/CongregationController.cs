@@ -8,6 +8,9 @@ using SrdDatabase.Models.Users;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Commands.Congregations;
+using System.Globalization;
+using System.IO;
+using CsvHelper;
 
 namespace SrdDatabase.Controllers
 {
@@ -70,6 +73,15 @@ namespace SrdDatabase.Controllers
             var response = await _mediator.Send(command);
 
             return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
+        }
+
+        [HttpGet("report")]
+        public async Task<IActionResult> Report()
+        {
+            //TODO: get a report instead of just a list of congregations
+            var congregations = await _mediator.Send(new GetAllCongregations.Query());
+
+            return ToCsv(congregations);
         }
     }
 }
