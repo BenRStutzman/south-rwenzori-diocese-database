@@ -1,6 +1,6 @@
 ﻿using SrdDatabase.Models.Archdeaconries;
 using SrdDatabase.Models.Censuses;
-using SrdDatabase.Models.Charges;
+using SrdDatabase.Models.Quotas;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
@@ -20,7 +20,7 @@ namespace SrdDatabase.Models.Diocese
 
         public PaymentResults PaymentResults { get; }
 
-        public ChargeResults ChargeResults { get; }
+        public QuotaResults QuotaResults { get; }
 
         public CensusResults CensusResults { get; }
 
@@ -36,7 +36,7 @@ namespace SrdDatabase.Models.Diocese
             CongregationResults congregationResults,
             EventResults eventResults,
             PaymentResults paymentResults,
-            ChargeResults chargeResults,
+            QuotaResults quotaResults,
             CensusResults censusResults,
             int? numberOfChristians,
             int quota,
@@ -47,7 +47,7 @@ namespace SrdDatabase.Models.Diocese
             CongregationResults = congregationResults;
             EventResults = eventResults;
             PaymentResults = paymentResults;
-            ChargeResults = chargeResults;
+            QuotaResults = quotaResults;
             CensusResults = censusResults;
             NumberOfChristians = numberOfChristians;
             Quota = quota;
@@ -60,7 +60,7 @@ namespace SrdDatabase.Models.Diocese
             CongregationResults congregationResults,
             EventResults eventResults,
             PaymentResults paymentResults,
-            ChargeResults chargeResults,
+            QuotaResults quotaResults,
             CensusResults censusResults,
             DioceseDetails dioceseDetails
         ) : this(
@@ -69,7 +69,7 @@ namespace SrdDatabase.Models.Diocese
             congregationResults,
             eventResults,
             paymentResults,
-            chargeResults,
+            quotaResults,
             censusResults,
             dioceseDetails.NumberOfChristians,
             dioceseDetails.Quota,

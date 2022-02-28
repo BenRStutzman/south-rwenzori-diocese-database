@@ -3,7 +3,7 @@ import { Action, AppThunkAction } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { getUser } from '../../helpers/userHelper';
 import { Archdeaconry, ArchdeaconryResults } from '../../models/archdeaconry';
-import { Charge } from '../../models/charge';
+import { Quota } from '../../models/quota';
 import { Census } from '../../models/census';
 import { Congregation, CongregationParameters, CongregationResults } from '../../models/congregation';
 import { Event, EventType } from '../../models/event';
@@ -29,7 +29,7 @@ const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
 const SET_DELETING_EVENT_ID = 'SET_DELETING_EVENT_ID';
 const SET_DELETING_CENSUS_ID = 'SET_DELETING_CENSUS_ID';
 const SET_DELETING_PAYMENT_ID = 'SET_DELETING_PAYMENT_ID';
-const SET_DELETING_CHARGE_ID = 'SET_DELETING_CHARGE_ID';
+const SET_DELETING_QUOTA_ID = 'SET_DELETING_QUOTA_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
 
 const loginAction = (user: CurrentUser) => ({
@@ -111,9 +111,9 @@ const setDeletingPaymentIdAction = (paymentId?: number, isDeleting: boolean = tr
     value: { paymentId, isDeleting },
 });
 
-const setDeletingChargeIdAction = (chargeId?: number, isDeleting: boolean = true) => ({
-    type: SET_DELETING_CHARGE_ID,
-    value: { chargeId, isDeleting },
+const setDeletingQuotaIdAction = (quotaId?: number, isDeleting: boolean = true) => ({
+    type: SET_DELETING_QUOTA_ID,
+    value: { quotaId, isDeleting },
 });
 
 const setDeletingUserIdAction = (userId?: number, isDeleting: boolean = true) => ({
@@ -296,12 +296,12 @@ const deletePayment = (payment: Payment, onSuccess: () => void):
         }
     };
 
-const deleteCharge = (charge: Charge, onSuccess: () => void):
+const deleteQuota = (quota: Quota, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this charge to ${charge.congregation}?`)) {
-            dispatch(setDeletingChargeIdAction(charge.id));
+        if (window.confirm(`Are you sure you want to delete this quota to ${quota.congregation}?`)) {
+            dispatch(setDeletingQuotaIdAction(quota.id));
 
-            post<{ id: number }>('api/charge/delete', { id: charge.id as number })
+            post<{ id: number }>('api/quota/delete', { id: quota.id as number })
                 .then(response => {
                     if (response.ok) {
                         onSuccess();
@@ -310,7 +310,7 @@ const deleteCharge = (charge: Charge, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingChargeIdAction(charge.id, false));
+                        dispatch(setDeletingQuotaIdAction(quota.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -372,7 +372,7 @@ export const actionCreators = {
     deleteCongregation,
     deleteEvent,
     deletePayment,
-    deleteCharge,
+    deleteQuota,
     deleteUser,
     deleteCensus,
 };
@@ -394,7 +394,7 @@ export interface State {
     deletingCongregationIds: number[];
     deletingEventIds: number[];
     deletingPaymentIds: number[];
-    deletingChargeIds: number[];
+    deletingQuotaIds: number[];
     deletingUserIds: number[];
     deletingCensusIds: number[];
 }
@@ -415,7 +415,7 @@ const initialState: State = {
     deletingParishIds: [],
     deletingCongregationIds: [],
     deletingEventIds: [],
-    deletingChargeIds: [],
+    deletingQuotaIds: [],
     deletingPaymentIds: [],
     deletingUserIds: [],
     deletingCensusIds: [],
@@ -523,12 +523,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     ? [...state.deletingPaymentIds, action.value.paymentId]
                     : state.deletingPaymentIds.filter(id => id != action.value.paymentId),
             };
-        case SET_DELETING_CHARGE_ID:
+        case SET_DELETING_QUOTA_ID:
             return {
                 ...state,
-                deletingChargeIds: action.value.isDeleting
-                    ? [...state.deletingChargeIds, action.value.chargeId]
-                    : state.deletingChargeIds.filter(id => id != action.value.chargeId),
+                deletingQuotaIds: action.value.isDeleting
+                    ? [...state.deletingQuotaIds, action.value.quotaId]
+                    : state.deletingQuotaIds.filter(id => id != action.value.quotaId),
             };
         case SET_DELETING_USER_ID:
             return {

@@ -1,5 +1,5 @@
 ﻿using SrdDatabase.Models.Censuses;
-using SrdDatabase.Models.Charges;
+using SrdDatabase.Models.Quotas;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Payments;
 
@@ -13,7 +13,7 @@ namespace SrdDatabase.Models.Congregations
 
         public PaymentResults PaymentResults { get; }
 
-        public ChargeResults ChargeResults { get; }
+        public QuotaResults QuotaResults { get; }
 
         public CensusResults CensusResults { get; }
 
@@ -21,13 +21,13 @@ namespace SrdDatabase.Models.Congregations
             Congregation congregation,
             EventResults eventResults,
             PaymentResults transactionResults,
-            ChargeResults chargeResults,
+            QuotaResults quotaResults,
             CensusResults censusResults)
         {
             Congregation = congregation;
             EventResults = eventResults;
             PaymentResults = transactionResults;
-            ChargeResults = chargeResults;
+            QuotaResults = quotaResults;
             CensusResults = censusResults;
         }
     }

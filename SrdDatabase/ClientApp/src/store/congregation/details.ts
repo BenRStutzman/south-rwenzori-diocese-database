@@ -40,7 +40,7 @@ const initialState: State = {
         congregation: {},
         eventResults: { ...pagedResultsDefaults, events: [] },
         paymentResults: { ...pagedResultsDefaults, payments: [] },
-        chargeResults: { ...pagedResultsDefaults, charges: [] },
+        quotaResults: { ...pagedResultsDefaults, quotas: [] },
         censusResults: { ...pagedResultsDefaults, censuses: [] },
     },
 };

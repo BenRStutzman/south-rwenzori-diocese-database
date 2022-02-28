@@ -2,7 +2,7 @@
 import { CongregationResults } from "./congregation";
 import { ParishResults } from "./parish";
 import { EventResults } from './event';
-import { ChargeResults } from "./charge";
+import { QuotaResults } from "./quota";
 import { PaymentResults } from "./payment";
 import { CensusResults } from "./census";
 
@@ -12,7 +12,7 @@ export interface DioceseDetails {
     congregationResults: CongregationResults;
     eventResults: EventResults;
     paymentResults: PaymentResults;
-    chargeResults: ChargeResults;
+    quotaResults: QuotaResults;
     censusResults: CensusResults;
     numberOfChristians?: number;
     quota: number;

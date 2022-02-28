@@ -8,8 +8,8 @@ import { formattedDate } from "./miscellaneous";
 import { PaymentResults } from "../models/payment";
 import { CensusResults } from "../models/census";
 import { describeCensus } from "./censusHelper";
-import { ChargeResults } from "../models/charge";
-import { describeCharge, formattedDates } from "./chargeHelper";
+import { QuotaResults } from "../models/quota";
+import { describeQuota, formattedDates } from "./quotaHelper";
 import { describePayment } from "./paymentHelper";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
@@ -51,9 +51,9 @@ export function paymentItems(paymentResults: PaymentResults, useAmount: boolean 
     }));
 }
 
-export function chargeItems(chargeResults: ChargeResults, useAmount: boolean = false): DetailsListItem[] {
-    return chargeResults.charges.map(charge => ({
-        id: charge.id,
-        displayText: `${formattedDates(charge)}: ${describeCharge(charge, useAmount)}`,
+export function quotaItems(quotaResults: QuotaResults, useAmount: boolean = false): DetailsListItem[] {
+    return quotaResults.quotas.map(quota => ({
+        id: quota.id,
+        displayText: `${formattedDates(quota)}: ${describeQuota(quota, useAmount)}`,
     }));
 }

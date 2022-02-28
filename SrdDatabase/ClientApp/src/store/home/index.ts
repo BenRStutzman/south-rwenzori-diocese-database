@@ -42,7 +42,7 @@ const initialState: State = {
         congregationResults: { ...pagedResultsDefaults, congregations: [] },
         eventResults: { ...pagedResultsDefaults, events: [] },
         paymentResults: { ...pagedResultsDefaults, payments: [] },
-        chargeResults: { ...pagedResultsDefaults, charges: [] },
+        quotaResults: { ...pagedResultsDefaults, quotas: [] },
         censusResults: { ...pagedResultsDefaults, censuses: [] },
         numberOfChristians: 0,
         quota: 0,

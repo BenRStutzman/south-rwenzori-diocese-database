@@ -6,7 +6,7 @@ import * as Parish from './parish';
 import * as Congregation from './congregation';
 import * as Event from './event';
 import * as Payment from './payment';
-import * as Charge from './charge';
+import * as Quota from './quota';
 import * as Census from './census';
 import * as Shared from './shared';
 
@@ -28,7 +28,7 @@ export interface State {
     congregation: Congregation.State;
     event: Event.State;
     payment: Payment.State;
-    charge: Charge.State;
+    quota: Quota.State;
     census: Census.State;
     shared: Shared.State;
 }
@@ -42,7 +42,7 @@ export const reducers = {
     congregation: Congregation.reducer,
     event: Event.reducer,
     payment: Payment.reducer,
-    charge: Charge.reducer,
+    quota: Quota.reducer,
     census: Census.reducer,
     shared: Shared.reducer,
 };

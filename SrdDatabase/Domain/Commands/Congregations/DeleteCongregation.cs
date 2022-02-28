@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries.Charges;
+using SrdDatabase.Data.Queries.Quotas;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Payments;
 using SrdDatabase.Models.Shared;
@@ -39,16 +39,16 @@ namespace SrdDatabase.Domain.Commands.Congregations
                 var paymentsQuery = new GetPayments.Query(congregationId: request.Id);
                 var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
                 
-                var chargesQuery = new GetCharges.Query(congregationId: request.Id);
-                var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
+                var quotasQuery = new GetQuota.Query(congregationId: request.Id);
+                var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
                 var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
-                var chargeResults = await chargesTask;
+                var quotaResults = await quotasTask;
 
                 var associatedItems = eventResults.TotalResults > 0 ? "events"
                     : paymentResults.TotalResults > 0 ? "payments"
-                    : chargeResults.TotalResults > 0 ? "charges"
+                    : quotaResults.TotalResults > 0 ? "quotas"
                     : null;
 
                 if (!string.IsNullOrEmpty(associatedItems))

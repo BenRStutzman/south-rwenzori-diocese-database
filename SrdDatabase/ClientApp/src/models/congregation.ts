@@ -1,7 +1,7 @@
 ﻿import { PagedParameters, PagedResults } from './shared';
 import { EventResults } from './event'
 import { PaymentResults } from './payment';
-import { ChargeResults } from './charge';
+import { QuotaResults } from './quota';
 import { CensusResults } from './census';
 
 export interface Congregation {
@@ -20,7 +20,7 @@ export interface CongregationDetails {
     congregation: Congregation;
     eventResults: EventResults;
     paymentResults: PaymentResults;
-    chargeResults: ChargeResults;
+    quotaResults: QuotaResults;
     censusResults: CensusResults;
 }
 

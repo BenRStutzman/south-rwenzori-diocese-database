@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { censusItems, chargeItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
@@ -91,9 +91,9 @@ const Details = ({
                     canViewTransactions &&
                     <>
                         <DetailsList
-                            itemType="charge"
+                            itemType="quota"
                             altTitle={`${new Date().getFullYear()} Quota: ${details.archdeaconry.quota} UGX`}
-                            items={chargeItems(details.chargeResults)}
+                            items={quotaItems(details.quotaResults)}
                             baseItemType="archdeaconry"
                             baseItemId={details.archdeaconry.id}
                             showAddLink

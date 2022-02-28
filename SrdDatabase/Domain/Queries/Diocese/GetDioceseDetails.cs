@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries.Archdeaconries;
 using SrdDatabase.Data.Queries.Censuses;
-using SrdDatabase.Data.Queries.Charges;
+using SrdDatabase.Data.Queries.Quotas;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Parishes;
@@ -44,8 +44,8 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var paymentsQuery = new GetPayments.Query(pageSize: Constants.DetailsPageSize);
                 var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
 
-                var chargesQuery = new GetCharges.Query(pageSize: Constants.DetailsPageSize);
-                var chargesTask = _mediator.Send(chargesQuery, cancellationToken);
+                var quotasQuery = new GetQuota.Query(pageSize: Constants.DetailsPageSize);
+                var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
                 var censusesQuery = new GetCensuses.Query(pageSize: Constants.DetailsPageSize);
                 var censusesTask = _mediator.Send(censusesQuery, cancellationToken);
@@ -58,7 +58,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
-                var chargeResults = await chargesTask;
+                var quotaResults = await quotasTask;
                 var censusResults = await censusesTask;
                 var details = await detailsTask;
 
@@ -68,7 +68,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                     congregationResults,
                     eventResults,
                     paymentResults,
-                    chargeResults,
+                    quotaResults,
                     censusResults,
                     details);
             }

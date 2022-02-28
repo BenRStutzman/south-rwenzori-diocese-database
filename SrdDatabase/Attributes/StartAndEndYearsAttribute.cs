@@ -1,4 +1,4 @@
-﻿using SrdDatabase.Models.Charges;
+﻿using SrdDatabase.Models.Quotas;
 using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Attributes
@@ -7,9 +7,9 @@ namespace SrdDatabase.Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var chargeFields = (ChargeFields)validationContext.ObjectInstance;
+            var quotaFields = (QuotaFields)validationContext.ObjectInstance;
 
-            if (chargeFields.EndYear < chargeFields.StartYear)
+            if (quotaFields.EndYear < quotaFields.StartYear)
             {
                 return new ValidationResult(
                     "The end year must be greater than or equal to the start year.");

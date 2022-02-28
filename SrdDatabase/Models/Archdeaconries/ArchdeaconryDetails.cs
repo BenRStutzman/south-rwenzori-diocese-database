@@ -1,5 +1,5 @@
 ﻿using SrdDatabase.Models.Censuses;
-using SrdDatabase.Models.Charges;
+using SrdDatabase.Models.Quotas;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
@@ -19,7 +19,7 @@ namespace SrdDatabase.Models.Archdeaconries
 
         public PaymentResults PaymentResults { get; }
 
-        public ChargeResults ChargeResults { get; }
+        public QuotaResults QuotaResults { get; }
 
         public CensusResults CensusResults { get; }
 
@@ -29,7 +29,7 @@ namespace SrdDatabase.Models.Archdeaconries
             CongregationResults congregationResults,
             EventResults eventResults,
             PaymentResults paymentResults,
-            ChargeResults chargeResults,
+            QuotaResults quotaResults,
             CensusResults censusResults)
         {
             Archdeaconry = archdeaconry;
@@ -37,7 +37,7 @@ namespace SrdDatabase.Models.Archdeaconries
             CongregationResults = congregationResults;
             EventResults = eventResults;
             PaymentResults = paymentResults;
-            ChargeResults = chargeResults;
+            QuotaResults = quotaResults;
             CensusResults = censusResults;
         }
     }

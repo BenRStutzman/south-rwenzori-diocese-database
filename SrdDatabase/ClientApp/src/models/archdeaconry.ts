@@ -3,7 +3,7 @@ import { ParishResults } from "./parish";
 import { PagedParameters, PagedResults } from "./shared";
 import { EventResults } from './event';
 import { PaymentResults } from "./payment";
-import { ChargeResults } from "./charge";
+import { QuotaResults } from "./quota";
 import { CensusResults } from "./census";
 
 export interface Archdeaconry {
@@ -20,7 +20,7 @@ export interface ArchdeaconryDetails {
     congregationResults: CongregationResults;
     eventResults: EventResults;
     paymentResults: PaymentResults;
-    chargeResults: ChargeResults;
+    quotaResults: QuotaResults;
     censusResults: CensusResults;
 }
 

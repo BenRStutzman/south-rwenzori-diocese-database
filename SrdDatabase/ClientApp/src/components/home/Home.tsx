@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
-import { archdeaconryItems, censusItems, chargeItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
@@ -66,9 +66,9 @@ const Home = ({
                     canViewTransactions &&
                     <>
                         <DetailsList
-                            itemType="charge"
+                            itemType="quota"
                             altTitle={`${new Date().getFullYear()} Quota: ${details.quota} UGX`}
-                            items={chargeItems(details.chargeResults)}
+                            items={quotaItems(details.quotaResults)}
                             showAddLink
                         />
                         <DetailsList

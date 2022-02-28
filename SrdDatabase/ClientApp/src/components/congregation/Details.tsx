@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { censusItems, chargeItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
+import { censusItems, quotaItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
@@ -88,9 +88,9 @@ const Details = ({
                     canEditTransactions &&
                     <>
                         <DetailsList
-                            itemType="charge"
+                            itemType="quota"
                             altTitle={`${new Date().getFullYear()} Quota: ${details.congregation.quota} UGX`}
-                            items={chargeItems(details.chargeResults, true)}
+                            items={quotaItems(details.quotaResults, true)}
                             baseItemType="congregation"
                             baseItemId={details.congregation.id}
                             showAddLink

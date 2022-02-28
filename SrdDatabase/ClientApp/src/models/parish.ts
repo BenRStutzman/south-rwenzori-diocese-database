@@ -1,5 +1,5 @@
 ﻿import { CensusResults } from './census';
-import { ChargeResults } from './charge';
+import { QuotaResults } from './quota';
 import { CongregationResults } from './congregation';
 import { EventResults } from './event';
 import { PaymentResults } from './payment';
@@ -20,7 +20,7 @@ export interface ParishDetails {
     congregationResults: CongregationResults;
     eventResults: EventResults;
     paymentResults: PaymentResults;
-    chargeResults: ChargeResults;
+    quotaResults: QuotaResults;
     censusResults: CensusResults;
 }
 
