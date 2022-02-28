@@ -49,7 +49,7 @@ const setParameters = (parameters: CongregationParameters): AppThunkAction<Actio
 };
 
 const prefillParameters = (parishId?: number, archdeaconryId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
-    const backupUrl = '/parish';
+    const backupUrl = '/congregation';
 
     const setParametersAndSearch = (parameters: CongregationParameters) => {
         dispatch(setParameters(parameters));
