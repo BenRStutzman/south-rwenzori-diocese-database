@@ -37,6 +37,11 @@ export function post<TRequest>(url: string, data: TRequest): Promise<Response> {
         });
 };
 
+export function getCsv(url: string, data: any): Promise<string> {
+    return post<string>('/api/congregation/report', data)
+        .then(response => response.text());
+};
+
 export interface Errors {
     [fieldName: string]: string[];
 }

@@ -73,7 +73,7 @@ const SearchResults = ({
                             canViewTransactions &&
                             <>
                                 <th className='col-2'>
-                                    {new Date().getFullYear} Quota
+                                    {new Date().getFullYear()} Quota
                                     <SortButton
                                         parameters={parameters}
                                         columnName="quota"

@@ -75,8 +75,8 @@ namespace SrdDatabase.Controllers
             return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
         }
 
-        [HttpGet("report")]
-        public async Task<IActionResult> Report()
+        [HttpPost("report")]
+        public async Task<IActionResult> Report(string random)
         {
             //TODO: get a report instead of just a list of congregations
             var congregations = await _mediator.Send(new GetAllCongregations.Query());
