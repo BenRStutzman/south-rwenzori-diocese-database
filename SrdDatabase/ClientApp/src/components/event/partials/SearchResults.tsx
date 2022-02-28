@@ -60,7 +60,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEditSomeEvents ? '2' : '3'}`}>
+                        <th className={`col-${canEditSomeEvents ? '3' : '4'}`}>
                             Location
                             <SortButton
                                 parameters={parameters}
@@ -68,7 +68,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEditSomeEvents ? '1' : '2'}`}>
+                        <th className="col-2">
                             Type
                             <SortButton
                                 parameters={parameters}
@@ -76,7 +76,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-2">
+                        <th className={"col-3"}>
                             Name(s)
                             <SortButton
                                 parameters={parameters}
@@ -84,7 +84,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEditSomeEvents ? '3' : '1'}`}></th>
+                        <th className={`col-${canEditSomeEvents ? '2' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>

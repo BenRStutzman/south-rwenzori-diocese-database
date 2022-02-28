@@ -55,7 +55,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-3">
+                        <th className="col-4">
                             Congregation
                             <SortButton
                                 parameters={parameters}
@@ -79,7 +79,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-3"></th>
+                        <th className="col-2"></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
@@ -89,8 +89,8 @@ const SearchResults = ({
                                 <td>
                                     <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                                 </td>
-                                <td>{payment.receiptNumber}</td>
-                                <td className="money-column">{payment.amount}</td>
+                                <td className="number-column">{payment.receiptNumber}</td>
+                                <td className="number-column">{payment.amount}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View

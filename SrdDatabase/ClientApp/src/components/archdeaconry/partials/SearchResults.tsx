@@ -97,12 +97,12 @@ const SearchResults = ({
                     {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                         <tr key={archdeaconry.id}>
                             <td>{archdeaconry.name}</td>
-                            <td>{archdeaconry.numberOfChristians}</td>
+                            <td className="number-column">{archdeaconry.numberOfChristians}</td>
                             {
                                 canViewTransactions &&
                                 <>
-                                    <td className="money-column">{archdeaconry.quota}</td>
-                                    <td className="money-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
+                                    <td className="number-column">{archdeaconry.quota}</td>
+                                    <td className="number-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
                                 </>
                             }
                             <td className="buttons-column">

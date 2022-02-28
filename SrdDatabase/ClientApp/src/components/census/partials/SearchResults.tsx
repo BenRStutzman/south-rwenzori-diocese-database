@@ -28,7 +28,7 @@ const SearchResults = ({
     parameters,
     searchCensuss,
 }: Props) => {
-    const canEditSomeCensuss = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canEditSomeCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
 
     const onPage = (pageNumber: number) => {
         searchCensuss({ ...parameters, pageNumber });
@@ -60,7 +60,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEditSomeCensuss ? '3' : '5'}`}>
+                        <th className={`col-${canEditSomeCensuses ? '6' : '5'}`}>
                             Congregation
                             <SortButton
                                 parameters={parameters}
@@ -69,14 +69,14 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            # of Christians
+                            Christians
                             <SortButton
                                 parameters={parameters}
                                 columnName="numberOfChristians"
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEditSomeCensuss ? '3' : '1'}`}></th>
+                        <th className={`col-${canEditSomeCensuses ? '2' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
@@ -86,7 +86,7 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/congregation/details/${census.congregationId}`}>{census.congregation}</Link>
                             </td>
-                            <td>{census.numberOfChristians}</td>
+                            <td className="number-column">{census.numberOfChristians}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/census/details/${census.id}`}>
                                     View

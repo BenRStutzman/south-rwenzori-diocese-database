@@ -108,12 +108,12 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
                             </td>
-                            <td>{congregation.numberOfChristians}</td>
+                            <td className="number-column">{congregation.numberOfChristians}</td>
                             {
                                 canViewTransactions &&
                                 <>
-                                    <td className="money-column">{congregation.quota}</td>
-                                    <td className="money-column">
+                                    <td className="number-column">{congregation.quota}</td>
+                                    <td className="number-column">
                                         {parenthesizeIfNegative(congregation.balance as number)}
                                     </td>
                                 </>

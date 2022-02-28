@@ -134,7 +134,7 @@ const SaveForm = ({
                             !census.parishId ? 'First select a parish above'
                                 : congregationsLoading ? 'Loading...'
                                     : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
-                                        : '-- - select a congregation ---'
+                                        : '--- select a congregation ---'
                         }</option>
                         {congregations.map(congregation =>
                             <option key={congregation.id} value={congregation.id}>

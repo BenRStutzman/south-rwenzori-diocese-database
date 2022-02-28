@@ -47,7 +47,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-3">
+                        <th className="col-4">
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -71,7 +71,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-3"></th>
+                        <th className="col-2"></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
