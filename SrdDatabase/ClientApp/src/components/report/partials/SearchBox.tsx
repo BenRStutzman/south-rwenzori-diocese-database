@@ -50,7 +50,10 @@ const SearchBox = ({
         var archdeaconryIdString = queryParams.get('archdeaconryId');
         const archdeaconryId = archdeaconryIdString ? parseInt(archdeaconryIdString) : undefined;
 
-        prefillParameters(congregationId, parishId, archdeaconryId);
+        const today = new Date();
+        const startOfThisYear = new Date(today.getFullYear(), 0);
+
+        prefillParameters(congregationId, parishId, archdeaconryId, startOfThisYear, today, true);
     };
 
     useEffect(loadData, []);
@@ -94,7 +97,7 @@ const SearchBox = ({
                                 onChange={onArchdeaconryIdChange}
                             >
                                 <option key={0} value="">
-                                    {archdeaconriesLoading ? 'Loading...' : 'Any archdeaconry'}
+                                    {archdeaconriesLoading ? 'Loading...' : 'All archdeaconries'}
                                 </option>
                                 {archdeaconries.map(archdeaconry =>
                                     <option key={archdeaconry.id} value={archdeaconry.id}>
@@ -114,7 +117,7 @@ const SearchBox = ({
                                 onChange={onParishIdChange}
                             >
                                 <option key={0} value="">
-                                    {parishesLoading ? 'Loading...' : 'Any parish'}
+                                    {parishesLoading ? 'Loading...' : 'All parishes'}
                                 </option>
                                 {parishes.map(parish =>
                                     <option key={parish.id} value={parish.id}>
@@ -134,7 +137,7 @@ const SearchBox = ({
                                 onChange={onCongregationIdChange}
                             >
                                 <option key={0} value="">
-                                    {congregationsLoading ? 'Loading...' : 'Any congregation'}
+                                    {congregationsLoading ? 'Loading...' : 'All congregations'}
                                 </option>
                                 {congregations.map(congregation =>
                                     <option key={congregation.id} value={congregation.id}>

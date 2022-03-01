@@ -61,12 +61,27 @@ const setParameters = (parameters: ReportParameters): AppThunkAction<Action> => 
     dispatch(loadCongregations(parameters.parishId));
 };
 
-const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
+const prefillParameters = (
+    congregationId?: number,
+    parishId?: number,
+    archdeaconryId?: number,
+    startDate?: Date,
+    endDate?: Date,
+    load: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = 'report';
 
     const setParametersAndLoadReport = (parameters: ReportParameters) => {
+        parameters = {
+            ...parameters,
+            startDate,
+            endDate,
+        };
+
         dispatch(setParameters(parameters));
-        dispatch(loadReport(parameters));
+
+        if (load) {
+            dispatch(loadReport(parameters));
+        }
     };
 
     if (congregationId) {
