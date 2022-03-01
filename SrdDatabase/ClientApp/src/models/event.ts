@@ -18,6 +18,10 @@ export interface Event {
     createdBy?: number;
 }
 
+export interface EventToSend extends Omit<Event, "date"> {
+    date: string;
+}
+
 export interface EventType {
     id: number;
     name: string;

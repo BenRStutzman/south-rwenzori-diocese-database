@@ -1,10 +1,11 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
+import { formattedDate } from '../../helpers/miscellaneous';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Parish } from '../../models/parish';
-import { Report, ReportParameters } from '../../models/report';
+import { Report, ReportParameters, ReportParametersToSend } from '../../models/report';
 import { loadCongregations, loadParishes } from '../shared';
 
 const SET_ARCHDEACONRY_ID = 'REPORT.SET_ARCHDEACONRY_ID';
@@ -141,7 +142,13 @@ const loadReport = (parameters: ReportParameters = {}): AppThunkAction<Action> =
     dispatch(setReportLoadingAction());
     dispatch(setParametersAction(parameters));
 
-    return post<ReportParameters>('/api/report', parameters)
+    const parametersToSend = {
+        ...parameters,
+        startDate: formattedDate(parameters.startDate),
+        endDate: formattedDate(parameters.endDate),
+    };
+
+    return post<ReportParametersToSend>('/api/report', parametersToSend)
         .then(response => {
             const fileName = response.headers
                 .get('Content-Disposition')

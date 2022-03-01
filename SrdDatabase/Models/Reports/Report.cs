@@ -4,14 +4,14 @@ namespace SrdDatabase.Models.Reports
 {
     public class Report
     {
-        public string Title { get; }
+        public string FileName { get; }
 
         public IEnumerable<object> Rows { get; }
 
         public Report(
-            string title, IEnumerable<object> rows)
+            string fileName, IEnumerable<object> rows)
         {
-            Title = title;
+            FileName = fileName;
             Rows = rows;
         }
     }

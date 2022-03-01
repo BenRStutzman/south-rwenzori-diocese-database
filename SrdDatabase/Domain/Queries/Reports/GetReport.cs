@@ -1,0 +1,81 @@
+﻿using MediatR;
+using SrdDatabase.Domain.Queries.Archdeaconries;
+using SrdDatabase.Domain.Queries.Congregations;
+using SrdDatabase.Domain.Queries.Parishes;
+using SrdDatabase.Models.Reports;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace SrdDatabase.Domain.Queries.Reports
+{
+    public class GetReport
+    {
+        public class Query : ReportParameters, IRequest<Report>
+        {
+            public Query(
+                int? archdeaconryId = null,
+                int? parishId = null,
+                int? congregationId = null,
+                DateTime? startDate = null,
+                DateTime? endDate = null) : base(
+                    archdeaconryId,
+                    parishId,
+                    congregationId,
+                    startDate,
+                    endDate)
+            {
+            }
+        }
+
+        public class Handler : IRequestHandler<Query, Report>
+        {
+            private readonly IMediator _mediator;
+
+            public Handler(IMediator mediator)
+            {
+                _mediator = mediator;
+            }
+
+            public async Task<Report> Handle(Query request, CancellationToken cancellationToken)
+            {
+                string subject;
+                var endDate = request.EndDate.Value;
+
+                if (request.CongregationId.HasValue)
+                {
+                    var congregation = await _mediator.Send(new GetCongregationById.Query(request.CongregationId.Value));
+                    subject = $"{congregation.Name} Congregation";
+                }
+                else if (request.ParishId.HasValue)
+                {
+                    var parish = await _mediator.Send(new GetParishById.Query(request.ParishId.Value));
+                    subject = $"{parish.Name} Parish";
+                }
+                else if (request.ArchdeaconryId.HasValue)
+                {
+                    var archdeaconry = await _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value));
+                    subject = $"{archdeaconry.Name} Archdeaconry";
+                }
+                else
+                {
+                    subject = "South Rwenzori Diocese";
+                }
+
+                var fileDates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "Through")} {DateString(endDate)}";
+                var fileName = $"{subject} Quota Remittance Report {fileDates}";
+
+                // TODO: get the real data
+                var rows = Enumerable.Empty<string>();
+
+                return new Report(fileName, rows);
+            }
+
+            private static string DateString(DateTime date)
+            {
+                return $"{date.Year}-{date.Month}-{date.Day}";
+            }
+        }
+    }
+}

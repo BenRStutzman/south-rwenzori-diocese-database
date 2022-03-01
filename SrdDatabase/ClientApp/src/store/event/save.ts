@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Event } from '../../models/event';
+import { Event, EventToSend } from '../../models/event';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
+import { formattedDate } from '../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'EVENT.SET_IS_LOADING';
 const SET_EVENT = 'EVENT.SET_EVENT';
@@ -138,9 +139,14 @@ const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
 const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
+    const eventToSend = {
+        ...event,
+        date: formattedDate(event.date),
+    }
+
     const action = event.id ? 'edit' : event.personNames ? 'add-multiple' : 'add';
 
-    post<Event>(`api/event/${action}`, event)
+    post<EventToSend>(`api/event/${action}`, eventToSend)
         .then(response => {
             if (response.ok) {
                 history.push('/event');

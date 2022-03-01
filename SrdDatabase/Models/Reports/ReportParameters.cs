@@ -29,7 +29,7 @@ namespace SrdDatabase.Models.Reports
             ParishId = parishId;
             CongregationId = congregationId;
             StartDate = startDate;
-            EndDate = endDate;
+            EndDate = endDate ?? DateTime.Today;
         }
     }
 }

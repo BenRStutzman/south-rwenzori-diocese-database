@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Payment } from '../../models/payment';
+import { Payment, PaymentToSend } from '../../models/payment';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
+import { formattedDate } from '../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'PAYMENT.SET_IS_LOADING';
 const SET_PAYMENT = 'PAYMENT.SET_PAYMENT';
@@ -126,9 +127,14 @@ const loadPayment = (id: number): AppThunkAction<Action> => (dispatch) => {
 const savePayment = (payment: Payment, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
+    const paymentToSend = {
+        ...payment,
+        date: formattedDate(payment.date),
+    }
+
     const action = payment.id ? 'edit' : 'add';
 
-    post<Payment>(`api/payment/${action}`, payment)
+    post<PaymentToSend>(`api/payment/${action}`, paymentToSend)
         .then(response => {
             if (response.ok) {
                 history.push('/payment');

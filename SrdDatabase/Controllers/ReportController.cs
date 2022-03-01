@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SrdDatabase.Attributes;
-using SrdDatabase.Domain.Queries.Congregations;
 using System.IO;
 using CsvHelper;
 using System.Globalization;
-using SrdDatabase.Models.Reports;
+using SrdDatabase.Domain.Queries.Reports;
 
 namespace SrdDatabase.Controllers
 {
@@ -23,20 +22,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ReportParameters parameters)
+        public async Task<IActionResult> Index(GetReport.Query query)
         {
-            // TODO: generate real report
-            var fileName = "test_report.csv";
-            var rows = await _mediator.Send(new GetAllCongregations.Query());
+            var reportTask = _mediator.Send(query);
 
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream);
             var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
 
-            csvWriter.WriteRecords(rows);
+            var report = await reportTask; 
+            csvWriter.WriteRecords(report.Rows);
             memoryStream.Position = 0;
 
-            return File(memoryStream, "text/csv", fileName);
+            return File(memoryStream, "text/csv", report.FileName);
         }
     }
 }

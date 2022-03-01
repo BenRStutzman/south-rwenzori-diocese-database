@@ -14,6 +14,10 @@ export interface Payment {
     createdBy?: number;
 }
 
+export interface PaymentToSend extends Omit<Payment, "date"> {
+    date: string;
+}
+
 export interface PaymentDetails {
     payment: Payment;
 }
