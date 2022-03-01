@@ -33,6 +33,7 @@ import QuotaHome from './components/quota/Home';
 import QuotaAdd from './components/quota/Add';
 import QuotaEdit from './components/quota/Edit';
 import QuotaDetails from './components/quota/Details';
+import ReportHome from './components/report/Home';
 import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
@@ -72,6 +73,7 @@ export default () => (
             <PrivateRoute exact path='/quota/add' component={QuotaAdd} roles={atLeast.accountant} />
             <PrivateRoute exact path='/quota/edit/:quotaId' component={QuotaEdit} roles={atLeast.accountant} />
             <PrivateRoute exact path='/quota/details/:quotaId' component={QuotaDetails} roles={atLeast.accountant} />
+            <PrivateRoute exact path='/report' component={ReportHome} roles={atLeast.accountant} />
             <PrivateRoute exact path='/user' component={UserHome} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={atLeast.administrator} />

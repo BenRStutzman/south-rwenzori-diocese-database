@@ -4,7 +4,7 @@ import { get, post } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Parish } from '../../models/parish';
-import { ReportParameters } from '../../models/report';
+import { Report, ReportParameters } from '../../models/report';
 import { loadCongregations, loadParishes } from '../shared';
 
 const SET_ARCHDEACONRY_ID = 'REPORT.SET_ARCHDEACONRY_ID';
@@ -12,17 +12,17 @@ const SET_PARISH_ID = 'REPORT.SET_REPORT_PARISH_ID';
 const SET_CONGREGATION_ID = 'REPORT.SET_CONGREGATION_ID';
 const SET_START_DATE = 'REPORT.SET_START_DATE';
 const SET_END_DATE = 'REPORT.SET_END_DATE';
-const SET_RESULTS_LOADING = 'REPORT.SET_RESULTS_LOADING';
-const SET_RESULTS = 'REPORT.SET_RESULTS';
+const SET_REPORT_LOADING = 'REPORT.SET_REPORT_LOADING';
+const SET_REPORT = 'REPORT.SET_REPORT';
 const SET_PARAMETERS = 'REPORT.SET_PARAMETERS';
 
-const setResultsLoadingAction = () => ({
-    type: SET_RESULTS_LOADING,
+const setReportLoadingAction = () => ({
+    type: SET_REPORT_LOADING,
 });
 
-const setResultsAction = (results: string) => ({
-    type: SET_RESULTS,
-    value: results,
+const setReportAction = (report: Report) => ({
+    type: SET_REPORT,
+    value: report,
 });
 
 const setArchdeaconryIdAction = (archdeaconryId?: number) => ({
@@ -58,6 +58,7 @@ const setParametersAction = (parameters: ReportParameters) => ({
 const setParameters = (parameters: ReportParameters): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParametersAction(parameters));
     dispatch(loadParishes(parameters.archdeaconryId));
+    dispatch(loadCongregations(parameters.parishId));
 };
 
 const prefillParameters = (congregationId?: number, parishId?: number, archdeaconryId?: number): AppThunkAction<Action> => (dispatch) => {
@@ -122,12 +123,22 @@ const setCongregationId = (congregationId?: number): AppThunkAction<Action> => (
 };
 
 const loadReport = (parameters: ReportParameters = {}): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setResultsLoadingAction());
+    dispatch(setReportLoadingAction());
     dispatch(setParametersAction(parameters));
 
-    return post<ReportParameters>('/api/congregation/report', parameters)
-        .then(response => response.text())
-        .then(text => { dispatch(setResultsAction(text)); });
+    return post<ReportParameters>('/api/report', parameters)
+        .then(response => {
+            const fileName = response.headers
+                .get('Content-Disposition')
+                ?.split('filename=')[1].split(';')[0] ?? 'report.csv';
+
+            response.text().then(text => {
+                dispatch(setReportAction({
+                    fileName,
+                    data: text
+                }));
+            });
+        });
 };
 
 export const actionCreators = {
@@ -141,14 +152,13 @@ export const actionCreators = {
 };
 
 export interface State {
-    resultsLoading: boolean;
-    results?: string;
+    reportLoading: boolean;
+    report?: Report;
     parameters: ReportParameters;
 }
 
 const initialState: State = {
-    resultsLoading: true,
-    results: undefined,
+    reportLoading: true,
     parameters: {},
 };
 
@@ -199,16 +209,16 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     endDate: action.value,
                 }
             };
-        case SET_RESULTS_LOADING:
+        case SET_REPORT_LOADING:
             return {
                 ...state,
-                resultsLoading: true,
+                reportLoading: true,
             };
-        case SET_RESULTS:
+        case SET_REPORT:
             return {
                 ...state,
-                results: action.value,
-                resultsLoading: false,
+                report: action.value,
+                reportLoading: false,
             };
         default:
             return state;

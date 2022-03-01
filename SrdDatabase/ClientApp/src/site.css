@@ -203,3 +203,9 @@ input[type=checkbox] {
     height: 0;
     top: 100px;
 }
+
+.download-link-container {
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
+}

@@ -8,6 +8,7 @@ import * as Event from './event';
 import * as Payment from './payment';
 import * as Quota from './quota';
 import * as Census from './census';
+import * as Report from './report';
 import * as Shared from './shared';
 
 export interface Action {
@@ -30,6 +31,7 @@ export interface State {
     payment: Payment.State;
     quota: Quota.State;
     census: Census.State;
+    report: Report.State;
     shared: Shared.State;
 }
 
@@ -44,5 +46,6 @@ export const reducers = {
     payment: Payment.reducer,
     quota: Quota.reducer,
     census: Census.reducer,
+    report: Report.reducer,
     shared: Shared.reducer,
 };

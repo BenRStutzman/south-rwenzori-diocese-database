@@ -1,4 +1,9 @@
-﻿export interface ReportParameters {
+﻿export interface Report {
+    fileName: string;
+    data: string;
+};
+
+export interface ReportParameters {
     congregationId?: number;
     parishId?: number;
     archdeaconryId?: number;

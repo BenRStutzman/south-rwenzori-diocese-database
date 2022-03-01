@@ -2,19 +2,23 @@
 
 interface Props {
     onClear: () => any;
-    thingsBeingSearched: string;
+    thingsBeingSearched?: string;
+    altSearchText?: string;
+    altClearText?: string;
 }
 
 const SearchButtons = ({
     onClear,
     thingsBeingSearched,
+    altSearchText,
+    altClearText,
 }: Props) =>
     <div className="search-buttons">
         <button className="btn btn-success" type="submit">
-            Search {thingsBeingSearched}
+            {altSearchText ?? `Search${thingsBeingSearched ? ` ${thingsBeingSearched}` : ''}`}
         </button>
         <button className="btn btn-secondary" type="button" onClick={onClear}>
-            Clear search options
+            {altClearText ?? 'Clear search options'}
         </button>
     </div>;
 

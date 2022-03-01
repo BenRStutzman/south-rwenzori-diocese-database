@@ -53,6 +53,9 @@ const Navigation = ({
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/payment'>Payments</NavLink>
                                         </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/report'>Reports</NavLink>
+                                        </NavItem>
                                     </>
                                 }
                                 {
