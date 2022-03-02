@@ -11,6 +11,10 @@ export interface Census {
     numberOfChristians?: number;
     date?: Date;
     createdBy?: number;
+};
+
+export interface CensusToSend extends Omit<Census, "date"> {
+    date?: string;
 }
 
 export interface CensusDetails {
@@ -23,6 +27,11 @@ export interface CensusParameters extends PagedParameters {
     congregationId?: number;
     startDate?: Date;
     endDate?: Date;
+}
+
+export interface CensusParametersToSend extends Omit<Census, "startDate" | "endDate"> {
+    startDate?: string;
+    endDate?: string;
 }
 
 export interface CensusResults extends PagedResults {

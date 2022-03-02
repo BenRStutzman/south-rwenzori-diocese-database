@@ -19,7 +19,7 @@ export interface Event {
 }
 
 export interface EventToSend extends Omit<Event, "date"> {
-    date: string;
+    date?: string;
 }
 
 export interface EventType {
@@ -44,6 +44,11 @@ export interface EventParameters extends PagedParameters {
     congregationId?: number;
     startDate?: Date;
     endDate?: Date;
+}
+
+export interface EventParametersToSend extends Omit<EventParameters, "startDate" | "endDate"> {
+    startDate?: string;
+    endDate?: string;
 }
 
 export interface EventResults extends PagedResults {

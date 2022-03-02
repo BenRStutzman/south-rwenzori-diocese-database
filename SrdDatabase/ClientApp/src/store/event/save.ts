@@ -66,7 +66,7 @@ const setDescriptionAction = (description: string) => ({
     value: description,
 });
 
-const setDateAction = (date: Date) => ({
+const setDateAction = (date?: Date) => ({
     type: SET_DATE,
     value: date,
 });
@@ -142,7 +142,7 @@ const saveEvent = (event: Event, history: History): AppThunkAction<Action> => (d
     const eventToSend = {
         ...event,
         date: formattedDate(event.date),
-    }
+    };
 
     const action = event.id ? 'edit' : event.personNames ? 'add-multiple' : 'add';
 
@@ -194,7 +194,7 @@ const setDescription = (description: string): AppThunkAction<Action> => (dispatc
     dispatch(setDescriptionAction(description));
 };
 
-const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
+const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDateAction(date));
 };
 

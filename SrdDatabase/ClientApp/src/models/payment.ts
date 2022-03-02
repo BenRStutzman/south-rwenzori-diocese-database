@@ -15,7 +15,7 @@ export interface Payment {
 }
 
 export interface PaymentToSend extends Omit<Payment, "date"> {
-    date: string;
+    date?: string;
 }
 
 export interface PaymentDetails {
@@ -29,7 +29,12 @@ export interface PaymentParameters extends PagedParameters {
     startDate?: Date;
     endDate?: Date;
     receiptNumber?: number;
-}
+};
+
+export interface PaymentParametersToSend extends Omit<PaymentParameters, "startDate" | "endDate"> {
+    startDate?: string;
+    endDate?: string;
+};
 
 export interface PaymentResults extends PagedResults {
     payments: Payment[];

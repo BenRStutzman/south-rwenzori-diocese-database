@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
-import { formattedDate } from '../../helpers/miscellaneous';
+import { formattedDateAllowUndefined } from '../../helpers/miscellaneous';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
 import { Parish } from '../../models/parish';
@@ -41,12 +41,12 @@ const setCongregationIdAction = (congregationId?: number) => ({
     value: congregationId,
 });
 
-const setStartDateAction = (startDate: Date) => ({
+const setStartDateAction = (startDate?: Date) => ({
     type: SET_START_DATE,
     value: startDate,
 });
 
-const setEndDateAction = (endDate: Date) => ({
+const setEndDateAction = (endDate?: Date) => ({
     type: SET_END_DATE,
     value: endDate,
 });
@@ -114,11 +114,11 @@ const prefillParameters = (
     }
 };
 
-const setStartDate = (startDate: Date): AppThunkAction<Action> => (dispatch) => {
+const setStartDate = (startDate?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setStartDateAction(startDate));
 };
 
-const setEndDate = (endDate: Date): AppThunkAction<Action> => (dispatch) => {
+const setEndDate = (endDate?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setEndDateAction(endDate));
 };
 
@@ -144,8 +144,8 @@ const loadReport = (parameters: ReportParameters = {}): AppThunkAction<Action> =
 
     const parametersToSend = {
         ...parameters,
-        startDate: formattedDate(parameters.startDate),
-        endDate: formattedDate(parameters.endDate),
+        startDate: formattedDateAllowUndefined(parameters.startDate),
+        endDate: formattedDateAllowUndefined(parameters.endDate),
     };
 
     return post<ReportParametersToSend>('/api/report', parametersToSend)

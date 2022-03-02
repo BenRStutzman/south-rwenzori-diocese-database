@@ -1,12 +1,13 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '..';
 import { ErrorResponse, Errors, get, post } from '../../helpers/apiHelpers';
-import { Census } from '../../models/census';
+import { Census, CensusToSend } from '../../models/census';
 import { History } from 'history';
 import { Congregation } from '../../models/congregation';
 import { loadCongregations, loadParishes } from '../shared';
 import { Parish } from '../../models/parish';
 import { Archdeaconry } from '../../models/archdeaconry';
+import { formattedDate } from '../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'CENSUS.SET_IS_LOADING';
 const SET_CENSUS = 'CENSUS.SET_CENSUS';
@@ -48,7 +49,7 @@ const setNumberOfChristiansAction = (numberOfChristians: number) => ({
     value: numberOfChristians,
 })
 
-const setDateAction = (date: Date) => ({
+const setDateAction = (date?: Date) => ({
     type: SET_DATE,
     value: date,
 });
@@ -123,7 +124,12 @@ const saveCensus = (census: Census, history: History): AppThunkAction<Action> =>
 
     const action = census.id ? 'edit' : 'add';
 
-    post<Census>(`api/census/${action}`, census)
+    const censusToSend = {
+        ...census,
+        date: formattedDate(census.date),
+    };
+    
+    post<CensusToSend>(`api/census/${action}`, censusToSend)
         .then(response => {
             if (response.ok) {
                 history.push('/census');
@@ -159,7 +165,7 @@ const setNumberOfChristians = (numberOfChristians: number): AppThunkAction<Actio
     dispatch(setNumberOfChristiansAction(numberOfChristians));
 };
 
-const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
+const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDateAction(date));
 };
 

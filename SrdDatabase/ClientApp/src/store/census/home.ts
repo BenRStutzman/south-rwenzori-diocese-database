@@ -3,10 +3,11 @@ import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
-import { CensusParameters, CensusResults } from '../../models/census';
+import { CensusParameters, CensusParametersToSend, CensusResults } from '../../models/census';
 import { Parish } from '../../models/parish';
 import { pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
+import { formattedDateAllowUndefined } from '../../helpers/miscellaneous';
 
 const SET_PARAMETERS = 'CENSUS.SET_PARAMETERS';
 const SET_SEARCH_START_DATE = 'CENSUS.SET_SEARCH_START_DATE';
@@ -26,12 +27,12 @@ const setResultsAction = (results: CensusResults) => ({
     value: results,
 });
 
-const setSearchStartDateAction = (startDate: Date) => ({
+const setSearchStartDateAction = (startDate?: Date) => ({
     type: SET_SEARCH_START_DATE,
     value: startDate,
 });
 
-const setSearchEndDateAction = (endDate: Date) => ({
+const setSearchEndDateAction = (endDate?: Date) => ({
     type: SET_SEARCH_END_DATE,
     value: endDate,
 });
@@ -102,11 +103,11 @@ const prefillParameters = (congregationId?: number, parishId?: number, archdeaco
     }
 };
 
-const setSearchStartDate = (startDate: Date): AppThunkAction<Action> => (dispatch) => {
+const setSearchStartDate = (startDate?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchStartDateAction(startDate));
 };
 
-const setSearchEndDate = (endDate: Date): AppThunkAction<Action> => (dispatch) => {
+const setSearchEndDate = (endDate?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchEndDateAction(endDate));
 };
 
@@ -136,7 +137,13 @@ const searchCensuss = (
 
     dispatch(setParametersAction(parameters));
 
-    post<CensusParameters>('api/census/search', parameters)
+    const parametersToSend = {
+        ...parameters,
+        startDate: formattedDateAllowUndefined(parameters.startDate),
+        endDate: formattedDateAllowUndefined(parameters.endDate),
+    }
+
+    post<CensusParametersToSend>('api/census/search', parametersToSend)
         .then(response => response.json() as Promise<CensusResults>)
         .then(results => {
             dispatch(setResultsAction(results));

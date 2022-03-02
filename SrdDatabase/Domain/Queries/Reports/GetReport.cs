@@ -64,7 +64,8 @@ namespace SrdDatabase.Domain.Queries.Reports
                 }
 
                 var fileDates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "Through")} {DateString(endDate)}";
-                var fileName = $"{subject} Quota Remittance Report {fileDates}";
+                var spacedFileName = $"{subject} Quota Remittance Report {fileDates}.csv";
+                var fileName = spacedFileName.Replace(" ", "");
 
                 // TODO: get the real data
                 var rows = Enumerable.Empty<string>();

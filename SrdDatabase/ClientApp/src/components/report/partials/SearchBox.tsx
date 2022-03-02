@@ -1,5 +1,5 @@
 ﻿import React, { ChangeEvent, useEffect } from 'react';
-import { useQueryParams } from '../../../helpers/miscellaneous';
+import { convertDateChange, useQueryParams } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
 import * as Store from '../../../store/report';
 import * as SharedStore from '../../../store/shared';
@@ -71,11 +71,11 @@ const SearchBox = ({
     };
 
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setStartDate(new Date(event.target.value));
+        setStartDate(convertDateChange(event));
     };
 
     const onEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setEndDate(new Date(event.target.value));
+        setEndDate(convertDateChange(event));
     };
 
     const onSubmit = (event: React.FormEvent) => {

@@ -1,9 +1,10 @@
 import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '..';
 import { get, post } from '../../helpers/apiHelpers';
+import { formattedDateAllowUndefined } from '../../helpers/miscellaneous';
 import { Archdeaconry } from '../../models/archdeaconry';
 import { Congregation } from '../../models/congregation';
-import { EventParameters, EventResults } from '../../models/event';
+import { EventParameters, EventParametersToSend, EventResults } from '../../models/event';
 import { Parish } from '../../models/parish';
 import { pagedResultsDefaults } from '../../models/shared';
 import { loadCongregations, loadParishes } from '../shared';
@@ -34,12 +35,12 @@ const setSearchEventTypeIdAction = (eventTypeId: number) => ({
     value: eventTypeId,
 });
 
-const setSearchStartDateAction = (startDate: Date) => ({
+const setSearchStartDateAction = (startDate?: Date) => ({
     type: SET_SEARCH_START_DATE,
     value: startDate,
 });
 
-const setSearchEndDateAction = (endDate: Date) => ({
+const setSearchEndDateAction = (endDate?: Date) => ({
     type: SET_SEARCH_END_DATE,
     value: endDate,
 });
@@ -124,11 +125,11 @@ const setSearchEventTypeId = (eventTypeId: number): AppThunkAction<Action> => (d
     dispatch(setSearchEventTypeIdAction(eventTypeId));
 };
 
-const setSearchStartDate = (startDate: Date): AppThunkAction<Action> => (dispatch) => {
+const setSearchStartDate = (startDate?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchStartDateAction(startDate));
 };
 
-const setSearchEndDate = (endDate: Date): AppThunkAction<Action> => (dispatch) => {
+const setSearchEndDate = (endDate?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchEndDateAction(endDate));
 };
 
@@ -160,13 +161,20 @@ const searchEvents = (
     parameters: EventParameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
+
+    const parametersToSend = {
+        ...parameters,
+        startDate: formattedDateAllowUndefined(parameters.startDate),
+        endDate: formattedDateAllowUndefined(parameters.endDate),
+    };
+
     if (showLoading) {
         dispatch(setResultsLoadingAction());
     }
 
     dispatch(setParametersAction(parameters));
 
-    post<EventParameters>('api/event/search', parameters)
+    post<EventParametersToSend>('api/event/search', parametersToSend)
         .then(response => response.json() as Promise<EventResults>)
         .then(results => {
             dispatch(setResultsAction(results));

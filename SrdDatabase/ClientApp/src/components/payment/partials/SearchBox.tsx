@@ -5,7 +5,7 @@ import * as SharedStore from '../../../store/shared';
 import { connect } from 'react-redux';
 import SearchButtons from '../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
-import { randomString, useQueryParams } from '../../../helpers/miscellaneous';
+import { convertDateChange, randomString, useQueryParams } from '../../../helpers/miscellaneous';
 
 type OwnProps = {
     expanded: boolean;
@@ -71,11 +71,11 @@ const SearchBox = ({
     };
 
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchStartDate(new Date(event.target.value));
+        setSearchStartDate(convertDateChange(event));
     };
 
     const onEndDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchEndDate(new Date(event.target.value));
+        setSearchEndDate(convertDateChange(event));
     };
 
     const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {

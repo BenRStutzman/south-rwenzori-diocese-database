@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { randomString } from '../../../helpers/miscellaneous';
+import { convertDateChange, randomString } from '../../../helpers/miscellaneous';
 
 const autoComplete = randomString();
 
@@ -70,7 +70,7 @@ const SaveForm = ({
     };
 
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setDate(new Date(event.target.value));
+        setDate(convertDateChange(event));
     };
 
     const onSubmit = (event: React.FormEvent) => {

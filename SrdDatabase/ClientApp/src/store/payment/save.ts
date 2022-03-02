@@ -49,7 +49,7 @@ const setAmountAction = (amount: number) => ({
     value: amount,
 });
 
-const setDateAction = (date: Date) => ({
+const setDateAction = (date?: Date) => ({
     type: SET_DATE,
     value: date,
 });
@@ -170,7 +170,7 @@ const setAmount = (amount: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setAmountAction(amount));
 };
 
-const setDate = (date: Date): AppThunkAction<Action> => (dispatch) => {
+const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
     dispatch(setDateAction(date));
 };
 

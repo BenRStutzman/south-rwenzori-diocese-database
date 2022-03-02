@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { ChangeEvent } from "react";
 import { useLocation } from "react-router";
 
 export function randomString() {
@@ -16,6 +16,14 @@ export function capitalize(word: string) {
 export function formattedDate(date?: Date): string {
     return date ? new Date(date).toLocaleDateString('en-ca') : ''
 };
+
+export function formattedDateAllowUndefined(date?: Date): string | undefined {
+    return date ? formattedDate(date) : undefined;
+}
+
+export function convertDateChange(event: ChangeEvent<HTMLInputElement>) : Date | undefined {
+    return event.target.value.length ? new Date(event.target.value) : undefined
+}
 
 export function parenthesize(number: number): string {
     return `(${number})`;
