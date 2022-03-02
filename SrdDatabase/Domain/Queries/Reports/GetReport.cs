@@ -1,9 +1,12 @@
-﻿using MediatR;
+﻿using CsvHelper;
+using MediatR;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Parishes;
 using SrdDatabase.Models.Reports;
 using System;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -69,9 +72,16 @@ namespace SrdDatabase.Domain.Queries.Reports
                 var fileName = $"{safeSubject}_QuotaRemittanceReport_{fileDates}.csv";
 
                 // TODO: get the real data
-                var rows = Enumerable.Empty<string>();
+                var rows = await _mediator.Send(new GetAllCongregations.Query(), cancellationToken);
 
-                return new Report(fileName, rows);
+                using var memoryStream = new MemoryStream();
+                using var streamWriter = new StreamWriter(memoryStream);
+                using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+
+                csvWriter.WriteRecords(rows);
+                var data = memoryStream.ToArray();
+
+                return new Report(fileName, data);
             }
 
             private static string DateString(DateTime date)

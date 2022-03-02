@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-
-namespace SrdDatabase.Models.Reports
+﻿namespace SrdDatabase.Models.Reports
 {
     public class Report
     {
         public string FileName { get; }
 
-        public IEnumerable<object> Rows { get; }
+        public byte[] Data { get; }
 
         public Report(
-            string fileName, IEnumerable<object> rows)
+            string fileName, byte[] data)
         {
             FileName = fileName;
-            Rows = rows;
+            Data = data;
         }
     }
 }
