@@ -5,6 +5,7 @@ using SrdDatabase.Domain.Queries.Parishes;
 using SrdDatabase.Models.Reports;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -63,9 +64,9 @@ namespace SrdDatabase.Domain.Queries.Reports
                     subject = "South Rwenzori Diocese";
                 }
 
-                var fileDates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "Through")} {DateString(endDate)}";
-                var spacedFileName = $"{subject} Quota Remittance Report {fileDates}.csv";
-                var fileName = spacedFileName.Replace(" ", "");
+                var safeSubject = Regex.Replace(subject, "[^A-Za-z0-9]", "");
+                var fileDates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)}_to" : "through")}_{DateString(endDate)}";
+                var fileName = $"{safeSubject}_QuotaRemittanceReport_{fileDates}.csv";
 
                 // TODO: get the real data
                 var rows = Enumerable.Empty<string>();
