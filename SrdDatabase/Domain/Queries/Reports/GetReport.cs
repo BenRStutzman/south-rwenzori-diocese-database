@@ -2,6 +2,8 @@
 using CsvHelper.Configuration;
 using MediatR;
 using SrdDatabase.Data.Queries.Congregations;
+using SrdDatabase.Data.Queries.Payments;
+using SrdDatabase.Data.Queries.Quotas;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Parishes;
@@ -78,26 +80,56 @@ namespace SrdDatabase.Domain.Queries.Reports
                 var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
                 var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "through")} {DateString(endDate)}";
-                
+
                 var reportName = $"{subject} Quota Remittance Report {dates}";
                 var fileName = Regex.Replace($"{subject}_QuotaRemittanceReport_{dates}", "[^A-Za-z0-9_]", "");
 
-                var rows = new List<ReportRow>();
-
-                rows.Add(new ReportRow(reportName));
+                var rows = new List<ReportRow>
+                {
+                    new ReportRow(reportName),
+                };
 
                 foreach (var congregation in congregationResults.Congregations)
                 {
+                    rows.Add(new ReportRow());
                     rows.Add(new ReportRow(congregation.Name));
+                    rows.Add(new ReportRow("date", "description", "amount"));
 
                     var startingBalance = request.StartDate.HasValue
                        ? await _mediator.Send(new GetCongregationBalance.Query(congregation.Id, request.StartDate.Value))
                        : 0;
-                    rows.Add(new ReportRow("Starting balance", startingBalance));
+                    rows.Add(new ReportRow(request.StartDate.HasValue ? DateString(request.StartDate.Value) : "", "Starting balance", startingBalance));
+
+                    var quotaQuery = new GetQuotas.Query(
+                        congregationId: congregation.Id,
+                        startYear: request.StartDate?.Year,
+                        endYear: endDate.Year);
+                    var quotaResults = await _mediator.Send(quotaQuery, cancellationToken);
+
+                    foreach (var quota in quotaResults.Quotas)
+                    {
+                        var startYear = request.StartDate.HasValue ? Math.Max(request.StartDate.Value.Year, quota.StartYear) : quota.StartYear;
+                        var endYear = quota.EndYear.HasValue ? Math.Min(quota.EndYear.Value, endDate.Year) : endDate.Year;
+                        
+                        for (var year = startYear; year <= endYear; year++)
+                        {
+                            rows.Add(new ReportRow($"{year}-01-01", $"{year} Quota", quota.AmountPerYear));
+                        }
+                    }
+
+                    var paymentQuery = new GetPayments.Query(
+                        congregationId: congregation.Id,
+                        startDate: request.StartDate,
+                        endDate: endDate);
+                    var paymentResults = await _mediator.Send(paymentQuery, cancellationToken);
+
+                    foreach (var payment in paymentResults.Payments)
+                    {
+                        rows.Add(new ReportRow(DateString(payment.Date), "Payment", -payment.Amount));
+                    }
 
                     var endingBalance = await _mediator.Send(new GetCongregationBalance.Query(congregation.Id, endDate));
-                    rows.Add(new ReportRow("Ending balance", endingBalance));
-                    rows.Add(new ReportRow());
+                    rows.Add(new ReportRow(DateString(endDate), "Ending balance", endingBalance));
                 }
 
                 using var memoryStream = new MemoryStream();

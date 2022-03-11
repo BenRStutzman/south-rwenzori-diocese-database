@@ -8,7 +8,7 @@ using SrdDatabase.Models.Quotas;
 
 namespace SrdDatabase.Data.Queries.Quotas
 {
-    public class GetQuota
+    public class GetQuotas
     {
         public class Query : QuotaParameters, IRequest<QuotaResults>
         {

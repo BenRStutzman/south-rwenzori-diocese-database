@@ -39,7 +39,7 @@ namespace SrdDatabase.Domain.Commands.Congregations
                 var paymentsQuery = new GetPayments.Query(congregationId: request.Id);
                 var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
                 
-                var quotasQuery = new GetQuota.Query(congregationId: request.Id);
+                var quotasQuery = new GetQuotas.Query(congregationId: request.Id);
                 var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
                 var eventResults = await eventsTask;

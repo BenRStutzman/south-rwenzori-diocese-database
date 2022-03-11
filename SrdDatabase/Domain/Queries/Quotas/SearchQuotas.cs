@@ -43,7 +43,7 @@ namespace SrdDatabase.Domain.Queries.Quotas
             public async Task<QuotaResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
-                    new GetQuota.Query(
+                    new GetQuotas.Query(
                         null,
                         request.ArchdeaconryId,
                         request.ParishId,

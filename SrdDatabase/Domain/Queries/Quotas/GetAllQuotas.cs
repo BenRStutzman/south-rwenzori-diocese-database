@@ -24,7 +24,7 @@ namespace SrdDatabase.Domain.Queries.Quotas
 
             public async Task<IEnumerable<Quota>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var results = await _mediator.Send(new GetQuota.Query(), cancellationToken);
+                var results = await _mediator.Send(new GetQuotas.Query(), cancellationToken);
                 
                 return results.Quotas;
             }

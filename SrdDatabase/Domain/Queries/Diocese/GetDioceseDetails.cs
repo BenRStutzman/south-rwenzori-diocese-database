@@ -44,7 +44,7 @@ namespace SrdDatabase.Domain.Queries.Diocese
                 var paymentsQuery = new GetPayments.Query(pageSize: Constants.DetailsPageSize);
                 var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
 
-                var quotasQuery = new GetQuota.Query(pageSize: Constants.DetailsPageSize);
+                var quotasQuery = new GetQuotas.Query(pageSize: Constants.DetailsPageSize);
                 var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
                 var censusesQuery = new GetCensuses.Query(pageSize: Constants.DetailsPageSize);

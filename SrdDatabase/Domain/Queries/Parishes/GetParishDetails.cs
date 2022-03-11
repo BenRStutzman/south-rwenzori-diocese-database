@@ -52,7 +52,7 @@ namespace SrdDatabase.Domain.Queries.Parishes
                     pageSize: Constants.DetailsPageSize);
                 var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
 
-                var quotasQuery = new GetQuota.Query(
+                var quotasQuery = new GetQuotas.Query(
                     parishId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
