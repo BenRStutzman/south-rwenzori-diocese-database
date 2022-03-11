@@ -5,6 +5,7 @@ using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Parishes;
+using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Reports;
 using System;
 using System.Collections.Generic;
@@ -48,26 +49,33 @@ namespace SrdDatabase.Domain.Queries.Reports
             {
                 string subject;
                 var endDate = request.EndDate.Value;
+                GetCongregations.Query congregationsQuery;
 
                 if (request.CongregationId.HasValue)
                 {
                     var congregation = await _mediator.Send(new GetCongregationById.Query(request.CongregationId.Value));
                     subject = $"{congregation.Name} Congregation";
+                    congregationsQuery = new GetCongregations.Query(congregation.Id);
                 }
                 else if (request.ParishId.HasValue)
                 {
                     var parish = await _mediator.Send(new GetParishById.Query(request.ParishId.Value));
                     subject = $"{parish.Name} Parish";
+                    congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
                 }
                 else if (request.ArchdeaconryId.HasValue)
                 {
                     var archdeaconry = await _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value));
                     subject = $"{archdeaconry.Name} Archdeaconry";
+                    congregationsQuery = new GetCongregations.Query(archdeaconryId: archdeaconry.Id);
                 }
                 else
                 {
                     subject = "South Rwenzori Diocese";
+                    congregationsQuery = new GetCongregations.Query();
                 }
+
+                var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
                 var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "through")} {DateString(endDate)}";
                 
@@ -75,11 +83,10 @@ namespace SrdDatabase.Domain.Queries.Reports
                 var fileName = Regex.Replace($"{subject}_QuotaRemittanceReport_{dates}", "[^A-Za-z0-9_]", "");
 
                 var rows = new List<ReportRow>();
-                var congregations = await _mediator.Send(new GetAllCongregations.Query(), cancellationToken);
 
                 rows.Add(new ReportRow(reportName));
 
-                foreach (var congregation in congregations)
+                foreach (var congregation in congregationResults.Congregations)
                 {
                     rows.Add(new ReportRow(congregation.Name));
 
