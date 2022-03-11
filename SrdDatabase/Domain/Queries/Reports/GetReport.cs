@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using MediatR;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Archdeaconries;
@@ -68,13 +69,16 @@ namespace SrdDatabase.Domain.Queries.Reports
                     subject = "South Rwenzori Diocese";
                 }
 
-                var safeSubject = Regex.Replace(subject, "[^A-Za-z0-9]", "");
-                var fileDates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)}_to" : "through")}_{DateString(endDate)}";
-                var fileName = $"{safeSubject}_QuotaRemittanceReport_{fileDates}.csv";
+                var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "through")} {DateString(endDate)}";
+                
+                var reportName = $"{subject} Quota Remittance Report {dates}";
+                var fileName = Regex.Replace($"{subject}_QuotaRemittanceReport_{dates}", "[^A-Za-z0-9_]", "");
 
                 var rows = new List<ReportRow>();
                 var congregations = await _mediator.Send(new GetAllCongregations.Query(), cancellationToken);
-                
+
+                rows.Add(new ReportRow(reportName));
+
                 foreach (var congregation in congregations)
                 {
                     rows.Add(new ReportRow(congregation.Name));
@@ -91,7 +95,13 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 using var memoryStream = new MemoryStream();
                 using var streamWriter = new StreamWriter(memoryStream);
-                using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
+
+                var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    HasHeaderRecord = false
+                };
+
+                using var csvWriter = new CsvWriter(streamWriter, configuration);
 
                 csvWriter.WriteRecords(rows);
                 streamWriter.Flush();
