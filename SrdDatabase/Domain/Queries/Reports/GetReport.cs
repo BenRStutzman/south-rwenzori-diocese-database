@@ -1,13 +1,14 @@
 ﻿using CsvHelper;
 using MediatR;
+using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Parishes;
 using SrdDatabase.Models.Reports;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,14 +72,29 @@ namespace SrdDatabase.Domain.Queries.Reports
                 var fileDates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)}_to" : "through")}_{DateString(endDate)}";
                 var fileName = $"{safeSubject}_QuotaRemittanceReport_{fileDates}.csv";
 
-                // TODO: get the real data
-                var rows = await _mediator.Send(new GetAllCongregations.Query(), cancellationToken);
+                var rows = new List<ReportRow>();
+                var congregations = await _mediator.Send(new GetAllCongregations.Query(), cancellationToken);
+                
+                foreach (var congregation in congregations)
+                {
+                    rows.Add(new ReportRow(congregation.Name));
+
+                    var startingBalance = request.StartDate.HasValue
+                       ? await _mediator.Send(new GetCongregationBalance.Query(congregation.Id, request.StartDate.Value))
+                       : 0;
+                    rows.Add(new ReportRow("Starting balance", startingBalance));
+
+                    var endingBalance = await _mediator.Send(new GetCongregationBalance.Query(congregation.Id, endDate));
+                    rows.Add(new ReportRow("Ending balance", endingBalance));
+                    rows.Add(new ReportRow());
+                }
 
                 using var memoryStream = new MemoryStream();
                 using var streamWriter = new StreamWriter(memoryStream);
                 using var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
 
                 csvWriter.WriteRecords(rows);
+                streamWriter.Flush();
                 var data = memoryStream.ToArray();
 
                 return new Report(fileName, data);
