@@ -92,7 +92,7 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    headerPrefix.Concat(new[] { "Date", "Description", "Amount (UGX" }),
+                    headerPrefix.Concat(new[] { "Date", "Description", "Receipt #", "Amount (UGX" }),
                     Array.Empty<string>(),
                 };
 
@@ -152,7 +152,8 @@ namespace SrdDatabase.Domain.Queries.Reports
                         transactionRows.Add(new TransactionRow(
                             DateString(payment.Date),
                             "Payment",
-                            -payment.Amount
+                            -payment.Amount,
+                            payment.ReceiptNumber
                         ));
                     }
 
@@ -160,7 +161,11 @@ namespace SrdDatabase.Domain.Queries.Reports
                         .OrderBy(row => row.Date)
                         .ThenBy(row => row.Description)
                         .Select(row => RowWithOffset(
-                            new[] { row.Date, row.Description, row.Amount.ToString() },
+                            new[] {
+                                row.Date,
+                                row.Description,
+                                Convert.ToString(row.ReceiptNumber),
+                                row.Amount.ToString() },
                             offset)
                         )
                     );
