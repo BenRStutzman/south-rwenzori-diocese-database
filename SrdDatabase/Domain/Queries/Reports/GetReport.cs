@@ -7,7 +7,6 @@ using SrdDatabase.Data.Queries.Quotas;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Parishes;
-using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Reports;
 using System;
 using System.Collections.Generic;
@@ -77,17 +76,18 @@ namespace SrdDatabase.Domain.Queries.Reports
                     congregationsQuery = new GetCongregations.Query();
                 }
 
-                var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
                 var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)} to" : "through")} {DateString(endDate)}";
 
-                var reportName = $"{subject} Quota Remittance Report {dates}";
                 var fileName = Regex.Replace($"{subject}_QuotaRemittanceReport_{dates}", "[^A-Za-z0-9_]", "");
 
                 var rows = new List<ReportRow>
                 {
-                    new ReportRow(reportName),
+                    new ReportRow($"{subject} Quota Remittance Report"),
+                    new ReportRow(dates)
                 };
+
+                var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
 
                 foreach (var congregation in congregationResults.Congregations)
                 {
@@ -96,7 +96,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.Add(new ReportRow("date", "description", "amount"));
 
                     var startingBalance = request.StartDate.HasValue
-                       ? await _mediator.Send(new GetCongregationBalance.Query(congregation.Id, request.StartDate.Value))
+                       ? await _mediator.Send(new GetCongregationBalance.Query(congregation.Id, request.StartDate.Value, false))
                        : 0;
                     rows.Add(new ReportRow(request.StartDate.HasValue ? DateString(request.StartDate.Value) : "", "Starting balance", startingBalance));
 
