@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SrdDatabase.Data.Queries.Reports
 {
-    public class GetCongregationBalance
+    public class GetParishBalance
     {
         public class Query : IRequest<int>
         {
@@ -33,7 +33,7 @@ namespace SrdDatabase.Data.Queries.Reports
         public class Handler : IRequestHandler<Query, int>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_congregation_balance";
+            private readonly string _storedProcedure = "sto_get_parish_balance";
 
             public Handler(IDbService dbService)
             {
