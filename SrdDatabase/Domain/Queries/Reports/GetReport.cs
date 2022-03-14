@@ -58,7 +58,7 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 if (request.CongregationId.HasValue)
                 {
-                    var congregation = await _mediator.Send(new GetCongregationById.Query(request.CongregationId.Value));
+                    var congregation = await _mediator.Send(new GetCongregationById.Query(request.CongregationId.Value), cancellationToken);
                     subject = $"{congregation.Name} Congregation";
                     congregationsQuery = new GetCongregations.Query(congregation.Id);
                     headerPrefix = Enumerable.Empty<string>();
@@ -66,7 +66,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 }
                 else if (request.ParishId.HasValue)
                 {
-                    var parish = await _mediator.Send(new GetParishById.Query(request.ParishId.Value));
+                    var parish = await _mediator.Send(new GetParishById.Query(request.ParishId.Value), cancellationToken);
                     subject = $"{parish.Name} Parish";
                     congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
                     headerPrefix = new[] { "Congregation" };
@@ -74,7 +74,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 }
                 else if (request.ArchdeaconryId.HasValue)
                 {
-                    var archdeaconry = await _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value));
+                    var archdeaconry = await _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value), cancellationToken);
                     subject = $"{archdeaconry.Name} Archdeaconry";
                     congregationsQuery = new GetCongregations.Query(archdeaconryId: archdeaconry.Id);
                     headerPrefix = new[] { "Parish", "Congregation" };
@@ -88,11 +88,11 @@ namespace SrdDatabase.Domain.Queries.Reports
                     offset = 3;
                 }
 
-                var fileName = Regex.Replace($"{subject}_QuotaRemittanceReport_{dates}", "[^A-Za-z0-9_]", "");
+                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_QuotaRemittanceReport_{dates}";
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    headerPrefix.Concat(new[] { "Date", "Description", "Receipt #", "Amount (UGX" }),
+                    headerPrefix.Concat(new[] { "Date", "Description", "Receipt #", "Amount (UGX)" }),
                     Array.Empty<string>(),
                 };
 
@@ -113,6 +113,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                             new[] {
                                 request.StartDate.HasValue ? DateString(request.StartDate.Value) : "",
                                 "Starting balance",
+                                string.Empty,
                                 startingBalance.ToString()
                             },
                             offset)
@@ -163,7 +164,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                         .Select(row => RowWithOffset(
                             new[] {
                                 row.Date,
-                                row.Description,
+                                row.Description,    
                                 Convert.ToString(row.ReceiptNumber),
                                 row.Amount.ToString() },
                             offset)
@@ -177,6 +178,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                             new[] {
                                 DateString(endDate),
                                 "Ending balance",
+                                string.Empty,
                                 endingBalance.ToString()
                             }, offset
                         )
