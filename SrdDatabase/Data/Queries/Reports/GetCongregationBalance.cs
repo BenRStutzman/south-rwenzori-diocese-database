@@ -16,17 +16,17 @@ namespace SrdDatabase.Data.Queries.Congregations
 
             public DateTime Date { get; }
 
-            public bool IncludeCurrentDateQuota { get; }
+            public bool IncludeTransactionsOnDate { get; }
 
             public Query(
                 int id,
                 DateTime date,
-                bool includeCurrentDateQuota = true
+                bool includeTransactionsOnDate = true
                 )
             {
                 Id = id;
                 Date = date;
-                IncludeCurrentDateQuota = includeCurrentDateQuota;
+                IncludeTransactionsOnDate = includeTransactionsOnDate;
             }
         }
 

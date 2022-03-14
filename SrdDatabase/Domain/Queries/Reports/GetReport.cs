@@ -124,6 +124,8 @@ namespace SrdDatabase.Domain.Queries.Reports
                         endYear: endDate.Year);
                     var quotaResults = await _mediator.Send(quotaQuery, cancellationToken);
 
+                    var transactionRows = new List<TransactionRow>();
+
                     foreach (var quota in quotaResults.Quotas)
                     {
                         var startYear = request.StartDate.HasValue ? Math.Max(request.StartDate.Value.Year, quota.StartYear) : quota.StartYear;
@@ -131,14 +133,11 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                         for (var year = startYear; year <= endYear; year++)
                         {
-                            rows.Add(
-                                RowWithOffset(
-                                new[] {
-                                    $"{year}-01-01",
-                                    $"{year} Quota",
-                                    quota.AmountPerYear.ToString()
-                                }, offset)
-                            );
+                            transactionRows.Add(new TransactionRow(
+                                $"{year}-01-01",
+                                $"{year} Quota",
+                                quota.AmountPerYear
+                            ));
                         }
                     }
 
@@ -150,16 +149,21 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                     foreach (var payment in paymentResults.Payments)
                     {
-                        rows.Add(
-                            RowWithOffset(
-                                new[] {
-                                    DateString(payment.Date),
-                                    "Payment",
-                                    (-payment.Amount).ToString()
-                                }, offset
-                            )
-                        );
+                        transactionRows.Add(new TransactionRow(
+                            DateString(payment.Date),
+                            "Payment",
+                            -payment.Amount
+                        ));
                     }
+
+                    rows.AddRange(transactionRows
+                        .OrderBy(row => row.Date)
+                        .ThenBy(row => row.Description)
+                        .Select(row => RowWithOffset(
+                            new[] { row.Date, row.Description, row.Amount.ToString() },
+                            offset)
+                        )
+                    );
 
                     var endingBalanceQuery = new GetCongregationBalance.Query(congregation.Id, endDate);
                     var endingBalance = await _mediator.Send(endingBalanceQuery);
