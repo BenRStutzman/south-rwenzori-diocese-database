@@ -92,13 +92,13 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                     var archdeaconry = await archdeaconryTask;
                     dataTask = ArchdeaconryRows(request.StartDate, endDate, archdeaconry, 3, _mediator, cancellationToken);
-                    
+
                     subject = $"{archdeaconry.Name} Archdeaconry";
                 }
                 else
                 {
                     dataTask = DioceseRows(request.StartDate, endDate, 3, _mediator, cancellationToken);
-                    
+
                     header = (new[] { "Archdeaconry", "Parish", "Congregation" })
                         .Concat(commonHeader)
                         .Concat(new[] { "Parish Balance", "Archdeaconry Balance", "Diocese Balance" });
@@ -137,39 +137,38 @@ namespace SrdDatabase.Domain.Queries.Reports
                         cancellationToken)
                     : Task.FromResult(0);
 
-                var quotaQuery = new GetQuotas.Query(
+                var quotasQuery = new GetQuotas.Query(
                     congregationId: congregation.Id,
                     startYear: startDate?.Year,
                     endYear: endDate.Year);
-                var quotaTask = _mediator.Send(quotaQuery, cancellationToken);
+                var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
-                var paymentQuery = new GetPayments.Query(
+                var paymentsQuery = new GetPayments.Query(
                     congregationId: congregation.Id,
                     startDate: startDate,
                     endDate: endDate);
-                var paymentTask =_mediator.Send(paymentQuery, cancellationToken);
+                var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
 
                 var endingBalanceQuery = new GetCongregationBalance.Query(congregation.Id, endDate);
-                var endingBalanceTask =  _mediator.Send(endingBalanceQuery, cancellationToken);
+                var endingBalanceTask = _mediator.Send(endingBalanceQuery, cancellationToken);
 
                 var startingBalance = await startingBalanceTask;
-                var quotaResults = await quotaTask;
-                var paymentResults = await paymentTask;
+                var quotaResults = await quotasTask;
+                var paymentResults = await paymentsTask;
                 var endingBalance = await endingBalanceTask;
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    RowWithOffset(new[] { congregation.Name }, offset - 1)
+                    RowWithOffset(new[] { congregation.Name }, offset - 1),
+                    RowWithOffset(
+                        new[] {
+                                DateString(startDate),
+                                "Starting balance",
+                                startingBalance.ToString()
+                        },
+                        offset
+                    )
                 };
-
-                rows.Add(RowWithOffset(
-                    new[] {
-                            DateString(startDate),
-                            "Starting balance",
-                            startingBalance.ToString()
-                    },
-                    offset
-                ));
 
                 var transactionRows = new List<TransactionRow>();
 
@@ -233,28 +232,36 @@ namespace SrdDatabase.Domain.Queries.Reports
                 IMediator _mediator,
                 CancellationToken cancellationToken)
             {
+                var congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
+                var congregationsTask = _mediator.Send(congregationsQuery, cancellationToken);
+
+                var endingBalanceQuery = new GetParishBalance.Query(parish.Id, endDate);
+                var endingBalanceTask = _mediator.Send(endingBalanceQuery, cancellationToken);
+
+                var congregationResults = await congregationsTask;
+                var congregationsRowsTasks = congregationResults.Congregations
+                    .Select(congregation =>
+                        CongregationRows(
+                            startDate,
+                            endDate,
+                            congregation,
+                            offset,
+                            _mediator,
+                            cancellationToken)
+                    );
+
+                var congregationsRows = await Task.WhenAll(congregationsRowsTasks);
+                var endingBalance = await endingBalanceTask;
+
                 var rows = new List<IEnumerable<string>>
                 {
                     RowWithOffset(new[] { parish.Name }, offset - 2)
                 };
 
-                var congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
-                var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
-
-                foreach (var congregation in congregationResults.Congregations)
+                foreach (var congregationRows in congregationsRows)
                 {
-                    var congregationRows = await CongregationRows(
-                        startDate,
-                        endDate,
-                        congregation,
-                        offset,
-                        _mediator,
-                        cancellationToken);
                     rows.AddRange(congregationRows);
                 }
-
-                var endingBalanceQuery = new GetParishBalance.Query(parish.Id, endDate);
-                var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
 
                 rows.Add(RowWithOffset(
                     new[] { $"Ending balance for {parish.Name} Parish" },
@@ -277,28 +284,36 @@ namespace SrdDatabase.Domain.Queries.Reports
                 IMediator _mediator,
                 CancellationToken cancellationToken)
             {
+                var parishesQuery = new GetParishes.Query(archdeaconryId: archdeaconry.Id);
+                var parishesTask = _mediator.Send(parishesQuery, cancellationToken);
+
+                var endingBalanceQuery = new GetArchdeaconryBalance.Query(archdeaconry.Id, endDate);
+                var endingBalanceTask = _mediator.Send(endingBalanceQuery, cancellationToken);
+
+                var parishResults = await parishesTask;
+                var parishesRowsTasks = parishResults.Parishes
+                    .Select(parish =>
+                        ParishRows(
+                            startDate,
+                            endDate,
+                            parish,
+                            offset,
+                            _mediator,
+                            cancellationToken)
+                    );
+
+                var parishesRows = await Task.WhenAll(parishesRowsTasks);
+                var endingBalance = await endingBalanceTask;
+
                 var rows = new List<IEnumerable<string>>
                 {
                     RowWithOffset(new[] { archdeaconry.Name }, offset - 3)
                 };
 
-                var parishesQuery = new GetParishes.Query(archdeaconryId: archdeaconry.Id);
-                var parishResults = await _mediator.Send(parishesQuery, cancellationToken);
-
-                foreach (var parish in parishResults.Parishes)
+                foreach (var parishRows in parishesRows)
                 {
-                    var parishRows = await ParishRows(
-                        startDate,
-                        endDate,
-                        parish,
-                        offset,
-                        _mediator,
-                        cancellationToken);
                     rows.AddRange(parishRows);
                 }
-
-                var endingBalanceQuery = new GetArchdeaconryBalance.Query(archdeaconry.Id, endDate);
-                var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
 
                 rows.Add(RowWithOffset(
                     new[] { $"Ending balance for {archdeaconry.Name} Archdeaconry" },
@@ -320,25 +335,33 @@ namespace SrdDatabase.Domain.Queries.Reports
                 IMediator _mediator,
                 CancellationToken cancellationToken)
             {
-                var rows = new List<IEnumerable<string>>();
-
                 var archdeaconriesQuery = new GetAllArchdeaconries.Query();
-                var archdeaconries = await _mediator.Send(archdeaconriesQuery, cancellationToken);
-
-                foreach (var archdeaconry in archdeaconries)
-                {
-                    var archdeaconryRows = await ArchdeaconryRows(
-                        startDate,
-                        endDate,
-                        archdeaconry,
-                        offset,
-                        _mediator,
-                        cancellationToken);
-                    rows.AddRange(archdeaconryRows);
-                }
+                var archdeaconriesTask = _mediator.Send(archdeaconriesQuery, cancellationToken);
 
                 var endingBalanceQuery = new GetDioceseBalance.Query(endDate);
-                var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
+                var endingBalanceTask = _mediator.Send(endingBalanceQuery, cancellationToken);
+
+                var archdeaconries = await archdeaconriesTask;
+                var archdeaconriesRowsTasks = archdeaconries
+                    .Select(archdeaconry =>
+                        ArchdeaconryRows(
+                            startDate,
+                            endDate,
+                            archdeaconry,
+                            offset,
+                            _mediator,
+                            cancellationToken)
+                    );
+
+                var archdeaconriesRows = await Task.WhenAll(archdeaconriesRowsTasks);
+                var endingBalance = await endingBalanceTask;
+
+                var rows = new List<IEnumerable<string>>();
+
+                foreach (var archdeaconryRows in archdeaconriesRows)
+                {
+                    rows.AddRange(archdeaconryRows);
+                }
 
                 rows.Add(RowWithOffset(
                     new[] { $"Ending balance for South Rwenzori Diocese" },
