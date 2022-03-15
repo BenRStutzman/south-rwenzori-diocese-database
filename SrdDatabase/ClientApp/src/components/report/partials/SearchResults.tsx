@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef, useState } from 'react';
 import * as Store from '../../../store/report/';
 import { State } from '../../../store';
 import { connect } from 'react-redux';
@@ -10,12 +10,18 @@ type Props = Store.State;
 const SearchResults = ({
     report,
     reportLoading,
+    reportVersion,
 }: Props) => {
     const btnRef = useRef<any>(null);
+    const [firstRender, setFirstRender] = useState(true);
 
     useEffect(() => {
-        btnRef.current?.click();
-    }, [report]);
+        if (firstRender) {
+            setFirstRender(false);
+        } else {
+            btnRef.current?.click();
+        }
+    }, [reportVersion]);
 
     return reportLoading ? <LoadingSpinner /> : report ?
         <div className="report-link-container">

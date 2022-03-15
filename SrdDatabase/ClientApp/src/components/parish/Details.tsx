@@ -99,11 +99,16 @@ const Details = ({
                         />
                         <DetailsList
                             itemType="payment"
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
+                            itemTotal={details.paymentResults.totalResults}
                             items={paymentItems(details.paymentResults)}
                             baseItemType="parish"
                             baseItemId={details.parish.id}
                             showAddLink
+                        />
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
+                            altLink={`/report?parishId=${details.parish.id}`}
+                            altLinkText="Create financial report"
                         />
                     </>
                 }

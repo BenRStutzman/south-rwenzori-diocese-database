@@ -178,11 +178,13 @@ export const actionCreators = {
 export interface State {
     reportLoading: boolean;
     report?: Report;
+    reportVersion: number;
     parameters: ReportParameters;
 }
 
 const initialState: State = {
     reportLoading: false,
+    reportVersion: 0,
     parameters: {},
 };
 
@@ -243,6 +245,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 report: action.value,
                 reportLoading: false,
+                reportVersion: action.value ? state.reportVersion + 1 : state.reportVersion,
             };
         default:
             return state;
