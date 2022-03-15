@@ -56,7 +56,7 @@ namespace SrdDatabase.Domain.Queries.Reports
             {
                 var endDate = request.EndDate ?? DateTime.Today;
                 var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)}_to" : "through")}_{DateString(endDate)}";
-                var commonHeader = new[] { "Date", "Description", "Receipt #", "Amount (UGX)" };
+                var commonHeader = new[] { "Date", "Description", "Amount", "Congregation Balance" };
                 string subject;
                 IEnumerable<string> header;
                 IEnumerable<IEnumerable<string>> data;
@@ -72,21 +72,27 @@ namespace SrdDatabase.Domain.Queries.Reports
                 {
                     var parish = await _mediator.Send(new GetParishById.Query(request.ParishId.Value), cancellationToken);
                     subject = $"{parish.Name} Parish";
-                    header = (new[] { "Parish", "Congregation" }).Concat(commonHeader);
+                    header = (new[] { "Parish", "Congregation" })
+                        .Concat(commonHeader)
+                        .Append("Parish Balance");
                     data = await ParishRows(request.StartDate, endDate, parish, 2, _mediator, cancellationToken);
                 }
                 else if (request.ArchdeaconryId.HasValue)
                 {
                     var archdeaconry = await _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value), cancellationToken);
                     subject = $"{archdeaconry.Name} Archdeaconry";
-                    header = (new[] { "Archdeaconry", "Parish", "Congregation" }).Concat(commonHeader);
+                    header = (new[] { "Archdeaconry", "Parish", "Congregation" })
+                        .Concat(commonHeader)
+                        .Concat(new[] { "Parish Balance", "Archdeaconry Balance" });
                     data = await ArchdeaconryRows(request.StartDate, endDate, archdeaconry, 3, _mediator, cancellationToken);
                 }
                 else
                 {
                     subject = "South Rwenzori Diocese";
-                    header = (new[] { "Diocese", "Archdeaconry", "Parish", "Congregation" }).Concat(commonHeader);
-                    data = await DioceseRows(request.StartDate, endDate, 4, _mediator, cancellationToken);
+                    header = (new[] { "Archdeaconry", "Parish", "Congregation" })
+                        .Concat(commonHeader)
+                        .Concat(new[] { "Parish Balance", "Archdeaconry Balance", "Diocese Balance" });
+                    data = await DioceseRows(request.StartDate, endDate, 3, _mediator, cancellationToken);
                 }
 
                 var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_QuotaRemittanceReport_{dates}";
@@ -108,17 +114,19 @@ namespace SrdDatabase.Domain.Queries.Reports
                 DateTime? date,
                 string description,
                 int balance,
-                int offset)
+                int offset,
+                int balanceOffset)
             {
                 return RowWithOffset(
                     new[] {
                             DateString(date),
                             description,
-                            string.Empty,
-                            balance.ToString()
                     },
                     offset
-                );
+                ).Concat(RowWithOffset(
+                    new[] { balance.ToString() },
+                    balanceOffset
+                ));
             }
 
             public static async Task<IEnumerable<IEnumerable<string>>> CongregationRows(
@@ -147,11 +155,14 @@ namespace SrdDatabase.Domain.Queries.Reports
                     startingBalance = 0;
                 }
 
-                rows.Add(BalanceRow(
-                    startDate,
-                    "Starting balance",
-                    startingBalance,
-                    offset));
+                rows.Add(RowWithOffset(
+                    new[] {
+                            DateString(startDate),
+                            "Starting balance",
+                            startingBalance.ToString()
+                    },
+                    offset
+                ));
 
                 var quotaQuery = new GetQuotas.Query(
                     congregationId: congregation.Id,
@@ -164,7 +175,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 foreach (var quota in quotaResults.Quotas)
                 {
                     var startYear = startDate.HasValue ? Math.Max(startDate.Value.Year, quota.StartYear) : quota.StartYear;
-                    var endYear = quota.EndYear.HasValue ? Math.Min(quota.EndYear.Value,endDate.Year) : endDate.Year;
+                    var endYear = quota.EndYear.HasValue ? Math.Min(quota.EndYear.Value, endDate.Year) : endDate.Year;
 
                     for (var year = startYear; year <= endYear; year++)
                     {
@@ -186,9 +197,8 @@ namespace SrdDatabase.Domain.Queries.Reports
                 {
                     transactionRows.Add(new TransactionRow(
                         DateString(payment.Date),
-                        "Payment",
-                        -payment.Amount,
-                        payment.ReceiptNumber
+                        $"Payment{(payment.ReceiptNumber.HasValue ? $" (Receipt {payment.ReceiptNumber})" : "")}",
+                        -payment.Amount
                     ));
                 }
 
@@ -199,7 +209,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                         new[] {
                                 row.Date,
                                 row.Description,
-                                Convert.ToString(row.ReceiptNumber),
                                 row.Amount.ToString() },
                         offset)
                     )
@@ -207,11 +216,19 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var endingBalanceQuery = new GetCongregationBalance.Query(congregation.Id, endDate);
                 var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
-                rows.Add(BalanceRow(
-                    endDate,
-                    "Ending balance",
-                    endingBalance,
-                    offset));
+
+                rows.Add(RowWithOffset(
+                    new[] {
+                        DateString(endDate),
+                        "Ending balance",
+                    },
+                    offset
+                ).Concat(RowWithOffset(
+                    new[] { endingBalance.ToString() },
+                    1
+                )));
+
+                rows.Add(Enumerable.Empty<string>());
 
                 return rows;
             }
@@ -229,23 +246,23 @@ namespace SrdDatabase.Domain.Queries.Reports
                     RowWithOffset(new[] { parish.Name }, offset - 2)
                 };
 
-                int startingBalance;
+                //int startingBalance;
 
-                if (startDate.HasValue)
-                {
-                    var startingBalanceQuery = new GetParishBalance.Query(parish.Id, startDate.Value, false);
-                    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                }
-                else
-                {
-                    startingBalance = 0;
-                }
+                //if (startDate.HasValue)
+                //{
+                //    var startingBalanceQuery = new GetParishBalance.Query(parish.Id, startDate.Value, false);
+                //    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
+                //}
+                //else
+                //{
+                //    startingBalance = 0;
+                //}
 
-                rows.Add(BalanceRow(
-                    startDate,
-                    $"Starting balance for {parish.Name} Parish",
-                    startingBalance,
-                    offset));
+                //rows.Add(BalanceRow(
+                //    startDate,
+                //    $"Starting balance for {parish.Name} Parish",
+                //    startingBalance,
+                //    offset));
 
                 var congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
                 var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
@@ -262,15 +279,18 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.AddRange(congregationRows);
                 }
 
-                rows.Add(Enumerable.Empty<string>());
-
                 var endingBalanceQuery = new GetParishBalance.Query(parish.Id, endDate);
                 var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
-                rows.Add(BalanceRow(
-                    endDate,
-                    $"Ending balance for {parish.Name} Parish",
-                    endingBalance,
-                    offset));
+
+                rows.Add(RowWithOffset(
+                    new[] { $"Ending balance for {parish.Name} Parish" },
+                    offset - 1
+                ).Concat(RowWithOffset(
+                    new[] { endingBalance.ToString() },
+                    4
+                )));
+
+                rows.Add(Enumerable.Empty<string>());
 
                 return rows;
             }
@@ -288,23 +308,23 @@ namespace SrdDatabase.Domain.Queries.Reports
                     RowWithOffset(new[] { archdeaconry.Name }, offset - 3)
                 };
 
-                int startingBalance;
+                //int startingBalance;
 
-                if (startDate.HasValue)
-                {
-                    var startingBalanceQuery = new GetArchdeaconryBalance.Query(archdeaconry.Id, startDate.Value, false);
-                    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                }
-                else
-                {
-                    startingBalance = 0;
-                }
+                //if (startDate.HasValue)
+                //{
+                //    var startingBalanceQuery = new GetArchdeaconryBalance.Query(archdeaconry.Id, startDate.Value, false);
+                //    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
+                //}
+                //else
+                //{
+                //    startingBalance = 0;
+                //}
 
-                rows.Add(BalanceRow(
-                    startDate,
-                    $"Starting balance for {archdeaconry.Name} Archdeaconry",
-                    startingBalance,
-                    offset));
+                //rows.Add(BalanceRow(
+                //    startDate,
+                //    $"Starting balance for {archdeaconry.Name} Archdeaconry",
+                //    startingBalance,
+                //    offset));
 
                 var parishesQuery = new GetParishes.Query(archdeaconryId: archdeaconry.Id);
                 var parishResults = await _mediator.Send(parishesQuery, cancellationToken);
@@ -321,15 +341,18 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.AddRange(parishRows);
                 }
 
-                rows.Add(Enumerable.Empty<string>());
-
                 var endingBalanceQuery = new GetArchdeaconryBalance.Query(archdeaconry.Id, endDate);
                 var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
-                rows.Add(BalanceRow(
-                    endDate,
-                    $"Ending balance for {archdeaconry.Name} Archdeaconry",
-                    endingBalance,
-                    offset));
+
+                rows.Add(RowWithOffset(
+                    new[] { $"Ending balance for {archdeaconry.Name} Archdeaconry" },
+                    offset - 2
+                ).Concat(RowWithOffset(
+                    new[] { endingBalance.ToString() },
+                    6
+                )));
+
+                rows.Add(Enumerable.Empty<string>());
 
                 return rows;
             }
@@ -341,28 +364,25 @@ namespace SrdDatabase.Domain.Queries.Reports
                 IMediator _mediator,
                 CancellationToken cancellationToken)
             {
-                var rows = new List<IEnumerable<string>>
-                {
-                    RowWithOffset(new[] { "South Rwenzori" }, offset - 4)
-                };
+                var rows = new List<IEnumerable<string>>();
 
-                int startingBalance;
+                //int startingBalance;
 
-                if (startDate.HasValue)
-                {
-                    var startingBalanceQuery = new GetDioceseBalance.Query(startDate.Value, false);
-                    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                }
-                else
-                {
-                    startingBalance = 0;
-                }
+                //if (startDate.HasValue)
+                //{
+                //    var startingBalanceQuery = new GetDioceseBalance.Query(startDate.Value, false);
+                //    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
+                //}
+                //else
+                //{
+                //    startingBalance = 0;
+                //}
 
-                rows.Add(BalanceRow(
-                    startDate,
-                    $"Starting balance for South Rwenzori Diocese",
-                    startingBalance,
-                    offset));
+                //rows.Add(BalanceRow(
+                //    startDate,
+                //    $"Starting balance for South Rwenzori Diocese",
+                //    startingBalance,
+                //    offset));
 
                 var archdeaconriesQuery = new GetAllArchdeaconries.Query();
                 var archdeaconries = await _mediator.Send(archdeaconriesQuery, cancellationToken);
@@ -379,15 +399,18 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.AddRange(archdeaconryRows);
                 }
 
-                rows.Add(Enumerable.Empty<string>());
-
                 var endingBalanceQuery = new GetDioceseBalance.Query(endDate);
                 var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
-                rows.Add(BalanceRow(
-                    endDate,
-                    $"Ending balance for South Rwenzori Diocese",
-                    endingBalance,
-                    offset));
+
+                rows.Add(RowWithOffset(
+                    new[] { $"Ending balance for South Rwenzori Diocese" },
+                    offset - 3
+                ).Concat(RowWithOffset(
+                    new[] { endingBalance.ToString() },
+                    8
+                )));
+
+                rows.Add(Enumerable.Empty<string>());
 
                 return rows;
             }
