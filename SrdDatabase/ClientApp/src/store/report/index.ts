@@ -180,7 +180,7 @@ export interface State {
 }
 
 const initialState: State = {
-    reportLoading: true,
+    reportLoading: false,
     parameters: {},
 };
 
