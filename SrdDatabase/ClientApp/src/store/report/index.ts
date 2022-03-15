@@ -21,7 +21,7 @@ const setReportLoadingAction = () => ({
     type: SET_REPORT_LOADING,
 });
 
-const setReportAction = (report: Report) => ({
+const setReportAction = (report?: Report) => ({
     type: SET_REPORT,
     value: report,
 });
@@ -68,7 +68,7 @@ const prefillParameters = (
     archdeaconryId?: number,
     startDate?: Date,
     endDate?: Date,
-    load: boolean = false): AppThunkAction<Action> => (dispatch) => {
+    generateReport: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = 'report';
 
     const setParametersAndLoadReport = (parameters: ReportParameters) => {
@@ -80,8 +80,10 @@ const prefillParameters = (
 
         dispatch(setParameters(parameters));
 
-        if (load) {
+        if (generateReport) {
             dispatch(loadReport(parameters));
+        } else {
+            dispatch(setReportAction(undefined));
         }
     };
 

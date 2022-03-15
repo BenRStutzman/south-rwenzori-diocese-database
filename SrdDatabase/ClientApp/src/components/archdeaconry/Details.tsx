@@ -13,6 +13,7 @@ import { censusItems, quotaItems, congregationItems, eventItems, parishItems, pa
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
+import DetailsBox from '../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -100,11 +101,16 @@ const Details = ({
                         />
                         <DetailsList
                             itemType="payment"
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                            itemTotal={details.paymentResults.totalResults}
                             items={paymentItems(details.paymentResults)}
                             baseItemType="archdeaconry"
                             baseItemId={details.archdeaconry.id}
                             showAddLink
+                        />
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                            altLink={`/report?archdeaconryId=${details.archdeaconry.id}`}
+                            altLinkText="Create financial report"
                         />
                     </>
                 }

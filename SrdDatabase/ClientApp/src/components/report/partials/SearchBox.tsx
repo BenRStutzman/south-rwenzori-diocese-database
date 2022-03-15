@@ -41,6 +41,9 @@ const SearchBox = ({
     const loadData = () => {
         loadArchdeaconries();
 
+        var generateReportString = queryParams.get('generateReport');
+        const generateReport = Boolean(generateReportString);
+
         var congregationIdString = queryParams.get('congregationId');
         const congregationId = congregationIdString ? parseInt(congregationIdString) : undefined;
 
@@ -53,8 +56,7 @@ const SearchBox = ({
         const today = new Date();
         const startOfThisYear = new Date(today.getFullYear(), 0);
 
-        const noQueryParams = (congregationIdString === null) && (parishIdString === null) && (archdeaconryIdString === null);
-        prefillParameters(congregationId, parishId, archdeaconryId, startOfThisYear, today, !noQueryParams);
+        prefillParameters(congregationId, parishId, archdeaconryId, startOfThisYear, today, generateReport);
     };
 
     useEffect(loadData, []);

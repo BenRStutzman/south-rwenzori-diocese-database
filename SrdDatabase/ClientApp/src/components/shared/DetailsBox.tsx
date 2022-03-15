@@ -9,6 +9,8 @@ interface Props {
     itemId?: number;
     baseItemType?: string;
     altTitle?: string;
+    altLink?: string;
+    altLinkText?: string;
 }
 
 const DetailsBox = ({
@@ -17,6 +19,8 @@ const DetailsBox = ({
     itemType,
     itemId,
     altTitle,
+    altLink,
+    altLinkText,
 }: Props) =>
     <div className="details-box">
         {
@@ -35,6 +39,7 @@ const DetailsBox = ({
             itemId && baseItemType &&
             <Link to={`/${baseItemType}?${itemType}Id=${itemId}`}>View all {plural(baseItemType)} in this {itemType}</Link>
         }
+        {altLink && <Link to={altLink}>{altLinkText}</Link>}
     </div>;
 
 export default DetailsBox;

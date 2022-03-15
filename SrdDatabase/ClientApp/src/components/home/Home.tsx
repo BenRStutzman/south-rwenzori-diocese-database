@@ -9,6 +9,7 @@ import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
+import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import LoadingSpinner from '../shared/LoadingSpinner';
 
@@ -73,9 +74,14 @@ const Home = ({
                         />
                         <DetailsList
                             itemType="payment"
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                            itemTotal={details.paymentResults.totalResults}
                             items={paymentItems(details.paymentResults)}
                             showAddLink
+                        />
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                            altLink="/report"
+                            altLinkText="Create financial report"
                         />
                     </>
                 }

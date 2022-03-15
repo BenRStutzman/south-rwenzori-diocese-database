@@ -19,7 +19,7 @@ const SearchResults = ({
 
     return reportLoading ? <LoadingSpinner /> : report ?
         <div className="report-link-container">
-            <h1>Your report should download automatically.</h1>
+            <h1>Your report will download shortly.</h1>
             <CSVLink data={report.data} filename={report.fileName}>
                 <span ref={btnRef} />
                 Download again
