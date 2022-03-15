@@ -53,7 +53,8 @@ const SearchBox = ({
         const today = new Date();
         const startOfThisYear = new Date(today.getFullYear(), 0);
 
-        prefillParameters(congregationId, parishId, archdeaconryId, startOfThisYear, today, true);
+        const noQueryParams = (congregationIdString === null) && (parishIdString === null) && (archdeaconryIdString === null);
+        prefillParameters(congregationId, parishId, archdeaconryId, startOfThisYear, today, !noQueryParams);
     };
 
     useEffect(loadData, []);
