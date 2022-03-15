@@ -59,43 +59,55 @@ namespace SrdDatabase.Domain.Queries.Reports
                 var commonHeader = new[] { "Date", "Description", "Amount", "Congregation Balance" };
                 string subject;
                 IEnumerable<string> header;
-                IEnumerable<IEnumerable<string>> data;
+                Task<IEnumerable<IEnumerable<string>>> dataTask;
 
                 if (request.CongregationId.HasValue)
                 {
-                    var congregation = await _mediator.Send(new GetCongregationById.Query(request.CongregationId.Value), cancellationToken);
-                    subject = $"{congregation.Name} Congregation";
+                    var congregationTask = _mediator.Send(new GetCongregationById.Query(request.CongregationId.Value), cancellationToken);
                     header = (new[] { "Congregation" }).Concat(commonHeader);
-                    data = await CongregationRows(request.StartDate, endDate, congregation, 1, _mediator, cancellationToken);
+
+                    var congregation = await congregationTask;
+                    dataTask = CongregationRows(request.StartDate, endDate, congregation, 1, _mediator, cancellationToken);
+
+                    subject = $"{congregation.Name} Congregation";
                 }
                 else if (request.ParishId.HasValue)
                 {
-                    var parish = await _mediator.Send(new GetParishById.Query(request.ParishId.Value), cancellationToken);
-                    subject = $"{parish.Name} Parish";
+                    var parishTask = _mediator.Send(new GetParishById.Query(request.ParishId.Value), cancellationToken);
                     header = (new[] { "Parish", "Congregation" })
                         .Concat(commonHeader)
                         .Append("Parish Balance");
-                    data = await ParishRows(request.StartDate, endDate, parish, 2, _mediator, cancellationToken);
+
+                    var parish = await parishTask;
+                    dataTask = ParishRows(request.StartDate, endDate, parish, 2, _mediator, cancellationToken);
+
+                    subject = $"{parish.Name} Parish";
                 }
                 else if (request.ArchdeaconryId.HasValue)
                 {
-                    var archdeaconry = await _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value), cancellationToken);
-                    subject = $"{archdeaconry.Name} Archdeaconry";
+                    var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.ArchdeaconryId.Value), cancellationToken);
                     header = (new[] { "Archdeaconry", "Parish", "Congregation" })
                         .Concat(commonHeader)
                         .Concat(new[] { "Parish Balance", "Archdeaconry Balance" });
-                    data = await ArchdeaconryRows(request.StartDate, endDate, archdeaconry, 3, _mediator, cancellationToken);
+
+                    var archdeaconry = await archdeaconryTask;
+                    dataTask = ArchdeaconryRows(request.StartDate, endDate, archdeaconry, 3, _mediator, cancellationToken);
+                    
+                    subject = $"{archdeaconry.Name} Archdeaconry";
                 }
                 else
                 {
-                    subject = "South Rwenzori Diocese";
+                    dataTask = DioceseRows(request.StartDate, endDate, 3, _mediator, cancellationToken);
+                    
                     header = (new[] { "Archdeaconry", "Parish", "Congregation" })
                         .Concat(commonHeader)
                         .Concat(new[] { "Parish Balance", "Archdeaconry Balance", "Diocese Balance" });
-                    data = await DioceseRows(request.StartDate, endDate, 3, _mediator, cancellationToken);
+                    subject = "South Rwenzori Diocese";
                 }
 
                 var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_QuotaRemittanceReport_{dates}";
+
+                var data = await dataTask;
 
                 return WriteReport(data.Prepend(header), fileName);
             }
@@ -110,25 +122,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                 return date.HasValue ? $"{date.Value.Year}-{date.Value.Month}-{date.Value.Day}" : string.Empty;
             }
 
-            public static IEnumerable<string> BalanceRow(
-                DateTime? date,
-                string description,
-                int balance,
-                int offset,
-                int balanceOffset)
-            {
-                return RowWithOffset(
-                    new[] {
-                            DateString(date),
-                            description,
-                    },
-                    offset
-                ).Concat(RowWithOffset(
-                    new[] { balance.ToString() },
-                    balanceOffset
-                ));
-            }
-
             public static async Task<IEnumerable<IEnumerable<string>>> CongregationRows(
                 DateTime? startDate,
                 DateTime endDate,
@@ -138,22 +131,36 @@ namespace SrdDatabase.Domain.Queries.Reports
                 CancellationToken cancellationToken
                 )
             {
+                var startingBalanceTask = startDate.HasValue
+                    ? _mediator.Send(
+                        new GetCongregationBalance.Query(congregation.Id, startDate.Value, false),
+                        cancellationToken)
+                    : Task.FromResult(0);
+
+                var quotaQuery = new GetQuotas.Query(
+                    congregationId: congregation.Id,
+                    startYear: startDate?.Year,
+                    endYear: endDate.Year);
+                var quotaTask = _mediator.Send(quotaQuery, cancellationToken);
+
+                var paymentQuery = new GetPayments.Query(
+                    congregationId: congregation.Id,
+                    startDate: startDate,
+                    endDate: endDate);
+                var paymentTask =_mediator.Send(paymentQuery, cancellationToken);
+
+                var endingBalanceQuery = new GetCongregationBalance.Query(congregation.Id, endDate);
+                var endingBalanceTask =  _mediator.Send(endingBalanceQuery, cancellationToken);
+
+                var startingBalance = await startingBalanceTask;
+                var quotaResults = await quotaTask;
+                var paymentResults = await paymentTask;
+                var endingBalance = await endingBalanceTask;
+
                 var rows = new List<IEnumerable<string>>
                 {
                     RowWithOffset(new[] { congregation.Name }, offset - 1)
                 };
-
-                int startingBalance;
-
-                if (startDate.HasValue)
-                {
-                    var startingBalanceQuery = new GetCongregationBalance.Query(congregation.Id, startDate.Value, false);
-                    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                }
-                else
-                {
-                    startingBalance = 0;
-                }
 
                 rows.Add(RowWithOffset(
                     new[] {
@@ -163,12 +170,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                     },
                     offset
                 ));
-
-                var quotaQuery = new GetQuotas.Query(
-                    congregationId: congregation.Id,
-                    startYear: startDate?.Year,
-                    endYear: endDate.Year);
-                var quotaResults = await _mediator.Send(quotaQuery, cancellationToken);
 
                 var transactionRows = new List<TransactionRow>();
 
@@ -186,12 +187,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                         ));
                     }
                 }
-
-                var paymentQuery = new GetPayments.Query(
-                    congregationId: congregation.Id,
-                    startDate: startDate,
-                    endDate: endDate);
-                var paymentResults = await _mediator.Send(paymentQuery, cancellationToken);
 
                 foreach (var payment in paymentResults.Payments)
                 {
@@ -213,9 +208,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                         offset)
                     )
                 );
-
-                var endingBalanceQuery = new GetCongregationBalance.Query(congregation.Id, endDate);
-                var endingBalance = await _mediator.Send(endingBalanceQuery, cancellationToken);
 
                 rows.Add(RowWithOffset(
                     new[] {
@@ -245,24 +237,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                 {
                     RowWithOffset(new[] { parish.Name }, offset - 2)
                 };
-
-                //int startingBalance;
-
-                //if (startDate.HasValue)
-                //{
-                //    var startingBalanceQuery = new GetParishBalance.Query(parish.Id, startDate.Value, false);
-                //    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                //}
-                //else
-                //{
-                //    startingBalance = 0;
-                //}
-
-                //rows.Add(BalanceRow(
-                //    startDate,
-                //    $"Starting balance for {parish.Name} Parish",
-                //    startingBalance,
-                //    offset));
 
                 var congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
                 var congregationResults = await _mediator.Send(congregationsQuery, cancellationToken);
@@ -308,24 +282,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                     RowWithOffset(new[] { archdeaconry.Name }, offset - 3)
                 };
 
-                //int startingBalance;
-
-                //if (startDate.HasValue)
-                //{
-                //    var startingBalanceQuery = new GetArchdeaconryBalance.Query(archdeaconry.Id, startDate.Value, false);
-                //    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                //}
-                //else
-                //{
-                //    startingBalance = 0;
-                //}
-
-                //rows.Add(BalanceRow(
-                //    startDate,
-                //    $"Starting balance for {archdeaconry.Name} Archdeaconry",
-                //    startingBalance,
-                //    offset));
-
                 var parishesQuery = new GetParishes.Query(archdeaconryId: archdeaconry.Id);
                 var parishResults = await _mediator.Send(parishesQuery, cancellationToken);
 
@@ -365,24 +321,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                 CancellationToken cancellationToken)
             {
                 var rows = new List<IEnumerable<string>>();
-
-                //int startingBalance;
-
-                //if (startDate.HasValue)
-                //{
-                //    var startingBalanceQuery = new GetDioceseBalance.Query(startDate.Value, false);
-                //    startingBalance = await _mediator.Send(startingBalanceQuery, cancellationToken);
-                //}
-                //else
-                //{
-                //    startingBalance = 0;
-                //}
-
-                //rows.Add(BalanceRow(
-                //    startDate,
-                //    $"Starting balance for South Rwenzori Diocese",
-                //    startingBalance,
-                //    offset));
 
                 var archdeaconriesQuery = new GetAllArchdeaconries.Query();
                 var archdeaconries = await _mediator.Send(archdeaconriesQuery, cancellationToken);
