@@ -23,15 +23,27 @@ const SearchResults = ({
         }
     }, [reportVersion]);
 
-    return reportLoading ? <LoadingSpinner /> : report ?
+    return (
         <div className="report-link-container">
-            <h1>Your report will download shortly.</h1>
-            <CSVLink data={report.data} filename={report.fileName}>
-                <span ref={btnRef} />
-                Download again
-            </CSVLink>
+            {
+                reportLoading ?
+                    <>
+                        <h2>Generating report...</h2>
+                        <LoadingSpinner />
+                        <h5>This may take several minutes.</h5>
+                    </>
+                    :
+                    report &&
+                    <>
+                        <h2>Your report will download shortly.</h2>
+                        <CSVLink data={report.data} filename={report.fileName}>
+                            <span ref={btnRef} />
+                            Download again
+                        </CSVLink>
+                    </>
+            }
         </div>
-        : <></>;
+    );
 }
 
 export default connect(
