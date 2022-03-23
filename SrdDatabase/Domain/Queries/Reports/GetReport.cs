@@ -220,7 +220,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 )));
 
                 rows.Add(Enumerable.Empty<string>());
-
+                
                 return rows;
             }
 
@@ -240,6 +240,8 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var congregationResults = await congregationsTask;
                 var congregationsRowsTasks = congregationResults.Congregations
+                    .AsParallel()
+                    .AsOrdered()
                     .Select(congregation =>
                         CongregationRows(
                             startDate,
@@ -292,6 +294,8 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var parishResults = await parishesTask;
                 var parishesRowsTasks = parishResults.Parishes
+                    .AsParallel()
+                    .AsOrdered()
                     .Select(parish =>
                         ParishRows(
                             startDate,
@@ -343,6 +347,8 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var archdeaconries = await archdeaconriesTask;
                 var archdeaconriesRowsTasks = archdeaconries
+                    .AsParallel()
+                    .AsOrdered()
                     .Select(archdeaconry =>
                         ArchdeaconryRows(
                             startDate,
