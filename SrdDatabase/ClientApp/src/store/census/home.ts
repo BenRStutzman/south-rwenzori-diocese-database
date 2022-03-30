@@ -70,7 +70,7 @@ const prefillParameters = (congregationId?: number, parishId?: number, archdeaco
         dispatch(setParameters(parameters));
 
         if (search) {
-            dispatch(searchCensuss(parameters));
+            dispatch(searchCensuses(parameters));
         }
     };
 
@@ -127,7 +127,7 @@ const setSearchCongregationId = (congregationId?: number): AppThunkAction<Action
     dispatch(setSearchCongregationIdAction(congregationId));
 };
 
-const searchCensuss = (
+const searchCensuses = (
     parameters: CensusParameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
@@ -151,7 +151,7 @@ const searchCensuss = (
 };
 
 export const actionCreators = {
-    searchCensuss,
+    searchCensuses,
     setSearchParishId,
     setSearchCongregationId,
     setSearchArchdeaconryId,

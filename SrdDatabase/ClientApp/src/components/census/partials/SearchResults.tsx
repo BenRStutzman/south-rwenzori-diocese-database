@@ -26,20 +26,20 @@ const SearchResults = ({
     deleteCensus,
     currentUser,
     parameters,
-    searchCensuss,
+    searchCensuses,
 }: Props) => {
     const canEditSomeCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
 
     const onPage = (pageNumber: number) => {
-        searchCensuss({ ...parameters, pageNumber });
+        searchCensuses({ ...parameters, pageNumber });
     };
 
     const onSort = (sortColumn?: string, sortDescending?: boolean) => {
-        searchCensuss({ ...parameters, sortColumn, sortDescending });
+        searchCensuses({ ...parameters, sortColumn, sortDescending });
     };
 
     const onDelete = (census: Census) => {
-        deleteCensus(census, () => { searchCensuss(parameters, false); });
+        deleteCensus(census, () => { searchCensuses(parameters, false); });
     };
 
     return (

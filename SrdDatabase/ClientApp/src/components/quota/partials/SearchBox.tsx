@@ -78,7 +78,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchQuotas(parameters);
+        searchQuotas({ ...parameters, pageNumber: 0 });
     };
 
     const currentYear = (new Date()).getFullYear();

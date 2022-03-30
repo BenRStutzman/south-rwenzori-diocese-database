@@ -98,7 +98,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchEvents(parameters);
+        searchEvents({ ...parameters, pageNumber: 0 });
     };
 
     return (

@@ -55,7 +55,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchParishes(parameters);
+        searchParishes({ ...parameters, pageNumber: 0 });
     };
 
     return (

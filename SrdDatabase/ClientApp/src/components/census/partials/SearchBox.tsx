@@ -19,7 +19,7 @@ type Props =
     typeof SharedStore.actionCreators;
 
 const SearchBox = ({
-    searchCensuss,
+    searchCensuses,
     parameters,
     setSearchArchdeaconryId,
     setSearchParishId,
@@ -77,7 +77,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchCensuss(parameters);
+        searchCensuses({ ...parameters, pageNumber: 0 });
     };
 
     return (
