@@ -40,14 +40,16 @@ const Edit = ({
 
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1>Edit user {user.name}</h1>
-            <div className="float-right button-group">
-                <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
-                    View details
-                </Link>
-                <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {deletingUserIds.includes(user.id as number) ? <Spinner size="sm" /> : 'Delete user'}
-                </button>
+            <div className="page-heading">
+                <h1>Edit user {user.name}</h1>
+                <div className="float-right button-group">
+                    <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
+                        View details
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {deletingUserIds.includes(user.id as number) ? <Spinner size="sm" /> : 'Delete user'}
+                    </button>
+                </div>
             </div>
             <SaveForm />
         </>;
