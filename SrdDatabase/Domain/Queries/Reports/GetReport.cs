@@ -105,7 +105,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                     subject = "South Rwenzori Diocese";
                 }
 
-                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_QuotaRemittanceReport_{dates}";
+                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_QuotaRemittanceReport_{dates}.csv";
 
                 var data = await dataTask;
 
