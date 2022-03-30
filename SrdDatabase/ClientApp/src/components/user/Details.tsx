@@ -39,14 +39,16 @@ const Details = ({
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1>User {details.user.name}</h1>
-            <div className="button-group float-right">
-                <Link className="btn btn-primary" to={`/user/edit/${details.user.id}`}>
-                    Edit user
-                </Link>
-                <button className="btn btn-danger" type="button" onClick={onDelete}>
-                    {deletingUserIds.includes(details.user.id as number) ? <Spinner size="sm" /> : 'Delete user'}
-                </button>
+            <div className="page-heading">
+                <h1>User {details.user.name}</h1>
+                <div className="button-group float-right">
+                    <Link className="btn btn-primary" to={`/user/edit/${details.user.id}`}>
+                        Edit user
+                    </Link>
+                    <button className="btn btn-danger" type="button" onClick={onDelete}>
+                        {deletingUserIds.includes(details.user.id as number) ? <Spinner size="sm" /> : 'Delete user'}
+                    </button>
+                </div>
             </div>
             <div className="details-boxes">
                 <DetailsBox
