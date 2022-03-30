@@ -63,7 +63,7 @@ const prefillParish = (archdeaconryId?: number): AppThunkAction<Action> => (disp
 const loadParish = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Parish>(`api/parish/${id}`)
+    get<Parish>(`api/parish/${id}`, '/parish')
         .then(parish => {
             dispatch(setParish(parish));
         });

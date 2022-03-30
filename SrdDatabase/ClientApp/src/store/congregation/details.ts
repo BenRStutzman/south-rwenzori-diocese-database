@@ -19,7 +19,7 @@ const receiveDetailsAction = (details: CongregationDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<CongregationDetails>(`api/congregation/details/${id}`)
+    get<CongregationDetails>(`api/congregation/details/${id}`, '/congregation')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

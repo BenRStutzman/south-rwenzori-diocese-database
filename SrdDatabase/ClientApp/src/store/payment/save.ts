@@ -118,7 +118,7 @@ const prefillPayment = (congregationId?: number, parishId?: number, archdeaconry
 const loadPayment = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Payment>(`api/payment/${id}`)
+    get<Payment>(`api/payment/${id}`, '/payment')
         .then(payment => {
             dispatch(setPayment(payment));
         });

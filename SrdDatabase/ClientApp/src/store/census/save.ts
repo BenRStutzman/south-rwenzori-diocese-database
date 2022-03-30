@@ -113,7 +113,7 @@ const prefillCensus = (congregationId?: number, parishId?: number, archdeaconryI
 const loadCensus = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Census>(`api/census/${id}`)
+    get<Census>(`api/census/${id}`, '/census')
         .then(census => {
             dispatch(setCensus(census));
         });

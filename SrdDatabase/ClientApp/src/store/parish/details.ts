@@ -19,7 +19,7 @@ const receiveDetailsAction = (details: ParishDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<ParishDetails>(`api/parish/details/${id}`)
+    get<ParishDetails>(`api/parish/details/${id}`, '/parish')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

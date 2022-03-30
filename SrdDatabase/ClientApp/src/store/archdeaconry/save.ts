@@ -45,7 +45,7 @@ const prefillArchdeaconry = (): AppThunkAction<Action> => (dispatch) => {
 const loadArchdeaconry = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Archdeaconry>(`api/archdeaconry/${id}`)
+    get<Archdeaconry>(`api/archdeaconry/${id}`, '/archdeaconry')
         .then(archdeaconry => {
             dispatch(setArchdeaconry(archdeaconry));
         });

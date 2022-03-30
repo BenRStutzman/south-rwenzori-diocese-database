@@ -18,7 +18,7 @@ const receiveDetailsAction = (details: EventDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<EventDetails>(`api/event/details/${id}`)
+    get<EventDetails>(`api/event/details/${id}`, '/event')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

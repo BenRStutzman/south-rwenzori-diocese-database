@@ -18,7 +18,7 @@ const receiveDetailsAction = (details: QuotaDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<QuotaDetails>(`api/quota/details/${id}`)
+    get<QuotaDetails>(`api/quota/details/${id}`, '/quota')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

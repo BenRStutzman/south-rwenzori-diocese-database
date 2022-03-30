@@ -117,7 +117,7 @@ const prefillQuota = (congregationId?: number, parishId?: number, archdeaconryId
 const loadQuota = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Quota>(`api/quota/${id}`)
+    get<Quota>(`api/quota/${id}`, '/quota')
         .then(quota => {
             dispatch(setQuota(quota));
         });

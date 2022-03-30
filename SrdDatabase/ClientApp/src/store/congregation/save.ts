@@ -82,7 +82,7 @@ const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThu
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Congregation>(`api/congregation/${id}`)
+    get<Congregation>(`api/congregation/${id}`, '/congregation')
         .then(congregation => {
             dispatch(setCongregation(congregation));
         });

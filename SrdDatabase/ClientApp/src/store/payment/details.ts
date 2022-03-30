@@ -18,7 +18,7 @@ const receiveDetailsAction = (details: PaymentDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<PaymentDetails>(`api/payment/details/${id}`)
+    get<PaymentDetails>(`api/payment/details/${id}`, '/payment')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

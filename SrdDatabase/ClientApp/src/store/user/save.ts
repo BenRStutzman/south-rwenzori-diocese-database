@@ -63,7 +63,7 @@ const prefillUser = (): AppThunkAction<Action> => (dispatch) => {
 const loadUser = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<User>(`api/user/${id}`)
+    get<User>(`api/user/${id}`, '/user')
         .then(user => {
             dispatch(setUser(user));
         });

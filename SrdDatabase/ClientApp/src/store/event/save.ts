@@ -130,7 +130,7 @@ const prefillEvent = (congregationId?: number, parishId?: number, archdeaconryId
 const loadEvent = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Event>(`api/event/${id}`)
+    get<Event>(`api/event/${id}`, '/event')
         .then(event => {
             dispatch(setEvent(event));
         });

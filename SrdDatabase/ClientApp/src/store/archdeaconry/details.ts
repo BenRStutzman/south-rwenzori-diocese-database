@@ -19,7 +19,7 @@ const receiveDetailsAction = (details: ArchdeaconryDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<ArchdeaconryDetails>(`api/archdeaconry/details/${id}`)
+    get<ArchdeaconryDetails>(`api/archdeaconry/details/${id}`, '/archdeaconry')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });

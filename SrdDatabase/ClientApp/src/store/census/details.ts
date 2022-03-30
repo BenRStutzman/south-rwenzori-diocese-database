@@ -18,7 +18,7 @@ const receiveDetailsAction = (details: CensusDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<CensusDetails>(`api/census/details/${id}`)
+    get<CensusDetails>(`api/census/details/${id}`, '/census')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });
