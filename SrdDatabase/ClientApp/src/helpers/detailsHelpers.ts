@@ -40,7 +40,7 @@ export function eventItems(eventResults: EventResults): DetailsListItem[] {
 export function censusItems(censusResults: CensusResults, useCount: boolean = false): DetailsListItem[] {
     return censusResults.censuses.map(census => ({
         id: census.id,
-        displayText: `${census.date}: ${describeCensus(census, useCount)}`,
+        displayText: `${formattedDate(census.date)}: ${describeCensus(census, useCount)}`,
     }));
 }
 
