@@ -96,7 +96,9 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.archdeaconries.map((archdeaconry: Archdeaconry) =>
                         <tr key={archdeaconry.id}>
-                            <td>{archdeaconry.name}</td>
+                            <td>
+                                <Link to={`/archdeaconry/details/${archdeaconry.id}`}>{archdeaconry.name}</Link>
+                            </td>
                             <td className="number-column">{archdeaconry.numberOfChristians}</td>
                             {
                                 canViewTransactions &&

@@ -104,7 +104,9 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.congregations.map((congregation: Congregation) =>
                         <tr key={congregation.id}>
-                            <td>{congregation.name}</td>
+                            <td>
+                                <Link to={`/congregation/details/${congregation.id}`}>{congregation.name}</Link>
+                            </td>
                             <td>
                                 <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
                             </td>
