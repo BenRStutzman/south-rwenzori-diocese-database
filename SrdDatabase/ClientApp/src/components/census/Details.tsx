@@ -63,7 +63,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="christians"
-                    itemValue={details.census.numberOfChristians?.toString()}
+                    itemValue={details.census.numberOfChristians?.toLocaleString()}
                 />
                 <DetailsBox
                     baseItemType="census"

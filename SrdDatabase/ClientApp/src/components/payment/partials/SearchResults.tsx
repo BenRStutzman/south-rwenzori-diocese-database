@@ -90,7 +90,7 @@ const SearchResults = ({
                                     <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                                 </td>
                                 <td className="number-column">{payment.receiptNumber}</td>
-                                <td className="number-column">{payment.amount}</td>
+                                <td className="number-column">{payment.amount?.toLocaleString()}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View

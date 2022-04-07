@@ -14,6 +14,7 @@ import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
 import DetailsBox from '../shared/DetailsBox';
+import { currentYearQuotaString } from '../../helpers/quotaHelper';
 
 type Props =
     Store.State &
@@ -93,7 +94,7 @@ const Details = ({
                     <>
                         <DetailsList
                             itemType="quota"
-                            altTitle={`${new Date().getFullYear()} Quota: ${details.archdeaconry.quota} UGX`}
+                            altTitle={currentYearQuotaString(details.archdeaconry.quota)}
                             items={quotaItems(details.quotaResults)}
                             baseItemType="archdeaconry"
                             baseItemId={details.archdeaconry.id}

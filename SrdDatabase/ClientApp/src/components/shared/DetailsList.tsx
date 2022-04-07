@@ -29,7 +29,7 @@ const DetailsList = ({
     return (
         <div className="details-box">
             <div>
-                <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal})`}</h2>
+                <h2>{altTitle ?? `${camelCaseToTitleCase(plural(itemType))} (${itemTotal?.toLocaleString()})`}</h2>
                 <ul>
                     {items.map(item =>
                         <li key={item.id}>

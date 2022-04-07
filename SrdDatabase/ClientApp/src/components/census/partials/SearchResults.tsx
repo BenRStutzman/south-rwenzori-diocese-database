@@ -86,7 +86,7 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/congregation/details/${census.congregationId}`}>{census.congregation}</Link>
                             </td>
-                            <td className="number-column">{census.numberOfChristians}</td>
+                            <td className="number-column">{census.numberOfChristians?.toLocaleString()}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/census/details/${census.id}`}>
                                     View

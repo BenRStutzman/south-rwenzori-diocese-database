@@ -16,5 +16,5 @@ export function canEdit(census: Census, currentUser: CurrentUser | undefined) {
 }
 
 export function stringNumberOfChristians(numberOfChristians?: number) {
-    return numberOfChristians?.toString() ?? 'Not counted';
+    return numberOfChristians?.toLocaleString() ?? 'Not counted';
 }

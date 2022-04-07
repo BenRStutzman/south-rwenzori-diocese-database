@@ -99,12 +99,12 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/archdeaconry/details/${archdeaconry.id}`}>{archdeaconry.name}</Link>
                             </td>
-                            <td className="number-column">{archdeaconry.numberOfChristians}</td>
+                            <td className="number-column">{archdeaconry.numberOfChristians?.toLocaleString()}</td>
                             {
                                 canViewTransactions &&
                                 <>
-                                    <td className="number-column">{archdeaconry.quota}</td>
-                                    <td className="number-column">{parenthesizeIfNegative(archdeaconry.balance as number)}</td>
+                                    <td className="number-column">{archdeaconry.quota?.toLocaleString()}</td>
+                                    <td className="number-column">{parenthesizeIfNegative(archdeaconry.balance)}</td>
                                 </>
                             }
                             <td className="buttons-column">

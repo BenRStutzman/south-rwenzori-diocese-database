@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
 import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
+import { currentYearQuotaString } from '../../helpers/quotaHelper';
 import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
@@ -68,7 +69,7 @@ const Home = ({
                     <>
                         <DetailsList
                             itemType="quota"
-                            altTitle={`${new Date().getFullYear()} Quota: ${details.quota} UGX`}
+                            altTitle={currentYearQuotaString(details.quota)}
                             items={quotaItems(details.quotaResults)}
                             showAddLink
                         />

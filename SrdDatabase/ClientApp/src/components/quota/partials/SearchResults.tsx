@@ -82,7 +82,7 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/congregation/details/${quota.congregationId}`}>{quota.congregation}</Link>
                             </td>
-                            <td className="number-column">{quota.amountPerYear}</td>
+                            <td className="number-column">{quota.amountPerYear?.toLocaleString()}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/quota/details/${quota.id}`}>
                                     View

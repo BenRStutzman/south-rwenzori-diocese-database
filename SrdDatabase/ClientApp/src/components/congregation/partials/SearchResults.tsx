@@ -110,13 +110,13 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/parish/details/${congregation.parishId}`}>{congregation.parish}</Link>
                             </td>
-                            <td className="number-column">{congregation.numberOfChristians}</td>
+                            <td className="number-column">{congregation.numberOfChristians?.toLocaleString()}</td>
                             {
                                 canViewTransactions &&
                                 <>
-                                    <td className="number-column">{congregation.quota}</td>
+                                    <td className="number-column">{congregation.quota?.toLocaleString()}</td>
                                     <td className="number-column">
-                                        {parenthesizeIfNegative(congregation.balance as number)}
+                                        {parenthesizeIfNegative(congregation.balance)}
                                     </td>
                                 </>
                             }

@@ -110,12 +110,12 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/archdeaconry/details/${parish.archdeaconryId}`}>{parish.archdeaconry}</Link>
                             </td>
-                            <td className="number-column">{parish.numberOfChristians}</td>
+                            <td className="number-column">{parish.numberOfChristians?.toLocaleString()}</td>
                             {
                                 canViewTransactions &&
                                 <>
-                                    <td className="number-column">{parish.quota}</td>
-                                    <td className="number-column">{parenthesizeIfNegative(parish.balance as number)}</td>
+                                    <td className="number-column">{parish.quota?.toLocaleString()}</td>
+                                    <td className="number-column">{parenthesizeIfNegative(parish.balance)}</td>
                                 </>
                             }
                             <td className="buttons-column">

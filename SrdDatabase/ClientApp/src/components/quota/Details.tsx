@@ -41,7 +41,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{`Quota of ${details.quota.amountPerYear} UGX per year`}</h1>
+                <h1>{`Quota of ${details.quota.amountPerYear?.toLocaleString()} UGX per year`}</h1>
                 <div className="button-group float-right">
                     <Link className="btn btn-primary" to={`/quota/edit/${details.quota.id}`}>
                         Edit quota

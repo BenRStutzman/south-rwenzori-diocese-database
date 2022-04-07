@@ -26,11 +26,13 @@ export function convertDateChange(event: ChangeEvent<HTMLInputElement>) : Date |
 }
 
 export function parenthesize(number: number): string {
-    return `(${number})`;
+    return `(${number.toLocaleString()})`;
 };
 
-export function parenthesizeIfNegative(number: number): string {
-    return number < 0 ? parenthesize(-number) : number.toString();
+export function parenthesizeIfNegative(number?: number): string {
+    return number === undefined ? ''
+        : number < 0 ? parenthesize(-number)
+            : number.toLocaleString();
 }
 
 export function useQueryParams() {

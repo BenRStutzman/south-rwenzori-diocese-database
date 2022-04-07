@@ -14,6 +14,7 @@ import { censusItems, quotaItems, congregationItems, eventItems, paymentItems } 
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
+import { currentYearQuotaString } from '../../helpers/quotaHelper';
 
 type Props =
     Store.State &
@@ -91,7 +92,7 @@ const Details = ({
                     <>
                         <DetailsList
                             itemType="quota"
-                            altTitle={`${new Date().getFullYear()} Quota: ${details.parish.quota} UGX`}
+                            altTitle={currentYearQuotaString(details.parish.quota)}
                             items={quotaItems(details.quotaResults)}
                             baseItemType="parish"
                             baseItemId={details.parish.id}
