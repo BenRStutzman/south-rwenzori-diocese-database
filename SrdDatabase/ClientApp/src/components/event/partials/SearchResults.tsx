@@ -99,7 +99,9 @@ const SearchResults = ({
 
                                 }
                             </td>
-                            <td>{event.description ?? event.eventType}</td>
+                            <td>
+                                <Link to={`/event/details/${event.id}`}>{event.description ?? event.eventType}</Link>
+                            </td>
                             <td>{peoplesNames(event)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
