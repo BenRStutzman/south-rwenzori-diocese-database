@@ -18,12 +18,26 @@ namespace SrdDatabase.Data.Commands.Censuses
 
             public Command(
                 int? id,
-                int numberOfChristians,
+                int males0To12,
+                int females0To12,
+                int males13To17,
+                int females13To17,
+                int males18To35,
+                int females18To35,
+                int males36AndAbove,
+                int females36AndAbove,
                 int congregationId,
                 DateTime date,
                 int userId)
                 : base(
-                    numberOfChristians,
+                    males0To12,
+                    females0To12,
+                    males13To17,
+                    females13To17,
+                    males18To35,
+                    females18To35,
+                    males36AndAbove,
+                    females36AndAbove,
                     congregationId,
                     date,
                     userId)

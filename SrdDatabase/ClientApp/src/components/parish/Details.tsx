@@ -80,16 +80,21 @@ const Details = ({
                     showAddLink={canEdit}
                 />
                 <DetailsList
-                    itemType="event"
-                    itemTotal={details.eventResults.totalResults}
-                    items={eventItems(details.eventResults)}
+                    itemType="census"
+                    altTitle={`Christians: ${stringNumberOfChristians(details.parish.numberOfChristians)}`}
+                    items={censusItems(details.censusResults)}
                     baseItemType="parish"
                     baseItemId={details.parish.id}
-                    showAddLink={canAddEvents}
+                    showAddLink
                 />
                 {
                     canViewTransactions &&
                     <>
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
+                            altLink={`/report?parishId=${details.parish.id}`}
+                            altLinkText="Create financial report"
+                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.parish.quota)}
@@ -106,20 +111,15 @@ const Details = ({
                             baseItemId={details.parish.id}
                             showAddLink
                         />
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
-                            altLink={`/report?parishId=${details.parish.id}`}
-                            altLinkText="Create financial report"
-                        />
                     </>
                 }
                 <DetailsList
-                    itemType="census"
-                    altTitle={`Christians: ${stringNumberOfChristians(details.parish.numberOfChristians)}`}
-                    items={censusItems(details.censusResults)}
+                    itemType="event"
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
                     baseItemType="parish"
                     baseItemId={details.parish.id}
-                    showAddLink
+                    showAddLink={canAddEvents}
                 />
             </div>
         </>;

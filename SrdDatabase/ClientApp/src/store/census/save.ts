@@ -11,11 +11,17 @@ import { formattedDate } from '../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'CENSUS.SET_IS_LOADING';
 const SET_CENSUS = 'CENSUS.SET_CENSUS';
-const SET_CENSUS_TYPE_ID = 'CENSUS.SET_CENSUS_TYPE_ID';
 const SET_ARCHDEACONRY_ID = 'CENSUS.SET_ARCHDEACONRY_ID';
 const SET_PARISH_ID = 'CENSUS.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'CENSUS.SET_CONGREGATION_ID';
-const SET_NUMBER_OF_CHRISTIANS = 'CENSUS.SET_NUMBER_OF_CHRISTIANS';
+const SET_MALES_0_TO_12 = 'CENSUS.SET_MALES_0_TO_12';
+const SET_FEMALES_0_TO_12 = 'CENSUS.SET_FEMALES_0_TO_12';
+const SET_MALES_13_TO_17 = 'CENSUS.SET_MALES_13_TO_17';
+const SET_FEMALES_13_TO_17 = 'CENSUS.SET_FEMALES_13_TO_17';
+const SET_MALES_18_TO_35 = 'CENSUS.SET_MALES_18_TO_35';
+const SET_FEMALES_18_TO_35 = 'CENSUS.SET_FEMALES_18_TO_35';
+const SET_MALES_36_AND_ABOVE = 'CENSUS.SET_MALES_36_AND_ABOVE';
+const SET_FEMALES_36_AND_ABOVE = 'CENSUS.SET_FEMALES_36_AND_ABOVE';
 const SET_DATE = 'CENSUS.SET_DATE';
 const SET_IS_SAVING = 'CENSUS.SET_IS_SAVING';
 const SET_ERRORS = 'CENSUS.SET_ERRORS';
@@ -44,10 +50,45 @@ const setCongregationIdAction = (congregationId?: number) => ({
     value: congregationId,
 });
 
-const setNumberOfChristiansAction = (numberOfChristians: number) => ({
-    type: SET_NUMBER_OF_CHRISTIANS,
-    value: numberOfChristians,
-})
+const setMales0To12Action = (males0To12: number) => ({
+    type: SET_MALES_0_TO_12,
+    value: males0To12,
+});
+
+const setMales13To17Action = (males13To17: number) => ({
+    type: SET_MALES_13_TO_17,
+    value: males13To17,
+});
+
+const setMales18To35Action = (males18To35: number) => ({
+    type: SET_MALES_18_TO_35,
+    value: males18To35,
+});
+
+const setMales36AndAboveAction = (males36AndAbove: number) => ({
+    type: SET_MALES_36_AND_ABOVE,
+    value: males36AndAbove,
+});
+
+const setFemales0To12Action = (females0To12: number) => ({
+    type: SET_FEMALES_0_TO_12,
+    value: females0To12,
+});
+
+const setFemales13To17Action = (females13To17: number) => ({
+    type: SET_FEMALES_13_TO_17,
+    value: females13To17,
+});
+
+const setFemales18To35Action = (females18To35: number) => ({
+    type: SET_FEMALES_18_TO_35,
+    value: females18To35,
+});
+
+const setFemales36AndAboveAction = (females36AndAbove: number) => ({
+    type: SET_FEMALES_36_AND_ABOVE,
+    value: females36AndAbove,
+});
 
 const setDateAction = (date?: Date) => ({
     type: SET_DATE,
@@ -161,8 +202,36 @@ const setCongregationId = (congregationId?: number): AppThunkAction<Action> => (
     dispatch(setCongregationIdAction(congregationId));
 };
 
-const setNumberOfChristians = (numberOfChristians: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setNumberOfChristiansAction(numberOfChristians));
+const setMales0To12 = (males0To12: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setMales0To12Action(males0To12));
+};
+
+const setMales13To17 = (males13To17: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setMales13To17Action(males13To17));
+};
+
+const setMales18To35 = (males18To35: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setMales18To35Action(males18To35));
+};
+
+const setMales36AndAbove = (males36AndAbove: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setMales36AndAboveAction(males36AndAbove));
+};
+
+const setFemales0To12 = (females0To12: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setFemales0To12Action(females0To12));
+};
+
+const setFemales13To17 = (females13To17: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setFemales13To17Action(females13To17));
+};
+
+const setFemales18To35 = (females18To35: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setFemales18To35Action(females18To35));
+};
+
+const setFemales36AndAbove = (females36AndAbove: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setFemales36AndAboveAction(females36AndAbove));
 };
 
 const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
@@ -176,7 +245,14 @@ export const actionCreators = {
     setCongregationId,
     setParishId,
     setArchdeaconryId,
-    setNumberOfChristians,
+    setMales0To12,
+    setMales13To17,
+    setMales18To35,
+    setMales36AndAbove,
+    setFemales0To12,
+    setFemales13To17,
+    setFemales18To35,
+    setFemales36AndAbove,
     setDate,
 };
 
@@ -215,12 +291,75 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 isLoading: false,
                 hasBeenChanged: false,
             };
-        case SET_NUMBER_OF_CHRISTIANS:
+        case SET_MALES_0_TO_12:
             return {
                 ...state,
                 census: {
                     ...state.census,
-                    numberOfChristians: action.value,
+                    males0To12: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_MALES_13_TO_17:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    males13To17: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_MALES_18_TO_35:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    males18To35: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_MALES_36_AND_ABOVE:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    males36AndAbove: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_FEMALES_0_TO_12:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    females0To12: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_FEMALES_13_TO_17:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    females13To17: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_FEMALES_18_TO_35:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    females18To35: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_FEMALES_36_AND_ABOVE:
+            return {
+                ...state,
+                census: {
+                    ...state.census,
+                    females36AndAbove: action.value,
                 },
                 hasBeenChanged: true,
             };

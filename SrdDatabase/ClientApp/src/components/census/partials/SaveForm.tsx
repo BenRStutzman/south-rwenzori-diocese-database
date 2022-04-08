@@ -29,7 +29,14 @@ const SaveForm = ({
     parishes,
     congregations,
     saveCensus,
-    setNumberOfChristians,
+    setMales0To12,
+    setMales13To17,
+    setMales18To35,
+    setMales36AndAbove,
+    setFemales0To12,
+    setFemales13To17,
+    setFemales18To35,
+    setFemales36AndAbove,
     setCongregationId,
     setArchdeaconryId,
     setParishId,
@@ -44,17 +51,42 @@ const SaveForm = ({
     archdeaconriesLoading,
     parishesLoading,
 }: Props) => {
-    const [multiInput, setMultiInput] = React.useState(false);
-    const [personNames, setPersonNames] = React.useState('');
-
     const loadData = () => {
         loadArchdeaconries();
     };
 
     useEffect(loadData, []);
 
-    const onNumberOfChristiansChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setNumberOfChristians(parseInt(event.target.value));
+    const onMales0To12Change = (event: ChangeEvent<HTMLInputElement>) => {
+        setMales0To12(parseInt(event.target.value));
+    };
+
+    const onMales13To17Change = (event: ChangeEvent<HTMLInputElement>) => {
+        setMales13To17(parseInt(event.target.value));
+    };
+
+    const onMales18To35Change = (event: ChangeEvent<HTMLInputElement>) => {
+        setMales18To35(parseInt(event.target.value));
+    };
+
+    const onMales36AndAboveChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setMales36AndAbove(parseInt(event.target.value));
+    };
+
+    const onFemales0To12Change = (event: ChangeEvent<HTMLInputElement>) => {
+        setFemales0To12(parseInt(event.target.value));
+    };
+
+    const onFemales13To17Change = (event: ChangeEvent<HTMLInputElement>) => {
+        setFemales13To17(parseInt(event.target.value));
+    };
+
+    const onFemales18To35Change = (event: ChangeEvent<HTMLInputElement>) => {
+        setFemales18To35(parseInt(event.target.value));
+    };
+
+    const onFemales36AndAboveChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setFemales36AndAbove(parseInt(event.target.value));
     };
 
     const onArchdeaconryIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -121,28 +153,28 @@ const SaveForm = ({
                     )}
                 </select>
             </div>
-                <div className="form-group">
-                    <label htmlFor="congregationId">Congregation</label>
-                    <select
-                        id="congregationId"
-                        className="form-control"
-                        value={congregationsLoading ? "" : census.congregationId ?? ""}
-                        onChange={onCongregationIdChange}
-                        required
-                    >
-                        <option key={0} value="" disabled>{
-                            !census.parishId ? 'First select a parish above'
-                                : congregationsLoading ? 'Loading...'
-                                    : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
-                                        : '--- select a congregation ---'
-                        }</option>
-                        {congregations.map(congregation =>
-                            <option key={congregation.id} value={congregation.id}>
-                                {congregation.name}
-                            </option>
-                        )}
-                    </select>
-                </div>
+            <div className="form-group">
+                <label htmlFor="congregationId">Congregation</label>
+                <select
+                    id="congregationId"
+                    className="form-control"
+                    value={congregationsLoading ? "" : census.congregationId ?? ""}
+                    onChange={onCongregationIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>{
+                        !census.parishId ? 'First select a parish above'
+                            : congregationsLoading ? 'Loading...'
+                                : congregations.length === 0 ? '--- no congregations available in the selected parish ---'
+                                    : '--- select a congregation ---'
+                    }</option>
+                    {congregations.map(congregation =>
+                        <option key={congregation.id} value={congregation.id}>
+                            {congregation.name}
+                        </option>
+                    )}
+                </select>
+            </div>
             <div className="form-group">
                 <label htmlFor="date">Date</label>
                 <input
@@ -154,18 +186,134 @@ const SaveForm = ({
                     required
                 />
             </div>
-            <div className="form-group">
-                <label htmlFor="numberOfChristians">Christians</label>
-                <input
-                    id="numberOfChristians"
-                    className="form-control"
-                    type="number"
-                    value={census.numberOfChristians?.toString() ?? ""}
-                    onChange={onNumberOfChristiansChange}
-                    autoComplete={autoComplete}
-                    min={1}
-                    required
-                />
+            <div className="row">
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="males0To12">Males 0-12</label>
+                        <input
+                            id="males0To12"
+                            className="form-control"
+                            type="number"
+                            value={census.males0To12?.toString() ?? ""}
+                            onChange={onMales0To12Change}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="females0To12">Females 0-12</label>
+                        <input
+                            id="females0To12"
+                            className="form-control"
+                            type="number"
+                            value={census.females0To12?.toString() ?? ""}
+                            onChange={onFemales0To12Change}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="males13To17">Males 13-17</label>
+                        <input
+                            id="males13To17"
+                            className="form-control"
+                            type="number"
+                            value={census.males13To17?.toString() ?? ""}
+                            onChange={onMales13To17Change}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="females13To17">Females 13-17</label>
+                        <input
+                            id="females13To17"
+                            className="form-control"
+                            type="number"
+                            value={census.females13To17?.toString() ?? ""}
+                            onChange={onFemales13To17Change}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-6">
+
+                    <div className="form-group">
+                        <label htmlFor="males0To12">Males 18-35</label>
+                        <input
+                            id="males18To35"
+                            className="form-control"
+                            type="number"
+                            value={census.males18To35?.toString() ?? ""}
+                            onChange={onMales18To35Change}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="females0To12">Females 18-35</label>
+                        <input
+                            id="females18To35"
+                            className="form-control"
+                            type="number"
+                            value={census.females18To35?.toString() ?? ""}
+                            onChange={onFemales18To35Change}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="males36AndAbove">Males 36+</label>
+                        <input
+                            id="males36AndAbove"
+                            className="form-control"
+                            type="number"
+                            value={census.males36AndAbove?.toString() ?? ""}
+                            onChange={onMales36AndAboveChange}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="col-6">
+                    <div className="form-group">
+                        <label htmlFor="females36AndAbove">Females 36+</label>
+                        <input
+                            id="females36AndAbove"
+                            className="form-control"
+                            type="number"
+                            value={census.females36AndAbove?.toString() ?? ""}
+                            onChange={onFemales36AndAboveChange}
+                            autoComplete={autoComplete}
+                            min={1}
+                            required
+                        />
+                    </div>
+                </div>
             </div>
             {
                 Object.values(errors).length > 0 &&

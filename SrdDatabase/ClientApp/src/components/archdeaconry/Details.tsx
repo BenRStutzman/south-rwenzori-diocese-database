@@ -82,16 +82,21 @@ const Details = ({
                     showAddLink={canEdit}
                 />
                 <DetailsList
-                    itemType="event"
-                    itemTotal={details.eventResults.totalResults}
-                    items={eventItems(details.eventResults)}
+                    itemType="census"
+                    altTitle={`Christians: ${stringNumberOfChristians(details.archdeaconry.numberOfChristians)}`}
+                    items={censusItems(details.censusResults)}
                     baseItemType="archdeaconry"
                     baseItemId={details.archdeaconry.id}
-                    showAddLink={canAddEvents}
+                    showAddLink
                 />
                 {
                     canViewTransactions &&
                     <>
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                            altLink={`/report?archdeaconryId=${details.archdeaconry.id}`}
+                            altLinkText="Create financial report"
+                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.archdeaconry.quota)}
@@ -108,20 +113,15 @@ const Details = ({
                             baseItemId={details.archdeaconry.id}
                             showAddLink
                         />
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
-                            altLink={`/report?archdeaconryId=${details.archdeaconry.id}`}
-                            altLinkText="Create financial report"
-                        />
                     </>
                 }
                 <DetailsList
-                    itemType="census"
-                    altTitle={`Christians: ${stringNumberOfChristians(details.archdeaconry.numberOfChristians)}`}
-                    items={censusItems(details.censusResults)}
+                    itemType="event"
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
                     baseItemType="archdeaconry"
                     baseItemId={details.archdeaconry.id}
-                    showAddLink
+                    showAddLink={canAddEvents}
                 />
             </div>
         </>;

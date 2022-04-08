@@ -4,7 +4,7 @@ import { atLeast } from './userHelper';
 
 export function describeCensus(census: Census, useCount: boolean = false) {
     return useCount
-        ? `${census.numberOfChristians} Christians`
+        ? `Census of ${census.numberOfChristians?.toLocaleString()} Christians`
         : `Census at ${census.congregation} Congregation`;
 }
 

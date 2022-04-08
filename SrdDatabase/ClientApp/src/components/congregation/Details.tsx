@@ -78,16 +78,21 @@ const Details = ({
                     itemId={details.congregation.parishId}
                 />
                 <DetailsList
-                    itemType="event"
-                    itemTotal={details.eventResults.totalResults}
-                    items={eventItems(details.eventResults)}
+                    itemType="census"
+                    altTitle={`Christians: ${stringNumberOfChristians(details.congregation.numberOfChristians)}`}
+                    items={censusItems(details.censusResults, true)}
                     baseItemType="congregation"
                     baseItemId={details.congregation.id}
-                    showAddLink={canAddEvents}
+                    showAddLink
                 />
                 {
                     canEditTransactions &&
                     <>
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
+                            altLink={`/report?congregationId=${details.congregation.id}`}
+                            altLinkText="Create financial report"
+                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.congregation.quota)}
@@ -104,20 +109,15 @@ const Details = ({
                             baseItemId={details.congregation.id}
                             showAddLink
                         />
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
-                            altLink={`/report?congregationId=${details.congregation.id}`}
-                            altLinkText="Create financial report"
-                        />
                     </>
                 }
                 <DetailsList
-                    itemType="census"
-                    altTitle={`Christians: ${stringNumberOfChristians(details.congregation.numberOfChristians)}`}
-                    items={censusItems(details.censusResults, true)}
+                    itemType="event"
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
                     baseItemType="congregation"
                     baseItemId={details.congregation.id}
-                    showAddLink
+                    showAddLink={canAddEvents}
                 />
             </div>
         </>;

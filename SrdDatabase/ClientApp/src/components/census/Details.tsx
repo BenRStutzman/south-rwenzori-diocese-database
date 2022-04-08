@@ -43,7 +43,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{describeCensus(details.census)}</h1>
+                <h1>{describeCensus(details.census, true)}</h1>
                 {
                     canEdit(details.census, currentUser) &&
                     <div className="button-group float-right">
@@ -62,10 +62,6 @@ const Details = ({
                     itemValue={formattedDate(details.census.date)}
                 />
                 <DetailsBox
-                    itemType="christians"
-                    itemValue={details.census.numberOfChristians?.toLocaleString()}
-                />
-                <DetailsBox
                     baseItemType="census"
                     itemType="congregation"
                     itemValue={details.census.congregation}
@@ -82,6 +78,38 @@ const Details = ({
                     itemType="archdeaconry"
                     itemValue={details.census.archdeaconry}
                     itemId={details.census.archdeaconryId}
+                />
+                <DetailsBox
+                    itemType="males0-12"
+                    itemValue={details.census.males0To12?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="females0-12"
+                    itemValue={details.census.females0To12?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="males13-17"
+                    itemValue={details.census.males13To17?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="females13-17"
+                    itemValue={details.census.females13To17?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="males18-35"
+                    itemValue={details.census.males18To35?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="females18-35"
+                    itemValue={details.census.females18To35?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="males36+"
+                    itemValue={details.census.males36AndAbove?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="females36+"
+                    itemValue={details.census.females36AndAbove?.toLocaleString()}
                 />
             </div>
         </>;

@@ -59,14 +59,19 @@ const Home = ({
                     showAddLink={canEdit}
                 />
                 <DetailsList
-                    itemType="event"
-                    itemTotal={details.eventResults.totalResults}
-                    items={eventItems(details.eventResults)}
-                    showAddLink={canAddEvents}
+                    itemType="census"
+                    altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
+                    items={censusItems(details.censusResults)}
+                    showAddLink={canAddCensuses}
                 />
                 {
                     canViewTransactions &&
                     <>
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                            altLink="/report"
+                            altLinkText="Create financial report"
+                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.quota)}
@@ -79,18 +84,13 @@ const Home = ({
                             items={paymentItems(details.paymentResults)}
                             showAddLink
                         />
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
-                            altLink="/report"
-                            altLinkText="Create financial report"
-                        />
                     </>
                 }
                 <DetailsList
-                    itemType="census"
-                    altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
-                    items={censusItems(details.censusResults)}
-                    showAddLink={canAddCensuses}
+                    itemType="event"
+                    itemTotal={details.eventResults.totalResults}
+                    items={eventItems(details.eventResults)}
+                    showAddLink={canAddEvents}
                 />
             </div>
         </>
