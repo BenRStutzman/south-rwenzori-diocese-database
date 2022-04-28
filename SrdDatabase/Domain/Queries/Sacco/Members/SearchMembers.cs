@@ -4,7 +4,7 @@ using SrdDatabase.Models.Sacco.Members;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SrdDatabase.Domain.Queries.Members
+namespace SrdDatabase.Domain.Queries.Sacco.Members
 {
     public class SearchMembers
     {
