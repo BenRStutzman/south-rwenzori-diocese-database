@@ -12,11 +12,9 @@ namespace SrdDatabase.Attributes
     {
         private readonly IEnumerable<UserRole> _roles;
 
-        public AuthorizeAttribute(UserRole minimumRole = UserRole.Viewer)
+        public AuthorizeAttribute(UserRole role = UserRole.Viewer)
         {
-            _roles = Enum.GetValues(typeof(UserRole))
-                    .Cast<UserRole>()
-                    .Where(role => (int)role >= (int)minimumRole);
+            _roles = AllUserRoles.ForUserRole[role];
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
