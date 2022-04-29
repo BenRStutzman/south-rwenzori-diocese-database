@@ -14,15 +14,15 @@ namespace SrdDatabase.Models.Users
 
     public static class AllUserRoles
     {
-        public static Dictionary<UserRole, IEnumerable<UserRole>> ForUserRole =>
+        public static Dictionary<UserRole, IEnumerable<UserRole>> WhoAreAtLeast =>
             new()
             {
-                { UserRole.Viewer, new[] { UserRole.Viewer } },
-                { UserRole.Contributor, new[] { UserRole.Viewer, UserRole.Contributor } },
-                { UserRole.Accountant, new[] { UserRole.Viewer, UserRole.Contributor, UserRole.Accountant } },
-                { UserRole.Editor, new[] { UserRole.Viewer, UserRole.Contributor, UserRole.Accountant, UserRole.Editor } },
-                { UserRole.Sacco, new[] { UserRole.Viewer, UserRole.Contributor, UserRole.Sacco } },
-                { UserRole.Administrator, new[] { UserRole.Viewer, UserRole.Contributor, UserRole.Accountant, UserRole.Editor, UserRole.Sacco, UserRole.Administrator } },
+                { UserRole.Viewer, new[] { UserRole.Viewer, UserRole.Contributor, UserRole.Accountant, UserRole.Editor, UserRole.Sacco, UserRole.Administrator } },
+                { UserRole.Contributor, new[] { UserRole.Contributor, UserRole.Editor, UserRole.Administrator } },
+                { UserRole.Accountant, new[] { UserRole.Accountant, UserRole.Editor, UserRole.Administrator } },
+                { UserRole.Editor, new[] { UserRole.Editor, UserRole.Administrator } },
+                { UserRole.Sacco, new[] { UserRole.Sacco, UserRole.Administrator } },
+                { UserRole.Administrator, new[] { UserRole.Administrator } },
             };
     }
 

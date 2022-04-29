@@ -14,7 +14,7 @@ namespace SrdDatabase.Attributes
 
         public AuthorizeAttribute(UserRole role = UserRole.Viewer)
         {
-            _roles = AllUserRoles.ForUserRole[role];
+            _roles = AllUserRoles.WhoAreAtLeast[role];
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
