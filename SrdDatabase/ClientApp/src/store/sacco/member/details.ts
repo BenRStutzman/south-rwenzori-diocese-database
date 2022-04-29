@@ -1,8 +1,7 @@
 import { Reducer } from 'redux';
-import { Action, AppThunkAction } from '..';
-import { get } from '../../helpers/apiHelpers';
-import { MemberDetails } from '../../models/member';
-import { pagedResultsDefaults } from '../../models/shared';
+import { Action, AppThunkAction } from '../..';
+import { get } from '../../../helpers/apiHelpers';
+import { MemberDetails } from '../../../models/sacco/member';
 
 const REQUEST_DETAILS = 'MEMBER.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'MEMBER.RECEIVE_DETAILS';
@@ -19,7 +18,7 @@ const receiveDetailsAction = (details: MemberDetails) => ({
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<MemberDetails>(`api/sacco/member/details/${id}`, '/member')
+    get<MemberDetails>(`api/sacco/member/details/${id}`, '/sacco/member')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });
@@ -38,12 +37,6 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         member: {},
-        parishResults: { ...pagedResultsDefaults, parishes: [] },
-        congregationResults: { ...pagedResultsDefaults, congregations: [] },
-        eventResults: { ...pagedResultsDefaults, events: [] },
-        paymentResults: { ...pagedResultsDefaults, payments: [] },
-        quotaResults: { ...pagedResultsDefaults, quotas: [] },
-        censusResults: { ...pagedResultsDefaults, censuses: [] },
     },
 };
 

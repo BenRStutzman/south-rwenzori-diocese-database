@@ -38,6 +38,10 @@ import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
 import UserDetails from './components/user/Details';
+import SaccoMemberHome from './components/sacco/member/Home';
+import SaccoMemberAdd from './components/sacco/member/Add';
+import SaccoMemberEdit from './components/sacco/member/Edit';
+import SaccoMemberDetails from './components/sacco/member/Details';
 import { atLeast } from './helpers/userHelper';
 
 export default () => (
@@ -78,6 +82,10 @@ export default () => (
             <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/details/:userId' component={UserDetails} roles={atLeast.administrator} />
+            <PrivateRoute exact path='/sacco/member' component={SaccoMemberHome} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/member/add' component={SaccoMemberAdd} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/member/edit/:memberId' component={SaccoMemberEdit} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/member/details/:memberId' component={SaccoMemberDetails} roles={atLeast.sacco} />
             <Redirect from='*' to='/' />
         </Switch>
     </Layout>

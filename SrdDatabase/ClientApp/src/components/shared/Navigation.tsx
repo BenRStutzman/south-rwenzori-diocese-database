@@ -59,6 +59,12 @@ const Navigation = ({
                                     </>
                                 }
                                 {
+                                    currentUser && atLeast.sacco.includes(currentUser.userType) &&
+                                    <NavItem>
+                                        <NavLink tag={Link} className='text-dark' to='/sacco/member'>Members</NavLink>
+                                    </NavItem>
+                                }
+                                {
                                     currentUser && atLeast.administrator.includes(currentUser.userType) &&
                                     <NavItem>
                                         <NavLink tag={Link} className='text-dark' to='/user'>Users</NavLink>

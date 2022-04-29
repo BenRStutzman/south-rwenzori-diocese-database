@@ -45,7 +45,7 @@ const prefillMember = (): AppThunkAction<Action> => (dispatch) => {
 const loadMember = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
 
-    get<Member>(`api/sacco/member/${id}`, '/member')
+    get<Member>(`api/sacco/member/${id}`, '/sacco/member')
         .then(member => {
             dispatch(setMember(member));
         });
@@ -63,7 +63,7 @@ const saveMember = (member: Member, history: History): AppThunkAction<Action> =>
     post<Member>(`api/sacco/member/${action}`, member)
         .then(response => {
             if (response.ok) {
-                history.push('/member');
+                history.push('/sacco/member');
             } else {
                 throw response.json();
             }

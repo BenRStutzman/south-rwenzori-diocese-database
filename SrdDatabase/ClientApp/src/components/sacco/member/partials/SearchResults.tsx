@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
-import { atLeast } from '../../../../helpers/userHelper';
 import { Member } from '../../../../models/sacco/member';
 import LoadingSpinner from '../../../shared/LoadingSpinner';
 import * as Store from '../../../../store/sacco/member/home';

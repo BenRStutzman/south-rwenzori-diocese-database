@@ -15,7 +15,7 @@ const Home = () => {
                 <h1>Members</h1>
                 <ExpandButton expanded={expanded} setExpanded={setExpanded} />
                 <div>
-                    <Link className="btn btn-primary float-right" to="/member/add">Add new</Link>
+                    <Link className="btn btn-primary float-right" to="/sacco/member/add">Add new</Link>
                 </div>
             </div>
             <SearchBox expanded={expanded} />
