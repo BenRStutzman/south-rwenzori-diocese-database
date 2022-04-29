@@ -10,6 +10,7 @@ import * as Quota from './quota';
 import * as Census from './census';
 import * as Report from './report';
 import * as Shared from './shared';
+import * as Sacco from './sacco';
 
 export interface Action {
     type: string;
@@ -33,6 +34,7 @@ export interface State {
     census: Census.State;
     report: Report.State;
     shared: Shared.State;
+    sacco: Sacco.State;
 }
 
 export const reducers = {
@@ -48,4 +50,5 @@ export const reducers = {
     census: Census.reducer,
     report: Report.reducer,
     shared: Shared.reducer,
+    sacco: Sacco.reducer,
 };

@@ -47,5 +47,6 @@ export const userRole = {
     contributor: 'Contributor',
     accountant: 'Accountant',
     editor: 'Editor',
+    sacco: 'Sacco',
     administrator: 'Administrator',
 };

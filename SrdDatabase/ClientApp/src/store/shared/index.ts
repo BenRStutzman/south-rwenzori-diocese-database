@@ -10,6 +10,7 @@ import { Event, EventType } from '../../models/event';
 import { Parish, ParishParameters, ParishResults } from '../../models/parish';
 import { Payment } from '../../models/payment';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
+import { Member } from '../../models/sacco/member';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -31,6 +32,7 @@ const SET_DELETING_CENSUS_ID = 'SET_DELETING_CENSUS_ID';
 const SET_DELETING_PAYMENT_ID = 'SET_DELETING_PAYMENT_ID';
 const SET_DELETING_QUOTA_ID = 'SET_DELETING_QUOTA_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
+const SET_DELETING_SACCO_MEMBER_ID = 'SET_DELETING_SACCO_MEMBER_ID';
 
 const loginAction = (user: CurrentUser) => ({
     type: LOGIN,
@@ -124,6 +126,11 @@ const setDeletingUserIdAction = (userId?: number, isDeleting: boolean = true) =>
 const setDeletingCensusIdAction = (censusId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_CENSUS_ID,
     value: { censusId, isDeleting },
+});
+
+const setDeletingSaccoMemberIdAction = (memberId?: number, isDeleting: boolean = true) => ({
+    type: SET_DELETING_SACCO_MEMBER_ID,
+    value: { memberId, isDeleting },
 });
 
 const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
@@ -340,7 +347,7 @@ const deleteUser = (user: User, onSuccess: () => void):
 
 const deleteCensus = (census: Census, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this census for ${census.congregation}?`)) {
+        if (window.confirm(`Are you sure you want to delete the SACCO member ${census.congregation}?`)) {
             dispatch(setDeletingCensusIdAction(census.id));
 
             post<{ id: number }>('api/census/delete', { id: census.id as number })
@@ -353,6 +360,27 @@ const deleteCensus = (census: Census, onSuccess: () => void):
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
                         dispatch(setDeletingCensusIdAction(census.id, false));
+                        alert(errorMessage);
+                    });
+                });
+        }
+    };
+
+const deleteSaccoMember = (member: Member, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete the SACCO member ${member.name}?`)) {
+            dispatch(setDeletingSaccoMemberIdAction(member.id));
+
+            post<{ id: number }>('api/sacco/member/delete', { id: member.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingSaccoMemberIdAction(member.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -375,6 +403,7 @@ export const actionCreators = {
     deleteQuota,
     deleteUser,
     deleteCensus,
+    deleteSaccoMember,
 };
 
 export interface State {
@@ -397,6 +426,7 @@ export interface State {
     deletingQuotaIds: number[];
     deletingUserIds: number[];
     deletingCensusIds: number[];
+    deletingSaccoMemberIds: number[];
 }
 
 const initialState: State = {
@@ -419,6 +449,7 @@ const initialState: State = {
     deletingPaymentIds: [],
     deletingUserIds: [],
     deletingCensusIds: [],
+    deletingSaccoMemberIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -543,6 +574,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 deletingCensusIds: action.value.isDeleting
                     ? [...state.deletingCensusIds, action.value.censusId]
                     : state.deletingCensusIds.filter(id => id != action.value.censusId),
+            };
+        case SET_DELETING_SACCO_MEMBER_ID:
+            return {
+                ...state,
+                deletingSaccoMemberIds: action.value.isDeleting
+                    ? [...state.deletingSaccoMemberIds, action.value.memberId]
+                    : state.deletingSaccoMemberIds.filter(id => id != action.value.memberId),
             };
         default:
             return state;

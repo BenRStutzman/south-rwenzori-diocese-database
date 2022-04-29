@@ -1,10 +1,10 @@
-﻿import { State } from '../../../store';
+﻿import { State } from '../../../../store';
 import React, { ChangeEvent, useEffect } from 'react';
-import { randomString } from '../../../helpers/miscellaneous';
-import * as Store from '../../../store/archdeaconry/home';
+import { randomString } from '../../../../helpers/miscellaneous';
+import * as Store from '../../../../store/sacco/member/home';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SearchButtons from '../../shared/SearchButtons';
+import SearchButtons from '../../../shared/SearchButtons';
 
 type OwnProps = {
     expanded: boolean;
@@ -18,7 +18,7 @@ type Props =
 const autoCompleteString = randomString();
 
 const SearchBox = ({
-    searchArchdeaconries,
+    searchMembers,
     parameters,
     setSearchName,
     prefillParameters,
@@ -36,7 +36,7 @@ const SearchBox = ({
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchArchdeaconries({ ...parameters, pageNumber: 0 });
+        searchMembers({ ...parameters, pageNumber: 0 });
     };
 
     return (
@@ -56,7 +56,7 @@ const SearchBox = ({
                     />
                 </div>
                 <SearchButtons
-                    thingsBeingSearched="archdeaconries"
+                    thingsBeingSearched="members"
                     onClear={() => { prefillParameters(); }}
                 />
             </form>
@@ -65,6 +65,6 @@ const SearchBox = ({
 }
 
 export default connect(
-    (state: State, ownProps: OwnProps) => ({ ...state.archdeaconry.home, ...ownProps }),
+    (state: State, ownProps: OwnProps) => ({ ...state.sacco.member.home, ...ownProps }),
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch),
 )(SearchBox);

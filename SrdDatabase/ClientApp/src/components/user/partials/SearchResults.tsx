@@ -77,7 +77,9 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.users.map((user: User) =>
                         <tr key={user.id}>
-                            <td>{user.name}</td>
+                            <td>
+                                <Link to={`/user/details/{user.id}`}>{user.name}</Link>
+                            </td>
                             <td>{user.username}</td>
                             <td>{user.userType}</td>
                             <td className="buttons-column">
