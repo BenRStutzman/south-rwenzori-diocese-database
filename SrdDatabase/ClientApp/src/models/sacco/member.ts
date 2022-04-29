@@ -14,5 +14,5 @@ export interface MemberParameters extends PagedParameters {
 }
 
 export interface MemberResults extends PagedResults {
-    archdeaconries: Member[];
+    members: Member[];
 }
