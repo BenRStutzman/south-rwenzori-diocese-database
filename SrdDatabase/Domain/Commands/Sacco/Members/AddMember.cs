@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Models.Sacco.Members;
-using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Data.Commands.Sacco.Members;
 
 namespace SrdDatabase.Domain.Commands.Sacco.Members
@@ -12,10 +11,6 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
     {
         public class Command : MemberFields, IRequest<SaveResponse>
         {
-            [Required]
-            [StringLength(50, MinimumLength = 8)]
-            public string Password { get; }
-
             public Command(
                 string name)
                 : base(name)
