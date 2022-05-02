@@ -1,12 +1,10 @@
-﻿using System.Text.Json.Serialization;
-
-namespace SrdDatabase.Models.Sacco.Members
+﻿namespace SrdDatabase.Models.Sacco.Members
 {
     public class Member
     {
-        public int Id { get; set; }
+        public int Id { get; }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
         public Member(
             int id,
