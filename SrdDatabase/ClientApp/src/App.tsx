@@ -38,6 +38,7 @@ import UserHome from './components/user/Home';
 import UserAdd from './components/user/Add';
 import UserEdit from './components/user/Edit';
 import UserDetails from './components/user/Details';
+import Sacco from './components/sacco/home/Home';
 import SaccoMemberHome from './components/sacco/member/Home';
 import SaccoMemberAdd from './components/sacco/member/Add';
 import SaccoMemberEdit from './components/sacco/member/Edit';
@@ -82,6 +83,7 @@ export default () => (
             <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/edit/:userId' component={UserEdit} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/details/:userId' component={UserDetails} roles={atLeast.administrator} />
+            <PrivateRoute exact path='/sacco' component={Sacco} />
             <PrivateRoute exact path='/sacco/member' component={SaccoMemberHome} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/member/add' component={SaccoMemberAdd} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/member/edit/:memberId' component={SaccoMemberEdit} roles={atLeast.sacco} />

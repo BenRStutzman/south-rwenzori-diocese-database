@@ -5,6 +5,7 @@ import * as Store from '../../store/shared';
 import { State } from '../../store';
 import { connect } from 'react-redux';
 import { atLeast } from '../../helpers/userHelper';
+import { userRole } from '../../models/user';
 
 type Props = Store.State;
 
@@ -21,14 +22,14 @@ const Navigation = ({
         <header>
             <Navbar className='navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3' light>
                 <Container>
-                    <NavbarBrand tag={Link} to='/'>SRD Admin</NavbarBrand>
+                    <NavbarBrand tag={Link} to='/'>SRD {currentUser?.userType === userRole.sacco ? 'SACCO' : 'Admin'}</NavbarBrand>
                     <NavbarToggler onClick={toggle} className='mr-2' />
-                    {
-                        currentUser &&
-                        <Collapse className='d-sm-inline-flex flex-sm-row-reverse' isOpen={isOpen} navbar>
+                    <Collapse className='d-sm-inline-flex flex-sm-row-reverse' isOpen={isOpen} navbar>
+                        {
+                            currentUser &&
                             <ul className='navbar-nav flex-grow'>
                                 {
-                                    currentUser.userType !== 'Sacco' &&
+                                    currentUser.userType !== userRole.sacco &&
                                     <>
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/archdeaconry'>Archdeaconries</NavLink>
@@ -63,9 +64,17 @@ const Navigation = ({
                                 }
                                 {
                                     atLeast.sacco.includes(currentUser.userType) &&
-                                    <NavItem>
-                                        <NavLink tag={Link} className='text-dark' to='/sacco/member'>Members</NavLink>
-                                    </NavItem>
+                                    <>
+                                        {
+                                            currentUser.userType !== userRole.sacco &&
+                                            <NavItem>
+                                                <NavLink tag={Link} className='text-dark' to='/sacco'>SACCO</NavLink>
+                                            </NavItem>
+                                        }
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/sacco/member'>Members</NavLink>
+                                        </NavItem>
+                                    </>
                                 }
                                 {
                                     atLeast.administrator.includes(currentUser.userType) &&
@@ -77,11 +86,11 @@ const Navigation = ({
                                     <NavLink tag={Link} className='text-blue' to='/login'>Logout</NavLink>
                                 </NavItem>
                             </ul>
-                        </Collapse>
-                    }
+                        }
+                    </Collapse>
                 </Container>
             </Navbar>
-        </header>
+        </header >
     );
 }
 

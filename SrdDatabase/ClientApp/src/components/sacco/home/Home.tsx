@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { stringNumberOfChristians } from '../../helpers/censusHelper';
-import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
-import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
-import { currentYearQuotaString } from '../../helpers/quotaHelper';
-import { atLeast } from '../../helpers/userHelper';
-import { State } from '../../store';
-import * as Store from '../../store/home';
-import * as SharedStore from '../../store/shared';
-import DetailsBox from '../shared/DetailsBox';
-import DetailsList from '../shared/DetailsList';
-import LoadingSpinner from '../shared/LoadingSpinner';
+import { stringNumberOfChristians } from '../../../helpers/censusHelper';
+import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../../helpers/detailsHelpers';
+import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
+import { currentYearQuotaString } from '../../../helpers/quotaHelper';
+import { atLeast } from '../../../helpers/userHelper';
+import { State } from '../../../store';
+import * as Store from '../../../store/home';
+import * as SharedStore from '../../../store/shared';
+import DetailsBox from '../../shared/DetailsBox';
+import DetailsList from '../../shared/DetailsList';
+import LoadingSpinner from '../../shared/LoadingSpinner';
 
 type Props =
     Store.State &
@@ -26,10 +25,6 @@ const Home = ({
     loadDetails,
     currentUser,
 }: Props) => {
-    if (currentUser?.userType == 'Sacco') {
-        return <Redirect to='/sacco' />;
-    }
-
     const loadData = () => {
         loadDetails();
     };
@@ -43,7 +38,7 @@ const Home = ({
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
-            <h1>South Rwenzori Diocese</h1>
+            <h1>SRD Saving and Credit Co-Operative Society</h1>
             <div className="details-boxes">
                 <DetailsList
                     itemType="archdeaconry"
