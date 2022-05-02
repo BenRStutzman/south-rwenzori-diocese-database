@@ -27,25 +27,28 @@ const Navigation = ({
                         currentUser &&
                         <Collapse className='d-sm-inline-flex flex-sm-row-reverse' isOpen={isOpen} navbar>
                             <ul className='navbar-nav flex-grow'>
-                                <>
-                                    <NavItem>
-                                        <NavLink tag={Link} className='text-dark' to='/archdeaconry'>Archdeaconries</NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink tag={Link} className='text-dark' to='/parish'>Parishes</NavLink>
-                                    </NavItem>
-                                </>
-                                <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/congregation'>Congregations</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className='text-dark' to='/census'>Censuses</NavLink>
-                                </NavItem>
                                 {
-                                    currentUser && atLeast.accountant.includes(currentUser.userType) &&
+                                    currentUser.userType !== 'Sacco' &&
+                                    <>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/archdeaconry'>Archdeaconries</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/parish'>Parishes</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/congregation'>Congregations</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/census'>Censuses</NavLink>
+                                        </NavItem>
+                                    </>
+                                }
+                                {
+                                    atLeast.accountant.includes(currentUser.userType) &&
                                     <>
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/quota'>Quotas</NavLink>
@@ -59,13 +62,13 @@ const Navigation = ({
                                     </>
                                 }
                                 {
-                                    currentUser && atLeast.sacco.includes(currentUser.userType) &&
+                                    atLeast.sacco.includes(currentUser.userType) &&
                                     <NavItem>
                                         <NavLink tag={Link} className='text-dark' to='/sacco/member'>Members</NavLink>
                                     </NavItem>
                                 }
                                 {
-                                    currentUser && atLeast.administrator.includes(currentUser.userType) &&
+                                    atLeast.administrator.includes(currentUser.userType) &&
                                     <NavItem>
                                         <NavLink tag={Link} className='text-dark' to='/user'>Users</NavLink>
                                     </NavItem>
