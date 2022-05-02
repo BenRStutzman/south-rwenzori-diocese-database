@@ -23,7 +23,7 @@ namespace SrdDatabase.Data.Commands.Sacco.Transactions
                 DateTime date,
                 bool isShares,
                 bool isContribution,
-                int receiptNumber,
+                int? receiptNumber,
                 int userId)
                 : base (amount, memberId, date, isShares, isContribution, receiptNumber, userId)
             {
