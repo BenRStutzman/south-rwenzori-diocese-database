@@ -11,6 +11,7 @@ interface Props {
     itemTotal?: number;
     items: DetailsListItem[];
     showAddLink?: boolean;
+    isSacco?: boolean;
     altTitle?: string;
 }
 
@@ -21,10 +22,12 @@ const DetailsList = ({
     itemTotal,
     items,
     showAddLink,
+    isSacco,
     altTitle,
 }: Props) => {
 
     const addParams = baseItemType && baseItemId ? `?${baseItemType}Id=${baseItemId}` : undefined;
+    const saccoPrefix = isSacco ? '/sacco' : '';
 
     return (
         <div className="details-box">
@@ -33,7 +36,7 @@ const DetailsList = ({
                 <ul>
                     {items.map(item =>
                         <li key={item.id}>
-                            <Link to={`/${itemType}/details/${item.id}`}>
+                            <Link to={`${saccoPrefix}/${itemType}/details/${item.id}`}>
                                 {item.displayText}
                             </Link>
                         </li>
@@ -47,10 +50,10 @@ const DetailsList = ({
             </div>
             <div>
                 <div>
-                    <Link to={`/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
+                    <Link to={`${saccoPrefix}/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
                     {
                         showAddLink &&
-                        <Link className="float-right" to={`/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
+                        <Link className="float-right" to={`${saccoPrefix}/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>
                     }
                 </div>
             </div>

@@ -11,6 +11,7 @@ import { describeCensus } from "./censusHelper";
 import { QuotaResults } from "../models/quota";
 import { describeQuota, formattedDates } from "./quotaHelper";
 import { describePayment } from "./paymentHelper";
+import { MemberResults } from "../models/sacco/member";
 
 export function archdeaconryItems(archdeaconryResults: ArchdeaconryResults): DetailsListItem[] {
     return archdeaconryResults.archdeaconries.map(archdeaconry => (
@@ -56,4 +57,10 @@ export function quotaItems(quotaResults: QuotaResults, useAmount: boolean = fals
         id: quota.id,
         displayText: `${formattedDates(quota)}: ${describeQuota(quota, useAmount)}`,
     }));
+}
+
+export function saccoMemberItems(memberResults: MemberResults): DetailsListItem[] {
+    return memberResults.members.map(member => (
+        { id: member.id, displayText: member.name }
+    ));
 }
