@@ -15,7 +15,7 @@ namespace SrdDatabase.Data.Queries.Sacco.Transactions
         {
             public Query(
                 int? id = null,
-                int? congregationId = null,
+                int? memberId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null,
                 int? receiptNumber = null,
@@ -25,7 +25,7 @@ namespace SrdDatabase.Data.Queries.Sacco.Transactions
                 string sortColumn = null,
                 bool sortDescending = false,
                 int? pageSize = null) :
-                base (congregationId,
+                base (memberId,
                     startDate,
                     endDate,
                     receiptNumber,

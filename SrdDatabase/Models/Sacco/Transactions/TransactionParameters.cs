@@ -24,7 +24,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
         public bool? IsContribution { get; }
 
         public TransactionParameters(
-            int? congregationId = null,
+            int? memberId = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
             int? receiptNumber = null,
@@ -41,7 +41,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
                 pageSize)
         {
             Id = id;
-            MemberId = congregationId;
+            MemberId = memberId;
             StartDate = startDate;
             EndDate = endDate;
             ReceiptNumber = receiptNumber;
