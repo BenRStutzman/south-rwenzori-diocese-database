@@ -18,7 +18,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
 
         public int Amount { get; }
 
-        public int ReceiptNumber { get; }
+        public int? ReceiptNumber { get; }
 
         public Transaction(
             int id,
@@ -28,7 +28,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             bool isShares,
             bool isContribution,
             int amount,
-            int receiptNumber)
+            int? receiptNumber)
         {
             Id = id;
             MemberId = memberId;
