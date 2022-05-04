@@ -190,8 +190,6 @@ export const actionCreators = {
 
 export interface State {
     isLoading: boolean;
-    congregationsLoading: boolean;
-    congregations: Congregation[];
     quota: Quota;
     hasBeenChanged: boolean,
     isSaving: boolean,
@@ -200,9 +198,7 @@ export interface State {
 
 const initialState: State = {
     quota: {},
-    congregations: [],
     isLoading: true,
-    congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
     errors: {},

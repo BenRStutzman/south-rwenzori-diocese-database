@@ -11,8 +11,8 @@ import { formattedDate } from '../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'PAYMENT.SET_IS_LOADING';
 const SET_PAYMENT = 'PAYMENT.SET_PAYMENT';
-const SET_ARCHDEACONRY_ID = 'EVENT.SET_ARCHDEACONRY_ID';
-const SET_PARISH_ID = 'EVENT.SET_PARISH_ID';
+const SET_ARCHDEACONRY_ID = 'PAYMENT.SET_ARCHDEACONRY_ID';
+const SET_PARISH_ID = 'PAYMENT.SET_PARISH_ID';
 const SET_CONGREGATION_ID = 'PAYMENT.SET_CONGREGATION_ID';
 const SET_AMOUNT = 'PAYMENT.SET_AMOUNT';
 const SET_DATE = 'PAYMENT.SET_DATE';
@@ -192,8 +192,6 @@ export const actionCreators = {
 
 export interface State {
     isLoading: boolean;
-    congregationsLoading: boolean;
-    congregations: Congregation[];
     payment: Payment;
     hasBeenChanged: boolean,
     isSaving: boolean,
@@ -202,9 +200,7 @@ export interface State {
 
 const initialState: State = {
     payment: {},
-    congregations: [],
     isLoading: true,
-    congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
     errors: {},

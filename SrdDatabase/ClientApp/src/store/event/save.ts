@@ -214,8 +214,6 @@ export const actionCreators = {
 
 export interface State {
     isLoading: boolean;
-    congregationsLoading: boolean;
-    congregations: Congregation[];
     event: Event;
     hasBeenChanged: boolean,
     isSaving: boolean,
@@ -224,9 +222,7 @@ export interface State {
 
 const initialState: State = {
     event: {},
-    congregations: [],
     isLoading: true,
-    congregationsLoading: true,
     hasBeenChanged: false,
     isSaving: false,
     errors: {},

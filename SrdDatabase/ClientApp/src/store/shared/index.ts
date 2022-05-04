@@ -11,6 +11,7 @@ import { Parish, ParishParameters, ParishResults } from '../../models/parish';
 import { Payment } from '../../models/payment';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
 import { Member } from '../../models/sacco/member';
+import { Transaction } from '../../models/sacco/transaction';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
@@ -24,6 +25,8 @@ const REQUEST_EVENT_TYPES = 'REQUEST_EVENT_TYPES';
 const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
 const REQUEST_USER_TYPES = 'REQUEST_USER_TYPES';
 const RECEIVE_USER_TYPES = 'RECEIVE_USER_TYPES';
+const REQUEST_SACCO_MEMBERS = 'REQUEST_SACCO_MEMBERS';
+const RECEIVE_SACCO_MEMBERS = 'RECEIVE_SACCO_MEMBERS';
 const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
 const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
 const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
@@ -86,6 +89,15 @@ const requestUserTypesAction = () => ({
 const receiveUserTypesAction = (userTypes: UserType[]) => ({
     type: RECEIVE_USER_TYPES,
     value: userTypes,
+});
+
+const requestSaccoMembersAction = () => ({
+    type: REQUEST_SACCO_MEMBERS,
+});
+
+const receiveSaccoMembersAction = (members: Member[]) => ({
+    type: RECEIVE_SACCO_MEMBERS,
+    value: members,
 });
 
 const setDeletingArchdeaconryIdAction = (archdeaconryId?: number, isDeleting: boolean = true) => ({
@@ -195,6 +207,15 @@ const loadUserTypes = (): AppThunkAction<Action> => (dispatch) => {
     get<UserType[]>('api/user/types')
         .then(userTypes => {
             dispatch(receiveUserTypesAction(userTypes));
+        });
+};
+
+const loadSaccoMembers = (): AppThunkAction<Action> => (dispatch) => {
+    dispatch(requestSaccoMembersAction());
+
+    get<Archdeaconry[]>('api/sacco/member/all')
+        .then(members => {
+            dispatch(receiveSaccoMembersAction(members));
         });
 };
 
@@ -395,6 +416,7 @@ export const actionCreators = {
     loadCongregations,
     loadEventTypes,
     loadUserTypes,
+    loadSaccoMembers,
     deleteArchdeaconry,
     deleteParish,
     deleteCongregation,
@@ -418,6 +440,8 @@ export interface State {
     eventTypesLoading: boolean;
     userTypes: UserType[];
     userTypesLoading: boolean;
+    saccoMembers: Member[];
+    saccoMembersLoading: boolean;
     deletingArchdeaconryIds: number[];
     deletingParishIds: number[];
     deletingCongregationIds: number[];
@@ -441,6 +465,8 @@ const initialState: State = {
     eventTypesLoading: true,
     userTypes: [],
     userTypesLoading: true,
+    saccoMembers: [],
+    saccoMembersLoading: true,
     deletingArchdeaconryIds: [],
     deletingParishIds: [],
     deletingCongregationIds: [],
@@ -518,6 +544,17 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 userTypes: action.value,
                 userTypesLoading: false,
+            };
+        case REQUEST_SACCO_MEMBERS:
+            return {
+                ...state,
+                saccoMembersLoading: true,
+            };
+        case RECEIVE_SACCO_MEMBERS:
+            return {
+                ...state,
+                saccoMembers: action.value,
+                saccoMembersLoading: false,
             };
         case SET_DELETING_ARCHDEACONRY_ID:
             return {
