@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../../shared/Paging';
 import SortButton from '../../../shared/SortButton';
+import { describeTransaction, describeTransactionAmount, describeTransactionType } from '../../../../helpers/sacco/transactionHelper';
 
 type Props =
     Store.State &
@@ -71,19 +72,11 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-1">
-                            Shares?
+                        <th className="col-2">
+                            Type
                             <SortButton
                                 parameters={parameters}
                                 columnName="isShares"
-                                onSort={onSort}
-                            />
-                        </th>
-                        <th className="col-1">
-                            Contribution?
-                            <SortButton
-                                parameters={parameters}
-                                columnName="isContribution"
                                 onSort={onSort}
                             />
                         </th>
@@ -106,9 +99,8 @@ const SearchResults = ({
                                 <Link to={`/sacco/member/details/${transaction.memberId}`}>{transaction.member}</Link>
                             </td>
                             <td className="number-column">{transaction.receiptNumber}</td>
-                            <td>{transaction.isShares ? '✔' : '❌'}</td>
-                            <td>{transaction.isContribution ? '✔' : '❌'}</td>
-                            <td className="number-column">{transaction.amount?.toLocaleString()}</td>
+                            <td>{describeTransactionType(transaction)}</td>
+                            <td className="number-column">{describeTransactionAmount(transaction)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/transaction/details/${transaction.id}`}>
                                     View

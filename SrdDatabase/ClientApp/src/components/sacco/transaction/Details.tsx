@@ -10,7 +10,7 @@ import DetailsBox from '../../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
-import { describeTransaction } from '../../../helpers/sacco/transactionHelper';
+import { describeTransaction, describeTransactionType } from '../../../helpers/sacco/transactionHelper';
 
 type Props =
     Store.State &
@@ -70,8 +70,8 @@ const Details = ({
                 />
                 <DetailsBox
                     baseItemType="transaction"
-                    itemType="isShares"
-                    itemValue={details.transaction.isShares ? 'Yes' : 'No'}
+                    itemType="type"
+                    itemValue={describeTransactionType(details.transaction)}
                 />
             </div>
         </>;

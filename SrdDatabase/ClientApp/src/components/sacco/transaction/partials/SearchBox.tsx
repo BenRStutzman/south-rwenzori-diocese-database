@@ -53,11 +53,11 @@ const SearchBox = ({
     };
 
     const onIsSharesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsShares(event.target.checked);
+        setSearchIsShares(event.target.value === 'shares');
     };
 
     const onIsContributionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsContribution(event.target.checked);
+        setSearchIsContribution(event.target.value === 'contribution');
     };
 
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -119,26 +119,44 @@ const SearchBox = ({
                 <div className="row">
                     <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="isShares">Shares?</label>
                             <input
-                                id="isShares"
-                                className="form-control"
-                                type="checkbox"
-                                checked={parameters.isShares ?? false}
-                                onChange={onIsSharesChange}
+                                id="contribution"
+                                type="radio"
+                                value="contribution"
+                                onChange={onIsContributionChange}
+                                checked={parameters.isContribution ?? false}
                             />
+                            <label htmlFor="contribution">Contribution</label>
+                            <input
+                                id="withdrawal"
+                                type="radio"
+                                value="withdrawal"
+                                onChange={onIsContributionChange}
+                                checked={parameters.isContribution === false}
+                            />
+                            <label htmlFor="withdrawal">Withdrawal</label>
                         </div>
                     </div>
                     <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="isContribution">Contribution?</label>
                             <input
-                                id="isContribution"
-                                className="form-control"
-                                type="checkbox"
-                                checked={parameters.isContribution ?? false}
-                                onChange={onIsContributionChange}
+                                name="isShares"
+                                id="shares"
+                                type="radio"
+                                value="shares"
+                                onChange={onIsSharesChange}
+                                checked={parameters.isShares ?? false}
                             />
+                            <label htmlFor="shares">Shares</label>
+                            <input
+                                name="isShares"
+                                id="savings"
+                                type="radio"
+                                value="savings"
+                                onChange={onIsSharesChange}
+                                checked={parameters.isShares === false}
+                            />
+                            <label htmlFor="savings">Savings</label>
                         </div>
                     </div>
                 </div>

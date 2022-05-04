@@ -52,11 +52,11 @@ const SaveForm = ({
     }
 
     const onIsSharesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsShares(event.target.checked);
+        setIsShares(event.target.value === 'shares');
     }
 
     const onIsContributionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsContribution(event.target.checked);
+        setIsContribution(event.target.value === 'contribution');
     };
 
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -98,24 +98,42 @@ const SaveForm = ({
                 </select>
             </div>
             <div className="form-group">
-                <label htmlFor="isShares">Shares?</label>
                 <input
-                    id="isShares"
-                    type="checkbox"
-                    className="form-control"
-                    checked={transaction.isShares ?? false}
+                    name="isShares"
+                    id="shares"
+                    type="radio"
+                    value="shares"
                     onChange={onIsSharesChange}
+                    checked={transaction.isShares ?? false}
                 />
+                <label htmlFor="shares">Shares</label>
+                <input
+                    name="isShares"
+                    id="savings"
+                    type="radio"
+                    value="savings"
+                    onChange={onIsSharesChange}
+                    checked={transaction.isShares === false}
+                />
+                <label htmlFor="savings">Savings</label>
             </div>
             <div className="form-group">
-                <label htmlFor="isContribution">Contribution?</label>
                 <input
-                    id="isContribution"
-                    type="checkbox"
-                    className="form-control"
-                    checked={transaction.isContribution ?? false}
+                    id="contribution"
+                    type="radio"
+                    value="contribution"
                     onChange={onIsContributionChange}
+                    checked={transaction.isContribution ?? false}
                 />
+                <label htmlFor="contribution">Contribution</label>
+                <input
+                    id="withdrawal"
+                    type="radio"
+                    value="withdrawal"
+                    onChange={onIsContributionChange}
+                    checked={transaction.isContribution === false}
+                />
+                <label htmlFor="withdrawal">Withdrawal</label>
             </div>
             <div className="form-group">
                 <label htmlFor="amount">Amount (UGX)</label>
