@@ -4,8 +4,8 @@ import { get } from '../../../helpers/apiHelpers';
 import { SaccoDetails } from '../../../models/sacco/home';
 import { pagedResultsDefaults } from '../../../models/shared';
 
-const REQUEST_DETAILS = 'HOME.REQUEST_DETAILS';
-const RECEIVE_DETAILS = 'HOME.RECEIVE_DETAILS';
+const REQUEST_DETAILS = 'SACCO_HOME.REQUEST_DETAILS';
+const RECEIVE_DETAILS = 'SACCO_HOME.RECEIVE_DETAILS';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,

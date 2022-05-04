@@ -7,13 +7,14 @@ import { stringNumberOfChristians } from '../../helpers/censusHelper';
 import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { currentYearQuotaString } from '../../helpers/quotaHelper';
-import { atLeast } from '../../helpers/userHelper';
+import { atLeast, getUser } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import LoadingSpinner from '../shared/LoadingSpinner';
+import { userRole } from '../../models/user';
 
 type Props =
     Store.State &
@@ -26,10 +27,6 @@ const Home = ({
     loadDetails,
     currentUser,
 }: Props) => {
-    if (currentUser?.userType == 'Sacco') {
-        return <Redirect to='/sacco' />;
-    }
-
     const loadData = () => {
         loadDetails();
     };
@@ -41,64 +38,65 @@ const Home = ({
     const canAddCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
     const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
 
-    return detailsLoading ? <LoadingSpinner fullPage /> :
-        <>
-            <h1>South Rwenzori Diocese</h1>
-            <div className="details-boxes">
-                <DetailsList
-                    itemType="archdeaconry"
-                    itemTotal={details.archdeaconryResults.totalResults}
-                    items={archdeaconryItems(details.archdeaconryResults)}
-                    showAddLink={canEdit}
-                />
-                <DetailsList
-                    itemType="parish"
-                    itemTotal={details.parishResults.totalResults}
-                    items={parishItems(details.parishResults)}
-                    showAddLink={canEdit}
-                />
-                <DetailsList
-                    itemType="congregation"
-                    itemTotal={details.congregationResults.totalResults}
-                    items={congregationItems(details.congregationResults)}
-                    showAddLink={canEdit}
-                />
-                <DetailsList
-                    itemType="census"
-                    altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
-                    items={censusItems(details.censusResults)}
-                    showAddLink={canAddCensuses}
-                />
-                {
-                    canViewTransactions &&
-                    <>
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
-                            altLink="/report"
-                            altLinkText="Create financial report"
-                        />
-                        <DetailsList
-                            itemType="quota"
-                            altTitle={currentYearQuotaString(details.quota)}
-                            items={quotaItems(details.quotaResults)}
-                            showAddLink
-                        />
-                        <DetailsList
-                            itemType="payment"
-                            itemTotal={details.paymentResults.totalResults}
-                            items={paymentItems(details.paymentResults)}
-                            showAddLink
-                        />
-                    </>
-                }
-                <DetailsList
-                    itemType="event"
-                    itemTotal={details.eventResults.totalResults}
-                    items={eventItems(details.eventResults)}
-                    showAddLink={canAddEvents}
-                />
-            </div>
-        </>
+    return currentUser?.userType === userRole.sacco ? <Redirect to='/sacco' />
+        : detailsLoading ? <LoadingSpinner fullPage /> :
+            <>
+                <h1>South Rwenzori Diocese</h1>
+                <div className="details-boxes">
+                    <DetailsList
+                        itemType="archdeaconry"
+                        itemTotal={details.archdeaconryResults.totalResults}
+                        items={archdeaconryItems(details.archdeaconryResults)}
+                        showAddLink={canEdit}
+                    />
+                    <DetailsList
+                        itemType="parish"
+                        itemTotal={details.parishResults.totalResults}
+                        items={parishItems(details.parishResults)}
+                        showAddLink={canEdit}
+                    />
+                    <DetailsList
+                        itemType="congregation"
+                        itemTotal={details.congregationResults.totalResults}
+                        items={congregationItems(details.congregationResults)}
+                        showAddLink={canEdit}
+                    />
+                    <DetailsList
+                        itemType="census"
+                        altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
+                        items={censusItems(details.censusResults)}
+                        showAddLink={canAddCensuses}
+                    />
+                    {
+                        canViewTransactions &&
+                        <>
+                            <DetailsBox
+                                altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                                altLink="/report"
+                                altLinkText="Create financial report"
+                            />
+                            <DetailsList
+                                itemType="quota"
+                                altTitle={currentYearQuotaString(details.quota)}
+                                items={quotaItems(details.quotaResults)}
+                                showAddLink
+                            />
+                            <DetailsList
+                                itemType="payment"
+                                itemTotal={details.paymentResults.totalResults}
+                                items={paymentItems(details.paymentResults)}
+                                showAddLink
+                            />
+                        </>
+                    }
+                    <DetailsList
+                        itemType="event"
+                        itemTotal={details.eventResults.totalResults}
+                        items={eventItems(details.eventResults)}
+                        showAddLink={canAddEvents}
+                    />
+                </div>
+            </>
 };
 
 export default connect(

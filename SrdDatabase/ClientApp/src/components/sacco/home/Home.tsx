@@ -3,31 +3,25 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { saccoMemberItems } from '../../../helpers/detailsHelpers';
-import { atLeast } from '../../../helpers/userHelper';
 import { State } from '../../../store';
 import * as Store from '../../../store/sacco/home';
-import * as SharedStore from '../../../store/shared';
 import DetailsList from '../../shared/DetailsList';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
 type Props =
     Store.State &
-    typeof Store.actionCreators &
-    SharedStore.State;
+    typeof Store.actionCreators;
 
 const Home = ({
     details,
     detailsLoading,
     loadDetails,
-    currentUser,
 }: Props) => {
     const loadData = () => {
         loadDetails();
     };
 
     useEffect(loadData, []);
-
-    currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
@@ -45,6 +39,6 @@ const Home = ({
 };
 
 export default connect(
-    (state: State) => ({ ...state.sacco.home, ...state.shared }),
+    (state: State) => state.sacco.home,
     (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Home);

@@ -73,11 +73,6 @@ const Details = ({
                     itemType="isShares"
                     itemValue={details.transaction.isShares ? 'Yes' : 'No'}
                 />
-                <DetailsBox
-                    baseItemType="transaction"
-                    itemType="isContribution"
-                    itemValue={details.transaction.isContribution ? 'Yes' : 'No'}
-                />
             </div>
         </>;
 }

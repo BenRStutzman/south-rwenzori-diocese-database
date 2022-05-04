@@ -2,22 +2,19 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { formattedDateAllowUndefined } from '../../../helpers/miscellaneous';
-import { Archdeaconry } from '../../../models/archdeaconry';
 import { Congregation } from '../../../models/congregation';
-import { Parish } from '../../../models/parish';
 import { TransactionParameters, TransactionParametersToSend, TransactionResults } from '../../../models/sacco/transaction';
 import { pagedResultsDefaults } from '../../../models/shared';
-import { loadCongregations, loadParishes } from '../../shared';
 
-const SET_PARAMETERS = 'TRANSACTION.SET_PARAMETERS';
-const SET_SEARCH_START_DATE = 'TRANSACTION.SET_SEARCH_START_DATE';
-const SET_SEARCH_END_DATE = 'TRANSACTION.SET_SEARCH_END_DATE';
-const SET_SEARCH_MEMBER_ID = 'TRANSACTION.SET_SEARCH_MEMBER_ID';
-const SET_SEARCH_IS_SHARES = 'TRANSACTION.SET_SEARCH_IS_SHARES';
-const SET_SEARCH_IS_CONTRIBUTION = 'TRANSACTION.SET_SEARCH_IS_CONTRIBUTION';
-const SET_SEARCH_RECEIPT_NUMBER = 'TRANSACTION.SET_SEARCH_RECEIPT_NUMBER';
-const SET_RESULTS_LOADING = 'TRANSACTION.SET_RESULTS_LOADING';
-const SET_RESULTS = 'TRANSACTION.SET_RESULTS';
+const SET_PARAMETERS = 'SACCO_TRANSACTION.SET_PARAMETERS';
+const SET_SEARCH_START_DATE = 'SACCO_TRANSACTION.SET_SEARCH_START_DATE';
+const SET_SEARCH_END_DATE = 'SACCO_TRANSACTION.SET_SEARCH_END_DATE';
+const SET_SEARCH_MEMBER_ID = 'SACCO_TRANSACTION.SET_SEARCH_MEMBER_ID';
+const SET_SEARCH_IS_SHARES = 'SACCO_TRANSACTION.SET_SEARCH_IS_SHARES';
+const SET_SEARCH_IS_CONTRIBUTION = 'SACCO_TRANSACTION.SET_SEARCH_IS_CONTRIBUTION';
+const SET_SEARCH_RECEIPT_NUMBER = 'SACCO_TRANSACTION.SET_SEARCH_RECEIPT_NUMBER';
+const SET_RESULTS_LOADING = 'SACCO_TRANSACTION.SET_RESULTS_LOADING';
+const SET_RESULTS = 'SACCO_TRANSACTION.SET_RESULTS';
 
 const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,

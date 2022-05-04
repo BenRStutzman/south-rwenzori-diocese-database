@@ -53,11 +53,11 @@ const SearchBox = ({
     };
 
     const onIsSharesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsShares(Boolean(event.target.value));
+        setSearchIsShares(event.target.checked);
     };
 
     const onIsContributionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsContribution(Boolean(event.target.value));
+        setSearchIsContribution(event.target.checked);
     };
 
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -134,6 +134,7 @@ const SearchBox = ({
                             <label htmlFor="isContribution">Contribution?</label>
                             <input
                                 id="isContribution"
+                                className="form-control"
                                 type="checkbox"
                                 checked={parameters.isContribution ?? false}
                                 onChange={onIsContributionChange}

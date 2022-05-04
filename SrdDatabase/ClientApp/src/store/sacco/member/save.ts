@@ -4,11 +4,11 @@ import { ErrorResponse, Errors, get, post } from '../../../helpers/apiHelpers';
 import { Member } from '../../../models/sacco/member';
 import { History } from 'history';
 
-const SET_IS_LOADING = 'MEMBER.SET_IS_LOADING';
-const SET_MEMBER = 'MEMBER.RECEIVE_MEMBER';
-const SET_NAME = 'MEMBER.SET_NAME';
-const SET_IS_SAVING = 'MEMBER.SET_IS_SAVING';
-const SET_ERRORS = 'MEMBER.SET_ERRORS';
+const SET_IS_LOADING = 'SACCO_MEMBER.SET_IS_LOADING';
+const SET_MEMBER = 'SACCO_MEMBER.RECEIVE_MEMBER';
+const SET_NAME = 'SACCO_MEMBER.SET_NAME';
+const SET_IS_SAVING = 'SACCO_MEMBER.SET_IS_SAVING';
+const SET_ERRORS = 'SACCO_MEMBER.SET_ERRORS';
 
 const setIsLoadingAction = () => ({
     type: SET_IS_LOADING,

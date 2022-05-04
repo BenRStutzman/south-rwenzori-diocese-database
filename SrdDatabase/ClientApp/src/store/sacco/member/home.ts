@@ -5,10 +5,10 @@ import { MemberParameters } from '../../../models/sacco/member';
 import { MemberResults } from '../../../models/sacco/member';
 import { pagedResultsDefaults } from '../../../models/shared';
 
-const SET_RESULTS_LOADING = 'MEMBER.SET_RESULTS_LOADING';
-const SET_RESULTS = 'MEMBER.SET_RESULTS';
-const SET_SEARCH_NAME = 'MEMBER.SET_SEARCH_NAME';
-const SET_PARAMETERS = 'MEMBER.SET_PARAMETERS';
+const SET_RESULTS_LOADING = 'SACCO_MEMBER.SET_RESULTS_LOADING';
+const SET_RESULTS = 'SACCO_MEMBER.SET_RESULTS';
+const SET_SEARCH_NAME = 'SACCO_MEMBER.SET_SEARCH_NAME';
+const SET_PARAMETERS = 'SACCO_MEMBER.SET_PARAMETERS';
 
 const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,

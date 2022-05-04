@@ -4,10 +4,10 @@ import { get, post } from '../../../helpers/apiHelpers';
 import { Member } from '../../../models/sacco/member';
 import { Transaction } from '../../../models/sacco/transaction';
 
-const REQUEST_MEMBERS = 'REQUEST_MEMBERS';
-const RECEIVE_MEMBERS = 'RECEIVE_MEMBERS';
-const SET_DELETING_MEMBER_ID = 'SET_DELETING_MEMBER_ID';
-const SET_DELETING_TRANSACTION_ID = 'SET_DELETING_TRANSACTION_ID';
+const REQUEST_MEMBERS = 'SACCO.REQUEST_MEMBERS';
+const RECEIVE_MEMBERS = 'SACCO.RECEIVE_MEMBERS';
+const SET_DELETING_MEMBER_ID = 'SACCO.SET_DELETING_MEMBER_ID';
+const SET_DELETING_TRANSACTION_ID = 'SACCO.SET_DELETING_TRANSACTION_ID';
 
 const requestMembersAction = () => ({
     type: REQUEST_MEMBERS,

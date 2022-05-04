@@ -52,11 +52,11 @@ const SaveForm = ({
     }
 
     const onIsSharesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsShares(Boolean(event.target.value));
+        setIsShares(event.target.checked);
     }
 
     const onIsContributionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsContribution(Boolean(event.target.value));
+        setIsContribution(event.target.checked);
     };
 
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +105,6 @@ const SaveForm = ({
                     className="form-control"
                     checked={transaction.isShares ?? false}
                     onChange={onIsSharesChange}
-                    required
                 />
             </div>
             <div className="form-group">
@@ -116,7 +115,6 @@ const SaveForm = ({
                     className="form-control"
                     checked={transaction.isContribution ?? false}
                     onChange={onIsContributionChange}
-                    required
                 />
             </div>
             <div className="form-group">

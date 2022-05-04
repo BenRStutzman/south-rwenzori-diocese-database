@@ -103,18 +103,18 @@ const SearchResults = ({
                         <tr key={transaction.id}>
                             <td>{transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}</td>
                             <td>
-                                <Link to={`/congregation/details/${transaction.memberId}`}>{transaction.member}</Link>
+                                <Link to={`/sacco/member/details/${transaction.memberId}`}>{transaction.member}</Link>
                             </td>
                             <td className="number-column">{transaction.receiptNumber}</td>
                             <td>{transaction.isShares ? '✔' : '❌'}</td>
                             <td>{transaction.isContribution ? '✔' : '❌'}</td>
                             <td className="number-column">{transaction.amount?.toLocaleString()}</td>
                             <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/transaction/details/${transaction.id}`}>
+                                <Link className="btn btn-secondary" to={`/sacco/transaction/details/${transaction.id}`}>
                                     View
                                 </Link>
                                 <>
-                                    <Link className="btn btn-primary" to={`/transaction/edit/${transaction.id}`}>
+                                    <Link className="btn btn-primary" to={`/sacco/transaction/edit/${transaction.id}`}>
                                         Edit
                                     </Link>
                                     <button className="btn btn-danger" onClick={() => { onDelete(transaction); }}>

@@ -3,8 +3,8 @@ import { Action, AppThunkAction } from '../..';
 import { get } from '../../../helpers/apiHelpers';
 import { MemberDetails } from '../../../models/sacco/member';
 
-const REQUEST_DETAILS = 'MEMBER.REQUEST_DETAILS';
-const RECEIVE_DETAILS = 'MEMBER.RECEIVE_DETAILS';
+const REQUEST_DETAILS = 'SACCO_MEMBER.REQUEST_DETAILS';
+const RECEIVE_DETAILS = 'SACCO_MEMBER.RECEIVE_DETAILS';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,

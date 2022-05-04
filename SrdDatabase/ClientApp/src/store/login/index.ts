@@ -3,7 +3,6 @@ import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
 import { History, Location } from 'history';
 import { CurrentUser, UserData } from '../../models/user';
-import { actionCreators as sharedActionCreators } from '../shared';
 import { Credentials } from "../../models/login";
 
 export const LOGIN = 'LOGIN.LOGIN';

@@ -5,12 +5,10 @@ import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
 import { State } from '../../store';
 import * as Store from '../../store/login';
-import * as SharedStore from '../../store/shared';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
-    typeof SharedStore.actionCreators &
     RouteComponentProps;
 
 const Login = ({
@@ -81,5 +79,5 @@ const Login = ({
 
 export default connect(
     (state: State) => state.login,
-    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
+    (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
 )(Login);
