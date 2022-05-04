@@ -10,11 +10,8 @@ import { Event, EventType } from '../../models/event';
 import { Parish, ParishParameters, ParishResults } from '../../models/parish';
 import { Payment } from '../../models/payment';
 import { CurrentUser, User, UserData, UserType } from '../../models/user';
-import { Member } from '../../models/sacco/member';
-import { Transaction } from '../../models/sacco/transaction';
+import { LOGIN, LOGOUT } from '../login';
 
-const LOGIN = 'LOGIN';
-const LOGOUT = 'LOGOUT';
 const REQUEST_ARCHDEACONRIES = 'REQUEST_ARCHDEACONRIES';
 const RECEIVE_ARCHDEACONRIES = 'RECEIVE_ARCHDEACONRIES';
 const REQUEST_PARISHES = 'REQUEST_PARISHES';
@@ -25,8 +22,6 @@ const REQUEST_EVENT_TYPES = 'REQUEST_EVENT_TYPES';
 const RECEIVE_EVENT_TYPES = 'RECEIVE_EVENT_TYPES';
 const REQUEST_USER_TYPES = 'REQUEST_USER_TYPES';
 const RECEIVE_USER_TYPES = 'RECEIVE_USER_TYPES';
-const REQUEST_SACCO_MEMBERS = 'REQUEST_SACCO_MEMBERS';
-const RECEIVE_SACCO_MEMBERS = 'RECEIVE_SACCO_MEMBERS';
 const SET_DELETING_ARCHDEACONRY_ID = 'SET_DELETING_ARCHDEACONRY_ID';
 const SET_DELETING_PARISH_ID = 'SET_DELETING_PARISH_ID';
 const SET_DELETING_CONGREGATION_ID = 'SET_DELETING_CONGREGATION_ID';
@@ -35,16 +30,6 @@ const SET_DELETING_CENSUS_ID = 'SET_DELETING_CENSUS_ID';
 const SET_DELETING_PAYMENT_ID = 'SET_DELETING_PAYMENT_ID';
 const SET_DELETING_QUOTA_ID = 'SET_DELETING_QUOTA_ID';
 const SET_DELETING_USER_ID = 'SET_DELETING_USER_ID';
-const SET_DELETING_SACCO_MEMBER_ID = 'SET_DELETING_SACCO_MEMBER_ID';
-
-const loginAction = (user: CurrentUser) => ({
-    type: LOGIN,
-    value: user,
-});
-
-const logoutAction = () => ({
-    type: LOGOUT,
-});
 
 const requestArchdeaconriesAction = () => ({
     type: REQUEST_ARCHDEACONRIES,
@@ -91,15 +76,6 @@ const receiveUserTypesAction = (userTypes: UserType[]) => ({
     value: userTypes,
 });
 
-const requestSaccoMembersAction = () => ({
-    type: REQUEST_SACCO_MEMBERS,
-});
-
-const receiveSaccoMembersAction = (members: Member[]) => ({
-    type: RECEIVE_SACCO_MEMBERS,
-    value: members,
-});
-
 const setDeletingArchdeaconryIdAction = (archdeaconryId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_ARCHDEACONRY_ID,
     value: { archdeaconryId, isDeleting },
@@ -139,21 +115,6 @@ const setDeletingCensusIdAction = (censusId?: number, isDeleting: boolean = true
     type: SET_DELETING_CENSUS_ID,
     value: { censusId, isDeleting },
 });
-
-const setDeletingSaccoMemberIdAction = (memberId?: number, isDeleting: boolean = true) => ({
-    type: SET_DELETING_SACCO_MEMBER_ID,
-    value: { memberId, isDeleting },
-});
-
-const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
-    localStorage.setItem('userData', JSON.stringify(userData));
-    dispatch(loginAction(userData.user));
-};
-
-const logout = (): AppThunkAction<Action> => (dispatch) => {
-    localStorage.removeItem('userData');
-    dispatch(logoutAction());
-};
 
 const loadArchdeaconries = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestArchdeaconriesAction());
@@ -207,15 +168,6 @@ const loadUserTypes = (): AppThunkAction<Action> => (dispatch) => {
     get<UserType[]>('api/user/types')
         .then(userTypes => {
             dispatch(receiveUserTypesAction(userTypes));
-        });
-};
-
-const loadSaccoMembers = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(requestSaccoMembersAction());
-
-    get<Archdeaconry[]>('api/sacco/member/all')
-        .then(members => {
-            dispatch(receiveSaccoMembersAction(members));
         });
 };
 
@@ -326,7 +278,7 @@ const deletePayment = (payment: Payment, onSuccess: () => void):
 
 const deleteQuota = (quota: Quota, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this quota to ${quota.congregation}?`)) {
+        if (window.confirm(`Are you sure you want to delete this quota for ${quota.congregation}?`)) {
             dispatch(setDeletingQuotaIdAction(quota.id));
 
             post<{ id: number }>('api/quota/delete', { id: quota.id as number })
@@ -368,7 +320,7 @@ const deleteUser = (user: User, onSuccess: () => void):
 
 const deleteCensus = (census: Census, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete the SACCO member ${census.congregation}?`)) {
+        if (window.confirm(`Are you sure you want to delete this census for ${census.congregation}?`)) {
             dispatch(setDeletingCensusIdAction(census.id));
 
             post<{ id: number }>('api/census/delete', { id: census.id as number })
@@ -387,36 +339,12 @@ const deleteCensus = (census: Census, onSuccess: () => void):
         }
     };
 
-const deleteSaccoMember = (member: Member, onSuccess: () => void):
-    AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete the SACCO member ${member.name}?`)) {
-            dispatch(setDeletingSaccoMemberIdAction(member.id));
-
-            post<{ id: number }>('api/sacco/member/delete', { id: member.id as number })
-                .then(response => {
-                    if (response.ok) {
-                        onSuccess();
-                    } else {
-                        throw response.text();
-                    }
-                }).catch(errorPromise => {
-                    errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingSaccoMemberIdAction(member.id, false));
-                        alert(errorMessage);
-                    });
-                });
-        }
-    };
-
 export const actionCreators = {
-    login,
-    logout,
     loadArchdeaconries,
     loadParishes,
     loadCongregations,
     loadEventTypes,
     loadUserTypes,
-    loadSaccoMembers,
     deleteArchdeaconry,
     deleteParish,
     deleteCongregation,
@@ -425,7 +353,6 @@ export const actionCreators = {
     deleteQuota,
     deleteUser,
     deleteCensus,
-    deleteSaccoMember,
 };
 
 export interface State {
@@ -440,8 +367,6 @@ export interface State {
     eventTypesLoading: boolean;
     userTypes: UserType[];
     userTypesLoading: boolean;
-    saccoMembers: Member[];
-    saccoMembersLoading: boolean;
     deletingArchdeaconryIds: number[];
     deletingParishIds: number[];
     deletingCongregationIds: number[];
@@ -450,7 +375,6 @@ export interface State {
     deletingQuotaIds: number[];
     deletingUserIds: number[];
     deletingCensusIds: number[];
-    deletingSaccoMemberIds: number[];
 }
 
 const initialState: State = {
@@ -465,8 +389,6 @@ const initialState: State = {
     eventTypesLoading: true,
     userTypes: [],
     userTypesLoading: true,
-    saccoMembers: [],
-    saccoMembersLoading: true,
     deletingArchdeaconryIds: [],
     deletingParishIds: [],
     deletingCongregationIds: [],
@@ -475,7 +397,6 @@ const initialState: State = {
     deletingPaymentIds: [],
     deletingUserIds: [],
     deletingCensusIds: [],
-    deletingSaccoMemberIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -545,17 +466,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 userTypes: action.value,
                 userTypesLoading: false,
             };
-        case REQUEST_SACCO_MEMBERS:
-            return {
-                ...state,
-                saccoMembersLoading: true,
-            };
-        case RECEIVE_SACCO_MEMBERS:
-            return {
-                ...state,
-                saccoMembers: action.value,
-                saccoMembersLoading: false,
-            };
         case SET_DELETING_ARCHDEACONRY_ID:
             return {
                 ...state,
@@ -611,13 +521,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 deletingCensusIds: action.value.isDeleting
                     ? [...state.deletingCensusIds, action.value.censusId]
                     : state.deletingCensusIds.filter(id => id != action.value.censusId),
-            };
-        case SET_DELETING_SACCO_MEMBER_ID:
-            return {
-                ...state,
-                deletingSaccoMemberIds: action.value.isDeleting
-                    ? [...state.deletingSaccoMemberIds, action.value.memberId]
-                    : state.deletingSaccoMemberIds.filter(id => id != action.value.memberId),
             };
         default:
             return state;

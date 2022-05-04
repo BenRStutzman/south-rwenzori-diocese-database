@@ -4,7 +4,7 @@ import { Spinner } from 'reactstrap';
 import { Member } from '../../../../models/sacco/member';
 import LoadingSpinner from '../../../shared/LoadingSpinner';
 import * as Store from '../../../../store/sacco/member/home';
-import * as SharedStore from '../../../../store/shared';
+import * as SharedStore from '../../../../store/sacco/shared';
 import { State } from '../../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -21,8 +21,8 @@ const SearchResults = ({
     resultsLoading,
     parameters,
     results,
-    deletingSaccoMemberIds,
-    deleteSaccoMember,
+    deletingMemberIds,
+    deleteMember,
     searchMembers,
 }: Props) => {
     const onPage = (pageNumber: number) => {
@@ -34,7 +34,7 @@ const SearchResults = ({
     };
 
     const onDelete = (member: Member) => {
-        deleteSaccoMember(member, () => { searchMembers(parameters, false); });
+        deleteMember(member, () => { searchMembers(parameters, false); });
     };
 
     return (
@@ -72,7 +72,7 @@ const SearchResults = ({
                                     Edit
                                 </Link>
                                 <button className="btn btn-danger" onClick={() => { onDelete(member); }}>
-                                    {deletingSaccoMemberIds.includes(member.id as number) ? <Spinner size="sm" /> : "Delete"}
+                                    {deletingMemberIds.includes(member.id as number) ? <Spinner size="sm" /> : "Delete"}
                                 </button>
                             </td>
                         </tr>
@@ -89,6 +89,6 @@ const SearchResults = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.sacco.member.home, ...state.shared }),
+    (state: State) => ({ ...state.sacco.member.home, ...state.sacco.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchResults);

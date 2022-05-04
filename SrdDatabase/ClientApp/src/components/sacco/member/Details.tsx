@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
 import * as Store from '../../../store/sacco/member/details'
-import * as SharedStore from '../../../store/shared';
+import * as SharedStore from '../../../store/sacco/shared';
 import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
@@ -21,8 +21,8 @@ const Details = ({
     detailsLoading,
     details,
     match,
-    deletingSaccoMemberIds,
-    deleteSaccoMember,
+    deletingMemberIds,
+    deleteMember,
     history,
 }: Props) => {
     const loadData = () => {
@@ -33,7 +33,7 @@ const Details = ({
     React.useEffect(loadData, []);
 
     const onDelete = () => {
-        deleteSaccoMember(details.member, () => { history.push('/sacco/member'); });
+        deleteMember(details.member, () => { history.push('/sacco/member'); });
     };
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
@@ -45,7 +45,7 @@ const Details = ({
                         Edit member
                     </Link>
                     <button className='btn btn-danger' type="button" onClick={onDelete}>
-                        {deletingSaccoMemberIds.includes(details.member.id as number) ? <Spinner size="sm" /> : "Delete member"}
+                        {deletingMemberIds.includes(details.member.id as number) ? <Spinner size="sm" /> : "Delete member"}
                     </button>
                 </div>
             </div>
@@ -55,6 +55,6 @@ const Details = ({
 }
 
 export default connect(
-    (state: State) => ({ ...state.sacco.member.details, ...state.shared }),
+    (state: State) => ({ ...state.sacco.member.details, ...state.sacco.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Details);

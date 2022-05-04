@@ -2,14 +2,25 @@
 import { Action, AppThunkAction } from '..';
 import { post } from "../../helpers/apiHelpers";
 import { History, Location } from 'history';
-import { UserData } from '../../models/user';
+import { CurrentUser, UserData } from '../../models/user';
 import { actionCreators as sharedActionCreators } from '../shared';
 import { Credentials } from "../../models/login";
 
+export const LOGIN = 'LOGIN.LOGIN';
+export const LOGOUT = 'LOGIN.LOGOUT';
 const SET_USERNAME = 'LOGIN.SET_USERNAME';
 const SET_PASSWORD = 'LOGIN.SET_PASSWORD';
 const SET_IS_LOADING = 'LOGIN.SET_IS_LOADING';
 const RESET_CREDENTIALS = 'LOGIN.RESET_CREDENTIALS';
+
+const loginAction = (user: CurrentUser) => ({
+    type: LOGIN,
+    value: user,
+});
+
+const logoutAction = () => ({
+    type: LOGOUT,
+});
 
 const setUsernameAction = (username: string) => ({
     type: SET_USERNAME,
@@ -30,6 +41,16 @@ const setCredentialsAction = (credentials: Credentials) => ({
     type: RESET_CREDENTIALS,
     value: credentials,
 });
+
+const login = (userData: UserData): AppThunkAction<Action> => (dispatch) => {
+    localStorage.setItem('userData', JSON.stringify(userData));
+    dispatch(loginAction(userData.user));
+};
+
+const logout = (): AppThunkAction<Action> => (dispatch) => {
+    localStorage.removeItem('userData');
+    dispatch(logoutAction());
+};
 
 const setCredentials = (credentials: Credentials = {}): AppThunkAction<Action> => (dispatch) => {
     dispatch(setCredentialsAction(credentials));
@@ -54,7 +75,7 @@ const authenticate = (credentials: Credentials, history: History, location: Loca
                 throw response.text();
             }
         }).then(userData => {
-            dispatch(sharedActionCreators.login(userData));
+            dispatch(login(userData));
             const { from } = location.state || { from: { pathname: "/" } };
             history.push(from);
         }).catch(errorPromise => {
@@ -67,6 +88,8 @@ const authenticate = (credentials: Credentials, history: History, location: Loca
 };
 
 export const actionCreators = {
+    login,
+    logout,
     setCredentials,
     setUsername,
     setPassword,
