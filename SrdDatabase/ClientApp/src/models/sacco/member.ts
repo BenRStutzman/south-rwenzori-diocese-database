@@ -10,6 +10,7 @@ export interface MemberDetails {
 }
 
 export interface MemberParameters extends PagedParameters {
+    id?: number;
     name?: string;
 }
 

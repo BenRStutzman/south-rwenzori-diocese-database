@@ -47,7 +47,15 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-10">
+                        <th className="col-2">
+                            Account #
+                            <SortButton
+                                parameters={parameters}
+                                columnName="id"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-8">
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -61,6 +69,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.members.map((member: Member) =>
                         <tr key={member.id}>
+                            <td>{member.id}</td>
                             <td>
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>

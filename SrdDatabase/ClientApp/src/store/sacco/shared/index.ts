@@ -58,7 +58,7 @@ const loadMembers = (): AppThunkAction<Action> => (dispatch) => {
 const loadLoanTypes = (): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestLoanTypesAction());
 
-    get<LoanType[]>('api/sacco/loanType/all')
+    get<LoanType[]>('api/sacco/loan/types')
         .then(loanTypes => {
             dispatch(receiveLoanTypesAction(loanTypes));
         });

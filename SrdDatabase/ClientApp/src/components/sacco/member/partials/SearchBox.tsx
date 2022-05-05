@@ -21,6 +21,7 @@ const SearchBox = ({
     searchMembers,
     parameters,
     setSearchName,
+    setSearchId,
     prefillParameters,
     expanded,
 }: Props) => {
@@ -34,6 +35,10 @@ const SearchBox = ({
         setSearchName(event.target.value);
     };
 
+    const onIdChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchId(parseInt(event.target.value));
+    };
+
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         searchMembers({ ...parameters, pageNumber: 0 });
@@ -42,18 +47,36 @@ const SearchBox = ({
     return (
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        id="name"
-                        className="form-control"
-                        autoComplete={autoCompleteString}
-                        type="text"
-                        spellCheck={false}
-                        value={parameters.name ?? ""}
-                        onChange={onNameChange}
-                        maxLength={50}
-                    />
+                <div className="row">
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="id">Account Number</label>
+                            <input
+                                id="id"
+                                className="form-control"
+                                autoComplete={autoCompleteString}
+                                type="number"
+                                value={parameters.id?.toString() ?? ""}
+                                onChange={onIdChange}
+                                min={1}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                id="name"
+                                className="form-control"
+                                autoComplete={autoCompleteString}
+                                type="text"
+                                spellCheck={false}
+                                value={parameters.name ?? ""}
+                                onChange={onNameChange}
+                                maxLength={50}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <SearchButtons
                     thingsBeingSearched="members"

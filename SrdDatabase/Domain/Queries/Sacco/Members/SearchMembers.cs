@@ -11,6 +11,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
         public class Query : MemberParameters, IRequest<MemberResults>
         {
             public Query(
+                int? id = null,
                 string name = null,
                 int pageNumber = 0,
                 string sortColumn = null,
@@ -18,7 +19,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
                     (name,
                     pageNumber,
                     sortColumn,
-                    sortDescending)
+                    sortDescending,
+                    id: id)
             {
             }
         }
@@ -36,7 +38,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
             {
                 return await _mediator.Send(
                     new GetMembers.Query(
-                        null,
+                        request.Id,
                         request.Name,
                         request.PageNumber,
                         request.SortColumn,

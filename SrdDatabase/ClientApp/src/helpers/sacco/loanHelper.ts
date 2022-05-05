@@ -5,5 +5,5 @@ export function describeLoan(loan: Loan) {
 }
 
 export function describeLoanTerm(loan: Loan) {
-    return `${loan.termMonths} months`;`
+    return `${loan.termMonths} months`;
 }

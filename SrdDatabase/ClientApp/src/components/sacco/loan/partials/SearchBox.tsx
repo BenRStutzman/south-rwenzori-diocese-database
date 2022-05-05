@@ -18,8 +18,6 @@ type Props =
     SharedStore.State &
     typeof SharedStore.actionCreators;
 
-const autoCompleteString = randomString();
-
 const SearchBox = ({
     searchLoans,
     parameters,
@@ -40,6 +38,7 @@ const SearchBox = ({
 
     const loadData = () => {
         loadMembers();
+        loadLoanTypes();
 
         var memberIdString = queryParams.get('memberId');
         const memberId = memberIdString ? parseInt(memberIdString) : undefined;

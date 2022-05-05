@@ -78,7 +78,7 @@ const SearchResults = ({
                     {results.users.map((user: User) =>
                         <tr key={user.id}>
                             <td>
-                                <Link to={`/user/details/{user.id}`}>{user.name}</Link>
+                                <Link to={`/user/details/${user.id}`}>{user.name}</Link>
                             </td>
                             <td>{user.username}</td>
                             <td>{user.userType}</td>

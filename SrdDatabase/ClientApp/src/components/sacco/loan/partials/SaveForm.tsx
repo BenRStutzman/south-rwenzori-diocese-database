@@ -110,7 +110,7 @@ const SaveForm = ({
                     </option>
                     {loanTypes.map(loanType =>
                         <option key={loanType.id} value={loanType.id}>
-                            {`${loanType.id} - ${loanType.name}`}
+                            {loanType.name}
                         </option>
                     )}
                 </select>
