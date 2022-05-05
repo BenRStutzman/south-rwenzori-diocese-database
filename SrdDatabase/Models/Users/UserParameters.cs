@@ -8,8 +8,8 @@ namespace SrdDatabase.Models.Users
         [Range(1, int.MaxValue)]
         public int? Id { get; }
 
-        [Range(1, int.MaxValue)]
-        public byte? UserTypeId { get; }
+        [Range(1, sbyte.MaxValue)]
+        public sbyte? UserTypeId { get; }
 
         [StringLength(50)]
         public string Name { get; }
@@ -21,7 +21,7 @@ namespace SrdDatabase.Models.Users
 
 
         public UserParameters(
-            byte? userTypeId = null,
+            sbyte? userTypeId = null,
             string name = null,
             string username = null,
             bool hideRoot = false,

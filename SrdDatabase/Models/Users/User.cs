@@ -13,7 +13,7 @@ namespace SrdDatabase.Models.Users
         [JsonIgnore]
         public string Password { get; set; }
 
-        public byte UserTypeId { get; set; }
+        public sbyte UserTypeId { get; set; }
 
         public UserRole UserType { get; set; }
 
@@ -22,7 +22,7 @@ namespace SrdDatabase.Models.Users
             string name,
             string username,
             string password,
-            byte userTypeId,
+            sbyte userTypeId,
             UserRole userType)
         {
             Id = id;

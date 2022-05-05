@@ -20,7 +20,7 @@ namespace SrdDatabase.Domain.Commands.Events
             public IEnumerable<string> PersonNames { get; }
 
             public Command(
-                byte eventTypeId,
+                sbyte eventTypeId,
                 DateTime date,
                 int? congregationId,
                 int? parishId,

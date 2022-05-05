@@ -14,10 +14,10 @@ namespace SrdDatabase.Models.Users
         public string Username { get; }
 
         [Range(1, int.MaxValue)]
-        public byte UserTypeId { get; }
+        public sbyte UserTypeId { get; }
 
         public UserFields(
-            byte userTypeId,
+            sbyte userTypeId,
             string name,
             string username,
             int? userId = null) : base(userId)

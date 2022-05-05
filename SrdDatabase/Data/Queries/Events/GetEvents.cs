@@ -15,7 +15,7 @@ namespace SrdDatabase.Data.Queries.Events
         {
             public Query(
                 int? id = null,
-                byte? eventTypeId = null,
+                sbyte? eventTypeId = null,
                 int? archdeaconryId = null,
                 int? parishId = null,
                 int? congregationId = null,

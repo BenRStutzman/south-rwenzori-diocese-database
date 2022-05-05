@@ -13,7 +13,7 @@ namespace SrdDatabase.Domain.Commands.Events
         public class Command : EventFields, IRequest<SaveResponse>
         {
             public Command(
-                byte eventTypeId,
+                sbyte eventTypeId,
                 DateTime date,
                 int? congregationId,
                 int? parishId,

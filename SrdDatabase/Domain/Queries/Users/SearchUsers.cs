@@ -11,7 +11,7 @@ namespace SrdDatabase.Domain.Queries.Users
         public class Query : UserParameters, IRequest<UserResults>
         {
             public Query(
-                byte? userTypeId = null,
+                sbyte? userTypeId = null,
                 string name = null,
                 string username = null,
                 bool hideRoot = true,

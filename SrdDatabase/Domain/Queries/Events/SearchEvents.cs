@@ -12,7 +12,7 @@ namespace SrdDatabase.Domain.Queries.Events
         public class Query : EventParameters, IRequest<EventResults>
         {
             public Query(
-                byte? eventTypeId = null,
+                sbyte? eventTypeId = null,
                 int? archdeaconryId = null,
                 int? parishId = null,
                 int? congregationId = null,

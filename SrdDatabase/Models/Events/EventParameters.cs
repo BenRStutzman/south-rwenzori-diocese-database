@@ -10,7 +10,7 @@ namespace SrdDatabase.Models.Events
         public int? Id { get; }
 
         [Range(1, int.MaxValue)]
-        public byte? EventTypeId { get; }
+        public sbyte? EventTypeId { get; }
 
         [Range(1, int.MaxValue)]
         public int? ArchdeaconryId { get; }
@@ -32,7 +32,7 @@ namespace SrdDatabase.Models.Events
         public DateTime? EndDate { get; }
 
         public EventParameters(
-            byte? eventTypeId = null,
+            sbyte? eventTypeId = null,
             int? archdeaconryId = null,
             int? parishId = null,
             int? congregationId = null,

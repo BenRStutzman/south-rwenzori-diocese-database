@@ -18,7 +18,7 @@ namespace SrdDatabase.Domain.Commands.Events
 
             public Command(
                 int id,
-                byte eventTypeId,
+                sbyte eventTypeId,
                 DateTime date,
                 int? congregationId,
                 int? parishId,

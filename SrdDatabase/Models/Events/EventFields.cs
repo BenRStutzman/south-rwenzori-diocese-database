@@ -9,7 +9,7 @@ namespace SrdDatabase.Models.Events
     public class EventFields : SaveFields
     {
         [Range(1, int.MaxValue)]
-        public byte EventTypeId { get; }
+        public sbyte EventTypeId { get; }
 
         [Required]
         public DateTime Date { get; }
@@ -30,7 +30,7 @@ namespace SrdDatabase.Models.Events
         public string SecondPersonName { get; }
 
         public EventFields(
-            byte eventTypeId,
+            sbyte eventTypeId,
             DateTime date,
             int? congregationId,
             int? parishId,

@@ -24,7 +24,7 @@ namespace SrdDatabase.Data.Commands.Users
                 string name,
                 string username,
                 string password,
-                byte userTypeId,
+                sbyte userTypeId,
                 int userId)
                 : base (userTypeId, name, username, userId)
             {

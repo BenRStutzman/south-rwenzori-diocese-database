@@ -20,7 +20,7 @@ namespace SrdDatabase.Domain.Commands.Users
                 string name,
                 string username,
                 string password,
-                byte userTypeId)
+                sbyte userTypeId)
                 : base(userTypeId, name, username)
             {
                 Password = password;

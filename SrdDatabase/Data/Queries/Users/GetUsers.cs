@@ -14,7 +14,7 @@ namespace SrdDatabase.Data.Queries.Users
         {
             public Query(
                 int? id = null,
-                byte? userTypeId = null,
+                sbyte? userTypeId = null,
                 string name = null,
                 string username = null,
                 bool hideRoot = false,
