@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries.Sacco.Loans;
+using SrdDatabase.Data.Queries.Sacco.Transactions;
 using SrdDatabase.Models.Sacco.Members;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -30,9 +32,23 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
 
             public async Task<MemberDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _mediator.Send(new GetMemberById.Query(request.Id), cancellationToken);
+                var memberTask = _mediator.Send(new GetMemberById.Query(request.Id), cancellationToken);
 
-                return new MemberDetails(user);
+                var transactionsQuery = new GetTransactions.Query(
+                    memberId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
+
+                var loansQuery = new GetLoans.Query(
+                    memberId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var loansTask = _mediator.Send(loansQuery, cancellationToken);
+
+                var member = await memberTask;
+                var transactionResults = await transactionsTask;
+                var loanResults = await loansTask;
+
+                return new MemberDetails(member, transactionResults, loanResults); ;
             }
         }
     }

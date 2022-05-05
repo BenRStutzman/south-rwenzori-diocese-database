@@ -8,6 +8,8 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
+import DetailsList from '../../shared/DetailsList';
+import { loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 
 type Props =
     Store.State &
@@ -50,6 +52,26 @@ const Details = ({
                 </div>
             </div>
             <div className="details-boxes">
+                <DetailsList
+                    itemType="transaction"
+                    itemTotal={details.transactionResults.totalResults}
+                    items={transactionItems(details.transactionResults)}
+                    baseItemType="member"
+                    baseItemId={details.member.id}
+                    altPreposition="by"
+                    isSacco
+                    showAddLink
+                />
+                <DetailsList
+                    itemType="loan"
+                    itemTotal={details.loanResults.totalResults}
+                    items={loanItems(details.loanResults, true)}
+                    baseItemType="member"
+                    baseItemId={details.member.id}
+                    altPreposition="to"
+                    isSacco
+                    showAddLink
+                />
             </div>
         </>;
 }

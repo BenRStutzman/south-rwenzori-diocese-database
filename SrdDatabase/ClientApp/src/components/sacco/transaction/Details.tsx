@@ -10,7 +10,7 @@ import DetailsBox from '../../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
-import { describeTransaction, describeTransactionType } from '../../../helpers/sacco/transactionHelper';
+import { describeTransaction } from '../../../helpers/sacco/transactionHelper';
 
 type Props =
     Store.State &

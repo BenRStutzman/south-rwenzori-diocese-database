@@ -13,6 +13,7 @@ interface Props {
     showAddLink?: boolean;
     isSacco?: boolean;
     altTitle?: string;
+    altPreposition?: string;
 }
 
 const DetailsList = ({
@@ -24,10 +25,12 @@ const DetailsList = ({
     showAddLink,
     isSacco,
     altTitle,
+    altPreposition,
 }: Props) => {
 
     const addParams = baseItemType && baseItemId ? `?${baseItemType}Id=${baseItemId}` : undefined;
     const saccoPrefix = isSacco ? '/sacco' : '';
+    const preposition = altPreposition ?? 'in';
 
     return (
         <div className="details-box">
@@ -50,7 +53,7 @@ const DetailsList = ({
             </div>
             <div>
                 <div>
-                    <Link to={`${saccoPrefix}/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` in this ${baseItemType}` : ''}</Link>
+                    <Link to={`${saccoPrefix}/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` ${preposition} this ${baseItemType}` : ''}</Link>
                     {
                         showAddLink &&
                         <Link className="float-right" to={`${saccoPrefix}/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>

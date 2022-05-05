@@ -67,7 +67,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="principal"
-                    itemValue={details.loan.principal?.toLocaleString()}
+                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="term"

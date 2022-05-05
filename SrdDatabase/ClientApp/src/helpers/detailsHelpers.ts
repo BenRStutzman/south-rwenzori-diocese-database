@@ -58,9 +58,3 @@ export function quotaItems(quotaResults: QuotaResults, useAmount: boolean = fals
         displayText: `${formattedDates(quota)}: ${describeQuota(quota, useAmount)}`,
     }));
 }
-
-export function saccoMemberItems(memberResults: MemberResults): DetailsListItem[] {
-    return memberResults.members.map(member => (
-        { id: member.id, displayText: member.name }
-    ));
-}

@@ -1,4 +1,6 @@
 ﻿import { PagedParameters, PagedResults } from "../shared";
+import { LoanResults } from "./loan";
+import { TransactionResults } from "./transaction";
 
 export interface Member {
     id?: number;
@@ -7,6 +9,8 @@ export interface Member {
 
 export interface MemberDetails {
     member: Member;
+    transactionResults: TransactionResults;
+    loanResults: LoanResults;
 }
 
 export interface MemberParameters extends PagedParameters {
