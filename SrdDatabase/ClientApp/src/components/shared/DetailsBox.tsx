@@ -11,6 +11,7 @@ interface Props {
     altTitle?: string;
     altLink?: string;
     altLinkText?: string;
+    altPreposition?: string;
     isSacco?: boolean;
 }
 
@@ -22,9 +23,11 @@ const DetailsBox = ({
     altTitle,
     altLink,
     altLinkText,
+    altPreposition,
     isSacco,
 }: Props) => {
     const saccoPrefix = isSacco ? '/sacco' : '';
+    const preposition = altPreposition ?? 'in';
 
     return (
         <div className="details-box">
@@ -42,7 +45,7 @@ const DetailsBox = ({
             }
             {
                 itemId && baseItemType &&
-                <Link to={`${saccoPrefix}/${baseItemType}?${itemType}Id=${itemId}`}>View all {plural(baseItemType)} in this {itemType}</Link>
+                <Link to={`${saccoPrefix}/${baseItemType}?${itemType}Id=${itemId}`}>View all {plural(baseItemType)} {preposition} this {itemType}</Link>
             }
             {altLink && <Link to={altLink}>{altLinkText}</Link>}
         </div>

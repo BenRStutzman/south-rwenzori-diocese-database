@@ -65,14 +65,6 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Receipt #
-                            <SortButton
-                                parameters={parameters}
-                                columnName="receiptNumber"
-                                onSort={onSort}
-                            />
-                        </th>
-                        <th className="col-2">
                             Type
                             <SortButton
                                 parameters={parameters}
@@ -88,6 +80,14 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
+                        <th className="col-2">
+                            Receipt #
+                            <SortButton
+                                parameters={parameters}
+                                columnName="receiptNumber"
+                                onSort={onSort}
+                            />
+                        </th>
                         <th className="col-2"></th>
                     </tr>
                 </thead>
@@ -98,9 +98,13 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${transaction.memberId}`}>{transaction.member}</Link>
                             </td>
-                            <td className="number-column">{transaction.receiptNumber}</td>
-                            <td>{describeTransactionType(transaction)}</td>
+                            <td>
+                                <Link to={`/sacco/transaction/details/${transaction.id}`}>
+                                    {describeTransactionType(transaction)}
+                                </Link>
+                            </td>
                             <td className="number-column">{describeTransactionAmount(transaction)}</td>
+                            <td className="number-column">{transaction.receiptNumber}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/transaction/details/${transaction.id}`}>
                                     View

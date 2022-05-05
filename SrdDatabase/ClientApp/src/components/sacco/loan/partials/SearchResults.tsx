@@ -97,7 +97,9 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${loan.memberId}`}>{loan.member}</Link>
                             </td>
-                            <td>{loan.loanType}</td>
+                            <td>
+                                <Link to={`/sacco/loan/details/${loan.id}`}>{loan.loanType}</Link>
+                            </td>
                             <td className="number-column">{loan.principal?.toLocaleString()}</td>
                             <td className="number-column">{loan.termMonths}</td>
                             <td className="buttons-column">

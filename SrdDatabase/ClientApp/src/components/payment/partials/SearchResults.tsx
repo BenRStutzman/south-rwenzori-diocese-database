@@ -64,18 +64,18 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Receipt #
-                            <SortButton
-                                parameters={parameters}
-                                columnName="receiptNumber"
-                                onSort={onSort}
-                            />
-                        </th>
-                        <th className="col-2">
                             Amount (UGX)
                             <SortButton
                                 parameters={parameters}
                                 columnName="amount"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Receipt #
+                            <SortButton
+                                parameters={parameters}
+                                columnName="receiptNumber"
                                 onSort={onSort}
                             />
                         </th>
@@ -89,8 +89,8 @@ const SearchResults = ({
                                 <td>
                                     <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                                 </td>
-                                <td className="number-column">{payment.receiptNumber}</td>
                                 <td className="number-column">{payment.amount?.toLocaleString()}</td>
+                                <td className="number-column">{payment.receiptNumber}</td>
                                 <td className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View

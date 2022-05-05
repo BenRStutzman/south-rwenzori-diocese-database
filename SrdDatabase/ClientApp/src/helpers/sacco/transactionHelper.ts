@@ -2,7 +2,7 @@
 import { parenthesizeIfNegative } from "../miscellaneous";
 
 export function describeTransaction(transaction: Transaction) {
-    return `${transaction.isContribution ? 'Contribution' : 'Withdrawal'} of ${transaction.amount} UGX`
+    return `${transaction.isContribution ? 'Contribution to' : 'Withdrawal from'} ${describeTransactionType(transaction)}`;
 }
 
 export function describeTransactionAmount(transaction: Transaction) {

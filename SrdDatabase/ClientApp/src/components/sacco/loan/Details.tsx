@@ -63,6 +63,7 @@ const Details = ({
                     itemValue={details.loan.member}
                     itemId={details.loan.memberId}
                     isSacco
+                    altPreposition="to"
                 />
                 <DetailsBox
                     itemType="principal"

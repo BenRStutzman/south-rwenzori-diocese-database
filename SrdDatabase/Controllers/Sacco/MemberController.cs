@@ -64,9 +64,9 @@ namespace SrdDatabase.Controllers.Sacco
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteMember.Command command)
         {
-            await _mediator.Send(command);
+            var response = await _mediator.Send(command);
 
-            return Ok();
+            return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
         }
     }
 }
