@@ -47,6 +47,10 @@ import SaccoTransactionHome from './components/sacco/transaction/Home';
 import SaccoTransactionAdd from './components/sacco/transaction/Add';
 import SaccoTransactionEdit from './components/sacco/transaction/Edit';
 import SaccoTransactionDetails from './components/sacco/transaction/Details';
+import SaccoLoanHome from './components/sacco/loan/Home';
+import SaccoLoanAdd from './components/sacco/loan/Add';
+import SaccoLoanEdit from './components/sacco/loan/Edit';
+import SaccoLoanDetails from './components/sacco/loan/Details';
 import { atLeast } from './helpers/userHelper';
 
 export default () => (
@@ -96,6 +100,10 @@ export default () => (
             <PrivateRoute exact path='/sacco/transaction/add' component={SaccoTransactionAdd} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/transaction/edit/:transactionId' component={SaccoTransactionEdit} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/transaction/details/:transactionId' component={SaccoTransactionDetails} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/loan' component={SaccoLoanHome} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/loan/add' component={SaccoLoanAdd} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/loan/edit/:loanId' component={SaccoLoanEdit} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/loan/details/:loanId' component={SaccoLoanDetails} roles={atLeast.sacco} />
             <Redirect from='*' to='/' />
         </Switch>
     </Layout>

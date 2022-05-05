@@ -1,7 +1,7 @@
 ﻿import { State } from '../../../../store';
 import * as React from 'react';
 import { ChangeEvent, useEffect } from 'react';
-import * as Store from '../../../../store/sacco/transaction/save';
+import * as Store from '../../../../store/sacco/loan/save';
 import * as SharedStore from '../../../../store/sacco/shared';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
@@ -24,15 +24,16 @@ type Props =
     OwnProps;
 
 const SaveForm = ({
-    transaction,
+    loan,
     members,
-    saveTransaction,
+    loanTypes,
+    saveLoan,
     setMemberId,
-    setIsShares,
-    setIsContribution,
-    setAmount,
-    setReceiptNumber,
+    setLoanTypeId,
+    setTermMonths,
+    setPrincipal,
     loadMembers,
+    loadLoanTypes,
     setDate,
     hasBeenChanged,
     errors,
@@ -40,9 +41,11 @@ const SaveForm = ({
     history,
     isSaving,
     membersLoading,
+    loanTypesLoading,
 }: Props) => {
     const loadData = () => {
         loadMembers();
+        loadLoanTypes();
     };
 
     useEffect(loadData, []);
@@ -51,29 +54,25 @@ const SaveForm = ({
         setMemberId(parseInt(event.target.value));
     }
 
-    const onIsSharesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsShares(event.target.value === 'shares');
+    const onLoanTypeIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setLoanTypeId(parseInt(event.target.value));
     }
 
-    const onIsContributionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setIsContribution(event.target.value === 'contribution');
+    const onTermMonthsChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setTermMonths(parseInt(event.target.value));
     };
 
-    const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setAmount(parseInt(event.target.value));
+    const onPrincipalChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPrincipal(parseInt(event.target.value));
     };
 
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
         setDate(convertDateChange(event));
     };
 
-    const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setReceiptNumber(parseInt(event.target.value));
-    }
-
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        saveTransaction(transaction, history);
+        saveLoan(loan, history);
     };
 
     return (
@@ -83,7 +82,7 @@ const SaveForm = ({
                 <select
                     id="memberId"
                     className="form-control"
-                    value={membersLoading ? "" : transaction.memberId ?? ""}
+                    value={membersLoading ? "" : loan.memberId ?? ""}
                     onChange={onMemberIdChange}
                     required
                 >
@@ -98,51 +97,45 @@ const SaveForm = ({
                 </select>
             </div>
             <div className="form-group">
-                <input
-                    name="isShares"
-                    id="shares"
-                    type="radio"
-                    value="shares"
-                    onChange={onIsSharesChange}
-                    checked={transaction.isShares ?? false}
-                />
-                <label htmlFor="shares">Shares</label>
-                <input
-                    name="isShares"
-                    id="savings"
-                    type="radio"
-                    value="savings"
-                    onChange={onIsSharesChange}
-                    checked={transaction.isShares === false}
-                />
-                <label htmlFor="savings">Savings</label>
+                <label htmlFor="loanTypeId">Loan Type</label>
+                <select
+                    id="loanTypeId"
+                    className="form-control"
+                    value={loanTypesLoading ? "" : loan.loanTypeId ?? ""}
+                    onChange={onLoanTypeIdChange}
+                    required
+                >
+                    <option key={0} value="" disabled>
+                        {loanTypesLoading ? 'Loading...' : '--- select a loan type ---'}
+                    </option>
+                    {loanTypes.map(loanType =>
+                        <option key={loanType.id} value={loanType.id}>
+                            {`${loanType.id} - ${loanType.name}`}
+                        </option>
+                    )}
+                </select>
             </div>
             <div className="form-group">
+                <label htmlFor="principal">Principal (UGX)</label>
                 <input
-                    id="contribution"
-                    type="radio"
-                    value="contribution"
-                    onChange={onIsContributionChange}
-                    checked={transaction.isContribution ?? false}
-                />
-                <label htmlFor="contribution">Contribution</label>
-                <input
-                    id="withdrawal"
-                    type="radio"
-                    value="withdrawal"
-                    onChange={onIsContributionChange}
-                    checked={transaction.isContribution === false}
-                />
-                <label htmlFor="withdrawal">Withdrawal</label>
-            </div>
-            <div className="form-group">
-                <label htmlFor="amount">Amount (UGX)</label>
-                <input
-                    id="amount"
+                    id="principal"
                     className="form-control"
                     type="number"
-                    value={transaction.amount?.toString() ?? ""}
-                    onChange={onAmountChange}
+                    value={loan.principal?.toString() ?? ""}
+                    onChange={onPrincipalChange}
+                    autoComplete={autoComplete}
+                    min={1}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="termMonths">Term (months)</label>
+                <input
+                    id="termMonths"
+                    className="form-control"
+                    type="number"
+                    value={loan.termMonths?.toString() ?? ""}
+                    onChange={onTermMonthsChange}
                     autoComplete={autoComplete}
                     min={1}
                     required
@@ -154,21 +147,9 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}
+                    value={loan.date ? new Date(loan.date).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
                     required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="receiptNumber">Receipt Number</label>
-                <input
-                    id="receiptNumber"
-                    className="form-control"
-                    type="number"
-                    value={transaction.receiptNumber?.toString() ?? ""}
-                    onChange={onReceiptNumberChange}
-                    autoComplete={autoComplete}
-                    min={1}
                 />
             </div>
             {
@@ -184,14 +165,14 @@ const SaveForm = ({
                 </ul>
             }
             <button disabled={!hasBeenChanged || isSaving} className="btn btn-primary" type="submit">
-                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} transaction`}
+                {isSaving ? <Spinner size="sm" /> : `${isNew ? 'Create' : 'Update'} loan`}
             </button>
         </form>
     );
 };
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => ({
-    ...state.sacco.transaction.save,
+    ...state.sacco.loan.save,
     ...state.sacco.shared,
     ...ownProps,
 });

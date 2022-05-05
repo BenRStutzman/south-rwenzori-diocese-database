@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
-import * as Store from '../../../store/sacco/transaction/details';
+import * as Store from '../../../store/sacco/loan/details';
 import * as SharedStore from '../../../store/sacco/shared';
 import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
@@ -10,14 +10,14 @@ import DetailsBox from '../../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
-import { describeTransaction, describeTransactionType } from '../../../helpers/sacco/transactionHelper';
+import { describeLoan, describeLoanTerm } from '../../../helpers/sacco/loanHelper';
 
 type Props =
     Store.State &
     typeof Store.actionCreators &
     SharedStore.State &
     typeof SharedStore.actionCreators &
-    RouteComponentProps<{ transactionId: string }>;
+    RouteComponentProps<{ loanId: string }>;
 
 const Details = ({
     loadDetails,
@@ -25,58 +25,58 @@ const Details = ({
     details,
     match,
     history,
-    deletingTransactionIds,
-    deleteTransaction,
+    deletingLoanIds,
+    deleteLoan,
 }: Props) => {
     const loadData = () => {
-        const transactionId = parseInt(match.params.transactionId);
-        loadDetails(transactionId);
+        const loanId = parseInt(match.params.loanId);
+        loadDetails(loanId);
     };
 
     React.useEffect(loadData, []);
 
     const onDelete = () => {
-        deleteTransaction(details.transaction, () => { history.push('/sacco/transaction'); });
+        deleteLoan(details.loan, () => { history.push('/sacco/loan'); });
     };
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{describeTransaction(details.transaction)}</h1>
+                <h1>{describeLoan(details.loan)}</h1>
                 <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/sacco/transaction/edit/${details.transaction.id}`}>
-                        Edit transaction
+                    <Link className="btn btn-primary" to={`/sacco/loan/edit/${details.loan.id}`}>
+                        Edit loan
                     </Link>
                     <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {deletingTransactionIds.includes(details.transaction.id as number) ? <Spinner size="sm" /> : 'Delete transaction'}
+                        {deletingLoanIds.includes(details.loan.id as number) ? <Spinner size="sm" /> : 'Delete loan'}
                     </button>
                 </div>
             </div>
             <div className="details-boxes">
                 <DetailsBox
-                    itemType="date"
-                    itemValue={formattedDate(details.transaction.date)}
+                    itemType="dateDisbursed"
+                    itemValue={formattedDate(details.loan.date)}
                 />
                 <DetailsBox
-                    itemType="receiptNumber"
-                    itemValue={details.transaction.receiptNumber?.toString() ?? "Not set"}
-                />
-                <DetailsBox
-                    baseItemType="transaction"
+                    baseItemType="loan"
                     itemType="member"
-                    itemValue={details.transaction.member}
-                    itemId={details.transaction.memberId}
+                    itemValue={details.loan.member}
+                    itemId={details.loan.memberId}
                     isSacco
                 />
                 <DetailsBox
-                    itemType="type"
-                    itemValue={describeTransactionType(details.transaction)}
+                    itemType="principal"
+                    itemValue={details.loan.principal?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="term"
+                    itemValue={describeLoanTerm(details.loan)}
                 />
             </div>
         </>;
 }
 
 export default connect(
-    (state: State) => ({ ...state.sacco.transaction.details, ...state.sacco.shared }),
+    (state: State) => ({ ...state.sacco.loan.details, ...state.sacco.shared }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(Details);
