@@ -1,11 +1,16 @@
 ﻿import { PagedParameters, PagedResults } from "../shared";
 
+export interface LoanType {
+    id?: number;
+    name: string;
+}
+
 export interface Loan {
     id?: number;
     memberId?: number;
     member?: string;
     loanTypeId?: number;
-    loanType: string;
+    loanType?: string;
     date?: Date;
     principal?: number;
     termMonths?: number;
