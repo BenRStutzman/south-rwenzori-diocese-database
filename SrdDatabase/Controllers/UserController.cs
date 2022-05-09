@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Authentication;
 using SrdDatabase.Models.Users;
-using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Queries.Users;
 using SrdDatabase.Domain.Commands.Users;
 
@@ -72,25 +71,26 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<SaveResponse> Add(AddUser.Command command)
+        public async Task<IActionResult> Add(AddUser.Command command)
         {
             command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+            return SaveResult(response);
         }
 
         [HttpPost("edit")]
-        public async Task<SaveResponse> Edit(EditUser.Command command)
+        public async Task<IActionResult> Edit(EditUser.Command command)
         {
             command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+            return SaveResult(response);
         }
 
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteUser.Command command)
         {
-            await _mediator.Send(command);
-
-            return Ok();
+            var response = await _mediator.Send(command);
+            return DeleteResult(response);
         }
     }
 }

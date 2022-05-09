@@ -6,6 +6,8 @@ using SrdDatabase.Models.Shared;
 using SrdDatabase.Models.Users;
 using System;
 using SrdDatabase.Data.Commands.Users;
+using SrdDatabase.Data.Queries.Users;
+using System.Linq;
 
 namespace SrdDatabase.Domain.Commands.Users
 {
@@ -43,6 +45,18 @@ namespace SrdDatabase.Domain.Commands.Users
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
+                var usernameQuery = new GetUsers.Query(username: request.Username);
+                var usernameResults = await _mediator.Send(usernameQuery, cancellationToken);
+
+                if (usernameResults.Users.Any(user => user.Id != request.Id))
+                {
+                    return SaveResponse.ForError(
+                        $"A user with the username {request.Username} already exists. " +
+                        "Please choose a different username.",
+                        nameof(request.Username)
+                    );
+                }
+
                 var dataCommand = new SaveUser.Command(
                     request.Id,
                     request.Name,

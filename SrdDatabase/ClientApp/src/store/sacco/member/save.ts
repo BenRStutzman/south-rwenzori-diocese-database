@@ -52,7 +52,7 @@ const setMember = (member: Member): AppThunkAction<Action> => (dispatch) => {
 };
 
 const prefillMember = (): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setMember({}));
+    dispatch(setMember({ dateJoined: new Date() }));
 };
 
 const loadMember = (id: number): AppThunkAction<Action> => (dispatch) => {

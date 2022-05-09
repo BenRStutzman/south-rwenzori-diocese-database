@@ -4,11 +4,9 @@ using SrdDatabase.Attributes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Sacco.Members;
-using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Queries.Sacco.Members;
 using SrdDatabase.Domain.Commands.Sacco.Members;
 using SrdDatabase.Models.Users;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SrdDatabase.Controllers.Sacco
 {
@@ -53,16 +51,7 @@ namespace SrdDatabase.Controllers.Sacco
         {
             command.SetUserId(CurrentUser.Id);
             var response = await _mediator.Send(command);
-
-            if (response.Succeeded)
-            {
-                return Ok(response);
-            }
-            else
-            {
-                ModelState.AddModelError(response.ErrorField, response.ErrorMessage);
-                return ValidationProblem();
-            }
+            return SaveResult(response);
         }
 
         [HttpPost("edit")]
@@ -70,23 +59,14 @@ namespace SrdDatabase.Controllers.Sacco
         {
             command.SetUserId(CurrentUser.Id);
             var response = await _mediator.Send(command);
-
-            if (response.Succeeded) {
-                return Ok(response);
-            }
-            else
-            {
-                ModelState.AddModelError(response.ErrorField, response.ErrorMessage);
-                return ValidationProblem();
-            }
+            return SaveResult(response);
         }
 
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteMember.Command command)
         {
             var response = await _mediator.Send(command);
-
-            return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
+            return DeleteResult(response);
         }
     }
 }
