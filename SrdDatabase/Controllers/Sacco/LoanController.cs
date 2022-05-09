@@ -71,8 +71,8 @@ namespace SrdDatabase.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteLoan.Command command)
         {
-            await _mediator.Send(command);
-            return Ok();
+            var response = await _mediator.Send(command);
+            return DeleteResult(response);
         }
     }
 }

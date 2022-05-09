@@ -97,7 +97,7 @@ namespace SrdDatabase.Controllers
             }
 
             var response = await _mediator.Send(command);
-            return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
+            return DeleteResult(response);
         }
 
         private async Task<bool> CanEdit(int eventId)

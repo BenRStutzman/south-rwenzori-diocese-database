@@ -68,8 +68,7 @@ namespace SrdDatabase.Controllers
         public async Task<IActionResult> Delete(DeleteParish.Command command)
         {
             var response = await _mediator.Send(command);
-
-            return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
+            return DeleteResult(response);
         }
     }
 }

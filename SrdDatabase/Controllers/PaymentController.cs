@@ -66,8 +66,7 @@ namespace SrdDatabase.Controllers
         public async Task<IActionResult> Delete(DeletePayment.Command command)
         {
             var response = await _mediator.Send(command);
-
-            return response.Succeeded ? Ok() : BadRequest(response.ErrorMessage);
+            return DeleteResult(response);
         }
     }
 }
