@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Models.Sacco.Members;
 using SrdDatabase.Data.Commands.Sacco.Members;
+using System;
 
 namespace SrdDatabase.Domain.Commands.Sacco.Members
 {
@@ -13,8 +14,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
         {
             public Command(
                 int accountNumber,
-                string name)
-                : base(accountNumber, name)
+                string name,
+                DateTime dateJoined)
+                : base(accountNumber, name, dateJoined)
             {
             }
         }
@@ -34,6 +36,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
                     null,
                     request.AccountNumber,
                     request.Name,
+                    request.DateJoined,
                     request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);

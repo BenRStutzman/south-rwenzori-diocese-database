@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { State } from '../../../../store';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import { randomString } from '../../../../helpers/miscellaneous';
+import { convertDateChange, formattedDate, randomString } from '../../../../helpers/miscellaneous';
 
 const autoComplete = randomString();
 
@@ -25,6 +25,7 @@ const SaveForm = ({
     member,
     saveMember,
     setName,
+    setDateJoined,
     setAccountNumber,
     hasBeenChanged,
     errors,
@@ -39,6 +40,10 @@ const SaveForm = ({
         setAccountNumber(parseInt(event.target.value));
     };
 
+    const onDateJoinedChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDateJoined(convertDateChange(event));
+    };
+
     const onSubmit = (event: FormEvent) => {
         event.preventDefault();
         saveMember(member, history);
@@ -47,7 +52,7 @@ const SaveForm = ({
     return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
-                <label htmlFor="accountNumber">Account number</label>
+                <label htmlFor="accountNumber">Account Number</label>
                 <input
                     id="accountNumber"
                     className="form-control"
@@ -71,6 +76,17 @@ const SaveForm = ({
                     onChange={onNameChange}
                     required
                     maxLength={50}
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="dateJoined">Date Joined</label>
+                <input
+                    id="dateJoined"
+                    className="form-control"
+                    type="date"
+                    value={formattedDate(member.dateJoined)}
+                    onChange={onDateJoinedChange}
+                    required
                 />
             </div>
             {Object.values(errors).length > 0 &&

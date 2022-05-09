@@ -11,6 +11,7 @@ import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
 import { loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import DetailsBox from '../../shared/DetailsBox';
+import { formattedDate } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -56,6 +57,10 @@ const Details = ({
                 <DetailsBox
                     itemType="accountNumber"
                     itemValue={details.member.accountNumber?.toString()}
+                />
+                 <DetailsBox
+                    itemType="dateJoined"
+                    itemValue={formattedDate(details.member.dateJoined)}
                 />
                 <DetailsList
                     itemType="transaction"

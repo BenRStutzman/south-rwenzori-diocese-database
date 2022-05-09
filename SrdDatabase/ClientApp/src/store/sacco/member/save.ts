@@ -1,13 +1,15 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '../..';
 import { ErrorResponse, Errors, get, post } from '../../../helpers/apiHelpers';
-import { Member } from '../../../models/sacco/member';
+import { Member, MemberToSend } from '../../../models/sacco/member';
 import { History } from 'history';
+import { formattedDate } from '../../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'SACCO_MEMBER.SET_IS_LOADING';
 const SET_MEMBER = 'SACCO_MEMBER.RECEIVE_MEMBER';
 const SET_NAME = 'SACCO_MEMBER.SET_NAME';
 const SET_ACCOUNT_NUMBER = 'SACCO_MEMBER.SET_ACCOUNT_NUMBER';
+const SET_DATE_JOINED = 'SACCO_MEMBER.SET_DATE_JOINED';
 const SET_IS_SAVING = 'SACCO_MEMBER.SET_IS_SAVING';
 const SET_ERRORS = 'SACCO_MEMBER.SET_ERRORS';
 
@@ -28,6 +30,11 @@ const setNameAction = (name: string) => ({
 const setAccountNumberAction = (accountNumber: number) => ({
     type: SET_ACCOUNT_NUMBER,
     value: accountNumber,
+});
+
+const setDateJoinedAction = (dateJoined?: Date) => ({
+    type: SET_DATE_JOINED,
+    value: dateJoined,
 });
 
 const setIsSavingAction = (isSaving: boolean) => ({
@@ -65,12 +72,21 @@ const setAccountNumber = (accountNumber: number): AppThunkAction<Action> => (dis
     dispatch(setAccountNumberAction(accountNumber));
 };
 
+const setDateJoined = (dateJoined?: Date): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDateJoinedAction(dateJoined));
+};
+
 const saveMember = (member: Member, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
+    const memberToSend = {
+        ...member,
+        dateJoined: formattedDate(member.dateJoined),
+    }
+
     const action = member.id ? 'edit' : 'add';
 
-    post<Member>(`api/sacco/member/${action}`, member)
+    post<MemberToSend>(`api/sacco/member/${action}`, memberToSend)
         .then(response => {
             if (response.ok) {
                 history.push('/sacco/member');
@@ -91,6 +107,7 @@ export const actionCreators = {
     loadMember,
     setName,
     setAccountNumber,
+    setDateJoined,
     saveMember,
 };
 
@@ -140,6 +157,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 member: {
                     ...state.member,
                     accountNumber: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_DATE_JOINED:
+            return {
+                ...state,
+                member: {
+                    ...state.member,
+                    dateJoined: action.value,
                 },
                 hasBeenChanged: true,
             };

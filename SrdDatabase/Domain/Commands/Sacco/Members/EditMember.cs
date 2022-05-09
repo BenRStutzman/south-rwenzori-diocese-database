@@ -19,8 +19,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
             public Command(
                 int id,
                 int accountNumber,
+                DateTime dateJoined,
                 string name)
-                : base(accountNumber, name)
+                : base(accountNumber, name, dateJoined)
             {
                 Id = id;
             }
@@ -41,6 +42,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
                     request.Id,
                     request.AccountNumber,
                     request.Name,
+                    request.DateJoined,
                     request.UserId.Value);
 
                 return await _mediator.Send(dataCommand, cancellationToken);

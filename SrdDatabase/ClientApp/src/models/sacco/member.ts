@@ -6,6 +6,11 @@ export interface Member {
     id?: number;
     accountNumber?: number;
     name?: string;
+    dateJoined?: Date;
+}
+
+export interface MemberToSend extends Omit<Member, "dateJoined"> {
+    dateJoined?: string;
 }
 
 export interface MemberDetails {

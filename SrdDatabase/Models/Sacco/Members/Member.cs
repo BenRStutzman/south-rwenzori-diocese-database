@@ -1,4 +1,6 @@
-﻿namespace SrdDatabase.Models.Sacco.Members
+﻿using System;
+
+namespace SrdDatabase.Models.Sacco.Members
 {
     public class Member
     {
@@ -8,14 +10,18 @@
 
         public string Name { get; }
 
+        public DateTime DateJoined { get; }
+
         public Member(
             int id,
             int accountNumber,
-            string name)
+            string name,
+            DateTime dateJoined)
         {
             Id = id;
             AccountNumber = accountNumber;
             Name = name;
+            DateJoined = dateJoined;
         }
 
         // for Dapper

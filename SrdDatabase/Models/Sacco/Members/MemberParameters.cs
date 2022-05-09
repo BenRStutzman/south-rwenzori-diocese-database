@@ -14,7 +14,6 @@ namespace SrdDatabase.Models.Sacco.Members
         [StringLength(50)]
         public string Name { get; }
 
-
         public MemberParameters(
             int? accountNumber = null,
             string name = null,

@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../../shared/Paging';
 import SortButton from '../../../shared/SortButton';
+import { formattedDate } from '../../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -55,11 +56,19 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-8">
+                        <th className="col-6">
                             Name
                             <SortButton
                                 parameters={parameters}
                                 columnName="name"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Date Joined
+                            <SortButton
+                                parameters={parameters}
+                                columnName="dateJoined"
                                 onSort={onSort}
                             />
                         </th>
@@ -73,6 +82,7 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>
+                            <td>{formattedDate(member.dateJoined)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
                                     View

@@ -6,6 +6,7 @@ using Dapper;
 using SrdDatabase.Services;
 using SrdDatabase.Models.Sacco.Members;
 using SrdDatabase.Models.Shared;
+using System;
 
 namespace SrdDatabase.Data.Commands.Sacco.Members
 {
@@ -19,8 +20,9 @@ namespace SrdDatabase.Data.Commands.Sacco.Members
                 int? id,
                 int accountNumber,
                 string name,
+                DateTime dateJoined,
                 int userId)
-                : base (accountNumber, name, userId)
+                : base (accountNumber, name, dateJoined, userId)
             {
                 Id = id;
             }

@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import Paging from '../../../shared/Paging';
 import SortButton from '../../../shared/SortButton';
 import { describeTransactionAmount, describeTransactionType } from '../../../../helpers/sacco/transactionHelper';
+import { formattedDate } from '../../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -94,7 +95,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.transactions.map((transaction: Transaction) =>
                         <tr key={transaction.id}>
-                            <td>{transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>{formattedDate(transaction.date)}</td>
                             <td>
                                 <Link to={`/sacco/member/details/${transaction.memberId}`}>{transaction.member}</Link>
                             </td>
