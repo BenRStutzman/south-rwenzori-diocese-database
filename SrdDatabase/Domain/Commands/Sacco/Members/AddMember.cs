@@ -12,8 +12,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
         public class Command : MemberFields, IRequest<SaveResponse>
         {
             public Command(
+                int accountNumber,
                 string name)
-                : base(name)
+                : base(accountNumber, name)
             {
             }
         }
@@ -31,6 +32,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
             {
                 var dataCommand = new SaveMember.Command(
                     null,
+                    request.AccountNumber,
                     request.Name,
                     request.UserId.Value);
 

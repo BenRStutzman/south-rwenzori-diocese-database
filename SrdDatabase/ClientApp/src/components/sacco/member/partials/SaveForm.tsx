@@ -25,6 +25,7 @@ const SaveForm = ({
     member,
     saveMember,
     setName,
+    setAccountNumber,
     hasBeenChanged,
     errors,
     history,
@@ -34,6 +35,10 @@ const SaveForm = ({
         setName(event.target.value);
     };
 
+    const onAccountNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setAccountNumber(parseInt(event.target.value));
+    };
+
     const onSubmit = (event: FormEvent) => {
         event.preventDefault();
         saveMember(member, history);
@@ -41,6 +46,19 @@ const SaveForm = ({
 
     return (
         <form onSubmit={onSubmit}>
+            <div className="form-group">
+                <label htmlFor="accountNumber">Account number</label>
+                <input
+                    id="accountNumber"
+                    className="form-control"
+                    type="number"
+                    autoComplete={autoComplete}
+                    value={member.accountNumber ?? ""}
+                    onChange={onAccountNumberChange}
+                    required
+                    min={1}
+                />
+            </div>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input

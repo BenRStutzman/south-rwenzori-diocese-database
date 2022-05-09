@@ -8,11 +8,15 @@ namespace SrdDatabase.Models.Sacco.Members
         [Range(1, int.MaxValue)]
         public int? Id { get; }
 
+        [Range(1, int.MaxValue)]
+        public int? AccountNumber { get; }
+
         [StringLength(50)]
         public string Name { get; }
 
 
         public MemberParameters(
+            int? accountNumber = null,
             string name = null,
             int pageNumber = 0,
             string sortColumn = null,
@@ -25,6 +29,7 @@ namespace SrdDatabase.Models.Sacco.Members
                 pageSize)
         {
             Id = id;
+            AccountNumber = accountNumber;
             Name = name;
         }
     }

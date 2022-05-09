@@ -14,12 +14,14 @@ namespace SrdDatabase.Data.Queries.Sacco.Members
         {
             public Query(
                 int? id = null,
+                int? accountNumber = null,
                 string name = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false,
                 int? pageSize = null) :
-                base (name,
+                base (accountNumber,
+                      name,
                       pageNumber,
                       sortColumn,
                       sortDescending,

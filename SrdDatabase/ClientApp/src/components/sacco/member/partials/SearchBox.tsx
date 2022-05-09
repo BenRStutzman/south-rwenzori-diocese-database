@@ -21,7 +21,7 @@ const SearchBox = ({
     searchMembers,
     parameters,
     setSearchName,
-    setSearchId,
+    setSearchAccountNumber,
     prefillParameters,
     expanded,
 }: Props) => {
@@ -35,8 +35,8 @@ const SearchBox = ({
         setSearchName(event.target.value);
     };
 
-    const onIdChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchId(parseInt(event.target.value));
+    const onAccountNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchAccountNumber(parseInt(event.target.value));
     };
 
     const onSubmit = (event: React.FormEvent) => {
@@ -52,12 +52,12 @@ const SearchBox = ({
                         <div className="form-group">
                             <label htmlFor="id">Account Number</label>
                             <input
-                                id="id"
+                                id="accountNumber"
                                 className="form-control"
                                 autoComplete={autoCompleteString}
                                 type="number"
-                                value={parameters.id?.toString() ?? ""}
-                                onChange={onIdChange}
+                                value={parameters.accountNumber ?? ""}
+                                onChange={onAccountNumberChange}
                                 min={1}
                             />
                         </div>

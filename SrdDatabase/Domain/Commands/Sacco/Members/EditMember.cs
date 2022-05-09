@@ -18,8 +18,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
 
             public Command(
                 int id,
+                int accountNumber,
                 string name)
-                : base(name)
+                : base(accountNumber, name)
             {
                 Id = id;
             }
@@ -38,6 +39,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
             {
                 var dataCommand = new SaveMember.Command(
                     request.Id,
+                    request.AccountNumber,
                     request.Name,
                     request.UserId.Value);
 

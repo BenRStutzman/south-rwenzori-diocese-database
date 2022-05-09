@@ -51,7 +51,7 @@ const SearchResults = ({
                             Account #
                             <SortButton
                                 parameters={parameters}
-                                columnName="id"
+                                columnName="accountNumber"
                                 onSort={onSort}
                             />
                         </th>
@@ -69,7 +69,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.members.map((member: Member) =>
                         <tr key={member.id}>
-                            <td>{member.id}</td>
+                            <td>{member.accountNumber}</td>
                             <td>
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>

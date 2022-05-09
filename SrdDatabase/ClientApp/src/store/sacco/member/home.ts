@@ -8,7 +8,7 @@ import { pagedResultsDefaults } from '../../../models/shared';
 const SET_RESULTS_LOADING = 'SACCO_MEMBER.SET_RESULTS_LOADING';
 const SET_RESULTS = 'SACCO_MEMBER.SET_RESULTS';
 const SET_SEARCH_NAME = 'SACCO_MEMBER.SET_SEARCH_NAME';
-const SET_SEARCH_ID = 'SACCO_MEMBER.SET_SEARCH_ID';
+const SET_SEARCH_ACCOUNT_NUMBER = 'SACCO_MEMBER.SET_SEARCH_ACCOUNT_NUMBER';
 const SET_PARAMETERS = 'SACCO_MEMBER.SET_PARAMETERS';
 
 const setResultsLoadingAction = () => ({
@@ -25,9 +25,9 @@ const setSearchNameAction = (name?: string) => ({
     value: name,
 });
 
-const setSearchIdAction = (id: number) => ({
-    type: SET_SEARCH_ID,
-    value: id,
+const setSearchAccountNumberAction = (accountNumber: number) => ({
+    type: SET_SEARCH_ACCOUNT_NUMBER,
+    value: accountNumber,
 })
 
 const setParametersAction = (parameters: MemberParameters) => ({
@@ -69,14 +69,14 @@ const searchMembers = (
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchNameAction(name.length ? name : undefined));
 };
-const setSearchId = (id: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchIdAction(id));
+const setSearchAccountNumber = (accountNumber: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchAccountNumberAction(accountNumber));
 };
 
 export const actionCreators = {
     searchMembers,
     setSearchName,
-    setSearchId,
+    setSearchAccountNumber,
     prefillParameters,
 };
 
@@ -118,12 +118,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     name: action.value,
                 }
             };
-        case SET_SEARCH_ID:
+        case SET_SEARCH_ACCOUNT_NUMBER:
             return {
                 ...state,
                 parameters: {
                     ...state.parameters,
-                    id: action.value,
+                    accountNumber: action.value,
                 }
             };
         default:

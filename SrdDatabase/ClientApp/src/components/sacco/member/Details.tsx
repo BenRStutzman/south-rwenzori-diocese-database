@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
 import { loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import DetailsBox from '../../shared/DetailsBox';
 
 type Props =
     Store.State &
@@ -52,6 +53,10 @@ const Details = ({
                 </div>
             </div>
             <div className="details-boxes">
+                <DetailsBox
+                    itemType="accountNumber"
+                    itemValue={details.member.accountNumber?.toString()}
+                />
                 <DetailsList
                     itemType="transaction"
                     itemTotal={details.transactionResults.totalResults}

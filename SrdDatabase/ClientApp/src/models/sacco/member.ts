@@ -4,6 +4,7 @@ import { TransactionResults } from "./transaction";
 
 export interface Member {
     id?: number;
+    accountNumber?: number;
     name?: string;
 }
 
@@ -14,7 +15,7 @@ export interface MemberDetails {
 }
 
 export interface MemberParameters extends PagedParameters {
-    id?: number;
+    accountNumber?: number;
     name?: string;
 }
 

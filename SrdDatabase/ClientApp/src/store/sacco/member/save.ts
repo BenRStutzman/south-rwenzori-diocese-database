@@ -7,6 +7,7 @@ import { History } from 'history';
 const SET_IS_LOADING = 'SACCO_MEMBER.SET_IS_LOADING';
 const SET_MEMBER = 'SACCO_MEMBER.RECEIVE_MEMBER';
 const SET_NAME = 'SACCO_MEMBER.SET_NAME';
+const SET_ACCOUNT_NUMBER = 'SACCO_MEMBER.SET_ACCOUNT_NUMBER';
 const SET_IS_SAVING = 'SACCO_MEMBER.SET_IS_SAVING';
 const SET_ERRORS = 'SACCO_MEMBER.SET_ERRORS';
 
@@ -22,6 +23,11 @@ const setMemberAction = (member: Member) => ({
 const setNameAction = (name: string) => ({
     type: SET_NAME,
     value: name,
+});
+
+const setAccountNumberAction = (accountNumber: number) => ({
+    type: SET_ACCOUNT_NUMBER,
+    value: accountNumber,
 });
 
 const setIsSavingAction = (isSaving: boolean) => ({
@@ -55,6 +61,10 @@ const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setNameAction(name));
 };
 
+const setAccountNumber = (accountNumber: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setAccountNumberAction(accountNumber));
+};
+
 const saveMember = (member: Member, history: History): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsSavingAction(true));
 
@@ -80,6 +90,7 @@ export const actionCreators = {
     prefillMember,
     loadMember,
     setName,
+    setAccountNumber,
     saveMember,
 };
 
@@ -120,6 +131,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 member: {
                     ...state.member,
                     name: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_ACCOUNT_NUMBER:
+            return {
+                ...state,
+                member: {
+                    ...state.member,
+                    accountNumber: action.value,
                 },
                 hasBeenChanged: true,
             };

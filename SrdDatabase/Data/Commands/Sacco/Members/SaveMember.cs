@@ -17,9 +17,10 @@ namespace SrdDatabase.Data.Commands.Sacco.Members
 
             public Command(
                 int? id,
+                int accountNumber,
                 string name,
                 int userId)
-                : base (name, userId)
+                : base (accountNumber, name, userId)
             {
                 Id = id;
             }
