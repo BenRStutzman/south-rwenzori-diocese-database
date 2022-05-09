@@ -42,7 +42,7 @@ namespace SrdDatabase.Data.Commands.Archdeaconries
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }

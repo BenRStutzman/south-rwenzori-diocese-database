@@ -60,7 +60,7 @@ namespace SrdDatabase.Data.Commands.Events
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }

@@ -8,6 +8,7 @@ using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Queries.Sacco.Members;
 using SrdDatabase.Domain.Commands.Sacco.Members;
 using SrdDatabase.Models.Users;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SrdDatabase.Controllers.Sacco
 {
@@ -48,17 +49,36 @@ namespace SrdDatabase.Controllers.Sacco
         }
 
         [HttpPost("add")]
-        public async Task<SaveResponse> Add(AddMember.Command command)
+        public async Task<IActionResult> Add(AddMember.Command command)
         {
             command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                ModelState.AddModelError(response.ErrorField, response.ErrorMessage);
+                return ValidationProblem();
+            }
         }
 
         [HttpPost("edit")]
-        public async Task<SaveResponse> Edit(EditMember.Command command)
+        public async Task<IActionResult> Edit(EditMember.Command command)
         {
             command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+
+            if (response.Succeeded) {
+                return Ok(response);
+            }
+            else
+            {
+                ModelState.AddModelError(response.ErrorField, response.ErrorMessage);
+                return ValidationProblem();
+            }
         }
 
         [HttpPost("delete")]

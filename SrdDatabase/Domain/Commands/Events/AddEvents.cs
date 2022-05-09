@@ -67,7 +67,7 @@ namespace SrdDatabase.Domain.Commands.Events
                 });
 
                 var saveResponses = await Task.WhenAll(saveTasks);
-                var ids = saveResponses.Select(response => response.Id);
+                var ids = saveResponses.Select(response => response.Id.Value);
 
                 return new MultiSaveResponse(ids);
             }

@@ -53,7 +53,7 @@ namespace SrdDatabase.Data.Commands.Quotas
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }

@@ -50,7 +50,7 @@ namespace SrdDatabase.Data.Commands.Sacco.Loans
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }

@@ -46,7 +46,7 @@ namespace SrdDatabase.Data.Commands.Parishes
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }

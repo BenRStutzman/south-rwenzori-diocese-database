@@ -51,7 +51,7 @@ namespace SrdDatabase.Data.Commands.Sacco.Transactions
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }

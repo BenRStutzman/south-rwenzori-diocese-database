@@ -42,7 +42,7 @@ namespace SrdDatabase.Data.Commands.Congregations
                     request,
                     commandType: CommandType.StoredProcedure);
 
-                return new SaveResponse(id);
+                return SaveResponse.ForSuccess(id);
             }
         }
     }
