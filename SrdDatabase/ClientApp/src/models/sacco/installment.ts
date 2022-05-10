@@ -19,6 +19,7 @@ export interface InstallmentDetails {
 }
 
 export interface InstallmentParameters extends PagedParameters {
+    loanId?: number;
     memberId?: number;
     startDate?: Date;
     endDate?: Date;

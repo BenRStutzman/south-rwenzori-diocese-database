@@ -1,7 +1,7 @@
 ﻿import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
-import { Loan, LoanType } from '../../../models/sacco/loan';
+import { Loan, LoanParameters, LoanResults, LoanType } from '../../../models/sacco/loan';
 import { Installment } from '../../../models/sacco/installment';
 import { Member } from '../../../models/sacco/member';
 import { Transaction } from '../../../models/sacco/transaction';
@@ -73,13 +73,18 @@ const loadMembers = (): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
-const loadLoans = (): AppThunkAction<Action> => (dispatch) => {
+export const loadLoans = (memberId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestLoansAction());
 
-    get<Loan[]>('api/sacco/loan/all')
-        .then(loans => {
-            dispatch(receiveLoansAction(loans));
-        });
+    if (memberId) {
+        post<LoanParameters>('api/sacco/loan/search', { memberId })
+            .then(response => response.json() as Promise<LoanResults>)
+            .then(results => {
+                dispatch(receiveLoansAction(results.loans));
+            });
+    } else {
+        dispatch(receiveLoansAction([]));
+    }
 };
 
 const loadLoanTypes = (): AppThunkAction<Action> => (dispatch) => {
