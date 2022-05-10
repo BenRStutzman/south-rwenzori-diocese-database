@@ -3,6 +3,7 @@
 export interface Installment {
     id?: number;
     loanId?: number;
+    loan?: string;
     memberId?: number;
     member?: string;
     date?: Date;

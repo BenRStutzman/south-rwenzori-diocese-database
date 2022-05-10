@@ -19,10 +19,13 @@ const Add = ({
     const queryParams = useQueryParams();
 
     const loadData = () => {
+        var loanIdString = queryParams.get('loanId');
+        const loanId = loanIdString ? parseInt(loanIdString) : undefined;
+
         var memberIdString = queryParams.get('memberId');
         const memberId = memberIdString ? parseInt(memberIdString) : undefined;
 
-        prefillInstallment(memberId);
+        prefillInstallment(loanId, memberId);
     };
 
     useEffect(loadData, []);

@@ -65,10 +65,10 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Type
+                            Loan
                             <SortButton
                                 parameters={parameters}
-                                columnName="isShares"
+                                columnName="loan"
                                 onSort={onSort}
                             />
                         </th>
@@ -96,14 +96,16 @@ const SearchResults = ({
                         <tr key={installment.id}>
                             <td>{formattedDate(installment.date)}</td>
                             <td>
-                                <Link to={`/sacco/member/details/${installment.memberId}`}>{installment.member}</Link>
-                            </td>
-                            <td>
-                                <Link to={`/sacco/installment/details/${installment.id}`}>
-                                    {describeInstallmentType(installment)}
+                                <Link to={`/sacco/member/details/${installment.memberId}`}>
+                                    {installment.member}
                                 </Link>
                             </td>
-                            <td className="number-column">{describeInstallmentAmount(installment)}</td>
+                            <td>
+                                <Link to={`/sacco/loan/details/${installment.loanId}`}>
+                                    {installment.loan}
+                                </Link>
+                            </td>
+                            <td className="number-column">{installment.amount?.toLocaleString()}</td>
                             <td className="number-column">{installment.receiptNumber}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/installment/details/${installment.id}`}>

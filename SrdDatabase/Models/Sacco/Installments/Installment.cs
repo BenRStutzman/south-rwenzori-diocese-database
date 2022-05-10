@@ -8,6 +8,8 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public int LoanId { get; }
 
+        public string Loan { get; }
+
         public int MemberId { get; }
 
         public string Member { get; }
@@ -21,6 +23,7 @@ namespace SrdDatabase.Models.Sacco.Installments
         public Installment(
             int id,
             int loanId,
+            string loan,
             int memberId,
             string member,
             DateTime date,
@@ -29,6 +32,7 @@ namespace SrdDatabase.Models.Sacco.Installments
         {
             Id = id;
             LoanId = loanId;
+            Loan = loan;
             MemberId = memberId;
             Member = member;
             Date = date;

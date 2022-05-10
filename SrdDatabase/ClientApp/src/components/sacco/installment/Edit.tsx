@@ -10,7 +10,6 @@ import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import { bindActionCreators } from 'redux';
-import { describeInstallment } from '../../../helpers/sacco/installmentHelper';
 
 type Props =
     Store.State
@@ -42,7 +41,7 @@ const Edit = ({
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{`Edit ${describeInstallment(installment)}`}</h1>
+                <h1>{`Edit installment for ${installment.loan} loan`}</h1>
                 <div className="float-right button-group">
                     <Link className="btn btn-secondary" to={`/sacco/installment/details/${installment.id}`}>
                         View details

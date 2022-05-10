@@ -66,8 +66,12 @@ const Details = ({
                     altPreposition="by"
                 />
                 <DetailsBox
-                    itemType="amount"
-                    itemValue={`${details.installment.amount?.toLocaleString()} UGX`}
+                    baseItemType="installment"
+                    itemType="loan"
+                    itemValue={`{details.installment.loan} Loan`}
+                    itemId={details.installment.loanId}
+                    isSacco
+                    altPreposition="for"
                 />
                 <DetailsBox
                     itemType="receiptNumber"
