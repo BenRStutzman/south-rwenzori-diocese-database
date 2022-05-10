@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,15 +8,15 @@
     }
   },
   "profiles": {
-     "SrdDatabase": {
+    "SrdDatabase": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
         "DB_CONNECTION_STRING": "Server=localhost;Database=srd;Uid=srd;Pwd=Srd2021;",
-        "JWT_SECRET": "FAKE SECRET FOR TESTING"
-      }
+        "JWT_SECRET": "FAKE SECRET FOR TESTING",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }
 }
