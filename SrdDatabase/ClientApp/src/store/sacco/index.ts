@@ -4,6 +4,7 @@ import * as Home from './home';
 import * as Member from './member';
 import * as Transaction from './transaction';
 import * as Loan from './loan';
+import * as Installment from './installment';
 
 export interface State {
     shared: Shared.State,
@@ -11,6 +12,7 @@ export interface State {
     member: Member.State,
     transaction: Transaction.State,
     loan: Loan.State,
+    installment: Installment.State,
 }
 
 export const reducer = combineReducers({
@@ -19,4 +21,5 @@ export const reducer = combineReducers({
     member: Member.reducer,
     transaction: Transaction.reducer,
     loan: Loan.reducer,
+    installment: Installment.reducer,
 });
