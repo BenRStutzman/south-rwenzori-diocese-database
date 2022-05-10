@@ -2,7 +2,7 @@
 import { Action, AppThunkAction } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { Loan, LoanType } from '../../../models/sacco/loan';
-import { LoanInstallment } from '../../../models/sacco/loanInstallment';
+import { Installment } from '../../../models/sacco/installment';
 import { Member } from '../../../models/sacco/member';
 import { Transaction } from '../../../models/sacco/transaction';
 
@@ -59,9 +59,9 @@ const setDeletingLoanIdAction = (loanId?: number, isDeleting: boolean = true) =>
     value: { loanId, isDeleting },
 });
 
-const setDeletingLoanInstallmentIdAction = (loanInstallmentId?: number, isDeleting: boolean = true) => ({
+const setDeletingInstallmentIdAction = (installmentId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_LOAN_INSTALLMENT_ID,
-    value: { loanInstallmentId, isDeleting },
+    value: { installmentId, isDeleting },
 });
 
 const loadMembers = (): AppThunkAction<Action> => (dispatch) => {
@@ -154,12 +154,12 @@ const deleteLoan = (loan: Loan, onSuccess: () => void):
         }
     };
 
-const deleteLoanInstallment = (loanInstallment: LoanInstallment, onSuccess: () => void):
+const deleteInstallment = (installment: Installment, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this loan installment for ${loanInstallment.member}?`)) {
-            dispatch(setDeletingLoanInstallmentIdAction(loanInstallment.id));
+        if (window.confirm(`Are you sure you want to delete this loan installment for ${installment.member}?`)) {
+            dispatch(setDeletingInstallmentIdAction(installment.id));
 
-            post<{ id: number }>('api/sacco/loanInstallment/delete', { id: loanInstallment.id as number })
+            post<{ id: number }>('api/sacco/installment/delete', { id: installment.id as number })
                 .then(response => {
                     if (response.ok) {
                         onSuccess();
@@ -168,7 +168,7 @@ const deleteLoanInstallment = (loanInstallment: LoanInstallment, onSuccess: () =
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingLoanInstallmentIdAction(loanInstallment.id, false));
+                        dispatch(setDeletingInstallmentIdAction(installment.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -182,7 +182,7 @@ export const actionCreators = {
     deleteMember,
     deleteTransaction,
     deleteLoan,
-    deleteLoanInstallment,
+    deleteInstallment,
 };
 
 export interface State {
@@ -195,7 +195,7 @@ export interface State {
     deletingMemberIds: number[];
     deletingTransactionIds: number[];
     deletingLoanIds: number[];
-    deletingLoanInstallmentIds: number[];
+    deletingInstallmentIds: number[];
 }
 
 const initialState: State = {
@@ -208,7 +208,7 @@ const initialState: State = {
     deletingMemberIds: [],
     deletingTransactionIds: [],
     deletingLoanIds: [],
-    deletingLoanInstallmentIds: [],
+    deletingInstallmentIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -270,9 +270,9 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
          case SET_DELETING_LOAN_INSTALLMENT_ID:
             return {
                 ...state,
-                deletingLoanInstallmentIds: action.value.isDeleting
-                    ? [...state.deletingLoanInstallmentIds, action.value.loanInstallmentId]
-                    : state.deletingLoanInstallmentIds.filter(id => id != action.value.loanInstallmentId),
+                deletingInstallmentIds: action.value.isDeleting
+                    ? [...state.deletingInstallmentIds, action.value.installmentId]
+                    : state.deletingInstallmentIds.filter(id => id != action.value.installmentId),
             };
         default:
             return state;

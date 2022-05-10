@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SrdDatabase.Domain.Commands.Sacco.LoanInstallments
+namespace SrdDatabase.Domain.Commands.Sacco.Installments
 {
-    public class DeleteLoanInstallment
+    public class DeleteInstallment
     {
         public class Command : IRequest<DeleteResponse>
         {
@@ -31,7 +31,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.LoanInstallments
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _mediator.Send(
-                    new Data.Commands.Sacco.LoanInstallments.DeleteLoanInstallment.Command(request.Id),
+                    new Data.Commands.Sacco.Installments.DeleteInstallment.Command(request.Id),
                     cancellationToken);
 
                 return DeleteResponse.ForSuccess();

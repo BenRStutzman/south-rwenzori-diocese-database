@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using SrdDatabase.Services;
-using SrdDatabase.Models.Sacco.LoanInstallments;
+using SrdDatabase.Models.Sacco.Installments;
 using System;
 
-namespace SrdDatabase.Data.Queries.Sacco.LoanInstallments
+namespace SrdDatabase.Data.Queries.Sacco.Installments
 {
-    public class GetLoanInstallments
+    public class GetInstallments
     {
-        public class Query : LoanInstallmentParameters, IRequest<LoanInstallmentResults>
+        public class Query : InstallmentParameters, IRequest<InstallmentResults>
         {
             public Query(
                 int? id = null,
@@ -36,17 +36,17 @@ namespace SrdDatabase.Data.Queries.Sacco.LoanInstallments
             }
         }
 
-        public class Handler : IRequestHandler<Query, LoanInstallmentResults>
+        public class Handler : IRequestHandler<Query, InstallmentResults>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_sacco_loan_installments";
+            private readonly string _storedProcedure = "sto_get_sacco_installments";
 
             public Handler(IDbService dbService)
             {
                 _dbService = dbService;
             }
 
-            public async Task<LoanInstallmentResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<InstallmentResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -56,13 +56,13 @@ namespace SrdDatabase.Data.Queries.Sacco.LoanInstallments
                     commandType: CommandType.StoredProcedure);
 
                 var totalResults = results.ReadSingle<int>();
-                var loanInstallments = results.Read<LoanInstallment>();
+                var installments = results.Read<Installment>();
 
-                return new LoanInstallmentResults(
+                return new InstallmentResults(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,
-                    loanInstallments);
+                    installments);
             }
         }
     }

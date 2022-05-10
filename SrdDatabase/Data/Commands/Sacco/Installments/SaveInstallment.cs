@@ -4,15 +4,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using SrdDatabase.Models.Sacco.LoanInstallments;
+using SrdDatabase.Models.Sacco.Installments;
 using SrdDatabase.Models.Shared;
 using System;
 
-namespace SrdDatabase.Data.Commands.Sacco.LoanInstallments
+namespace SrdDatabase.Data.Commands.Sacco.Installments
 {
-    public class SaveLoanInstallment
+    public class SaveInstallment
     {
-        public class Command : LoanInstallmentFields, IRequest<SaveResponse>
+        public class Command : InstallmentFields, IRequest<SaveResponse>
         {
             public int? Id { get; set; }
 
@@ -33,7 +33,7 @@ namespace SrdDatabase.Data.Commands.Sacco.LoanInstallments
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_save_sacco_loan_installment";
+            private readonly string _storedProcedure = "sto_save_sacco_installment";
 
             public Handler(IDbService dbService)
             {

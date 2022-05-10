@@ -1,15 +1,15 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries.Sacco.LoanInstallments;
-using SrdDatabase.Models.Sacco.LoanInstallments;
+using SrdDatabase.Data.Queries.Sacco.Installments;
+using SrdDatabase.Models.Sacco.Installments;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SrdDatabase.Domain.Queries.Sacco.LoanInstallments
+namespace SrdDatabase.Domain.Queries.Sacco.Installments
 {
-    public class SearchLoanInstallments
+    public class SearchInstallments
     {
-        public class Query : LoanInstallmentParameters, IRequest<LoanInstallmentResults>
+        public class Query : InstallmentParameters, IRequest<InstallmentResults>
         {
             public Query(
                 int? memberId = null,
@@ -30,7 +30,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.LoanInstallments
             }
         }
 
-        public class Handler : IRequestHandler<Query, LoanInstallmentResults>
+        public class Handler : IRequestHandler<Query, InstallmentResults>
         {
             private readonly IMediator _mediator;
 
@@ -39,10 +39,10 @@ namespace SrdDatabase.Domain.Queries.Sacco.LoanInstallments
                 _mediator = mediator;
             }
 
-            public async Task<LoanInstallmentResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<InstallmentResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
-                    new GetLoanInstallments.Query(
+                    new GetInstallments.Query(
                         null,
                         request.MemberId,
                         request.StartDate,

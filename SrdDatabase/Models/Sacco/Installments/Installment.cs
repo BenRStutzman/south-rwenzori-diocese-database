@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SrdDatabase.Models.Sacco.LoanInstallments
+namespace SrdDatabase.Models.Sacco.Installments
 {
-    public class LoanInstallment
+    public class Installment
     {
         public int Id { get; }
 
@@ -18,7 +18,7 @@ namespace SrdDatabase.Models.Sacco.LoanInstallments
 
         public int? ReceiptNumber { get; }
 
-        public LoanInstallment(
+        public Installment(
             int id,
             int loanId,
             int memberId,
@@ -37,7 +37,7 @@ namespace SrdDatabase.Models.Sacco.LoanInstallments
         }
 
         // for Dapper
-        public LoanInstallment()
+        public Installment()
         {
         }
     }

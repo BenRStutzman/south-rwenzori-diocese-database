@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SrdDatabase.Models.Sacco.LoanInstallments
+namespace SrdDatabase.Models.Sacco.Installments
 {
-    public class LoanInstallmentFields : SaveFields
+    public class InstallmentFields : SaveFields
     {
         [Range(1, int.MaxValue)]
         public int LoanId { get; }
@@ -18,7 +18,7 @@ namespace SrdDatabase.Models.Sacco.LoanInstallments
         [Range(1, int.MaxValue)]
         public int? ReceiptNumber { get; }
 
-        public LoanInstallmentFields(
+        public InstallmentFields(
             int amount,
             int loanId,
             DateTime date,

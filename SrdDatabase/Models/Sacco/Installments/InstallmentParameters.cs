@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SrdDatabase.Models.Sacco.LoanInstallments
+namespace SrdDatabase.Models.Sacco.Installments
 {
-    public class LoanInstallmentParameters : PagedParameters
+    public class InstallmentParameters : PagedParameters
     {
         [Range(1, int.MaxValue)]
         public int? Id { get; }
@@ -19,7 +19,7 @@ namespace SrdDatabase.Models.Sacco.LoanInstallments
 
         public DateTime? EndDate { get; }
 
-        public LoanInstallmentParameters(
+        public InstallmentParameters(
             int? memberId = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
