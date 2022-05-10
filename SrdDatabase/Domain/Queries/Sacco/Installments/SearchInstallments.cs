@@ -12,6 +12,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
         public class Query : InstallmentParameters, IRequest<InstallmentResults>
         {
             public Query(
+                int? loanId = null,
                 int? memberId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null,
@@ -19,7 +20,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false) : base
-                    (memberId,
+                    (loanId,
+                    memberId,
                     startDate,
                     endDate,
                     receiptNumber,
@@ -44,6 +46,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                 return await _mediator.Send(
                     new GetInstallments.Query(
                         null,
+                        request.LoanId,
                         request.MemberId,
                         request.StartDate,
                         request.EndDate,

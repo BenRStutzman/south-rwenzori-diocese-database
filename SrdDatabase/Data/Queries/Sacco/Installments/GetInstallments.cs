@@ -15,6 +15,7 @@ namespace SrdDatabase.Data.Queries.Sacco.Installments
         {
             public Query(
                 int? id = null,
+                int? loanId = null,
                 int? memberId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null,
@@ -23,7 +24,8 @@ namespace SrdDatabase.Data.Queries.Sacco.Installments
                 string sortColumn = null,
                 bool sortDescending = false,
                 int? pageSize = null) :
-                base (memberId,
+                base (loanId,
+                    memberId,
                     startDate,
                     endDate,
                     receiptNumber,
