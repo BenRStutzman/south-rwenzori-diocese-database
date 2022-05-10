@@ -68,6 +68,7 @@ namespace SrdDatabase.Controllers
         public async Task<IActionResult> Delete(DeleteArchdeaconry.Command command)
         {
             var response = await _mediator.Send(command);
+            
             return DeleteResult(response);
         }
     }
