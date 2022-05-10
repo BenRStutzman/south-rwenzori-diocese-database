@@ -22,8 +22,6 @@ namespace SrdDatabase.Models.Sacco.LoanInstallments
             int amount,
             int loanId,
             DateTime date,
-            bool isShares,
-            bool isContribution,
             int? receiptNumber,
             int? userId = null) : base(userId)
         {
