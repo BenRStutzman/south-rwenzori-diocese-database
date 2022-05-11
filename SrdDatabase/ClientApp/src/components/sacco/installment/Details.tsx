@@ -68,7 +68,7 @@ const Details = ({
                 <DetailsBox
                     baseItemType="installment"
                     itemType="loan"
-                    itemValue={`{details.installment.loan} Loan`}
+                    itemValue={`${details.installment.loan} Loan`}
                     itemId={details.installment.loanId}
                     isSacco
                     altPreposition="for"
