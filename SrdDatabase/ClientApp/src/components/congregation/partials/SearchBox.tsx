@@ -32,7 +32,6 @@ const SearchBox = ({
     setSearchParishId,
     archdeaconries,
     parishes,
-    resultsLoading,
     expanded,
 }: Props) => {
     const queryParams = useQueryParams();

@@ -2,7 +2,6 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { formattedDateAllowUndefined } from '../../../helpers/miscellaneous';
-import { Congregation } from '../../../models/congregation';
 import { InstallmentParameters, InstallmentParametersToSend, InstallmentResults } from '../../../models/sacco/installment';
 import { Loan } from '../../../models/sacco/loan';
 import { Member } from '../../../models/sacco/member';
@@ -57,11 +56,16 @@ const setParametersAction = (parameters: InstallmentParameters) => ({
     value: parameters,
 });
 
+const setParameters = (parameters: InstallmentParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadLoans(parameters.memberId));
+};
+
 const prefillParameters = (loanId?: number, memberId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = '/sacco/installment';
 
     const setParametersAndSearch = (parameters: InstallmentParameters) => {
-        dispatch(setParametersAction(parameters));
+        dispatch(setParameters(parameters));
 
         if (search) {
             dispatch(searchInstallments(parameters));
@@ -100,7 +104,7 @@ const setSearchEndDate = (endDate?: Date): AppThunkAction<Action> => (dispatch) 
 const setSearchMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(loadLoans(memberId))
     dispatch(setSearchMemberIdAction(memberId));
-    dispatch(setSearchLoanId());
+    dispatch(setSearchLoanId(undefined));
 };
 
 const setSearchLoanId = (loanId?: number): AppThunkAction<Action> => (dispatch) => {
