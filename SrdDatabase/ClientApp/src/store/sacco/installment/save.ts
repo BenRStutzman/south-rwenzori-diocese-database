@@ -61,12 +61,17 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
+const setInstallment = (installment: Installment): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setInstallmentAction(installment));
+    dispatch(loadLoans(installment.memberId));
+};
+
 const prefillInstallment = (loanId?: number, memberId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
     const backupUrl = '/sacco/installment/add';
 
     const setInstallmentWithDate = (installment: Installment) => {
-        dispatch(setInstallmentAction({
+        dispatch(setInstallment({
             ...installment,
             date: new Date(),
         }))
@@ -129,8 +134,8 @@ const saveInstallment = (installment: Installment, history: History): AppThunkAc
 
 const setMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(loadLoans(memberId));
-    dispatch(setLoanIdAction(memberId));
-    dispatch(setLoanId());
+    dispatch(setMemberIdAction(memberId));
+    dispatch(setLoanId(undefined));
 };
 
 const setLoanId = (loanId?: number): AppThunkAction<Action> => (dispatch) => {
