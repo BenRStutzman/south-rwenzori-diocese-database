@@ -11,7 +11,7 @@ import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
 import { loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import DetailsBox from '../../shared/DetailsBox';
-import { formattedDate } from '../../../helpers/miscellaneous';
+import { formattedDate, parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -61,6 +61,18 @@ const Details = ({
                  <DetailsBox
                     itemType="dateJoined"
                     itemValue={formattedDate(details.member.dateJoined)}
+                />
+                <DetailsBox
+                    itemType="shares"
+                    itemValue={details.member.shares?.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="savings"
+                    itemValue={`${parenthesizeIfNegative(details.member.savings)} UGX`}
+                />
+                <DetailsBox
+                    itemType="balance"
+                    itemValue={`${parenthesizeIfNegative(details.member.balance)} UGX`}
                 />
                 <DetailsList
                     itemType="transaction"

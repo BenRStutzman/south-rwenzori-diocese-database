@@ -136,7 +136,7 @@ const SaveForm = ({
                 <label htmlFor="withdrawal">Withdrawal</label>
             </div>
             <div className="form-group">
-                <label htmlFor="amount">Amount (UGX)</label>
+                <label htmlFor="amount">{transaction.isShares ? 'Number of shares' : 'Amount (UGX)'}</label>
                 <input
                     id="amount"
                     className="form-control"

@@ -12,16 +12,28 @@ namespace SrdDatabase.Models.Sacco.Members
 
         public DateTime DateJoined { get; }
 
+        public int Shares { get; }
+
+        public int Savings { get; }
+
+        public int Balance { get; }
+
         public Member(
             int id,
             int accountNumber,
             string name,
-            DateTime dateJoined)
+            DateTime dateJoined,
+            int shares,
+            int savings,
+            int balance)
         {
             Id = id;
             AccountNumber = accountNumber;
             Name = name;
             DateJoined = dateJoined;
+            Shares = shares;
+            Savings = savings;
+            Balance = balance;
         }
 
         // for Dapper

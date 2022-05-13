@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../../shared/Paging';
 import SortButton from '../../../shared/SortButton';
-import { formattedDate } from '../../../../helpers/miscellaneous';
+import { formattedDate, parenthesizeIfNegative } from '../../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -56,7 +56,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-6">
+                        <th className="col-4">
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -65,10 +65,18 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Date Joined
+                            Shares
                             <SortButton
                                 parameters={parameters}
-                                columnName="dateJoined"
+                                columnName="shares"
+                                onSort={onSort}
+                            />
+                        </th>
+                         <th className="col-2">
+                            Balance (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="balance"
                                 onSort={onSort}
                             />
                         </th>
@@ -82,7 +90,8 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>
-                            <td>{formattedDate(member.dateJoined)}</td>
+                            <td>{member.shares?.toLocaleString()}</td>
+                            <td>{parenthesizeIfNegative(member.balance)} UGX</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
                                     View

@@ -7,6 +7,9 @@ export interface Member {
     accountNumber?: number;
     name?: string;
     dateJoined?: Date;
+    shares?: number;
+    savings?: number;
+    balance?: number;
 }
 
 export interface MemberToSend extends Omit<Member, "dateJoined"> {
