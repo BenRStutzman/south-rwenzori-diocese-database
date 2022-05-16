@@ -1,0 +1,18 @@
+- Write loops for sto_save_sacco_dividend and sto_save_sacco_transaction
+- Add frontend for dividends
+- Add logic for loans
+
+
+- Do a thorough test
+
+To release:
+- Make dividend date unique
+
+Less important:
+- Speed up report generation
+	- Increase max user connections to 100 (waiting for Yosia)
+- Enable easy backups
+- Create better error page (add back useExceptionHandler('Error'))
+
+Before November:
+switch instance to t3.nano (after free tier expires, around Nov. 2022)
