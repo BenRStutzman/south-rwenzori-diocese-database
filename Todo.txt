@@ -1,6 +1,6 @@
-- Write loops for sto_save_sacco_dividend and sto_save_sacco_transaction
 - Add frontend for dividends
 - Add logic for loans
+- Add "either" radio buttons for searching transactions
 
 
 - Do a thorough test
