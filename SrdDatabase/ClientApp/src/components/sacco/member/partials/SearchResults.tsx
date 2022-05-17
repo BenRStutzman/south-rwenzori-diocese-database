@@ -91,7 +91,7 @@ const SearchResults = ({
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>
                             <td>{member.shares?.toLocaleString()}</td>
-                            <td>{parenthesizeIfNegative(member.balance)} UGX</td>
+                            <td>{parenthesizeIfNegative(member.balance)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
                                     View

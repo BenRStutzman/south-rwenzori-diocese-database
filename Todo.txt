@@ -6,6 +6,8 @@
 - Do a thorough test
 
 To release:
+- Update sprocs
+- Add dividend_id column to transaction table
 - Make dividend date unique
 
 Less important:
