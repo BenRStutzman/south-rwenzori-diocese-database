@@ -35,17 +35,17 @@ const setSearchEndDateAction = (endDate?: Date) => ({
     value: endDate,
 });
 
-const setSearchMemberIdAction = (memberId: number) => ({
+const setSearchMemberIdAction = (memberId?: number) => ({
     type: SET_SEARCH_MEMBER_ID,
     value: memberId,
 });
 
-const setSearchIsSharesAction = (isShares: boolean) => ({
+const setSearchIsSharesAction = (isShares?: boolean) => ({
     type: SET_SEARCH_IS_SHARES,
     value: isShares,
 });
 
-const setSearchIsContributionAction = (isContribution: boolean) => ({
+const setSearchIsContributionAction = (isContribution?: boolean) => ({
     type: SET_SEARCH_IS_CONTRIBUTION,
     value: isContribution,
 });
@@ -91,15 +91,15 @@ const setSearchEndDate = (endDate?: Date): AppThunkAction<Action> => (dispatch) 
     dispatch(setSearchEndDateAction(endDate));
 };
 
-const setSearchMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchMemberId = (memberId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchMemberIdAction(memberId));
 };
 
-const setSearchIsShares = (isShares: boolean): AppThunkAction<Action> => (dispatch) => {
+const setSearchIsShares = (isShares?: boolean): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchIsSharesAction(isShares));
 };
 
-const setSearchIsContribution = (isContribution: boolean): AppThunkAction<Action> => (dispatch) => {
+const setSearchIsContribution = (isContribution?: boolean): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchIsContributionAction(isContribution));
 };
 

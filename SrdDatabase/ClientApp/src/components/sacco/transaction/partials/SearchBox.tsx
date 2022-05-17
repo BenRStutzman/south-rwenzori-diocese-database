@@ -53,11 +53,11 @@ const SearchBox = ({
     };
 
     const onIsSharesChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsShares(event.target.value === 'shares');
+        setSearchIsShares(event.target.value === 'either' ? undefined : event.target.value === 'shares');
     };
 
     const onIsContributionChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsContribution(event.target.value === 'contribution');
+        setSearchIsContribution(event.target.value === 'either' ? undefined : event.target.value === 'contribution');
     };
 
     const onStartDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -95,7 +95,7 @@ const SearchBox = ({
                                 </option>
                                 {members.map(member =>
                                     <option key={member.id} value={member.id}>
-                                        {`${member.id} - ${member.name}`}
+                                        {`${member.accountNumber} - ${member.name}`}
                                     </option>
                                 )}
                             </select>
@@ -120,14 +120,16 @@ const SearchBox = ({
                     <div className="col-6">
                         <div className="form-group">
                             <input
+                                name="isContribution"
                                 id="contribution"
                                 type="radio"
                                 value="contribution"
                                 onChange={onIsContributionChange}
-                                checked={parameters.isContribution ?? false}
+                                checked={parameters.isContribution === true}
                             />
                             <label htmlFor="contribution">Contribution</label>
                             <input
+                                name="isContribution"
                                 id="withdrawal"
                                 type="radio"
                                 value="withdrawal"
@@ -135,6 +137,15 @@ const SearchBox = ({
                                 checked={parameters.isContribution === false}
                             />
                             <label htmlFor="withdrawal">Withdrawal</label>
+                            <input
+                                name="isContribution"
+                                id="isContribution-either"
+                                type="radio"
+                                value="either"
+                                onChange={onIsContributionChange}
+                                checked={parameters.isContribution === undefined}
+                            />
+                            <label htmlFor="isContribution-either">Either</label>
                         </div>
                     </div>
                     <div className="col-6">
@@ -145,7 +156,7 @@ const SearchBox = ({
                                 type="radio"
                                 value="shares"
                                 onChange={onIsSharesChange}
-                                checked={parameters.isShares ?? false}
+                                checked={parameters.isShares === true}
                             />
                             <label htmlFor="shares">Shares</label>
                             <input
@@ -157,6 +168,15 @@ const SearchBox = ({
                                 checked={parameters.isShares === false}
                             />
                             <label htmlFor="savings">Savings</label>
+                            <input
+                                name="isShares"
+                                id="isShares-either"
+                                type="radio"
+                                value="either"
+                                onChange={onIsSharesChange}
+                                checked={parameters.isShares === undefined}
+                            />
+                            <label htmlFor="isShares-either">Either</label>
                         </div>
                     </div>
                 </div>

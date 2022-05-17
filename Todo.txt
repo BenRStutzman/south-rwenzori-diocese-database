@@ -1,13 +1,17 @@
 - Add frontend for dividends
-- Add logic for loans
-- Add "either" radio buttons for searching transactions
+- Check dividend application sprocs
+- Add transactions and dividends to dashboard
+- Release and show to Amon and Nathan
 
+- Add logic for loans
 
 - Do a thorough test
 
 To release:
 - Update sprocs
-- Add dividend_id column to transaction table
+- Add dividend_id column to sacco_transaction table
+- Rename privilege_order column to display_order in user_type table
+- Add Sacco to user_type table
 - Make dividend date unique
 
 Less important:
@@ -15,6 +19,7 @@ Less important:
 	- Increase max user connections to 100 (waiting for Yosia)
 - Enable easy backups
 - Create better error page (add back useExceptionHandler('Error'))
+- Make nav bar shorter for admins
 
 Before November:
 switch instance to t3.nano (after free tier expires, around Nov. 2022)
