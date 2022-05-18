@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Congregations
 {
-    public class CongregationFields : SaveFields
+    public class CongregationFields : FieldsWithUserId
     {
         [Required]
         [StringLength(50)]

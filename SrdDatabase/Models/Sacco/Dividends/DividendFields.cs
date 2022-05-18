@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Sacco.Dividends
 {
-    public class DividendFields : SaveFields
+    public class DividendFields : FieldsWithUserId
     {
         [Required]
         public DateTime Date { get; }

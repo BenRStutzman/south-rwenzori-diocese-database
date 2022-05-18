@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Sacco.Members
 {
-    public class MemberFields : SaveFields
+    public class MemberFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int AccountNumber { get; }

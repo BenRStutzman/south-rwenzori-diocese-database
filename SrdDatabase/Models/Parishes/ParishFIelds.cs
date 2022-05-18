@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Parishes
 {
-    public class ParishFields : SaveFields
+    public class ParishFields : FieldsWithUserId
     {
         [Required]
         [StringLength(50)]

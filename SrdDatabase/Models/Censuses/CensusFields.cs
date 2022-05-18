@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Censuses
 {
-    public class CensusFields : SaveFields
+    public class CensusFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }

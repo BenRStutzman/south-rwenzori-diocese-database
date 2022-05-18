@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Archdeaconries
 {
-    public class ArchdeaconryFields : SaveFields
+    public class ArchdeaconryFields : FieldsWithUserId
     {
         [Required]
         [StringLength(50)]

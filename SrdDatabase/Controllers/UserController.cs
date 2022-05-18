@@ -89,6 +89,7 @@ namespace SrdDatabase.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeleteUser.Command command)
         {
+            command.SetUserId(CurrentUser.Id);
             var response = await _mediator.Send(command);
             return DeleteResult(response);
         }

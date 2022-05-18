@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Payments
 {
-    public class PaymentFields : SaveFields
+    public class PaymentFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }

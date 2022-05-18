@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Users
 {
-    public class UserFields : SaveFields
+    public class UserFields : FieldsWithUserId
     {
         [Required]
         [StringLength(50)]

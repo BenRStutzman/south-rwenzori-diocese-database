@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Sacco.Installments
 {
-    public class InstallmentFields : SaveFields
+    public class InstallmentFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int LoanId { get; }

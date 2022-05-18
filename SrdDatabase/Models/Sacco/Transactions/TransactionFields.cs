@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Sacco.Transactions
 {
-    public class TransactionFields : SaveFields
+    public class TransactionFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int MemberId { get; }

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SrdDatabase.Models.Events
 {
     [CongregationXOrParish]
-    public class EventFields : SaveFields
+    public class EventFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public sbyte EventTypeId { get; }

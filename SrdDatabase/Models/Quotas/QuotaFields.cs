@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace SrdDatabase.Models.Quotas
 {
     [StartAndEndYears]
-    public class QuotaFields : SaveFields
+    public class QuotaFields : FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int CongregationId { get; }

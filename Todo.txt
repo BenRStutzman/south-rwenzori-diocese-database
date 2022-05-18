@@ -1,10 +1,17 @@
-- Add frontend for dividends
-- Update future dividends on transaction or dividend deletion
+- Pass userId to delete sprocs (transaction, dividend, user)
 - Check dividend application sprocs
 - Add transactions and dividends to dashboard
+- Create accounts for Amon, Nathan, Alex
 - Release and show to Amon and Nathan
+	- Questions: when should auto-fees start (calculate_savings, currently 2022-06-01)
+	- Tell them loans are coming next
 
 - Add logic for loans
+	- On loan creation, create all loan installments
+	- Loan installments have an original price, and then a due price (increased by fines)
+	- Loan installments have a date_due and date_paid - must be paid in full to set date_paid
+	- Loan is considered paid when all installments are paid
+	- You can't create a loan installment -> only edit to add date paid
 
 - Do a thorough test
 

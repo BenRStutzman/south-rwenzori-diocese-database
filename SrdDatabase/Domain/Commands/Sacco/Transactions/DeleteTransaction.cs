@@ -8,7 +8,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Transactions
 {
     public class DeleteTransaction
     {
-        public class Command : IRequest<DeleteResponse>
+        public class Command : FieldsWithUserId, IRequest<DeleteResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }

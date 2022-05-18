@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SrdDatabase.Models.Shared
 {
-    public class SaveFields
+    public class FieldsWithUserId
     {
         [Range(1, int.MaxValue)]
         public int? UserId { get; private set; }
 
-        public SaveFields(int? userId = null)
+        public FieldsWithUserId(int? userId = null)
         {
             UserId = userId;
         }
