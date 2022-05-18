@@ -30,6 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Models\Parishes\ParishFields.cs~RF77faa5.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include=".ebextensions\01_files.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
