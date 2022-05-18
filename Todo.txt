@@ -1,9 +1,10 @@
-- Pass userId to delete sprocs (transaction, dividend, user)
+- Add FieldsWithUserId to data delete commands
 - Check dividend application sprocs
 - Add transactions and dividends to dashboard
+- Release without loans
 - Create accounts for Amon, Nathan, Alex
-- Release and show to Amon and Nathan
-	- Questions: when should auto-fees start (calculate_savings, currently 2022-06-01)
+- Show to Amon, Nathan, and Alex
+	- When should auto-fees start (calculate_savings, currently 2022-06-01)
 	- Tell them loans are coming next
 
 - Add logic for loans

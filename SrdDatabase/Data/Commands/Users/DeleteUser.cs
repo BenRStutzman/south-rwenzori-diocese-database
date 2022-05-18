@@ -4,16 +4,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
+using SrdDatabase.Models.Shared;
 
 namespace SrdDatabase.Data.Commands.Users
 {
     public class DeleteUser
     {
-        public class Command : IRequest
+        public class Command : FieldsWithUserId, IRequest
         {
             public int Id { get; }
 
-            public Command(int id)
+            public Command(int id, int userId) : base(userId)
             {
                 Id = id;
             }

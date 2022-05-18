@@ -30,9 +30,11 @@ namespace SrdDatabase.Domain.Commands.Sacco.Dividends
 
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                await _mediator.Send(
-                    new Data.Commands.Sacco.Dividends.DeleteDividend.Command(request.Id),
-                    cancellationToken);
+                var dataCommand = new Data.Commands.Sacco.Dividends.DeleteDividend.Command(
+                        request.Id,
+                        request.UserId.Value);
+
+                await _mediator.Send(dataCommand, cancellationToken);
 
                 return DeleteResponse.ForSuccess();
             }
