@@ -1,4 +1,5 @@
 - Add frontend for dividends
+- Update future dividends on transaction or dividend deletion
 - Check dividend application sprocs
 - Add transactions and dividends to dashboard
 - Release and show to Amon and Nathan

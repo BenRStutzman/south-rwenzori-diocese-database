@@ -5,6 +5,8 @@ import { Loan, LoanParameters, LoanResults, LoanType } from '../../../models/sac
 import { Installment } from '../../../models/sacco/installment';
 import { Member } from '../../../models/sacco/member';
 import { Transaction } from '../../../models/sacco/transaction';
+import { Dividend } from '../../../models/sacco/dividend';
+import { formattedDate } from '../../../helpers/miscellaneous';
 
 const REQUEST_MEMBERS = 'SACCO.REQUEST_MEMBERS';
 const RECEIVE_MEMBERS = 'SACCO.RECEIVE_MEMBERS';
@@ -14,6 +16,7 @@ const REQUEST_LOANS = 'SACCO.REQUEST_LOANS';
 const RECEIVE_LOANS = 'SACCO.RECEIVE_LOANS';
 const SET_DELETING_MEMBER_ID = 'SACCO.SET_DELETING_MEMBER_ID';
 const SET_DELETING_TRANSACTION_ID = 'SACCO.SET_DELETING_TRANSACTION_ID';
+const SET_DELETING_DIVIDEND_ID = 'SACCO.SET_DELETING_DIVIDEND_ID';
 const SET_DELETING_LOAN_ID = 'SACCO.SET_DELETING_LOAN_ID';
 const SET_DELETING_LOAN_INSTALLMENT_ID = 'SACCO.SET_DELETING_LOAN_INSTALLMENT_ID';
 
@@ -52,6 +55,11 @@ const setDeletingMemberIdAction = (memberId?: number, isDeleting: boolean = true
 const setDeletingTransactionIdAction = (transactionId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_TRANSACTION_ID,
     value: { transactionId, isDeleting },
+});
+
+const setDeletingDividendIdAction = (dividendId?: number, isDeleting: boolean = true) => ({
+    type: SET_DELETING_DIVIDEND_ID,
+    value: { dividendId, isDeleting },
 });
 
 const setDeletingLoanIdAction = (loanId?: number, isDeleting: boolean = true) => ({
@@ -138,6 +146,27 @@ const deleteTransaction = (transaction: Transaction, onSuccess: () => void):
         }
     };
 
+const deleteDividend = (dividend: Dividend, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete this dividend for ${formattedDate(dividend.date)}?`)) {
+            dispatch(setDeletingDividendIdAction(dividend.id));
+
+            post<{ id: number }>('api/sacco/dividend/delete', { id: dividend.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingDividendIdAction(dividend.id, false));
+                        alert(errorMessage);
+                    });
+                });
+        }
+    };
+
 const deleteLoan = (loan: Loan, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
         if (window.confirm(`Are you sure you want to delete this loan for ${loan.member}?`)) {
@@ -186,6 +215,7 @@ export const actionCreators = {
     loadLoans,
     deleteMember,
     deleteTransaction,
+    deleteDividend,
     deleteLoan,
     deleteInstallment,
 };
@@ -199,6 +229,7 @@ export interface State {
     loansLoading: boolean;
     deletingMemberIds: number[];
     deletingTransactionIds: number[];
+    deletingDividendIds: number[];
     deletingLoanIds: number[];
     deletingInstallmentIds: number[];
 }
@@ -212,6 +243,7 @@ const initialState: State = {
     loansLoading: true,
     deletingMemberIds: [],
     deletingTransactionIds: [],
+    deletingDividendIds: [],
     deletingLoanIds: [],
     deletingInstallmentIds: [],
 }
@@ -264,6 +296,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 deletingTransactionIds: action.value.isDeleting
                     ? [...state.deletingTransactionIds, action.value.transactionId]
                     : state.deletingTransactionIds.filter(id => id != action.value.transactionId),
+            };
+        case SET_DELETING_DIVIDEND_ID:
+            return {
+                ...state,
+                deletingDividendIds: action.value.isDeleting
+                    ? [...state.deletingDividendIds, action.value.dividendId]
+                    : state.deletingDividendIds.filter(id => id != action.value.dividendId),
             };
         case SET_DELETING_LOAN_ID:
             return {
