@@ -1,6 +1,10 @@
-- Add FieldsWithUserId to data delete commands
+- Figure out original_date not working
+- Update list items, details pages for dividend transactions
+	- Add dividend_id to C#
+	- Don't allow editing those transactions
+- Add amount for transaction on member details page
 - Check dividend application sprocs
-- Add transactions and dividends to dashboard
+- Download aws connector
 - Release without loans
 - Create accounts for Amon, Nathan, Alex
 - Show to Amon, Nathan, and Alex
@@ -9,6 +13,10 @@
 
 - Add logic for loans
 	- On loan creation, create all loan installments
+		- Sproc for creating installments:
+			- Total to pay = principal + interest (2%) * term_months
+			- Per installment = total / term_months
+			- Installment due dates are in one-month increments from initial date
 	- Loan installments have an original price, and then a due price (increased by fines)
 	- Loan installments have a date_due and date_paid - must be paid in full to set date_paid
 	- Loan is considered paid when all installments are paid
@@ -17,6 +25,7 @@
 - Do a thorough test
 
 To release:
+- Ensure date_updated triggers are all there
 - Update sprocs
 - Add dividend_id column to sacco_transaction table
 - Rename privilege_order column to display_order in user_type table
@@ -31,6 +40,7 @@ Less important:
 - Make nav bar shorter for admins
 - Add server-side unique check for dividend date
 - Add useful SACCO-wide stats like shares, savings, loan totals
+- Add requirements for minimum shares (5)
 
 Before November:
 switch instance to t3.nano (after free tier expires, around Nov. 2022)

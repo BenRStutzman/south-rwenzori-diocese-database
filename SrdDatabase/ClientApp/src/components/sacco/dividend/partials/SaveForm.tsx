@@ -47,7 +47,7 @@ const SaveForm = ({
     return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
-                <label htmlFor="percentage">Percentage (UGX)</label>
+                <label htmlFor="percentage">Percentage</label>
                 <input
                     id="percentage"
                     className="form-control"
