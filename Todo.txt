@@ -30,6 +30,7 @@ Less important:
 - Create better error page (add back useExceptionHandler('Error'))
 - Make nav bar shorter for admins
 - Add server-side unique check for dividend date
+- Add useful SACCO-wide stats like shares, savings, loan totals
 
 Before November:
 switch instance to t3.nano (after free tier expires, around Nov. 2022)

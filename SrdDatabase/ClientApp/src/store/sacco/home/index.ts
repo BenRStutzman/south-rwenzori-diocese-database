@@ -38,6 +38,8 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         memberResults: { ...pagedResultsDefaults, members: [] },
+        transactionResults: { ...pagedResultsDefaults, transactions: [] },
+        dividendResults: { ...pagedResultsDefaults, dividends: [] },
     },
 };
 

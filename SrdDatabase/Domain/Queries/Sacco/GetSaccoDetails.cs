@@ -3,6 +3,8 @@ using SrdDatabase.Models.Sacco;
 using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Data.Queries.Sacco.Members;
+using SrdDatabase.Data.Queries.Sacco.Transactions;
+using SrdDatabase.Data.Queries.Sacco.Dividends;
 
 namespace SrdDatabase.Domain.Queries.Sacco
 {
@@ -26,10 +28,20 @@ namespace SrdDatabase.Domain.Queries.Sacco
                 var membersQuery = new GetMembers.Query(pageSize: Constants.DetailsPageSize);
                 var membersTask = _mediator.Send(membersQuery, cancellationToken);
 
+                var transactionsQuery = new GetTransactions.Query(pageSize: Constants.DetailsPageSize);
+                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
+
+                var dividendsQuery = new GetDividends.Query(pageSize: Constants.DetailsPageSize);
+                var dividendsTask = _mediator.Send(dividendsQuery, cancellationToken);
+
                 var memberResults = await membersTask;
+                var transactionResults = await transactionsTask;
+                var dividendResults = await dividendsTask;
 
                 return new SaccoDetails(
-                    memberResults);
+                    memberResults,
+                    transactionResults,
+                    dividendResults);
             }
         }
     }
