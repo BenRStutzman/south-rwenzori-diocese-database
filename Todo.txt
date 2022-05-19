@@ -1,7 +1,5 @@
-- Figure out original_date not working
-- Update list items, details pages for dividend transactions
-	- Add dividend_id to C#
-	- Don't allow editing those transactions
+- Add dividends applied to member page details
+- Add fes to member page details
 - Add amount for transaction on member details page
 - Check dividend application sprocs
 - Download aws connector
@@ -25,12 +23,11 @@
 - Do a thorough test
 
 To release:
-- Ensure date_updated triggers are all there
 - Update sprocs
-- Add dividend_id column to sacco_transaction table
+- Update all sacco-related tables
+- Ensure triggers are all there
 - Rename privilege_order column to display_order in user_type table
-- Add Sacco to user_type table
-- Make dividend date unique
+- Add Sacco entry to user_type table
 
 Less important:
 - Speed up report generation

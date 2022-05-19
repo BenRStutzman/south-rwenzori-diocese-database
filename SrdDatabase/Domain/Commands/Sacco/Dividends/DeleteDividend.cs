@@ -8,7 +8,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Dividends
 {
     public class DeleteDividend
     {
-        public class Command : FieldsWithUserId, IRequest<DeleteResponse>
+        public class Command : IRequest<DeleteResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }
@@ -31,8 +31,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Dividends
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
                 var dataCommand = new Data.Commands.Sacco.Dividends.DeleteDividend.Command(
-                        request.Id,
-                        request.UserId.Value);
+                        request.Id);
 
                 await _mediator.Send(dataCommand, cancellationToken);
 

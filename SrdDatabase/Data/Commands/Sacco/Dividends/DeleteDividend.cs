@@ -4,17 +4,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using SrdDatabase.Models.Shared;
 
 namespace SrdDatabase.Data.Commands.Sacco.Dividends
 {
     public class DeleteDividend
     {
-        public class Command : FieldsWithUserId, IRequest
+        public class Command : IRequest
         {
             public int Id { get; }
 
-            public Command(int id, int userId) : base(userId)
+            public Command(int id)
             {
                 Id = id;
             }
