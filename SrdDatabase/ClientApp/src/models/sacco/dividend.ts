@@ -32,3 +32,14 @@ export interface DividendParametersToSend extends Omit<DividendParameters, "star
 export interface DividendResults extends PagedResults {
     dividends: Dividend[];
 }
+
+export interface DividendApplied {
+    dividendId?: number;
+    date?: Date;
+    percentage?: number;
+    amount?: number;
+}
+
+export interface DividendAppliedResults extends PagedResults {
+    dividendsApplied: DividendApplied[];
+}

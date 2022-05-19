@@ -1,4 +1,5 @@
 ﻿import { PagedParameters, PagedResults } from "../shared";
+import { DividendAppliedResults } from "./dividend";
 import { LoanResults } from "./loan";
 import { TransactionResults } from "./transaction";
 
@@ -19,8 +20,9 @@ export interface MemberToSend extends Omit<Member, "dateJoined"> {
 export interface MemberDetails {
     member: Member;
     transactionResults: TransactionResults;
+    dividendAppliedResults: DividendAppliedResults;
     loanResults: LoanResults;
-}
+}   
 
 export interface MemberParameters extends PagedParameters {
     accountNumber?: number;

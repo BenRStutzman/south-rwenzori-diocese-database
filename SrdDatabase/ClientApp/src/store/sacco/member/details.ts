@@ -39,6 +39,7 @@ const initialState: State = {
     details: {
         member: {},
         transactionResults: { ...pagedResultsDefaults, transactions: [] },
+        dividendAppliedResults: { ...pagedResultsDefaults, dividendsApplied: [] },
         loanResults: { ...pagedResultsDefaults, loans: [] },
     },
 };

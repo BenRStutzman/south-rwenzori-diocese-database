@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
-import { loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import { dividendAppliedItems, loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import DetailsBox from '../../shared/DetailsBox';
 import { formattedDate, parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
@@ -83,6 +83,12 @@ const Details = ({
                     altPreposition="by"
                     isSacco
                     showAddLink
+                />
+                <DetailsList
+                    itemType="dividend"
+                    itemTotal={details.dividendAppliedResults.totalResults}
+                    items={dividendAppliedItems(details.dividendAppliedResults)}
+                    isSacco
                 />
                 <DetailsList
                     itemType="loan"

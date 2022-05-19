@@ -5,8 +5,8 @@ import { TransactionResults } from "../../models/sacco/transaction";
 import { describeTransaction } from "./transactionHelper";
 import { LoanResults } from "../../models/sacco/loan";
 import { describeLoan } from "./loanHelper";
-import { DividendResults } from "../../models/sacco/dividend";
-import { describeDividend } from "./dividendHelper";
+import { DividendAppliedResults, DividendResults } from "../../models/sacco/dividend";
+import { describeDividend, describeDividendApplied } from "./dividendHelper";
 
 export function memberItems(memberResults: MemberResults): DetailsListItem[] {
     return memberResults.members.map(member => (
@@ -25,6 +25,13 @@ export function dividendItems(dividendResults: DividendResults): DetailsListItem
     return dividendResults.dividends.map(dividend => ({
         id: dividend.id,
         displayText: `${formattedDate(dividend.date)}: ${describeDividend(dividend)}`,
+    }));
+}
+
+export function dividendAppliedItems(dividendAppliedResults: DividendAppliedResults): DetailsListItem[] {
+    return dividendAppliedResults.dividendsApplied.map(dividendApplied => ({
+        id: dividendApplied.dividendId,
+        displayText: `${formattedDate(dividendApplied.date)}: ${describeDividendApplied(dividendApplied)}`,
     }));
 }
 
