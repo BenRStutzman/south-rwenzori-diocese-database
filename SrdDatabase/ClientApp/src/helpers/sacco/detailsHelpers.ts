@@ -14,10 +14,10 @@ export function memberItems(memberResults: MemberResults): DetailsListItem[] {
     ));
 }
 
-export function transactionItems(transactionResults: TransactionResults): DetailsListItem[] {
+export function transactionItems(transactionResults: TransactionResults, useAccountNumber: boolean = false): DetailsListItem[] {
     return transactionResults.transactions.map(transaction => ({
         id: transaction.id,
-        displayText: `${formattedDate(transaction.date)}: ${describeTransaction(transaction)}`,
+        displayText: `${formattedDate(transaction.date)}: ${describeTransaction(transaction, useAccountNumber)}`,
     }));
 }
 

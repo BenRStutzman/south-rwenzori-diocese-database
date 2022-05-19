@@ -10,6 +10,8 @@ namespace SrdDatabase.Models.Sacco.Transactions
 
         public string Member { get; }
 
+        public int AccountNumber { get; }
+
         public DateTime Date { get; }
 
         public bool IsShares { get; }
@@ -24,6 +26,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             int id,
             int memberId,
             string member,
+            int accountNumber,
             DateTime date,
             bool isShares,
             bool isContribution,
@@ -33,6 +36,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             Id = id;
             MemberId = memberId;
             Member = member;
+            AccountNumber = accountNumber;
             Date = date;
             IsShares = isShares;
             IsContribution = isContribution;

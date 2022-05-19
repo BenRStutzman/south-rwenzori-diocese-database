@@ -4,6 +4,7 @@ export interface Transaction {
     id?: number;
     memberId?: number;
     member?: string;
+    accountNumber?: number;
     date?: Date;
     isShares?: boolean;
     isContribution?: boolean;

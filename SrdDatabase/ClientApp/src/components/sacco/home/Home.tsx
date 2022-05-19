@@ -37,7 +37,7 @@ const Home = ({
             <DetailsList
                     itemType="transaction"
                     itemTotal={details.transactionResults.totalResults}
-                    items={transactionItems(details.transactionResults)}
+                    items={transactionItems(details.transactionResults, true)}
                     showAddLink
                     isSacco
                 />

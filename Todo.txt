@@ -1,4 +1,4 @@
-- Add dividends applied to member page details
+- Add account number to transaction in SQL
 - Add fees to member page details
 - Add amount for transaction on member details page
 - Check dividend application sprocs
