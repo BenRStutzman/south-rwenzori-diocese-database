@@ -1,12 +1,14 @@
-- Add account number to transaction in SQL
-- Add fees to member page details
-- Add amount for transaction on member details page
+- Add account number to get_transactions in SQL
+- Add fees to member page details:
+	- Also return years of fees from member_details view
+	- MemberDetails gets extra field: AutoFeesStartDate
+	- JS loops to show all fees on details page
 - Check dividend application sprocs
 - Download aws connector
 - Release without loans
 - Create accounts for Amon, Nathan, Alex
 - Show to Amon, Nathan, and Alex
-	- When should auto-fees start (calculate_savings, currently 2022-06-01)
+	- When should auto-fees start (calculate_sacco_member_auto_fees_start_date, currently 2020-01-01)
 	- Tell them loans are coming next
 
 - Add logic for loans

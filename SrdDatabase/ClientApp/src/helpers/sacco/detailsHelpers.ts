@@ -1,5 +1,5 @@
 ﻿import { DetailsListItem } from "../../models/shared";
-import { MemberResults } from "../../models/sacco/member";
+import { Member, MemberResults } from "../../models/sacco/member";
 import { formattedDate } from "../miscellaneous";
 import { TransactionResults } from "../../models/sacco/transaction";
 import { describeTransaction } from "./transactionHelper";
@@ -33,6 +33,23 @@ export function dividendAppliedItems(dividendAppliedResults: DividendAppliedResu
         id: dividendApplied.dividendId,
         displayText: `${formattedDate(dividendApplied.date)}: ${describeDividendApplied(dividendApplied)}`,
     }));
+}
+
+export function feeItems(autoFeesStartDate: Date, yearsOfFees: number): DetailsListItem[] {
+    const annualFee = 10000;
+    const items = [];
+    var date = autoFeesStartDate;
+
+    for (var i = 0; i < yearsOfFees; i++) {
+        items.push({
+            id: i,
+            displayText: `${formattedDate(date)}: Membership fee of ${annualFee.toLocaleString()} UGX`,
+        });
+
+        date.setFullYear(date.getFullYear() + 1);
+    }
+
+    return items;
 }
 
 export function loanItems(loanResults: LoanResults, useAmount: boolean = false): DetailsListItem[] {

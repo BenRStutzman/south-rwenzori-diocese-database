@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
-import { dividendAppliedItems, loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import { dividendAppliedItems, feeItems, loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import DetailsBox from '../../shared/DetailsBox';
 import { formattedDate, parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
@@ -58,7 +58,7 @@ const Details = ({
                     itemType="accountNumber"
                     itemValue={details.member.accountNumber?.toString()}
                 />
-                 <DetailsBox
+                <DetailsBox
                     itemType="dateJoined"
                     itemValue={formattedDate(details.member.dateJoined)}
                 />
@@ -83,6 +83,14 @@ const Details = ({
                     altPreposition="by"
                     isSacco
                     showAddLink
+                />
+                <DetailsList
+                    itemType="membershipFee"
+                    itemTotal={details.member.yearsOfFees}
+                    items={feeItems(details.member.autoFeesStartDate as Date, details.member.yearsOfFees as number)}
+                    dontLinkItems
+                    dontViewAll
+                    isSacco
                 />
                 <DetailsList
                     itemType="dividend"

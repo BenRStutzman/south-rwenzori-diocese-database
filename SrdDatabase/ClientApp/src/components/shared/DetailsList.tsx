@@ -14,6 +14,8 @@ interface Props {
     isSacco?: boolean;
     altTitle?: string;
     altPreposition?: string;
+    dontLinkItems?: boolean;
+    dontViewAll?: boolean;
 }
 
 const DetailsList = ({
@@ -23,6 +25,8 @@ const DetailsList = ({
     itemTotal,
     items,
     showAddLink,
+    dontLinkItems,
+    dontViewAll,
     isSacco,
     altTitle,
     altPreposition,
@@ -39,9 +43,12 @@ const DetailsList = ({
                 <ul>
                     {items.map(item =>
                         <li key={item.id}>
-                            <Link to={`${saccoPrefix}/${itemType}/details/${item.id}`}>
-                                {item.displayText}
-                            </Link>
+                            {
+                                dontLinkItems ? item.displayText :
+                                    <Link to={`${saccoPrefix}/${itemType}/details/${item.id}`}>
+                                        {item.displayText}
+                                    </Link>
+                            }
                         </li>
                     )}
                     {
@@ -53,7 +60,10 @@ const DetailsList = ({
             </div>
             <div>
                 <div>
-                    <Link to={`${saccoPrefix}/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` ${preposition} this ${baseItemType}` : ''}</Link>
+                    {
+                        !dontViewAll &&
+                        <Link to={`${saccoPrefix}/${itemType}${addParams ?? ''}`}>View all {plural(itemType)}{baseItemType ? ` ${preposition} this ${baseItemType}` : ''}</Link>
+                    }
                     {
                         showAddLink &&
                         <Link className="float-right" to={`${saccoPrefix}/${itemType}/add${addParams ?? ''}`}>Add {itemType}</Link>

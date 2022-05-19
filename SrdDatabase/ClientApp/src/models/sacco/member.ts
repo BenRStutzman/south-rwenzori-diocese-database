@@ -8,6 +8,8 @@ export interface Member {
     accountNumber?: number;
     name?: string;
     dateJoined?: Date;
+    autoFeesStartDate?: Date;
+    yearsOfFees?: number;
     shares?: number;
     savings?: number;
     balance?: number;
