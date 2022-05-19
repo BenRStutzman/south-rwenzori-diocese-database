@@ -1,5 +1,5 @@
 - Add dividends applied to member page details
-- Add fes to member page details
+- Add fees to member page details
 - Add amount for transaction on member details page
 - Check dividend application sprocs
 - Download aws connector
