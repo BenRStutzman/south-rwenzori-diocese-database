@@ -87,10 +87,9 @@ const Details = ({
                 <DetailsList
                     itemType="membershipFee"
                     itemTotal={details.member.yearsOfFees}
-                    items={feeItems(details.member.autoFeesStartDate as Date, details.member.yearsOfFees as number)}
+                    items={feeItems(details.member)}
                     dontLinkItems
                     dontViewAll
-                    isSacco
                 />
                 <DetailsList
                     itemType="dividend"

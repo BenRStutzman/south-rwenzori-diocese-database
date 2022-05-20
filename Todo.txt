@@ -1,8 +1,3 @@
-- Add account number to get_transactions in SQL
-- Add fees to member page details:
-	- Also return years of fees from member_details view
-	- MemberDetails gets extra field: AutoFeesStartDate
-	- JS loops to show all fees on details page
 - Check dividend application sprocs
 - Download aws connector
 - Release without loans

@@ -14,6 +14,8 @@ namespace SrdDatabase.Models.Sacco.Members
 
         public DateTime AutoFeesStartDate { get; }
 
+        public int YearsOfFees { get; }
+
         public int Shares { get; }
 
         public int Savings { get; }
@@ -26,6 +28,7 @@ namespace SrdDatabase.Models.Sacco.Members
             string name,
             DateTime dateJoined,
             DateTime autoFeesStartDate,
+            int yearsOfFees,
             int shares,
             int savings,
             int balance)
@@ -35,6 +38,7 @@ namespace SrdDatabase.Models.Sacco.Members
             Name = name;
             DateJoined = dateJoined;
             AutoFeesStartDate = autoFeesStartDate;
+            YearsOfFees = yearsOfFees;
             Shares = shares;
             Savings = savings;
             Balance = balance;

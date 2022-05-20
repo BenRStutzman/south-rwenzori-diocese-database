@@ -35,10 +35,11 @@ export function dividendAppliedItems(dividendAppliedResults: DividendAppliedResu
     }));
 }
 
-export function feeItems(autoFeesStartDate: Date, yearsOfFees: number): DetailsListItem[] {
+export function feeItems(member: Member): DetailsListItem[] {
+    var yearsOfFees = member.yearsOfFees as number;
     const annualFee = 10000;
     const items = [];
-    var date = autoFeesStartDate;
+    var date = member.autoFeesStartDate as Date;
 
     for (var i = 0; i < yearsOfFees; i++) {
         items.push({
@@ -49,7 +50,7 @@ export function feeItems(autoFeesStartDate: Date, yearsOfFees: number): DetailsL
         date.setFullYear(date.getFullYear() + 1);
     }
 
-    return items;
+    return items.sort((a, b) => b.id - a.id).slice(0, 10);
 }
 
 export function loanItems(loanResults: LoanResults, useAmount: boolean = false): DetailsListItem[] {
