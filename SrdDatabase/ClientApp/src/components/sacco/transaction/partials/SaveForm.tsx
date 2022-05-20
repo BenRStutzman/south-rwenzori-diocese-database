@@ -125,7 +125,7 @@ const SaveForm = ({
                     onChange={onIsContributionChange}
                     checked={transaction.isContribution ?? false}
                 />
-                <label htmlFor="contribution">Contribution</label>
+                <label htmlFor="contribution">{transaction.isShares ? 'Purchase' : 'Contribution'}</label>
                 <input
                     id="withdrawal"
                     type="radio"
@@ -133,7 +133,7 @@ const SaveForm = ({
                     onChange={onIsContributionChange}
                     checked={transaction.isContribution === false}
                 />
-                <label htmlFor="withdrawal">Withdrawal</label>
+                <label htmlFor="withdrawal">{transaction.isShares ? 'Sale' : 'Withdrawal'}</label>
             </div>
             <div className="form-group">
                 <label htmlFor="amount">{transaction.isShares ? 'Number of shares' : 'Amount (UGX)'}</label>

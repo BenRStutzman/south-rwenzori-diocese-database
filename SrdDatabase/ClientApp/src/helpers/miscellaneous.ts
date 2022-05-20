@@ -25,14 +25,14 @@ export function convertDateChange(event: ChangeEvent<HTMLInputElement>) : Date |
     return event.target.value.length ? new Date(event.target.value) : undefined
 }
 
-export function parenthesize(number: number): string {
-    return `(${number.toLocaleString()})`;
+export function parenthesize(number: number, addText?: string): string {
+    return `(${number.toLocaleString()}${addText ? ` ${addText}` : ''})`;
 };
 
-export function parenthesizeIfNegative(number?: number): string {
+export function parenthesizeIfNegative(number?: number, addText?: string): string {
     return number === undefined ? ''
-        : number < 0 ? parenthesize(-number)
-            : number.toLocaleString();
+        : number < 0 ? parenthesize(-number, addText)
+            : `${number.toLocaleString()}${addText ? ` ${addText}` : ''}`;
 }
 
 export function useQueryParams() {

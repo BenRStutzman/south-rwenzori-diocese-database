@@ -1,11 +1,9 @@
-- Check dividend application sprocs
-- Download aws connector
+- Add AWS toolkit extension
 - Release without loans
 - Create accounts for Amon, Nathan, Alex
 - Show to Amon, Nathan, and Alex
 	- When should auto-fees start (calculate_sacco_member_auto_fees_start_date, currently 2020-01-01)
 	- Tell them loans are coming next
-
 - Add logic for loans
 	- On loan creation, create all loan installments
 		- Sproc for creating installments:
@@ -18,8 +16,10 @@
 	- You can't create a loan installment -> only edit to add date paid
 
 - Do a thorough test
+0.05
 
 To release:
+- sacco branch
 - Update sprocs
 - Update all sacco-related tables
 - Ensure triggers are all there
@@ -27,6 +27,7 @@ To release:
 - Add Sacco entry to user_type table
 
 Less important:
+- Easier member selection
 - Speed up report generation
 	- Increase max user connections to 100 (waiting for Yosia)
 - Enable easy backups
@@ -35,6 +36,9 @@ Less important:
 - Add server-side unique check for dividend date
 - Add useful SACCO-wide stats like shares, savings, loan totals
 - Add requirements for minimum shares (5)
+
+Before leaving:
+Switch payment to SRD credit card (Richard)
 
 Before November:
 switch instance to t3.nano (after free tier expires, around Nov. 2022)

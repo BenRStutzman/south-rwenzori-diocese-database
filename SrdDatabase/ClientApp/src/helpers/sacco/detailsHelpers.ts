@@ -39,7 +39,7 @@ export function feeItems(member: Member): DetailsListItem[] {
     var yearsOfFees = member.yearsOfFees as number;
     const annualFee = 10000;
     const items = [];
-    var date = member.autoFeesStartDate as Date;
+    var date = new Date(member.autoFeesStartDate as Date);
 
     for (var i = 0; i < yearsOfFees; i++) {
         items.push({

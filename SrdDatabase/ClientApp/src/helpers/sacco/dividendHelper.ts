@@ -5,5 +5,5 @@ export function describeDividend(dividend: Dividend) {
 }
 
 export function describeDividendApplied(dividendApplied: DividendApplied) {
-    return `Dividend of ${dividendApplied.percentage}% => ${dividendApplied.amount} UGX`;
+    return `Dividend of ${dividendApplied.percentage}% --> ${dividendApplied.amount?.toLocaleString()} UGX`;
 }

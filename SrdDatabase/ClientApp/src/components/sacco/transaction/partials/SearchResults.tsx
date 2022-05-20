@@ -74,7 +74,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Amount (UGX)
+                            Amount
                             <SortButton
                                 parameters={parameters}
                                 columnName="amount"

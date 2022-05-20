@@ -59,8 +59,8 @@ const Details = ({
                     itemValue={details.member.accountNumber?.toString()}
                 />
                 <DetailsBox
-                    itemType="dateJoined"
-                    itemValue={formattedDate(details.member.dateJoined)}
+                    itemType="balance"
+                    itemValue={`${parenthesizeIfNegative(details.member.balance)} UGX`}
                 />
                 <DetailsBox
                     itemType="shares"
@@ -69,10 +69,6 @@ const Details = ({
                 <DetailsBox
                     itemType="savings"
                     itemValue={`${parenthesizeIfNegative(details.member.savings)} UGX`}
-                />
-                <DetailsBox
-                    itemType="balance"
-                    itemValue={`${parenthesizeIfNegative(details.member.balance)} UGX`}
                 />
                 <DetailsList
                     itemType="transaction"
@@ -85,28 +81,33 @@ const Details = ({
                     showAddLink
                 />
                 <DetailsList
+                    itemType="dividend"
+                    itemTotal={details.dividendAppliedResults.totalResults}
+                    items={dividendAppliedItems(details.dividendAppliedResults)}
+                    isSacco
+                    showAddLink
+                />
+                <DetailsList
                     itemType="membershipFee"
                     itemTotal={details.member.yearsOfFees}
                     items={feeItems(details.member)}
                     dontLinkItems
                     dontViewAll
                 />
-                <DetailsList
-                    itemType="dividend"
-                    itemTotal={details.dividendAppliedResults.totalResults}
-                    items={dividendAppliedItems(details.dividendAppliedResults)}
-                    isSacco
+                <DetailsBox
+                    itemType="dateJoined"
+                    itemValue={formattedDate(details.member.dateJoined)}
                 />
-                <DetailsList
-                    itemType="loan"
-                    itemTotal={details.loanResults.totalResults}
-                    items={loanItems(details.loanResults, true)}
-                    baseItemType="member"
-                    baseItemId={details.member.id}
-                    altPreposition="to"
-                    isSacco
-                    showAddLink
-                />
+                {/*<DetailsList*/}
+                {/*    itemType="loan"*/}
+                {/*    itemTotal={details.loanResults.totalResults}*/}
+                {/*    items={loanItems(details.loanResults, true)}*/}
+                {/*    baseItemType="member"*/}
+                {/*    baseItemId={details.member.id}*/}
+                {/*    altPreposition="to"*/}
+                {/*    isSacco*/}
+                {/*    showAddLink*/}
+                {/*/>*/}
             </div>
         </>;
 }

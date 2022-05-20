@@ -74,6 +74,8 @@ const prefillTransaction = (memberId?: number): AppThunkAction<Action> => (dispa
         dispatch(setTransactionAction({
             ...transaction,
             date: new Date(),
+            isShares: true,
+            isContribution: true,
         }))
     };
 

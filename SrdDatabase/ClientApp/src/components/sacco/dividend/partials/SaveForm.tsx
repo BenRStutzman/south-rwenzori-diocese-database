@@ -32,8 +32,12 @@ const SaveForm = ({
     isSaving,
 }: Props) => {
     const onPercentageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setPercentage(parseInt(event.target.value));
+        setPercentage(parseFloat(event.target.value));
     };
+
+    const onPercentageBlur = () => {
+        setPercentage(parseFloat(dividend.percentage?.toFixed(2) ?? ''));
+    }
 
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
         setDate(convertDateChange(event));
@@ -54,8 +58,11 @@ const SaveForm = ({
                     type="number"
                     value={dividend.percentage?.toString() ?? ""}
                     onChange={onPercentageChange}
+                    onBlur={onPercentageBlur}
                     autoComplete={autoComplete}
-                    min={1}
+                    min={0.01}
+                    step=".01"
+                    max={99.99}
                     required
                 />
             </div>

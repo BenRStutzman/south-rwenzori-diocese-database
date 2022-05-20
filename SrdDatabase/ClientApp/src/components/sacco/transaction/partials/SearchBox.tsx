@@ -120,37 +120,6 @@ const SearchBox = ({
                     <div className="col-6">
                         <div className="form-group">
                             <input
-                                name="isContribution"
-                                id="contribution"
-                                type="radio"
-                                value="contribution"
-                                onChange={onIsContributionChange}
-                                checked={parameters.isContribution === true}
-                            />
-                            <label htmlFor="contribution">Contribution</label>
-                            <input
-                                name="isContribution"
-                                id="withdrawal"
-                                type="radio"
-                                value="withdrawal"
-                                onChange={onIsContributionChange}
-                                checked={parameters.isContribution === false}
-                            />
-                            <label htmlFor="withdrawal">Withdrawal</label>
-                            <input
-                                name="isContribution"
-                                id="isContribution-either"
-                                type="radio"
-                                value="either"
-                                onChange={onIsContributionChange}
-                                checked={parameters.isContribution === undefined}
-                            />
-                            <label htmlFor="isContribution-either">Either</label>
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <div className="form-group">
-                            <input
                                 name="isShares"
                                 id="shares"
                                 type="radio"
@@ -176,7 +145,54 @@ const SearchBox = ({
                                 onChange={onIsSharesChange}
                                 checked={parameters.isShares === undefined}
                             />
-                            <label htmlFor="isShares-either">Either</label>
+                            <label htmlFor="isShares-either">Any</label>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <input
+                                name="isContribution"
+                                id="contribution"
+                                type="radio"
+                                value="contribution"
+                                onChange={onIsContributionChange}
+                                checked={parameters.isContribution === true}
+                            />
+                            <label htmlFor="contribution">
+                                {
+                                    parameters.isShares
+                                        ? 'Purchase'
+                                        : parameters.isShares === false
+                                            ? 'Contribution'
+                                            : 'Purchase/Contribution'
+                                }
+                            </label>
+                            <input
+                                name="isContribution"
+                                id="withdrawal"
+                                type="radio"
+                                value="withdrawal"
+                                onChange={onIsContributionChange}
+                                checked={parameters.isContribution === false}
+                            />
+                            <label htmlFor="withdrawal">
+                                {
+                                    parameters.isShares
+                                        ? 'Sale'
+                                        : parameters.isShares === false
+                                            ? 'Withdrawal'
+                                            : 'Sale/Withdrawal'
+                                }
+                            </label>
+                            <input
+                                name="isContribution"
+                                id="isContribution-either"
+                                type="radio"
+                                value="either"
+                                onChange={onIsContributionChange}
+                                checked={parameters.isContribution === undefined}
+                            />
+                            <label htmlFor="isContribution-either">Any</label>
                         </div>
                     </div>
                 </div>
