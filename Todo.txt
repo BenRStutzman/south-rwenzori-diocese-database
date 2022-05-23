@@ -20,11 +20,7 @@
 
 To release:
 - sacco branch
-- Update sprocs
-- Update all sacco-related tables
 - Ensure triggers are all there
-- Rename privilege_order column to display_order in user_type table
-- Add Sacco entry to user_type table
 
 Less important:
 - Easier member selection
