@@ -3,10 +3,10 @@
 	X Round everything to nearest hundred shillings
 	X Show who created, updated transaction
 		X Update C# transaction model and details page
-	- Show applied dividend total on dividend details page
-		- Update C# distribution model and details page
-	- Split dividends into two parts: dividends (shares) and interest (savings)
-		- Update C# distribution model, frontend for saving, searching
+	X Show applied dividend total on dividend details page
+		X Update C# distribution model and details page
+	X Split dividends into two parts: dividends (shares) and interest (savings)
+		X Update C# distribution model, frontend for saving, searching
 
 - Loans:
 	X Change installment interval to 1 month (not 30 days)
