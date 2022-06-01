@@ -13,9 +13,10 @@ namespace SrdDatabase.Domain.Commands.Sacco.Distributions
         public class Command : DistributionFields, IRequest<SaveResponse>
         {
             public Command(
-                decimal percentage,
+                decimal dividendPercentage,
+                decimal interestPercentage,
                 DateTime date)
-                : base(percentage, date)
+                : base(dividendPercentage, interestPercentage, date)
             {
             }
         }
@@ -34,6 +35,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Distributions
                 var dataCommand = new SaveDistribution.Command(
                     null,
                     request.DividendPercentage,
+                    request.InterestPercentage,
                     request.Date,
                     request.UserId.Value);
 

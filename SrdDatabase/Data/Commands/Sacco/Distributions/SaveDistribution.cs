@@ -18,10 +18,11 @@ namespace SrdDatabase.Data.Commands.Sacco.Distributions
 
             public Command(
                 int? id,
-                decimal percentage,
+                decimal dividendPercentage,
+                decimal interestPercentage,
                 DateTime date,
                 int userId)
-                : base (percentage, date, userId)
+                : base (dividendPercentage, interestPercentage, date, userId)
             {
                 Id = id;
             }
