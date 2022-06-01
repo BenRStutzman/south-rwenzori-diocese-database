@@ -7,7 +7,8 @@ import { formattedDate } from '../../../helpers/miscellaneous';
 
 const SET_IS_LOADING = 'SACCO_DISTRIBUTION.SET_IS_LOADING';
 const SET_DISTRIBUTION = 'SACCO_DISTRIBUTION.SET_DISTRIBUTION';
-const SET_PERCENTAGE = 'SACCO_DISTRIBUTION.SET_PERCENTAGE';
+const SET_DIVIDEND_PERCENTAGE = 'SACCO_DISTRIBUTION.SET_DIVIDEND_PERCENTAGE';
+const SET_INTEREST_PERCENTAGE = 'SACCO_DISTRIBUTION.SET_INTEREST_PERCENTAGE';
 const SET_DATE = 'SACCO_DISTRIBUTION.SET_DATE';
 const SET_IS_SAVING = 'SACCO_DISTRIBUTION.SET_IS_SAVING';
 const SET_ERRORS = 'SACCO_DISTRIBUTION.SET_ERRORS';
@@ -21,9 +22,14 @@ const setDistributionAction = (distribution: Distribution) => ({
     value: distribution,
 });
 
-const setPercentageAction = (percentage: number) => ({
-    type: SET_PERCENTAGE,
-    value: percentage,
+const setDividendPercentageAction = (dividendPercentage: number) => ({
+    type: SET_DIVIDEND_PERCENTAGE,
+    value: dividendPercentage,
+});
+
+const setInterestPercentageAction = (interestPercentage: number) => ({
+    type: SET_INTEREST_PERCENTAGE,
+    value: interestPercentage,
 });
 
 const setDateAction = (date?: Date) => ({
@@ -84,8 +90,12 @@ const saveDistribution = (distribution: Distribution, history: History): AppThun
         });
 };
 
-const setPercentage = (percentage: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setPercentageAction(percentage));
+const setDividendPercentage = (dividendPercentage: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDividendPercentageAction(dividendPercentage));
+};
+
+const setInterestPercentage = (interestPercentage: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setInterestPercentageAction(interestPercentage));
 };
 
 const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
@@ -96,7 +106,8 @@ export const actionCreators = {
     prefillDistribution,
     loadDistribution,
     saveDistribution,
-    setPercentage,
+    setDividendPercentage,
+    setInterestPercentage,
     setDate,
 };
 
@@ -131,12 +142,21 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 isLoading: false,
                 hasBeenChanged: false,
             };
-        case SET_PERCENTAGE:
+        case SET_DIVIDEND_PERCENTAGE:
             return {
                 ...state,
                 distribution: {
                     ...state.distribution,
                     dividendPercentage: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_INTEREST_PERCENTAGE:
+            return {
+                ...state,
+                distribution: {
+                    ...state.distribution,
+                    interestPercentage: action.value,
                 },
                 hasBeenChanged: true,
             };
