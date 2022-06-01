@@ -217,3 +217,12 @@ input[type="radio"] {
 input[type="radio"]:nth-of-type(n+2){
     margin-left:20px;
 }
+
+.force-wrap {
+    width: 100%;
+}
+
+.navbar-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}

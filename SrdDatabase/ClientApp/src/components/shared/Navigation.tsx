@@ -67,9 +67,12 @@ const Navigation = ({
                                     <>
                                         {
                                             currentUser.userType !== userRole.sacco &&
-                                            <NavItem>
-                                                <NavLink tag={Link} className='text-dark' to='/sacco'>SACCO</NavLink>
-                                            </NavItem>
+                                            <>
+                                                <li className="force-wrap"></li>
+                                                <NavItem>
+                                                    <NavLink tag={Link} className='text-dark' to='/sacco'>SACCO</NavLink>
+                                                </NavItem>
+                                            </>
                                         }
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/sacco/member'>Members</NavLink>

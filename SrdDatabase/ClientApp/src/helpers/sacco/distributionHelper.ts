@@ -5,5 +5,5 @@ export function describeDistribution(distribution: Distribution) {
 }
 
 export function describeDistributionApplied(distributionApplied: DistributionApplied) {
-    return `${distributionApplied.dividendPercentage}% dividend (${distributionApplied.dividend?.toLocaleString()} UGX) and ${distributionApplied.interestPercentage}% interest (${distributionApplied.interest?.toLocaleString()} UGX)`;
+    return `${distributionApplied.dividend?.toLocaleString()} UGX dividend and ${distributionApplied.interest?.toLocaleString()} UGX interest`;
 }

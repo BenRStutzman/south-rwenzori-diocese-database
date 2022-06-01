@@ -62,7 +62,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="dividend"
-                    itemValue={`${details.distribution.dividendPercentage} %`}
+                    itemValue={`${details.distribution.dividendPercentage}%`}
                 />
                 <DetailsBox
                     itemType="totalDividend"
@@ -70,7 +70,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="interest"
-                    itemValue={`${details.distribution.interestPercentage} %`}
+                    itemValue={`${details.distribution.interestPercentage}%`}
                 />
                 <DetailsBox
                     itemType="totalInterest"
