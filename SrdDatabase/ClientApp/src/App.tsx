@@ -47,10 +47,10 @@ import SaccoTransactionHome from './components/sacco/transaction/Home';
 import SaccoTransactionAdd from './components/sacco/transaction/Add';
 import SaccoTransactionEdit from './components/sacco/transaction/Edit';
 import SaccoTransactionDetails from './components/sacco/transaction/Details';
-import SaccoDividendHome from './components/sacco/dividend/Home';
-import SaccoDividendAdd from './components/sacco/dividend/Add';
-import SaccoDividendEdit from './components/sacco/dividend/Edit';
-import SaccoDividendDetails from './components/sacco/dividend/Details';
+import SaccoDistributionHome from './components/sacco/distribution/Home';
+import SaccoDistributionAdd from './components/sacco/distribution/Add';
+import SaccoDistributionEdit from './components/sacco/distribution/Edit';
+import SaccoDistributionDetails from './components/sacco/distribution/Details';
 import SaccoLoanHome from './components/sacco/loan/Home';
 import SaccoLoanAdd from './components/sacco/loan/Add';
 import SaccoLoanEdit from './components/sacco/loan/Edit';
@@ -108,10 +108,10 @@ export default () => (
             <PrivateRoute exact path='/sacco/transaction/add' component={SaccoTransactionAdd} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/transaction/edit/:transactionId' component={SaccoTransactionEdit} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/transaction/details/:transactionId' component={SaccoTransactionDetails} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/dividend' component={SaccoDividendHome} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/dividend/add' component={SaccoDividendAdd} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/dividend/edit/:dividendId' component={SaccoDividendEdit} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/dividend/details/:dividendId' component={SaccoDividendDetails} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/distribution' component={SaccoDistributionHome} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/distribution/add' component={SaccoDistributionAdd} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/distribution/edit/:distributionId' component={SaccoDistributionEdit} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/distribution/details/:distributionId' component={SaccoDistributionDetails} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/loan' component={SaccoLoanHome} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/loan/add' component={SaccoLoanAdd} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/loan/edit/:loanId' component={SaccoLoanEdit} roles={atLeast.sacco} />

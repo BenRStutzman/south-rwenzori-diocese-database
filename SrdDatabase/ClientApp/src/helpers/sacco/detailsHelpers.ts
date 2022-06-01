@@ -5,8 +5,8 @@ import { TransactionResults } from "../../models/sacco/transaction";
 import { describeTransaction } from "./transactionHelper";
 import { LoanResults } from "../../models/sacco/loan";
 import { describeLoan } from "./loanHelper";
-import { DividendAppliedResults, DividendResults } from "../../models/sacco/dividend";
-import { describeDividend, describeDividendApplied } from "./dividendHelper";
+import { DistributionAppliedResults, DistributionResults } from "../../models/sacco/distribution";
+import { describeDistribution, describeDistributionApplied } from "./distributionHelper";
 
 export function memberItems(memberResults: MemberResults): DetailsListItem[] {
     return memberResults.members.map(member => (
@@ -21,17 +21,17 @@ export function transactionItems(transactionResults: TransactionResults, useAcco
     }));
 }
 
-export function dividendItems(dividendResults: DividendResults): DetailsListItem[] {
-    return dividendResults.dividends.map(dividend => ({
-        id: dividend.id,
-        displayText: `${formattedDate(dividend.date)}: ${describeDividend(dividend)}`,
+export function distributionItems(distributionResults: DistributionResults): DetailsListItem[] {
+    return distributionResults.distributions.map(distribution => ({
+        id: distribution.id,
+        displayText: `${formattedDate(distribution.date)}: ${describeDistribution(distribution)}`,
     }));
 }
 
-export function dividendAppliedItems(dividendAppliedResults: DividendAppliedResults): DetailsListItem[] {
-    return dividendAppliedResults.dividendsApplied.map(dividendApplied => ({
-        id: dividendApplied.dividendId,
-        displayText: `${formattedDate(dividendApplied.date)}: ${describeDividendApplied(dividendApplied)}`,
+export function distributionAppliedItems(distributionAppliedResults: DistributionAppliedResults): DetailsListItem[] {
+    return distributionAppliedResults.distributionsApplied.map(distributionApplied => ({
+        id: distributionApplied.distributionId,
+        displayText: `${formattedDate(distributionApplied.date)}: ${describeDistributionApplied(distributionApplied)}`,
     }));
 }
 

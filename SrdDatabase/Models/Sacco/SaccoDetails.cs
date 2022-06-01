@@ -1,4 +1,4 @@
-﻿using SrdDatabase.Models.Sacco.Dividends;
+﻿using SrdDatabase.Models.Sacco.Distributions;
 using SrdDatabase.Models.Sacco.Members;
 using SrdDatabase.Models.Sacco.Transactions;
 
@@ -10,28 +10,28 @@ namespace SrdDatabase.Models.Sacco
 
         public TransactionResults TransactionResults { get; }
 
-        public DividendResults DividendResults { get; }
+        public DistributionResults DistributionResults { get; }
 
         public SaccoDetails(
             MemberResults memberResults,
             TransactionResults transactionResults,
-            DividendResults dividendResults
+            DistributionResults distributionResults
             )
         {
             MemberResults = memberResults;
             TransactionResults = transactionResults;
-            DividendResults = dividendResults;
+            DistributionResults = distributionResults;
         }
 
         public SaccoDetails(
             MemberResults memberResults,
             TransactionResults transactionResults,
-            DividendResults dividendResults,
+            DistributionResults distributionResults,
             SaccoDetails saccoDetails
         ) : this(
             memberResults,
             transactionResults,
-            dividendResults
+            distributionResults
             )
         {
         }

@@ -1,29 +1,28 @@
-﻿import { Reducer } from 'redux';
+import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '../..';
 import { get } from '../../../helpers/apiHelpers';
-import { SaccoDetails } from '../../../models/sacco/home';
-import { pagedResultsDefaults } from '../../../models/shared';
+import { DistributionDetails } from '../../../models/sacco/distribution';
 
-const REQUEST_DETAILS = 'SACCO_HOME.REQUEST_DETAILS';
-const RECEIVE_DETAILS = 'SACCO_HOME.RECEIVE_DETAILS';
+const REQUEST_DETAILS = 'SACCO_DISTRIBUTION.REQUEST_DETAILS';
+const RECEIVE_DETAILS = 'SACCO_DISTRIBUTION.RECEIVE_DETAILS';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
 });
 
-const receiveDetailsAction = (details: SaccoDetails) => ({
+const receiveDetailsAction = (details: DistributionDetails) => ({
     type: RECEIVE_DETAILS,
     value: details,
 });
 
-const loadDetails = (): AppThunkAction<Action> => (dispatch) => {
+const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
 
-    get<SaccoDetails>('api/sacco/home/details')
+    get<DistributionDetails>(`api/sacco/distribution/details/${id}`, '/sacco/distribution')
         .then(details => {
             dispatch(receiveDetailsAction(details));
         });
-}
+};
 
 export const actionCreators = {
     loadDetails,
@@ -31,15 +30,13 @@ export const actionCreators = {
 
 export interface State {
     detailsLoading: boolean;
-    details: SaccoDetails;
+    details: DistributionDetails;
 }
 
 const initialState: State = {
     detailsLoading: true,
     details: {
-        memberResults: { ...pagedResultsDefaults, members: [] },
-        transactionResults: { ...pagedResultsDefaults, transactions: [] },
-        distributionResults: { ...pagedResultsDefaults, distributions: [] },
+        distribution: {},
     },
 };
 

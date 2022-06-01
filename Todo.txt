@@ -1,8 +1,8 @@
 - Savings:
 	X Change auto_fees_start_date to 2022-01-01
 	X Round everything to nearest hundred shillings
-	- Show who created, updated transaction
-		- Update C# transaction model and details page
+	X Show who created, updated transaction
+		X Update C# transaction model and details page
 	- Show applied dividend total on dividend details page
 		- Update C# distribution model and details page
 	- Split dividends into two parts: dividends (shares) and interest (savings)

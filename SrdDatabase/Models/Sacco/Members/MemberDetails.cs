@@ -1,4 +1,4 @@
-﻿using SrdDatabase.Models.Sacco.Dividends;
+﻿using SrdDatabase.Models.Sacco.Distributions;
 using SrdDatabase.Models.Sacco.Loans;
 using SrdDatabase.Models.Sacco.Transactions;
 
@@ -10,19 +10,19 @@ namespace SrdDatabase.Models.Sacco.Members
 
         public TransactionResults TransactionResults { get; }
 
-        public DividendAppliedResults DividendAppliedResults { get; }
+        public DistributionAppliedResults DistributionAppliedResults { get; }
 
         public LoanResults LoanResults { get; }
 
         public MemberDetails(
             Member member,
             TransactionResults transactionResults,
-            DividendAppliedResults dividendAppliedResults,
+            DistributionAppliedResults distributionAppliedResults,
             LoanResults loanResults)
         {
             Member = member;
             TransactionResults = transactionResults;
-            DividendAppliedResults = dividendAppliedResults;
+            DistributionAppliedResults = distributionAppliedResults;
             LoanResults = loanResults;
         }
     }

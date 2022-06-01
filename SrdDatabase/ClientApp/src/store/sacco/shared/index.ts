@@ -5,7 +5,7 @@ import { Loan, LoanParameters, LoanResults, LoanType } from '../../../models/sac
 import { Installment } from '../../../models/sacco/installment';
 import { Member } from '../../../models/sacco/member';
 import { Transaction } from '../../../models/sacco/transaction';
-import { Dividend } from '../../../models/sacco/dividend';
+import { Distribution } from '../../../models/sacco/distribution';
 import { formattedDate } from '../../../helpers/miscellaneous';
 
 const REQUEST_MEMBERS = 'SACCO.REQUEST_MEMBERS';
@@ -16,7 +16,7 @@ const REQUEST_LOANS = 'SACCO.REQUEST_LOANS';
 const RECEIVE_LOANS = 'SACCO.RECEIVE_LOANS';
 const SET_DELETING_MEMBER_ID = 'SACCO.SET_DELETING_MEMBER_ID';
 const SET_DELETING_TRANSACTION_ID = 'SACCO.SET_DELETING_TRANSACTION_ID';
-const SET_DELETING_DIVIDEND_ID = 'SACCO.SET_DELETING_DIVIDEND_ID';
+const SET_DELETING_DISTRIBUTION_ID = 'SACCO.SET_DELETING_DISTRIBUTION_ID';
 const SET_DELETING_LOAN_ID = 'SACCO.SET_DELETING_LOAN_ID';
 const SET_DELETING_LOAN_INSTALLMENT_ID = 'SACCO.SET_DELETING_LOAN_INSTALLMENT_ID';
 
@@ -57,9 +57,9 @@ const setDeletingTransactionIdAction = (transactionId?: number, isDeleting: bool
     value: { transactionId, isDeleting },
 });
 
-const setDeletingDividendIdAction = (dividendId?: number, isDeleting: boolean = true) => ({
-    type: SET_DELETING_DIVIDEND_ID,
-    value: { dividendId, isDeleting },
+const setDeletingDistributionIdAction = (distributionId?: number, isDeleting: boolean = true) => ({
+    type: SET_DELETING_DISTRIBUTION_ID,
+    value: { distributionId, isDeleting },
 });
 
 const setDeletingLoanIdAction = (loanId?: number, isDeleting: boolean = true) => ({
@@ -146,12 +146,12 @@ const deleteTransaction = (transaction: Transaction, onSuccess: () => void):
         }
     };
 
-const deleteDividend = (dividend: Dividend, onSuccess: () => void):
+const deleteDistribution = (distribution: Distribution, onSuccess: () => void):
     AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this dividend for ${formattedDate(dividend.date)}?`)) {
-            dispatch(setDeletingDividendIdAction(dividend.id));
+        if (window.confirm(`Are you sure you want to delete this distribution for ${formattedDate(distribution.date)}?`)) {
+            dispatch(setDeletingDistributionIdAction(distribution.id));
 
-            post<{ id: number }>('api/sacco/dividend/delete', { id: dividend.id as number })
+            post<{ id: number }>('api/sacco/distribution/delete', { id: distribution.id as number })
                 .then(response => {
                     if (response.ok) {
                         onSuccess();
@@ -160,7 +160,7 @@ const deleteDividend = (dividend: Dividend, onSuccess: () => void):
                     }
                 }).catch(errorPromise => {
                     errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingDividendIdAction(dividend.id, false));
+                        dispatch(setDeletingDistributionIdAction(distribution.id, false));
                         alert(errorMessage);
                     });
                 });
@@ -215,7 +215,7 @@ export const actionCreators = {
     loadLoans,
     deleteMember,
     deleteTransaction,
-    deleteDividend,
+    deleteDistribution,
     deleteLoan,
     deleteInstallment,
 };
@@ -229,7 +229,7 @@ export interface State {
     loansLoading: boolean;
     deletingMemberIds: number[];
     deletingTransactionIds: number[];
-    deletingDividendIds: number[];
+    deletingDistributionIds: number[];
     deletingLoanIds: number[];
     deletingInstallmentIds: number[];
 }
@@ -243,7 +243,7 @@ const initialState: State = {
     loansLoading: true,
     deletingMemberIds: [],
     deletingTransactionIds: [],
-    deletingDividendIds: [],
+    deletingDistributionIds: [],
     deletingLoanIds: [],
     deletingInstallmentIds: [],
 }
@@ -297,12 +297,12 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     ? [...state.deletingTransactionIds, action.value.transactionId]
                     : state.deletingTransactionIds.filter(id => id != action.value.transactionId),
             };
-        case SET_DELETING_DIVIDEND_ID:
+        case SET_DELETING_DISTRIBUTION_ID:
             return {
                 ...state,
-                deletingDividendIds: action.value.isDeleting
-                    ? [...state.deletingDividendIds, action.value.dividendId]
-                    : state.deletingDividendIds.filter(id => id != action.value.dividendId),
+                deletingDistributionIds: action.value.isDeleting
+                    ? [...state.deletingDistributionIds, action.value.distributionId]
+                    : state.deletingDistributionIds.filter(id => id != action.value.distributionId),
             };
         case SET_DELETING_LOAN_ID:
             return {

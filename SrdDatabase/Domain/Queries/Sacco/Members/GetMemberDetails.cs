@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries.Sacco.Dividends;
+using SrdDatabase.Data.Queries.Sacco.Distributions;
 using SrdDatabase.Data.Queries.Sacco.Loans;
 using SrdDatabase.Data.Queries.Sacco.Transactions;
 using SrdDatabase.Models.Sacco.Members;
@@ -40,10 +40,10 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
                     pageSize: Constants.DetailsPageSize);
                 var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
 
-                var dividendsAppliedQuery = new GetDividendsApplied.Query(
+                var distributionsAppliedQuery = new GetDistributionsApplied.Query(
                     memberId: request.Id,
                     pageSize: Constants.DetailsPageSize);
-                var dividendsAppliedTask = _mediator.Send(dividendsAppliedQuery, cancellationToken);
+                var distributionsAppliedTask = _mediator.Send(distributionsAppliedQuery, cancellationToken);
 
                 var loansQuery = new GetLoans.Query(
                     memberId: request.Id,
@@ -52,13 +52,13 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
 
                 var member = await memberTask;
                 var transactionResults = await transactionsTask;
-                var dividendAppliedResults = await dividendsAppliedTask;
+                var distributionAppliedResults = await distributionsAppliedTask;
                 var loanResults = await loansTask;
 
                 return new MemberDetails(
                     member,
                     transactionResults,
-                    dividendAppliedResults,
+                    distributionAppliedResults,
                     loanResults);
             }
         }

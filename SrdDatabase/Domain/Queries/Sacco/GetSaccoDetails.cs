@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Data.Queries.Sacco.Members;
 using SrdDatabase.Data.Queries.Sacco.Transactions;
-using SrdDatabase.Data.Queries.Sacco.Dividends;
+using SrdDatabase.Data.Queries.Sacco.Distributions;
 
 namespace SrdDatabase.Domain.Queries.Sacco
 {
@@ -31,17 +31,17 @@ namespace SrdDatabase.Domain.Queries.Sacco
                 var transactionsQuery = new GetTransactions.Query(pageSize: Constants.DetailsPageSize);
                 var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
 
-                var dividendsQuery = new GetDividends.Query(pageSize: Constants.DetailsPageSize);
-                var dividendsTask = _mediator.Send(dividendsQuery, cancellationToken);
+                var distributionsQuery = new GetDistributions.Query(pageSize: Constants.DetailsPageSize);
+                var distributionsTask = _mediator.Send(distributionsQuery, cancellationToken);
 
                 var memberResults = await membersTask;
                 var transactionResults = await transactionsTask;
-                var dividendResults = await dividendsTask;
+                var distributionResults = await distributionsTask;
 
                 return new SaccoDetails(
                     memberResults,
                     transactionResults,
-                    dividendResults);
+                    distributionResults);
             }
         }
     }
