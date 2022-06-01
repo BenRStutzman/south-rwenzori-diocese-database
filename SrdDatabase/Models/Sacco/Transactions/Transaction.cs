@@ -22,6 +22,10 @@ namespace SrdDatabase.Models.Sacco.Transactions
 
         public int? ReceiptNumber { get; }
 
+        public string CreatedBy { get; }
+
+        public string UpdatedBy { get; }
+
         public Transaction(
             int id,
             int memberId,
@@ -31,7 +35,9 @@ namespace SrdDatabase.Models.Sacco.Transactions
             bool isShares,
             bool isContribution,
             int amount,
-            int? receiptNumber)
+            int? receiptNumber,
+            string createdBy,
+            string updatedBy)
         {
             Id = id;
             MemberId = memberId;
@@ -42,6 +48,8 @@ namespace SrdDatabase.Models.Sacco.Transactions
             IsContribution = isContribution;
             Amount = amount;
             ReceiptNumber = receiptNumber;
+            CreatedBy = createdBy;
+            UpdatedBy = updatedBy;
         }
 
         // for Dapper

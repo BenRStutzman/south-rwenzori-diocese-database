@@ -10,6 +10,8 @@ export interface Transaction {
     isContribution?: boolean;
     amount?: number;
     receiptNumber?: number;
+    createdBy?: string;
+    updatedBy?: string;
 }
 
 export interface TransactionToSend extends Omit<Transaction, "date"> {

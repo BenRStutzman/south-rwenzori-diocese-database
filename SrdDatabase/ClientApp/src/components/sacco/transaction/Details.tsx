@@ -73,6 +73,14 @@ const Details = ({
                     itemType="receiptNumber"
                     itemValue={details.transaction.receiptNumber?.toString() ?? "Not set"}
                 />
+                <DetailsBox
+                    itemType="createdBy"
+                    itemValue={details.transaction.createdBy}
+                />
+                <DetailsBox
+                    itemType="lastUpdatedBy"
+                    itemValue={details.transaction.updatedBy}
+                />
             </div>
         </>;
 }
