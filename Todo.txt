@@ -1,36 +1,47 @@
-- Add AWS toolkit extension
-- Release without loans
-- Create accounts for Amon, Nathan, Alex
-- Show to Amon, Nathan, and Alex
-	- When should auto-fees start (calculate_sacco_member_auto_fees_start_date, currently 2020-01-01)
-	- Tell them loans are coming next
-- Add logic for loans
-	- On loan creation, create all loan installments
-		- Sproc for creating installments:
-			- Total to pay = principal + interest (2%) * term_months
-			- Per installment = total / term_months
-			- Installment due dates are in one-month increments from initial date
-	- Loan installments have an original price, and then a due price (increased by fines)
-	- Loan installments have a date_due and date_paid - must be paid in full to set date_paid
-	- Loan is considered paid when all installments are paid
-	- You can't create a loan installment -> only edit to add date paid
+- Savings:
+	X Change auto_fees_start_date to 2022-01-01
+	X Round everything to nearest hundred shillings
+	- Show who created, updated transaction
+		- Update C# transaction model and details page
+	- Show applied dividend total on dividend details page
+		- Update C# distribution model and details page
+	- Split dividends into two parts: dividends (shares) and interest (savings)
+		- Update C# distribution model, frontend for saving, searching
+
+- Loans:
+	X Change installment interval to 1 month (not 30 days)
+	X Adjust fine schedule according to printout
+	X Round everything to nearest 100 shillings
+	X View for installment details
+	X Sproc to set date_paid for an installment
+	- C# edit page for installment date (show fines)
+	- C#: change loan date to date_disbursed
+
+- Reports:
+	- Member account statement (incl transactions, dividends, fees)
 
 - Do a thorough test
-0.05
 
 To release:
-- sacco branch
-- Ensure triggers are all there
+- Update sacco_loans table
+- Update sacco_distribution table
+- Update sacco_distribution_applied table
+- Update all views
+- Update all sprocs
 
 Less important:
+- Nicer receipt printout for transactions
+- Make nav bar shorter for admins
+- Add useful SACCO-wide stats to dashboard
+	- Total shares (and value)
+	- Total savings
+	- Total balance
 - Easier member selection
 - Speed up report generation
 	- Increase max user connections to 100 (waiting for Yosia)
 - Enable easy backups
 - Create better error page (add back useExceptionHandler('Error'))
-- Make nav bar shorter for admins
 - Add server-side unique check for dividend date
-- Add useful SACCO-wide stats like shares, savings, loan totals
 - Add requirements for minimum shares (5)
 
 Before leaving:
