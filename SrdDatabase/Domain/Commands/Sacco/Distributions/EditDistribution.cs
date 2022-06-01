@@ -39,7 +39,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Distributions
             {
                 var dataCommand = new SaveDistribution.Command(
                     request.Id,
-                    request.Percentage,
+                    request.DividendPercentage,
                     request.Date,
                     request.UserId.Value);
 

@@ -10,14 +10,18 @@ namespace SrdDatabase.Models.Sacco.Distributions
         public DateTime Date { get; }
 
         [Range(0, 100)]
-        public decimal Percentage { get; }
+        public decimal DividendPercentage { get; }
+
+        public decimal InterestPercentage { get; }
 
         public DistributionFields(
-            decimal percentage,
+            decimal dividendPercentage,
+            decimal interestPercentage,
             DateTime date,
             int? userId = null) : base(userId)
         {
-            Percentage = percentage;
+            DividendPercentage = dividendPercentage;
+            InterestPercentage = interestPercentage;
             Date = date;
         }
     }

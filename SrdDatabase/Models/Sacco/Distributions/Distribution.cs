@@ -8,16 +8,32 @@ namespace SrdDatabase.Models.Sacco.Distributions
 
         public DateTime Date { get; }
 
-        public decimal Percentage { get; }
+        public decimal DividendPercentage { get; }
+
+        public decimal InterestPercentage { get; }
+
+        public int TotalDividend { get; }
+
+        public int TotalInterest { get; }
+
+        public int TotalDistributed { get; }
 
         public Distribution(
             int id,
             DateTime date,
-            decimal percentage)
+            decimal dividendPercentage,
+            decimal interestPercentage,
+            int totalDividend,
+            int totalInterest,
+            int totalDistributed)
         {
             Id = id;
             Date = date;
-            Percentage = percentage;
+            DividendPercentage = dividendPercentage;
+            InterestPercentage = interestPercentage;
+            TotalDividend = totalDividend;
+            TotalInterest = totalInterest;
+            TotalDistributed = totalDistributed;
         }
 
         // for Dapper
