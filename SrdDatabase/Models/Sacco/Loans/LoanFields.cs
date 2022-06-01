@@ -13,7 +13,7 @@ namespace SrdDatabase.Models.Sacco.Loans
         public sbyte LoanTypeId { get; }
 
         [Required]
-        public DateTime Date { get; }
+        public DateTime DateDisbursed { get; }
 
         [Range(1, int.MaxValue)]
         public int Principal { get; }
@@ -25,14 +25,14 @@ namespace SrdDatabase.Models.Sacco.Loans
             int principal,
             int memberId,
             sbyte loanTypeId,
-            DateTime date,
+            DateTime dateDisbursed,
             sbyte termMonths,
             int? userId = null) : base(userId)
         {
             Principal = principal;
             MemberId = memberId;
             LoanTypeId = loanTypeId;
-            Date = date;
+            DateDisbursed = dateDisbursed;
             TermMonths = termMonths;
         }
     }

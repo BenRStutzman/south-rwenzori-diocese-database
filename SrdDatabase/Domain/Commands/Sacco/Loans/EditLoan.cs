@@ -44,7 +44,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Loans
                     request.Id,
                     request.Principal,
                     request.MemberId,
-                    request.Date,
+                    request.DateDisbursed,
                     request.LoanTypeId,
                     request.TermMonths,
                     request.UserId.Value);

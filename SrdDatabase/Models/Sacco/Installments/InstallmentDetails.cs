@@ -1,13 +1,22 @@
-﻿namespace SrdDatabase.Models.Sacco.Installments
+﻿using System.Collections.Generic;
+
+namespace SrdDatabase.Models.Sacco.Installments
 {
     public class InstallmentDetails
     {
         public Installment Installment { get; }
 
-        public InstallmentDetails(Installment installment)
+        public IEnumerable<FineWindow> FineWindows { get; }
+
+        public InstallmentDetails(Installment installment, IEnumerable<FineWindow> fineWindows)
         {
             Installment = installment;
+            FineWindows = fineWindows;
+        }
+
+        public InstallmentDetails(Installment installment, InstallmentDetails installmentDetails)
+            : this(installment, installmentDetails.FineWindows)
+        {
         }
     }
-
 }
