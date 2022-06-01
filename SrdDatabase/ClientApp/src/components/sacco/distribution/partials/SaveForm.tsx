@@ -23,7 +23,8 @@ type Props =
 const SaveForm = ({
     distribution,
     saveDistribution,
-    setPercentage,
+    setDividendPercentage,
+    setInterestPercentage,
     setDate,
     hasBeenChanged,
     errors,
@@ -31,12 +32,20 @@ const SaveForm = ({
     history,
     isSaving,
 }: Props) => {
-    const onPercentageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setPercentage(parseFloat(event.target.value));
+    const onDividendPercentageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDividendPercentage(parseFloat(event.target.value));
     };
 
-    const onPercentageBlur = () => {
-        setPercentage(parseFloat(distribution.percentage?.toFixed(2) ?? ''));
+    const onDividendPercentageBlur = () => {
+        setDividendPercentage(parseFloat(distribution.dividendPercentage?.toFixed(2) ?? ''));
+    }
+
+    const onInterestPercentageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setInterestPercentage(parseFloat(event.target.value));
+    };
+
+    const onInterestPercentageBlur = () => {
+        setInterestPercentage(parseFloat(distribution.interestPercentage?.toFixed(2) ?? ''));
     }
 
     const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,14 +60,30 @@ const SaveForm = ({
     return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
-                <label htmlFor="percentage">Percentage</label>
+                <label htmlFor="dividendPercentage">Dividend Percentage (% of shares value to be distributed)</label>
                 <input
-                    id="percentage"
+                    id="dividendPercentage"
                     className="form-control"
                     type="number"
-                    value={distribution.percentage?.toString() ?? ""}
-                    onChange={onPercentageChange}
-                    onBlur={onPercentageBlur}
+                    value={distribution.dividendPercentage?.toString() ?? ""}
+                    onChange={onDividendPercentageChange}
+                    onBlur={onDividendPercentageBlur}
+                    autoComplete={autoComplete}
+                    min={0.01}
+                    step=".01"
+                    max={99.99}
+                    required
+                />
+            </div>
+           <div className="form-group">
+                <label htmlFor="interestPercentage">Interest Percentage (% of savings to be distributed)</label>
+                <input
+                    id="interestPercentage"
+                    className="form-control"
+                    type="number"
+                    value={distribution.interestPercentage?.toString() ?? ""}
+                    onChange={onInterestPercentageChange}
+                    onBlur={onInterestPercentageBlur}
                     autoComplete={autoComplete}
                     min={0.01}
                     step=".01"

@@ -42,7 +42,7 @@ const Edit = ({
     return isLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{`Edit ${describeDistribution(distribution)}`}</h1>
+                <h1>Edit Distribution</h1>
                 <div className="float-right button-group">
                     <Link className="btn btn-secondary" to={`/sacco/distribution/details/${distribution.id}`}>
                         View details

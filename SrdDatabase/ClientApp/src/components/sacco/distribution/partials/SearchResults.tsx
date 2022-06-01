@@ -56,11 +56,43 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-8">
-                            Percentage
+                        <th className="col-1">
+                            Dividend (%)
                             <SortButton
                                 parameters={parameters}
-                                columnName="member"
+                                columnName="dividendPercentage"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-1">
+                            Interest (%)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="interestPercentage"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Total Dividend (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="totalDividend"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Total Interest (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="totalInterest"
+                                onSort={onSort}
+                            />
+                        </th>
+                         <th className="col-2">
+                            Total Distributed (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="totalDistributed"
                                 onSort={onSort}
                             />
                         </th>
@@ -72,6 +104,10 @@ const SearchResults = ({
                         <tr key={distribution.id}>
                             <td>{formattedDate(distribution.date)}</td>
                             <td className="number-column">{distribution.dividendPercentage}</td>
+                            <td className="number-column">{distribution.interestPercentage}</td>
+                            <td className="number-column">{distribution.totalDividend}</td>
+                            <td className="number-column">{distribution.totalInterest}</td>
+                            <td className="number-column">{distribution.totalDistributed}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/distribution/details/${distribution.id}`}>
                                     View

@@ -10,7 +10,6 @@ import DetailsBox from '../../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
-import { describeDistribution } from '../../../helpers/sacco/distributionHelper';
 
 type Props =
     Store.State &
@@ -42,7 +41,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>{describeDistribution(details.distribution)}</h1>
+                <h1>Distribution</h1>
                 <div className="button-group float-right">
                     <Link className="btn btn-primary" to={`/sacco/distribution/edit/${details.distribution.id}`}>
                         Edit distribution
@@ -57,8 +56,28 @@ const Details = ({
                     itemType="date"
                     itemValue={formattedDate(details.distribution.date)}
                 />
+                <DetailsBox
+                    itemType="totalDistributed"
+                    itemValue={`${details.distribution.totalDistributed?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="dividend"
+                    itemValue={`${details.distribution.dividendPercentage} %`}
+                />
+                <DetailsBox
+                    itemType="totalDividend"
+                    itemValue={`${details.distribution.totalDividend?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interest"
+                    itemValue={`${details.distribution.interestPercentage} %`}
+                />
+                <DetailsBox
+                    itemType="totalInterest"
+                    itemValue={`${details.distribution.totalInterest?.toLocaleString()} UGX`}
+                />
             </div>
-        </>;
+            </>;
 }
 
 export default connect(
