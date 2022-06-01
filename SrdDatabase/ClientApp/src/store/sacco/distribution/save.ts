@@ -136,7 +136,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 distribution: {
                     ...state.distribution,
-                    percentage: action.value,
+                    dividendPercentage: action.value,
                 },
                 hasBeenChanged: true,
             };

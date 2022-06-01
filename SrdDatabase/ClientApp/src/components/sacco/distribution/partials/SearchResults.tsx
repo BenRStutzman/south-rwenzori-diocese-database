@@ -71,7 +71,7 @@ const SearchResults = ({
                     {results.distributions.map((distribution: Distribution) =>
                         <tr key={distribution.id}>
                             <td>{formattedDate(distribution.date)}</td>
-                            <td className="number-column">{distribution.percentage}</td>
+                            <td className="number-column">{distribution.dividendPercentage}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/distribution/details/${distribution.id}`}>
                                     View

@@ -8,7 +8,11 @@ export interface DistributionType {
 export interface Distribution {
     id?: number;
     date?: Date;
-    percentage?: number;
+    dividendPercentage?: number;
+    interestPercentage?: number;
+    totalDividend?: number;
+    totalInterest?: number;
+    totalDistributed?: number;
 }
 
 export interface DistributionToSend extends Omit<Distribution, "date"> {
@@ -36,8 +40,10 @@ export interface DistributionResults extends PagedResults {
 export interface DistributionApplied {
     distributionId?: number;
     date?: Date;
-    percentage?: number;
-    amount?: number;
+    dividendPercentage?: number;
+    interestPercentage?: number;
+    dividend?: number;
+    interest?: number;
 }
 
 export interface DistributionAppliedResults extends PagedResults {

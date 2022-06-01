@@ -1,9 +1,9 @@
 ﻿import { Distribution, DistributionApplied } from "../../models/sacco/distribution";
 
 export function describeDistribution(distribution: Distribution) {
-    return `Distribution of ${distribution.percentage}%`;
+    return `${distribution.dividendPercentage}% dividend and ${distribution.interestPercentage}% interest`;
 }
 
 export function describeDistributionApplied(distributionApplied: DistributionApplied) {
-    return `Distribution of ${distributionApplied.percentage}% --> ${distributionApplied.amount?.toLocaleString()} UGX`;
+    return `${distributionApplied.dividendPercentage}% dividend --> ${distributionApplied.dividend?.toLocaleString()} UGX and ${distributionApplied.interestPercentage}% interest --> ${distributionApplied.interest?.toLocaleString()} UGX`;
 }
