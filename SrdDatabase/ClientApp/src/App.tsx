@@ -56,7 +56,6 @@ import SaccoLoanAdd from './components/sacco/loan/Add';
 import SaccoLoanEdit from './components/sacco/loan/Edit';
 import SaccoLoanDetails from './components/sacco/loan/Details';
 import SaccoInstallmentHome from './components/sacco/installment/Home';
-import SaccoInstallmentAdd from './components/sacco/installment/Add';
 import SaccoInstallmentEdit from './components/sacco/installment/Edit';
 import SaccoInstallmentDetails from './components/sacco/installment/Details';
 import { atLeast } from './helpers/userHelper';
@@ -117,7 +116,6 @@ export default () => (
             <PrivateRoute exact path='/sacco/loan/edit/:loanId' component={SaccoLoanEdit} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/loan/details/:loanId' component={SaccoLoanDetails} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/installment' component={SaccoInstallmentHome} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/installment/add' component={SaccoInstallmentAdd} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/installment/edit/:installmentId' component={SaccoInstallmentEdit} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/installment/details/:installmentId' component={SaccoInstallmentDetails} roles={atLeast.sacco} />
             <Redirect from='*' to='/' />

@@ -147,7 +147,7 @@ const SaveForm = ({
                     id="dateDisbursed"
                     className="form-control"
                     type="dateDisbursed"
-                    value={loan.dateDisbursed ? formattedDate(loan.dateDisbursed)}
+                    value={formattedDate(loan.dateDisbursed)}
                     onChange={onDateDisbursedChange}
                     required
                 />

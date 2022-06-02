@@ -4,8 +4,6 @@ import { ErrorResponse, Errors, get, post } from '../../../helpers/apiHelpers';
 import { Installment, InstallmentToSend } from '../../../models/sacco/installment';
 import { History } from 'history';
 import { formattedDate } from '../../../helpers/miscellaneous';
-import { Loan } from '../../../models/sacco/loan';
-import { loadLoans } from '../shared';
 
 const SET_IS_LOADING = 'SACCO_INSTALLMENT.SET_IS_LOADING';
 const SET_INSTALLMENT = 'SACCO_INSTALLMENT.SET_INSTALLMENT';
@@ -66,7 +64,7 @@ const saveInstallment = (installment: Installment, history: History): AppThunkAc
 
     const installmentToSend = {
         ...installment,
-        datePaid: formattedDate(installment.datePaid),
+        datePaid: formattedDate(installment.dateDue),
     }
 
     post<InstallmentToSend>(`api/sacco/installment/edit`, installmentToSend)

@@ -7,7 +7,7 @@ import { LoanResults } from "../../models/sacco/loan";
 import { describeLoan } from "./loanHelper";
 import { DistributionAppliedResults, DistributionResults } from "../../models/sacco/distribution";
 import { describeDistribution, describeDistributionApplied } from "./distributionHelper";
-import { Installment, InstallmentResults } from "../../models/sacco/installment";
+import { FineWindow, Installment, InstallmentResults } from "../../models/sacco/installment";
 
 export function memberItems(memberResults: MemberResults): DetailsListItem[] {
     return memberResults.members.map(member => (
@@ -68,7 +68,7 @@ export function installmentItems(installmentResults: InstallmentResults) {
         .sort((a, b) => {
             if (a.isPaid) {
                 if (b.isPaid) {
-                    return (a.datePaid as Date) > (b.datePaid as Date) ? -1 : 1;
+                    return (a.dateDue as Date) > (b.dateDue as Date) ? -1 : 1;
                 } else {
                     return 1;
                 }
@@ -82,6 +82,23 @@ export function installmentItems(installmentResults: InstallmentResults) {
         })
         .map(installment => ({
             id: installment.id,
-            displayText: `${formattedDate(installment.isPaid ? installment.datePaid : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
+            displayText: `${formattedDate(installment.isPaid ? installment.dateDue : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
         }));
+}
+
+export function fineWindowItems(fineWindows: FineWindow[]) {
+    const getEndDate = (index: number) : string => {
+        if (index === fineWindows.length - 1) {
+            return 'or later';
+        } else {
+            var date = new Date(fineWindows[index + 1].startDate);
+            date.setDate(date.getDate() + 1);
+            return `to ${formattedDate(date)}`;
+        }
+    }
+
+    return fineWindows.map((fineWindow, index) => ({
+        id: index,
+        displayText: `${formattedDate(fineWindow.startDate)} ${getEndDate(index)}: ${fineWindow.finePercentage}% fine (${fineWindow.fineDue.toLocaleString()} UGX) = ${fineWindow.totalDue.toLocaleString()} UGX total due`,
+    }));
 }

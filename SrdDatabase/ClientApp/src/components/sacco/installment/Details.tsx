@@ -11,6 +11,8 @@ import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { describeInstallment } from '../../../helpers/sacco/installmentHelper';
+import DetailsList from '../../shared/DetailsList';
+import { fineWindowItems } from '../../../helpers/sacco/detailsHelpers';
 
 type Props =
     Store.State &
@@ -24,9 +26,6 @@ const Details = ({
     detailsLoading,
     details,
     match,
-    history,
-    deletingInstallmentIds,
-    deleteInstallment,
 }: Props) => {
     const loadData = () => {
         const installmentId = parseInt(match.params.installmentId);
@@ -34,10 +33,6 @@ const Details = ({
     };
 
     React.useEffect(loadData, []);
-
-    const onDelete = () => {
-        deleteInstallment(details.installment, () => { history.push('/sacco/installment'); });
-    };
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
@@ -47,16 +42,9 @@ const Details = ({
                     <Link className="btn btn-primary" to={`/sacco/installment/edit/${details.installment.id}`}>
                         Edit installment
                     </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {deletingInstallmentIds.includes(details.installment.id as number) ? <Spinner size="sm" /> : 'Delete installment'}
-                    </button>
                 </div>
             </div>
             <div className="details-boxes">
-                <DetailsBox
-                    itemType="date"
-                    itemValue={formattedDate(details.installment.datePaid)}
-                />
                 <DetailsBox
                     baseItemType="installment"
                     itemType="member"
@@ -74,8 +62,47 @@ const Details = ({
                     altPreposition="for"
                 />
                 <DetailsBox
+                    itemType="dateDue"
+                    itemValue={formattedDate(details.installment.dateDue)}
+                />
+                <DetailsBox
+                    itemType={details.installment.isPaid ? "datePaid" : "paid"}
+                    itemValue={details.installment.isPaid ? formattedDate(details.installment.datePaid) : 'No'}
+                />
+                <DetailsBox
+                    itemType="daysLate"
+                    itemValue={details.installment.daysLate?.toString()}
+                />
+                <DetailsBox
                     itemType="receiptNumber"
                     itemValue={details.installment.receiptNumber?.toString() ?? "Not set"}
+                />
+                <DetailsBox
+                    itemType="principal"
+                    itemValue={`${details.installment.principal?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interest"
+                    itemValue={`${details.installment.interest?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="baseDue"
+                    itemValue={`${details.installment.baseDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="lateFine"
+                    itemValue={`${details.installment.fineDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="totalDue"
+                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
+                />
+                <DetailsList
+                    itemType="fineWindow"
+                    altTitle="Fine schedule"
+                    items={fineWindowItems(details.fineWindows)}
+                    dontLinkItems
+                    dontViewAll
                 />
             </div>
         </>;

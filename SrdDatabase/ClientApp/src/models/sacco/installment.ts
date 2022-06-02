@@ -21,7 +21,9 @@ export interface Installment {
 
 export interface FineWindow {
     startDate: Date;
+    finePercentage: number;
     fineDue: number;
+    totalDue: number;
 }
 
 export interface InstallmentToSend extends Omit<Installment, "datePaid"> {

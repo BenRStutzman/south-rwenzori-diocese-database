@@ -18,7 +18,6 @@ const SET_DELETING_MEMBER_ID = 'SACCO.SET_DELETING_MEMBER_ID';
 const SET_DELETING_TRANSACTION_ID = 'SACCO.SET_DELETING_TRANSACTION_ID';
 const SET_DELETING_DISTRIBUTION_ID = 'SACCO.SET_DELETING_DISTRIBUTION_ID';
 const SET_DELETING_LOAN_ID = 'SACCO.SET_DELETING_LOAN_ID';
-const SET_DELETING_LOAN_INSTALLMENT_ID = 'SACCO.SET_DELETING_LOAN_INSTALLMENT_ID';
 
 const requestMembersAction = () => ({
     type: REQUEST_MEMBERS,
@@ -65,11 +64,6 @@ const setDeletingDistributionIdAction = (distributionId?: number, isDeleting: bo
 const setDeletingLoanIdAction = (loanId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_LOAN_ID,
     value: { loanId, isDeleting },
-});
-
-const setDeletingInstallmentIdAction = (installmentId?: number, isDeleting: boolean = true) => ({
-    type: SET_DELETING_LOAN_INSTALLMENT_ID,
-    value: { installmentId, isDeleting },
 });
 
 const loadMembers = (): AppThunkAction<Action> => (dispatch) => {
@@ -188,27 +182,6 @@ const deleteLoan = (loan: Loan, onSuccess: () => void):
         }
     };
 
-const deleteInstallment = (installment: Installment, onSuccess: () => void):
-    AppThunkAction<Action> => (dispatch) => {
-        if (window.confirm(`Are you sure you want to delete this loan installment for ${installment.member}?`)) {
-            dispatch(setDeletingInstallmentIdAction(installment.id));
-
-            post<{ id: number }>('api/sacco/installment/delete', { id: installment.id as number })
-                .then(response => {
-                    if (response.ok) {
-                        onSuccess();
-                    } else {
-                        throw response.text();
-                    }
-                }).catch(errorPromise => {
-                    errorPromise.then((errorMessage: string) => {
-                        dispatch(setDeletingInstallmentIdAction(installment.id, false));
-                        alert(errorMessage);
-                    });
-                });
-        }
-    };
-
 export const actionCreators = {
     loadMembers,
     loadLoanTypes,
@@ -217,7 +190,6 @@ export const actionCreators = {
     deleteTransaction,
     deleteDistribution,
     deleteLoan,
-    deleteInstallment,
 };
 
 export interface State {
@@ -231,7 +203,6 @@ export interface State {
     deletingTransactionIds: number[];
     deletingDistributionIds: number[];
     deletingLoanIds: number[];
-    deletingInstallmentIds: number[];
 }
 
 const initialState: State = {
@@ -245,7 +216,6 @@ const initialState: State = {
     deletingTransactionIds: [],
     deletingDistributionIds: [],
     deletingLoanIds: [],
-    deletingInstallmentIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -310,13 +280,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 deletingLoanIds: action.value.isDeleting
                     ? [...state.deletingLoanIds, action.value.loanId]
                     : state.deletingLoanIds.filter(id => id != action.value.loanId),
-            };
-         case SET_DELETING_LOAN_INSTALLMENT_ID:
-            return {
-                ...state,
-                deletingInstallmentIds: action.value.isDeleting
-                    ? [...state.deletingInstallmentIds, action.value.installmentId]
-                    : state.deletingInstallmentIds.filter(id => id != action.value.installmentId),
             };
         default:
             return state;

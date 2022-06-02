@@ -98,16 +98,16 @@ const Details = ({
                     itemType="dateJoined"
                     itemValue={formattedDate(details.member.dateJoined)}
                 />
-                {/*<DetailsList*/}
-                {/*    itemType="loan"*/}
-                {/*    itemTotal={details.loanResults.totalResults}*/}
-                {/*    items={loanItems(details.loanResults, true)}*/}
-                {/*    baseItemType="member"*/}
-                {/*    baseItemId={details.member.id}*/}
-                {/*    altPreposition="to"*/}
-                {/*    isSacco*/}
-                {/*    showAddLink*/}
-                {/*/>*/}
+                <DetailsList
+                    itemType="loan"
+                    itemTotal={details.loanResults.totalResults}
+                    items={loanItems(details.loanResults, true)}
+                    baseItemType="member"
+                    baseItemId={details.member.id}
+                    altPreposition="to"
+                    isSacco
+                    showAddLink
+                />
             </div>
         </>;
 }
