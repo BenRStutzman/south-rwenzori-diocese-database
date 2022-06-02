@@ -14,6 +14,7 @@ const SET_SEARCH_END_DATE = 'SACCO_INSTALLMENT.SET_SEARCH_END_DATE';
 const SET_SEARCH_MEMBER_ID = 'SACCO_INSTALLMENT.SET_SEARCH_MEMBER_ID';
 const SET_SEARCH_LOAN_ID = 'SACCO_INSTALLMENT.SET_SEARCH_LOAN_ID';
 const SET_SEARCH_RECEIPT_NUMBER = 'SACCO_INSTALLMENT.SET_SEARCH_RECEIPT_NUMBER';
+const SET_SEARCH_IS_PAID = 'SACCO_INSTALLMENT.SET_SEARCH_IS_PAID';
 const SET_RESULTS_LOADING = 'SACCO_INSTALLMENT.SET_RESULTS_LOADING';
 const SET_RESULTS = 'SACCO_INSTALLMENT.SET_RESULTS';
 
@@ -50,6 +51,11 @@ const setSearchReceiptNumberAction = (receiptNumber?: number) => ({
     type: SET_SEARCH_RECEIPT_NUMBER,
     value: receiptNumber,
 });
+
+const setSearchIsPaidAction = (isPaid?: boolean) => ({
+    type: SET_SEARCH_IS_PAID,
+    value: isPaid,
+})
 
 const setParametersAction = (parameters: InstallmentParameters) => ({
     type: SET_PARAMETERS,
@@ -115,6 +121,10 @@ const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> 
     dispatch(setSearchReceiptNumberAction(receiptNumber));
 };
 
+const setSearchIsPaid = (isPaid?: boolean): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchIsPaidAction(isPaid));
+};
+
 const searchInstallments = (
     parameters: InstallmentParameters = {},
     showLoading: boolean = true,
@@ -145,6 +155,7 @@ export const actionCreators = {
     setSearchStartDate,
     setSearchEndDate,
     setSearchReceiptNumber,
+    setSearchIsPaid,
     prefillParameters,
 };
 
@@ -200,6 +211,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parameters: {
                     ...state.parameters,
                     receiptNumber: action.value,
+                }
+            };
+        case SET_SEARCH_IS_PAID:
+            return {
+                ...state,
+                parameters: {
+                    ...state.parameters,
+                    isPaid: action.value,
                 }
             };
         case SET_PARAMETERS:

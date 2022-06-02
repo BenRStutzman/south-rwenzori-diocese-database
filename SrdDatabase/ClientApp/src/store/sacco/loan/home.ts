@@ -11,6 +11,7 @@ const SET_SEARCH_START_DATE = 'SACCO_LOAN.SET_SEARCH_START_DATE';
 const SET_SEARCH_END_DATE = 'SACCO_LOAN.SET_SEARCH_END_DATE';
 const SET_SEARCH_MEMBER_ID = 'SACCO_LOAN.SET_SEARCH_MEMBER_ID';
 const SET_SEARCH_LOAN_TYPE_ID = 'SACCO_LOAN.SET_SEARCH_LOAN_TYPE_ID';
+const SET_SEARCH_IS_PAID = 'SACCO_LOAN.SET_SEARCH_IS_PAID';
 const SET_RESULTS_LOADING = 'SACCO_LOAN.SET_RESULTS_LOADING';
 const SET_RESULTS = 'SACCO_LOAN.SET_RESULTS';
 
@@ -42,6 +43,11 @@ const setSearchLoanTypeIdAction = (loanTypeId: number) => ({
     type: SET_SEARCH_LOAN_TYPE_ID,
     value: loanTypeId,
 });
+
+const setSearchIsPaidAction = (isPaid?: boolean) => ({
+    type: SET_SEARCH_IS_PAID,
+    value: isPaid,
+})
 
 const setParametersAction = (parameters: LoanParameters) => ({
     type: SET_PARAMETERS,
@@ -87,6 +93,10 @@ const setSearchLoanTypeId = (loanTypeId: number): AppThunkAction<Action> => (dis
     dispatch(setSearchLoanTypeIdAction(loanTypeId));
 };
 
+const setSearchIsPaid = (isPaid?: boolean): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchIsPaidAction(isPaid));
+}
+
 const searchLoans = (
     parameters: LoanParameters = {},
     showLoading: boolean = true,
@@ -116,6 +126,7 @@ export const actionCreators = {
     setSearchMemberId,
     setSearchStartDate,
     setSearchEndDate,
+    setSearchIsPaid,
     prefillParameters,
 };
 
@@ -165,6 +176,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                     endDate: action.value,
                 }
             };
+        case SET_SEARCH_IS_PAID:
+            return {
+                ...state,
+                parameters: {
+                    ...state.parameters,
+                    isPaid: action.value,
+                }
+            }
         case SET_PARAMETERS:
             return {
                 ...state,
