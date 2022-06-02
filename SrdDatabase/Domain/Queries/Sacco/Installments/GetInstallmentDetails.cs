@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries.Sacco.Installments;
 using SrdDatabase.Models.Sacco.Installments;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -30,9 +31,13 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
 
             public async Task<InstallmentDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _mediator.Send(new GetInstallmentById.Query(request.Id), cancellationToken);
+                var installmentTask = _mediator.Send(new GetInstallmentById.Query(request.Id), cancellationToken);
+                var fineWindowsTask = _mediator.Send(new GetInstallmentFineWindows.Query(request.Id), cancellationToken);
 
-                return new InstallmentDetails(user);
+                var installment = await installmentTask;
+                var fineWindows = await fineWindowsTask;
+
+                return new InstallmentDetails(installment, fineWindows);
             }
         }
     }

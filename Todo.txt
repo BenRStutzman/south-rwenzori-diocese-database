@@ -16,6 +16,7 @@
 	X Sproc to set date_paid for an installment
 	- C# edit page for installment date (show fines)
 	- C#: change loan date to date_disbursed
+	- C#: add fine windowsnge sproc back to just windows)
 
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
@@ -23,7 +24,9 @@
 - Do a thorough test
 
 To release:
-- Update sacco_loans table
+- Update sacco_installment table
+- Update sacco_installment_fine_percentage table
+- Update sacco_loan table
 - Update sacco_distribution table
 - Update sacco_distribution_applied table
 - Update all views

@@ -5,12 +5,17 @@ namespace SrdDatabase.Models.Sacco.Installments
     {
         public DateTime StartDate { get; }
 
-        public int Fine { get; }
+        public int FineDue { get; }
 
-        public FineWindow(DateTime startDate, int fine)
+        public FineWindow(DateTime startDate, int fineDue)
         {
             StartDate = startDate;
-            Fine = fine;
+            FineDue = fineDue;
+        }
+
+        // For Dapper
+        public FineWindow()
+        {
         }
     }
 }

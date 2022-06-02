@@ -13,10 +13,5 @@ namespace SrdDatabase.Models.Sacco.Installments
             Installment = installment;
             FineWindows = fineWindows;
         }
-
-        public InstallmentDetails(Installment installment, InstallmentDetails installmentDetails)
-            : this(installment, installmentDetails.FineWindows)
-        {
-        }
     }
 }
