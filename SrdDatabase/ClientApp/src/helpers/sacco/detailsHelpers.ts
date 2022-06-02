@@ -7,6 +7,7 @@ import { LoanResults } from "../../models/sacco/loan";
 import { describeLoan } from "./loanHelper";
 import { DistributionAppliedResults, DistributionResults } from "../../models/sacco/distribution";
 import { describeDistribution, describeDistributionApplied } from "./distributionHelper";
+import { Installment, InstallmentResults } from "../../models/sacco/installment";
 
 export function memberItems(memberResults: MemberResults): DetailsListItem[] {
     return memberResults.members.map(member => (
@@ -58,4 +59,29 @@ export function loanItems(loanResults: LoanResults, useAmount: boolean = false):
         id: loan.id,
         displayText: `${formattedDate(loan.dateDisbursed)}: ${describeLoan(loan, useAmount)}`,
     }));
+}
+
+export function installmentItems(installmentResults: InstallmentResults) {
+    // Unpaid installments come first, sorted earliest to latest
+    // Paid installments come last, sorted latest to earliest.
+    return installmentResults.installments
+        .sort((a, b) => {
+            if (a.isPaid) {
+                if (b.isPaid) {
+                    return (a.datePaid as Date) > (b.datePaid as Date) ? -1 : 1;
+                } else {
+                    return 1;
+                }
+            } else {
+                if (b.isPaid) {
+                    return -1;
+                } else {
+                    return (a.dateDue as Date) > (b.dateDue as Date) ? 1 : -1;
+                }
+            }
+        })
+        .map(installment => ({
+            id: installment.id,
+            displayText: `${formattedDate(installment.isPaid ? installment.datePaid : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
+        }));
 }

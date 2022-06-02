@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { convertDateChange, randomString } from '../../../../helpers/miscellaneous';
+import { convertDateChange, formattedDate, randomString } from '../../../../helpers/miscellaneous';
 
 const autoComplete = randomString();
 
@@ -34,7 +34,7 @@ const SaveForm = ({
     setPrincipal,
     loadMembers,
     loadLoanTypes,
-    setDate,
+    setDateDisbursed,
     hasBeenChanged,
     errors,
     isNew,
@@ -66,8 +66,8 @@ const SaveForm = ({
         setPrincipal(parseInt(event.target.value));
     };
 
-    const onDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setDate(convertDateChange(event));
+    const onDateDisbursedChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setDateDisbursed(convertDateChange(event));
     };
 
     const onSubmit = (event: React.FormEvent) => {
@@ -142,13 +142,13 @@ const SaveForm = ({
                 />
             </div>
             <div className="form-group">
-                <label htmlFor="date">Date</label>
+                <label htmlFor="date">Date Disbursed</label>
                 <input
-                    id="date"
+                    id="dateDisbursed"
                     className="form-control"
-                    type="date"
-                    value={loan.dateDisbursed ? new Date(loan.dateDisbursed).toLocaleDateString('en-ca') : ''}
-                    onChange={onDateChange}
+                    type="dateDisbursed"
+                    value={loan.dateDisbursed ? formattedDate(loan.dateDisbursed)}
+                    onChange={onDateDisbursedChange}
                     required
                 />
             </div>

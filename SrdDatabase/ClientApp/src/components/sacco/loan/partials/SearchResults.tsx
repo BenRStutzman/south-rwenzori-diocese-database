@@ -51,7 +51,7 @@ const SearchResults = ({
                             Date disbursed
                             <SortButton
                                 parameters={parameters}
-                                columnName="date"
+                                columnName="dateDisbursed"
                                 onSort={onSort}
                             />
                         </th>

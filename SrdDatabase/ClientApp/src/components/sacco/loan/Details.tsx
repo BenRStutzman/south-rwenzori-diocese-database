@@ -11,6 +11,8 @@ import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { describeLoan, describeLoanTerm } from '../../../helpers/sacco/loanHelper';
+import DetailsList from '../../shared/DetailsList';
+import { installmentItems } from '../../../helpers/sacco/detailsHelpers';
 
 type Props =
     Store.State &
@@ -54,10 +56,6 @@ const Details = ({
             </div>
             <div className="details-boxes">
                 <DetailsBox
-                    itemType="dateDisbursed"
-                    itemValue={formattedDate(details.loan.dateDisbursed)}
-                />
-                <DetailsBox
                     baseItemType="loan"
                     itemType="member"
                     itemValue={details.loan.member}
@@ -66,12 +64,45 @@ const Details = ({
                     altPreposition="to"
                 />
                 <DetailsBox
-                    itemType="principal"
-                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
+                    itemType="fullyPaid"
+                    itemValue={details.loan.isPaid ? 'Yes' : 'No'}
+                />
+                <DetailsBox
+                    itemType="dateDisbursed"
+                    itemValue={formattedDate(details.loan.dateDisbursed)}
                 />
                 <DetailsBox
                     itemType="term"
                     itemValue={describeLoanTerm(details.loan)}
+                />
+                <DetailsBox
+                    itemType="principal"
+                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interest"
+                    itemValue={`${details.loan.interest?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="lateFines"
+                    itemValue={`${details.loan.finesDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="totalDue"
+                    itemValue={`${details.loan.totalDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="amountPaid"
+                    itemValue={`${details.loan.amountPaid?.toLocaleString()} UGX (${details.loan.percentagePaid}%)`}
+                />
+                <DetailsList
+                    itemType="installment"
+                    itemTotal={details.installmentResults.totalResults}
+                    items={installmentItems(details.installmentResults)}
+                    baseItemType="loan"
+                    baseItemId={details.loan.id}
+                    altPreposition="for"
+                    isSacco
                 />
             </div>
         </>;
