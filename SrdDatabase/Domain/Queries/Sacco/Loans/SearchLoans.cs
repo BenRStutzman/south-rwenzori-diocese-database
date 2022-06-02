@@ -16,6 +16,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Loans
                 sbyte? loanTypeId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null,
+                bool? isPaid = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false) : base
@@ -23,6 +24,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Loans
                     loanTypeId,
                     startDate,
                     endDate,
+                    isPaid,
                     pageNumber,
                     sortColumn,
                     sortDescending)
@@ -48,6 +50,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Loans
                         request.LoanTypeId,
                         request.StartDate,
                         request.EndDate,
+                        request.IsPaid,
                         request.PageNumber,
                         request.SortColumn,
                         request.SortDescending,

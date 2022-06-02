@@ -41,6 +41,7 @@ export interface InstallmentParameters extends PagedParameters {
     startDate?: Date;
     endDate?: Date;
     receiptNumber?: number;
+    isPaid?: boolean;
 }
 
 export interface InstallmentParametersToSend extends Omit<InstallmentParameters, "startDate" | "endDate"> {

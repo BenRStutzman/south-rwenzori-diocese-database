@@ -14,11 +14,11 @@
 	X Round everything to nearest 100 shillings
 	X View for installment details
 	X Sproc to set date_paid for an installment
-	- JS: edit page for installment date (show fines)
+	X JS: edit page for installment date
 	X C#: change loan date to date_disbursed
 	X C#: add fine windowsnge sproc back to just windows)
-	- JS: Add installment list to member details page
-	- C# and JS: add search by is paid to loans, installments
+	- C# and JS Add installment list to member details	
+	- SQL, C# and JS: add search by is paid to loans, installments
 
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)

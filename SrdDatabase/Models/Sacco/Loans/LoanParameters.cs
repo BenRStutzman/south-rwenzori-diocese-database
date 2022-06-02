@@ -19,11 +19,14 @@ namespace SrdDatabase.Models.Sacco.Loans
 
         public DateTime? EndDate { get; }
 
+        public bool? IsPaid { get; }
+
         public LoanParameters(
             int? memberId = null,
             sbyte? loanTypeId = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
+            bool? isPaid = null,
             int pageNumber = 0,
             string sortColumn = null,
             bool sortDescending = false,
@@ -38,6 +41,7 @@ namespace SrdDatabase.Models.Sacco.Loans
             MemberId = memberId;
             StartDate = startDate;
             EndDate = endDate;
+            IsPaid = isPaid;
             LoanTypeId = loanTypeId;
         }
     }

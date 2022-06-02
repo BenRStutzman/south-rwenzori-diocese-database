@@ -38,7 +38,7 @@ export interface LoanParameters extends PagedParameters {
     loanTypeId?: number;
     startDate?: Date;
     endDate?: Date;
-    termMonths?: number;
+    isPaid?: boolean
 }
 
 export interface LoanParametersToSend extends Omit<LoanParameters, "startDate" | "endDate"> {

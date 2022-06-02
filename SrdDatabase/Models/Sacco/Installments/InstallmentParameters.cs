@@ -22,12 +22,15 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public DateTime? EndDate { get; }
 
+        public bool? IsPaid { get; }
+
         public InstallmentParameters(
             int? loanId = null,
             int? memberId = null,
             DateTime? startDate = null,
             DateTime? endDate = null,
             int? receiptNumber = null,
+            bool? isPaid = null,
             int pageNumber = 0,
             string sortColumn = null,
             bool sortDescending = false,
@@ -44,6 +47,7 @@ namespace SrdDatabase.Models.Sacco.Installments
             StartDate = startDate;
             EndDate = endDate;
             ReceiptNumber = receiptNumber;
+            IsPaid = isPaid;
         }
     }
 }

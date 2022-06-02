@@ -17,6 +17,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                 DateTime? startDate = null,
                 DateTime? endDate = null,
                 int? receiptNumber = null,
+                bool? isPaid = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false) : base
@@ -25,6 +26,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                     startDate,
                     endDate,
                     receiptNumber,
+                    isPaid,
                     pageNumber,
                     sortColumn,
                     sortDescending)
@@ -51,6 +53,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                         request.StartDate,
                         request.EndDate,
                         request.ReceiptNumber,
+                        request.IsPaid,
                         request.PageNumber,
                         request.SortColumn,
                         request.SortDescending,
