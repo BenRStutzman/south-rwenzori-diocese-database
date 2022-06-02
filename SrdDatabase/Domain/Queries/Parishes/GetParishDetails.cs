@@ -64,7 +64,7 @@ namespace SrdDatabase.Domain.Queries.Parishes
 
                 var parish = await parishTask;
                 var congregationResults = await congregationsTask;
-                var eventsResults = await eventsTask;
+                var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
                 var quotaResults = await quotasTask;
                 var censusResults = await censusesTask;
@@ -72,7 +72,7 @@ namespace SrdDatabase.Domain.Queries.Parishes
                 return new ParishDetails(
                     parish,
                     congregationResults,
-                    eventsResults,
+                    eventResults,
                     paymentResults,
                     quotaResults,
                     censusResults);

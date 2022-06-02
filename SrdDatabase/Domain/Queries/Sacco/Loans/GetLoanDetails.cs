@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries.Sacco.Installments;
 using SrdDatabase.Models.Sacco.Loans;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -30,9 +31,13 @@ namespace SrdDatabase.Domain.Queries.Sacco.Loans
 
             public async Task<LoanDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _mediator.Send(new GetLoanById.Query(request.Id), cancellationToken);
+                var loanTask = _mediator.Send(new GetLoanById.Query(request.Id), cancellationToken);
+                var installmentsTask = _mediator.Send(new GetInstallments.Query(loanId: request.Id), cancellationToken);
 
-                return new LoanDetails(user);
+                var loan = await loanTask;
+                var installmentResults = await installmentsTask;
+
+                return new LoanDetails(loan, installmentResults);
             }
         }
     }

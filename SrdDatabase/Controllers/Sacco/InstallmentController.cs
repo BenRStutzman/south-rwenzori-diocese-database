@@ -47,25 +47,11 @@ namespace SrdDatabase.Controllers.Sacco
             return await _mediator.Send(query);
         }
 
-        [HttpPost("add")]
-        public async Task<SaveResponse> Add(AddInstallment.Command command)
-        {
-            command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
-        }
-
         [HttpPost("edit")]
         public async Task<SaveResponse> Edit(EditInstallment.Command command)
         {
             command.SetUserId(CurrentUser.Id);
             return await _mediator.Send(command);
-        }
-
-        [HttpPost("delete")]
-        public async Task<IActionResult> Delete(DeleteInstallment.Command command)
-        {
-            var response = await _mediator.Send(command);
-            return DeleteResult(response);
         }
     }
 }

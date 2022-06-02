@@ -18,12 +18,10 @@ namespace SrdDatabase.Data.Commands.Sacco.Installments
 
             public Command(
                 int? id,
-                int amount,
-                int loanId,
-                DateTime date,
+                DateTime datePaid,
                 int? receiptNumber,
                 int userId)
-                : base(amount, loanId, date, receiptNumber, userId)
+                : base(datePaid, receiptNumber, userId)
             {
                 Id = id;
             }

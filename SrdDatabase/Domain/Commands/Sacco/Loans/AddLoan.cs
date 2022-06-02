@@ -16,9 +16,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Loans
                 int principal,
                 int memberId,
                 sbyte loanTypeId,
-                DateTime date,
+                DateTime dateDisbursed,
                 sbyte termMonths)
-                : base(principal, memberId, loanTypeId, date, termMonths)
+                : base(principal, memberId, loanTypeId, dateDisbursed, termMonths)
             {
             }
         }
