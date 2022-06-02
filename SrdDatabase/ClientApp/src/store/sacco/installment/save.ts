@@ -73,7 +73,7 @@ const prefillInstallment = (loanId?: number, memberId?: number): AppThunkAction<
     const setInstallmentWithDate = (installment: Installment) => {
         dispatch(setInstallment({
             ...installment,
-            date: new Date(),
+            datePaid: new Date(),
         }))
     };
 
@@ -111,7 +111,7 @@ const saveInstallment = (installment: Installment, history: History): AppThunkAc
 
     const installmentToSend = {
         ...installment,
-        date: formattedDate(installment.date),
+        date: formattedDate(installment.datePaid),
     }
 
     const action = installment.id ? 'edit' : 'add';
@@ -219,7 +219,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 installment: {
                     ...state.installment,
-                    amount: action.value,
+            principal  amount: action.value,
                 },
                 hasBeenChanged: true,
             };
@@ -228,7 +228,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 installment: {
                     ...state.installment,
-                    date: action.value,
+                    datePaid: action.value,
                 },
                 hasBeenChanged: true,
             };

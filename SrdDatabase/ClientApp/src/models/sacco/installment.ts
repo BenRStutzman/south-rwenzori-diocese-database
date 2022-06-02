@@ -6,17 +6,31 @@ export interface Installment {
     loan?: string;
     memberId?: number;
     member?: string;
-    date?: Date;
-    amount?: number;
+    installmentNumber?: number;
+    dateDue?: Date;
+    isPaid?: boolean;
+    datePaid?: Date;
+    daysLate?: number;
     receiptNumber?: number;
+    principal?: number;
+    interest?: number;
+    baseDue?: number;
+    fineDue?: number;
+    totalDue?: number;
 }
 
-export interface InstallmentToSend extends Omit<Installment, "date"> {
-    date?: string;
+export interface FineWindow {
+    startDate: Date;
+    fineDue: number;
+}
+
+export interface InstallmentToSend extends Omit<Installment, "datePaid"> {
+    datePaid?: string;
 }
 
 export interface InstallmentDetails {
     installment: Installment;
+    fineWindows: FineWindow[];
 }
 
 export interface InstallmentParameters extends PagedParameters {

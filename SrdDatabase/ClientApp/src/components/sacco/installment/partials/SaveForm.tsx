@@ -123,7 +123,7 @@ const SaveForm = ({
                     id="amount"
                     className="form-control"
                     type="number"
-                    value={installment.amount?.toString() ?? ""}
+                    value={installment.principal?.toString() ?? ""}
                     onChange={onAmountChange}
                     autoComplete={autoComplete}
                     min={1}
@@ -136,7 +136,7 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={installment.date ? new Date(installment.date).toLocaleDateString('en-ca') : ''}
+                    value={installment.datePaid ? new Date(installment.datePaid).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
                     required
                 />

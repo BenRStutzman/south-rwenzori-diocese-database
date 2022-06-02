@@ -56,6 +56,6 @@ export function feeItems(member: Member): DetailsListItem[] {
 export function loanItems(loanResults: LoanResults, useAmount: boolean = false): DetailsListItem[] {
     return loanResults.loans.map(loan => ({
         id: loan.id,
-        displayText: `${formattedDate(loan.date)}: ${describeLoan(loan, useAmount)}`,
+        displayText: `${formattedDate(loan.dateDisbursed)}: ${describeLoan(loan, useAmount)}`,
     }));
 }

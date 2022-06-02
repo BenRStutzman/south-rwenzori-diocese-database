@@ -67,7 +67,7 @@ const prefillLoan = (memberId?: number): AppThunkAction<Action> => (dispatch) =>
     const setLoanWithDate = (loan: Loan) => {
         dispatch(setLoanAction({
             ...loan,
-            date: new Date(),
+            dateDisbursed: new Date(),
         }))
     };
 
@@ -97,7 +97,7 @@ const saveLoan = (loan: Loan, history: History): AppThunkAction<Action> => (disp
 
     const loanToSend = {
         ...loan,
-        date: formattedDate(loan.date),
+        date: formattedDate(loan.dateDisbursed),
     }
 
     const action = loan.id ? 'edit' : 'add';
@@ -221,7 +221,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 loan: {
                     ...state.loan,
-                    date: action.value,
+                    dateDisbursed: action.value,
                 },
                 hasBeenChanged: true,
             };

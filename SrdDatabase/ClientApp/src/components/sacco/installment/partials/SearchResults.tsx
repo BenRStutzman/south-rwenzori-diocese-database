@@ -94,7 +94,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.installments.map((installment: Installment) =>
                         <tr key={installment.id}>
-                            <td>{formattedDate(installment.date)}</td>
+                            <td>{formattedDate(installment.datePaid)}</td>
                             <td>
                                 <Link to={`/sacco/member/details/${installment.memberId}`}>
                                     {installment.member}
@@ -105,7 +105,7 @@ const SearchResults = ({
                                     {installment.loan}
                                 </Link>
                             </td>
-                            <td className="number-column">{installment.amount?.toLocaleString()}</td>
+                            <td className="number-column">{installment.principal?.toLocaleString()}</td>
                             <td className="number-column">{installment.receiptNumber}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/installment/details/${installment.id}`}>

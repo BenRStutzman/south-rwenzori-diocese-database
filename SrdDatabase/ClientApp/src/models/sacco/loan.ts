@@ -1,4 +1,5 @@
 ﻿import { PagedParameters, PagedResults } from "../shared";
+import { InstallmentResults } from "./installment";
 
 export interface LoanType {
     id?: number;
@@ -11,17 +12,25 @@ export interface Loan {
     member?: string;
     loanTypeId?: number;
     loanType?: string;
-    date?: Date;
+    dateDisbursed?: Date;
+    termMonths?: number; 
     principal?: number;
-    termMonths?: number;
+    interest?: number;
+    baseDue?: number;
+    finesDue?: number;
+    totalDue?: number;
+    amountPaid?: number;
+    percentagePaid?: number;
+    isPaid?: number;
 }
 
-export interface LoanToSend extends Omit<Loan, "date"> {
-    date?: string;
+export interface LoanToSend extends Omit<Loan, "dateDisbursed"> {
+    dateDisbursed?: string;
 }
 
 export interface LoanDetails {
     loan: Loan;
+    installmentResults: InstallmentResults;
 }
 
 export interface LoanParameters extends PagedParameters {

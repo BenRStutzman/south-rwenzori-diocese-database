@@ -147,7 +147,7 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={loan.date ? new Date(loan.date).toLocaleDateString('en-ca') : ''}
+                    value={loan.dateDisbursed ? new Date(loan.dateDisbursed).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
                     required
                 />

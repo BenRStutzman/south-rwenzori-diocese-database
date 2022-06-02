@@ -93,7 +93,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.loans.map((loan: Loan) =>
                         <tr key={loan.id}>
-                            <td>{loan.date ? new Date(loan.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>{loan.dateDisbursed ? new Date(loan.dateDisbursed).toLocaleDateString('en-ca') : ''}</td>
                             <td>
                                 <Link to={`/sacco/member/details/${loan.memberId}`}>{loan.member}</Link>
                             </td>
