@@ -12,7 +12,7 @@ const SET_MEMBER_ID = 'SACCO_LOAN.SET_MEMBER_ID';
 const SET_LOAN_TYPE_ID = 'SACCO_LOAN.SET_LOAN_TYPE_ID';
 const SET_TERM_MONTHS = 'SACCO_LOAN.SET_TERM_MONTHS';
 const SET_PRINCIPAL = 'SACCO_LOAN.SET_PRINCIPAL';
-const SET_DATE = 'SACCO_LOAN.SET_DATE';
+const SET_DATE_DISBURSED = 'SACCO_LOAN.SET_DATE_DISBURSED';
 const SET_IS_SAVING = 'SACCO_LOAN.SET_IS_SAVING';
 const SET_ERRORS = 'SACCO_LOAN.SET_ERRORS';
 
@@ -45,9 +45,9 @@ const setPrincipalAction = (principal: number) => ({
     value: principal,
 });
 
-const setDateAction = (date?: Date) => ({
-    type: SET_DATE,
-    value: date,
+const setDateDisbursedAction = (dateDisbursed?: Date) => ({
+    type: SET_DATE_DISBURSED,
+    value: dateDisbursed,
 });
 
 const setIsSavingAction = (isSaving: boolean) => ({
@@ -97,7 +97,7 @@ const saveLoan = (loan: Loan, history: History): AppThunkAction<Action> => (disp
 
     const loanToSend = {
         ...loan,
-        date: formattedDate(loan.dateDisbursed),
+        dateDisbursed: formattedDate(loan.dateDisbursed),
     }
 
     const action = loan.id ? 'edit' : 'add';
@@ -134,8 +134,8 @@ const setPrincipal = (principal: number): AppThunkAction<Action> => (dispatch) =
     dispatch(setPrincipalAction(principal));
 };
 
-const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDateAction(date));
+const setDateDisbursed = (dateDisbursed?: Date): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDateDisbursedAction (dateDisbursed));
 };
 
 export const actionCreators = {
@@ -146,7 +146,7 @@ export const actionCreators = {
     setLoanTypeId,
     setTermMonths,
     setPrincipal,
-    setDate,
+    setDateDisbursed,
 };
 
 export interface State {
@@ -216,7 +216,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
-        case SET_DATE:
+        case SET_DATE_DISBURSED:
             return {
                 ...state,
                 loan: {

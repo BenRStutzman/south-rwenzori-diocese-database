@@ -37,6 +37,7 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         installment: {},
+        fineWindows: [],
     },
 };
 

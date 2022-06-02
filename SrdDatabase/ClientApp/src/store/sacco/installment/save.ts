@@ -9,10 +9,7 @@ import { loadLoans } from '../shared';
 
 const SET_IS_LOADING = 'SACCO_INSTALLMENT.SET_IS_LOADING';
 const SET_INSTALLMENT = 'SACCO_INSTALLMENT.SET_INSTALLMENT';
-const SET_MEMBER_ID = 'SACCO_INSTALLMENT.SET_MEMBER_ID';
-const SET_LOAN_ID = 'SACCO_INSTALLMENT.SET_LOAN_ID';
-const SET_AMOUNT = 'SACCO_INSTALLMENT.SET_AMOUNT';
-const SET_DATE = 'SACCO_INSTALLMENT.SET_DATE';
+const SET_DATE_PAID = 'SACCO_INSTALLMENT.SET_DATE_PAID';
 const SET_RECEIPT_NUMBER = 'SACCO_INSTALLMENT.SET_RECEIPT_NUMBER';
 const SET_IS_SAVING = 'SACCO_INSTALLMENT.SET_IS_SAVING';
 const SET_ERRORS = 'SACCO_INSTALLMENT.SET_ERRORS';
@@ -26,24 +23,9 @@ const setInstallmentAction = (installment: Installment) => ({
     value: installment,
 });
 
-const setMemberIdAction = (memberId: number) => ({
-    type: SET_MEMBER_ID,
-    value: memberId,
-});
-
-const setLoanIdAction = (loanId?: number) => ({
-    type: SET_LOAN_ID,
-    value: loanId,
-});
-
-const setAmountAction = (amount: number) => ({
-    type: SET_AMOUNT,
-    value: amount,
-});
-
-const setDateAction = (date?: Date) => ({
-    type: SET_DATE,
-    value: date,
+const setDatePaidAction = (datePaid?: Date) => ({
+    type: SET_DATE_PAID,
+    value: datePaid,
 });
 
 const setReceiptNumberAction = (receiptNumber?: number) => ({
@@ -63,38 +45,11 @@ const setErrorsAction = (errors: Errors) => ({
 
 const setInstallment = (installment: Installment): AppThunkAction<Action> => (dispatch) => {
     dispatch(setInstallmentAction(installment));
-    dispatch(loadLoans(installment.memberId));
 };
 
-const prefillInstallment = (loanId?: number, memberId?: number): AppThunkAction<Action> => (dispatch) => {
+const prefillInstallment = () : AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
-    const backupUrl = '/sacco/installment/add';
-
-    const setInstallmentWithDate = (installment: Installment) => {
-        dispatch(setInstallment({
-            ...installment,
-            datePaid: new Date(),
-        }))
-    };
-
-    if (loanId) {
-        get<Loan>(`api/sacco/loan/${loanId}`, backupUrl)
-            .then(loan => {
-                setInstallmentWithDate({
-                    loanId,
-                    memberId: loan.memberId,
-                });
-            });
-    } else if (memberId) {
-        get<Loan>(`api/sacco/member/${memberId}`, backupUrl)
-            .then(() => {
-                setInstallmentWithDate({
-                    memberId,
-                });
-            });
-    } else {
-        setInstallmentWithDate({});
-    }
+    dispatch(setInstallment({ datePaid: new Date() }))
 };
 
 const loadInstallment = (id: number): AppThunkAction<Action> => (dispatch) => {
@@ -111,12 +66,10 @@ const saveInstallment = (installment: Installment, history: History): AppThunkAc
 
     const installmentToSend = {
         ...installment,
-        date: formattedDate(installment.datePaid),
+        datePaid: formattedDate(installment.datePaid),
     }
 
-    const action = installment.id ? 'edit' : 'add';
-
-    post<InstallmentToSend>(`api/sacco/installment/${action}`, installmentToSend)
+    post<InstallmentToSend>(`api/sacco/installment/edit`, installmentToSend)
         .then(response => {
             if (response.ok) {
                 history.push('/sacco/installment');
@@ -132,22 +85,8 @@ const saveInstallment = (installment: Installment, history: History): AppThunkAc
         });
 };
 
-const setMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(loadLoans(memberId));
-    dispatch(setMemberIdAction(memberId));
-    dispatch(setLoanId(undefined));
-};
-
-const setLoanId = (loanId?: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setLoanIdAction(loanId));
-}
-
-const setAmount = (amount: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setAmountAction(amount));
-};
-
-const setDate = (date?: Date): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setDateAction(date));
+const setDatePaid = (datePaid?: Date): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setDatePaidAction(datePaid));
 };
 
 const setReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (dispatch) => {
@@ -158,10 +97,7 @@ export const actionCreators = {
     prefillInstallment,
     loadInstallment,
     saveInstallment,
-    setLoanId,
-    setMemberId,
-    setAmount,
-    setDate,
+    setDatePaid,
     setReceiptNumber,
 };
 
@@ -196,34 +132,7 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 isLoading: false,
                 hasBeenChanged: false,
             };
-        case SET_MEMBER_ID:
-            return {
-                ...state,
-                installment: {
-                    ...state.installment,
-                    memberId: action.value,
-                },
-                hasBeenChanged: true,
-            };
-         case SET_LOAN_ID:
-            return {
-                ...state,
-                installment: {
-                    ...state.installment,
-                    loanId: action.value,
-                },
-                hasBeenChanged: true,
-            };
-        case SET_AMOUNT:
-            return {
-                ...state,
-                installment: {
-                    ...state.installment,
-            principal  amount: action.value,
-                },
-                hasBeenChanged: true,
-            };
-        case SET_DATE:
+        case SET_DATE_PAID:
             return {
                 ...state,
                 installment: {

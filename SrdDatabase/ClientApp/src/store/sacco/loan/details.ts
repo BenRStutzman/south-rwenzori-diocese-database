@@ -2,6 +2,7 @@ import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '../..';
 import { get } from '../../../helpers/apiHelpers';
 import { LoanDetails } from '../../../models/sacco/loan';
+import { pagedResultsDefaults } from '../../../models/shared';
 
 const REQUEST_DETAILS = 'SACCO_LOAN.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'SACCO_LOAN.RECEIVE_DETAILS';
@@ -37,6 +38,7 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         loan: {},
+        installmentResults: { ...pagedResultsDefaults, installments: [] }
     },
 };
 
