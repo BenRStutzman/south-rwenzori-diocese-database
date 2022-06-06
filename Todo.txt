@@ -17,13 +17,16 @@
 	X JS: edit page for installment date
 	X C#: change loan date to date_disbursed
 	X C#: add fine windowsnge sproc back to just windows)
-	- C# and JS Add installment list to member details	
-	- SQL, C# and JS: add search by is paid to loans, installments
+	X C# and JS Add installment list to member details	
+	- JS components: add search by is paid to loans, installments
 
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
 
 - Do a thorough test
+
+- Censuses:
+	- Add cong, parish, arch, and dioc details based on christian counts
 
 To release:
 - Update sacco_installment table

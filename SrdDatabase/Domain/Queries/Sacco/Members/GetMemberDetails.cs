@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries.Sacco.Distributions;
+using SrdDatabase.Data.Queries.Sacco.Installments;
 using SrdDatabase.Data.Queries.Sacco.Loans;
 using SrdDatabase.Data.Queries.Sacco.Transactions;
 using SrdDatabase.Models.Sacco.Members;
@@ -50,16 +51,23 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
                     pageSize: Constants.DetailsPageSize);
                 var loansTask = _mediator.Send(loansQuery, cancellationToken);
 
+                var installmentsQuery = new GetInstallments.Query(
+                    memberId: request.Id,
+                    pageSize: Constants.DetailsPageSize);
+                var installmentsTask = _mediator.Send(installmentsQuery, cancellationToken);
+
                 var member = await memberTask;
                 var transactionResults = await transactionsTask;
                 var distributionAppliedResults = await distributionsAppliedTask;
                 var loanResults = await loansTask;
+                var installmentResults = await installmentsTask;
 
                 return new MemberDetails(
                     member,
                     transactionResults,
                     distributionAppliedResults,
-                    loanResults);
+                    loanResults,
+                    installmentResults);
             }
         }
     }

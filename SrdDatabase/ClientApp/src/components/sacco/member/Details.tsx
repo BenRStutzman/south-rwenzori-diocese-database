@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
-import { distributionAppliedItems, feeItems, loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import { distributionAppliedItems, feeItems, installmentItems, loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import DetailsBox from '../../shared/DetailsBox';
 import { formattedDate, parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
@@ -107,6 +107,15 @@ const Details = ({
                     altPreposition="to"
                     isSacco
                     showAddLink
+                />
+                <DetailsList
+                    itemType="installment"
+                    itemTotal={details.installmentResults.totalResults}
+                    items={installmentItems(details.installmentResults)}
+                    baseItemType="member"
+                    baseItemId={details.member.id}
+                    altPreposition="for"
+                    isSacco
                 />
             </div>
         </>;

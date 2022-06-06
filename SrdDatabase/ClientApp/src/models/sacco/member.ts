@@ -2,6 +2,7 @@
 import { DistributionAppliedResults } from "./distribution";
 import { LoanResults } from "./loan";
 import { TransactionResults } from "./transaction";
+import { InstallmentResults } from "./installment";
 
 export interface Member {
     id?: number;
@@ -24,6 +25,7 @@ export interface MemberDetails {
     transactionResults: TransactionResults;
     distributionAppliedResults: DistributionAppliedResults;
     loanResults: LoanResults;
+    installmentResults: InstallmentResults;
 }   
 
 export interface MemberParameters extends PagedParameters {
