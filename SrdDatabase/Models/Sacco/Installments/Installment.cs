@@ -20,7 +20,7 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public bool IsPaid { get; }
 
-        public DateTime DatePaid { get; }
+        public DateTime? DatePaid { get; }
 
         public int DaysLate { get; }
 
@@ -45,7 +45,7 @@ namespace SrdDatabase.Models.Sacco.Installments
             sbyte installmentNumber,
             DateTime dateDue,
             bool isPaid,
-            DateTime datePaid,
+            DateTime? datePaid,
             int daysLate,
             int? receiptNumber,
             int principal,

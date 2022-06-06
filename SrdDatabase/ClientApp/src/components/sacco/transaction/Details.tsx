@@ -66,10 +66,6 @@ const Details = ({
                     altPreposition="by"
                 />
                 <DetailsBox
-                    itemType="amount"
-                    itemValue={`${details.transaction.amount?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
                     itemType="receiptNumber"
                     itemValue={details.transaction.receiptNumber?.toString() ?? "Not set"}
                 />

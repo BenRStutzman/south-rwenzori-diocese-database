@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SrdDatabase.Data.Queries.Sacco.Members;
 using SrdDatabase.Data.Queries.Sacco.Transactions;
 using SrdDatabase.Data.Queries.Sacco.Distributions;
+using SrdDatabase.Data.Queries.Sacco.Loans;
 
 namespace SrdDatabase.Domain.Queries.Sacco
 {
@@ -34,14 +35,19 @@ namespace SrdDatabase.Domain.Queries.Sacco
                 var distributionsQuery = new GetDistributions.Query(pageSize: Constants.DetailsPageSize);
                 var distributionsTask = _mediator.Send(distributionsQuery, cancellationToken);
 
+                var loansQuery = new GetLoans.Query(pageSize: Constants.DetailsPageSize);
+                var loansTask = _mediator.Send(loansQuery, cancellationToken);
+
                 var memberResults = await membersTask;
                 var transactionResults = await transactionsTask;
                 var distributionResults = await distributionsTask;
+                var loanResults = await loansTask;
 
                 return new SaccoDetails(
                     memberResults,
                     transactionResults,
-                    distributionResults);
+                    distributionResults,
+                    loanResults);
             }
         }
     }

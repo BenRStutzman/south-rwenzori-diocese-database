@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { distributionItems, memberItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import { distributionItems, loanItems, memberItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import { State } from '../../../store';
 import * as Store from '../../../store/sacco/home';
 import DetailsList from '../../shared/DetailsList';
@@ -49,6 +49,13 @@ const Home = ({
                     isSacco
                 />
             </div>
+            <DetailsList
+                itemType="loan"
+                itemTotal={details.loanResults.totalResults}
+                items={loanItems(details.loanResults, true)}
+                isSacco
+                showAddLink
+            />
         </>
 };
 

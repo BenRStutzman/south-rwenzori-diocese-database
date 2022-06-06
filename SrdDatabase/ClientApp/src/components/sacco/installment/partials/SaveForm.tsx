@@ -45,10 +45,9 @@ const SaveForm = ({
                 <input
                     id="datePaid"
                     className="form-control"
-                    type="datePaid"
+                    type="date"
                     value={formattedDate(installment.datePaid)}
                     onChange={onDatePaidChange}
-                    required
                 />
             </div>
             <div className="form-group">
@@ -82,10 +81,7 @@ const SaveForm = ({
     );
 };
 
-const mapStateToProps = (state: State, ownProps: OwnProps) => ({
-    ...state.sacco.installment.save,
-    ...ownProps,
-});
+const mapStateToProps = (state: State) => state.sacco.installment.save;
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(Store.actionCreators, dispatch);
 

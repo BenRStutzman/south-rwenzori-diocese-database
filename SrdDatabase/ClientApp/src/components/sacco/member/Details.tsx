@@ -114,7 +114,7 @@ const Details = ({
                     items={installmentItems(details.installmentResults)}
                     baseItemType="member"
                     baseItemId={details.member.id}
-                    altPreposition="for"
+                    altPreposition="by"
                     isSacco
                 />
             </div>

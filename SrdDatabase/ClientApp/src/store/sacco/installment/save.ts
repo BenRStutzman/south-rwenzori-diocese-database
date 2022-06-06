@@ -64,7 +64,7 @@ const saveInstallment = (installment: Installment, history: History): AppThunkAc
 
     const installmentToSend = {
         ...installment,
-        datePaid: formattedDate(installment.dateDue),
+        datePaid: installment.datePaid ? formattedDate(installment.datePaid) : undefined,
     }
 
     post<InstallmentToSend>(`api/sacco/installment/edit`, installmentToSend)

@@ -32,7 +32,11 @@ namespace SrdDatabase.Domain.Queries.Sacco.Loans
             public async Task<LoanDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var loanTask = _mediator.Send(new GetLoanById.Query(request.Id), cancellationToken);
-                var installmentsTask = _mediator.Send(new GetInstallments.Query(loanId: request.Id), cancellationToken);
+                
+                var installmentsQuery = new GetInstallments.Query(
+                   memberId: request.Id,
+                   pageSize: Constants.DetailsPageSize);
+                var installmentsTask = _mediator.Send(installmentsQuery, cancellationToken);
 
                 var loan = await loanTask;
                 var installmentResults = await installmentsTask;

@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import DetailsBox from '../../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
-import { Spinner } from 'reactstrap';
 import { describeInstallment } from '../../../helpers/sacco/installmentHelper';
 import DetailsList from '../../shared/DetailsList';
 import { fineWindowItems } from '../../../helpers/sacco/detailsHelpers';
@@ -90,19 +89,19 @@ const Details = ({
                     itemValue={`${details.installment.baseDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="lateFine"
+                    itemType={`${details.installment.isPaid ? 'lateFine' : 'fineDueIfPaidToday'}`}
                     itemValue={`${details.installment.fineDue?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="totalDue"
-                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsList
                     itemType="fineWindow"
-                    altTitle="Fine schedule"
+                    altTitle="Fine Schedule"
                     items={fineWindowItems(details.fineWindows)}
                     dontLinkItems
                     dontViewAll
+                />
+                <DetailsBox
+                    itemType={`${details.installment.isPaid ? 'totalPaid' : 'totalDueIfPaidToday'}`}
+                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
                 />
             </div>
         </>;
