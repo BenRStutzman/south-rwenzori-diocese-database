@@ -29,6 +29,7 @@ const SearchBox = ({
     setSearchStartDate,
     setSearchEndDate,
     setSearchReceiptNumber,
+    setSearchIsPaid,
     members,
     loans,
     prefillParameters,
@@ -71,7 +72,11 @@ const SearchBox = ({
 
     const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchReceiptNumber(parseInt(event.target.value));
-    }
+    };
+
+    const onIsPaidChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchIsPaid(event.target.value === 'either' ? undefined : event.target.value === 'paid');
+    };
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -124,6 +129,37 @@ const SearchBox = ({
                     </div>
                 </div>
                 <div className="row">
+                    <div className="col-6">
+                        <div className="form-group">
+                            <input
+                                name="isPaid"
+                                id="paid"
+                                type="radio"
+                                value="paid"
+                                onChange={onIsPaidChange}
+                                checked={parameters.isPaid === true}
+                            />
+                            <label htmlFor="paid">Paid</label>
+                            <input
+                                name="isPaid"
+                                id="unpaid"
+                                type="radio"
+                                value="unpaid"
+                                onChange={onIsPaidChange}
+                                checked={parameters.isPaid === false}
+                            />
+                            <label htmlFor="unpaid">Unpaid</label>
+                            <input
+                                name="isPaid"
+                                id="either"
+                                type="radio"
+                                value="either"
+                                onChange={onIsPaidChange}
+                                checked={parameters.isPaid === undefined}
+                            />
+                            <label htmlFor="either">Either</label>
+                        </div>
+                    </div>
                     <div className="col-6">
                         <div className="form-group">
                             <label htmlFor="receiptNumber">Receipt Number</label>

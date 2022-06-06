@@ -25,6 +25,7 @@ const SearchBox = ({
     setSearchLoanTypeId,
     setSearchStartDate,
     setSearchEndDate,
+    setSearchIsPaid,
     members,
     loanTypes,
     prefillParameters,
@@ -64,6 +65,10 @@ const SearchBox = ({
         setSearchEndDate(convertDateChange(event));
     };
 
+    const onIsPaidChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchIsPaid(event.target.value === 'either' ? undefined : event.target.value === 'paid');
+    };
+
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         searchLoans({ ...parameters, pageNumber: 0 });
@@ -73,7 +78,7 @@ const SearchBox = ({
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="memberId">Member</label>
                             <select
@@ -93,7 +98,7 @@ const SearchBox = ({
                             </select>
                         </div>
                     </div>
-                   <div className="col-6">
+                   <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="loanTypeId">Loan Type</label>
                             <select
@@ -111,6 +116,37 @@ const SearchBox = ({
                                     </option>
                                 )}
                             </select>
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-group">
+                            <input
+                                name="isPaid"
+                                id="paid"
+                                type="radio"
+                                value="paid"
+                                onChange={onIsPaidChange}
+                                checked={parameters.isPaid === true}
+                            />
+                            <label htmlFor="paid">Paid</label>
+                            <input
+                                name="isPaid"
+                                id="unpaid"
+                                type="radio"
+                                value="unpaid"
+                                onChange={onIsPaidChange}
+                                checked={parameters.isPaid === false}
+                            />
+                            <label htmlFor="unpaid">Unpaid</label>
+                            <input
+                                name="isPaid"
+                                id="either"
+                                type="radio"
+                                value="either"
+                                onChange={onIsPaidChange}
+                                checked={parameters.isPaid === undefined}
+                            />
+                            <label htmlFor="either">Either</label>
                         </div>
                     </div>
                 </div>
