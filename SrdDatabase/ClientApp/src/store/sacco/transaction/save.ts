@@ -14,6 +14,7 @@ const SET_IS_CONTRIBUTION = 'SACCO_TRANSACTION.SET_IS_CONTRIBUTION';
 const SET_AMOUNT = 'SACCO_TRANSACTION.SET_AMOUNT';
 const SET_DATE = 'SACCO_TRANSACTION.SET_DATE';
 const SET_RECEIPT_NUMBER = 'SACCO_TRANSACTION.SET_RECEIPT_NUMBER';
+const SET_NOTES = 'SACCO_TRANSACTION.SET_NOTES';
 const SET_IS_SAVING = 'SACCO_TRANSACTION.SET_IS_SAVING';
 const SET_ERRORS = 'SACCO_TRANSACTION.SET_ERRORS';
 
@@ -55,6 +56,11 @@ const setReceiptNumberAction = (receiptNumber?: number) => ({
     type: SET_RECEIPT_NUMBER,
     value: receiptNumber,
 });
+
+const setNotesAction = (notes?: string) => ({
+    type: SET_NOTES,
+    value: notes,
+})
 
 const setIsSavingAction = (isSaving: boolean) => ({
     type: SET_IS_SAVING,
@@ -150,6 +156,10 @@ const setReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (di
     dispatch(setReceiptNumberAction(receiptNumber));
 };
 
+const setNotes = (notes?: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setNotesAction(notes));
+}
+
 export const actionCreators = {
     prefillTransaction,
     loadTransaction,
@@ -160,6 +170,7 @@ export const actionCreators = {
     setAmount,
     setDate,
     setReceiptNumber,
+    setNotes,
 };
 
 export interface State {

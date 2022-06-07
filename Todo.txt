@@ -34,6 +34,7 @@
 	- Add cong, parish, arch, and dioc details based on christian counts
 
 To release:
+- Add notes column (VARCHAR(50), nullable) to sacco_transaction table
 - Update sacco_installment table
 - Update sacco_installment_fine_percentage table
 - Update sacco_loan table

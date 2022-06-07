@@ -10,6 +10,7 @@ export interface Transaction {
     isContribution?: boolean;
     amount?: number;
     receiptNumber?: number;
+    notes?: string;
     createdBy?: string;
     updatedBy?: string;
 }
@@ -29,6 +30,7 @@ export interface TransactionParameters extends PagedParameters {
     receiptNumber?: number;
     isShares?: boolean;
     isContribution?: boolean;
+    notes?: string;
 }
 
 export interface TransactionParametersToSend extends Omit<TransactionParameters, "startDate" | "endDate"> {

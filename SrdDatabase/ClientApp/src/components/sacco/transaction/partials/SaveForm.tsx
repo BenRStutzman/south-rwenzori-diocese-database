@@ -32,6 +32,7 @@ const SaveForm = ({
     setIsContribution,
     setAmount,
     setReceiptNumber,
+    setNotes,
     loadMembers,
     setDate,
     hasBeenChanged,
@@ -69,6 +70,10 @@ const SaveForm = ({
 
     const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
         setReceiptNumber(parseInt(event.target.value));
+    };
+
+    const onNotesChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setNotes(event.target.value);
     }
 
     const onSubmit = (event: React.FormEvent) => {
@@ -169,6 +174,18 @@ const SaveForm = ({
                     onChange={onReceiptNumberChange}
                     autoComplete={autoComplete}
                     min={1}
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="notes">Notes</label>
+                <input
+                    id="notes"
+                    className="form-control"
+                    type="string"
+                    value={transaction.notes ?? ""}
+                    onChange={onNotesChange}
+                    autoComplete={autoComplete}
+                    maxLength={50}
                 />
             </div>
             {

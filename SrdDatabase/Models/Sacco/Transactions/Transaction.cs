@@ -22,6 +22,8 @@ namespace SrdDatabase.Models.Sacco.Transactions
 
         public int? ReceiptNumber { get; }
 
+        public string Notes { get; }
+
         public string CreatedBy { get; }
 
         public string UpdatedBy { get; }
@@ -36,6 +38,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             bool isContribution,
             int amount,
             int? receiptNumber,
+            string notes,
             string createdBy,
             string updatedBy)
         {
@@ -48,6 +51,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             IsContribution = isContribution;
             Amount = amount;
             ReceiptNumber = receiptNumber;
+            Notes = notes;
             CreatedBy = createdBy;
             UpdatedBy = updatedBy;
         }

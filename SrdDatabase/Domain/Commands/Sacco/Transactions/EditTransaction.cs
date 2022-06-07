@@ -23,8 +23,18 @@ namespace SrdDatabase.Domain.Commands.Sacco.Transactions
                 DateTime date,
                 bool isShares,
                 bool isContribution,
-                int? receiptNumber)
-                : base(amount, memberId, date, isShares, isContribution, receiptNumber)
+                int? receiptNumber,
+                string notes
+                )
+                : base(
+                    amount,
+                    memberId,
+                    date,
+                    isShares,
+                    isContribution,
+                    receiptNumber,
+                    notes
+                    )
             {
                 Id = id;
             }
@@ -49,7 +59,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Transactions
                     request.IsShares,
                     request.IsContribution,
                     request.ReceiptNumber,
-                    request.UserId.Value);
+                    request.Notes,
+                    request.UserId.Value
+                    );
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }

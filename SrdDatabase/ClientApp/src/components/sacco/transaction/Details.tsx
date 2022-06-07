@@ -70,6 +70,10 @@ const Details = ({
                     itemValue={details.transaction.receiptNumber?.toString() ?? "Not set"}
                 />
                 <DetailsBox
+                    itemType="notes"
+                    itemValue={details.transaction.notes}
+                />
+                <DetailsBox
                     itemType="createdBy"
                     itemValue={details.transaction.createdBy}
                 />

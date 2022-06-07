@@ -24,6 +24,9 @@ namespace SrdDatabase.Models.Sacco.Transactions
         [Range(1, int.MaxValue)]
         public int? ReceiptNumber { get; }
 
+        [StringLength(50)]
+        public string Notes { get; }
+
         public TransactionFields(
             int amount,
             int memberId,
@@ -31,6 +34,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             bool isShares,
             bool isContribution,
             int? receiptNumber,
+            string notes,
             int? userId = null) : base(userId)
         {
             Amount = amount;
@@ -39,6 +43,7 @@ namespace SrdDatabase.Models.Sacco.Transactions
             IsShares = isShares;
             IsContribution = isContribution;
             ReceiptNumber = receiptNumber;
+            Notes = notes;
         }
     }
 }
