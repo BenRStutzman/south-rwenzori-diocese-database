@@ -1,3 +1,6 @@
+- Remove `srd` prefix from mysql triggers
+- Remove unused tables and sprocs from phpMyAdmin
+
 - Savings:
 	X Change auto_fees_start_date to 2022-01-01
 	X Round everything to nearest hundred shillings
@@ -59,6 +62,7 @@ Less important:
 - Create better error page (add back useExceptionHandler('Error'))
 - Add server-side unique check for dividend date
 - Add requirements for minimum shares (5)
+- Add name of logged-in user
 
 Before leaving:
 Switch payment to SRD credit card (Richard)
