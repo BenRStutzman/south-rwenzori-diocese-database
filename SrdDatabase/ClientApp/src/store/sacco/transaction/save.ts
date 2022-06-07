@@ -156,8 +156,8 @@ const setReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (di
     dispatch(setReceiptNumberAction(receiptNumber));
 };
 
-const setNotes = (notes?: string): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setNotesAction(notes));
+const setNotes = (notes: string): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setNotesAction(notes.length ? notes : undefined));
 }
 
 export const actionCreators = {
@@ -258,6 +258,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 },
                 hasBeenChanged: true,
             };
+        case SET_NOTES:
+            return {
+                ...state,
+                transaction: {
+                    ...state.transaction,
+                    notes: action.value,
+                },
+                hasBeenChanged: true,
+            }
         case SET_IS_SAVING:
             return {
                 ...state,

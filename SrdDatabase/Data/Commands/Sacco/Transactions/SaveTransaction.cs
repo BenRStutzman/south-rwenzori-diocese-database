@@ -25,8 +25,18 @@ namespace SrdDatabase.Data.Commands.Sacco.Transactions
                 bool isContribution,
                 int? receiptNumber,
                 string notes,
-                int userId)
-                : base (amount, memberId, date, isShares, isContribution, receiptNumber, userId)
+                int userId
+                )
+                : base(
+                    amount,
+                    memberId,
+                    date,
+                    isShares,
+                    isContribution,
+                    receiptNumber,
+                    notes,
+                    userId
+                    )
             {
                 Id = id;
             }

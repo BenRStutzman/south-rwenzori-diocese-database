@@ -71,7 +71,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="notes"
-                    itemValue={details.transaction.notes}
+                    itemValue={details.transaction.notes ?? "None"}
                 />
                 <DetailsBox
                     itemType="createdBy"

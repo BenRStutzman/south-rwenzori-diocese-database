@@ -34,28 +34,28 @@ const Home = ({
                     showAddLink
                     isSacco
                 />
-            <DetailsList
-                    itemType="transaction"
-                    itemTotal={details.transactionResults.totalResults}
-                    items={transactionItems(details.transactionResults, true)}
-                    showAddLink
+                <DetailsList
+                        itemType="transaction"
+                        itemTotal={details.transactionResults.totalResults}
+                        items={transactionItems(details.transactionResults, true)}
+                        showAddLink
+                        isSacco
+                    />
+                <DetailsList
+                        itemType="distribution"
+                        itemTotal={details.distributionResults.totalResults}
+                        items={distributionItems(details.distributionResults)}
+                        showAddLink
+                        isSacco
+                    />
+                <DetailsList
+                    itemType="loan"
+                    itemTotal={details.loanResults.totalResults}
+                    items={loanItems(details.loanResults, true)}
                     isSacco
-                />
-            <DetailsList
-                    itemType="distribution"
-                    itemTotal={details.distributionResults.totalResults}
-                    items={distributionItems(details.distributionResults)}
                     showAddLink
-                    isSacco
                 />
             </div>
-            <DetailsList
-                itemType="loan"
-                itemTotal={details.loanResults.totalResults}
-                items={loanItems(details.loanResults, true)}
-                isSacco
-                showAddLink
-            />
         </>
 };
 

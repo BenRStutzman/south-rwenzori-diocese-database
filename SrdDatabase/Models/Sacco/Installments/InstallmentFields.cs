@@ -6,7 +6,6 @@ namespace SrdDatabase.Models.Sacco.Installments
 {
     public class InstallmentFields : FieldsWithUserId
     {
-        [Required]
         public DateTime? DatePaid { get; }
 
         [Range(1, int.MaxValue)]

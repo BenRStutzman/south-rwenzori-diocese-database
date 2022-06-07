@@ -34,7 +34,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Loans
                 var loanTask = _mediator.Send(new GetLoanById.Query(request.Id), cancellationToken);
                 
                 var installmentsQuery = new GetInstallments.Query(
-                   memberId: request.Id,
+                   loanId: request.Id,
                    pageSize: Constants.DetailsPageSize);
                 var installmentsTask = _mediator.Send(installmentsQuery, cancellationToken);
 

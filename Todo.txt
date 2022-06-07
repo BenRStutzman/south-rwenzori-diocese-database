@@ -7,7 +7,9 @@
 		X Update C# distribution model and details page
 	X Split dividends into two parts: dividends (shares) and interest (savings)
 		X Update C# distribution model, frontend for saving, searching
-	- Add notes to transaction
+	X Add notes to transaction
+	X Set description, notes to null when empty
+	X Check that description sends as undefined when not a general event
 
 - Loans:
 	X Change installment interval to 1 month (not 30 days)
@@ -20,10 +22,10 @@
 	X C#: add fine windowsnge sproc back to just windows)
 	X C# and JS Add installment list to member details	
 	X JS components: add search by is paid to loans, installments
-	~ Only fetch detailsPageNumber installments at a time (getLoanDetails query)
-	~ Add loans to home dashboard
-	~ Fix saving datePaid as null (make DatePaid nullable in installment fields)
-		~ Should now show blank on date paid on home installment page
+	X Only fetch detailsPageNumber installments at a time (getLoanDetails query)
+	X Add loans to home dashboard
+	X Fix saving datePaid as null (make DatePaid nullable in installment fields)
+		X Should now show blank on date paid on home installment page
 
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
