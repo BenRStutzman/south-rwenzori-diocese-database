@@ -1,6 +1,3 @@
-- Smart-sort installments in sproc
-- Remove space between ellipsis and and in "and 123 more"
-
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
 
@@ -10,6 +7,8 @@
 	- Add cong, parish, arch, and dioc details based on christian counts
 
 To release:
+	X Remove installment sorting from js, show datePaid on paid installments
+	X Remove space between ellipsis and and in "and 123 more"	
 
 Less important:
 - Nicer receipt printout for transactions
