@@ -6,8 +6,8 @@ export function describeTransaction(transaction: Transaction, useAccountNumber: 
 
     const description = transaction.isShares
         ? (transaction.isContribution
-            ? `Purchase of ${amountString} shares`
-            : `Sale of ${amountString} shares`)
+            ? `Purchase of ${amountString} share${(transaction.amount as number) > 1 ? 's' : ''}`
+            : `Sale of ${amountString} share${(transaction.amount as number) > 1 ? 's' : ''}`)
         : (transaction.isContribution
             ? `Contribution of ${amountString} UGX`
             : `Withdrawal of ${amountString} UGX`)
@@ -17,7 +17,7 @@ export function describeTransaction(transaction: Transaction, useAccountNumber: 
 
 export function describeTransactionAmount(transaction: Transaction) {
     const amount = transaction.isContribution ? transaction.amount : -(transaction.amount as number);
-    return parenthesizeIfNegative(amount, transaction.isShares ? 'Shares' : 'UGX');
+    return parenthesizeIfNegative(amount, transaction.isShares ? `Share${(transaction.amount as number) > 1 ? 's' : ''}` : 'UGX');
 }
 
 export function describeTransactionType(transaction: Transaction) {

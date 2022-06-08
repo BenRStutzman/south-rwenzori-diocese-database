@@ -1,5 +1,6 @@
 - Remove `srd` prefix from mysql triggers
-- Remove unused tables and sprocs from phpMyAdmin
+X Remove s from Shares for 1 share (transactions home, details, etc)
+X Fix date disbursed input for loans
 
 - Savings:
 	X Change auto_fees_start_date to 2022-01-01
