@@ -63,13 +63,13 @@ export function loanItems(loanResults: LoanResults, useAmount: boolean = false):
 
 export function installmentItems(installmentResults: InstallmentResults) {
     return installmentResults.installments.map(installment => ({
-            id: installment.id,
-            displayText: `${formattedDate(installment.isPaid ? installment.datePaid : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
-        }));
+        id: installment.id,
+        displayText: `${formattedDate(installment.isPaid ? installment.datePaid : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
+    }));
 }
 
 export function fineWindowItems(fineWindows: FineWindow[]) {
-    const getEndDate = (index: number) : string => {
+    const getEndDate = (index: number): string => {
         if (index === fineWindows.length - 1) {
             return 'or later';
         } else {
