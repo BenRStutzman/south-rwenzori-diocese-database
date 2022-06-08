@@ -1,35 +1,5 @@
-- Remove `srd` prefix from mysql triggers
-X Remove s from Shares for 1 share (transactions home, details, etc)
-X Fix date disbursed input for loans
-
-- Savings:
-	X Change auto_fees_start_date to 2022-01-01
-	X Round everything to nearest hundred shillings
-	X Show who created, updated transaction
-		X Update C# transaction model and details page
-	X Show applied dividend total on dividend details page
-		X Update C# distribution model and details page
-	X Split dividends into two parts: dividends (shares) and interest (savings)
-		X Update C# distribution model, frontend for saving, searching
-	X Add notes to transaction
-	X Set description, notes to null when empty
-	X Check that description sends as undefined when not a general event
-
-- Loans:
-	X Change installment interval to 1 month (not 30 days)
-	X Adjust fine schedule according to printout
-	X Round everything to nearest 100 shillings
-	X View for installment details
-	X Sproc to set date_paid for an installment
-	X JS: edit page for installment date
-	X C#: change loan date to date_disbursed
-	X C#: add fine windowsnge sproc back to just windows)
-	X C# and JS Add installment list to member details	
-	X JS components: add search by is paid to loans, installments
-	X Only fetch detailsPageNumber installments at a time (getLoanDetails query)
-	X Add loans to home dashboard
-	X Fix saving datePaid as null (make DatePaid nullable in installment fields)
-		X Should now show blank on date paid on home installment page
+- Smart-sort installments in sproc
+- Remove space between ellipsis and and in "and 123 more"
 
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
@@ -40,14 +10,6 @@ X Fix date disbursed input for loans
 	- Add cong, parish, arch, and dioc details based on christian counts
 
 To release:
-- Add notes column (VARCHAR(50), nullable) to sacco_transaction table
-- Update sacco_installment table
-- Update sacco_installment_fine_percentage table
-- Update sacco_loan table
-- Update sacco_distribution table
-- Update sacco_distribution_applied table
-- Update all views
-- Update all sprocs
 
 Less important:
 - Nicer receipt printout for transactions

@@ -62,27 +62,9 @@ export function loanItems(loanResults: LoanResults, useAmount: boolean = false):
 }
 
 export function installmentItems(installmentResults: InstallmentResults) {
-    // Unpaid installments come first, sorted earliest to latest
-    // Paid installments come last, sorted latest to earliest.
-    return installmentResults.installments
-        .sort((a, b) => {
-            if (a.isPaid) {
-                if (b.isPaid) {
-                    return (a.dateDue as Date) > (b.dateDue as Date) ? -1 : 1;
-                } else {
-                    return 1;
-                }
-            } else {
-                if (b.isPaid) {
-                    return -1;
-                } else {
-                    return (a.dateDue as Date) > (b.dateDue as Date) ? 1 : -1;
-                }
-            }
-        })
-        .map(installment => ({
+    return installmentResults.installments.map(installment => ({
             id: installment.id,
-            displayText: `${formattedDate(installment.isPaid ? installment.dateDue : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
+            displayText: `${formattedDate(installment.isPaid ? installment.datePaid : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
         }));
 }
 
