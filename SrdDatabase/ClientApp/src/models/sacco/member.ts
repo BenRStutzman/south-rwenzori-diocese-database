@@ -12,6 +12,7 @@ export interface Member {
     autoFeesStartDate?: Date;
     yearsOfFees?: number;
     shares?: number;
+    sharesValue?: number;
     savings?: number;
     balance?: number;
 }

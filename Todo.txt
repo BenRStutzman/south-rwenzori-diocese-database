@@ -1,13 +1,9 @@
 To do:
 - Savings:
-	- Enable churches as members:
-		- Boolean field
-		- Don't give them dividends or interest
-		- Sort by isChurch
-	- Don't round distributions
-	- Show value of shares on member details page (in parentheses)
-	- Add value of shares to shares column on member home page, and savings
-	- Add commas to total distribution value on home page
+	~ Don't round distributions
+	~ Show value of shares on member details page (in parentheses)
+	~ Add value of shares to shares column on member home page, and savings
+	~ Add commas to total distribution value on home page
 
 - Loans:
 	- Add expiry date (date of last payment)
@@ -23,7 +19,14 @@ To release:
 	X Remove installment sorting from js, show datePaid on paid installments
 	X Remove space between ellipsis and and in "and 123 more"	
 
+To update in SQL:
+	- All sprocs
+
 Less important:
+- Enable churches as members:
+	- Boolean field
+	- Don't give them dividends or interest
+	- Sort by isChurch
 - Nicer small receipt printout (A3) for transactions
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)

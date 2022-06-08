@@ -64,7 +64,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="shares"
-                    itemValue={details.member.shares?.toLocaleString()}
+                    itemValue={`${details.member.shares?.toLocaleString()} (${details.member.sharesValue?.toLocaleString()} UGX)}`}
                 />
                 <DetailsBox
                     itemType="savings"

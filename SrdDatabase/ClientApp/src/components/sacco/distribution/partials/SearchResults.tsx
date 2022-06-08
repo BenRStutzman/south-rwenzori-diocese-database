@@ -97,8 +97,8 @@ const SearchResults = ({
                             <td>{formattedDate(distribution.date)}</td>
                             <td className="number-column">{distribution.dividendPercentage}</td>
                             <td className="number-column">{distribution.interestPercentage}</td>
-                            <td className="number-column">{distribution.totalDividend}</td>
-                            <td className="number-column">{distribution.totalInterest}</td>
+                            <td className="number-column">{distribution.totalDividend?.toLocaleString()}</td>
+                            <td className="number-column">{distribution.totalInterest?.toLocaleString()}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/distribution/details/${distribution.id}`}>
                                     View
