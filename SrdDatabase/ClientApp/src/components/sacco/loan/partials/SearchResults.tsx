@@ -80,7 +80,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Term (months)
+                            Period (months)
                             <SortButton
                                 parameters={parameters}
                                 columnName="termMonths"

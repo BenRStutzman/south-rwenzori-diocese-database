@@ -74,7 +74,7 @@ export function fineWindowItems(fineWindows: FineWindow[]) {
             return 'or later';
         } else {
             var date = new Date(fineWindows[index + 1].startDate);
-            date.setDate(date.getDate() + 1);
+            date.setDate(date.getDate() - 1);
             return `to ${formattedDate(date)}`;
         }
     }

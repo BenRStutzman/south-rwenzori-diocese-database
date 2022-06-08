@@ -16,9 +16,13 @@ namespace SrdDatabase.Models.Sacco.Loans
 
         public DateTime DateDisbursed { get; }
 
+        public DateTime DateOfExpiry { get; }
+
         public sbyte TermMonths { get; }
 
         public int Principal { get; }
+
+        public int InterestPerMonth { get; }
 
         public int Interest { get; }
 
@@ -41,8 +45,10 @@ namespace SrdDatabase.Models.Sacco.Loans
             sbyte loanTypeId,
             string loanType,
             DateTime dateDisbursed,
+            DateTime dateOfExpiry,
             sbyte termMonths,
             int principal,
+            int interestPerMonth,
             int interest,
             int baseDue,
             int finesDue,
@@ -57,8 +63,10 @@ namespace SrdDatabase.Models.Sacco.Loans
             LoanTypeId = loanTypeId;
             LoanType = loanType;
             DateDisbursed = dateDisbursed;
+            DateOfExpiry = dateOfExpiry;
             TermMonths = termMonths;
             Principal = principal;
+            InterestPerMonth = interestPerMonth;
             Interest = interest;
             BaseDue = baseDue;
             FinesDue = finesDue;

@@ -72,12 +72,20 @@ const Details = ({
                     itemValue={formattedDate(details.loan.dateDisbursed)}
                 />
                 <DetailsBox
-                    itemType="term"
+                    itemType="expiryDate"
+                    itemValue={formattedDate(details.loan.dateOfExpiry)}
+                />
+                <DetailsBox
+                    itemType="period"
                     itemValue={describeLoanTerm(details.loan)}
                 />
                 <DetailsBox
                     itemType="principal"
                     itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interestPerMonth"
+                    itemValue={`${details.loan.interestPerMonth?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="interest"

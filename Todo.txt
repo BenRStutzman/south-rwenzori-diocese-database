@@ -6,14 +6,14 @@ To do:
 	~ Add commas to total distribution value on home page
 
 - Loans:
-	- Add expiry date (date of last payment)
+	~ Add expiry date (date of last payment)
 	- Change % paid to % of balance paid
-	- Check fine % schedule - off by 2 days
+	~ Check fine % schedule - off by 2 days
 	- Make payments separate from installments
 		- any amount left unpaid on an installment is considered in arrears - that much is fined
 		- interest for months after fully paid is not charged
 	- Show remaining balance on loan details page, loan home page
-	- Add interest per month to loan details page
+	~ Add interest per month to loan details page
 
 To release:
 	X Remove installment sorting from js, show datePaid on paid installments
@@ -21,6 +21,7 @@ To release:
 
 To update in SQL:
 	- All sprocs
+	- All views
 
 Less important:
 - Enable churches as members:

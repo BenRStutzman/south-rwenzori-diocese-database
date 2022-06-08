@@ -13,8 +13,10 @@ export interface Loan {
     loanTypeId?: number;
     loanType?: string;
     dateDisbursed?: Date;
+    dateOfExpiry?: Date;
     termMonths?: number; 
     principal?: number;
+    interestPerMonth?: number;
     interest?: number;
     baseDue?: number;
     finesDue?: number;
