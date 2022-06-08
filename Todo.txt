@@ -1,23 +1,43 @@
-- Reports:
-	- Member account statement (incl transactions, dividends, fees)
+To do:
+- Savings:
+	- Enable churches as members:
+		- Boolean field
+		- Don't give them dividends or interest
+		- Sort by isChurch
+	- Don't round distributions
+	- Show value of shares on member details page (in parentheses)
+	- Add value of shares to shares column on member home page, and savings
+	- Add commas to total distribution value on home page
 
-- Do a thorough test
-
-- Censuses:
-	- Add cong, parish, arch, and dioc details based on christian counts
+- Loans:
+	- Add expiry date (date of last payment)
+	- Change % paid to % of balance paid
+	- Check fine % schedule - off by 2 days
+	- Make payments separate from installments
+		- any amount left unpaid on an installment is considered in arrears - that much is fined
+		- interest for months after fully paid is not charged
+	- Show remaining balance on loan details page, loan home page
+	- Add interest per month to loan details page
 
 To release:
 	X Remove installment sorting from js, show datePaid on paid installments
 	X Remove space between ellipsis and and in "and 123 more"	
 
 Less important:
-- Nicer receipt printout for transactions
-- Make nav bar shorter for admins
+- Nicer small receipt printout (A3) for transactions
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
 	- Total savings
 	- Total balance
-- Easier member selection
+	- Total outstanding loan balance
+- Easier member selection (by name)
+- Do a thorough test
+- Censuses:
+	- Add cong, parish, arch, and dioc details based on christian counts
+- Reports:
+	- Member account statement (incl transactions, dividends, fees)
+
+Even less important:
 - Speed up report generation
 	- Increase max user connections to 100 (waiting for Yosia)
 - Enable easy backups
@@ -27,7 +47,7 @@ Less important:
 - Add name of logged-in user
 
 Before leaving:
-Switch payment to SRD credit card (Richard)
+- Switch payment to SRD credit card (Richard)
 
 Before November:
-switch instance to t3.nano (after free tier expires, around Nov. 2022)
+- switch instance to t3.nano (after free tier expires, around Nov. 2022)
