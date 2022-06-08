@@ -1,4 +1,3 @@
-- Remove `srd` prefix from mysql triggers
 X Remove s from Shares for 1 share (transactions home, details, etc)
 X Fix date disbursed input for loans
 
