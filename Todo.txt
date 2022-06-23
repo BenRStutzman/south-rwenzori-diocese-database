@@ -1,4 +1,8 @@
 To do:
+- Less spacing in results pages
+- Smaller font in details pages
+- Add new role: Advanced Viewer - can also view quotas, payments, balances, but not edit anything.
+
 - Savings:
 	~ Don't round distributions
 	~ Show value of shares on member details page (in parentheses)
@@ -6,14 +10,34 @@ To do:
 	~ Add commas to total distribution value on home page
 
 - Loans:
+	~ For a payment, determine how much was principal and how much interest.
 	~ Add expiry date (date of last payment)
-	- Change % paid to % of balance paid
+	~ Change % paid to % of balance paid
 	~ Check fine % schedule - off by 2 days
-	- Make payments separate from installments
-		- any amount left unpaid on an installment is considered in arrears - that much is fined
-		- interest for months after fully paid is not charged
-	- Show remaining balance on loan details page, loan home page
 	~ Add interest per month to loan details page
+	~ Make payments separate from installments
+		We want to see:
+		- Balance left for a loan (calculate_sacco_loan_balance(loanId, date))
+			To get that, we must know:
+				- Total due: calculate_sacco_loan_total_due(loanId, date): sum of:
+					- Principal
+					- Interest
+						- Declare months_of_interest
+						- First get Principal paid (calculate_sacco_loan_principal_paid(loanId, date)) - sum of principal payments up to that date
+						- If principal paid < loan principal, months_of_interest = term_months
+						- Else, calculate final payment date (sproc)
+							- If final payment date > expiry date, then months_of_interest = term_months
+							- Else, months_of_interest = installment_number of first installment with a due date on or after final payment date
+						- Interest = monthly_interest * months_of_interest
+					- Fines (sum of fines from payment_details view)
+				- Total paid (calculate_sacco_loan_total_paid(loanId, date)) - sum of payments up to that date
+				- Balance = Total due - total paid
+					
+	~ any amount left unpaid on an installment is considered in arrears - that much is fined
+	~ interest for months after fully paid is not charged
+	- Show remaining balance on loan details page, loan home page
+	- Add payments to C#, remove installment editing
+	- Show installment schedule on loan details page
 
 To release:
 	X Remove installment sorting from js, show datePaid on paid installments
@@ -22,13 +46,18 @@ To release:
 To update in SQL:
 	- All sprocs
 	- All views
+	- Remove unmatching sprocs
+	- Replace sacco_installment table and triggers
+	- Add sacco_payment_applied table and triggers
+	- Update sacco_loan triggers
+	- Add Basic user role to user table
 
 Less important:
 - Enable churches as members:
 	- Boolean field
 	- Don't give them dividends or interest
 	- Sort by isChurch
-- Nicer small receipt printout (A3) for transactions
+- Nicer small receipt printout (A3) - half of A4 for transactions
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
 	- Total savings
