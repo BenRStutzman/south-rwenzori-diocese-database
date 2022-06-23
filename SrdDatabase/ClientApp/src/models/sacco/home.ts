@@ -1,4 +1,4 @@
-﻿import { PaymentResults } from "../payment";
+﻿import { PaymentResults } from "./payment";
 import { DistributionResults } from "./distribution";
 import { LoanResults } from "./loan";
 import { MemberResults } from "./member";

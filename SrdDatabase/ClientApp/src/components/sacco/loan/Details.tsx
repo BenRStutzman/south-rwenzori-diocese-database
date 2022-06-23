@@ -12,7 +12,7 @@ import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { describeLoan, describeLoanTerm } from '../../../helpers/sacco/loanHelper';
 import DetailsList from '../../shared/DetailsList';
-import { installmentItems } from '../../../helpers/sacco/detailsHelpers';
+import { installmentItems, paymentItems } from '../../../helpers/sacco/detailsHelpers';
 
 type Props =
     Store.State &
@@ -84,8 +84,20 @@ const Details = ({
                     itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
+                    itemType="principalPerInstallment"
+                    itemValue={`${details.loan.principalPerInstallment?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="principalDue"
+                    itemValue={`${details.loan.principalDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
                     itemType="interestPerMonth"
                     itemValue={`${details.loan.interestPerInstallment?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="monthsOfInterest"
+                    itemValue={details.loan.monthsOfInterest?.toString()}
                 />
                 <DetailsBox
                     itemType="interest"
@@ -100,8 +112,16 @@ const Details = ({
                     itemValue={`${details.loan.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="amountPaid"
-                    itemValue={`${details.loan.amototalDueoLocaleString()} UGX (${details.loan.percentagePaid}%)`}
+                    itemType="totalPaid"
+                    itemValue={`${details.loan.totalPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="balance"
+                    itemValue={`${details.loan.balance?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="paymentProgress"
+                    itemValue={`${details.loan.percentagePaid}%`}
                 />
                 <DetailsList
                     itemType="installment"
@@ -110,6 +130,13 @@ const Details = ({
                     baseItemType="loan"
                     baseItemId={details.loan.id}
                     altPreposition="for"
+                    isSacco
+                />
+                <DetailsList
+                    itemType="payment"
+                    itemTotal={details.paymentResults.totalResults}
+                    items={paymentItems(details.paymentResults, false)}
+                    dontViewAll
                     isSacco
                 />
             </div>

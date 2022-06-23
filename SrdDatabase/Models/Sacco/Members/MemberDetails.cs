@@ -1,5 +1,4 @@
 ﻿using SrdDatabase.Models.Sacco.Distributions;
-using SrdDatabase.Models.Sacco.Installments;
 using SrdDatabase.Models.Sacco.Loans;
 using SrdDatabase.Models.Sacco.Payments;
 using SrdDatabase.Models.Sacco.Transactions;
@@ -16,8 +15,6 @@ namespace SrdDatabase.Models.Sacco.Members
 
         public LoanResults LoanResults { get; }
 
-        public InstallmentResults InstallmentResults { get; }
-
         public PaymentResults PaymentResults { get; }
 
         public MemberDetails(
@@ -25,14 +22,12 @@ namespace SrdDatabase.Models.Sacco.Members
             TransactionResults transactionResults,
             DistributionAppliedResults distributionAppliedResults,
             LoanResults loanResults,
-            InstallmentResults installmentResults,
             PaymentResults paymentResults)
         {
             Member = member;
             TransactionResults = transactionResults;
             DistributionAppliedResults = distributionAppliedResults;
             LoanResults = loanResults;
-            InstallmentResults = installmentResults;
             PaymentResults = paymentResults;
         }
     }

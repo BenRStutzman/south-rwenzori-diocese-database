@@ -5,7 +5,6 @@ import * as SharedStore from '../../../store/sacco/shared';
 import { State } from '../../../store';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
 import DetailsBox from '../../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
@@ -37,11 +36,6 @@ const Details = ({
         <>
             <div className="page-heading">
                 <h1>{describeInstallment(details.installment)}</h1>
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/sacco/installment/edit/${details.installment.id}`}>
-                        Edit installment
-                    </Link>
-                </div>
             </div>
             <div className="details-boxes">
                 <DetailsBox
@@ -65,18 +59,6 @@ const Details = ({
                     itemValue={formattedDate(details.installment.dateDue)}
                 />
                 <DetailsBox
-                    itemType={details.installment.isPaid ? "datePaid" : "paid"}
-                    itemValue={details.installment.isPaid ? formattedDate(details.installment.datePaid) : 'No'}
-                />
-                <DetailsBox
-                    itemType="daysLate"
-                    itemValue={details.installment.daysLate?.toString()}
-                />
-                <DetailsBox
-                    itemType="receiptNumber"
-                    itemValue={details.installment.receiptNumber?.toString() ?? "Not set"}
-                />
-                <DetailsBox
                     itemType="principal"
                     itemValue={`${details.installment.principal?.toLocaleString()} UGX`}
                 />
@@ -85,12 +67,28 @@ const Details = ({
                     itemValue={`${details.installment.interest?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="baseDue"
-                    itemValue={`${details.installment.baseDue?.toLocaleString()} UGX`}
+                    itemType="totalDue"
+                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType={`${details.installment.isPaid ? 'lateFine' : 'fineDueIfPaidToday'}`}
-                    itemValue={`${details.installment.fineDue?.toLocaleString()} UGX`}
+                    itemType="principalPaid"
+                    itemValue={`${details.installment.principalPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interestPaid"
+                    itemValue={`${details.installment.interestPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="totalPaid"
+                    itemValue={`${details.installment.totalPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="balance"
+                    itemValue={`${details.installment.balance?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="paymentProgress"
+                    itemValue={`${details.installment.percentagePaid}%`}
                 />
                 <DetailsList
                     itemType="fineWindow"
@@ -98,10 +96,6 @@ const Details = ({
                     items={fineWindowItems(details.fineWindows)}
                     dontLinkItems
                     dontViewAll
-                />
-                <DetailsBox
-                    itemType={`${details.installment.isPaid ? 'totalPaid' : 'totalDueIfPaidToday'}`}
-                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
                 />
             </div>
         </>;

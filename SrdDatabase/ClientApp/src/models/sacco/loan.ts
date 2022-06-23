@@ -1,4 +1,4 @@
-﻿import { PaymentResults } from "../payment";
+﻿import { PaymentResults } from "./payment";
 import { PagedParameters, PagedResults } from "../shared";
 import { InstallmentResults } from "./installment";
 
