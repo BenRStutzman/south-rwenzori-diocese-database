@@ -78,7 +78,7 @@ namespace SrdDatabase.Models.Sacco.Loans
             PrincipalPerInstallment = principalPerInstallment;
             PrincipalDue = principalDue;
             InterestPerInstallment = interestPerInstallment;
-            MonthsOfInterest = monthsOfInterest,
+            MonthsOfInterest = monthsOfInterest;
             Interest = interest;
             Fines = fines;
             TotalDue = totalDue;

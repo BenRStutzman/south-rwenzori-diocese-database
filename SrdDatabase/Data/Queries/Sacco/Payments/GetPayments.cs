@@ -4,24 +4,32 @@ using System.Threading.Tasks;
 using Dapper;
 using System.Data;
 using SrdDatabase.Services;
-using SrdDatabase.Models.Sacco.Installments;
+using SrdDatabase.Models.Sacco.Payments;
+using System;
 
-namespace SrdDatabase.Data.Queries.Sacco.Installments
+namespace SrdDatabase.Data.Queries.Sacco.Payments
 {
-    public class GetInstallments
+    public class GetPayments
     {
-        public class Query : InstallmentParameters, IRequest<InstallmentResults>
+        public class Query : PaymentParameters, IRequest<PaymentResults>
         {
             public Query(
                 int? id = null,
                 int? loanId = null,
                 int? memberId = null,
+                DateTime? startDate = null,
+                DateTime? endDate = null,
+                int? receiptNumber = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false,
                 int? pageSize = null) :
-                base (loanId,
+                base(
+                    loanId,
                     memberId,
+                    startDate,
+                    endDate,
+                    receiptNumber,
                     pageNumber,
                     sortColumn,
                     sortDescending,
@@ -31,17 +39,17 @@ namespace SrdDatabase.Data.Queries.Sacco.Installments
             }
         }
 
-        public class Handler : IRequestHandler<Query, InstallmentResults>
+        public class Handler : IRequestHandler<Query, PaymentResults>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_sacco_installments";
+            private readonly string _storedProcedure = "sto_get_sacco_payments";
 
             public Handler(IDbService dbService)
             {
                 _dbService = dbService;
             }
 
-            public async Task<InstallmentResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PaymentResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 using var connection = _dbService.GetConnection();
 
@@ -51,13 +59,13 @@ namespace SrdDatabase.Data.Queries.Sacco.Installments
                     commandType: CommandType.StoredProcedure);
 
                 var totalResults = results.ReadSingle<int>();
-                var installments = results.Read<Installment>();
+                var payments = results.Read<Payment>();
 
-                return new InstallmentResults(
+                return new PaymentResults(
                     request.PageNumber,
                     request.PageSize,
                     totalResults,
-                    installments);
+                    payments);
             }
         }
     }

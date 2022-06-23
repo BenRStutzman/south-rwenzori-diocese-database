@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using SrdDatabase.Models.Sacco.Installments;
 using SrdDatabase.Models.Shared;
 using SrdDatabase.Domain.Queries.Sacco.Installments;
-using SrdDatabase.Domain.Commands.Sacco.Installments;
 using SrdDatabase.Models.Users;
 
 namespace SrdDatabase.Controllers.Sacco
@@ -39,19 +38,6 @@ namespace SrdDatabase.Controllers.Sacco
         public async Task<IEnumerable<Installment>> GetAll()
         {
             return await _mediator.Send(new GetAllInstallments.Query());
-        }
-
-        [HttpPost("search")]
-        public async Task<InstallmentResults> Search(SearchInstallments.Query query)
-        {
-            return await _mediator.Send(query);
-        }
-
-        [HttpPost("edit")]
-        public async Task<SaveResponse> Edit(EditInstallment.Command command)
-        {
-            command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
         }
     }
 }

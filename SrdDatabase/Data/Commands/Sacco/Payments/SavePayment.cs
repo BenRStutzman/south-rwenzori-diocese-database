@@ -4,24 +4,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
-using SrdDatabase.Models.Sacco.Installments;
+using SrdDatabase.Models.Sacco.Payments;
 using SrdDatabase.Models.Shared;
 using System;
 
-namespace SrdDatabase.Data.Commands.Sacco.Installments
+namespace SrdDatabase.Data.Commands.Sacco.Payments
 {
-    public class SaveInstallment
+    public class SavePayment
     {
-        public class Command : InstallmentFields, IRequest<SaveResponse>
+        public class Command : PaymentFields, IRequest<SaveResponse>
         {
             public int? Id { get; set; }
 
             public Command(
                 int? id,
-                DateTime? datePaid,
+                int amount,
+                int loanId,
+                DateTime date,
                 int? receiptNumber,
-                int userId)
-                : base(datePaid, receiptNumber, userId)
+                int userId
+                )
+                : base(
+                    amount,
+                    loanId,
+                    date,
+                    receiptNumber,
+                    userId
+                    )
             {
                 Id = id;
             }
@@ -31,7 +40,7 @@ namespace SrdDatabase.Data.Commands.Sacco.Installments
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_save_sacco_installment";
+            private readonly string _storedProcedure = "sto_save_sacco_payment";
 
             public Handler(IDbService dbService)
             {

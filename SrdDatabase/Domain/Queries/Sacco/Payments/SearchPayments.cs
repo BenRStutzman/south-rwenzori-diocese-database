@@ -1,15 +1,15 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries.Sacco.Installments;
-using SrdDatabase.Models.Sacco.Installments;
+using SrdDatabase.Data.Queries.Sacco.Payments;
+using SrdDatabase.Models.Sacco.Payments;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SrdDatabase.Domain.Queries.Sacco.Installments
+namespace SrdDatabase.Domain.Queries.Sacco.Payments
 {
-    public class SearchInstallments
+    public class SearchPayments
     {
-        public class Query : InstallmentParameters, IRequest<InstallmentResults>
+        public class Query : PaymentParameters, IRequest<PaymentResults>
         {
             public Query(
                 int? loanId = null,
@@ -17,16 +17,15 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                 DateTime? startDate = null,
                 DateTime? endDate = null,
                 int? receiptNumber = null,
-                bool? isPaid = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false) : base
-                    (loanId,
+                    (
+                    loanId,
                     memberId,
                     startDate,
                     endDate,
                     receiptNumber,
-                    isPaid,
                     pageNumber,
                     sortColumn,
                     sortDescending)
@@ -34,7 +33,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
             }
         }
 
-        public class Handler : IRequestHandler<Query, InstallmentResults>
+        public class Handler : IRequestHandler<Query, PaymentResults>
         {
             private readonly IMediator _mediator;
 
@@ -43,17 +42,16 @@ namespace SrdDatabase.Domain.Queries.Sacco.Installments
                 _mediator = mediator;
             }
 
-            public async Task<InstallmentResults> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PaymentResults> Handle(Query request, CancellationToken cancellationToken)
             {
                 return await _mediator.Send(
-                    new GetInstallments.Query(
+                    new GetPayments.Query(
                         null,
                         request.LoanId,
                         request.MemberId,
                         request.StartDate,
                         request.EndDate,
                         request.ReceiptNumber,
-                        request.IsPaid,
                         request.PageNumber,
                         request.SortColumn,
                         request.SortDescending,
