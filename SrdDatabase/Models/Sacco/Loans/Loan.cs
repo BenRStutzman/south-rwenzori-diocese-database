@@ -22,17 +22,23 @@ namespace SrdDatabase.Models.Sacco.Loans
 
         public int Principal { get; }
 
-        public int InterestPerMonth { get; }
+        public int PrincipalPerInstallment { get; }
+
+        public int PrincipalDue { get; }
+
+        public int InterestPerInstallment { get; }
+
+        public sbyte MonthsOfInterest { get; }
 
         public int Interest { get; }
 
-        public int BaseDue { get; }
-
-        public int FinesDue { get; }
+        public int Fines { get; }
 
         public int TotalDue { get; }
 
-        public int AmountPaid { get; }
+        public int TotalPaid { get; }
+
+        public int Balance { get; }
 
         public sbyte PercentagePaid { get; }
 
@@ -48,12 +54,15 @@ namespace SrdDatabase.Models.Sacco.Loans
             DateTime dateOfExpiry,
             sbyte termMonths,
             int principal,
-            int interestPerMonth,
+            int principalPerInstallment,
+            int principalDue,
+            int interestPerInstallment,
+            sbyte monthsOfInterest,
             int interest,
-            int baseDue,
-            int finesDue,
+            int fines,
             int totalDue,
-            int amountPaid,
+            int totalPaid,
+            int balance,
             sbyte percentagePaid,
             bool isPaid)
         {
@@ -66,12 +75,15 @@ namespace SrdDatabase.Models.Sacco.Loans
             DateOfExpiry = dateOfExpiry;
             TermMonths = termMonths;
             Principal = principal;
-            InterestPerMonth = interestPerMonth;
+            PrincipalPerInstallment = principalPerInstallment;
+            PrincipalDue = principalDue;
+            InterestPerInstallment = interestPerInstallment;
+            MonthsOfInterest = monthsOfInterest,
             Interest = interest;
-            BaseDue = baseDue;
-            FinesDue = finesDue;
+            Fines = fines;
             TotalDue = totalDue;
-            AmountPaid = amountPaid;
+            TotalPaid = totalPaid;
+            Balance = balance;
             PercentagePaid = percentagePaid;
             IsPaid = isPaid;
         }

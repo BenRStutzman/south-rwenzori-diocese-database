@@ -30,6 +30,8 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public int TotalPaid { get; }
 
+        public int Balance { get; }
+
         public sbyte PercentagePaid { get; }
 
         public bool IsPaid { get; }
@@ -48,6 +50,7 @@ namespace SrdDatabase.Models.Sacco.Installments
             int principalPaid,
             int interestPaid,
             int totalPaid,
+            int balance,
             sbyte percentagePaid,
             bool isPaid
             )
@@ -65,6 +68,7 @@ namespace SrdDatabase.Models.Sacco.Installments
             PrincipalPaid = principalPaid;
             InterestPaid = interestPaid;
             TotalPaid = totalPaid;
+            Balance = balance;
             PercentagePaid = percentagePaid;
             IsPaid = isPaid;
         }
