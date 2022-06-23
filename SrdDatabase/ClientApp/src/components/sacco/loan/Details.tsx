@@ -85,7 +85,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="interestPerMonth"
-                    itemValue={`${details.loan.interestPerMonth?.toLocaleString()} UGX`}
+                    itemValue={`${details.loan.interestPerInstallment?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="interest"
@@ -93,7 +93,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="lateFines"
-                    itemValue={`${details.loan.finesDue?.toLocaleString()} UGX`}
+                    itemValue={`${details.loan.fines?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="totalDue"
@@ -101,7 +101,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="amountPaid"
-                    itemValue={`${details.loan.amountPaid?.toLocaleString()} UGX (${details.loan.percentagePaid}%)`}
+                    itemValue={`${details.loan.amototalDueoLocaleString()} UGX (${details.loan.percentagePaid}%)`}
                 />
                 <DetailsList
                     itemType="installment"
