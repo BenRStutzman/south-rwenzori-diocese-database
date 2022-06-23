@@ -3,6 +3,7 @@ import { AppThunkAction, Action } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { formattedDateAllowUndefined } from '../../../helpers/miscellaneous';
 import { Congregation } from '../../../models/congregation';
+import { Member } from '../../../models/sacco/member';
 import { TransactionParameters, TransactionParametersToSend, TransactionResults } from '../../../models/sacco/transaction';
 import { pagedResultsDefaults } from '../../../models/shared';
 
@@ -72,7 +73,7 @@ const prefillParameters = (memberId?: number, search: boolean = false): AppThunk
     };
 
     if (memberId) {
-        get<Congregation>(`api/sacco/member/${memberId}`, backupUrl)
+        get<Member>(`api/sacco/member/${memberId}`, backupUrl)
             .then(() => {
                 setParametersAndSearch({
                     memberId,

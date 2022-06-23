@@ -18,7 +18,7 @@ export interface Loan {
     termMonths?: number; 
     principal?: number;
     principalPerInstallment?: number;
-    principalDue: number;
+    principalDue?: number;
     interestPerInstallment?: number;
     monthsOfInterest?: number;
     interest?: number;

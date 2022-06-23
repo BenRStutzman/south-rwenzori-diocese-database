@@ -42,6 +42,7 @@ const initialState: State = {
         distributionAppliedResults: { ...pagedResultsDefaults, distributionsApplied: [] },
         loanResults: { ...pagedResultsDefaults, loans: [] },
         installmentResults: { ...pagedResultsDefaults, installments: [] },
+        paymentResults: { ...pagedResultsDefaults, payments: [] },
     },
 };
 
