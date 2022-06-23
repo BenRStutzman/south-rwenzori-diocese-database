@@ -18,23 +18,21 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public DateTime DateDue { get; }
 
-        public bool IsPaid { get; }
-
-        public DateTime? DatePaid { get; }
-
-        public int DaysLate { get; }
-
-        public int? ReceiptNumber { get; }
-
         public int Principal { get; }
 
         public int Interest { get; }
 
-        public int BaseDue { get; }
-
-        public int FineDue { get; }
-
         public int TotalDue { get; }
+
+        public int PrincipalPaid { get; }
+
+        public int InterestPaid { get; }
+
+        public int TotalPaid { get; }
+
+        public sbyte PercentagePaid { get; }
+
+        public bool IsPaid { get; }
 
         public Installment(
             int id,
@@ -44,15 +42,15 @@ namespace SrdDatabase.Models.Sacco.Installments
             string member,
             sbyte installmentNumber,
             DateTime dateDue,
-            bool isPaid,
-            DateTime? datePaid,
-            int daysLate,
-            int? receiptNumber,
             int principal,
             int interest,
-            int baseDue,
-            int fineDue,
-            int totalDue)
+            int totalDue,
+            int principalPaid,
+            int interestPaid,
+            int totalPaid,
+            sbyte percentagePaid,
+            bool isPaid
+            )
         {
             Id = id;
             LoanId = loanId;
@@ -61,15 +59,14 @@ namespace SrdDatabase.Models.Sacco.Installments
             Member = member;
             InstallmentNumber = installmentNumber;
             DateDue = dateDue;
-            IsPaid = isPaid;
-            DatePaid = datePaid;
-            DaysLate = daysLate;
-            ReceiptNumber = receiptNumber;
             Principal = principal;
             Interest = interest;
-            BaseDue = baseDue;
-            FineDue = fineDue;
             TotalDue = totalDue;
+            PrincipalPaid = principalPaid;
+            InterestPaid = interestPaid;
+            TotalPaid = totalPaid;
+            PercentagePaid = percentagePaid;
+            IsPaid = isPaid;
         }
 
         // for Dapper

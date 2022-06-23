@@ -7,16 +7,13 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public sbyte FinePercentage { get; }
         
-        public int FineDue { get; }
+        public int Fine { get; }
 
-        public int TotalDue { get; }
-
-        public FineWindow(DateTime startDate, sbyte finePercentage, int fineDue, int totalDue)
+        public FineWindow(DateTime startDate, sbyte finePercentage, int fine)
         {
             StartDate = startDate;
             FinePercentage = finePercentage;
-            FineDue = fineDue;
-            TotalDue = totalDue;
+            Fine = fine;
         }
 
         // For Dapper
