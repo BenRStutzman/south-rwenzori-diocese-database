@@ -65,7 +65,7 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Shares / Value (UGX)
+                            Shares (#/UGX)
                             <SortButton
                                 parameters={parameters}
                                 columnName="shares"
@@ -98,9 +98,9 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>
-                            <td>{`${member.shares?.toLocaleString()} / ${member.sharesValue?.toLocaleString()}`}</td>
-                            <td>{member.savings?.toLocaleString()}</td>
-                            <td>{parenthesizeIfNegative(member.balance)}</td>
+                            <td className="number-column">{`${member.shares?.toLocaleString()} / ${member.sharesValue?.toLocaleString()}`}</td>
+                            <td className="number-column">{member.savings?.toLocaleString()}</td>
+                            <td className="number-column">{parenthesizeIfNegative(member.balance)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
                                     View

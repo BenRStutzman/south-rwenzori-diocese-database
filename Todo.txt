@@ -1,15 +1,17 @@
-Next up: Add payment components
+- Add principal_paid, interest_paid, fines_paid to loan details (SQL, C#, JS)
+- improve calculate_sacco_loan_amount_paid
 
 To do:
+X Fix loan not loading on payment edit
 X Remove bracket from shares value on member details
 X Add comma to loan amount in describeLoan
 X Add add payment option on member details page
 X Remove view all installments from loan details
-~ Savings:
-	~ Don't round distributions
-	~ Show value of shares on member details page (in parentheses)
-	~ Add value of shares to shares column on member home page, and savings
-	~ Add commas to total distribution value on home page
+X Savings:
+	X Don't round distributions
+	X Show value of shares on member details page (in parentheses)
+	X Add value of shares to shares column on member home page, and savings
+	X Add commas to total distribution value on home page
 
 ~ Loans:
 	~ For a payment, determine how much was principal and how much interest.

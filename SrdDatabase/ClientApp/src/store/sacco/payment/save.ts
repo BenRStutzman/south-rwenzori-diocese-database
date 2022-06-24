@@ -62,9 +62,9 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const setPayment = (congregation: Payment): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setPaymentAction(congregation));
-    dispatch(loadLoans(congregation.memberId));
+const setPayment = (payment: Payment): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setPaymentAction(payment));
+    dispatch(loadLoans(payment.memberId));
 };
 
 const prefillPayment = (loanId?: number, memberId?: number): AppThunkAction<Action> => (dispatch) => {
@@ -103,7 +103,7 @@ const loadPayment = (id: number): AppThunkAction<Action> => (dispatch) => {
 
     get<Payment>(`api/sacco/payment/${id}`, '/sacco/payment')
         .then(payment => {
-            dispatch(setPaymentAction(payment));
+            dispatch(setPayment(payment));
         });
 };
 
@@ -198,6 +198,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 hasBeenChanged: false,
             };
         case SET_LOAN_ID:
+            return {
+                ...state,
+                payment: {
+                    ...state.payment,
+                    loanId: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_MEMBER_ID:
             return {
                 ...state,
                 payment: {
