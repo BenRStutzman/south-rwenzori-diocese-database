@@ -87,7 +87,7 @@ const Navigation = ({
                                             <NavLink tag={Link} className='text-dark' to='/sacco/loan'>Loans</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} className='text-dark' to='/sacco/installment'>Installments</NavLink>
+                                            <NavLink tag={Link} className='text-dark' to='/sacco/payment'>Payments</NavLink>
                                         </NavItem>
                                     </>
                                 }

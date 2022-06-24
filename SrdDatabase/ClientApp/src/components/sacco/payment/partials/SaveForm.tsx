@@ -54,7 +54,7 @@ const SaveForm = ({
     };
 
     const onLoanIdChange = (event: ChangeEvent<HTMLSelectElement>) => {
-        setLoanid(parseInt(event.target.value));
+        setLoanId(parseInt(event.target.value));
     };
 
     const onAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +125,19 @@ const SaveForm = ({
                     type="date"
                     value={payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}
                     onChange={onDateChange}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="amount">Amount (UGX)</label>
+                <input
+                    id="amount"
+                    className="form-control"
+                    type="number"
+                    value={payment.amount?.toString() ?? ""}
+                    onChange={onAmountChange}
+                    autoComplete={autoComplete}
+                    min={1}
                     required
                 />
             </div>

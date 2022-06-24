@@ -32,7 +32,7 @@ const setMemberIdAction = (memberId: number) => ({
     value: memberId,
 });
 
-const setLoanIdAction = (loanId: number) => ({
+const setLoanIdAction = (loanId?: number) => ({
     type: SET_LOAN_ID,
     value: loanId,
 });
@@ -139,7 +139,7 @@ const setMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => 
     dispatch(setLoanId(undefined));
 };
 
-const setLoanId = (loanId: number): AppThunkAction<Action> => (dispatch) => {
+const setLoanId = (loanId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setLoanIdAction(loanId));
 };
 

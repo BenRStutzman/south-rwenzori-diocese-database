@@ -83,7 +83,7 @@ export function fineWindowItems(fineWindows: FineWindow[]) {
 
     return fineWindows.map((fineWindow, index) => ({
         id: index,
-        displayText: `${formattedDate(fineWindow.startDate)} ${getEndDate(index)}: ${fineWindow.finePercentage}% fine (${fineWindow.fine.toLocaleString()} UGX) = ${fineWindow.totalDue.toLocaleString()} UGX total due`,
+        displayText: `${formattedDate(fineWindow.startDate)} ${getEndDate(index)}: ${fineWindow.finePercentage}% fine (${fineWindow.fine.toLocaleString()} UGX)`,
     }));
 }
 

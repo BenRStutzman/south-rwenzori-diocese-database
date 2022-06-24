@@ -55,8 +55,10 @@ import SaccoLoanHome from './components/sacco/loan/Home';
 import SaccoLoanAdd from './components/sacco/loan/Add';
 import SaccoLoanEdit from './components/sacco/loan/Edit';
 import SaccoLoanDetails from './components/sacco/loan/Details';
-import SaccoInstallmentHome from './components/sacco/installment/Home';
-import SaccoInstallmentEdit from './components/sacco/installment/Edit';
+import SaccoPaymentHome from './components/sacco/payment/Home';
+import SaccoPaymentAdd from './components/sacco/payment/Add';
+import SaccoPaymentEdit from './components/sacco/payment/Edit';
+import SaccoPaymentDetails from './components/sacco/payment/Details';
 import SaccoInstallmentDetails from './components/sacco/installment/Details';
 import { atLeast } from './helpers/userHelper';
 
@@ -115,8 +117,10 @@ export default () => (
             <PrivateRoute exact path='/sacco/loan/add' component={SaccoLoanAdd} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/loan/edit/:loanId' component={SaccoLoanEdit} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/loan/details/:loanId' component={SaccoLoanDetails} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/installment' component={SaccoInstallmentHome} roles={atLeast.sacco} />
-            <PrivateRoute exact path='/sacco/installment/edit/:installmentId' component={SaccoInstallmentEdit} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/payment' component={SaccoPaymentHome} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/payment/add' component={SaccoPaymentAdd} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/payment/edit/:paymentId' component={SaccoPaymentEdit} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/payment/details/:paymentId' component={SaccoPaymentDetails} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/installment/details/:installmentId' component={SaccoInstallmentDetails} roles={atLeast.sacco} />
             <Redirect from='*' to='/' />
         </Switch>

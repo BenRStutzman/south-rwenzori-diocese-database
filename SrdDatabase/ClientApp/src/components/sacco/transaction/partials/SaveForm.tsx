@@ -141,6 +141,17 @@ const SaveForm = ({
                 <label htmlFor="withdrawal">{transaction.isShares ? 'Sale' : 'Withdrawal'}</label>
             </div>
             <div className="form-group">
+                <label htmlFor="date">Date</label>
+                <input
+                    id="date"
+                    className="form-control"
+                    type="date"
+                    value={transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}
+                    onChange={onDateChange}
+                    required
+                />
+            </div>
+            <div className="form-group">
                 <label htmlFor="amount">{transaction.isShares ? 'Number of shares' : 'Amount (UGX)'}</label>
                 <input
                     id="amount"
@@ -150,17 +161,6 @@ const SaveForm = ({
                     onChange={onAmountChange}
                     autoComplete={autoComplete}
                     min={1}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="date">Date</label>
-                <input
-                    id="date"
-                    className="form-control"
-                    type="date"
-                    value={transaction.date ? new Date(transaction.date).toLocaleDateString('en-ca') : ''}
-                    onChange={onDateChange}
                     required
                 />
             </div>
