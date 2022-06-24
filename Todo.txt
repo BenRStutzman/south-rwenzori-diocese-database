@@ -37,9 +37,9 @@ To do:
 					
 	~ any amount left unpaid on an installment is considered in arrears - that much is fined
 	~ interest for months after fully paid is not charged
-	- Show remaining balance on loan details page, loan home page
-	- Add payments to C#, remove installment editing
-	- Show installment schedule on loan details page
+	~ Show remaining balance on loan details page, loan home page
+	~ Add payments to C#, remove installment editing
+	~ Show installment schedule on loan details page
 
 To release:
 	X Remove installment sorting from js, show datePaid on paid installments

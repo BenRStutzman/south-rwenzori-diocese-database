@@ -64,10 +64,10 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Type
+                            Period (months)
                             <SortButton
                                 parameters={parameters}
-                                columnName="type"
+                                columnName="termMonths"
                                 onSort={onSort}
                             />
                         </th>
@@ -80,10 +80,10 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Period (months)
+                            Balance
                             <SortButton
                                 parameters={parameters}
-                                columnName="termMonths"
+                                columnName="balance"
                                 onSort={onSort}
                             />
                         </th>
@@ -97,11 +97,9 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${loan.memberId}`}>{loan.member}</Link>
                             </td>
-                            <td>
-                                <Link to={`/sacco/loan/details/${loan.id}`}>{loan.loanType}</Link>
-                            </td>
-                            <td className="number-column">{loan.principal?.toLocaleString()}</td>
                             <td className="number-column">{loan.termMonths}</td>
+                            <td className="number-column">{loan.principal?.toLocaleString()}</td>
+                            <td className="number-column">{loan.balance?.toLocaleString()}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/loan/details/${loan.id}`}>
                                     View
