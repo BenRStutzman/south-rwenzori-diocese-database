@@ -64,8 +64,8 @@ const Details = ({
                     altPreposition="to"
                 />
                 <DetailsBox
-                    itemType="fullyPaid"
-                    itemValue={details.loan.isPaid ? 'Yes' : 'No'}
+                    itemType="period"
+                    itemValue={describeLoanTerm(details.loan)}
                 />
                 <DetailsBox
                     itemType="dateDisbursed"
@@ -76,12 +76,12 @@ const Details = ({
                     itemValue={formattedDate(details.loan.dateOfExpiry)}
                 />
                 <DetailsBox
-                    itemType="period"
-                    itemValue={describeLoanTerm(details.loan)}
-                />
-                <DetailsBox
                     itemType="principal"
                     itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="lateFines"
+                    itemValue={`${details.loan.fines?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="principalPerInstallment"
@@ -92,20 +92,12 @@ const Details = ({
                     itemValue={`${details.loan.principalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="interestPerMonth"
+                    itemType="interestPerInstallment"
                     itemValue={`${details.loan.interestPerInstallment?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="monthsOfInterest"
-                    itemValue={details.loan.monthsOfInterest?.toString()}
-                />
-                <DetailsBox
-                    itemType="interest"
+                    itemType="interestDue"
                     itemValue={`${details.loan.interest?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="lateFines"
-                    itemValue={`${details.loan.fines?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="totalDue"
@@ -120,23 +112,24 @@ const Details = ({
                     itemValue={`${details.loan.balance?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="paymentProgress"
+                    itemType="progress"
                     itemValue={`${details.loan.percentagePaid}%`}
                 />
                 <DetailsList
                     itemType="installment"
                     itemTotal={details.installmentResults.totalResults}
                     items={installmentItems(details.installmentResults)}
-                    baseItemType="loan"
-                    baseItemId={details.loan.id}
-                    altPreposition="for"
+                    dontViewAll
                     isSacco
                 />
                 <DetailsList
                     itemType="payment"
                     itemTotal={details.paymentResults.totalResults}
                     items={paymentItems(details.paymentResults, false)}
-                    dontViewAll
+                    baseItemType="loan"
+                    baseItemId={details.loan.id}
+                    altPreposition="for"
+                    showAddLink
                     isSacco
                 />
             </div>

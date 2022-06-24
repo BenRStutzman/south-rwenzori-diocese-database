@@ -64,7 +64,7 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="shares"
-                    itemValue={`${details.member.shares?.toLocaleString()} (${details.member.sharesValue?.toLocaleString()} UGX)}`}
+                    itemValue={`${details.member.shares?.toLocaleString()} (${details.member.sharesValue?.toLocaleString()} UGX)`}
                 />
                 <DetailsBox
                     itemType="savings"
@@ -116,6 +116,7 @@ const Details = ({
                     baseItemId={details.member.id}
                     altPreposition="by"
                     isSacco
+                    showAddLink
                 />
             </div>
         </>;

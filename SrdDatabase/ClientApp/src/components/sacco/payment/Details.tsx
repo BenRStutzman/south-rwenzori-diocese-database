@@ -58,6 +58,10 @@ const Details = ({
                     itemValue={formattedDate(details.payment.date)}
                 />
                 <DetailsBox
+                    itemType="receiptNumber"
+                    itemValue={details.payment.receiptNumber?.toString() ?? "Not set"}
+                />
+                <DetailsBox
                     baseItemType="payment"
                     itemType="member"
                     itemValue={details.payment.member}
@@ -74,24 +78,20 @@ const Details = ({
                     altPreposition="for"
                 />
                 <DetailsBox
-                    itemType="receiptNumber"
-                    itemValue={details.payment.receiptNumber?.toString() ?? "Not set"}
+                    itemType="principalPaid"
+                    itemValue={`${details.payment.principal?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="principal"
-                    itemValue={details.payment.principal?.toLocaleString()}
-                />
-                <DetailsBox
-                    itemType="interest"
-                    itemValue={details.payment.interest?.toLocaleString()}
+                    itemType="interestPaid"
+                    itemValue={`${details.payment.interest?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="finePaid"
-                    itemValue={details.payment.finePaid?.toLocaleString()}
+                    itemValue={`${details.payment.finePaid?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="fineIncurred"
-                    itemValue={details.payment.fineIncurred?.toLocaleString()}
+                    itemValue={`${details.payment.fineIncurred?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="createdBy"

@@ -55,28 +55,24 @@ const Details = ({
                     altPreposition="for"
                 />
                 <DetailsBox
-                    itemType="dateDue"
-                    itemValue={formattedDate(details.installment.dateDue)}
-                />
-                <DetailsBox
-                    itemType="principal"
+                    itemType="principalDue"
                     itemValue={`${details.installment.principal?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="interest"
-                    itemValue={`${details.installment.interest?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="totalDue"
-                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="principalPaid"
                     itemValue={`${details.installment.principalPaid?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
+                    itemType="interestDue"
+                    itemValue={`${details.installment.interest?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
                     itemType="interestPaid"
                     itemValue={`${details.installment.interestPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="totalDue"
+                    itemValue={`${details.installment.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="totalPaid"
@@ -87,8 +83,12 @@ const Details = ({
                     itemValue={`${details.installment.balance?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="paymentProgress"
+                    itemType="progress"
                     itemValue={`${details.installment.percentagePaid}%`}
+                />
+                <DetailsBox
+                    itemType="dateDue"
+                    itemValue={formattedDate(details.installment.dateDue)}
                 />
                 <DetailsList
                     itemType="fineWindow"

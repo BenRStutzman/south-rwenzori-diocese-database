@@ -1,17 +1,17 @@
 Next up: Add payment components
 
 To do:
-- Less spacing in results pages
-- Smaller font in details pages
-- Add new role: Advanced Viewer - can also view quotas, payments, balances, but not edit anything.
-
-- Savings:
+X Remove bracket from shares value on member details
+X Add comma to loan amount in describeLoan
+X Add add payment option on member details page
+X Remove view all installments from loan details
+~ Savings:
 	~ Don't round distributions
 	~ Show value of shares on member details page (in parentheses)
 	~ Add value of shares to shares column on member home page, and savings
 	~ Add commas to total distribution value on home page
 
-- Loans:
+~ Loans:
 	~ For a payment, determine how much was principal and how much interest.
 	~ Add expiry date (date of last payment)
 	~ Change % paid to % of balance paid
@@ -55,10 +55,14 @@ To update in SQL:
 	- Add Basic user role to user table
 
 Less important:
+- Less spacing in results pages
+- Smaller font in details pages
+- Add new role: Advanced Viewer - can also view quotas, payments, balances, but not edit anything.
 - Enable churches as members:
 	- Boolean field
 	- Don't give them dividends or interest
 	- Sort by isChurch
+
 - Nicer small receipt printout (A3) - half of A4 for transactions
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
