@@ -1,3 +1,5 @@
+Next up: Add payment components
+
 To do:
 - Less spacing in results pages
 - Smaller font in details pages

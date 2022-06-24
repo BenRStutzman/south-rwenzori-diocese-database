@@ -2,11 +2,11 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { formattedDateAllowUndefined } from '../../../helpers/miscellaneous';
-import { Congregation } from '../../../models/congregation';
 import { Loan } from '../../../models/sacco/loan';
 import { Member } from '../../../models/sacco/member';
 import { PaymentParameters, PaymentParametersToSend, PaymentResults } from '../../../models/sacco/payment';
 import { pagedResultsDefaults } from '../../../models/shared';
+import { loadLoans } from '../shared';
 
 const SET_PARAMETERS = 'SACCO_PAYMENT.SET_PARAMETERS';
 const SET_SEARCH_START_DATE = 'SACCO_PAYMENT.SET_SEARCH_START_DATE';
@@ -56,11 +56,16 @@ const setParametersAction = (parameters: PaymentParameters) => ({
     value: parameters,
 });
 
+const setParameters = (parameters: PaymentParameters): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setParametersAction(parameters));
+    dispatch(loadLoans(parameters.memberId));
+};
+
 const prefillParameters = (loanId?: number, memberId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
     const backupUrl = '/sacco/payment';
 
     const setParametersAndSearch = (parameters: PaymentParameters) => {
-        dispatch(setParametersAction(parameters));
+        dispatch(setParameters(parameters));
 
         if (search) {
             dispatch(searchPayments(parameters));
@@ -99,8 +104,10 @@ const setSearchLoanId = (loanId?: number): AppThunkAction<Action> => (dispatch) 
     dispatch(setSearchLoanIdAction(loanId));
 }
 
-const setSearchMemberId = (memberId?: number): AppThunkAction<Action> => (dispatch) => {
+const setSearchMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(loadLoans(memberId));
     dispatch(setSearchMemberIdAction(memberId));
+    dispatch(setSearchLoanId(undefined));
 };
 
 const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (dispatch) => {

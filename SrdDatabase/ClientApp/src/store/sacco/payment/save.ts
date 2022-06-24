@@ -5,10 +5,13 @@ import { Payment, PaymentToSend } from '../../../models/sacco/payment';
 import { History } from 'history';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Loan } from '../../../models/sacco/loan';
+import { loadLoans } from '../shared';
+import { Member } from '../../../models/sacco/member';
 
 const SET_IS_LOADING = 'SACCO_PAYMENT.SET_IS_LOADING';
 const SET_PAYMENT = 'SACCO_PAYMENT.SET_PAYMENT';
-const SET_LOAN_ID = 'SACCO_PAYMENT.SET_MEMBER_ID';
+const SET_MEMBER_ID = 'SACCO_PAYMENT.SET_MEMBER_ID';
+const SET_LOAN_ID = 'SACCO_PAYMENT.SET_LOAN_ID';
 const SET_AMOUNT = 'SACCO_PAYMENT.SET_AMOUNT';
 const SET_DATE = 'SACCO_PAYMENT.SET_DATE';
 const SET_RECEIPT_NUMBER = 'SACCO_PAYMENT.SET_RECEIPT_NUMBER';
@@ -22,6 +25,11 @@ const setIsLoadingAction = () => ({
 const setPaymentAction = (payment: Payment) => ({
     type: SET_PAYMENT,
     value: payment,
+});
+
+const setMemberIdAction = (memberId: number) => ({
+    type: SET_MEMBER_ID,
+    value: memberId,
 });
 
 const setLoanIdAction = (loanId: number) => ({
@@ -54,12 +62,17 @@ const setErrorsAction = (errors: Errors) => ({
     value: errors,
 });
 
-const prefillPayment = (loanId?: number): AppThunkAction<Action> => (dispatch) => {
+const setPayment = (congregation: Payment): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setPaymentAction(congregation));
+    dispatch(loadLoans(congregation.memberId));
+};
+
+const prefillPayment = (loanId?: number, memberId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
     const backupUrl = '/sacco/payment/add';
 
     const setPaymentWithDate = (payment: Payment) => {
-        dispatch(setPaymentAction({
+        dispatch(setPayment({
             ...payment,
             date: new Date(),
         }))
@@ -67,9 +80,17 @@ const prefillPayment = (loanId?: number): AppThunkAction<Action> => (dispatch) =
 
     if (loanId) {
         get<Loan>(`api/sacco/loan/${loanId}`, backupUrl)
+            .then(loan => {
+                setPaymentWithDate({
+                    memberId: loan.memberId,
+                    loanId,
+                });
+            });
+    } else if (memberId) {
+        get<Member>(`api/sacco/member/${memberId}`, backupUrl)
             .then(() => {
                 setPaymentWithDate({
-                    loanId,
+                    memberId,
                 });
             });
     } else {
@@ -112,6 +133,12 @@ const savePayment = (payment: Payment, history: History): AppThunkAction<Action>
         });
 };
 
+const setMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(loadLoans(memberId));
+    dispatch(setMemberIdAction(memberId));
+    dispatch(setLoanId(undefined));
+};
+
 const setLoanId = (loanId: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setLoanIdAction(loanId));
 };
@@ -133,6 +160,7 @@ export const actionCreators = {
     loadPayment,
     savePayment,
     setLoanId,
+    setMemberId,
     setAmount,
     setDate,
     setReceiptNumber,

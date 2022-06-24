@@ -77,7 +77,7 @@ const prefillCongregation = (parishId?: number, archdeaconryId?: number): AppThu
     } else {
         dispatch(setCongregation({}));
     }
-}
+};
 
 const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setIsLoadingAction());
@@ -86,7 +86,7 @@ const loadCongregation = (id: number): AppThunkAction<Action> => (dispatch) => {
         .then(congregation => {
             dispatch(setCongregation(congregation));
         });
-}
+};
 
 const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setNameAction(name));
@@ -96,7 +96,7 @@ const setArchdeaconryId = (archdeaconryId: number): AppThunkAction<Action> => (d
     dispatch(loadParishes(archdeaconryId));
     dispatch(setArchdeaconryIdAction(archdeaconryId));
     dispatch(setParishId(undefined));
-}
+};
 
 const setParishId = (parishId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParishIdAction(parishId));
