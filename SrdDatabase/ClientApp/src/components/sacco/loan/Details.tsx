@@ -64,8 +64,8 @@ const Details = ({
                     altPreposition="to"
                 />
                 <DetailsBox
-                    itemType="period"
-                    itemValue={describeLoanTerm(details.loan)}
+                    itemType="principal"
+                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="dateDisbursed"
@@ -74,34 +74,6 @@ const Details = ({
                 <DetailsBox
                     itemType="expiryDate"
                     itemValue={formattedDate(details.loan.dateOfExpiry)}
-                />
-                <DetailsBox
-                    itemType="principal"
-                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="lateFines"
-                    itemValue={`${details.loan.fines?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="principalPerInstallment"
-                    itemValue={`${details.loan.principalPerInstallment?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="principalDue"
-                    itemValue={`${details.loan.principalDue?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="interestPerInstallment"
-                    itemValue={`${details.loan.interestPerInstallment?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="interestDue"
-                    itemValue={`${details.loan.interest?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="totalDue"
-                    itemValue={`${details.loan.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="totalPaid"
@@ -114,6 +86,50 @@ const Details = ({
                 <DetailsBox
                     itemType="progress"
                     itemValue={`${details.loan.percentagePaid}%`}
+                />
+                <DetailsBox
+                    itemType="principalPerInstallment"
+                    itemValue={`${details.loan.principalPerInstallment?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="period"
+                    itemValue={describeLoanTerm(details.loan)}
+                />
+                <DetailsBox
+                    itemType="interestPerInstallment"
+                    itemValue={`${details.loan.interestPerInstallment} UGX`}
+                />
+                <DetailsBox
+                    itemType="monthsOfInterest"
+                    itemValue={details.loan.monthsOfInterest?.toString()}
+                />
+                <DetailsBox
+                    itemType="principalDue"
+                    itemValue={`${details.loan.principalDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="principalPaid"
+                    itemValue={`${details.loan.principalPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interestDue"
+                    itemValue={`${details.loan.interest?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interestPaid"
+                    itemValue={`${details.loan.interestPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="finesDue"
+                    itemValue={`${details.loan.fines?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="finesPaid"
+                    itemValue={`${details.loan.finesPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="totalDue"
+                    itemValue={`${details.loan.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsList
                     itemType="installment"

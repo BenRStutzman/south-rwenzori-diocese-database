@@ -36,6 +36,12 @@ namespace SrdDatabase.Models.Sacco.Loans
 
         public int TotalDue { get; }
 
+        public int PrincipalPaid { get; }
+
+        public int InterestPaid {get;}
+
+        public int FinesPaid { get;}
+
         public int TotalPaid { get; }
 
         public int Balance { get; }
@@ -61,6 +67,9 @@ namespace SrdDatabase.Models.Sacco.Loans
             int interest,
             int fines,
             int totalDue,
+            int principalPaid,
+            int interestPaid,
+            int finesPaid,
             int totalPaid,
             int balance,
             sbyte percentagePaid,
@@ -82,6 +91,9 @@ namespace SrdDatabase.Models.Sacco.Loans
             Interest = interest;
             Fines = fines;
             TotalDue = totalDue;
+            PrincipalPaid = principalPaid;
+            InterestPaid = interestPaid;
+            FinesPaid = finesPaid;
             TotalPaid = totalPaid;
             Balance = balance;
             PercentagePaid = percentagePaid;

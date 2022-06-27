@@ -55,6 +55,14 @@ const Details = ({
                     altPreposition="for"
                 />
                 <DetailsBox
+                    itemType="balance"
+                    itemValue={`${details.installment.balance?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="progress"
+                    itemValue={`${details.installment.percentagePaid}%`}
+                />
+                <DetailsBox
                     itemType="principalDue"
                     itemValue={`${details.installment.principal?.toLocaleString()} UGX`}
                 />
@@ -77,14 +85,6 @@ const Details = ({
                 <DetailsBox
                     itemType="totalPaid"
                     itemValue={`${details.installment.totalPaid?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="balance"
-                    itemValue={`${details.installment.balance?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
-                    itemType="progress"
-                    itemValue={`${details.installment.percentagePaid}%`}
                 />
                 <DetailsBox
                     itemType="dateDue"

@@ -24,6 +24,9 @@ export interface Loan {
     interest?: number;
     fines?: number;
     totalDue?: number;
+    principalPaid?: number;
+    interestPaid?: number;
+    finesPaid?: number;
     totalPaid?: number;
     balance?: number;
     percentagePaid?: number;
