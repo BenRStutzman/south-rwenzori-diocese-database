@@ -1,4 +1,4 @@
-- Add principal_paid, interest_paid, fines_paid to loan details (X SQL, C#, JS)
+X Add principal_paid, interest_paid, fines_paid to loan details (X SQL, X C#, X JS)
 X improve calculate_sacco_loan_amount_paid
 
 To do:

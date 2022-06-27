@@ -76,10 +76,6 @@ const Details = ({
                     itemValue={formattedDate(details.loan.dateOfExpiry)}
                 />
                 <DetailsBox
-                    itemType="totalPaid"
-                    itemValue={`${details.loan.totalPaid?.toLocaleString()} UGX`}
-                />
-                <DetailsBox
                     itemType="balance"
                     itemValue={`${details.loan.balance?.toLocaleString()} UGX`}
                 />
@@ -130,6 +126,10 @@ const Details = ({
                 <DetailsBox
                     itemType="totalDue"
                     itemValue={`${details.loan.totalDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="totalPaid"
+                    itemValue={`${details.loan.totalPaid?.toLocaleString()} UGX`}
                 />
                 <DetailsList
                     itemType="installment"
