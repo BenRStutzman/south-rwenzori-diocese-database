@@ -1,71 +1,93 @@
-X Remove s from Shares for 1 share (transactions home, details, etc)
-X Fix date disbursed input for loans
-
-- Savings:
-	X Change auto_fees_start_date to 2022-01-01
-	X Round everything to nearest hundred shillings
-	X Show who created, updated transaction
-		X Update C# transaction model and details page
-	X Show applied dividend total on dividend details page
-		X Update C# distribution model and details page
-	X Split dividends into two parts: dividends (shares) and interest (savings)
-		X Update C# distribution model, frontend for saving, searching
-	X Add notes to transaction
-	X Set description, notes to null when empty
-	X Check that description sends as undefined when not a general event
-
-- Loans:
-	X Change installment interval to 1 month (not 30 days)
-	X Adjust fine schedule according to printout
-	X Round everything to nearest 100 shillings
-	X View for installment details
-	X Sproc to set date_paid for an installment
-	X JS: edit page for installment date
-	X C#: change loan date to date_disbursed
-	X C#: add fine windowsnge sproc back to just windows)
-	X C# and JS Add installment list to member details	
-	X JS components: add search by is paid to loans, installments
-	X Only fetch detailsPageNumber installments at a time (getLoanDetails query)
-	X Add loans to home dashboard
-	X Fix saving datePaid as null (make DatePaid nullable in installment fields)
-		X Should now show blank on date paid on home installment page
-
-- Reports:
-	- Member account statement (incl transactions, dividends, fees)
-
-- Do a thorough test
-
-- Censuses:
-	- Add cong, parish, arch, and dioc details based on christian counts
-
-To release:
-- Add notes column (VARCHAR(50), nullable) to sacco_transaction table
-- Update sacco_installment table
-- Update sacco_installment_fine_percentage table
-- Update sacco_loan table
-- Update sacco_distribution table
-- Update sacco_distribution_applied table
-- Update all views
-- Update all sprocs
-
-Less important:
-- Nicer receipt printout for transactions
-- Make nav bar shorter for admins
+To do:
+- Less spacing in results pages
+- Smaller font in details pages
+- Enable churches as members:
+	- Boolean field
+	- Don't give them dividends or interest
+	- Sort by isChurch
+- Nicer small receipt printout (A3) - half of A4 for transactions
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
 	- Total savings
 	- Total balance
-- Easier member selection
+	- Total outstanding loan balance
+- Reports:
+	- Member account statement (incl transactions, dividends, fees)
+
+- Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
+- Censuses:
+	- Add cong, parish, arch, and dioc details based on christian counts
+
+To release:
+
+~ Check for payments before deleting a loan
+X Fix loan not loading on payment edit
+X Remove bracket from shares value on member details
+X Add comma to loan amount in describeLoan
+X Add add payment option on member details page
+X Remove view all installments from loan details
+
+X Savings:
+	X Don't round distributions
+	X Show value of shares on member details page (in parentheses)
+	X Add value of shares to shares column on member home page, and savings
+	X Add commas to total distribution value on home page
+
+X Loans:
+	X For a payment, determine how much was principal and how much interest.
+	X Add expiry date (date of last payment)
+	X Change % paid to % of balance paid
+	X Check fine % schedule - off by 2 days
+	X Add interest per month to loan details page
+	X Make payments separate from installments
+		We want to see:
+		- Balance left for a loan (calculate_sacco_loan_balance(loanId, date))
+			To get that, we must know:
+				- Total due: calculate_sacco_loan_total_due(loanId, date): sum of:
+					- Principal
+					- Interest
+						- Declare months_of_interest
+						- First get Principal paid (calculate_sacco_loan_principal_paid(loanId, date)) - sum of principal payments up to that date
+						- If principal paid < loan principal, months_of_interest = term_months
+						- Else, calculate final payment date (sproc)
+							- If final payment date > expiry date, then months_of_interest = term_months
+							- Else, months_of_interest = installment_number of first installment with a due date on or after final payment date
+						- Interest = monthly_interest * months_of_interest
+					- Fines (sum of fines from payment_details view)
+				- Total paid (calculate_sacco_loan_total_paid(loanId, date)) - sum of payments up to that date
+				- Balance = Total due - total paid
+					
+	X any amount left unpaid on an installment is considered in arrears - that much is fined
+	X interest for months after fully paid is not charged
+	X Show remaining balance on loan details page, loan home page
+	X Add payments to C#, remove installment editing
+	X Show installment schedule on loan details page
+	X Remove installment sorting from js, show datePaid on paid installments
+	X Remove space between ellipsis and and in "and 123 more"	
+
+To update in SQL:
+	X All sprocs
+	X All views
+	X Replace sacco_installment table and triggers
+	X Add sacco_payment table and triggers
+	X Add sacco_payment_applied table and triggers
+	X Update sacco_loan triggers
+
+	X Remove unmatching sprocs and tables
+
+	- Add Basic user role to user table (LATER)
+
+Less important:
+- Easier member selection (by name)
 - Speed up report generation
 	- Increase max user connections to 100 (waiting for Yosia)
 - Enable easy backups
 - Create better error page (add back useExceptionHandler('Error'))
 - Add server-side unique check for dividend date
-- Add requirements for minimum shares (5)
 - Add name of logged-in user
 
 Before leaving:
-Switch payment to SRD credit card (Richard)
+- Switch payment to SRD credit card (Richard)
 
 Before November:
-switch instance to t3.nano (after free tier expires, around Nov. 2022)
+- switch instance to t3.nano (after free tier expires, around Nov. 2022)
