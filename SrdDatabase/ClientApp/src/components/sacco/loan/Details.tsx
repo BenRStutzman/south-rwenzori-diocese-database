@@ -68,14 +68,6 @@ const Details = ({
                     itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="dateDisbursed"
-                    itemValue={formattedDate(details.loan.dateDisbursed)}
-                />
-                <DetailsBox
-                    itemType="expiryDate"
-                    itemValue={formattedDate(details.loan.dateOfExpiry)}
-                />
-                <DetailsBox
                     itemType="balance"
                     itemValue={`${details.loan.balance?.toLocaleString()} UGX`}
                 />
@@ -84,20 +76,28 @@ const Details = ({
                     itemValue={`${details.loan.percentagePaid}%`}
                 />
                 <DetailsBox
-                    itemType="principalPerInstallment"
-                    itemValue={`${details.loan.principalPerInstallment?.toLocaleString()} UGX`}
+                    itemType="dateDisbursed"
+                    itemValue={formattedDate(details.loan.dateDisbursed)}
+                />
+                <DetailsBox
+                    itemType="expiryDate"
+                    itemValue={formattedDate(details.loan.dateOfExpiry)}
                 />
                 <DetailsBox
                     itemType="period"
                     itemValue={describeLoanTerm(details.loan)}
                 />
                 <DetailsBox
-                    itemType="interestPerInstallment"
-                    itemValue={`${details.loan.interestPerInstallment} UGX`}
+                    itemType="principalPerInstallment"
+                    itemValue={`${details.loan.principalPerInstallment?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="monthsOfInterest"
                     itemValue={details.loan.monthsOfInterest?.toString()}
+                />
+                <DetailsBox
+                    itemType="interestPerInstallment"
+                    itemValue={`${details.loan.interestPerInstallment?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="principalDue"

@@ -1,25 +1,45 @@
-X Add principal_paid, interest_paid, fines_paid to loan details (X SQL, X C#, X JS)
-X improve calculate_sacco_loan_amount_paid
-
 To do:
+- Less spacing in results pages
+- Smaller font in details pages
+- Enable churches as members:
+	- Boolean field
+	- Don't give them dividends or interest
+	- Sort by isChurch
+- Nicer small receipt printout (A3) - half of A4 for transactions
+- Add useful SACCO-wide stats to dashboard
+	- Total shares (and value)
+	- Total savings
+	- Total balance
+	- Total outstanding loan balance
+- Reports:
+	- Member account statement (incl transactions, dividends, fees)
+
+- Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
+- Censuses:
+	- Add cong, parish, arch, and dioc details based on christian counts
+
+To release:
+
+~ Check for payments before deleting a loan
 X Fix loan not loading on payment edit
 X Remove bracket from shares value on member details
 X Add comma to loan amount in describeLoan
 X Add add payment option on member details page
 X Remove view all installments from loan details
+
 X Savings:
 	X Don't round distributions
 	X Show value of shares on member details page (in parentheses)
 	X Add value of shares to shares column on member home page, and savings
 	X Add commas to total distribution value on home page
 
-~ Loans:
-	~ For a payment, determine how much was principal and how much interest.
-	~ Add expiry date (date of last payment)
-	~ Change % paid to % of balance paid
-	~ Check fine % schedule - off by 2 days
-	~ Add interest per month to loan details page
-	~ Make payments separate from installments
+X Loans:
+	X For a payment, determine how much was principal and how much interest.
+	X Add expiry date (date of last payment)
+	X Change % paid to % of balance paid
+	X Check fine % schedule - off by 2 days
+	X Add interest per month to loan details page
+	X Make payments separate from installments
 		We want to see:
 		- Balance left for a loan (calculate_sacco_loan_balance(loanId, date))
 			To get that, we must know:
@@ -37,54 +57,33 @@ X Savings:
 				- Total paid (calculate_sacco_loan_total_paid(loanId, date)) - sum of payments up to that date
 				- Balance = Total due - total paid
 					
-	~ any amount left unpaid on an installment is considered in arrears - that much is fined
-	~ interest for months after fully paid is not charged
-	~ Show remaining balance on loan details page, loan home page
-	~ Add payments to C#, remove installment editing
-	~ Show installment schedule on loan details page
-
-To release:
+	X any amount left unpaid on an installment is considered in arrears - that much is fined
+	X interest for months after fully paid is not charged
+	X Show remaining balance on loan details page, loan home page
+	X Add payments to C#, remove installment editing
+	X Show installment schedule on loan details page
 	X Remove installment sorting from js, show datePaid on paid installments
 	X Remove space between ellipsis and and in "and 123 more"	
 
 To update in SQL:
 	- All sprocs
 	- All views
-	- Remove unmatching sprocs
 	- Replace sacco_installment table and triggers
+	- Add sacco_payment table and triggers
 	- Add sacco_payment_applied table and triggers
 	- Update sacco_loan triggers
-	- Add Basic user role to user table
+
+	- Remove unmatching sprocs and tables
+
+	- Add Basic user role to user table (LATER)
 
 Less important:
-- Less spacing in results pages
-- Smaller font in details pages
-- Add new role: Advanced Viewer - can also view quotas, payments, balances, but not edit anything.
-- Enable churches as members:
-	- Boolean field
-	- Don't give them dividends or interest
-	- Sort by isChurch
-
-- Nicer small receipt printout (A3) - half of A4 for transactions
-- Add useful SACCO-wide stats to dashboard
-	- Total shares (and value)
-	- Total savings
-	- Total balance
-	- Total outstanding loan balance
 - Easier member selection (by name)
-- Do a thorough test
-- Censuses:
-	- Add cong, parish, arch, and dioc details based on christian counts
-- Reports:
-	- Member account statement (incl transactions, dividends, fees)
-
-Even less important:
 - Speed up report generation
 	- Increase max user connections to 100 (waiting for Yosia)
 - Enable easy backups
 - Create better error page (add back useExceptionHandler('Error'))
 - Add server-side unique check for dividend date
-- Add requirements for minimum shares (5)
 - Add name of logged-in user
 
 Before leaving:

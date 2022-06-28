@@ -11,6 +11,7 @@ import { formattedDate } from '../../../helpers/miscellaneous';
 import { describeInstallment } from '../../../helpers/sacco/installmentHelper';
 import DetailsList from '../../shared/DetailsList';
 import { fineWindowItems } from '../../../helpers/sacco/detailsHelpers';
+import { Link } from 'react-router-dom';
 
 type Props =
     Store.State &
@@ -36,23 +37,27 @@ const Details = ({
         <>
             <div className="page-heading">
                 <h1>{describeInstallment(details.installment)}</h1>
+                <div className="button-group float-right">
+                    <Link className="btn btn-secondary" to={`/sacco/payment?loanId=${details.installment.loanId}`}>
+                        View payments
+                    </Link>
+                    <Link className="btn btn-primary" to={`/sacco/payment/add?loanId=${details.installment.loanId}`}>
+                        Add payment
+                    </Link>
+                </div>
             </div>
             <div className="details-boxes">
                 <DetailsBox
-                    baseItemType="installment"
                     itemType="member"
                     itemValue={details.installment.member}
                     itemId={details.installment.memberId}
                     isSacco
-                    altPreposition="by"
                 />
                 <DetailsBox
-                    baseItemType="installment"
                     itemType="loan"
                     itemValue={`${details.installment.loan} Loan`}
                     itemId={details.installment.loanId}
                     isSacco
-                    altPreposition="for"
                 />
                 <DetailsBox
                     itemType="balance"

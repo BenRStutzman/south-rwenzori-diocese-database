@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SrdDatabase.Data.Queries.Sacco.Payments;
 using SrdDatabase.Models.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -30,6 +31,18 @@ namespace SrdDatabase.Domain.Commands.Sacco.Loans
 
             public async Task<DeleteResponse> Handle(Command request, CancellationToken cancellationToken)
             {
+                var paymentsQuery = new GetPayments.Query(loanId: request.Id);
+                var paymentResults = await _mediator.Send(paymentsQuery, cancellationToken);
+
+                if (paymentResults.TotalResults > 0)
+                {
+                    return DeleteResponse.ForError(
+                        "Unable to delete this loan because it has payments associated with it. " +
+                        "Please delete all of those payments or move them to another loan, " +
+                        "then try again."
+                    );
+                }
+
                 await _mediator.Send(
                     new Data.Commands.Sacco.Loans.DeleteLoan.Command(request.Id),
                     cancellationToken);

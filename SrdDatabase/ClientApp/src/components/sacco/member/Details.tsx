@@ -70,6 +70,17 @@ const Details = ({
                     itemType="savings"
                     itemValue={`${parenthesizeIfNegative(details.member.savings)} UGX`}
                 />
+                <DetailsBox
+                    itemType="dateJoined"
+                    itemValue={formattedDate(details.member.dateJoined)}
+                />
+                <DetailsList
+                    itemType="membershipFee"
+                    itemTotal={details.member.yearsOfFees}
+                    items={feeItems(details.member)}
+                    dontLinkItems
+                    dontViewAll
+                />
                 <DetailsList
                     itemType="transaction"
                     itemTotal={details.transactionResults.totalResults}
@@ -86,17 +97,6 @@ const Details = ({
                     items={distributionAppliedItems(details.distributionAppliedResults)}
                     isSacco
                     showAddLink
-                />
-                <DetailsList
-                    itemType="membershipFee"
-                    itemTotal={details.member.yearsOfFees}
-                    items={feeItems(details.member)}
-                    dontLinkItems
-                    dontViewAll
-                />
-                <DetailsBox
-                    itemType="dateJoined"
-                    itemValue={formattedDate(details.member.dateJoined)}
                 />
                 <DetailsList
                     itemType="loan"
