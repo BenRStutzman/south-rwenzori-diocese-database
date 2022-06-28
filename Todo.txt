@@ -1,4 +1,5 @@
 To do:
+- Fix shares and savings sorting together on member results page
 - Less spacing in results pages
 - Smaller font in details pages
 - Enable churches as members:

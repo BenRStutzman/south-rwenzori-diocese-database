@@ -76,7 +76,7 @@ const SearchResults = ({
                             Savings (UGX)
                             <SortButton
                                 parameters={parameters}
-                                columnName="shares"
+                                columnName="savings"
                                 onSort={onSort}
                             />
                         </th>
