@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
 import DetailsList from '../../shared/DetailsList';
-import { distributionAppliedItems, feeItems, installmentItems, loanItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import { distributionAppliedItems, feeItems, installmentItems, loanItems, paymentItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import DetailsBox from '../../shared/DetailsBox';
 import { formattedDate, parenthesizeIfNegative } from '../../../helpers/miscellaneous';
 
@@ -64,11 +64,22 @@ const Details = ({
                 />
                 <DetailsBox
                     itemType="shares"
-                    itemValue={details.member.shares?.toLocaleString()}
+                    itemValue={`${details.member.shares?.toLocaleString()} / ${details.member.sharesValue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="savings"
                     itemValue={`${parenthesizeIfNegative(details.member.savings)} UGX`}
+                />
+                <DetailsBox
+                    itemType="dateJoined"
+                    itemValue={formattedDate(details.member.dateJoined)}
+                />
+                <DetailsList
+                    itemType="membershipFee"
+                    itemTotal={details.member.yearsOfFees}
+                    items={feeItems(details.member)}
+                    dontLinkItems
+                    dontViewAll
                 />
                 <DetailsList
                     itemType="transaction"
@@ -88,17 +99,6 @@ const Details = ({
                     showAddLink
                 />
                 <DetailsList
-                    itemType="membershipFee"
-                    itemTotal={details.member.yearsOfFees}
-                    items={feeItems(details.member)}
-                    dontLinkItems
-                    dontViewAll
-                />
-                <DetailsBox
-                    itemType="dateJoined"
-                    itemValue={formattedDate(details.member.dateJoined)}
-                />
-                <DetailsList
                     itemType="loan"
                     itemTotal={details.loanResults.totalResults}
                     items={loanItems(details.loanResults, true)}
@@ -109,13 +109,14 @@ const Details = ({
                     showAddLink
                 />
                 <DetailsList
-                    itemType="installment"
-                    itemTotal={details.installmentResults.totalResults}
-                    items={installmentItems(details.installmentResults)}
+                    itemType="payment"
+                    itemTotal={details.paymentResults.totalResults}
+                    items={paymentItems(details.paymentResults, false)}
                     baseItemType="member"
                     baseItemId={details.member.id}
                     altPreposition="by"
                     isSacco
+                    showAddLink
                 />
             </div>
         </>;

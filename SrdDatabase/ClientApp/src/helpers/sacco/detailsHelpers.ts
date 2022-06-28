@@ -7,7 +7,9 @@ import { LoanResults } from "../../models/sacco/loan";
 import { describeLoan } from "./loanHelper";
 import { DistributionAppliedResults, DistributionResults } from "../../models/sacco/distribution";
 import { describeDistribution, describeDistributionApplied } from "./distributionHelper";
-import { FineWindow, Installment, InstallmentResults } from "../../models/sacco/installment";
+import { FineWindow, InstallmentResults } from "../../models/sacco/installment";
+import { PaymentResults } from "../../models/sacco/payment";
+import { describePayment } from "./paymentHelper";
 
 export function memberItems(memberResults: MemberResults): DetailsListItem[] {
     return memberResults.members.map(member => (
@@ -62,43 +64,32 @@ export function loanItems(loanResults: LoanResults, useAmount: boolean = false):
 }
 
 export function installmentItems(installmentResults: InstallmentResults) {
-    // Unpaid installments come first, sorted earliest to latest
-    // Paid installments come last, sorted latest to earliest.
-    return installmentResults.installments
-        .sort((a, b) => {
-            if (a.isPaid) {
-                if (b.isPaid) {
-                    return (a.dateDue as Date) > (b.dateDue as Date) ? -1 : 1;
-                } else {
-                    return 1;
-                }
-            } else {
-                if (b.isPaid) {
-                    return -1;
-                } else {
-                    return (a.dateDue as Date) > (b.dateDue as Date) ? 1 : -1;
-                }
-            }
-        })
-        .map(installment => ({
-            id: installment.id,
-            displayText: `${formattedDate(installment.isPaid ? installment.dateDue : installment.dateDue)}: ${installment.totalDue} UGX ${installment.isPaid ? 'paid' : 'due'}`
-        }));
+    return installmentResults.installments.map(installment => ({
+        id: installment.id,
+        displayText: `${formattedDate(installment.dateDue)}: ${installment.isPaid ? installment.totalPaid?.toLocaleString() : installment.balance?.toLocaleString()} UGX ${installment.isPaid ? 'paid' : 'due'}`
+    }));
 }
 
 export function fineWindowItems(fineWindows: FineWindow[]) {
-    const getEndDate = (index: number) : string => {
+    const getEndDate = (index: number): string => {
         if (index === fineWindows.length - 1) {
             return 'or later';
         } else {
             var date = new Date(fineWindows[index + 1].startDate);
-            date.setDate(date.getDate() + 1);
+            date.setDate(date.getDate() - 1);
             return `to ${formattedDate(date)}`;
         }
     }
 
     return fineWindows.map((fineWindow, index) => ({
         id: index,
-        displayText: `${formattedDate(fineWindow.startDate)} ${getEndDate(index)}: ${fineWindow.finePercentage}% fine (${fineWindow.fineDue.toLocaleString()} UGX) = ${fineWindow.totalDue.toLocaleString()} UGX total due`,
+        displayText: `${formattedDate(fineWindow.startDate)} ${getEndDate(index)}: ${fineWindow.finePercentage}% fine (${fineWindow.fine.toLocaleString()} UGX)`,
     }));
+}
+
+export function paymentItems(paymentResults: PaymentResults, useMember: boolean = false) {
+    return paymentResults.payments.map(payment => ({
+        id: payment.id,
+        displayText: `${formattedDate(payment.date)}: ${describePayment(payment, useMember)}`,
+    }))
 }

@@ -1,4 +1,5 @@
-﻿import { DistributionResults } from "./distribution";
+﻿import { PaymentResults } from "./payment";
+import { DistributionResults } from "./distribution";
 import { LoanResults } from "./loan";
 import { MemberResults } from "./member";
 import { TransactionResults } from "./transaction";
@@ -8,4 +9,5 @@ export interface SaccoDetails {
     transactionResults: TransactionResults;
     distributionResults: DistributionResults;
     loanResults: LoanResults;
+    paymentResults: PaymentResults;
 }

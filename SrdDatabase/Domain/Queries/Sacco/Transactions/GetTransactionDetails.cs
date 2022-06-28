@@ -30,9 +30,9 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
 
             public async Task<TransactionDetails> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _mediator.Send(new GetTransactionById.Query(request.Id), cancellationToken);
+                var transaction = await _mediator.Send(new GetTransactionById.Query(request.Id), cancellationToken);
 
-                return new TransactionDetails(user);
+                return new TransactionDetails(transaction);
             }
         }
     }

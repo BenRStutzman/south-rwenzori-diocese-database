@@ -10,27 +10,14 @@ namespace SrdDatabase.Models.Sacco.Installments
         public int? Id { get; }
 
         [Range(1, int.MaxValue)]
-        public int? MemberId { get; }
-
-        [Range(1, int.MaxValue)]
         public int? LoanId { get; }
 
         [Range(1, int.MaxValue)]
-        public int? ReceiptNumber { get; }
-
-        public DateTime? StartDate { get; }
-
-        public DateTime? EndDate { get; }
-
-        public bool? IsPaid { get; }
+        public int? MemberId { get; }
 
         public InstallmentParameters(
             int? loanId = null,
             int? memberId = null,
-            DateTime? startDate = null,
-            DateTime? endDate = null,
-            int? receiptNumber = null,
-            bool? isPaid = null,
             int pageNumber = 0,
             string sortColumn = null,
             bool sortDescending = false,
@@ -44,10 +31,6 @@ namespace SrdDatabase.Models.Sacco.Installments
             Id = id;
             LoanId = loanId;
             MemberId = memberId;
-            StartDate = startDate;
-            EndDate = endDate;
-            ReceiptNumber = receiptNumber;
-            IsPaid = isPaid;
         }
     }
 }

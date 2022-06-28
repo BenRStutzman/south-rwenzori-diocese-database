@@ -1,4 +1,5 @@
 ﻿using SrdDatabase.Models.Sacco.Installments;
+using SrdDatabase.Models.Sacco.Payments;
 
 namespace SrdDatabase.Models.Sacco.Loans
 {
@@ -8,10 +9,16 @@ namespace SrdDatabase.Models.Sacco.Loans
 
         public InstallmentResults InstallmentResults { get; }
 
-        public LoanDetails(Loan loan, InstallmentResults installmentResults)
+        public PaymentResults PaymentResults { get; }
+
+        public LoanDetails(
+            Loan loan,
+            InstallmentResults installmentResults,
+            PaymentResults paymentResults)
         {
             Loan = loan;
             InstallmentResults = installmentResults;
+            PaymentResults = paymentResults;
         }
     }
 

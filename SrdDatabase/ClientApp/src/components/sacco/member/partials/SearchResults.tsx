@@ -48,15 +48,15 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className="col-2">
-                            Account #
+                        <th className="col-1">
+                            Acct. #
                             <SortButton
                                 parameters={parameters}
                                 columnName="accountNumber"
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-4">
+                        <th className="col-3">
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -65,14 +65,22 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Shares
+                            Shares (#/UGX)
                             <SortButton
                                 parameters={parameters}
                                 columnName="shares"
                                 onSort={onSort}
                             />
                         </th>
-                         <th className="col-2">
+                        <th className="col-2">
+                            Savings (UGX)
+                            <SortButton
+                                parameters={parameters}
+                                columnName="shares"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
                             Balance (UGX)
                             <SortButton
                                 parameters={parameters}
@@ -90,8 +98,9 @@ const SearchResults = ({
                             <td>
                                 <Link to={`/sacco/member/details/${member.id}`}>{member.name}</Link>
                             </td>
-                            <td>{member.shares?.toLocaleString()}</td>
-                            <td>{parenthesizeIfNegative(member.balance)}</td>
+                            <td className="number-column">{`${member.shares?.toLocaleString()} / ${member.sharesValue?.toLocaleString()}`}</td>
+                            <td className="number-column">{member.savings?.toLocaleString()}</td>
+                            <td className="number-column">{parenthesizeIfNegative(member.balance)}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
                                     View

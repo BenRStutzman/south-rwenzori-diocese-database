@@ -2,8 +2,9 @@
 import { Link } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
 import LoadingSpinner from '../../../shared/LoadingSpinner';
-import { Installment } from '../../../../models/sacco/installment';
-import * as Store from '../../../../store/sacco/installment/home';
+import { Payment } from '../../../../models/sacco/payment';
+import * as Store from '../../../../store/sacco/payment/home';
+import * as SharedStore from '../../../../store/sacco/shared';
 import { State } from '../../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -13,20 +14,28 @@ import { formattedDate } from '../../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
-    typeof Store.actionCreators;
+    typeof Store.actionCreators &
+    SharedStore.State &
+    typeof SharedStore.actionCreators;
 
 const SearchResults = ({
     resultsLoading,
     results,
+    deletingPaymentIds,
+    deletePayment,
     parameters,
-    searchInstallments,
+    searchPayments,
 }: Props) => {
     const onPage = (pageNumber: number) => {
-        searchInstallments({ ...parameters, pageNumber });
+        searchPayments({ ...parameters, pageNumber });
     }
 
     const onSort = (sortColumn?: string, sortDescending?: boolean) => {
-        searchInstallments({ ...parameters, sortColumn, sortDescending });
+        searchPayments({ ...parameters, sortColumn, sortDescending });
+    };
+
+    const onDelete = (payment: Payment) => {
+        deletePayment(payment, () => { searchPayments(parameters, false); });
     };
 
     return (
@@ -40,18 +49,10 @@ const SearchResults = ({
                 <thead>
                     <tr>
                         <th className="col-2">
-                            Date due
+                            Date
                             <SortButton
                                 parameters={parameters}
-                                columnName="dateDue"
-                                onSort={onSort}
-                            />
-                        </th>
-                        <th className="col-2">
-                            Date paid
-                            <SortButton
-                                parameters={parameters}
-                                columnName="datePaid"
+                                columnName="date"
                                 onSort={onSort}
                             />
                         </th>
@@ -72,10 +73,18 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Total due (UGX)
+                            Amount
                             <SortButton
                                 parameters={parameters}
-                                columnName="totalDue"
+                                columnName="amount"
+                                onSort={onSort}
+                            />
+                        </th>
+                        <th className="col-2">
+                            Receipt #
+                            <SortButton
+                                parameters={parameters}
+                                columnName="receiptNumber"
                                 onSort={onSort}
                             />
                         </th>
@@ -83,28 +92,31 @@ const SearchResults = ({
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
-                    {results.installments.map((installment: Installment) =>
-                        <tr key={installment.id}>
-                            <td>{formattedDate(installment.dateDue)}</td>
-                            <td>{formattedDate(installment.datePaid)}</td>
+                    {results.payments.map((payment: Payment) =>
+                        <tr key={payment.id}>
+                            <td>{formattedDate(payment.date)}</td>
                             <td>
-                                <Link to={`/sacco/member/details/${installment.memberId}`}>
-                                    {installment.member}
-                                </Link>
+                                <Link to={`/sacco/member/details/${payment.memberId}`}>{payment.member}</Link>
                             </td>
                             <td>
-                                <Link to={`/sacco/loan/details/${installment.loanId}`}>
-                                    {installment.loan}
+                                <Link to={`/sacco/loan/details/${payment.loanId}`}>
+                                    {payment.loan}
                                 </Link>
                             </td>
-                            <td className="number-column">{installment.totalDue?.toLocaleString()}</td>
+                            <td className="number-column">{payment.amount?.toLocaleString()}</td>
+                            <td className="number-column">{payment.receiptNumber}</td>
                             <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/sacco/installment/details/${installment.id}`}>
+                                <Link className="btn btn-secondary" to={`/sacco/payment/details/${payment.id}`}>
                                     View
                                 </Link>
-                                <Link className="btn btn-primary" to={`/sacco/installment/edit/${installment.id}`}>
-                                    Edit
-                                </Link>
+                                <>
+                                    <Link className="btn btn-primary" to={`/sacco/payment/edit/${payment.id}`}>
+                                        Edit
+                                    </Link>
+                                    <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
+                                        {deletingPaymentIds.includes(payment.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                    </button>
+                                </>
                             </td>
                         </tr>
                     )
@@ -121,6 +133,6 @@ const SearchResults = ({
 }
 
 export default connect(
-    (state: State) => state.sacco.installment.home,
-    (dispatch) => bindActionCreators(Store.actionCreators, dispatch)
+    (state: State) => ({ ...state.sacco.payment.home, ...state.sacco.shared }),
+    (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)
 )(SearchResults);

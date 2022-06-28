@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../../shared/Paging';
 import SortButton from '../../../shared/SortButton';
+import { formattedDate } from '../../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -56,18 +57,18 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Member
+                            Expiry date
                             <SortButton
                                 parameters={parameters}
-                                columnName="member"
+                                columnName="dateOfExpiry"
                                 onSort={onSort}
                             />
                         </th>
                         <th className="col-2">
-                            Type
+                            Member
                             <SortButton
                                 parameters={parameters}
-                                columnName="type"
+                                columnName="member"
                                 onSort={onSort}
                             />
                         </th>
@@ -80,10 +81,10 @@ const SearchResults = ({
                             />
                         </th>
                         <th className="col-2">
-                            Term (months)
+                            Balance
                             <SortButton
                                 parameters={parameters}
-                                columnName="termMonths"
+                                columnName="balance"
                                 onSort={onSort}
                             />
                         </th>
@@ -93,15 +94,13 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.loans.map((loan: Loan) =>
                         <tr key={loan.id}>
-                            <td>{loan.dateDisbursed ? new Date(loan.dateDisbursed).toLocaleDateString('en-ca') : ''}</td>
+                            <td>{formattedDate(loan.dateDisbursed)}</td>
+                            <td>{formattedDate(loan.dateOfExpiry)}</td>
                             <td>
                                 <Link to={`/sacco/member/details/${loan.memberId}`}>{loan.member}</Link>
                             </td>
-                            <td>
-                                <Link to={`/sacco/loan/details/${loan.id}`}>{loan.loanType}</Link>
-                            </td>
                             <td className="number-column">{loan.principal?.toLocaleString()}</td>
-                            <td className="number-column">{loan.termMonths}</td>
+                            <td className="number-column">{loan.balance?.toLocaleString()}</td>
                             <td className="buttons-column">
                                 <Link className="btn btn-secondary" to={`/sacco/loan/details/${loan.id}`}>
                                     View

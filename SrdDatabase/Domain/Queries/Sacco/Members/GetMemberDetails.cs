@@ -2,6 +2,7 @@
 using SrdDatabase.Data.Queries.Sacco.Distributions;
 using SrdDatabase.Data.Queries.Sacco.Installments;
 using SrdDatabase.Data.Queries.Sacco.Loans;
+using SrdDatabase.Data.Queries.Sacco.Payments;
 using SrdDatabase.Data.Queries.Sacco.Transactions;
 using SrdDatabase.Models.Sacco.Members;
 using System.ComponentModel.DataAnnotations;
@@ -50,24 +51,24 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
                     memberId: request.Id,
                     pageSize: Constants.DetailsPageSize);
                 var loansTask = _mediator.Send(loansQuery, cancellationToken);
-
-                var installmentsQuery = new GetInstallments.Query(
+                
+                var paymentsQuery = new GetPayments.Query(
                     memberId: request.Id,
                     pageSize: Constants.DetailsPageSize);
-                var installmentsTask = _mediator.Send(installmentsQuery, cancellationToken);
+                var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
 
                 var member = await memberTask;
                 var transactionResults = await transactionsTask;
                 var distributionAppliedResults = await distributionsAppliedTask;
                 var loanResults = await loansTask;
-                var installmentResults = await installmentsTask;
+                var paymentResults = await paymentsTask;
 
                 return new MemberDetails(
                     member,
                     transactionResults,
                     distributionAppliedResults,
                     loanResults,
-                    installmentResults);
+                    paymentResults);
             }
         }
     }

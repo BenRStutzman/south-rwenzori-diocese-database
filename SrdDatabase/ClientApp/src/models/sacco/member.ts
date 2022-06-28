@@ -2,7 +2,7 @@
 import { DistributionAppliedResults } from "./distribution";
 import { LoanResults } from "./loan";
 import { TransactionResults } from "./transaction";
-import { InstallmentResults } from "./installment";
+import { PaymentResults } from "./payment";
 
 export interface Member {
     id?: number;
@@ -12,6 +12,7 @@ export interface Member {
     autoFeesStartDate?: Date;
     yearsOfFees?: number;
     shares?: number;
+    sharesValue?: number;
     savings?: number;
     balance?: number;
 }
@@ -25,7 +26,7 @@ export interface MemberDetails {
     transactionResults: TransactionResults;
     distributionAppliedResults: DistributionAppliedResults;
     loanResults: LoanResults;
-    installmentResults: InstallmentResults;
+    paymentResults: PaymentResults;
 }   
 
 export interface MemberParameters extends PagedParameters {

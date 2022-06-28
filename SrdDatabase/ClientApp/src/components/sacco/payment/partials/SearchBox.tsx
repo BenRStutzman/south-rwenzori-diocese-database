@@ -1,6 +1,6 @@
 ﻿import React, { ChangeEvent, useEffect } from 'react';
 import { State } from '../../../../store';
-import * as Store from '../../../../store/sacco/installment/home';
+import * as Store from '../../../../store/sacco/payment/home';
 import * as SharedStore from '../../../../store/sacco/shared';
 import { connect } from 'react-redux';
 import SearchButtons from '../../../shared/SearchButtons';
@@ -22,14 +22,13 @@ type Props =
 const autoCompleteString = randomString();
 
 const SearchBox = ({
-    searchInstallments,
+    searchPayments,
     parameters,
     setSearchMemberId,
     setSearchLoanId,
     setSearchStartDate,
     setSearchEndDate,
     setSearchReceiptNumber,
-    setSearchIsPaid,
     members,
     loans,
     prefillParameters,
@@ -43,11 +42,11 @@ const SearchBox = ({
     const loadData = () => {
         loadMembers();
 
-        var loanIdString = queryParams.get('loanId');
-        const loanId = loanIdString ? parseInt(loanIdString) : undefined;
-
         var memberIdString = queryParams.get('memberId');
         const memberId = memberIdString ? parseInt(memberIdString) : undefined;
+
+        var loanIdString = queryParams.get('loanId');
+        const loanId = loanIdString ? parseInt(loanIdString) : undefined;
 
         prefillParameters(loanId, memberId, true);
     };
@@ -72,22 +71,18 @@ const SearchBox = ({
 
     const onReceiptNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchReceiptNumber(parseInt(event.target.value));
-    };
-
-    const onIsPaidChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchIsPaid(event.target.value === 'either' ? undefined : event.target.value === 'paid');
-    };
+    }
 
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        searchInstallments({ ...parameters, pageNumber: 0 });
+        searchPayments({ ...parameters, pageNumber: 0 });
     };
 
     return (
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="memberId">Member</label>
                             <select
@@ -107,7 +102,7 @@ const SearchBox = ({
                             </select>
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="loanId">Loan</label>
                             <select
@@ -121,46 +116,13 @@ const SearchBox = ({
                                 </option>
                                 {loans.map(loan =>
                                     <option key={loan.id} value={loan.id}>
-                                        {describeLoan(loan, false, true)}
+                                        {describeLoan(loan, true, true)}
                                     </option>
                                 )}
                             </select>
                         </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-6">
-                        <div className="form-group">
-                            <input
-                                name="isPaid"
-                                id="paid"
-                                type="radio"
-                                value="paid"
-                                onChange={onIsPaidChange}
-                                checked={parameters.isPaid === true}
-                            />
-                            <label htmlFor="paid">Paid</label>
-                            <input
-                                name="isPaid"
-                                id="unpaid"
-                                type="radio"
-                                value="unpaid"
-                                onChange={onIsPaidChange}
-                                checked={parameters.isPaid === false}
-                            />
-                            <label htmlFor="unpaid">Unpaid</label>
-                            <input
-                                name="isPaid"
-                                id="either"
-                                type="radio"
-                                value="either"
-                                onChange={onIsPaidChange}
-                                checked={parameters.isPaid === undefined}
-                            />
-                            <label htmlFor="either">Either</label>
-                        </div>
-                    </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="receiptNumber">Receipt Number</label>
                             <input
@@ -203,7 +165,7 @@ const SearchBox = ({
                 </div>
                 <SearchButtons
                     onClear={() => { prefillParameters(); }}
-                    thingsBeingSearched="installments"
+                    thingsBeingSearched="payments"
                 />
             </form>
         </div>
@@ -212,7 +174,7 @@ const SearchBox = ({
 
 export default connect(
     (state: State, ownProps: OwnProps) => ({
-        ...state.sacco.installment.home,
+        ...state.sacco.payment.home,
         ...state.sacco.shared,
         ...ownProps,
     }),

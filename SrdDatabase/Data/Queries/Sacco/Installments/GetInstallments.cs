@@ -5,7 +5,6 @@ using Dapper;
 using System.Data;
 using SrdDatabase.Services;
 using SrdDatabase.Models.Sacco.Installments;
-using System;
 
 namespace SrdDatabase.Data.Queries.Sacco.Installments
 {
@@ -17,20 +16,12 @@ namespace SrdDatabase.Data.Queries.Sacco.Installments
                 int? id = null,
                 int? loanId = null,
                 int? memberId = null,
-                DateTime? startDate = null,
-                DateTime? endDate = null,
-                int? receiptNumber = null,
-                bool? isPaid = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false,
                 int? pageSize = null) :
                 base (loanId,
                     memberId,
-                    startDate,
-                    endDate,
-                    receiptNumber,
-                    isPaid,
                     pageNumber,
                     sortColumn,
                     sortDescending,

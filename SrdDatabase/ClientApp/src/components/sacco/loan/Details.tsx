@@ -12,7 +12,7 @@ import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { describeLoan, describeLoanTerm } from '../../../helpers/sacco/loanHelper';
 import DetailsList from '../../shared/DetailsList';
-import { installmentItems } from '../../../helpers/sacco/detailsHelpers';
+import { installmentItems, paymentItems } from '../../../helpers/sacco/detailsHelpers';
 
 type Props =
     Store.State &
@@ -64,44 +64,88 @@ const Details = ({
                     altPreposition="to"
                 />
                 <DetailsBox
-                    itemType="fullyPaid"
-                    itemValue={details.loan.isPaid ? 'Yes' : 'No'}
+                    itemType="principal"
+                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="balance"
+                    itemValue={`${details.loan.balance?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="progress"
+                    itemValue={`${details.loan.percentagePaid}%`}
                 />
                 <DetailsBox
                     itemType="dateDisbursed"
                     itemValue={formattedDate(details.loan.dateDisbursed)}
                 />
                 <DetailsBox
-                    itemType="term"
+                    itemType="expiryDate"
+                    itemValue={formattedDate(details.loan.dateOfExpiry)}
+                />
+                <DetailsBox
+                    itemType="period"
                     itemValue={describeLoanTerm(details.loan)}
                 />
                 <DetailsBox
-                    itemType="principal"
-                    itemValue={`${details.loan.principal?.toLocaleString()} UGX`}
+                    itemType="principalPerInstallment"
+                    itemValue={`${details.loan.principalPerInstallment?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="interest"
+                    itemType="monthsOfInterest"
+                    itemValue={details.loan.monthsOfInterest?.toString()}
+                />
+                <DetailsBox
+                    itemType="interestPerInstallment"
+                    itemValue={`${details.loan.interestPerInstallment?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="principalDue"
+                    itemValue={`${details.loan.principalDue?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="principalPaid"
+                    itemValue={`${details.loan.principalPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="interestDue"
                     itemValue={`${details.loan.interest?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="lateFines"
-                    itemValue={`${details.loan.finesDue?.toLocaleString()} UGX`}
+                    itemType="interestPaid"
+                    itemValue={`${details.loan.interestPaid?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="finesDue"
+                    itemValue={`${details.loan.fines?.toLocaleString()} UGX`}
+                />
+                <DetailsBox
+                    itemType="finesPaid"
+                    itemValue={`${details.loan.finesPaid?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
                     itemType="totalDue"
                     itemValue={`${details.loan.totalDue?.toLocaleString()} UGX`}
                 />
                 <DetailsBox
-                    itemType="amountPaid"
-                    itemValue={`${details.loan.amountPaid?.toLocaleString()} UGX (${details.loan.percentagePaid}%)`}
+                    itemType="totalPaid"
+                    itemValue={`${details.loan.totalPaid?.toLocaleString()} UGX`}
                 />
                 <DetailsList
                     itemType="installment"
                     itemTotal={details.installmentResults.totalResults}
                     items={installmentItems(details.installmentResults)}
+                    dontViewAll
+                    isSacco
+                />
+                <DetailsList
+                    itemType="payment"
+                    itemTotal={details.paymentResults.totalResults}
+                    items={paymentItems(details.paymentResults, false)}
                     baseItemType="loan"
                     baseItemId={details.loan.id}
                     altPreposition="for"
+                    showAddLink
                     isSacco
                 />
             </div>

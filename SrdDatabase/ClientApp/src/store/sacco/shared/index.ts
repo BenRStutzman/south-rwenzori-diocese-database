@@ -2,11 +2,11 @@
 import { Action, AppThunkAction } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { Loan, LoanParameters, LoanResults, LoanType } from '../../../models/sacco/loan';
-import { Installment } from '../../../models/sacco/installment';
 import { Member } from '../../../models/sacco/member';
 import { Transaction } from '../../../models/sacco/transaction';
 import { Distribution } from '../../../models/sacco/distribution';
 import { formattedDate } from '../../../helpers/miscellaneous';
+import { Payment } from '../../../models/sacco/payment';
 
 const REQUEST_MEMBERS = 'SACCO.REQUEST_MEMBERS';
 const RECEIVE_MEMBERS = 'SACCO.RECEIVE_MEMBERS';
@@ -18,6 +18,7 @@ const SET_DELETING_MEMBER_ID = 'SACCO.SET_DELETING_MEMBER_ID';
 const SET_DELETING_TRANSACTION_ID = 'SACCO.SET_DELETING_TRANSACTION_ID';
 const SET_DELETING_DISTRIBUTION_ID = 'SACCO.SET_DELETING_DISTRIBUTION_ID';
 const SET_DELETING_LOAN_ID = 'SACCO.SET_DELETING_LOAN_ID';
+const SET_DELETING_PAYMENT_ID = 'SACCO.SET_DELETING_PAYMENT_ID';
 
 const requestMembersAction = () => ({
     type: REQUEST_MEMBERS,
@@ -64,6 +65,11 @@ const setDeletingDistributionIdAction = (distributionId?: number, isDeleting: bo
 const setDeletingLoanIdAction = (loanId?: number, isDeleting: boolean = true) => ({
     type: SET_DELETING_LOAN_ID,
     value: { loanId, isDeleting },
+});
+
+const setDeletingPaymentIdAction = (paymentId?: number, isDeleting: boolean = true) => ({
+    type: SET_DELETING_LOAN_ID,
+    value: { paymentId, isDeleting },
 });
 
 const loadMembers = (): AppThunkAction<Action> => (dispatch) => {
@@ -182,6 +188,27 @@ const deleteLoan = (loan: Loan, onSuccess: () => void):
         }
     };
 
+const deletePayment = (payment: Payment, onSuccess: () => void):
+    AppThunkAction<Action> => (dispatch) => {
+        if (window.confirm(`Are you sure you want to delete this payment for ${payment.member}?`)) {
+            dispatch(setDeletingPaymentIdAction(payment.id));
+
+            post<{ id: number }>('api/sacco/payment/delete', { id: payment.id as number })
+                .then(response => {
+                    if (response.ok) {
+                        onSuccess();
+                    } else {
+                        throw response.text();
+                    }
+                }).catch(errorPromise => {
+                    errorPromise.then((errorMessage: string) => {
+                        dispatch(setDeletingPaymentIdAction(payment.id, false));
+                        alert(errorMessage);
+                    });
+                });
+        }
+    };
+
 export const actionCreators = {
     loadMembers,
     loadLoanTypes,
@@ -190,6 +217,7 @@ export const actionCreators = {
     deleteTransaction,
     deleteDistribution,
     deleteLoan,
+    deletePayment,
 };
 
 export interface State {
@@ -203,6 +231,7 @@ export interface State {
     deletingTransactionIds: number[];
     deletingDistributionIds: number[];
     deletingLoanIds: number[];
+    deletingPaymentIds: number[];
 }
 
 const initialState: State = {
@@ -216,6 +245,7 @@ const initialState: State = {
     deletingTransactionIds: [],
     deletingDistributionIds: [],
     deletingLoanIds: [],
+    deletingPaymentIds: [],
 }
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -280,6 +310,13 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 deletingLoanIds: action.value.isDeleting
                     ? [...state.deletingLoanIds, action.value.loanId]
                     : state.deletingLoanIds.filter(id => id != action.value.loanId),
+            };
+         case SET_DELETING_PAYMENT_ID:
+            return {
+                ...state,
+                deletingPaymentIds: action.value.isDeleting
+                    ? [...state.deletingPaymentIds, action.value.paymentId]
+                    : state.deletingPaymentIds.filter(id => id != action.value.paymentId),
             };
         default:
             return state;

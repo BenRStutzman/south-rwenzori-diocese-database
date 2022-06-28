@@ -38,7 +38,8 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         loan: {},
-        installmentResults: { ...pagedResultsDefaults, installments: [] }
+        installmentResults: { ...pagedResultsDefaults, installments: [] },
+        paymentResults: { ...pagedResultsDefaults, payments: [] },
     },
 };
 

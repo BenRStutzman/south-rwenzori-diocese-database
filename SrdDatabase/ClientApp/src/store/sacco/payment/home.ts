@@ -2,27 +2,26 @@ import { Reducer } from 'redux';
 import { AppThunkAction, Action } from '../..';
 import { get, post } from '../../../helpers/apiHelpers';
 import { formattedDateAllowUndefined } from '../../../helpers/miscellaneous';
-import { InstallmentParameters, InstallmentParametersToSend, InstallmentResults } from '../../../models/sacco/installment';
 import { Loan } from '../../../models/sacco/loan';
 import { Member } from '../../../models/sacco/member';
+import { PaymentParameters, PaymentParametersToSend, PaymentResults } from '../../../models/sacco/payment';
 import { pagedResultsDefaults } from '../../../models/shared';
 import { loadLoans } from '../shared';
 
-const SET_PARAMETERS = 'SACCO_INSTALLMENT.SET_PARAMETERS';
-const SET_SEARCH_START_DATE = 'SACCO_INSTALLMENT.SET_SEARCH_START_DATE';
-const SET_SEARCH_END_DATE = 'SACCO_INSTALLMENT.SET_SEARCH_END_DATE';
-const SET_SEARCH_MEMBER_ID = 'SACCO_INSTALLMENT.SET_SEARCH_MEMBER_ID';
-const SET_SEARCH_LOAN_ID = 'SACCO_INSTALLMENT.SET_SEARCH_LOAN_ID';
-const SET_SEARCH_RECEIPT_NUMBER = 'SACCO_INSTALLMENT.SET_SEARCH_RECEIPT_NUMBER';
-const SET_SEARCH_IS_PAID = 'SACCO_INSTALLMENT.SET_SEARCH_IS_PAID';
-const SET_RESULTS_LOADING = 'SACCO_INSTALLMENT.SET_RESULTS_LOADING';
-const SET_RESULTS = 'SACCO_INSTALLMENT.SET_RESULTS';
+const SET_PARAMETERS = 'SACCO_PAYMENT.SET_PARAMETERS';
+const SET_SEARCH_START_DATE = 'SACCO_PAYMENT.SET_SEARCH_START_DATE';
+const SET_SEARCH_END_DATE = 'SACCO_PAYMENT.SET_SEARCH_END_DATE';
+const SET_SEARCH_LOAN_ID = 'SACCO_PAYMENT.SET_SEARCH_LOAN_ID';
+const SET_SEARCH_MEMBER_ID = 'SACCO_PAYMENT.SET_SEARCH_MEMBER_ID';
+const SET_SEARCH_RECEIPT_NUMBER = 'SACCO_PAYMENT.SET_SEARCH_RECEIPT_NUMBER';
+const SET_RESULTS_LOADING = 'SACCO_PAYMENT.SET_RESULTS_LOADING';
+const SET_RESULTS = 'SACCO_PAYMENT.SET_RESULTS';
 
 const setResultsLoadingAction = () => ({
     type: SET_RESULTS_LOADING,
 });
 
-const setResultsAction = (results: InstallmentResults) => ({
+const setResultsAction = (results: PaymentResults) => ({
     type: SET_RESULTS,
     value: results,
 });
@@ -37,7 +36,7 @@ const setSearchEndDateAction = (endDate?: Date) => ({
     value: endDate,
 });
 
-const setSearchMemberIdAction = (memberId: number) => ({
+const setSearchMemberIdAction = (memberId?: number) => ({
     type: SET_SEARCH_MEMBER_ID,
     value: memberId,
 });
@@ -52,29 +51,24 @@ const setSearchReceiptNumberAction = (receiptNumber?: number) => ({
     value: receiptNumber,
 });
 
-const setSearchIsPaidAction = (isPaid?: boolean) => ({
-    type: SET_SEARCH_IS_PAID,
-    value: isPaid,
-})
-
-const setParametersAction = (parameters: InstallmentParameters) => ({
+const setParametersAction = (parameters: PaymentParameters) => ({
     type: SET_PARAMETERS,
     value: parameters,
 });
 
-const setParameters = (parameters: InstallmentParameters): AppThunkAction<Action> => (dispatch) => {
+const setParameters = (parameters: PaymentParameters): AppThunkAction<Action> => (dispatch) => {
     dispatch(setParametersAction(parameters));
     dispatch(loadLoans(parameters.memberId));
 };
 
 const prefillParameters = (loanId?: number, memberId?: number, search: boolean = false): AppThunkAction<Action> => (dispatch) => {
-    const backupUrl = '/sacco/installment';
+    const backupUrl = '/sacco/payment';
 
-    const setParametersAndSearch = (parameters: InstallmentParameters) => {
+    const setParametersAndSearch = (parameters: PaymentParameters) => {
         dispatch(setParameters(parameters));
 
         if (search) {
-            dispatch(searchInstallments(parameters));
+            dispatch(searchPayments(parameters));
         }
     };
 
@@ -86,8 +80,7 @@ const prefillParameters = (loanId?: number, memberId?: number, search: boolean =
                     loanId,
                 });
             });
-    }
-    else if (memberId) {
+    } else if (memberId) {
         get<Member>(`api/sacco/member/${memberId}`, backupUrl)
             .then(() => {
                 setParametersAndSearch({
@@ -107,26 +100,22 @@ const setSearchEndDate = (endDate?: Date): AppThunkAction<Action> => (dispatch) 
     dispatch(setSearchEndDateAction(endDate));
 };
 
-const setSearchMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
-    dispatch(loadLoans(memberId))
-    dispatch(setSearchMemberIdAction(memberId));
-    dispatch(setSearchLoanId(undefined));
-};
-
 const setSearchLoanId = (loanId?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchLoanIdAction(loanId));
 }
+
+const setSearchMemberId = (memberId: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(loadLoans(memberId));
+    dispatch(setSearchMemberIdAction(memberId));
+    dispatch(setSearchLoanId(undefined));
+};
 
 const setSearchReceiptNumber = (receiptNumber?: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchReceiptNumberAction(receiptNumber));
 };
 
-const setSearchIsPaid = (isPaid?: boolean): AppThunkAction<Action> => (dispatch) => {
-    dispatch(setSearchIsPaidAction(isPaid));
-};
-
-const searchInstallments = (
-    parameters: InstallmentParameters = {},
+const searchPayments = (
+    parameters: PaymentParameters = {},
     showLoading: boolean = true,
 ): AppThunkAction<Action> => (dispatch) => {
     if (showLoading) {
@@ -141,52 +130,51 @@ const searchInstallments = (
         endDate: formattedDateAllowUndefined(parameters.endDate),
     }
 
-    post<InstallmentParametersToSend>('api/sacco/installment/search', parametersToSend)
-        .then(response => response.json() as Promise<InstallmentResults>)
+    post<PaymentParametersToSend>('api/sacco/payment/search', parametersToSend)
+        .then(response => response.json() as Promise<PaymentResults>)
         .then(results => {
             dispatch(setResultsAction(results));
         });
 };
 
 export const actionCreators = {
-    searchInstallments,
-    setSearchMemberId,
+    searchPayments,
     setSearchLoanId,
+    setSearchMemberId,
     setSearchStartDate,
     setSearchEndDate,
     setSearchReceiptNumber,
-    setSearchIsPaid,
     prefillParameters,
 };
 
 export interface State {
     resultsLoading: boolean;
-    results: InstallmentResults;
-    parameters: InstallmentParameters,
+    results: PaymentResults;
+    parameters: PaymentParameters,
 }
 
 const initialState: State = {
-    results: { ...pagedResultsDefaults, installments: [] },
+    results: { ...pagedResultsDefaults, payments: [] },
     resultsLoading: true,
     parameters: {},
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
     switch (action.type) {
-        case SET_SEARCH_MEMBER_ID:
-            return {
-                ...state,
-                parameters: {
-                    ...state.parameters,
-                    memberId: action.value,
-                }
-            };
         case SET_SEARCH_LOAN_ID:
             return {
                 ...state,
                 parameters: {
                     ...state.parameters,
                     loanId: action.value,
+                }
+            };
+        case SET_SEARCH_MEMBER_ID:
+            return {
+                ...state,
+                parameters: {
+                    ...state.parameters,
+                    memberId: action.value,
                 }
             };
         case SET_SEARCH_START_DATE:
@@ -211,14 +199,6 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parameters: {
                     ...state.parameters,
                     receiptNumber: action.value,
-                }
-            };
-        case SET_SEARCH_IS_PAID:
-            return {
-                ...state,
-                parameters: {
-                    ...state.parameters,
-                    isPaid: action.value,
                 }
             };
         case SET_PARAMETERS:

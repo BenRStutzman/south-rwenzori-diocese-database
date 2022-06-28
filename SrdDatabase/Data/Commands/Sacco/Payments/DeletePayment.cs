@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Dapper;
 using SrdDatabase.Services;
 
-namespace SrdDatabase.Data.Commands.Sacco.Installments
+namespace SrdDatabase.Data.Commands.Sacco.Payments
 {
-    public class DeleteInstallment
+    public class DeletePayment
     {
         public class Command : IRequest
         {
@@ -23,7 +23,7 @@ namespace SrdDatabase.Data.Commands.Sacco.Installments
         {
             private readonly IDbService _dbService;
 
-            private readonly string _storedProcedure = "sto_delete_sacco_installment";
+            private readonly string _storedProcedure = "sto_delete_sacco_payment";
 
             public Handler(IDbService dbService)
             {

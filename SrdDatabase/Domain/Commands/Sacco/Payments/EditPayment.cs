@@ -3,24 +3,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using SrdDatabase.Models.Shared;
-using SrdDatabase.Models.Sacco.Installments;
+using SrdDatabase.Models.Sacco.Payments;
 using System;
-using SrdDatabase.Data.Commands.Sacco.Installments;
+using SrdDatabase.Data.Commands.Sacco.Payments;
 
-namespace SrdDatabase.Domain.Commands.Sacco.Installments
+namespace SrdDatabase.Domain.Commands.Sacco.Payments
 {
-    public class EditInstallment
+    public class EditPayment
     {
-        public class Command : InstallmentFields, IRequest<SaveResponse>
+        public class Command : PaymentFields, IRequest<SaveResponse>
         {
             [Range(1, int.MaxValue)]
             public int Id { get; }
 
             public Command(
                 int id,
-                DateTime? datePaid,
-                int? receiptNumber)
-                : base(datePaid, receiptNumber)
+                int amount,
+                int loanId,
+                DateTime date,
+                int? receiptNumber
+                )
+                : base(
+                    amount,
+                    loanId,
+                    date,
+                    receiptNumber
+                    )
             {
                 Id = id;
             }
@@ -37,11 +45,14 @@ namespace SrdDatabase.Domain.Commands.Sacco.Installments
 
             public async Task<SaveResponse> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dataCommand = new SaveInstallment.Command(
+                var dataCommand = new SavePayment.Command(
                     request.Id,
-                    request.DatePaid,
+                    request.Amount,
+                    request.LoanId,
+                    request.Date,
                     request.ReceiptNumber,
-                    request.UserId.Value);
+                    request.UserId.Value
+                    );
 
                 return await _mediator.Send(dataCommand, cancellationToken);
             }

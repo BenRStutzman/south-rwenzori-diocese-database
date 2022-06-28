@@ -58,16 +58,16 @@ const Details = ({
                     itemValue={formattedDate(details.transaction.date)}
                 />
                 <DetailsBox
+                    itemType="receiptNumber"
+                    itemValue={details.transaction.receiptNumber?.toString() ?? "Not set"}
+                />
+                <DetailsBox
                     baseItemType="transaction"
                     itemType="member"
                     itemValue={details.transaction.member}
                     itemId={details.transaction.memberId}
                     isSacco
                     altPreposition="by"
-                />
-                <DetailsBox
-                    itemType="receiptNumber"
-                    itemValue={details.transaction.receiptNumber?.toString() ?? "Not set"}
                 />
                 <DetailsBox
                     itemType="notes"

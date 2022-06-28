@@ -1,6 +1,7 @@
 ﻿using SrdDatabase.Models.Sacco.Distributions;
 using SrdDatabase.Models.Sacco.Loans;
 using SrdDatabase.Models.Sacco.Members;
+using SrdDatabase.Models.Sacco.Payments;
 using SrdDatabase.Models.Sacco.Transactions;
 
 namespace SrdDatabase.Models.Sacco
@@ -15,17 +16,21 @@ namespace SrdDatabase.Models.Sacco
 
         public LoanResults LoanResults { get; }
 
+        public PaymentResults PaymentResults { get; }
+
         public SaccoDetails(
             MemberResults memberResults,
             TransactionResults transactionResults,
             DistributionResults distributionResults,
-            LoanResults loanResults
+            LoanResults loanResults,
+            PaymentResults paymentResults
             )
         {
             MemberResults = memberResults;
             TransactionResults = transactionResults;
             DistributionResults = distributionResults;
             LoanResults = loanResults;
+            PaymentResults = paymentResults;
         }
 
         public SaccoDetails(
@@ -33,12 +38,14 @@ namespace SrdDatabase.Models.Sacco
             TransactionResults transactionResults,
             DistributionResults distributionResults,
             LoanResults loanResults,
+            PaymentResults paymentResults,
             SaccoDetails saccoDetails
         ) : this(
             memberResults,
             transactionResults,
             distributionResults,
-            loanResults
+            loanResults,
+            paymentResults
             )
         {
             // Add stuff here when getting details like total savings, etc.
