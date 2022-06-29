@@ -8,9 +8,9 @@
 
         public int? NumberOfChristians { get; }
 
-        public int Quota { get; }
+        public long Quota { get; }
 
-        public int Balance { get; }
+        public long Balance { get; }
         
         public Archdeaconry(
             int id,

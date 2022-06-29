@@ -12,43 +12,61 @@ namespace SrdDatabase.Models.Sacco
 
         public TransactionResults TransactionResults { get; }
 
-        public DistributionResults DistributionResults { get; }
-
         public LoanResults LoanResults { get; }
 
         public PaymentResults PaymentResults { get; }
 
+        public int Shares { get; }
+
+        public long SharesValue { get; }
+
+        public long Savings { get; }
+
+        public long Balance { get; }
+
+        public long LoanBalance { get; }
+
         public SaccoDetails(
             MemberResults memberResults,
             TransactionResults transactionResults,
-            DistributionResults distributionResults,
             LoanResults loanResults,
-            PaymentResults paymentResults
+            PaymentResults paymentResults,
+            int shares,
+            long sharesValue,
+            long savings,
+            long balance,
+            long loanBalance
             )
         {
             MemberResults = memberResults;
             TransactionResults = transactionResults;
-            DistributionResults = distributionResults;
             LoanResults = loanResults;
             PaymentResults = paymentResults;
+            Shares = shares;
+            SharesValue = sharesValue;
+            Savings = savings;
+            Balance = balance;
+            LoanBalance = loanBalance;
         }
 
         public SaccoDetails(
             MemberResults memberResults,
             TransactionResults transactionResults,
-            DistributionResults distributionResults,
             LoanResults loanResults,
             PaymentResults paymentResults,
             SaccoDetails saccoDetails
         ) : this(
             memberResults,
             transactionResults,
-            distributionResults,
             loanResults,
-            paymentResults
+            paymentResults,
+            saccoDetails.Shares,
+            saccoDetails.SharesValue,
+            saccoDetails.Savings,
+            saccoDetails.Balance,
+            saccoDetails.LoanBalance
             )
         {
-            // Add stuff here when getting details like total savings, etc.
         }
 
         // for Dapper

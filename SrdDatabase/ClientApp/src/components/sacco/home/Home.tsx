@@ -2,9 +2,11 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { distributionItems, loanItems, memberItems, paymentItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
+import { parenthesizeIfNegative } from '../../../helpers/miscellaneous';
+import { loanItems, memberItems, paymentItems, transactionItems } from '../../../helpers/sacco/detailsHelpers';
 import { State } from '../../../store';
 import * as Store from '../../../store/sacco/home';
+import DetailsBox from '../../shared/DetailsBox';
 import DetailsList from '../../shared/DetailsList';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 
@@ -27,6 +29,18 @@ const Home = ({
         <>
             <h1>SRD Savings and Credit Co-Operative Society</h1>
             <div className="details-boxes">
+                <DetailsBox
+                    altTitle={`Shares: ${details.shares} (${details.sharesValue.toLocaleString()} UGX)`}
+                />
+                <DetailsBox
+                    altTitle={`Savings: ${parenthesizeIfNegative(details.savings)} UGX`}
+                />
+                <DetailsBox
+                    altTitle={`Balance: ${parenthesizeIfNegative(details.balance)} UGX`}
+                />
+                <DetailsBox
+                    altTitle={`Loan Balance: ${details.loanBalance.toLocaleString()} UGX`}
+                />
                 <DetailsList
                     itemType="member"
                     itemTotal={details.memberResults.totalResults}
@@ -35,19 +49,12 @@ const Home = ({
                     isSacco
                 />
                 <DetailsList
-                        itemType="transaction"
-                        itemTotal={details.transactionResults.totalResults}
-                        items={transactionItems(details.transactionResults, true)}
-                        showAddLink
-                        isSacco
-                    />
-                <DetailsList
-                        itemType="distribution"
-                        itemTotal={details.distributionResults.totalResults}
-                        items={distributionItems(details.distributionResults)}
-                        showAddLink
-                        isSacco
-                    />
+                    itemType="transaction"
+                    itemTotal={details.transactionResults.totalResults}
+                    items={transactionItems(details.transactionResults, true)}
+                    showAddLink
+                    isSacco
+                />
                 <DetailsList
                     itemType="loan"
                     itemTotal={details.loanResults.totalResults}

@@ -26,9 +26,9 @@ namespace SrdDatabase.Models.Diocese
 
         public int? NumberOfChristians { get; }
 
-        public int Quota { get; }
+        public long Quota { get; }
 
-        public int Balance { get; }
+        public long Balance { get; }
 
         public DioceseDetails(
             ArchdeaconryResults archdeaconryResults,
@@ -39,8 +39,8 @@ namespace SrdDatabase.Models.Diocese
             QuotaResults quotaResults,
             CensusResults censusResults,
             int? numberOfChristians,
-            int quota,
-            int balance)
+            long quota,
+            long balance)
         {
             ArchdeaconryResults = archdeaconryResults;
             ParishResults = parishResults;
