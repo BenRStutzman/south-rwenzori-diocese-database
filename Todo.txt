@@ -9,7 +9,7 @@ To do:
 	- Don't give them dividends or interest
 	- Sort by isChurch
 - Nicer small receipt printout (A3) - half of A4 for transactions and payments
-- Add useful SACCO-wide stats to dashboard
+~ Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
 	- Total savings
 	- Total balance
