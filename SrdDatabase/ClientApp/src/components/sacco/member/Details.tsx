@@ -43,7 +43,7 @@ const Details = ({
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
-                <h1>Member {details.member.name}</h1>
+                <h1>Member {details.member.name}{details.member.isChurch ? ' (church)' : ''}</h1>
                 <div className="button-group float-right">
                     <Link className="btn btn-primary" to={`/sacco/member/edit/${details.member.id}`}>
                         Edit member

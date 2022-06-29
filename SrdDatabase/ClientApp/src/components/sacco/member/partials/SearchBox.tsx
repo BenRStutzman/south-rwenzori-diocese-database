@@ -22,6 +22,7 @@ const SearchBox = ({
     parameters,
     setSearchName,
     setSearchAccountNumber,
+    setSearchIsChurch,
     prefillParameters,
     expanded,
 }: Props) => {
@@ -39,6 +40,10 @@ const SearchBox = ({
         setSearchAccountNumber(parseInt(event.target.value));
     };
 
+    const onIsChurchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchIsChurch(event.target.value === 'either' ? undefined : event.target.value === 'church');
+    };
+
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         searchMembers({ ...parameters, pageNumber: 0 });
@@ -48,7 +53,7 @@ const SearchBox = ({
         <div hidden={!expanded} className="search-box">
             <form onSubmit={onSubmit}>
                 <div className="row">
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="id">Account Number</label>
                             <input
@@ -62,7 +67,7 @@ const SearchBox = ({
                             />
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-4">
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
                             <input
@@ -75,6 +80,37 @@ const SearchBox = ({
                                 onChange={onNameChange}
                                 maxLength={50}
                             />
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <div className="form-group">
+                            <input
+                                name="isChurch"
+                                id="individual"
+                                type="radio"
+                                value="individual"
+                                onChange={onIsChurchChange}
+                                checked={parameters.isChurch === false}
+                            />
+                            <label htmlFor="individual">Individual</label>
+                            <input
+                                name="isChurch"
+                                id="church"
+                                type="radio"
+                                value="church"
+                                onChange={onIsChurchChange}
+                                checked={parameters.isChurch === true}
+                            />
+                            <label htmlFor="church">Church</label>
+                            <input
+                                name="isChurch"
+                                id="either"
+                                type="radio"
+                                value="either"
+                                onChange={onIsChurchChange}
+                                checked={parameters.isChurch === undefined}
+                            />
+                            <label htmlFor="either">Any</label>
                         </div>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ export interface MemberDetails {
 export interface MemberParameters extends PagedParameters {
     accountNumber?: number;
     name?: string;
-    isChurch?: string;
+    isChurch?: boolean;
 }
 
 export interface MemberResults extends PagedResults {

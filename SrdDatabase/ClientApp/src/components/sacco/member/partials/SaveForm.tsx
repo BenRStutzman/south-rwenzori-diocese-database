@@ -25,6 +25,7 @@ const SaveForm = ({
     member,
     saveMember,
     setName,
+    setIsChurch,
     setDateJoined,
     setAccountNumber,
     hasBeenChanged,
@@ -34,6 +35,10 @@ const SaveForm = ({
 }: Props) => {
     const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
+    };
+
+    const onIsChurchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setIsChurch(event.target.value === 'church');
     };
 
     const onAccountNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +68,26 @@ const SaveForm = ({
                     required
                     min={1}
                 />
+            </div>
+            <div className="form-group">
+                <input
+                    name="isChurch"
+                    id="individual"
+                    type="radio"
+                    value="individual"
+                    onChange={onIsChurchChange}
+                    checked={member.isChurch === false}
+                />
+                <label htmlFor="individual">Individual</label>
+                <input
+                    name="isChurch"
+                    id="church"
+                    type="radio"
+                    value="church"
+                    onChange={onIsChurchChange}
+                    checked={member.isChurch ?? false}
+                />
+                <label htmlFor="church">Church</label>
             </div>
             <div className="form-group">
                 <label htmlFor="name">Name</label>
