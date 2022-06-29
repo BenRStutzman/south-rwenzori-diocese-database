@@ -8,6 +8,7 @@ export interface Member {
     id?: number;
     accountNumber?: number;
     name?: string;
+    isChurch?: boolean;
     dateJoined?: Date;
     autoFeesStartDate?: Date;
     yearsOfFees?: number;
@@ -32,6 +33,7 @@ export interface MemberDetails {
 export interface MemberParameters extends PagedParameters {
     accountNumber?: number;
     name?: string;
+    isChurch?: string;
 }
 
 export interface MemberResults extends PagedResults {

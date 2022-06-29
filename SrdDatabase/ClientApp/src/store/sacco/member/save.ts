@@ -8,6 +8,7 @@ import { formattedDate } from '../../../helpers/miscellaneous';
 const SET_IS_LOADING = 'SACCO_MEMBER.SET_IS_LOADING';
 const SET_MEMBER = 'SACCO_MEMBER.RECEIVE_MEMBER';
 const SET_NAME = 'SACCO_MEMBER.SET_NAME';
+const SET_IS_CHURCH = 'SACCO_MEMBER.SET_IS_CHURCH';
 const SET_ACCOUNT_NUMBER = 'SACCO_MEMBER.SET_ACCOUNT_NUMBER';
 const SET_DATE_JOINED = 'SACCO_MEMBER.SET_DATE_JOINED';
 const SET_IS_SAVING = 'SACCO_MEMBER.SET_IS_SAVING';
@@ -25,6 +26,11 @@ const setMemberAction = (member: Member) => ({
 const setNameAction = (name: string) => ({
     type: SET_NAME,
     value: name,
+});
+
+const setIsChurchAction = (isChurch: boolean) => ({
+    type: SET_IS_CHURCH,
+    value: isChurch,
 });
 
 const setAccountNumberAction = (accountNumber: number) => ({
@@ -68,6 +74,10 @@ const setName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setNameAction(name));
 };
 
+const setIsChurch = (isChurch: boolean): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setIsChurchAction(isChurch));
+};
+
 const setAccountNumber = (accountNumber: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setAccountNumberAction(accountNumber));
 };
@@ -106,6 +116,7 @@ export const actionCreators = {
     prefillMember,
     loadMember,
     setName,
+    setIsChurch,
     setAccountNumber,
     setDateJoined,
     saveMember,
@@ -148,6 +159,15 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 member: {
                     ...state.member,
                     name: action.value,
+                },
+                hasBeenChanged: true,
+            };
+        case SET_IS_CHURCH:
+            return {
+                ...state,
+                member: {
+                    ...state.member,
+                    isChurch: action.value,
                 },
                 hasBeenChanged: true,
             };

@@ -9,6 +9,7 @@ const SET_RESULTS_LOADING = 'SACCO_MEMBER.SET_RESULTS_LOADING';
 const SET_RESULTS = 'SACCO_MEMBER.SET_RESULTS';
 const SET_SEARCH_NAME = 'SACCO_MEMBER.SET_SEARCH_NAME';
 const SET_SEARCH_ACCOUNT_NUMBER = 'SACCO_MEMBER.SET_SEARCH_ACCOUNT_NUMBER';
+const SET_SEARCH_IS_CHURCH = 'SACCO_MEMBER.SET_SEARCH_IS_CHURCH';
 const SET_PARAMETERS = 'SACCO_MEMBER.SET_PARAMETERS';
 
 const setResultsLoadingAction = () => ({
@@ -28,7 +29,12 @@ const setSearchNameAction = (name?: string) => ({
 const setSearchAccountNumberAction = (accountNumber: number) => ({
     type: SET_SEARCH_ACCOUNT_NUMBER,
     value: accountNumber,
-})
+});
+
+const setSearchIsChurchAction = (isChurch?: boolean) => ({
+    type: SET_SEARCH_IS_CHURCH,
+    value: isChurch,
+});
 
 const setParametersAction = (parameters: MemberParameters) => ({
     type: SET_PARAMETERS,
@@ -69,14 +75,20 @@ const searchMembers = (
 const setSearchName = (name: string): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchNameAction(name.length ? name : undefined));
 };
+
 const setSearchAccountNumber = (accountNumber: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setSearchAccountNumberAction(accountNumber));
+};
+
+const setSearchIsChurch = (isChurch?: boolean): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setSearchIsChurchAction(isChurch));
 };
 
 export const actionCreators = {
     searchMembers,
     setSearchName,
     setSearchAccountNumber,
+    setSearchIsChurch,
     prefillParameters,
 };
 
@@ -124,6 +136,14 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 parameters: {
                     ...state.parameters,
                     accountNumber: action.value,
+                }
+            };
+        case SET_SEARCH_IS_CHURCH:
+            return {
+                ...state,
+                parameters: {
+                    ...state.parameters,
+                    isChurch: action.value,
                 }
             };
         default:

@@ -10,6 +10,8 @@ namespace SrdDatabase.Models.Sacco.Members
 
         public string Name { get; }
 
+        public bool IsChurch { get; }
+
         public DateTime DateJoined { get; }
 
         public DateTime AutoFeesStartDate { get; }
@@ -28,6 +30,7 @@ namespace SrdDatabase.Models.Sacco.Members
             int id,
             int accountNumber,
             string name,
+            bool isChurch,
             DateTime dateJoined,
             DateTime autoFeesStartDate,
             int yearsOfFees,
@@ -39,6 +42,7 @@ namespace SrdDatabase.Models.Sacco.Members
             Id = id;
             AccountNumber = accountNumber;
             Name = name;
+            IsChurch = isChurch;
             DateJoined = dateJoined;
             AutoFeesStartDate = autoFeesStartDate;
             YearsOfFees = yearsOfFees;

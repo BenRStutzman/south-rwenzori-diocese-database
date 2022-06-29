@@ -14,15 +14,20 @@ namespace SrdDatabase.Models.Sacco.Members
         public string Name { get; }
 
         [Required]
+        public bool IsChurch { get; }
+
+        [Required]
         public DateTime DateJoined { get; }
 
         public MemberFields(
             int accountNumber,
             string name,
+            bool isChurch,
             DateTime dateJoined,
             int? userId = null) : base(userId)
         {
             Name = name;
+            IsChurch = isChurch;
             DateJoined = dateJoined;
             AccountNumber = accountNumber;
         }

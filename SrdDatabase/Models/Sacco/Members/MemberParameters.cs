@@ -14,9 +14,12 @@ namespace SrdDatabase.Models.Sacco.Members
         [StringLength(50)]
         public string Name { get; }
 
+        public bool? IsChurch { get; }
+
         public MemberParameters(
             int? accountNumber = null,
             string name = null,
+            bool? isChurch = null,
             int pageNumber = 0,
             string sortColumn = null,
             bool sortDescending = false,
@@ -30,6 +33,7 @@ namespace SrdDatabase.Models.Sacco.Members
             Id = id;
             AccountNumber = accountNumber;
             Name = name;
+            IsChurch = isChurch;
         }
     }
 }
