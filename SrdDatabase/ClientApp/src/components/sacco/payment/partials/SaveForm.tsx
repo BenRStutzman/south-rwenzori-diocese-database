@@ -105,7 +105,7 @@ const SaveForm = ({
                     required
                 >
                     <option key={0} value="" disabled>{
-                        !payment.memberId ? 'First select an member above'
+                        !payment.memberId ? 'First select a member above'
                             : loansLoading ? 'Loading...'
                                 : loans.length === 0 ? 'No loans available for the selected member'
                                     : '--- select a loan ---'

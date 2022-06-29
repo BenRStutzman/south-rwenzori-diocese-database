@@ -32,7 +32,7 @@ namespace SrdDatabase.Models.Sacco.Installments
 
         public int Balance { get; }
 
-        public sbyte PercentagePaid { get; }
+        public short PercentagePaid { get; }
 
         public bool IsPaid { get; }
 
@@ -51,7 +51,7 @@ namespace SrdDatabase.Models.Sacco.Installments
             int interestPaid,
             int totalPaid,
             int balance,
-            sbyte percentagePaid,
+            short percentagePaid,
             bool isPaid
             )
         {

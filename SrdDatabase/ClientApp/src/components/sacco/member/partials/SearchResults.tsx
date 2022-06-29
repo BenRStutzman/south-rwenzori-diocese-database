@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../../shared/Paging';
 import SortButton from '../../../shared/SortButton';
-import { formattedDate, parenthesizeIfNegative } from '../../../../helpers/miscellaneous';
+import { parenthesizeIfNegative } from '../../../../helpers/miscellaneous';
 
 type Props =
     Store.State &

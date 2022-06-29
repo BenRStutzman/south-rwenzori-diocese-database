@@ -46,7 +46,7 @@ namespace SrdDatabase.Models.Sacco.Loans
 
         public int Balance { get; }
 
-        public sbyte PercentagePaid { get; }
+        public short PercentagePaid { get; }
 
         public bool IsPaid { get; }
 
@@ -72,7 +72,7 @@ namespace SrdDatabase.Models.Sacco.Loans
             int finesPaid,
             int totalPaid,
             int balance,
-            sbyte percentagePaid,
+            short percentagePaid,
             bool isPaid)
         {
             Id = id;

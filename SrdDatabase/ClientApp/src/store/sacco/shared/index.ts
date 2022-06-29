@@ -68,7 +68,7 @@ const setDeletingLoanIdAction = (loanId?: number, isDeleting: boolean = true) =>
 });
 
 const setDeletingPaymentIdAction = (paymentId?: number, isDeleting: boolean = true) => ({
-    type: SET_DELETING_LOAN_ID,
+    type: SET_DELETING_PAYMENT_ID,
     value: { paymentId, isDeleting },
 });
 

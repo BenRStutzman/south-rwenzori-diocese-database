@@ -1,12 +1,15 @@
 To do:
-- Fix shares and savings sorting together on member results page
+~ Fix deleting abnormality for payments (doesn't do little spinner)
+~ Change sbyte for payment percentage to short
+~ An to a on payment edit page
 - Less spacing in results pages
 - Smaller font in details pages
 - Enable churches as members:
 	- Boolean field
 	- Don't give them dividends or interest
 	- Sort by isChurch
-- Nicer small receipt printout (A3) - half of A4 for transactions
+	- SQL done
+- Nicer small receipt printout (A3) - half of A4 for transactions and payments
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
 	- Total savings
@@ -15,66 +18,20 @@ To do:
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
 
+Next version:
 - Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
 - Censuses:
 	- Add cong, parish, arch, and dioc details based on christian counts
 
 To release:
 
-~ Check for payments before deleting a loan
-X Fix loan not loading on payment edit
-X Remove bracket from shares value on member details
-X Add comma to loan amount in describeLoan
-X Add add payment option on member details page
-X Remove view all installments from loan details
+X Fix shares and savings sorting together on member results page
 
-X Savings:
-	X Don't round distributions
-	X Show value of shares on member details page (in parentheses)
-	X Add value of shares to shares column on member home page, and savings
-	X Add commas to total distribution value on home page
-
-X Loans:
-	X For a payment, determine how much was principal and how much interest.
-	X Add expiry date (date of last payment)
-	X Change % paid to % of balance paid
-	X Check fine % schedule - off by 2 days
-	X Add interest per month to loan details page
-	X Make payments separate from installments
-		We want to see:
-		- Balance left for a loan (calculate_sacco_loan_balance(loanId, date))
-			To get that, we must know:
-				- Total due: calculate_sacco_loan_total_due(loanId, date): sum of:
-					- Principal
-					- Interest
-						- Declare months_of_interest
-						- First get Principal paid (calculate_sacco_loan_principal_paid(loanId, date)) - sum of principal payments up to that date
-						- If principal paid < loan principal, months_of_interest = term_months
-						- Else, calculate final payment date (sproc)
-							- If final payment date > expiry date, then months_of_interest = term_months
-							- Else, months_of_interest = installment_number of first installment with a due date on or after final payment date
-						- Interest = monthly_interest * months_of_interest
-					- Fines (sum of fines from payment_details view)
-				- Total paid (calculate_sacco_loan_total_paid(loanId, date)) - sum of payments up to that date
-				- Balance = Total due - total paid
-					
-	X any amount left unpaid on an installment is considered in arrears - that much is fined
-	X interest for months after fully paid is not charged
-	X Show remaining balance on loan details page, loan home page
-	X Add payments to C#, remove installment editing
-	X Show installment schedule on loan details page
-	X Remove installment sorting from js, show datePaid on paid installments
-	X Remove space between ellipsis and and in "and 123 more"	
+To confirm in production:
 
 To update in SQL:
-	X All sprocs
-	X All views
-	X Replace sacco_installment table and triggers
-	X Add sacco_payment table and triggers
-	X Add sacco_payment_applied table and triggers
-	X Update sacco_loan triggers
-
-	X Remove unmatching sprocs and tables
+	- Add is_church BIT field (default FALSE) to sacco_member table
+	- All sprocs
 
 	- Add Basic user role to user table (LATER)
 
