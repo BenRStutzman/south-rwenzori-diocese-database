@@ -4,11 +4,10 @@ To do:
 ~ An to a on payment edit page
 - Less spacing in results pages
 - Smaller font in details pages
-- Enable churches as members:
+~ Enable churches as members:
 	- Boolean field
 	- Don't give them dividends or interest
 	- Sort by isChurch
-	- SQL done
 - Nicer small receipt printout (A3) - half of A4 for transactions and payments
 - Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
