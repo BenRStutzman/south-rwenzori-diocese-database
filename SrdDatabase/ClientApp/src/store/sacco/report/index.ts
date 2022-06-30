@@ -66,7 +66,7 @@ const prefillParameters = (
     };
 
     if (memberId) {
-        get<Member>(`api/member/${memberId}`, backupUrl)
+        get<Member>(`api/sacco/member/${memberId}`, backupUrl)
             .then(() => {
                 setParametersAndLoadReport({
                     memberId,
@@ -99,7 +99,7 @@ const loadReport = (parameters: ReportParameters = {}): AppThunkAction<Action> =
         endDate: formattedDateAllowUndefined(parameters.endDate),
     };
 
-    return post<ReportParametersToSend>('/api/report', parametersToSend)
+    return post<ReportParametersToSend>('/api/sacco/report', parametersToSend)
         .then(response => {
             const fileName = response.headers
                 .get('Content-Disposition')

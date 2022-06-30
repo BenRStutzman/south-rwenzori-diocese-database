@@ -14,9 +14,8 @@ To do:
 	- Total savings
 	- Total balance
 	- Total outstanding loan balance
-- Reports:
+~ Reports:
 	- Member account statement (incl transactions, dividends, fees)
-		- JS
 
 Next version:
 - Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
