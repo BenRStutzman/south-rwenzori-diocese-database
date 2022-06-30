@@ -8,9 +8,9 @@ export interface SaccoDetails {
     transactionResults: TransactionResults;
     loanResults: LoanResults;
     paymentResults: PaymentResults;
-    shares: number;
-    sharesValue: number;
-    savings: number;
-    balance: number;
-    loanBalance: number;
+    shares?: number;
+    sharesValue?: number;
+    savings?: number;
+    balance?: number;
+    loanBalance?: number;
 }

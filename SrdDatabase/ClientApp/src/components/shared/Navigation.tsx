@@ -89,6 +89,9 @@ const Navigation = ({
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/sacco/payment'>Payments</NavLink>
                                         </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className='text-dark' to='/sacco/report'>Reports</NavLink>
+                                        </NavItem>
                                     </>
                                 }
                                 {

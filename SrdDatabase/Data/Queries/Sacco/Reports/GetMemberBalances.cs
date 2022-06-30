@@ -34,7 +34,7 @@ namespace SrdDatabase.Data.Queries.Sacco.Reports
         public class Handler : IRequestHandler<Query, MemberBalances>
         {
             private readonly IDbService _dbService;
-            private readonly string _storedProcedure = "sto_get_member_balances";
+            private readonly string _storedProcedure = "sto_get_sacco_member_balances";
 
             public Handler(IDbService dbService)
             {

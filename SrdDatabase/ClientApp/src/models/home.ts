@@ -15,6 +15,6 @@ export interface DioceseDetails {
     quotaResults: QuotaResults;
     censusResults: CensusResults;
     numberOfChristians?: number;
-    quota: number;
-    balance: number;
+    quota?: number;
+    balance?: number;
 }

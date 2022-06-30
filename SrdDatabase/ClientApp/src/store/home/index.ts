@@ -44,9 +44,6 @@ const initialState: State = {
         paymentResults: { ...pagedResultsDefaults, payments: [] },
         quotaResults: { ...pagedResultsDefaults, quotas: [] },
         censusResults: { ...pagedResultsDefaults, censuses: [] },
-        numberOfChristians: 0,
-        quota: 0,
-        balance: 0,
     },
 };
 

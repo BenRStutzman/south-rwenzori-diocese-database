@@ -60,6 +60,7 @@ import SaccoPaymentAdd from './components/sacco/payment/Add';
 import SaccoPaymentEdit from './components/sacco/payment/Edit';
 import SaccoPaymentDetails from './components/sacco/payment/Details';
 import SaccoInstallmentDetails from './components/sacco/installment/Details';
+import SaccoReportHome from './components/sacco/report/Home';
 import { atLeast } from './helpers/userHelper';
 
 export default () => (
@@ -122,6 +123,7 @@ export default () => (
             <PrivateRoute exact path='/sacco/payment/edit/:paymentId' component={SaccoPaymentEdit} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/payment/details/:paymentId' component={SaccoPaymentDetails} roles={atLeast.sacco} />
             <PrivateRoute exact path='/sacco/installment/details/:installmentId' component={SaccoInstallmentDetails} roles={atLeast.sacco} />
+            <PrivateRoute exact path='/sacco/report' component={SaccoReportHome} roles={atLeast.sacco} />
             <Redirect from='*' to='/' />
         </Switch>
     </Layout>
