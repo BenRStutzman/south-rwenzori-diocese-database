@@ -5,6 +5,7 @@ using Dapper;
 using System.Data;
 using SrdDatabase.Services;
 using SrdDatabase.Models.Sacco.Distributions;
+using System;
 
 namespace SrdDatabase.Data.Queries.Sacco.Distributions
 {
@@ -14,9 +15,13 @@ namespace SrdDatabase.Data.Queries.Sacco.Distributions
         {
             public Query(
                 int memberId,
+                DateTime? startDate = null,
+                DateTime? endDate = null,
                 int pageNumber = 0,
                 int? pageSize = null) :
                 base (memberId,
+                    startDate,
+                    endDate,
                     pageNumber,
                     pageSize)
             {

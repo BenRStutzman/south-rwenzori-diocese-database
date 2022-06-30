@@ -1,6 +1,4 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using MediatR;
+﻿using MediatR;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Parishes;
 using SrdDatabase.Data.Queries.Payments;
@@ -9,14 +7,13 @@ using SrdDatabase.Data.Queries.Reports;
 using SrdDatabase.Domain.Queries.Archdeaconries;
 using SrdDatabase.Domain.Queries.Congregations;
 using SrdDatabase.Domain.Queries.Parishes;
+using SrdDatabase.Helpers;
 using SrdDatabase.Models.Archdeaconries;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Parishes;
 using SrdDatabase.Models.Reports;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -55,7 +52,7 @@ namespace SrdDatabase.Domain.Queries.Reports
             public async Task<Report> Handle(Query request, CancellationToken cancellationToken)
             {
                 var endDate = request.EndDate ?? DateTime.Today;
-                var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)}_to" : "through")}_{DateString(endDate)}";
+                var dates = ReportHelper.Dates(request.StartDate, endDate);
                 var commonHeader = new[] { "Date", "Description", "Amount", "Congregation Balance" };
                 string subject;
                 IEnumerable<string> header;
@@ -67,7 +64,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                     header = (new[] { "Congregation" }).Concat(commonHeader);
 
                     var congregation = await congregationTask;
-                    dataTask = CongregationRows(request.StartDate, endDate, congregation, 1, _mediator, cancellationToken);
+                    dataTask = CongregationRows(request.StartDate, endDate, congregation, 1, cancellationToken);
 
                     subject = $"{congregation.Name} Congregation";
                 }
@@ -79,7 +76,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                         .Append("Parish Balance");
 
                     var parish = await parishTask;
-                    dataTask = ParishRows(request.StartDate, endDate, parish, 2, _mediator, cancellationToken);
+                    dataTask = ParishRows(request.StartDate, endDate, parish, 2, cancellationToken);
 
                     subject = $"{parish.Name} Parish";
                 }
@@ -91,13 +88,13 @@ namespace SrdDatabase.Domain.Queries.Reports
                         .Concat(new[] { "Parish Balance", "Archdeaconry Balance" });
 
                     var archdeaconry = await archdeaconryTask;
-                    dataTask = ArchdeaconryRows(request.StartDate, endDate, archdeaconry, 3, _mediator, cancellationToken);
+                    dataTask = ArchdeaconryRows(request.StartDate, endDate, archdeaconry, 3, cancellationToken);
 
                     subject = $"{archdeaconry.Name} Archdeaconry";
                 }
                 else
                 {
-                    dataTask = DioceseRows(request.StartDate, endDate, 3, _mediator, cancellationToken);
+                    dataTask = DioceseRows(request.StartDate, endDate, 3, cancellationToken);
 
                     header = (new[] { "Archdeaconry", "Parish", "Congregation" })
                         .Concat(commonHeader)
@@ -109,25 +106,14 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var data = await dataTask;
 
-                return WriteReport(data.Prepend(header), fileName);
+                return ReportHelper.WriteReport(data.Prepend(header), fileName);
             }
 
-            private static IEnumerable<string> RowWithOffset(IEnumerable<string> row, int offset)
-            {
-                return Enumerable.Repeat(string.Empty, offset).Concat(row);
-            }
-
-            private static string DateString(DateTime? date)
-            {
-                return date.HasValue ? $"{date.Value.Year}-{date.Value.Month}-{date.Value.Day}" : string.Empty;
-            }
-
-            public static async Task<IEnumerable<IEnumerable<string>>> CongregationRows(
+            private async Task<IEnumerable<IEnumerable<string>>> CongregationRows(
                 DateTime? startDate,
                 DateTime endDate,
                 Congregation congregation,
                 int offset,
-                IMediator _mediator,
                 CancellationToken cancellationToken
                 )
             {
@@ -159,10 +145,10 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    RowWithOffset(new[] { congregation.Name }, offset - 1),
-                    RowWithOffset(
+                    ReportHelper.RowWithOffset(new[] { congregation.Name }, offset - 1),
+                    ReportHelper.RowWithOffset(
                         new[] {
-                                DateString(startDate),
+                                ReportHelper.DateString(startDate),
                                 "Starting balance",
                                 startingBalance.ToString()
                         },
@@ -190,7 +176,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 foreach (var payment in paymentResults.Payments)
                 {
                     transactionRows.Add(new TransactionRow(
-                        DateString(payment.Date),
+                        ReportHelper.DateString(payment.Date),
                         $"Payment{(payment.ReceiptNumber.HasValue ? $" (Receipt {payment.ReceiptNumber})" : "")}",
                         -payment.Amount
                     ));
@@ -199,7 +185,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 rows.AddRange(transactionRows
                     .OrderBy(row => row.Date)
                     .ThenBy(row => row.Description)
-                    .Select(row => RowWithOffset(
+                    .Select(row => ReportHelper.RowWithOffset(
                         new[] {
                                 row.Date,
                                 row.Description,
@@ -208,13 +194,13 @@ namespace SrdDatabase.Domain.Queries.Reports
                     )
                 );
 
-                rows.Add(RowWithOffset(
+                rows.Add(ReportHelper.RowWithOffset(
                     new[] {
-                        DateString(endDate),
+                        ReportHelper.DateString(endDate),
                         "Ending balance",
                     },
                     offset
-                ).Concat(RowWithOffset(
+                ).Concat(ReportHelper.RowWithOffset(
                     new[] { endingBalance.ToString() },
                     1
                 )));
@@ -224,12 +210,11 @@ namespace SrdDatabase.Domain.Queries.Reports
                 return rows;
             }
 
-            public static async Task<IEnumerable<IEnumerable<string>>> ParishRows(
+            private async Task<IEnumerable<IEnumerable<string>>> ParishRows(
                 DateTime? startDate,
                 DateTime endDate,
                 Parish parish,
                 int offset,
-                IMediator _mediator,
                 CancellationToken cancellationToken)
             {
                 var congregationsQuery = new GetCongregations.Query(parishId: parish.Id);
@@ -248,7 +233,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                             endDate,
                             congregation,
                             offset,
-                            _mediator,
                             cancellationToken)
                     );
 
@@ -257,7 +241,7 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    RowWithOffset(new[] { parish.Name }, offset - 2)
+                    ReportHelper.RowWithOffset(new[] { parish.Name }, offset - 2)
                 };
 
                 foreach (var congregationRows in congregationsRows)
@@ -265,10 +249,10 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.AddRange(congregationRows);
                 }
 
-                rows.Add(RowWithOffset(
+                rows.Add(ReportHelper.RowWithOffset(
                     new[] { $"Ending balance for {parish.Name} Parish" },
                     offset - 1
-                ).Concat(RowWithOffset(
+                ).Concat(ReportHelper.RowWithOffset(
                     new[] { endingBalance.ToString() },
                     4
                 )));
@@ -278,12 +262,11 @@ namespace SrdDatabase.Domain.Queries.Reports
                 return rows;
             }
 
-            public static async Task<IEnumerable<IEnumerable<string>>> ArchdeaconryRows(
+            private async Task<IEnumerable<IEnumerable<string>>> ArchdeaconryRows(
                 DateTime? startDate,
                 DateTime endDate,
                 Archdeaconry archdeaconry,
                 int offset,
-                IMediator _mediator,
                 CancellationToken cancellationToken)
             {
                 var parishesQuery = new GetParishes.Query(archdeaconryId: archdeaconry.Id);
@@ -302,7 +285,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                             endDate,
                             parish,
                             offset,
-                            _mediator,
                             cancellationToken)
                     );
 
@@ -311,7 +293,7 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    RowWithOffset(new[] { archdeaconry.Name }, offset - 3)
+                    ReportHelper.RowWithOffset(new[] { archdeaconry.Name }, offset - 3)
                 };
 
                 foreach (var parishRows in parishesRows)
@@ -319,10 +301,10 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.AddRange(parishRows);
                 }
 
-                rows.Add(RowWithOffset(
+                rows.Add(ReportHelper.RowWithOffset(
                     new[] { $"Ending balance for {archdeaconry.Name} Archdeaconry" },
                     offset - 2
-                ).Concat(RowWithOffset(
+                ).Concat(ReportHelper.RowWithOffset(
                     new[] { endingBalance.ToString() },
                     6
                 )));
@@ -332,11 +314,10 @@ namespace SrdDatabase.Domain.Queries.Reports
                 return rows;
             }
 
-            public static async Task<IEnumerable<IEnumerable<string>>> DioceseRows(
+            private async Task<IEnumerable<IEnumerable<string>>> DioceseRows(
                 DateTime? startDate,
                 DateTime endDate,
                 int offset,
-                IMediator _mediator,
                 CancellationToken cancellationToken)
             {
                 var archdeaconriesQuery = new GetAllArchdeaconries.Query();
@@ -355,7 +336,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                             endDate,
                             archdeaconry,
                             offset,
-                            _mediator,
                             cancellationToken)
                     );
 
@@ -369,10 +349,10 @@ namespace SrdDatabase.Domain.Queries.Reports
                     rows.AddRange(archdeaconryRows);
                 }
 
-                rows.Add(RowWithOffset(
+                rows.Add(ReportHelper.RowWithOffset(
                     new[] { $"Ending balance for South Rwenzori Diocese" },
                     offset - 3
-                ).Concat(RowWithOffset(
+                ).Concat(ReportHelper.RowWithOffset(
                     new[] { endingBalance.ToString() },
                     8
                 )));
@@ -380,33 +360,6 @@ namespace SrdDatabase.Domain.Queries.Reports
                 rows.Add(Enumerable.Empty<string>());
 
                 return rows;
-            }
-
-            public static Report WriteReport(IEnumerable<IEnumerable<string>> rows, string fileName)
-            {
-                var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
-                {
-                    HasHeaderRecord = false
-                };
-
-                using var memoryStream = new MemoryStream();
-                using var streamWriter = new StreamWriter(memoryStream);
-                using var csvWriter = new CsvWriter(streamWriter, configuration);
-
-                foreach (var row in rows)
-                {
-                    foreach (var field in row)
-                    {
-                        csvWriter.WriteField(field);
-                    }
-
-                    csvWriter.NextRecord();
-                }
-
-                streamWriter.Flush();
-                var data = memoryStream.ToArray();
-
-                return new Report(fileName, data);
             }
         }
     }

@@ -6,20 +6,16 @@
 
         public string Description { get; }
 
-        public int? ReceiptNumber { get; }
-
         public int Amount { get; }
 
         public TransactionRow(
             string date,
             string description,
-            int amount,
-            int? receiptNumber = null)
+            int amount)
         {
             Date = date;
             Description = description;
             Amount = amount;
-            ReceiptNumber = receiptNumber;
         }
     }
 }

@@ -16,6 +16,8 @@ To do:
 	- Total outstanding loan balance
 - Reports:
 	- Member account statement (incl transactions, dividends, fees)
+		- SQL: sto_get_member_balances (on date)
+			- sto_get_distributions_applied - add start and end dates
 
 Next version:
 - Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.

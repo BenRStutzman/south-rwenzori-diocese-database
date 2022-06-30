@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SrdDatabase.Data.Queries.Sacco.Distributions;
-using SrdDatabase.Data.Queries.Sacco.Installments;
 using SrdDatabase.Data.Queries.Sacco.Loans;
 using SrdDatabase.Data.Queries.Sacco.Payments;
 using SrdDatabase.Data.Queries.Sacco.Transactions;

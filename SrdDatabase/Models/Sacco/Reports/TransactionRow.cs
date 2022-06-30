@@ -1,25 +1,31 @@
-﻿namespace SrdDatabase.Models.Sacco.Reports
+﻿using System;
+
+namespace SrdDatabase.Models.Sacco.Reports
 {
     public class TransactionRow
     {
-        public string Date { get; }
+        public DateTime Date { get; }
 
         public string Description { get; }
 
-        public int? ReceiptNumber { get; }
+        public int? Shares { get; }
 
-        public int Amount { get; }
+        public int? Savings { get; }
+
+        public sbyte Order { get; }
 
         public TransactionRow(
-            string date,
+            DateTime date,
             string description,
-            int amount,
-            int? receiptNumber = null)
+            int? shares,
+            int? savings,
+            sbyte order)
         {
             Date = date;
             Description = description;
-            Amount = amount;
-            ReceiptNumber = receiptNumber;
+            Shares = shares;
+            Savings = savings;
+            Order = order;
         }
     }
 }

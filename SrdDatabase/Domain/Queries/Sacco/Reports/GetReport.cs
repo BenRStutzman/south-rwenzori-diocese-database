@@ -1,19 +1,18 @@
-﻿using CsvHelper;
-using CsvHelper.Configuration;
-using MediatR;
+﻿using MediatR;
 using SrdDatabase.Domain.Queries.Sacco.Members;
 using GeneralReports = SrdDatabase.Models.Reports;
 using SrdDatabase.Models.Sacco.Members;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using SrdDatabase.Models.Sacco.Reports;
 using SrdDatabase.Data.Queries.Sacco.Reports;
+using SrdDatabase.Data.Queries.Sacco.Transactions;
+using SrdDatabase.Data.Queries.Sacco.Distributions;
+using SrdDatabase.Helpers;
 
 namespace SrdDatabase.Domain.Queries.Sacco.Reports
 {
@@ -43,44 +42,28 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
             public async Task<GeneralReports.Report> Handle(Query request, CancellationToken cancellationToken)
             {
-                var endDate = request.EndDate ?? DateTime.Today;
-                var dates = $"{(request.StartDate.HasValue ? $"{DateString(request.StartDate.Value)}_to" : "through")}_{DateString(endDate)}";
-                var commonHeader = new[] { "Date", "Description", "Amount", "Shares", "Shares Value", "Savings", "Balance" };
-                string subject;
-                IEnumerable<string> header;
-                Task<IEnumerable<IEnumerable<string>>> dataTask;
-
                 var memberTask = _mediator.Send(new GetMemberById.Query(request.MemberId), cancellationToken);
-                header = (new[] { "Member" }).Concat(commonHeader);
+                
+                var endDate = request.EndDate ?? DateTime.Today;
+                var dates = ReportHelper.Dates(request.StartDate, endDate);
+                var header = new[] { "Date", "Description", "Amount (Shares)", "Amount (Savings)", "Shares Value", "Balance" };
 
                 var member = await memberTask;
-                dataTask = MemberRows(request.StartDate, endDate, member, 1, _mediator, cancellationToken);
 
-                subject = $"{member.Name} Member";
+                var dataTask = MemberRows(request.StartDate, endDate, member, cancellationToken);
 
-                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_QuotaRemittanceReport_{dates}.csv";
+                var fileName = $"{Regex.Replace(member.Name, "[^A-Za-z0-9]", "")}_AccountReport_{dates}.csv";
 
                 var data = await dataTask;
 
-                return WriteReport(data.Prepend(header), fileName);
+                return ReportHelper.WriteReport(data.Prepend(header), fileName);
             }
 
-            private static IEnumerable<string> RowWithOffset(IEnumerable<string> row, int offset)
-            {
-                return Enumerable.Repeat(string.Empty, offset).Concat(row);
-            }
 
-            private static string DateString(DateTime? date)
-            {
-                return date.HasValue ? $"{date.Value.Year}-{date.Value.Month}-{date.Value.Day}" : string.Empty;
-            }
-
-            public static async Task<IEnumerable<IEnumerable<string>>> MemberRows(
+            private async Task<IEnumerable<IEnumerable<string>>> MemberRows(
                 DateTime? startDate,
                 DateTime endDate,
                 Member member,
-                int offset,
-                IMediator _mediator,
                 CancellationToken cancellationToken
                 )
             {
@@ -90,121 +73,136 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                         cancellationToken)
                     : Task.FromResult(new MemberBalances(0, 0, 0, 0));
 
-                var quotasQuery = new GetFees.Query(
-                    memberId: member.Id,
-                    startYear: startDate?.Year,
-                    endYear: endDate.Year);
-                var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
-
-                var paymentsQuery = new GetTransactions.Query(
+                var transactionsQuery = new GetTransactions.Query(
                     memberId: member.Id,
                     startDate: startDate,
                     endDate: endDate);
-                var paymentsTask = _mediator.Send(paymentsQuery, cancellationToken);
+                var transactionsTask = _mediator.Send(transactionsQuery, cancellationToken);
+
+                var distributionsQuery = new GetDistributionsApplied.Query(member.Id, startDate, endDate);
+                var distributionsTask = _mediator.Send(distributionsQuery, cancellationToken);
 
                 var endingBalancesQuery = new GetMemberBalances.Query(member.Id, endDate);
                 var endingBalancesTask = _mediator.Send(endingBalancesQuery, cancellationToken);
 
-                var startingBalance = await startingBalancesTask;
-                var quotaResults = await quotasTask;
-                var paymentResults = await paymentsTask;
-                var endingBalance = await endingBalancesTask;
+                var transactionRows = new List<TransactionRow>();
+
+                const int annualFee = 10000;
+                var yearOfFees = 1;
+                var date = member.AutoFeesStartDate;
+
+                while (yearOfFees <= member.YearsOfFees && date <= endDate)
+                {
+                    if (date >= startDate)
+                    {
+                        transactionRows.Add(new TransactionRow(
+                            date,
+                            "Annual membership fee",
+                            null,
+                            -annualFee,
+                            0
+                        ));
+                    }
+
+                    yearOfFees++;
+                    date = date.AddYears(1);
+                }
+
+                var startingBalances = await startingBalancesTask;
+                var transactionResults = await transactionsTask;
+                var distributionResults = await distributionsTask; 
+                var endingBalances = await endingBalancesTask;
 
                 var rows = new List<IEnumerable<string>>
                 {
-                    RowWithOffset(new[] { member.Name }, offset - 1),
-                    RowWithOffset(
-                        new[] {
-                                DateString(startDate),
-                                "Starting balances",
-                                startingBalance.Shares.ToString(),
-                                startingBalance.SharesValue.ToString(),
-                                startingBalance.Savings.ToString(),
-                                startingBalance.Balance.ToString()
-                        },
-                        offset
-                    )
+                    new[] {
+                        ReportHelper.DateString(startDate),
+                        "Starting balances",
+                        startingBalances.Shares.ToString(),
+                        startingBalances.SharesValue.ToString(),
+                        startingBalances.Savings.ToString(),
+                        startingBalances.Balance.ToString()
+                    },
                 };
 
-                var transactionRows = new List<TransactionRow>();
-
-                foreach (var quota in quotaResults.Quotas)
+                foreach (var transaction in transactionResults.Transactions)
                 {
-                    var startYear = startDate.HasValue ? Math.Max(startDate.Value.Year, quota.StartYear) : quota.StartYear;
-                    var endYear = quota.EndYear.HasValue ? Math.Min(quota.EndYear.Value, endDate.Year) : endDate.Year;
+                    var actionString = transaction.IsShares
+                        ? transaction.IsContribution ? "Purchase of shares" : "Sale of shares"
+                        : transaction.IsContribution ? "Contribution to savings" : "Withdrawal from savings";
 
-                    for (var year = startYear; year <= endYear; year++)
-                    {
-                        transactionRows.Add(new TransactionRow(
-                            $"{year}-01-01",
-                            $"{year} Membership Fee",
-                            quota.AmountPerYear
-                        ));
+                    var receiptString = transaction.ReceiptNumber.HasValue ? $" (Receipt {transaction.ReceiptNumber})" : "";
+                    var amount = transaction.IsContribution ? transaction.Amount : -transaction.Amount;
+                    sbyte order;
+
+                    if (transaction.IsShares) {
+                        if (transaction.IsContribution) {
+                            order = 3;
+                        } else {
+                            order = 4;
+                        }
                     }
+                    else
+                    {
+                        if (transaction.IsContribution) {
+                            order = 1;
+                        } else
+                        {
+                            order = 2;
+                        }
+                    }
+
+                    transactionRows.Add(new TransactionRow(
+                        transaction.Date,
+                        actionString + receiptString,
+                        transaction.IsShares ? amount : null,
+                        transaction.IsShares ? null : amount,
+                        order
+                    ));
                 }
 
-                foreach (var payment in paymentResults.Payments)
+                foreach (var distribution in distributionResults.DistributionsApplied)
                 {
                     transactionRows.Add(new TransactionRow(
-                        DateString(payment.Date),
-                        $"Payment{(payment.ReceiptNumber.HasValue ? $" (Receipt {payment.ReceiptNumber})" : "")}",
-                        -payment.Amount
+                        distribution.Date,
+                        $"Interest (${distribution.InterestPercentage}% of savings)",
+                        null,
+                        distribution.Interest,
+                        5
+                    ));
+
+                    transactionRows.Add(new TransactionRow(
+                        distribution.Date,
+                        $"Dividend (${distribution.DividendPercentage}% of shares)",
+                        null,
+                        distribution.Dividend,
+                        6
                     ));
                 }
 
                 rows.AddRange(transactionRows
                     .OrderBy(row => row.Date)
-                    .ThenBy(row => row.Description)
-                    .Select(row => RowWithOffset(
-                        new[] {
-                                row.Date,
-                                row.Description,
-                                row.Amount.ToString() },
-                        offset)
+                    .ThenBy(row => row.Order)
+                    .Select(row => new[] {
+                            ReportHelper.DateString(row.Date),
+                            row.Description,
+                            row.Shares.ToString(),
+                            row.Savings.ToString()
+                        }
                     )
                 );
 
-                rows.Add(RowWithOffset(
-                    new[] {
-                        DateString(endDate),
+                rows.Add(new[] {
+                        ReportHelper.DateString(endDate),
                         "Ending balance",
-                    },
-                    offset
-                ).Concat(RowWithOffset(
-                    new[] { endingBalance.ToString() },
-                    1
-                )));
-
-                rows.Add(Enumerable.Empty<string>());
-                
-                return rows;
-            }
-
-            public static GeneralReports.Report WriteReport(IEnumerable<IEnumerable<string>> rows, string fileName)
-            {
-                var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
-                {
-                    HasHeaderRecord = false
-                };
-
-                using var memoryStream = new MemoryStream();
-                using var streamWriter = new StreamWriter(memoryStream);
-                using var csvWriter = new CsvWriter(streamWriter, configuration);
-
-                foreach (var row in rows)
-                {
-                    foreach (var field in row)
-                    {
-                        csvWriter.WriteField(field);
+                        endingBalances.Shares.ToString(),
+                        endingBalances.SharesValue.ToString(),
+                        endingBalances.Savings.ToString(),
+                        endingBalances.Balance.ToString()
                     }
+                );
 
-                    csvWriter.NextRecord();
-                }
-
-                streamWriter.Flush();
-                var data = memoryStream.ToArray();
-
-                return new GeneralReports.Report(fileName, data);
+                return rows;
             }
         }
     }
