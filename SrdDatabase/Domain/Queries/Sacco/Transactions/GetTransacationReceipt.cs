@@ -1,16 +1,10 @@
 ﻿using MediatR;
-using SrdDatabase.Domain.Queries.Sacco.Members;
 using SrdDatabase.Models.Reports;
-using SrdDatabase.Models.Sacco.Members;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using SrdDatabase.Models.Sacco.Transactions;
-using SrdDatabase.Data.Queries.Sacco.Transactions;
-using SrdDatabase.Data.Queries.Sacco.Distributions;
 using SrdDatabase.Helpers;
 using System.ComponentModel.DataAnnotations;
 
@@ -47,30 +41,60 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                 var receiptNumberString = transaction.ReceiptNumber.HasValue ? $"_{transaction.ReceiptNumber}" : "";
                 var fileName = $"TransactionReceipt{receiptNumberString}.csv";
 
-                receiptNumberString = receiptNumberString.Replace("_", " #");
                 var rows = new List<IEnumerable<string>>
                 {
                     new[]
                     {
-                        $"Transaction Receipt{receiptNumberString}"
+                        "Transaction Receipt",
+                        string.Empty,
+                        "South Rwenzori Diocese SACCO"
                     },
                     Enumerable.Empty<string>(),
-                    new[] {
-                        "Date",
-                        ReportHelper.DateString(transaction.Date)
-                    },
                     new[]
                     {
                         "Account #",
-                        transaction.AccountNumber.ToString()
+                        transaction.AccountNumber.ToString(),
+                        string.Empty,
+                        "Name",
+                        transaction.Member,
                     },
+                    new[] {
+                        "Date",
+                        ReportHelper.DateString(transaction.Date),
+                        string.Empty,
+                        "Receipt #",
+                        transaction.ReceiptNumber.HasValue ? transaction.ReceiptNumber.ToString() : "Not set",
+                    },
+                    Enumerable.Empty<string>(),
                     new[]
                     {
-                        "Name",
-                        transaction.Member
+                        TransactionHelper.TransactionAction(transaction),
+                        string.Empty,
+                        "Amount",
+                        $"{(transaction.IsShares ? transaction.Amount * Constants.SaccoSharePrice : transaction.Amount)} UGX"
                     },
-
                 };
+
+                if (transaction.Notes != null)
+                {
+                    rows.Add(new[]
+                    {
+                        "Notes",
+                        transaction.Notes
+                    });
+                }
+
+                rows.AddRange(new[]
+                {
+                    Enumerable.Empty<string>(),
+                    new[]
+                    {
+                        "Assisted by",
+                        transaction.UpdatedBy,
+                        string.Empty,
+                        "Thank you for your transaction!"
+                    },
+                });
 
                 return ReportHelper.WriteReport(rows, fileName);
             }

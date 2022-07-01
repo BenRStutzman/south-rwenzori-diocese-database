@@ -87,7 +87,6 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
                 var transactionRows = new List<TransactionRow>();
 
-                const int annualFee = 10000;
                 var yearOfFees = 1;
                 var date = member.AutoFeesStartDate;
 
@@ -99,7 +98,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                             date,
                             "Annual membership fee",
                             null,
-                            -annualFee,
+                            -Constants.SaccoAnnualFee,
                             0
                         ));
                     }
@@ -127,10 +126,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
                 foreach (var transaction in transactionResults.Transactions)
                 {
-                    var actionString = transaction.IsShares
-                        ? transaction.IsContribution ? "Purchase of shares" : "Sale of shares"
-                        : transaction.IsContribution ? "Contribution to savings" : "Withdrawal from savings";
-
+                    var action = TransactionHelper.TransactionAction(transaction);
                     var receiptString = transaction.ReceiptNumber.HasValue ? $" (Receipt {transaction.ReceiptNumber})" : "";
                     var amount = transaction.IsContribution ? transaction.Amount : -transaction.Amount;
                     sbyte order;
