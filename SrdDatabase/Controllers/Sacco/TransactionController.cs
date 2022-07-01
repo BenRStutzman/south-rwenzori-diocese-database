@@ -35,7 +35,7 @@ namespace SrdDatabase.Controllers.Sacco
             return await _mediator.Send(new GetTransactionDetails.Query(id));
         }
 
-        [HttpPost]
+        [HttpGet("receipt/{id}")]
         public async Task<IActionResult> Receipt(int id)
         {
             var receipt = await _mediator.Send(new GetTransactionReceipt.Query(id));

@@ -128,8 +128,8 @@ const SearchBox = ({
 
 export default connect(
     (state: State, ownProps: OwnProps) => ({
-        ...state.report,
-        ...state.shared,
+        ...state.sacco.report,
+        ...state.sacco.shared,
         ...ownProps,
     }),
     (dispatch) => bindActionCreators({ ...Store.actionCreators, ...SharedStore.actionCreators }, dispatch)

@@ -1,10 +1,13 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '../..';
 import { get } from '../../../helpers/apiHelpers';
+import { Report } from '../../../models/report';
 import { TransactionDetails } from '../../../models/sacco/transaction';
 
 const REQUEST_DETAILS = 'SACCO_TRANSACTION.REQUEST_DETAILS';
 const RECEIVE_DETAILS = 'SACCO_TRANSACTION.RECEIVE_DETAILS';
+const SET_RECEIPT_LOADING = 'SACCO_TRANSACTION.SET_RECEIPT_LOADING';
+const SET_RECEIPT = 'SACCO_TRANSACTION.SET_RECEIPT';
 
 const requestDetailsAction = () => ({
     type: REQUEST_DETAILS,
@@ -15,8 +18,18 @@ const receiveDetailsAction = (details: TransactionDetails) => ({
     value: details,
 });
 
+const setReceiptLoadingAction = () => ({
+    type: SET_RECEIPT_LOADING,
+});
+
+const setReceiptAction = (receipt?: Report) => ({
+    type: SET_RECEIPT,
+    value: receipt,
+});
+
 const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(requestDetailsAction());
+    dispatch(loadReceipt(id));
 
     get<TransactionDetails>(`api/sacco/transaction/details/${id}`, '/sacco/transaction')
         .then(details => {
@@ -24,13 +37,35 @@ const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
         });
 };
 
+const loadReceipt = (id: number): AppThunkAction<Action> => (dispatch) => {
+    dispatch(setReceiptLoadingAction());
+
+    return get<Response>('/api/sacco/transaction/receipt/${id}')
+        .then(response => {
+            const fileName = response.headers
+                .get('Content-Disposition')
+                ?.split('filename=')[1].split(';')[0] ?? 'receipt.csv';
+
+            response.text().then(text => {
+                dispatch(setReceiptAction({
+                    fileName,
+                    data: text
+                }));
+            });
+        });
+};
+
+
 export const actionCreators = {
     loadDetails,
+    loadReceipt,
 };
 
 export interface State {
     detailsLoading: boolean;
     details: TransactionDetails;
+    receiptLoading: boolean;
+    receipt?: Report;
 }
 
 const initialState: State = {
@@ -38,6 +73,7 @@ const initialState: State = {
     details: {
         transaction: {},
     },
+    receiptLoading: true,
 };
 
 export const reducer: Reducer<State, Action> = (state: State = initialState, action: Action): State => {
@@ -52,6 +88,17 @@ export const reducer: Reducer<State, Action> = (state: State = initialState, act
                 ...state,
                 detailsLoading: false,
                 details: action.value,
+            };
+        case SET_RECEIPT_LOADING:
+            return {
+                ...state,
+                receiptLoading: true,
+            };
+        case SET_RECEIPT:
+            return {
+                ...state,
+                receipt: action.value,
+                receiptLoading: false,
             };
         default:
             return state;

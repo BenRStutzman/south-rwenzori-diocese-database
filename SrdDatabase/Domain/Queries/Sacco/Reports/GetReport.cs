@@ -126,7 +126,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
                 foreach (var transaction in transactionResults.Transactions)
                 {
-                    var action = TransactionHelper.TransactionAction(transaction);
+                    var actionString = TransactionHelper.TransactionAction(transaction);
                     var receiptString = transaction.ReceiptNumber.HasValue ? $" (Receipt {transaction.ReceiptNumber})" : "";
                     var amount = transaction.IsContribution ? transaction.Amount : -transaction.Amount;
                     sbyte order;

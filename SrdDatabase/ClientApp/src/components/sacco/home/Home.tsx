@@ -30,7 +30,7 @@ const Home = ({
             <h1>SRD Savings and Credit Co-Operative Society</h1>
             <div className="details-boxes">
                 <DetailsBox
-                    altTitle={`Shares: ${details.shares} (${details.sharesValue.toLocaleString()} UGX)`}
+                    altTitle={`Shares: ${details.shares} (${details.sharesValue?.toLocaleString()} UGX)`}
                 />
                 <DetailsBox
                     altTitle={`Savings: ${parenthesizeIfNegative(details.savings)} UGX`}
@@ -39,7 +39,7 @@ const Home = ({
                     altTitle={`Balance: ${parenthesizeIfNegative(details.balance)} UGX`}
                 />
                 <DetailsBox
-                    altTitle={`Loan Balance: ${details.loanBalance.toLocaleString()} UGX`}
+                    altTitle={`Loan Balance: ${details.loanBalance?.toLocaleString()} UGX`}
                 />
                 <DetailsList
                     itemType="member"

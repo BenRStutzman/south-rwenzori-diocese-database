@@ -11,6 +11,8 @@ import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { describeTransaction } from '../../../helpers/sacco/transactionHelper';
+import { useEffect } from 'react';
+import { CSVLink } from 'react-csv';
 
 type Props =
     Store.State &
@@ -21,6 +23,8 @@ type Props =
 
 const Details = ({
     loadDetails,
+    receipt,
+    receiptLoading,
     detailsLoading,
     details,
     match,
@@ -33,7 +37,7 @@ const Details = ({
         loadDetails(transactionId);
     };
 
-    React.useEffect(loadData, []);
+    useEffect(loadData, []);
 
     const onDelete = () => {
         deleteTransaction(details.transaction, () => { history.push('/sacco/transaction'); });
@@ -44,6 +48,13 @@ const Details = ({
             <div className="page-heading">
                 <h1>{describeTransaction(details.transaction)}</h1>
                 <div className="button-group float-right">
+                    {
+                        receiptLoading ? <Spinner size="sm" /> :
+                            receipt &&
+                            <CSVLink data={receipt.data} filename={receipt.fileName}>
+                                Download receipt
+                            </CSVLink>
+                    }
                     <Link className="btn btn-primary" to={`/sacco/transaction/edit/${details.transaction.id}`}>
                         Edit transaction
                     </Link>
