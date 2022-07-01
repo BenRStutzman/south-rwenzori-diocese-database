@@ -30,7 +30,7 @@ const SearchResults = ({
                     <>
                         <h2>Generating report...</h2>
                         <LoadingSpinner />
-                        <h5>This may take a few minutes.</h5>
+                        <h5>This may take a minute.</h5>
                     </>
                     :
                     report &&

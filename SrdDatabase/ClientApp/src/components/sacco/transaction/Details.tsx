@@ -24,7 +24,6 @@ type Props =
 const Details = ({
     loadDetails,
     receipt,
-    receiptLoading,
     detailsLoading,
     details,
     match,
@@ -47,20 +46,21 @@ const Details = ({
         <>
             <div className="page-heading">
                 <h1>{describeTransaction(details.transaction)}</h1>
-                <div className="button-group float-right">
-                    {
-                        receiptLoading ? <Spinner size="sm" /> :
-                            receipt &&
-                            <CSVLink data={receipt.data} filename={receipt.fileName}>
-                                Download receipt
-                            </CSVLink>
-                    }
-                    <Link className="btn btn-primary" to={`/sacco/transaction/edit/${details.transaction.id}`}>
-                        Edit transaction
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {deletingTransactionIds.includes(details.transaction.id as number) ? <Spinner size="sm" /> : 'Delete transaction'}
-                    </button>
+                {
+                    receipt &&
+                    <CSVLink data={receipt.data} filename={receipt.fileName}>
+                        Download receipt
+                    </CSVLink>
+                }
+                <div>
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/sacco/transaction/edit/${details.transaction.id}`}>
+                            Edit transaction
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {deletingTransactionIds.includes(details.transaction.id as number) ? <Spinner size="sm" /> : 'Delete transaction'}
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className="details-boxes">

@@ -99,11 +99,16 @@ button:disabled {
 
 .details-box {
     background-color: lightgray;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.details-box h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0;
 }
 
 .paging {
@@ -145,6 +150,15 @@ button:disabled {
 
 .table {
     margin-top: 1rem;
+}
+
+.table th, .table td {
+    padding: 0.25rem;
+    vertical-align: middle;
+}
+
+.table .btn {
+    padding: 0.1rem;
 }
 
 .number-column {

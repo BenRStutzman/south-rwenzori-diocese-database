@@ -46,7 +46,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 
                 var endDate = request.EndDate ?? DateTime.Today;
                 var dates = ReportHelper.Dates(request.StartDate, endDate);
-                var header = new[] { "Date", "Description", "Amount (Shares)", "Amount (Savings)", "Shares Value", "Balance" };
+                var header = new[] { "Date", "Description", "Amount (Shares)", "Amount (Savings)", "Value of Shares", "Balance" };
 
                 var member = await memberTask;
 
@@ -92,7 +92,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
                 while (yearOfFees <= member.YearsOfFees && date <= endDate)
                 {
-                    if (date >= startDate)
+                    if (date >= startDate || startDate == null)
                     {
                         transactionRows.Add(new TransactionRow(
                             date,
@@ -118,8 +118,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                         ReportHelper.DateString(startDate),
                         "Starting balances",
                         startingBalances.Shares.ToString(),
-                        startingBalances.SharesValue.ToString(),
                         startingBalances.Savings.ToString(),
+                        startingBalances.SharesValue.ToString(),
                         startingBalances.Balance.ToString()
                     },
                 };
@@ -161,7 +161,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 {
                     transactionRows.Add(new TransactionRow(
                         distribution.Date,
-                        $"Interest (${distribution.InterestPercentage}% of savings)",
+                        $"Interest ({distribution.InterestPercentage}% of savings)",
                         null,
                         distribution.Interest,
                         5
@@ -169,7 +169,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
                     transactionRows.Add(new TransactionRow(
                         distribution.Date,
-                        $"Dividend (${distribution.DividendPercentage}% of shares)",
+                        $"Dividend ({distribution.DividendPercentage}% of shares)",
                         null,
                         distribution.Dividend,
                         6
@@ -192,8 +192,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                         ReportHelper.DateString(endDate),
                         "Ending balance",
                         endingBalances.Shares.ToString(),
-                        endingBalances.SharesValue.ToString(),
                         endingBalances.Savings.ToString(),
+                        endingBalances.SharesValue.ToString(),
                         endingBalances.Balance.ToString()
                     }
                 );
