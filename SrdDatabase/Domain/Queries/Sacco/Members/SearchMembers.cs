@@ -13,11 +13,13 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
             public Query(
                 int? accountNumber = null,
                 string name = null,
+                bool? isChurch = null,
                 int pageNumber = 0,
                 string sortColumn = null,
                 bool sortDescending = false) : base
                     (accountNumber,
                     name,
+                    isChurch,
                     pageNumber,
                     sortColumn,
                     sortDescending)
@@ -41,6 +43,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Members
                         null,
                         request.AccountNumber,
                         request.Name,
+                        request.IsChurch,
                         request.PageNumber,
                         request.SortColumn,
                         request.SortDescending,

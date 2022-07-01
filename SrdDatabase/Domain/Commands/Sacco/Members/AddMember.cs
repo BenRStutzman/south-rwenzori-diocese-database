@@ -16,8 +16,9 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
             public Command(
                 int accountNumber,
                 string name,
+                bool isChurch,
                 DateTime dateJoined)
-                : base(accountNumber, name, dateJoined)
+                : base(accountNumber, name, isChurch, dateJoined)
             {
             }
         }
@@ -49,6 +50,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Members
                     null,
                     request.AccountNumber,
                     request.Name,
+                    request.IsChurch,
                     request.DateJoined,
                     request.UserId.Value);
 

@@ -20,9 +20,10 @@ namespace SrdDatabase.Data.Commands.Sacco.Members
                 int? id,
                 int accountNumber,
                 string name,
+                bool isChurch,
                 DateTime dateJoined,
                 int userId)
-                : base (accountNumber, name, dateJoined, userId)
+                : base (accountNumber, name, isChurch, dateJoined, userId)
             {
                 Id = id;
             }

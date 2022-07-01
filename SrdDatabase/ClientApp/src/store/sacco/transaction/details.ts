@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { Action, AppThunkAction } from '../..';
-import { get } from '../../../helpers/apiHelpers';
+import { get, getRaw } from '../../../helpers/apiHelpers';
 import { Report } from '../../../models/report';
 import { TransactionDetails } from '../../../models/sacco/transaction';
 
@@ -40,7 +40,7 @@ const loadDetails = (id: number): AppThunkAction<Action> => (dispatch) => {
 const loadReceipt = (id: number): AppThunkAction<Action> => (dispatch) => {
     dispatch(setReceiptLoadingAction());
 
-    return get<Response>('/api/sacco/transaction/receipt/${id}')
+    return getRaw(`/api/sacco/transaction/receipt/${id}`)
         .then(response => {
             const fileName = response.headers
                 .get('Content-Disposition')

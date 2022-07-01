@@ -1,6 +1,6 @@
 ﻿import { UserData } from "../models/user";
 
-export function get<TResponse>(url: string, backupUrl?: string): Promise<TResponse> {
+export function get<TResponse>(url: string, backupUrl?: string, leaveRaw?: boolean): Promise<TResponse> {
     const token = getToken();
 
     const requestOptions = {
@@ -14,9 +14,13 @@ export function get<TResponse>(url: string, backupUrl?: string): Promise<TRespon
         .then(response => {
             redirectIfUnauthorized(response);
             redirectIfServerError(response, backupUrl);
-            return response.json() as Promise<TResponse>
+            return (leaveRaw ? response : response.json()) as Promise<TResponse>
         });
 };
+
+export function getRaw(url: string): Promise<Response> {
+    return get<Response>(url, undefined, true);
+}
 
 export function post<TRequest>(url: string, data: TRequest): Promise<Response> {
     const token = getToken();
