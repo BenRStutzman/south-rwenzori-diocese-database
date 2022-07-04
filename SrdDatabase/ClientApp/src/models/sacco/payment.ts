@@ -6,6 +6,7 @@ export interface Payment {
     loan?: string;
     memberId?: number;
     member?: string;
+    accountNumber?: number;
     date?: Date;
     amount?: number;
     receiptNumber?: number;

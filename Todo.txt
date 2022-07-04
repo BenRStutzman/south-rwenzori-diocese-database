@@ -1,9 +1,10 @@
 To do:
+- Add account number to SQL getSaccoPayments sproc
 ~ Make buttons-column centered
 ~ Fix missing membership fees when startDate is null
 ~ Fix order of starting and ending balances
 ~ Remove $ from before distributions in report
-- Adjust spacing in receipt
+~ Adjust spacing in receipt
 X Fix receipt still loading when done
 	X Add parameter to get to not json the response, or make a new method
 X Parenthesize savings value if negative (member home)

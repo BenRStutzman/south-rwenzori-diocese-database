@@ -13,6 +13,8 @@ namespace SrdDatabase.Models.Sacco.Payments
         public int MemberId { get; }
 
         public string Member { get; }
+        
+        public int AccountNumber { get; }
 
         public DateTime Date { get; }
 
@@ -38,6 +40,7 @@ namespace SrdDatabase.Models.Sacco.Payments
             string loan,
             int memberId,
             string member,
+            int accountNumber,
             DateTime date,
             int amount,
             int? receiptNumber,
@@ -53,6 +56,7 @@ namespace SrdDatabase.Models.Sacco.Payments
             Loan = loan;
             MemberId = memberId;
             Member = member;
+            AccountNumber = accountNumber;
             Date = date;
             Amount = amount;
             ReceiptNumber = receiptNumber;
