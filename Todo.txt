@@ -1,5 +1,5 @@
 To do:
-- Make buttons-column centered
+~ Make buttons-column centered
 ~ Fix missing membership fees when startDate is null
 ~ Fix order of starting and ending balances
 ~ Remove $ from before distributions in report

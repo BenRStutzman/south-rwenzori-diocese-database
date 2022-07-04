@@ -50,6 +50,13 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                         "South Rwenzori Diocese SACCO"
                     },
                     Enumerable.Empty<string>(),
+                    new[] {
+                        "Date",
+                        ReportHelper.DateString(transaction.Date),
+                        string.Empty,
+                        "Receipt #",
+                        transaction.ReceiptNumber.HasValue ? transaction.ReceiptNumber.ToString() : "Not set",
+                    },
                     new[]
                     {
                         "Account #",
@@ -58,17 +65,11 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                         "Name",
                         transaction.Member,
                     },
-                    new[] {
-                        "Date",
-                        ReportHelper.DateString(transaction.Date),
-                        string.Empty,
-                        "Receipt #",
-                        transaction.ReceiptNumber.HasValue ? transaction.ReceiptNumber.ToString() : "Not set",
-                    },
                     Enumerable.Empty<string>(),
                     new[]
                     {
                         TransactionHelper.TransactionAction(transaction),
+                        string.Empty,
                         string.Empty,
                         "Amount",
                         $"{(transaction.IsShares ? transaction.Amount * Constants.SaccoSharePrice : transaction.Amount)} UGX"
@@ -89,10 +90,11 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                     Enumerable.Empty<string>(),
                     new[]
                     {
-                        "Assisted by",
-                        transaction.UpdatedBy,
+                        "Thanks for your transaction!",
                         string.Empty,
-                        "Thank you for your transaction!"
+                        string.Empty,
+                        "Helped by",
+                        transaction.UpdatedBy,
                     },
                 });
 
