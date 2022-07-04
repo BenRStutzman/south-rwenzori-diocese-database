@@ -118,21 +118,23 @@ const SearchResults = ({
                                     <td className="number-column">{parenthesizeIfNegative(parish.balance)}</td>
                                 </>
                             }
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
-                                    View
-                                </Link>
-                                {
-                                    canEdit &&
-                                    <>
-                                        <Link className="btn btn-primary" to={`/parish/edit/${parish.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
-                                            {deletingParishIds.includes(parish.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                        </button>
-                                    </>
-                                }
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/parish/details/${parish.id}`}>
+                                        View
+                                    </Link>
+                                    {
+                                        canEdit &&
+                                        <>
+                                            <Link className="btn btn-primary" to={`/parish/edit/${parish.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(parish); }}>
+                                                {deletingParishIds.includes(parish.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                            </button>
+                                        </>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     )}

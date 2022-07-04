@@ -107,21 +107,23 @@ const SearchResults = ({
                                     <td className="number-column">{parenthesizeIfNegative(archdeaconry.balance)}</td>
                                 </>
                             }
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
-                                    View
-                                </Link>
-                                {
-                                    canEdit &&
-                                    <>
-                                        <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
-                                            {deletingArchdeaconryIds.includes(archdeaconry.id as number) ? <Spinner size="sm" /> : "Delete"}
-                                        </button>
-                                    </>
-                                }
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/archdeaconry/details/${archdeaconry.id}`}>
+                                        View
+                                    </Link>
+                                    {
+                                        canEdit &&
+                                        <>
+                                            <Link className="btn btn-primary" to={`/archdeaconry/edit/${archdeaconry.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(archdeaconry); }}>
+                                                {deletingArchdeaconryIds.includes(archdeaconry.id as number) ? <Spinner size="sm" /> : "Delete"}
+                                            </button>
+                                        </>
+                                        }
+                                </div>
                             </td>
                         </tr>
                     )}

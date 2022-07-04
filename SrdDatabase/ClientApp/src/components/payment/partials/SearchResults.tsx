@@ -84,28 +84,28 @@ const SearchResults = ({
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.payments.map((payment: Payment) =>
-                            <tr key={payment.id}>
-                                <td>{payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}</td>
-                                <td>
-                                    <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
-                                </td>
-                                <td className="number-column">{payment.amount?.toLocaleString()}</td>
-                                <td className="number-column">{payment.receiptNumber}</td>
-                                <td className="buttons-column">
+                        <tr key={payment.id}>
+                            <td>{payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>
+                                <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
+                            </td>
+                            <td className="number-column">{payment.amount?.toLocaleString()}</td>
+                            <td className="number-column">{payment.receiptNumber}</td>
+                            <td>
+                                <div className="buttons-column">
                                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View
                                     </Link>
-                                    <>
-                                        <Link className="btn btn-primary" to={`/payment/edit/${payment.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
+                                    <Link className="btn btn-primary" to={`/payment/edit/${payment.id}`}>
+                                        Edit
+                                    </Link>
+                                    <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
                                         {deletingPaymentIds.includes(payment.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                        </button>
-                                    </>
-                                </td>
-                            </tr>
-                        )
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    )
                     }
                 </tbody>
             </table>

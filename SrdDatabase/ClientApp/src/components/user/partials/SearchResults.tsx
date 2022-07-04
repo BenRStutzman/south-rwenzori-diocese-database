@@ -82,16 +82,18 @@ const SearchResults = ({
                             </td>
                             <td>{user.username}</td>
                             <td>{user.userType}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
-                                    View
-                                </Link>
-                                <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
-                                    Edit
-                                </Link>
-                                <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
-                                    {deletingUserIds.includes(user.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                </button>
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/user/details/${user.id}`}>
+                                        View
+                                    </Link>
+                                    <Link className="btn btn-primary" to={`/user/edit/${user.id}`}>
+                                        Edit
+                                    </Link>
+                                    <button className="btn btn-danger" onClick={() => { onDelete(user); }}>
+                                        {deletingUserIds.includes(user.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     )}

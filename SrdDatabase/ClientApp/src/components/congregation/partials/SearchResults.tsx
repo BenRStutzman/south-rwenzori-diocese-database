@@ -120,21 +120,23 @@ const SearchResults = ({
                                     </td>
                                 </>
                             }
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
-                                    View
-                                </Link>
-                                {
-                                    canEdit &&
-                                    <>
-                                        <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
-                                            {deletingCongregationIds.includes(congregation.id as number) ? <Spinner size="sm" /> : "Delete"}
-                                        </button>
-                                    </>
-                                }
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/congregation/details/${congregation.id}`}>
+                                        View
+                                    </Link>
+                                    {
+                                        canEdit &&
+                                        <>
+                                            <Link className="btn btn-primary" to={`/congregation/edit/${congregation.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(congregation); }}>
+                                                {deletingCongregationIds.includes(congregation.id as number) ? <Spinner size="sm" /> : "Delete"}
+                                            </button>
+                                        </>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     )}

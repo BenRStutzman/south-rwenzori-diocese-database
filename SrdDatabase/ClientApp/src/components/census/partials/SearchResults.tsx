@@ -87,21 +87,23 @@ const SearchResults = ({
                                 <Link to={`/congregation/details/${census.congregationId}`}>{census.congregation}</Link>
                             </td>
                             <td className="number-column">{census.numberOfChristians?.toLocaleString()}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/census/details/${census.id}`}>
-                                    View
-                                </Link>
-                                {
-                                    canEdit(census, currentUser) &&
-                                    <>
-                                        <Link className="btn btn-primary" to={`/census/edit/${census.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(census); }}>
-                                            {deletingCensusIds.includes(census.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                        </button>
-                                    </>
-                                }
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/census/details/${census.id}`}>
+                                        View
+                                    </Link>
+                                    {
+                                        canEdit(census, currentUser) &&
+                                        <>
+                                            <Link className="btn btn-primary" to={`/census/edit/${census.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(census); }}>
+                                                {deletingCensusIds.includes(census.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                            </button>
+                                        </>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     )}

@@ -101,18 +101,18 @@ const SearchResults = ({
                             </td>
                             <td className="number-column">{loan.principal?.toLocaleString()}</td>
                             <td className="number-column">{loan.balance?.toLocaleString()}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/sacco/loan/details/${loan.id}`}>
-                                    View
-                                </Link>
-                                <>
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/sacco/loan/details/${loan.id}`}>
+                                        View
+                                    </Link>
                                     <Link className="btn btn-primary" to={`/sacco/loan/edit/${loan.id}`}>
                                         Edit
                                     </Link>
                                     <button className="btn btn-danger" onClick={() => { onDelete(loan); }}>
                                         {deletingLoanIds.includes(loan.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                     </button>
-                                </>
+                                </div>
                             </td>
                         </tr>
                     )

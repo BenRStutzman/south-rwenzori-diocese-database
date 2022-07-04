@@ -103,21 +103,23 @@ const SearchResults = ({
                                 <Link to={`/event/details/${event.id}`}>{event.description ?? event.eventType}</Link>
                             </td>
                             <td>{peoplesNames(event)}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
-                                    View
-                                </Link>
-                                {
-                                    canEdit(event, currentUser) &&
-                                    <>
-                                        <Link className="btn btn-primary" to={`/event/edit/${event.id}`}>
-                                            Edit
-                                        </Link>
-                                        <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
-                                            {deletingEventIds.includes(event.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                        </button>
-                                    </>
-                                }
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/event/details/${event.id}`}>
+                                        View
+                                    </Link>
+                                    {
+                                        canEdit(event, currentUser) &&
+                                        <>
+                                            <Link className="btn btn-primary" to={`/event/edit/${event.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(event); }}>
+                                                {deletingEventIds.includes(event.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                            </button>
+                                        </>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     )}

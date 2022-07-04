@@ -83,18 +83,18 @@ const SearchResults = ({
                                 <Link to={`/congregation/details/${quota.congregationId}`}>{quota.congregation}</Link>
                             </td>
                             <td className="number-column">{quota.amountPerYear?.toLocaleString()}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/quota/details/${quota.id}`}>
-                                    View
-                                </Link>
-                                <>
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/quota/details/${quota.id}`}>
+                                        View
+                                    </Link>
                                     <Link className="btn btn-primary" to={`/quota/edit/${quota.id}`}>
                                         Edit
                                     </Link>
                                     <button className="btn btn-danger" onClick={() => { onDelete(quota); }}>
                                         {deletingQuotaIds.includes(quota.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                     </button>
-                                </>
+                                </div>
                             </td>
                         </tr>
                     )}

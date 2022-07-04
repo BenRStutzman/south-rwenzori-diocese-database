@@ -101,16 +101,18 @@ const SearchResults = ({
                             <td className="number-column">{`${parenthesizeIfNegative(member.shares)} / ${parenthesizeIfNegative(member.sharesValue)}`}</td>
                             <td className="number-column">{parenthesizeIfNegative(member.savings)}</td>
                             <td className="number-column">{parenthesizeIfNegative(member.balance)}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
-                                    View
-                                </Link>
-                                <Link className="btn btn-primary" to={`/sacco/member/edit/${member.id}`}>
-                                    Edit
-                                </Link>
-                                <button className="btn btn-danger" onClick={() => { onDelete(member); }}>
-                                    {deletingMemberIds.includes(member.id as number) ? <Spinner size="sm" /> : "Delete"}
-                                </button>
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/sacco/member/details/${member.id}`}>
+                                        View
+                                    </Link>
+                                    <Link className="btn btn-primary" to={`/sacco/member/edit/${member.id}`}>
+                                        Edit
+                                    </Link>
+                                    <button className="btn btn-danger" onClick={() => { onDelete(member); }}>
+                                        {deletingMemberIds.includes(member.id as number) ? <Spinner size="sm" /> : "Delete"}
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     )}

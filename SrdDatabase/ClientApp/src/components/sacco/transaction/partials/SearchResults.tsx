@@ -106,18 +106,18 @@ const SearchResults = ({
                             </td>
                             <td className="number-column">{describeTransactionAmount(transaction)}</td>
                             <td className="number-column">{transaction.receiptNumber}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/sacco/transaction/details/${transaction.id}`}>
-                                    View
-                                </Link>
-                                <>
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/sacco/transaction/details/${transaction.id}`}>
+                                        View
+                                    </Link>
                                     <Link className="btn btn-primary" to={`/sacco/transaction/edit/${transaction.id}`}>
                                         Edit
                                     </Link>
                                     <button className="btn btn-danger" onClick={() => { onDelete(transaction); }}>
                                         {deletingTransactionIds.includes(transaction.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                     </button>
-                                </>
+                                </div>
                             </td>
                         </tr>
                     )

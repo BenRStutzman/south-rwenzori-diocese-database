@@ -99,18 +99,18 @@ const SearchResults = ({
                             <td className="number-column">{distribution.interestPercentage}</td>
                             <td className="number-column">{distribution.totalDividend?.toLocaleString()}</td>
                             <td className="number-column">{distribution.totalInterest?.toLocaleString()}</td>
-                            <td className="buttons-column">
-                                <Link className="btn btn-secondary" to={`/sacco/distribution/details/${distribution.id}`}>
-                                    View
-                                </Link>
-                                <>
+                            <td>
+                                <div className="buttons-column">
+                                    <Link className="btn btn-secondary" to={`/sacco/distribution/details/${distribution.id}`}>
+                                        View
+                                    </Link>
                                     <Link className="btn btn-primary" to={`/sacco/distribution/edit/${distribution.id}`}>
                                         Edit
                                     </Link>
                                     <button className="btn btn-danger" onClick={() => { onDelete(distribution); }}>
                                         {deletingDistributionIds.includes(distribution.id as number) ? <Spinner size="sm" /> : 'Delete'}
                                     </button>
-                                </>
+                                </div>
                             </td>
                         </tr>
                     )
