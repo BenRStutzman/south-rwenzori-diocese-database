@@ -95,7 +95,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                     },
                     new[]
                     {
-                        "Remaining balance",
+                        $"Balance as of {ReportHelper.DateString(DateTime.Today)}",
+                        string.Empty,
                         string.Empty,
                         $"{loan.Balance} UGX ({loan.PercentagePaid}% paid)"
                     },

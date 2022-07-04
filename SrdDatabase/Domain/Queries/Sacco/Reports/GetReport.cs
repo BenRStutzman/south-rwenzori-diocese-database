@@ -46,7 +46,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 
                 var endDate = request.EndDate ?? DateTime.Today;
                 var dates = ReportHelper.Dates(request.StartDate, endDate);
-                var header = new[] { "Date", "Description", "Amount (Shares)", "Amount (Savings)", "Value of Shares", "Balance" };
+                var header = new[] { "Date", "Description", "Shares", "Value of Shares", "Savings", "Balance" };
 
                 var member = await memberTask;
 
@@ -118,8 +118,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                         ReportHelper.DateString(startDate),
                         "Starting balances",
                         startingBalances.Shares.ToString(),
-                        startingBalances.Savings.ToString(),
                         startingBalances.SharesValue.ToString(),
+                        startingBalances.Savings.ToString(),
                         startingBalances.Balance.ToString()
                     },
                 };
@@ -183,6 +183,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                             ReportHelper.DateString(row.Date),
                             row.Description,
                             row.Shares.ToString(),
+                            row.Shares.HasValue ? (row.Shares * Constants.SaccoSharePrice).ToString() : string.Empty,
                             row.Savings.ToString()
                         }
                     )
@@ -192,8 +193,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                         ReportHelper.DateString(endDate),
                         "Ending balance",
                         endingBalances.Shares.ToString(),
-                        endingBalances.Savings.ToString(),
                         endingBalances.SharesValue.ToString(),
+                        endingBalances.Savings.ToString(),
                         endingBalances.Balance.ToString()
                     }
                 );

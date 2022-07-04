@@ -51,13 +51,15 @@ const Details = ({
                         Download receipt
                     </CSVLink>
                 }
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/sacco/payment/edit/${details.payment.id}`}>
-                        Edit payment
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {deletingPaymentIds.includes(details.payment.id as number) ? <Spinner size="sm" /> : 'Delete payment'}
-                    </button>
+                <div>
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/sacco/payment/edit/${details.payment.id}`}>
+                            Edit payment
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {deletingPaymentIds.includes(details.payment.id as number) ? <Spinner size="sm" /> : 'Delete payment'}
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className="details-boxes">

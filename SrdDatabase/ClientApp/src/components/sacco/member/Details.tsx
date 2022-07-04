@@ -44,13 +44,16 @@ const Details = ({
         <>
             <div className="page-heading">
                 <h1>Member {details.member.name}{details.member.isChurch ? ' (church)' : ''}</h1>
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/sacco/member/edit/${details.member.id}`}>
-                        Edit member
-                    </Link>
-                    <button className='btn btn-danger' type="button" onClick={onDelete}>
-                        {deletingMemberIds.includes(details.member.id as number) ? <Spinner size="sm" /> : "Delete member"}
-                    </button>
+                <Link to={`/sacco/report?memberId=${details.member.id}`}>Create account report</Link>
+                <div>
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/sacco/member/edit/${details.member.id}`}>
+                            Edit member
+                        </Link>
+                        <button className='btn btn-danger' type="button" onClick={onDelete}>
+                            {deletingMemberIds.includes(details.member.id as number) ? <Spinner size="sm" /> : "Delete member"}
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className="details-boxes">

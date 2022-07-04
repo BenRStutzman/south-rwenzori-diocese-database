@@ -68,7 +68,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                     Enumerable.Empty<string>(),
                     new[]
                     {
-                        TransactionHelper.TransactionAction(transaction),
+                        TransactionHelper.TransactionAction(transaction, true),
                         string.Empty,
                         string.Empty,
                         "Amount",
