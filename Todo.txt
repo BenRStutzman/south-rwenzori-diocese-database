@@ -18,9 +18,9 @@ X Enable churches as members:
 	- Boolean field
 	- Don't give them dividends or interest
 	- Sort by isChurch
-- Nicer small receipt printout (A3) - half of A4 for
+~ Nicer small receipt printout (A3) - half of A4 for
 	X transactions and
-	- payments
+	~ payments
 X Add useful SACCO-wide stats to dashboard
 	- Total shares (and value)
 	- Total savings

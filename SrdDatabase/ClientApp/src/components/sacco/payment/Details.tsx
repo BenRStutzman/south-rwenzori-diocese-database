@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { describePayment } from '../../../helpers/sacco/paymentHelper';
+import { CSVLink } from 'react-csv';
 
 type Props =
     Store.State &
@@ -22,6 +23,7 @@ type Props =
 const Details = ({
     loadDetails,
     detailsLoading,
+    receipt,
     details,
     match,
     history,
@@ -43,6 +45,12 @@ const Details = ({
         <>
             <div className="page-heading">
                 <h1>{describePayment(details.payment)}</h1>
+                {
+                    receipt &&
+                    <CSVLink data={receipt.data} filename={receipt.fileName}>
+                        Download receipt
+                    </CSVLink>
+                }
                 <div className="button-group float-right">
                     <Link className="btn btn-primary" to={`/sacco/payment/edit/${details.payment.id}`}>
                         Edit payment
