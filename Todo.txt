@@ -43,19 +43,16 @@ X Fix shares and savings sorting together on member results page
 To confirm in production:
 
 To update in SQL:
-	- Add is_church BIT field (default FALSE) to sacco_member table
-	- All sprocs
-
 	- Add Basic user role to user table (LATER)
 
 Less important:
 - Easier member selection (by name)
-- Speed up report generation
-	- Increase max user connections to 100 (waiting for Yosia)
-- Enable easy backups
-- Create better error page (add back useExceptionHandler('Error'))
 - Add server-side unique check for dividend date
 - Add name of logged-in user
+
+Much less important:
+- Enable easy backups
+- Create better error page (add back useExceptionHandler('Error'))
 
 Before leaving:
 - Switch payment to SRD credit card (Richard)
