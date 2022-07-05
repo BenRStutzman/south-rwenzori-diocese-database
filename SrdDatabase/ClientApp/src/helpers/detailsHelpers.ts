@@ -1,7 +1,7 @@
 ﻿import { ArchdeaconryResults } from "../models/archdeaconry";
 import { CongregationResults } from "../models/congregation";
 import { ParishResults } from "../models/parish";
-import { DetailsListItem } from "../models/shared";
+import { DetailsListItem, Population } from "../models/shared";
 import { EventResults } from '../models/event';
 import { describeEvent } from "./eventHelper";
 import { formattedDate } from "./miscellaneous";
@@ -56,4 +56,49 @@ export function quotaItems(quotaResults: QuotaResults, useAmount: boolean = fals
         id: quota.id,
         displayText: `${formattedDates(quota)}: ${describeQuota(quota, useAmount)}`,
     }));
+}
+
+export function populationItems(population: Population): DetailsListItem[] {
+    return [
+        {
+            id: 1,
+            displayText: `Males 0-12: ${population.males0To12}`,
+        },
+        {
+            id: 2,
+            displayText: `Males 13-17: ${population.males13To17}`,
+        },
+        {
+            id: 3,
+            displayText: `Males 18-35: ${population.males18To35}`,
+        },
+        {
+            id: 4,
+            displayText: `Males 36+: ${population.males36AndAbove}`,
+        },
+        {
+            id: 5,
+            displayText: `Females 0-12: ${population.females0To12}`,
+        },
+        {
+            id: 6,
+            displayText: `Females 13-17: ${population.females13To17}`,
+        },
+        {
+            id: 7,
+            displayText: `Females 18-35: ${population.females18To35}`,
+        },
+        {
+            id: 8,
+            displayText: `Females 36+: ${population.females36AndAbove}`,
+        },
+        {
+            id: 9,
+            displayText: `Total males: ${population.males0To12 + population.males13To17 + population.males18To35 + population.males36AndAbove}`,
+        },
+        {
+            id: 10,
+            displayText: `Total females: ${population.males13To17}`,
+        },
+    ]
 }

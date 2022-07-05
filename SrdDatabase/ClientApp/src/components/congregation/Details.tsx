@@ -78,12 +78,17 @@ const Details = ({
                     itemId={details.congregation.parishId}
                 />
                 <DetailsList
-                    itemType="census"
                     altTitle={`Christians: ${stringNumberOfChristians(details.congregation.numberOfChristians)}`}
                     items={censusItems(details.censusResults, true)}
                     baseItemType="congregation"
                     baseItemId={details.congregation.id}
                     showAddLink
+                />
+                <DetailsList
+                    itemType="census"
+                    items={populationItems(details.member)}
+                    dontLinkItems
+                    dontViewAll
                 />
                 {
                     canEditTransactions &&

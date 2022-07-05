@@ -1,8 +1,12 @@
 To do:
+- Make churches get distributions
+- Reorganize receipts to one column
+- Report for all members (starting, ending balances and difference)
 ~ Add comma to total number of shares on sacco dashboard
 ~ Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
 - Censuses:
 	- Add cong, parish, arch, and dioc details based on christian counts
+~ Add server-side unique check for dividend date
 
 
 To update in SQL:
@@ -14,7 +18,6 @@ To confirm in production:
 
 Less important:
 - Easier member selection (by name)
-- Add server-side unique check for dividend date
 - Add name of logged-in user
 
 Much less important:
