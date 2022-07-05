@@ -1,5 +1,4 @@
 To do:
-- Ask if churches are charged 10,000 UGX membership fee
 - Add comma to total number of shares on sacco dashboard
 - Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
 - Censuses:
