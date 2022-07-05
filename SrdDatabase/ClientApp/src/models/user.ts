@@ -43,6 +43,7 @@ export interface UserResults extends PagedResults {
 }
 
 export const userRole = {
+    basic: 'Basic',
     viewer: 'Viewer',
     contributor: 'Contributor',
     accountant: 'Accountant',

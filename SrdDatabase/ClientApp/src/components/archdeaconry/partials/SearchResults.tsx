@@ -29,7 +29,7 @@ const SearchResults = ({
     currentUser,
 }: Props) => {
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
-    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
 
     const onPage = (pageNumber: number) => {
         searchArchdeaconries({ ...parameters, pageNumber });
@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '4' : canViewTransactions ? '5' : '9'}`}>
+                        <th className={`col-${canEdit ? '4' : canViewFinances ? '5' : '9'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -70,7 +70,7 @@ const SearchResults = ({
                             />
                         </th>
                         {
-                            canViewTransactions &&
+                            canViewFinances &&
                             <>
                                 <th className='col-2'>
                                     {new Date().getFullYear()} Quota
@@ -101,7 +101,7 @@ const SearchResults = ({
                             </td>
                             <td className="number-column">{archdeaconry.numberOfChristians?.toLocaleString()}</td>
                             {
-                                canViewTransactions &&
+                                canViewFinances &&
                                 <>
                                     <td className="number-column">{archdeaconry.quota?.toLocaleString()}</td>
                                     <td className="number-column">{parenthesizeIfNegative(archdeaconry.balance)}</td>

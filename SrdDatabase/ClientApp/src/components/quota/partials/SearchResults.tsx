@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
 import { formattedDates } from '../../../helpers/quotaHelper';
+import { atLeast } from '../../../helpers/userHelper';
 
 type Props =
     Store.State &
@@ -19,6 +20,7 @@ type Props =
     typeof SharedStore.actionCreators;
 
 const SearchResults = ({
+    currentUser,
     resultsLoading,
     results,
     deletingQuotaIds,
@@ -26,6 +28,8 @@ const SearchResults = ({
     parameters,
     searchQuotas,
 }: Props) => {
+    const canEdit = currentUser && atLeast.accountant.includes(currentUser.userType);
+
     const onPage = (pageNumber: number) => {
         searchQuotas({ ...parameters, pageNumber });
     };
@@ -56,7 +60,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-5">
+                        <th className={`col-${canEdit ? '5' : '6'}`}>
                             Congregation
                             <SortButton
                                 parameters={parameters}
@@ -72,7 +76,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-2"></th>
+                        <th className={`col-${canEdit ? '2' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
@@ -88,12 +92,17 @@ const SearchResults = ({
                                     <Link className="btn btn-secondary" to={`/quota/details/${quota.id}`}>
                                         View
                                     </Link>
-                                    <Link className="btn btn-primary" to={`/quota/edit/${quota.id}`}>
-                                        Edit
-                                    </Link>
-                                    <button className="btn btn-danger" onClick={() => { onDelete(quota); }}>
-                                        {deletingQuotaIds.includes(quota.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                    </button>
+                                    {
+                                        canEdit &&
+                                        <div>
+                                            <Link className="btn btn-primary" to={`/quota/edit/${quota.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(quota); }}>
+                                                {deletingQuotaIds.includes(quota.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                            </button>
+                                        </div>
+                                    }
                                 </div>
                             </td>
                         </tr>

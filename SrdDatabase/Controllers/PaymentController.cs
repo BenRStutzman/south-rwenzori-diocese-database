@@ -12,7 +12,7 @@ using SrdDatabase.Domain.Commands.Payments;
 namespace SrdDatabase.Controllers
 {
     [ApiController]
-    [Authorize(UserRole.Accountant)]
+    [Authorize(UserRole.Viewer)]
     [Route("api/[controller]")]
     public class PaymentController : BaseController
     {
@@ -48,6 +48,7 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(query);
         }
 
+        [Authorize(UserRole.Accountant)]
         [HttpPost("add")]
         public async Task<SaveResponse> Add(AddPayment.Command command)
         {
@@ -55,6 +56,7 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(command);
         }
 
+        [Authorize(UserRole.Accountant)]
         [HttpPost("edit")]
         public async Task<SaveResponse> Edit(EditPayment.Command command)
         {
@@ -62,6 +64,7 @@ namespace SrdDatabase.Controllers
             return await _mediator.Send(command);
         }
 
+        [Authorize(UserRole.Accountant)]
         [HttpPost("delete")]
         public async Task<IActionResult> Delete(DeletePayment.Command command)
         {

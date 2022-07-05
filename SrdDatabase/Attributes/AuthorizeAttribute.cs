@@ -12,7 +12,7 @@ namespace SrdDatabase.Attributes
     {
         private readonly IEnumerable<UserRole> _roles;
 
-        public AuthorizeAttribute(UserRole role = UserRole.Viewer)
+        public AuthorizeAttribute(UserRole role = UserRole.Basic)
         {
             _roles = AllUserRoles.WhoAreAtLeast[role];
         }

@@ -88,14 +88,14 @@ export default () => (
             <PrivateRoute exact path='/census/add' component={CensusAdd} roles={atLeast.contributor} />
             <PrivateRoute exact path='/census/edit/:censusId' component={CensusEdit} roles={atLeast.contributor} />
             <PrivateRoute exact path='/census/details/:censusId' component={CensusDetails} />
-            <PrivateRoute exact path='/payment' component={PaymentHome} roles={atLeast.accountant} />
+            <PrivateRoute exact path='/payment' component={PaymentHome} roles={atLeast.viewer} />
             <PrivateRoute exact path='/payment/add' component={PaymentAdd} roles={atLeast.accountant} />
             <PrivateRoute exact path='/payment/edit/:paymentId' component={PaymentEdit} roles={atLeast.accountant} />
-            <PrivateRoute exact path='/payment/details/:paymentId' component={PaymentDetails} roles={atLeast.accountant} />
-            <PrivateRoute exact path='/quota' component={QuotaHome} roles={atLeast.accountant} />
+            <PrivateRoute exact path='/payment/details/:paymentId' component={PaymentDetails} roles={atLeast.viewer} />
+            <PrivateRoute exact path='/quota' component={QuotaHome} roles={atLeast.viewer} />
             <PrivateRoute exact path='/quota/add' component={QuotaAdd} roles={atLeast.accountant} />
             <PrivateRoute exact path='/quota/edit/:quotaId' component={QuotaEdit} roles={atLeast.accountant} />
-            <PrivateRoute exact path='/quota/details/:quotaId' component={QuotaDetails} roles={atLeast.accountant} />
+            <PrivateRoute exact path='/quota/details/:quotaId' component={QuotaDetails} roles={atLeast.viewer} />
             <PrivateRoute exact path='/report' component={ReportHome} roles={atLeast.accountant} />
             <PrivateRoute exact path='/user' component={UserHome} roles={atLeast.administrator} />
             <PrivateRoute exact path='/user/add' component={UserAdd} roles={atLeast.administrator} />

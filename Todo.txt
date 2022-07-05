@@ -1,12 +1,12 @@
 To do:
-- Add comma to total number of shares on sacco dashboard
-- Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
+~ Add comma to total number of shares on sacco dashboard
+~ Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
 - Censuses:
 	- Add cong, parish, arch, and dioc details based on christian counts
 
 
 To update in SQL:
-	- Add Basic user role to user table (LATER)
+	- Add Basic user role to user table
 
 To release:
 

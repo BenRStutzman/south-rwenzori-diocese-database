@@ -7,7 +7,7 @@ import { stringNumberOfChristians } from '../../helpers/censusHelper';
 import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { currentYearQuotaString } from '../../helpers/quotaHelper';
-import { atLeast, getUser } from '../../helpers/userHelper';
+import { atLeast } from '../../helpers/userHelper';
 import { State } from '../../store';
 import * as Store from '../../store/home';
 import * as SharedStore from '../../store/shared';
@@ -33,59 +33,62 @@ const Home = ({
 
     useEffect(loadData, []);
 
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
-    const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canAddCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditStructure = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canAddEventsAndCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
+    const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
+    const canEditFinances = currentUser && atLeast.accountant.includes(currentUser.userType);
 
     return currentUser?.userType === userRole.sacco ? <Redirect to='/sacco' />
         : detailsLoading ? <LoadingSpinner fullPage /> :
-            <>
+            <>U
                 <h1>South Rwenzori Diocese</h1>
                 <div className="details-boxes">
                     <DetailsList
                         itemType="archdeaconry"
                         itemTotal={details.archdeaconryResults.totalResults}
                         items={archdeaconryItems(details.archdeaconryResults)}
-                        showAddLink={canEdit}
+                        showAddLink={canEditStructure}
                     />
                     <DetailsList
                         itemType="parish"
                         itemTotal={details.parishResults.totalResults}
                         items={parishItems(details.parishResults)}
-                        showAddLink={canEdit}
+                        showAddLink={canEditStructure}
                     />
                     <DetailsList
                         itemType="congregation"
                         itemTotal={details.congregationResults.totalResults}
                         items={congregationItems(details.congregationResults)}
-                        showAddLink={canEdit}
+                        showAddLink={canEditStructure}
                     />
                     <DetailsList
                         itemType="census"
                         altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
                         items={censusItems(details.censusResults)}
-                        showAddLink={canAddCensuses}
+                        showAddLink={canAddEventsAndCensuses}
                     />
                     {
-                        canViewTransactions &&
+                        canEditFinances && 
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                            altLink="/report"
+                            altLinkText="Create financial report"
+                        />
+                    }
+                    {
+                        canViewFinances &&
                         <>
-                            <DetailsBox
-                                altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
-                                altLink="/report"
-                                altLinkText="Create financial report"
-                            />
                             <DetailsList
                                 itemType="quota"
                                 altTitle={currentYearQuotaString(details.quota)}
                                 items={quotaItems(details.quotaResults)}
-                                showAddLink
+                                showAddLink={canEditFinances}
                             />
                             <DetailsList
                                 itemType="payment"
                                 itemTotal={details.paymentResults.totalResults}
                                 items={paymentItems(details.paymentResults)}
-                                showAddLink
+                                showAddLink={canEditFinances}
                             />
                         </>
                     }
@@ -93,7 +96,7 @@ const Home = ({
                         itemType="event"
                         itemTotal={details.eventResults.totalResults}
                         items={eventItems(details.eventResults)}
-                        showAddLink={canAddEvents}
+                        showAddLink={canAddEventsAndCensuses}
                     />
                 </div>
             </>

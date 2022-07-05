@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
+import { atLeast } from '../../../helpers/userHelper';
 
 type Props =
     Store.State &
@@ -18,6 +19,7 @@ type Props =
     typeof SharedStore.actionCreators;
 
 const SearchResults = ({
+    currentUser,
     resultsLoading,
     results,
     deletingPaymentIds,
@@ -25,6 +27,8 @@ const SearchResults = ({
     parameters,
     searchPayments,
 }: Props) => {
+    const canEdit = currentUser && atLeast.accountant.includes(currentUser.userType);
+
     const onPage = (pageNumber: number) => {
         searchPayments({ ...parameters, pageNumber });
     }
@@ -55,7 +59,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-4">
+                        <th className={`col-${canEdit ? '4' : '5'}`}>
                             Congregation
                             <SortButton
                                 parameters={parameters}
@@ -79,7 +83,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className="col-2"></th>
+                        <th className={`col-${canEdit ? '2' : '1'}`}></th>
                     </tr>
                 </thead>
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
@@ -96,12 +100,17 @@ const SearchResults = ({
                                     <Link className="btn btn-secondary" to={`/payment/details/${payment.id}`}>
                                         View
                                     </Link>
-                                    <Link className="btn btn-primary" to={`/payment/edit/${payment.id}`}>
-                                        Edit
-                                    </Link>
-                                    <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
-                                        {deletingPaymentIds.includes(payment.id as number) ? <Spinner size="sm" /> : 'Delete'}
-                                    </button>
+                                    {
+                                        canEdit &&
+                                        <>
+                                            <Link className="btn btn-primary" to={`/payment/edit/${payment.id}`}>
+                                                Edit
+                                            </Link>
+                                            <button className="btn btn-danger" onClick={() => { onDelete(payment); }}>
+                                                {deletingPaymentIds.includes(payment.id as number) ? <Spinner size="sm" /> : 'Delete'}
+                                            </button>
+                                        </>
+                                    }
                                 </div>
                             </td>
                         </tr>

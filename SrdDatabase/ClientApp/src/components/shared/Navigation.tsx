@@ -49,7 +49,7 @@ const Navigation = ({
                                     </>
                                 }
                                 {
-                                    atLeast.accountant.includes(currentUser.userType) &&
+                                    atLeast.viewer.includes(currentUser.userType) &&
                                     <>
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/quota'>Quotas</NavLink>
@@ -57,10 +57,13 @@ const Navigation = ({
                                         <NavItem>
                                             <NavLink tag={Link} className='text-dark' to='/payment'>Payments</NavLink>
                                         </NavItem>
-                                        <NavItem>
-                                            <NavLink tag={Link} className='text-dark' to='/report'>Reports</NavLink>
-                                        </NavItem>
                                     </>
+                                }
+                                {
+                                    atLeast.accountant.includes(currentUser.userType) &&
+                                    <NavItem>
+                                        <NavLink tag={Link} className='text-dark' to='/report'>Reports</NavLink>
+                                    </NavItem>
                                 }
                                 {
                                     atLeast.sacco.includes(currentUser.userType) &&

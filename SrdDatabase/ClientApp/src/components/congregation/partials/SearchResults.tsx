@@ -29,7 +29,7 @@ const SearchResults = ({
     currentUser,
 }: Props) => {
     const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
-    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
 
     const onPage = (pageNumber: number) => {
         searchCongregations({ ...parameters, pageNumber });
@@ -53,7 +53,7 @@ const SearchResults = ({
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th className={`col-${canEdit ? '2' : canViewTransactions ? '3' : '5'}`}>
+                        <th className={`col-${canEdit ? '2' : canViewFinances ? '3' : '5'}`}>
                             Name
                             <SortButton
                                 parameters={parameters}
@@ -61,7 +61,7 @@ const SearchResults = ({
                                 onSort={onSort}
                             />
                         </th>
-                        <th className={`col-${canEdit ? '2' : canViewTransactions ? '2' : '4'}`}>
+                        <th className={`col-${canEdit ? '2' : canViewFinances ? '2' : '4'}`}>
                             Parish
                             <SortButton
                                 parameters={parameters}
@@ -78,7 +78,7 @@ const SearchResults = ({
                             />
                         </th>
                         {
-                            canViewTransactions &&
+                            canViewFinances &&
                             <>
                                 <th className='col-2'>
                                     {new Date().getFullYear()} Quota
@@ -112,7 +112,7 @@ const SearchResults = ({
                             </td>
                             <td className="number-column">{congregation.numberOfChristians?.toLocaleString()}</td>
                             {
-                                canViewTransactions &&
+                                canViewFinances &&
                                 <>
                                     <td className="number-column">{congregation.quota?.toLocaleString()}</td>
                                     <td className="number-column">
