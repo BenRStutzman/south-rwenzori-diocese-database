@@ -1,49 +1,17 @@
 To do:
+- Ask if churches are charged 10,000 UGX membership fee
+- Add comma to total number of shares on sacco dashboard
 - Change viewer role to basic and add new "viewer" role - can also view quotas, payments, balances, but not edit anything.
 - Censuses:
 	- Add cong, parish, arch, and dioc details based on christian counts
 
-To release:
-X Specify that loan balance is as of current date in payment receipt
-X Add div outside right-aligned buttons on payment details page
-X Add number of shares sold/purchased to transaction receipt
-X Rearrange member report: move shares value to left, fill in with constant for transactions
-X Link to report from member details page
-X Add account number to SQL getSaccoPayments sproc
-X Make buttons-column centered
-X Fix missing membership fees when startDate is null
-X Fix order of starting and ending balances
-X Remove $ from before distributions in report
-X Adjust spacing in receipt
-X Fix receipt still loading when done
-	X Add parameter to get to not json the response, or make a new method
-X Parenthesize savings value if negative (member home)
-X Confirm what happens when a member is changed from church to individual or vice versa (update distributions_applied)
-X Fix deleting abnormality for payments (doesn't do little spinner)
-X Change sbyte for payment percentage to short
-X An to a on payment edit page
-X Less spacing in results pages
-X Smaller font in details pages
-X Enable churches as members:
-	- Boolean field
-	- Don't give them dividends or interest
-	- Sort by isChurch
-X Nicer small receipt printout (A3) - half of A4 for
-	X transactions and
-	X payments
-X Add useful SACCO-wide stats to dashboard
-	- Total shares (and value)
-	- Total savings
-	- Total balance
-	- Total outstanding loan balance
-X Reports:
-	- Member account statement (incl transactions, dividends, fees)
-X Fix shares and savings sorting together on member results page
-
-To confirm in production:
 
 To update in SQL:
 	- Add Basic user role to user table (LATER)
+
+To release:
+
+To confirm in production:
 
 Less important:
 - Easier member selection (by name)
