@@ -49,17 +49,19 @@ namespace SrdDatabase.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<SaveResponse> Add(AddDistribution.Command command)
+        public async Task<IActionResult> Add(AddDistribution.Command command)
         {
             command.SetUserId(CurrentUser.Id);
-            return await _mediator.Send(command);
+            var response = await _mediator.Send(command);
+            return SaveResult(response);
         }
 
         [HttpPost("edit")]
         public async Task<IActionResult> Edit(EditDistribution.Command command)
         {
             command.SetUserId(CurrentUser.Id);
-            return Ok(await _mediator.Send(command));
+            var response = await _mediator.Send(command);
+            return SaveResult(response);
         }
 
         [HttpPost("delete")]
