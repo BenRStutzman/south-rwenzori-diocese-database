@@ -78,10 +78,9 @@ const SearchBox = ({
                                 className="form-control"
                                 value={membersLoading ? "" : parameters.memberId ?? ""}
                                 onChange={onMemberIdChange}
-                                required
                             >
                                 <option key={0} value="" disabled>
-                                    {membersLoading ? 'Loading...' : '--- select a member ---'}
+                                    {membersLoading ? 'Loading...' : 'All members'}
                                 </option>
                                 {members.map(member =>
                                     <option key={member.id} value={member.id}>

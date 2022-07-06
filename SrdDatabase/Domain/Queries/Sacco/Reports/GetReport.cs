@@ -21,7 +21,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
         public class Query : ReportParameters, IRequest<GeneralReports.Report>
         {
             public Query(
-                int memberId,
+                int? memberId = null,
                 DateTime? startDate = null,
                 DateTime? endDate = null) : base(
                     memberId,
@@ -42,23 +42,69 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
             public async Task<GeneralReports.Report> Handle(Query request, CancellationToken cancellationToken)
             {
-                var memberTask = _mediator.Send(new GetMemberById.Query(request.MemberId), cancellationToken);
-                
                 var endDate = request.EndDate ?? DateTime.Today;
                 var dates = ReportHelper.Dates(request.StartDate, endDate);
-                var header = new[] { "Date", "Description", "Shares", "Value of Shares", "Savings", "Balance" };
+                IEnumerable<IEnumerable<string>> header;
+                string subject;
+                Task<IEnumerable<IEnumerable<string>>> dataTask;
 
-                var member = await memberTask;
+                if (request.MemberId.HasValue)
+                {
+                    var memberTask = _mediator.Send(new GetMemberById.Query(request.MemberId.Value), cancellationToken);
+                    header = new[] {
+                        new[] { "Date", "Description", "Shares", "Value of Shares", "Savings", "Balance" }
+                    };
+                    
+                    var member = await memberTask;
 
-                var dataTask = MemberRows(request.StartDate, endDate, member, cancellationToken);
+                    dataTask = MemberRows(request.StartDate, endDate, member, cancellationToken);
 
-                var fileName = $"{Regex.Replace(member.Name, "[^A-Za-z0-9]", "")}_AccountReport_{dates}.csv";
+                    subject = $"{member.AccountNumber}_{member.Name}";
+                }
+                else
+                {
+                    dataTask = DioceseRows(request.StartDate, endDate, cancellationToken);
+
+                    header = new[] {
+                        new[] {
+                            string.Empty,
+                            string.Empty,
+                            $"Balances as of {request.StartDate}",
+                            string.Empty,
+                            string.Empty,
+                            string.Empty,
+                            $"Balances as of {request.EndDate}",
+                            string.Empty,
+                            string.Empty,
+                            string.Empty,
+                            $"Change from {request.StartDate} to {request.EndDate}"
+                        },
+                        new[] {
+                            "Account #",
+                            "Name",
+                            "Shares",
+                            "Value of Shares",
+                            "Savings",
+                            "Balance",
+                            "Shares",
+                            "Value of Shares",
+                            "Savings",
+                            "Balance",
+                            "Shares",
+                            "Value of Shares",
+                            "Savings",
+                            "Balance"
+                        }
+                    };
+                    subject = "SouthRwenzoriDiocese_SACCO";
+                }
+
+                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_AccountReport_{dates}.csv";
 
                 var data = await dataTask;
 
-                return ReportHelper.WriteReport(data.Prepend(header), fileName);
+                return ReportHelper.WriteReport(header.Concat(data), fileName);
             }
-
 
             private async Task<IEnumerable<IEnumerable<string>>> MemberRows(
                 DateTime? startDate,
@@ -109,7 +155,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
 
                 var startingBalances = await startingBalancesTask;
                 var transactionResults = await transactionsTask;
-                var distributionResults = await distributionsTask; 
+                var distributionResults = await distributionsTask;
                 var endingBalances = await endingBalancesTask;
 
                 var rows = new List<IEnumerable<string>>
@@ -200,6 +246,60 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 );
 
                 return rows;
+            }
+
+            private async Task<IEnumerable<IEnumerable<string>>> DioceseRows(
+                DateTime? startDate,
+                DateTime endDate,
+                CancellationToken cancellationToken
+                )
+            {
+                var membersTask = _mediator.Send(new GetAllMembers.Query(), cancellationToken);
+                var members = await membersTask;
+
+                var memberRowsTask = members
+                    .AsParallel()
+                    .AsOrdered()
+                    .Select(member => MemberRow(startDate, endDate, member, cancellationToken));
+
+                return await Task.WhenAll(memberRowsTask);
+            }
+
+            private async Task<IEnumerable<string>> MemberRow(
+                DateTime? startDate,
+                DateTime endDate,
+                Member member,
+                CancellationToken cancellationToken)
+            {
+                var startingBalancesTask = startDate.HasValue
+                    ? _mediator.Send(
+                        new GetMemberBalances.Query(member.Id, startDate.Value, false),
+                        cancellationToken)
+                    : Task.FromResult(new MemberBalances(0, 0, 0, 0));
+
+                var endingBalancesQuery = new GetMemberBalances.Query(member.Id, endDate);
+                var endingBalancesTask = _mediator.Send(endingBalancesQuery, cancellationToken);
+
+                var startingBalances = await startingBalancesTask;
+                var endingBalances = await endingBalancesTask;
+
+                return new[]
+                {
+                    member.AccountNumber.ToString(),
+                    member.Name,
+                    startingBalances.Shares.ToString(),
+                    startingBalances.SharesValue.ToString(),
+                    startingBalances.Savings.ToString(),
+                    startingBalances.Balance.ToString(),
+                    endingBalances.Shares.ToString(),
+                    endingBalances.SharesValue.ToString(),
+                    endingBalances.Savings.ToString(),
+                    endingBalances.Balance.ToString(),
+                    (endingBalances.Shares - startingBalances.Shares).ToString(),
+                    (endingBalances.SharesValue - startingBalances.SharesValue).ToString(),
+                    (endingBalances.Savings - startingBalances.Savings).ToString(),
+                    (endingBalances.Balance - startingBalances.Balance).ToString()
+                };
             }
         }
     }
