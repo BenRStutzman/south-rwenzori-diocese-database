@@ -8,7 +8,7 @@ using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Events;
 using SrdDatabase.Data.Queries.Payments;
 using SrdDatabase.Data.Queries.Quotas;
-using SrdDatabase.Data.Queries.Censuses;
+using SrdDatabase.Data.Queries.Archdeaconrys;
 
 namespace SrdDatabase.Domain.Queries.Archdeaconries
 {
@@ -38,6 +38,8 @@ namespace SrdDatabase.Domain.Queries.Archdeaconries
             {
                 var archdeaconryTask = _mediator.Send(new GetArchdeaconryById.Query(request.Id), cancellationToken);
 
+                var populationTask = _mediator.Send(new GetArchdeaconryPopulation.Query(request.Id), cancellationToken);
+
                 var parishesQuery = new GetParishes.Query(
                     archdeaconryId: request.Id,
                     pageSize: Constants.DetailsPageSize);
@@ -63,27 +65,22 @@ namespace SrdDatabase.Domain.Queries.Archdeaconries
                     pageSize: Constants.DetailsPageSize);
                 var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
-                var censusesQuery = new GetCensuses.Query(
-                    archdeaconryId: request.Id,
-                    pageSize: Constants.DetailsPageSize);
-                var censusesTask = _mediator.Send(censusesQuery, cancellationToken);
-
                 var archdeaconry = await archdeaconryTask;
+                var population = await populationTask;
                 var parishResults = await parishesTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
                 var quotaResults = await quotasTask;
-                var censusResults = await censusesTask;
 
                 return new ArchdeaconryDetails(
                     archdeaconry,
+                    population,
                     parishResults,
                     congregationResults,
                     eventResults,
                     paymentResults,
-                    quotaResults,
-                    censusResults);
+                    quotaResults);
             }
         }
     }

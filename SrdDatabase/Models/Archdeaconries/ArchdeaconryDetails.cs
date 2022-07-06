@@ -1,15 +1,17 @@
-﻿using SrdDatabase.Models.Censuses;
-using SrdDatabase.Models.Quotas;
+﻿using SrdDatabase.Models.Quotas;
 using SrdDatabase.Models.Congregations;
 using SrdDatabase.Models.Events;
 using SrdDatabase.Models.Parishes;
 using SrdDatabase.Models.Payments;
+using SrdDatabase.Models.Shared;
 
 namespace SrdDatabase.Models.Archdeaconries
 {
     public class ArchdeaconryDetails
     {
         public Archdeaconry Archdeaconry { get; }
+
+        public Population Population { get; }
 
         public ParishResults ParishResults { get; }
 
@@ -21,24 +23,22 @@ namespace SrdDatabase.Models.Archdeaconries
 
         public QuotaResults QuotaResults { get; }
 
-        public CensusResults CensusResults { get; }
-
         public ArchdeaconryDetails(
             Archdeaconry archdeaconry,
+            Population population,
             ParishResults parishResults,
             CongregationResults congregationResults,
             EventResults eventResults,
             PaymentResults paymentResults,
-            QuotaResults quotaResults,
-            CensusResults censusResults)
+            QuotaResults quotaResults)
         {
             Archdeaconry = archdeaconry;
+            Population = population;
             ParishResults = parishResults;
             CongregationResults = congregationResults;
             EventResults = eventResults;
             PaymentResults = paymentResults;
             QuotaResults = quotaResults;
-            CensusResults = censusResults;
         }
     }
 

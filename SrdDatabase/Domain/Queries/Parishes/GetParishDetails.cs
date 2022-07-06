@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SrdDatabase.Data.Queries.Censuses;
 using SrdDatabase.Data.Queries.Quotas;
 using SrdDatabase.Data.Queries.Congregations;
 using SrdDatabase.Data.Queries.Events;
@@ -8,6 +7,7 @@ using SrdDatabase.Models.Parishes;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
+using SrdDatabase.Data.Queries.Parishs;
 
 namespace SrdDatabase.Domain.Queries.Parishes
 {
@@ -36,6 +36,8 @@ namespace SrdDatabase.Domain.Queries.Parishes
             public async Task<ParishDetails> Handle(Query request, CancellationToken cancellationToken)
             {
                 var parishTask = _mediator.Send(new GetParishById.Query(request.Id), cancellationToken);
+
+                var populationTask = _mediator.Send(new GetParishPopulation.Query(request.Id), cancellationToken);
                 
                 var congregationsQuery = new GetCongregations.Query(
                     parishId: request.Id,
@@ -57,25 +59,20 @@ namespace SrdDatabase.Domain.Queries.Parishes
                     pageSize: Constants.DetailsPageSize);
                 var quotasTask = _mediator.Send(quotasQuery, cancellationToken);
 
-                var censusesQuery = new GetCensuses.Query(
-                    parishId: request.Id,
-                    pageSize: Constants.DetailsPageSize);
-                var censusesTask = _mediator.Send(censusesQuery, cancellationToken);
-
                 var parish = await parishTask;
+                var population = await populationTask;
                 var congregationResults = await congregationsTask;
                 var eventResults = await eventsTask;
                 var paymentResults = await paymentsTask;
                 var quotaResults = await quotasTask;
-                var censusResults = await censusesTask;
 
                 return new ParishDetails(
                     parish,
+                    population,
                     congregationResults,
                     eventResults,
                     paymentResults,
-                    quotaResults,
-                    censusResults);
+                    quotaResults);
             }
         }
     }
