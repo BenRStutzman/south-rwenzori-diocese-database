@@ -1,10 +1,9 @@
 ﻿import { CongregationResults } from "./congregation";
 import { ParishResults } from "./parish";
-import { PagedParameters, PagedResults } from "./shared";
+import { PagedParameters, PagedResults, Population } from "./shared";
 import { EventResults } from './event';
 import { PaymentResults } from "./payment";
 import { QuotaResults } from "./quota";
-import { CensusResults } from "./census";
 
 export interface Archdeaconry {
     id?: number;
@@ -16,12 +15,12 @@ export interface Archdeaconry {
 
 export interface ArchdeaconryDetails {
     archdeaconry: Archdeaconry;
+    population: Population;
     parishResults: ParishResults;
     congregationResults: CongregationResults;
     eventResults: EventResults;
     paymentResults: PaymentResults;
     quotaResults: QuotaResults;
-    censusResults: CensusResults;
 }
 
 export interface ArchdeaconryParameters extends PagedParameters {

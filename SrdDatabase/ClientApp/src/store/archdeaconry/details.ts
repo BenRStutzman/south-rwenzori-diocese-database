@@ -38,12 +38,12 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         archdeaconry: {},
+        population: {},
         parishResults: { ...pagedResultsDefaults, parishes: [] },
         congregationResults: { ...pagedResultsDefaults, congregations: [] },
         eventResults: { ...pagedResultsDefaults, events: [] },
         paymentResults: { ...pagedResultsDefaults, payments: [] },
         quotaResults: { ...pagedResultsDefaults, quotas: [] },
-        censusResults: { ...pagedResultsDefaults, censuses: [] },
     },
 };
 

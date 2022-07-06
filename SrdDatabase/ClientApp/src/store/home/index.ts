@@ -43,7 +43,7 @@ const initialState: State = {
         eventResults: { ...pagedResultsDefaults, events: [] },
         paymentResults: { ...pagedResultsDefaults, payments: [] },
         quotaResults: { ...pagedResultsDefaults, quotas: [] },
-        censusResults: { ...pagedResultsDefaults, censuses: [] },
+        population: {},
     },
 };
 

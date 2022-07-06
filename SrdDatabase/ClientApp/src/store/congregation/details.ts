@@ -38,10 +38,10 @@ const initialState: State = {
     detailsLoading: true,
     details: {
         congregation: {},
+        population: {},
         eventResults: { ...pagedResultsDefaults, events: [] },
         paymentResults: { ...pagedResultsDefaults, payments: [] },
         quotaResults: { ...pagedResultsDefaults, quotas: [] },
-        censusResults: { ...pagedResultsDefaults, censuses: [] },
     },
 };
 

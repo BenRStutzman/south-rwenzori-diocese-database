@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
-import { archdeaconryItems, censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { archdeaconryItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems, populationItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { currentYearQuotaString } from '../../helpers/quotaHelper';
 import { atLeast } from '../../helpers/userHelper';
@@ -62,10 +62,11 @@ const Home = ({
                         showAddLink={canEditStructure}
                     />
                     <DetailsList
-                        itemType="census"
                         altTitle={`Christians: ${stringNumberOfChristians(details.numberOfChristians)}`}
-                        items={censusItems(details.censusResults)}
-                        showAddLink={canAddEventsAndCensuses}
+                        itemType="census"
+                        items={populationItems(details.population)}
+                        dontLinkItems
+                        showAddLink
                     />
                     {
                         canEditFinances && 

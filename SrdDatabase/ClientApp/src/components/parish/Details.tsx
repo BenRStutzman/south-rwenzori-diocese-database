@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { censusItems, quotaItems, congregationItems, eventItems, paymentItems } from '../../helpers/detailsHelpers';
+import { quotaItems, congregationItems, eventItems, paymentItems, populationItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
@@ -80,11 +80,13 @@ const Details = ({
                     showAddLink={canEdit}
                 />
                 <DetailsList
-                    itemType="census"
                     altTitle={`Christians: ${stringNumberOfChristians(details.parish.numberOfChristians)}`}
-                    items={censusItems(details.censusResults)}
                     baseItemType="parish"
+                    itemType="census"
+                    items={populationItems(details.population)}
+                    dontLinkItems
                     baseItemId={details.parish.id}
+                    altPreposition="for"
                     showAddLink
                 />
                 {

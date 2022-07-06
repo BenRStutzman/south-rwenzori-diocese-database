@@ -1,9 +1,8 @@
-﻿import { CensusResults } from './census';
-import { QuotaResults } from './quota';
+﻿import { QuotaResults } from './quota';
 import { CongregationResults } from './congregation';
 import { EventResults } from './event';
 import { PaymentResults } from './payment';
-import { PagedParameters, PagedResults } from './shared';
+import { PagedParameters, PagedResults, Population } from './shared';
 
 export interface Parish {
     id?: number;
@@ -17,11 +16,11 @@ export interface Parish {
 
 export interface ParishDetails {
     parish: Parish;
+    population: Population;
     congregationResults: CongregationResults;
     eventResults: EventResults;
     paymentResults: PaymentResults;
     quotaResults: QuotaResults;
-    censusResults: CensusResults;
 }
 
 export interface ParishParameters extends PagedParameters {

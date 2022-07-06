@@ -10,7 +10,7 @@ import { atLeast } from '../../helpers/userHelper';
 import DetailsBox from '../shared/DetailsBox';
 import DetailsList from '../shared/DetailsList';
 import { bindActionCreators } from 'redux';
-import { censusItems, quotaItems, eventItems, paymentItems, populationItems } from '../../helpers/detailsHelpers';
+import { quotaItems, eventItems, paymentItems, populationItems } from '../../helpers/detailsHelpers';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';

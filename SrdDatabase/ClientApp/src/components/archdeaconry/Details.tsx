@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { atLeast } from '../../helpers/userHelper';
 import { bindActionCreators } from 'redux';
 import DetailsList from '../shared/DetailsList';
-import { censusItems, quotaItems, congregationItems, eventItems, parishItems, paymentItems } from '../../helpers/detailsHelpers';
+import { quotaItems, congregationItems, eventItems, parishItems, paymentItems, populationItems } from '../../helpers/detailsHelpers';
 import { Spinner } from 'reactstrap';
 import { parenthesizeIfNegative } from '../../helpers/miscellaneous';
 import { stringNumberOfChristians } from '../../helpers/censusHelper';
@@ -82,11 +82,13 @@ const Details = ({
                     showAddLink={canEdit}
                 />
                 <DetailsList
-                    itemType="census"
                     altTitle={`Christians: ${stringNumberOfChristians(details.archdeaconry.numberOfChristians)}`}
-                    items={censusItems(details.censusResults)}
                     baseItemType="archdeaconry"
+                    itemType="census"
+                    items={populationItems(details.population)}
+                    dontLinkItems
                     baseItemId={details.archdeaconry.id}
+                    altPreposition="for"
                     showAddLink
                 />
                 {

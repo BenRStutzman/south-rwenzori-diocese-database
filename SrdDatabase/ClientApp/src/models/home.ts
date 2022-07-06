@@ -4,7 +4,7 @@ import { ParishResults } from "./parish";
 import { EventResults } from './event';
 import { QuotaResults } from "./quota";
 import { PaymentResults } from "./payment";
-import { CensusResults } from "./census";
+import { Population } from "./shared";
 
 export interface DioceseDetails {
     archdeaconryResults: ArchdeaconryResults;
@@ -13,7 +13,7 @@ export interface DioceseDetails {
     eventResults: EventResults;
     paymentResults: PaymentResults;
     quotaResults: QuotaResults;
-    censusResults: CensusResults;
+    population: Population;
     numberOfChristians?: number;
     quota?: number;
     balance?: number;
