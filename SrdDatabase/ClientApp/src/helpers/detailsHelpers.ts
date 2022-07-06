@@ -59,46 +59,56 @@ export function quotaItems(quotaResults: QuotaResults, useAmount: boolean = fals
 }
 
 export function populationItems(population: Population): DetailsListItem[] {
+    if (population.males0To12 === undefined) {
+        return [];
+    }
+
+    var males = (population.males0To12 as number) + (population.males13To17 as number)
+        + (population.males18To35 as number) + (population.males36AndAbove as number);
+
+    var females = (population.females0To12 as number) + (population.females13To17 as number)
+        + (population.females18To35 as number) + (population.females36AndAbove as number);
+
     return [
         {
             id: 1,
-            displayText: `Males 0-12: ${population.males0To12}`,
+            displayText: `Males: ${males}`,
         },
         {
             id: 2,
-            displayText: `Males 13-17: ${population.males13To17}`,
+            displayText: `Females: ${females}`,
         },
         {
             id: 3,
-            displayText: `Males 18-35: ${population.males18To35}`,
+            displayText: `Males 0-12: ${population.males0To12}`,
         },
         {
             id: 4,
-            displayText: `Males 36+: ${population.males36AndAbove}`,
+            displayText: `Males 13-17: ${population.males13To17}`,
         },
         {
             id: 5,
-            displayText: `Females 0-12: ${population.females0To12}`,
+            displayText: `Males 18-35: ${population.males18To35}`,
         },
         {
             id: 6,
-            displayText: `Females 13-17: ${population.females13To17}`,
+            displayText: `Males 36+: ${population.males36AndAbove}`,
         },
         {
             id: 7,
-            displayText: `Females 18-35: ${population.females18To35}`,
+            displayText: `Females 0-12: ${population.females0To12}`,
         },
         {
             id: 8,
-            displayText: `Females 36+: ${population.females36AndAbove}`,
+            displayText: `Females 13-17: ${population.females13To17}`,
         },
         {
             id: 9,
-            displayText: `Total males: ${population.males0To12 + population.males13To17 + population.males18To35 + population.males36AndAbove}`,
+            displayText: `Females 18-35: ${population.females18To35}`,
         },
         {
             id: 10,
-            displayText: `Total females: ${population.males13To17}`,
+            displayText: `Females 36+: ${population.females36AndAbove}`,
         },
     ]
 }
