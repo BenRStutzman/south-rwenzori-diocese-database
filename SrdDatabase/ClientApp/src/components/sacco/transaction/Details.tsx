@@ -24,6 +24,7 @@ type Props =
 const Details = ({
     loadDetails,
     receipt,
+    receiptLoading,
     detailsLoading,
     details,
     match,
@@ -47,6 +48,7 @@ const Details = ({
             <div className="page-heading">
                 <h1>{describeTransaction(details.transaction)}</h1>
                 {
+                    receiptLoading ? <Spinner size="sm" /> :
                     receipt &&
                     <CSVLink data={receipt.data} filename={receipt.fileName}>
                         Download receipt

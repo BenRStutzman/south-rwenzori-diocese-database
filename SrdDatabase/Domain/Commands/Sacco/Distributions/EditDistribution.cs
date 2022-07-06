@@ -8,6 +8,7 @@ using System;
 using SrdDatabase.Data.Commands.Sacco.Distributions;
 using SrdDatabase.Data.Queries.Sacco.Distributions;
 using System.Linq;
+using SrdDatabase.Helpers;
 
 namespace SrdDatabase.Domain.Commands.Sacco.Distributions
 {
@@ -46,7 +47,7 @@ namespace SrdDatabase.Domain.Commands.Sacco.Distributions
                 if (dateResults.Distributions.Any(distribution => distribution.Id != request.Id))
                 {
                     return SaveResponse.ForError(
-                        $"A distribution on the date {request.Date} already exists. " +
+                        $"A distribution on the date {GeneralHelper.FormattedDate(request.Date)} already exists. " +
                         "Please choose a different date or edit the existing distribution.",
                         nameof(request.Date)
                     );

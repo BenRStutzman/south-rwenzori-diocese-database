@@ -40,9 +40,10 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditFinances = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditStructure = currentUser && atLeast.editor.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteArchdeaconry(details.archdeaconry, () => { history.push('/archdeaconry'); });
@@ -53,7 +54,7 @@ const Details = ({
             <div className="page-heading">
                 <h1>{details.archdeaconry.name} Archdeaconry</h1>
                 {
-                    canEdit &&
+                    canEditStructure &&
                     <div className="button-group float-right">
                         <Link className="btn btn-primary" to={`/archdeaconry/edit/${details.archdeaconry.id}`}>
                             Edit archdeaconry
@@ -71,7 +72,7 @@ const Details = ({
                     items={parishItems(details.parishResults)}
                     baseItemType="archdeaconry"
                     baseItemId={details.archdeaconry.id}
-                    showAddLink={canEdit}
+                    showAddLink={canEditStructure}
                 />
                 <DetailsList
                     itemType="congregation"
@@ -79,7 +80,7 @@ const Details = ({
                     items={congregationItems(details.congregationResults)}
                     baseItemType="archdeaconry"
                     baseItemId={details.archdeaconry.id}
-                    showAddLink={canEdit}
+                    showAddLink={canEditStructure}
                 />
                 <DetailsList
                     altTitle={`Christians: ${stringNumberOfChristians(details.archdeaconry.numberOfChristians)}`}
@@ -88,24 +89,18 @@ const Details = ({
                     items={populationItems(details.population)}
                     dontLinkItems
                     baseItemId={details.archdeaconry.id}
-                    altPreposition="for"
-                    showAddLink
+                    showAddLink={canAddEvents}
                 />
                 {
-                    canViewTransactions &&
+                    canViewFinances &&
                     <>
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
-                            altLink={`/report?archdeaconryId=${details.archdeaconry.id}`}
-                            altLinkText="Create financial report"
-                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.archdeaconry.quota)}
                             items={quotaItems(details.quotaResults)}
                             baseItemType="archdeaconry"
                             baseItemId={details.archdeaconry.id}
-                            showAddLink
+                            showAddLink={canEditFinances}
                         />
                         <DetailsList
                             itemType="payment"
@@ -113,7 +108,12 @@ const Details = ({
                             items={paymentItems(details.paymentResults)}
                             baseItemType="archdeaconry"
                             baseItemId={details.archdeaconry.id}
-                            showAddLink
+                            showAddLink={canEditFinances}
+                        />
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.archdeaconry.balance as number)} UGX`}
+                            altLink={canEditFinances ? `/report?archdeaconryId=${details.archdeaconry.id}` : undefined}
+                            altLinkText="Create financial report"
                         />
                     </>
                 }

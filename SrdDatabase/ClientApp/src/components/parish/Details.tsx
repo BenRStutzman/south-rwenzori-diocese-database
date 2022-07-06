@@ -44,16 +44,17 @@ const Details = ({
         deleteParish(details.parish, () => { history.push('/parish'); });
     };
 
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canViewTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditFinances = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditStructure = currentUser && atLeast.editor.includes(currentUser.userType);
 
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1>{details.parish.name} Parish</h1>
                 {
-                    canEdit &&
+                    canEditStructure &&
                     <div className="button-group float-right">
                         <Link className="btn btn-primary" to={`/parish/edit/${details.parish.id}`}>
                             Edit parish
@@ -77,7 +78,7 @@ const Details = ({
                     items={congregationItems(details.congregationResults)}
                     baseItemType="parish"
                     baseItemId={details.parish.id}
-                    showAddLink={canEdit}
+                    showAddLink={canEditStructure}
                 />
                 <DetailsList
                     altTitle={`Christians: ${stringNumberOfChristians(details.parish.numberOfChristians)}`}
@@ -86,24 +87,18 @@ const Details = ({
                     items={populationItems(details.population)}
                     dontLinkItems
                     baseItemId={details.parish.id}
-                    altPreposition="for"
-                    showAddLink
+                    showAddLink={canAddEvents}
                 />
                 {
-                    canViewTransactions &&
+                    canViewFinances &&
                     <>
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
-                            altLink={`/report?parishId=${details.parish.id}`}
-                            altLinkText="Create financial report"
-                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.parish.quota)}
                             items={quotaItems(details.quotaResults)}
                             baseItemType="parish"
                             baseItemId={details.parish.id}
-                            showAddLink
+                            showAddLink={canEditFinances}
                         />
                         <DetailsList
                             itemType="payment"
@@ -111,7 +106,12 @@ const Details = ({
                             items={paymentItems(details.paymentResults)}
                             baseItemType="parish"
                             baseItemId={details.parish.id}
-                            showAddLink
+                            showAddLink={canEditFinances}
+                        />
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.parish.balance as number)} UGX`}
+                            altLink={canEditFinances ? `/report?parishId=${details.parish.id}` : undefined}
+                            altLinkText="Create financial report"
                         />
                     </>
                 }

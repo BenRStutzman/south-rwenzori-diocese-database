@@ -24,6 +24,7 @@ const Details = ({
     loadDetails,
     detailsLoading,
     receipt,
+    receiptLoading,
     details,
     match,
     history,
@@ -46,6 +47,7 @@ const Details = ({
             <div className="page-heading">
                 <h1>{describePayment(details.payment)}</h1>
                 {
+                    receiptLoading ? <Spinner size="sm" /> :
                     receipt &&
                     <CSVLink data={receipt.data} filename={receipt.fileName}>
                         Download receipt

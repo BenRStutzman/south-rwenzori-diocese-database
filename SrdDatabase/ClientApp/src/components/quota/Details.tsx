@@ -10,6 +10,7 @@ import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { Spinner } from 'reactstrap';
 import { formattedDates } from '../../helpers/quotaHelper';
+import { atLeast } from '../../helpers/userHelper';
 
 type Props =
     Store.State &
@@ -19,6 +20,7 @@ type Props =
     RouteComponentProps<{ quotaId: string }>;
 
 const Details = ({
+    currentUser,
     loadDetails,
     detailsLoading,
     details,
@@ -38,18 +40,23 @@ const Details = ({
         deleteQuota(details.quota, () => { history.push('/quota'); });
     };
 
+    const canEdit = currentUser && atLeast.accountant.includes(currentUser.userType);
+
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1>{`Quota of ${details.quota.amountPerYear?.toLocaleString()} UGX per year`}</h1>
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/quota/edit/${details.quota.id}`}>
-                        Edit quota
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {deletingQuotaIds.includes(details.quota.id as number) ? <Spinner size="sm" /> : 'Delete quota'}
-                    </button>
-                </div>
+                {
+                    canEdit &&
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/quota/edit/${details.quota.id}`}>
+                            Edit quota
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {deletingQuotaIds.includes(details.quota.id as number) ? <Spinner size="sm" /> : 'Delete quota'}
+                        </button>
+                    </div>
+                }
             </div>
             <div className="details-boxes">
                 <DetailsBox

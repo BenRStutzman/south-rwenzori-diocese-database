@@ -40,9 +40,10 @@ const Details = ({
 
     React.useEffect(loadData, []);
 
-    const canEdit = currentUser && atLeast.editor.includes(currentUser.userType);
+    const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
     const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
-    const canEditTransactions = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditFinances = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditStructure = currentUser && atLeast.editor.includes(currentUser.userType);
 
     const onDelete = () => {
         deleteCongregation(details.congregation, () => { history.push('/congregation'); });
@@ -53,7 +54,7 @@ const Details = ({
             <div className="page-heading">
                 <h1>{details.congregation.name} Congregation</h1>
                 {
-                    canEdit &&
+                    canEditStructure &&
                     <div className="button-group float-right">
                         <Link className="btn btn-primary" to={`/congregation/edit/${details.congregation.id}`}>
                             Edit congregation
@@ -84,24 +85,20 @@ const Details = ({
                     items={populationItems(details.population)}
                     dontLinkItems
                     baseItemId={details.congregation.id}
-                    altPreposition="for"
-                    showAddLink
+                    altPreposition="of"
+                    showAddLink={canAddEvents}
                 />
                 {
-                    canEditTransactions &&
+                    canViewFinances &&
                     <>
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
-                            altLink={`/report?congregationId=${details.congregation.id}`}
-                            altLinkText="Create financial report"
-                        />
                         <DetailsList
                             itemType="quota"
                             altTitle={currentYearQuotaString(details.congregation.quota)}
                             items={quotaItems(details.quotaResults, true)}
                             baseItemType="congregation"
                             baseItemId={details.congregation.id}
-                            showAddLink
+                            showAddLink={canEditFinances}
+                            altPreposition="for"
                         />
                         <DetailsList
                             itemType="payment"
@@ -109,7 +106,13 @@ const Details = ({
                             items={paymentItems(details.paymentResults, true)}
                             baseItemType="congregation"
                             baseItemId={details.congregation.id}
-                            showAddLink
+                            showAddLink={canEditFinances}
+                            altPreposition="by"
+                        />
+                        <DetailsBox
+                            altTitle={`Balance: ${parenthesizeIfNegative(details.congregation.balance as number)} UGX`}
+                            altLink={canEditFinances ? `/report?congregationId=${details.congregation.id}` : undefined}
+                            altLinkText="Create financial report"
                         />
                     </>
                 }

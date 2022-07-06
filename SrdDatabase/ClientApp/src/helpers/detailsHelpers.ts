@@ -59,7 +59,7 @@ export function quotaItems(quotaResults: QuotaResults, useAmount: boolean = fals
 }
 
 export function populationItems(population: Population): DetailsListItem[] {
-    if (population.males0To12 === undefined) {
+    if (population.males0To12 === undefined || population.males0To12 === null) {
         return [];
     }
 

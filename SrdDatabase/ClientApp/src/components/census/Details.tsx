@@ -40,6 +40,11 @@ const Details = ({
         deleteCensus(details.census, () => { history.push('/census'); });
     };
 
+    const males = (details.census.males0To12 as number) + (details.census.males13To17 as number) +
+        (details.census.males18To35 as number) + (details.census.males36AndAbove as number);
+    const females = (details.census.females0To12 as number) + (details.census.females13To17 as number) +
+        (details.census.females18To35 as number) + (details.census.females36AndAbove as number);
+
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
@@ -80,6 +85,14 @@ const Details = ({
                     itemId={details.census.archdeaconryId}
                 />
                 <DetailsBox
+                    itemType="males"
+                    itemValue={males.toLocaleString()}
+                />
+                <DetailsBox
+                    itemType="females"
+                    itemValue={females.toLocaleString()}
+                />
+                 <DetailsBox
                     itemType="males0-12"
                     itemValue={details.census.males0To12?.toLocaleString()}
                 />

@@ -41,10 +41,10 @@ const Navigation = ({
                                             <NavLink tag={Link} className='text-dark' to='/congregation'>Congregations</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
+                                            <NavLink tag={Link} className='text-dark' to='/census'>Censuses</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} className='text-dark' to='/census'>Censuses</NavLink>
+                                            <NavLink tag={Link} className='text-dark' to='/event'>Events</NavLink>
                                         </NavItem>
                                     </>
                                 }

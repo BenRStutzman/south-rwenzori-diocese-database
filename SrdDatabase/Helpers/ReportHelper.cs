@@ -11,15 +11,9 @@ namespace SrdDatabase.Helpers
 {
     public static class ReportHelper
     {
-
-        public static string DateString(DateTime? date)
-        {
-            return date.HasValue ? $"{date.Value.Year}-{date.Value.Month}-{date.Value.Day}" : string.Empty;
-        }
-
         public static string Dates(DateTime? startDate, DateTime endDate)
         {
-            return $"{(startDate.HasValue ? $"{DateString(startDate.Value)}_to" : "through")}_{DateString(endDate)}";
+            return $"{(startDate.HasValue ? $"{GeneralHelper.FormattedDate(startDate.Value)}_to" : "through")}_{GeneralHelper.FormattedDate(endDate)}";
         }
 
 

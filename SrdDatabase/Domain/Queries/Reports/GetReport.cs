@@ -148,7 +148,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                     ReportHelper.RowWithOffset(new[] { congregation.Name }, offset - 1),
                     ReportHelper.RowWithOffset(
                         new[] {
-                                ReportHelper.DateString(startDate),
+                                GeneralHelper.FormattedDate(startDate),
                                 "Starting balance",
                                 startingBalance.ToString()
                         },
@@ -176,7 +176,7 @@ namespace SrdDatabase.Domain.Queries.Reports
                 foreach (var payment in paymentResults.Payments)
                 {
                     transactionRows.Add(new TransactionRow(
-                        ReportHelper.DateString(payment.Date),
+                        GeneralHelper.FormattedDate(payment.Date),
                         $"Payment{(payment.ReceiptNumber.HasValue ? $" (Receipt {payment.ReceiptNumber})" : "")}",
                         -payment.Amount
                     ));
@@ -196,7 +196,7 @@ namespace SrdDatabase.Domain.Queries.Reports
 
                 rows.Add(ReportHelper.RowWithOffset(
                     new[] {
-                        ReportHelper.DateString(endDate),
+                        GeneralHelper.FormattedDate(endDate),
                         "Ending balance",
                     },
                     offset

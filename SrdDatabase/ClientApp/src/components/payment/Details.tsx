@@ -10,6 +10,7 @@ import DetailsBox from '../shared/DetailsBox';
 import { bindActionCreators } from 'redux';
 import { formattedDate } from '../../helpers/miscellaneous';
 import { Spinner } from 'reactstrap';
+import { atLeast } from '../../helpers/userHelper';
 
 type Props =
     Store.State &
@@ -19,6 +20,7 @@ type Props =
     RouteComponentProps<{ paymentId: string }>;
 
 const Details = ({
+    currentUser,
     loadDetails,
     detailsLoading,
     details,
@@ -38,18 +40,23 @@ const Details = ({
         deletePayment(details.payment, () => { history.push('/payment'); });
     };
 
+    const canEdit = currentUser && atLeast.accountant.includes(currentUser.userType);
+
     return detailsLoading ? <LoadingSpinner fullPage /> :
         <>
             <div className="page-heading">
                 <h1>{`Payment of ${details.payment.amount?.toLocaleString()} UGX`}</h1>
-                <div className="button-group float-right">
-                    <Link className="btn btn-primary" to={`/payment/edit/${details.payment.id}`}>
-                        Edit payment
-                    </Link>
-                    <button className="btn btn-danger" type="button" onClick={onDelete}>
-                        {deletingPaymentIds.includes(details.payment.id as number) ? <Spinner size="sm" /> : 'Delete payment'}
-                    </button>
-                </div>
+                {
+                    canEdit &&
+                    <div className="button-group float-right">
+                        <Link className="btn btn-primary" to={`/payment/edit/${details.payment.id}`}>
+                            Edit payment
+                        </Link>
+                        <button className="btn btn-danger" type="button" onClick={onDelete}>
+                            {deletingPaymentIds.includes(details.payment.id as number) ? <Spinner size="sm" /> : 'Delete payment'}
+                        </button>
+                    </div>
+                }
             </div>
             <div className="details-boxes">
                 <DetailsBox

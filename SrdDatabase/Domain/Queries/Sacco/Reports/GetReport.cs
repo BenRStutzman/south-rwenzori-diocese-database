@@ -65,19 +65,22 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 {
                     dataTask = DioceseRows(request.StartDate, endDate, cancellationToken);
 
+                    var startDateString = GeneralHelper.FormattedDate(request.StartDate);
+                    var endDateString = GeneralHelper.FormattedDate(endDate);
+
                     header = new[] {
                         new[] {
                             string.Empty,
                             string.Empty,
-                            $"Balances as of {request.StartDate}",
+                            request.StartDate.HasValue ? $"Balances as of {startDateString}" : "Starting balances",
                             string.Empty,
                             string.Empty,
                             string.Empty,
-                            $"Balances as of {request.EndDate}",
+                            $"Balances as of {endDateString}",
                             string.Empty,
                             string.Empty,
                             string.Empty,
-                            $"Change from {request.StartDate} to {request.EndDate}"
+                            request.StartDate.HasValue ? $"Change from {startDateString} to {endDateString}" : $"Change through {endDateString}"
                         },
                         new[] {
                             "Account #",
@@ -99,7 +102,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                     subject = "SouthRwenzoriDiocese_SACCO";
                 }
 
-                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9]", "")}_AccountReport_{dates}.csv";
+                var fileName = $"{Regex.Replace(subject, "[^A-Za-z0-9_]", "")}_AccountReport_{dates}.csv";
 
                 var data = await dataTask;
 
@@ -161,7 +164,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 var rows = new List<IEnumerable<string>>
                 {
                     new[] {
-                        ReportHelper.DateString(startDate),
+                        GeneralHelper.FormattedDate(startDate),
                         "Starting balances",
                         startingBalances.Shares.ToString(),
                         startingBalances.SharesValue.ToString(),
@@ -226,7 +229,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                     .OrderBy(row => row.Date)
                     .ThenBy(row => row.Order)
                     .Select(row => new[] {
-                            ReportHelper.DateString(row.Date),
+                            GeneralHelper.FormattedDate(row.Date),
                             row.Description,
                             row.Shares.ToString(),
                             row.Shares.HasValue ? (row.Shares * Constants.SaccoSharePrice).ToString() : string.Empty,
@@ -236,8 +239,8 @@ namespace SrdDatabase.Domain.Queries.Sacco.Reports
                 );
 
                 rows.Add(new[] {
-                        ReportHelper.DateString(endDate),
-                        "Ending balance",
+                        GeneralHelper.FormattedDate(endDate),
+                        "Ending balances",
                         endingBalances.Shares.ToString(),
                         endingBalances.SharesValue.ToString(),
                         endingBalances.Savings.ToString(),

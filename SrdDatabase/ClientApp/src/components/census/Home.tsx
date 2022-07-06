@@ -16,14 +16,13 @@ const Home = ({
 }: Props) => {
     const [expanded, setExpanded] = React.useState(false);
 
-    const canAdd = currentUser && atLeast.contributor.includes(currentUser.userType as string);
+    const canAdd = currentUser && atLeast.contributor.includes(currentUser.userType);
 
     return (
         <>
             <div className="page-heading" >
                 <h1>Censuses</h1>
                 <ExpandButton expanded={expanded} setExpanded={setExpanded} />
-
                 {
                     canAdd &&
                     <div>

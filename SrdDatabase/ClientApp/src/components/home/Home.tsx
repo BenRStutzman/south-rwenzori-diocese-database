@@ -33,14 +33,14 @@ const Home = ({
 
     useEffect(loadData, []);
 
-    const canEditStructure = currentUser && atLeast.editor.includes(currentUser.userType);
-    const canAddEventsAndCensuses = currentUser && atLeast.contributor.includes(currentUser.userType);
     const canViewFinances = currentUser && atLeast.viewer.includes(currentUser.userType);
+    const canAddEvents = currentUser && atLeast.contributor.includes(currentUser.userType);
     const canEditFinances = currentUser && atLeast.accountant.includes(currentUser.userType);
+    const canEditStructure = currentUser && atLeast.editor.includes(currentUser.userType);
 
     return currentUser?.userType === userRole.sacco ? <Redirect to='/sacco' />
         : detailsLoading ? <LoadingSpinner fullPage /> :
-            <>U
+            <>
                 <h1>South Rwenzori Diocese</h1>
                 <div className="details-boxes">
                     <DetailsList
@@ -66,18 +66,10 @@ const Home = ({
                         itemType="census"
                         items={populationItems(details.population)}
                         dontLinkItems
-                        showAddLink
+                        showAddLink={canAddEvents}
                     />
                     {
-                        canEditFinances && 
-                        <DetailsBox
-                            altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
-                            altLink="/report"
-                            altLinkText="Create financial report"
-                        />
-                    }
-                    {
-                        canViewFinances &&
+                        canViewFinances && 
                         <>
                             <DetailsList
                                 itemType="quota"
@@ -91,13 +83,18 @@ const Home = ({
                                 items={paymentItems(details.paymentResults)}
                                 showAddLink={canEditFinances}
                             />
+                            <DetailsBox
+                                altTitle={`Balance: ${parenthesizeIfNegative(details.balance as number)} UGX`}
+                                altLink={canEditFinances ? "/report" : undefined}
+                                altLinkText="Create financial report"
+                            />
                         </>
                     }
                     <DetailsList
                         itemType="event"
                         itemTotal={details.eventResults.totalResults}
                         items={eventItems(details.eventResults)}
-                        showAddLink={canAddEventsAndCensuses}
+                        showAddLink={canAddEvents}
                     />
                 </div>
             </>

@@ -59,7 +59,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                     Enumerable.Empty<string>(),
                     new[] {
                         "Date",
-                        ReportHelper.DateString(payment.Date),
+                        GeneralHelper.FormattedDate(payment.Date),
                     },
                     new[]
                     {
@@ -72,11 +72,6 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                         payment.AccountNumber.ToString(),
                     },
                     Enumerable.Empty<string>(),
-                    new[]
-                    {
-                        "Total paid",
-                        $"{payment.Amount} UGX",
-                    },
                     new[]
                     {
                         "Principal",
@@ -92,15 +87,36 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                         "Fines paid",
                         $"{payment.FinePaid} UGX",
                     },
+                    new[]
+                    {
+                        "Total paid",
+                        $"{payment.Amount} UGX",
+                    },
+                };
+
+                if (payment.FineIncurred > 0)
+                {
+                    rows.AddRange(new[]
+                    {
+                        Enumerable.Empty<string>(),
+                        new[]
+                        {
+                            "Late fine",
+                            $"{payment.FineIncurred} UGX",
+                        }
+                    });
+                }
+
+                rows.AddRange(new[]
+                {
                     Enumerable.Empty<string>(),
                     new[]
                     {
-                        "Loan",
                         $"{loan.LoanType} loan for {loan.Principal} UGX",
                     },
                     new[]
                     {
-                        $"Details as of {ReportHelper.DateString(DateTime.Today)}:"
+                        $"Details as of {GeneralHelper.FormattedDate(DateTime.Today)}:"
                     },
                     new[]
                     {
@@ -122,7 +138,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                     {
                         "Thank you for your payment!",
                     },
-                };
+                });
 
                 return ReportHelper.WriteReport(rows, fileName);
             }

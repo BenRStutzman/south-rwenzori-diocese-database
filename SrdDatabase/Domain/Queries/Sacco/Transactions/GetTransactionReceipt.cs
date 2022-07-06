@@ -54,7 +54,7 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                     Enumerable.Empty<string>(),
                     new[] {
                         "Date",
-                        ReportHelper.DateString(transaction.Date)
+                        GeneralHelper.FormattedDate(transaction.Date)
                     },
                     new[]
                     {
