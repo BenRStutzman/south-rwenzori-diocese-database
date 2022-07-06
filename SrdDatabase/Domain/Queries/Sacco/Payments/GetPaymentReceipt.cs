@@ -50,32 +50,35 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                 {
                     new[]
                     {
-                        "Payment Receipt",
-                        string.Empty,
+                        $"Payment Receipt{receiptNumberString.Replace("_", " #")}",
+                    },
+                    new[]
+                    {
                         "South Rwenzori Diocese SACCO"
                     },
                     Enumerable.Empty<string>(),
                     new[] {
                         "Date",
                         ReportHelper.DateString(payment.Date),
-                        string.Empty,
-                        "Receipt #",
-                        payment.ReceiptNumber.HasValue ? payment.ReceiptNumber.ToString() : "Not set",
+                    },
+                    new[]
+                    {
+                        "Name",
+                        payment.Member,
                     },
                     new[]
                     {
                         "Account #",
                         payment.AccountNumber.ToString(),
-                        string.Empty,
-                        "Name",
-                        payment.Member,
                     },
                     Enumerable.Empty<string>(),
                     new[]
                     {
                         "Total paid",
                         $"{payment.Amount} UGX",
-                        string.Empty,
+                    },
+                    new[]
+                    {
                         "Principal",
                         $"{payment.Principal} UGX",
                     },
@@ -83,9 +86,11 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                     {
                         "Interest",
                         $"{payment.Interest} UGX",
-                        string.Empty,
-                        "Fines",
-                        $"{payment.FinePaid}",
+                    },
+                    new[]
+                    {
+                        "Fines paid",
+                        $"{payment.FinePaid} UGX",
                     },
                     Enumerable.Empty<string>(),
                     new[]
@@ -95,19 +100,27 @@ namespace SrdDatabase.Domain.Queries.Sacco.Payments
                     },
                     new[]
                     {
-                        $"Balance as of {ReportHelper.DateString(DateTime.Today)}",
-                        string.Empty,
-                        string.Empty,
-                        $"{loan.Balance} UGX ({loan.PercentagePaid}% paid)"
+                        $"Details as of {ReportHelper.DateString(DateTime.Today)}:"
+                    },
+                    new[]
+                    {
+                        "Balance",
+                        $"{loan.Balance} UGX"
+                    },
+                    new[]
+                    {
+                        "Progress",
+                        $"{loan.PercentagePaid}%"
                     },
                     Enumerable.Empty<string>(),
                     new[]
                     {
-                        "Thanks for your payment!",
-                        string.Empty,
-                        string.Empty,
                         "Helped by",
                         payment.UpdatedBy,
+                    },
+                    new[]
+                    {
+                        "Thank you for your payment!",
                     },
                 };
 

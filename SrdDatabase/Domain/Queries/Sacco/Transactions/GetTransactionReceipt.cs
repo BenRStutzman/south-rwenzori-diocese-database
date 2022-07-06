@@ -45,35 +45,37 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                 {
                     new[]
                     {
-                        "Transaction Receipt",
-                        string.Empty,
+                        $"Transaction Receipt{receiptNumberString.Replace("_", " #")}",
+                    },
+                    new[]
+                    {
                         "South Rwenzori Diocese SACCO"
                     },
                     Enumerable.Empty<string>(),
                     new[] {
                         "Date",
-                        ReportHelper.DateString(transaction.Date),
-                        string.Empty,
-                        "Receipt #",
-                        transaction.ReceiptNumber.HasValue ? transaction.ReceiptNumber.ToString() : "Not set",
+                        ReportHelper.DateString(transaction.Date)
+                    },
+                    new[]
+                    {
+                        "Name",
+                        transaction.Member,
                     },
                     new[]
                     {
                         "Account #",
                         transaction.AccountNumber.ToString(),
-                        string.Empty,
-                        "Name",
-                        transaction.Member,
                     },
                     Enumerable.Empty<string>(),
                     new[]
                     {
                         TransactionHelper.TransactionAction(transaction, true),
-                        string.Empty,
-                        string.Empty,
+                    },
+                    new[]
+                    {
                         "Amount",
                         $"{(transaction.IsShares ? transaction.Amount * Constants.SaccoSharePrice : transaction.Amount)} UGX"
-                    },
+                    }
                 };
 
                 if (transaction.Notes != null)
@@ -90,11 +92,12 @@ namespace SrdDatabase.Domain.Queries.Sacco.Transactions
                     Enumerable.Empty<string>(),
                     new[]
                     {
-                        "Thanks for your transaction!",
-                        string.Empty,
-                        string.Empty,
                         "Helped by",
                         transaction.UpdatedBy,
+                    },
+                    new[]
+                    {
+                        "Thank you for your transaction!",
                     },
                 });
 
