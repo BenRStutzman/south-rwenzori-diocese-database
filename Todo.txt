@@ -1,11 +1,8 @@
 To do:
 
 To update in SQL:
-	- Order members by name
 
 To release:
-	X Add commas to age group populations
-	X Easier member selection (by name)
 
 To confirm in production:
 
