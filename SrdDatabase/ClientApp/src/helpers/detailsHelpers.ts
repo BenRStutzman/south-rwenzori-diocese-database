@@ -72,43 +72,43 @@ export function populationItems(population: Population): DetailsListItem[] {
     return [
         {
             id: 1,
-            displayText: `Males: ${males}`,
+            displayText: `Males: ${males.toLocaleString()}`,
         },
         {
             id: 2,
-            displayText: `Females: ${females}`,
+            displayText: `Females: ${females.toLocaleString()}`,
         },
         {
             id: 3,
-            displayText: `Males 0-12: ${population.males0To12}`,
+            displayText: `Males 0-12: ${population.males0To12?.toLocaleString()}`,
         },
         {
             id: 4,
-            displayText: `Males 13-17: ${population.males13To17}`,
+            displayText: `Males 13-17: ${population.males13To17?.toLocaleString()}`,
         },
         {
             id: 5,
-            displayText: `Males 18-35: ${population.males18To35}`,
+            displayText: `Males 18-35: ${population.males18To35?.toLocaleString()}`,
         },
         {
             id: 6,
-            displayText: `Males 36+: ${population.males36AndAbove}`,
+            displayText: `Males 36+: ${population.males36AndAbove?.toLocaleString()}`,
         },
         {
             id: 7,
-            displayText: `Females 0-12: ${population.females0To12}`,
+            displayText: `Females 0-12: ${population.females0To12?.toLocaleString()}`,
         },
         {
             id: 8,
-            displayText: `Females 13-17: ${population.females13To17}`,
+            displayText: `Females 13-17: ${population.females13To17?.toLocaleString()}`,
         },
         {
             id: 9,
-            displayText: `Females 18-35: ${population.females18To35}`,
+            displayText: `Females 18-35: ${population.females18To35?.toLocaleString()}`,
         },
         {
             id: 10,
-            displayText: `Females 36+: ${population.females36AndAbove}`,
+            displayText: `Females 36+: ${population.females36AndAbove?.toLocaleString()}`,
         },
     ]
 }

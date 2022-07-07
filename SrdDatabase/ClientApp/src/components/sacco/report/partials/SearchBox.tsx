@@ -84,7 +84,7 @@ const SearchBox = ({
                                 </option>
                                 {members.map(member =>
                                     <option key={member.id} value={member.id}>
-                                        {`${member.accountNumber} - ${member.name}`}
+                                        {member.name}
                                     </option>
                                 )}
                             </select>
