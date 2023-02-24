@@ -13,8 +13,15 @@ export function capitalize(word: string) {
     return `${word[0].toUpperCase()}${word.substr(1)}`;
 };
 
+function dateToIso(date: Date): string {
+    date = new Date(date);
+    const offset = date.getTimezoneOffset();
+    date = new Date(date.getTime() - (offset * 60 * 1000));
+    return date.toISOString().split('T')[0];
+}
+
 export function formattedDate(date?: Date): string {
-    return date ? new Date(date).toLocaleDateString('en-ca') : ''
+    return date ? dateToIso(date) : '';
 };
 
 export function formattedDateAllowUndefined(date?: Date): string | undefined {

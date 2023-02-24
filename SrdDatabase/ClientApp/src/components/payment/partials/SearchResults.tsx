@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
 import { atLeast } from '../../../helpers/userHelper';
+import { formattedDate } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -89,7 +90,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.payments.map((payment: Payment) =>
                         <tr key={payment.id}>
-                            <td>{payment.date ? new Date(payment.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>{formattedDate(payment.date)}</td>
                             <td>
                                 <Link to={`/congregation/details/${payment.congregationId}`}>{payment.congregation}</Link>
                             </td>

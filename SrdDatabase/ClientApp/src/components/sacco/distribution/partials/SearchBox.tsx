@@ -4,7 +4,7 @@ import * as Store from '../../../../store/sacco/distribution/home';
 import { connect } from 'react-redux';
 import SearchButtons from '../../../shared/SearchButtons';
 import { bindActionCreators } from 'redux';
-import { convertDateChange } from '../../../../helpers/miscellaneous';
+import { convertDateChange, formattedDate } from '../../../../helpers/miscellaneous';
 
 type OwnProps = {
     expanded: boolean;
@@ -53,7 +53,7 @@ const SearchBox = ({
                                 id="startDate"
                                 className="form-control"
                                 type="date"
-                                value={parameters.startDate?.toLocaleDateString('en-ca') ?? ""}
+                                value={formattedDate(parameters.startDate)}
                                 onChange={onStartDateChange}
                             />
                         </div>
@@ -65,7 +65,7 @@ const SearchBox = ({
                                 id="endDate"
                                 className="form-control"
                                 type="date"
-                                value={parameters.endDate?.toLocaleDateString('en-ca') ?? ""}
+                                value={formattedDate(parameters.endDate)}
                                 onChange={onEndDateChange}
                             />
                         </div>

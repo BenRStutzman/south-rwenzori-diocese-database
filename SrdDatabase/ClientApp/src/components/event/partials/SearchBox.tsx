@@ -1,5 +1,5 @@
 ﻿import React, { ChangeEvent, useEffect } from 'react';
-import { convertDateChange, randomString, useQueryParams } from '../../../helpers/miscellaneous';
+import { convertDateChange, formattedDate, randomString, useQueryParams } from '../../../helpers/miscellaneous';
 import { State } from '../../../store';
 import * as Store from '../../../store/event/home';
 import * as SharedStore from '../../../store/shared';
@@ -226,7 +226,7 @@ const SearchBox = ({
                                 id="startDate"
                                 className="form-control"
                                 type="date"
-                                value={parameters.startDate?.toLocaleDateString('en-ca') ?? ""}
+                                value={formattedDate(parameters.startDate)}
                                 onChange={onStartDateChange}
                             />
                         </div>
@@ -238,7 +238,7 @@ const SearchBox = ({
                                 id="endDate"
                                 className="form-control"
                                 type="date"
-                                value={parameters.endDate?.toLocaleDateString('en-ca') ?? ""}
+                                value={formattedDate(parameters.endDate)}
                                 onChange={onEndDateChange}
                             />
                         </div>

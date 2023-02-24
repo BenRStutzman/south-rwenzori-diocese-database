@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux';
 import { canEdit, peoplesNames } from '../../../helpers/eventHelper';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
+import { formattedDate } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -90,7 +91,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.events.map((event: Event) =>
                         <tr key={event.id}>
-                            <td>{event.date ? new Date(event.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>{formattedDate(event.date)}</td>
                             <td>
                                 {
                                     event.congregationId ?
