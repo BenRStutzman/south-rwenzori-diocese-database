@@ -14,6 +14,7 @@ export function capitalize(word: string) {
 };
 
 function dateToIso(date: Date): string {
+    date = new Date(date);
     const offset = date.getTimezoneOffset();
     date = new Date(date.getTime() - (offset * 60 * 1000));
     return date.toISOString().split('T')[0];
