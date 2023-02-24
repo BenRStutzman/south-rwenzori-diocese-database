@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { Spinner } from 'reactstrap';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { convertDateChange, randomString } from '../../../helpers/miscellaneous';
+import { convertDateChange, formattedDate, randomString } from '../../../helpers/miscellaneous';
 
 const autoComplete = randomString();
 
@@ -181,7 +181,7 @@ const SaveForm = ({
                     id="date"
                     className="form-control"
                     type="date"
-                    value={census.date ? new Date(census.date).toLocaleDateString('en-ca') : ''}
+                    value={formattedDate(census.date)}
                     onChange={onDateChange}
                     required
                 />

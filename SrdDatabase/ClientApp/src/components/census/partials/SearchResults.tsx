@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux';
 import { canEdit } from '../../../helpers/censusHelper';
 import Paging from '../../shared/Paging';
 import SortButton from '../../shared/SortButton';
+import { formattedDate } from '../../../helpers/miscellaneous';
 
 type Props =
     Store.State &
@@ -82,7 +83,7 @@ const SearchResults = ({
                 <tbody className={resultsLoading ? 'results-loading' : ''}>
                     {results.censuses.map((census: Census) =>
                         <tr key={census.id}>
-                            <td>{census.date ? new Date(census.date).toLocaleDateString('en-ca') : ''}</td>
+                            <td>{formattedDate(census.date)}</td>
                             <td>
                                 <Link to={`/congregation/details/${census.congregationId}`}>{census.congregation}</Link>
                             </td>
